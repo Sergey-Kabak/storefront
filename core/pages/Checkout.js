@@ -2,7 +2,7 @@ import Vue from 'vue'
 import i18n from '@vue-storefront/i18n'
 import config from 'config'
 import VueOfflineMixin from 'vue-offline/mixin'
-import { mapGetters } from 'vuex'
+import { mapGetters, mapState } from 'vuex'
 import { StorageManager } from '@vue-storefront/core/lib/storage-manager'
 import Composite from '@vue-storefront/core/mixins/composite'
 import { currentStoreView, localizedRoute } from '@vue-storefront/core/lib/multistore'
@@ -18,8 +18,8 @@ export default {
       stockCheckOK: false,
       confirmation: null, // order confirmation from server
       activeSection: {
-        personalDetails: true,
-        shipping: false,
+        shipping: true,
+        personalDetails: false,
         payment: false,
         orderReview: false
       },
@@ -42,6 +42,10 @@ export default {
     ...mapGetters({
       isVirtualCart: 'cart/isVirtualCart',
       isThankYouPage: 'checkout/isThankYouPage'
+    }),
+    ...mapState({
+      shippingDetails: state => state.checkout.shippingDetails,
+      cPersonalDetails: state => state.checkout.personalDetails
     })
   },
   async beforeMount () {
@@ -105,6 +109,7 @@ export default {
     let country = this.$store.state.checkout.shippingDetails.country
     if (!country) country = storeView.i18n.defaultCountry
     this.$bus.$emit('checkout-before-shippingMethods', country)
+    this.personalDetails = this.cPersonalDetails
   },
   beforeDestroy () {
     this.$store.dispatch('checkout/setModifiedAt', 0) // exit checkout
@@ -170,11 +175,14 @@ export default {
       this.validationResults.payment = validationResult
       this.activateSection('orderReview')
       this.savePaymentDetails()
+      setTimeout(() => {
+        this.$bus.$emit('checkout-before-placeOrder')
+      })
     },
     onAfterShippingDetails (receivedData, validationResult) {
       this.shipping = receivedData
       this.validationResults.shipping = validationResult
-      this.activateSection('payment')
+      this.activateSection('personalDetails')
       this.saveShippingDetails()
 
       const storeView = currentStoreView()
@@ -187,7 +195,7 @@ export default {
       if (this.isVirtualCart === true) {
         this.activateSection('payment')
       } else {
-        this.activateSection('shipping')
+        this.activateSection('payment')
       }
       this.savePersonalDetails()
       this.focusedField = null
@@ -202,15 +210,16 @@ export default {
           if (child.$v.$invalid) {
             // Check if child component is Personal Details.
             // If so, then ignore validation of account creation fields.
-            if (child.$v.hasOwnProperty('personalDetails')) {
-              if (child.$v.personalDetails.$invalid) {
-                isValid = false
-                break
-              }
-            } else {
-              isValid = false
-              break
-            }
+            // if (child.$v.hasOwnProperty('personalDetails')) {
+            //   if (child.$v.personalDetails.$invalid) {
+            //     isValid = false
+            //     break
+            //   }
+            // } else {
+            //   isValid = false
+            //   break
+            // }
+            break
           }
         }
       }
@@ -271,7 +280,7 @@ export default {
             street: [this.payment.streetAddress, this.payment.apartmentNumber],
             company: this.payment.company,
             telephone: this.payment.phoneNumber,
-            postcode: this.payment.zipCode,
+            postcode: this.payment.zipCode || '69068',
             city: this.payment.city,
             firstname: this.payment.firstName,
             lastname: this.payment.lastName,
@@ -279,8 +288,8 @@ export default {
             region_code: this.payment.region_code ? this.payment.region_code : '',
             vat_id: this.payment.taxId
           },
-          shipping_method_code: this.shippingMethod.method_code ? this.shippingMethod.method_code : this.shipping.shippingMethod,
-          shipping_carrier_code: this.shippingMethod.carrier_code ? this.shippingMethod.carrier_code : this.shipping.shippingCarrier,
+          shipping_method_code: 'flatrate', // this.shippingMethod.method_code ? this.shippingMethod.method_code : this.shipping.shippingMethod,
+          shipping_carrier_code: 'flatrate', // this.shippingMethod.carrier_code ? this.shippingMethod.carrier_code : this.shipping.shippingCarrier,
           payment_method_code: this.getPaymentMethod(),
           payment_method_additional: this.payment.paymentMethodAdditional,
           shippingExtraFields: this.shipping.extraFields
@@ -288,18 +297,18 @@ export default {
       }
       if (!this.isVirtualCart) {
         this.order.addressInformation.shippingAddress = {
-          region: this.shipping.state,
-          region_id: this.shipping.region_id ? this.shipping.region_id : 0,
-          country_id: this.shipping.country,
-          street: [this.shipping.streetAddress, this.shipping.apartmentNumber],
+          region: this.payment.state,
+          region_id: this.payment.region_id ? this.payment.region_id : 0,
+          country_id: this.payment.country,
+          street: [this.payment.streetAddress, this.payment.apartmentNumber],
           company: '',
-          telephone: this.shipping.phoneNumber,
-          postcode: this.shipping.zipCode,
-          city: this.shipping.city,
-          firstname: this.shipping.firstName,
-          lastname: this.shipping.lastName,
+          telephone: this.payment.phoneNumber,
+          postcode: this.payment.zipCode || '69068',
+          city: this.payment.city,
+          firstname: this.payment.firstName,
+          lastname: this.payment.lastName,
           email: this.personalDetails.emailAddress,
-          region_code: this.shipping.region_code ? this.shipping.region_code : ''
+          region_code: this.payment.region_code ? this.payment.region_code : ''
         }
       }
       return this.order

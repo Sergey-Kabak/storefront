@@ -1,6 +1,7 @@
-import { mapState, mapGetters } from 'vuex'
+import {mapState, mapGetters} from 'vuex'
 import RootState from '@vue-storefront/core/types/RootState'
 import toString from 'lodash-es/toString'
+
 const Countries = require('@vue-storefront/i18n/resource/countries.json')
 
 export const Shipping = {
@@ -25,6 +26,7 @@ export const Shipping = {
     return {
       isFilled: false,
       countries: Countries,
+      productsInCart: this.$store.state.cart.cartItems,
       shipping: this.$store.state.checkout.shippingDetails,
       shipToMyAddress: false,
       myAddressDetails: {
@@ -51,6 +53,14 @@ export const Shipping = {
     },
     paymentMethod () {
       return this.$store.getters['checkout/getPaymentMethods']
+    },
+    productsInCartMap() {
+      return this.productsInCart.map(i => {
+        return {
+          sku: i.sku,
+          qty: i.qty
+        }
+      })
     }
   },
   watch: {
@@ -81,8 +91,8 @@ export const Shipping = {
         if (!shipping && this.shippingMethods && this.shippingMethods.length > 0) {
           shipping = this.shippingMethods[0]
         }
-        this.shipping.shippingMethod = shipping.method_code
-        this.shipping.shippingCarrier = shipping.carrier_code
+        this.shipping.shippingMethod = (shipping && shipping.method_code) || 'flatrate'
+        this.shipping.shippingCarrier = (shipping && shipping.carrier_code) || 'carrier'
       }
     },
     onAfterShippingSet (receivedData) {
@@ -95,7 +105,20 @@ export const Shipping = {
         this.$store.dispatch('checkout/updatePropValue', ['lastName', receivedData.lastName])
       }
     },
-    sendDataToCheckout () {
+    sendDataToCheckout(location) {
+      this.shipping = {
+        ...this.shipping,
+        country: location.country,
+        streetAddress: location.streetname,
+        apartmentNumber: location.streetname2 || location.number,
+        city: location.city,
+        state: '',
+        region_id: 0,
+        zipCode: location.zipcode || '69068',
+        phoneNumber: '',
+        shopName: location.name,
+        location
+      }
       this.$bus.$emit('checkout-after-shippingDetails', this.shipping, this.$v)
       this.isFilled = true
     },

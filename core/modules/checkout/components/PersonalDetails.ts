@@ -17,16 +17,18 @@ export const PersonalDetails = {
     return {
       isFilled: false,
       personalDetails: this.$store.state.checkout.personalDetails,
+      shipping: this.$store.state.checkout.shippingDetails,
       createAccount: false,
-      acceptConditions: false,
-      password: '',
+      acceptConditions: true,
+      password: '123',
       rPassword: '',
       isValidationError: false
     }
   },
   computed: {
     ...mapState({
-      currentUser: (state: RootState) => state.user.current
+      currentUser: (state: RootState) => state.user.current,
+      shippingDetails: (state: RootState) => state.checkout.shippingDetails
     }),
     ...mapGetters({
       isVirtualCart: 'cart/isVirtualCart'
@@ -47,6 +49,14 @@ export const PersonalDetails = {
       } else {
         this.personalDetails.createAccount = false
       }
+      this.$store.dispatch('checkout/saveShippingDetails',
+        {
+          ...this.shippingDetails,
+          firstName: this.personalDetails.firstName,
+          lastName: this.personalDetails.lastName,
+          phoneNumber: this.personalDetails.phoneNumber,
+        })
+      // delete this.personalDetails.phoneNumber;
       this.$bus.$emit('checkout-after-personalDetails', this.personalDetails, this.$v)
       this.isFilled = true
       this.isValidationError = false

@@ -18,8 +18,8 @@ export const Payment = {
       countries: Countries,
       payment: this.$store.getters['checkout/getPaymentDetails'],
       generateInvoice: false,
-      sendToShippingAddress: false,
-      sendToBillingAddress: false
+      sendToShippingAddress: true,
+      sendToBillingAddress: true
     }
   },
   computed: {
