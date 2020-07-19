@@ -106,9 +106,7 @@ import rootStore from '@vue-storefront/core/store';
 import { catalogHooksExecutors } from '@vue-storefront/core/modules/catalog-next/hooks'
 import { localizedRoute, currentStoreView } from '@vue-storefront/core/lib/multistore'
 import { htmlDecode } from '@vue-storefront/core/filters'
-
 const THEME_PAGE_SIZE = 50
-
 const composeInitialPageState = async (store, route, forceLoad = false) => {
   try {
     const filters = getSearchOptionsFromRouteParams(route.params)
@@ -117,14 +115,12 @@ const composeInitialPageState = async (store, route, forceLoad = false) => {
     const pageSize = store.getters['url/isBackRoute'] ? store.getters['url/getCurrentRoute'].categoryPageSize : THEME_PAGE_SIZE
     await store.dispatch('category-next/loadCategoryProducts', { route, category: currentCategory, pageSize })
     const breadCrumbsLoader = store.dispatch('category-next/loadCategoryBreadcrumbs', { category: currentCategory, currentRouteName: currentCategory.name, omitCurrent: true })
-
     if (isServer) await breadCrumbsLoader
     catalogHooksExecutors.categoryPageVisited(currentCategory)
   } catch (e) {
     console.error('Problem with setting Category initial data!', e)
   }
 }
-
 export default {
   components: {
     LazyHydrate,
@@ -212,14 +208,13 @@ export default {
     const meta = meta_description ? [
       { vmid: 'description', name: 'description', content: htmlDecode(meta_description) }
     ] : []
-    const categoryLocaliedLink = localizedRoute({
+    /* const categoryLocaliedLink = localizedRoute({
       name: 'category-amp',
       params: { slug }
     }, storeView.storeCode)
-    const ampCategoryLink = this.$router.resolve(categoryLocaliedLink).href
-
+    const ampCategoryLink = this.$router.resolve(categoryLocaliedLink).href */
     return {
-      link: [ { rel: 'amphtml', href: ampCategoryLink } ],
+      // link: [ { rel: 'amphtml', href: ampCategoryLink } ],
       title: htmlDecode(meta_title || name),
       meta
     }
