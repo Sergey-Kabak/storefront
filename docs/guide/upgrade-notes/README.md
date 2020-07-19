@@ -559,14 +559,14 @@ This release contains three important refactoring efforts:
 ```json
     "users": {
       "autoRefreshTokens": true,
-      "endpoint": "http://localhost:8080/api/user",
-      "history_endpoint": "http://localhost:8080/api/user/order-history?token={{token}}",
-      "resetPassword_endpoint": "http://localhost:8080/api/user/reset-password",
-      "changePassword_endpoint": "http://localhost:8080/api/user/change-password?token={{token}}",
-      "login_endpoint": "http://localhost:8080/api/user/login",
-      "create_endpoint": "http://localhost:8080/api/user/create",
-      "me_endpoint": "http://localhost:8080/api/user/me?token={{token}}",
-      "refresh_endpoint": "http://localhost:8080/api/user/refresh"
+      "endpoint": "https://demo.vuestorefront.io/api/user",
+      "history_endpoint": "https://demo.vuestorefront.io/api/user/order-history?token={{token}}",
+      "resetPassword_endpoint": "https://demo.vuestorefront.io/api/user/reset-password",
+      "changePassword_endpoint": "https://demo.vuestorefront.io/api/user/change-password?token={{token}}",
+      "login_endpoint": "https://demo.vuestorefront.io/api/user/login",
+      "create_endpoint": "https://demo.vuestorefront.io/api/user/create",
+      "me_endpoint": "https://demo.vuestorefront.io/api/user/me?token={{token}}",
+      "refresh_endpoint": "https://demo.vuestorefront.io/api/user/refresh"
     },
 ```
 

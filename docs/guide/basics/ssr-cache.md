@@ -19,7 +19,7 @@ The output cache is set by the following `config/local.json` variables:
       "outputCacheDefaultTtl": 86400,
       "invalidateCacheKey": "aeSu7aip",
       "invalidateCacheForwarding": false,
-      "invalidateCacheForwardUrl": "http://localhost:8080/invalidate?key=aeSu7aip&tag=",      
+      "invalidateCacheForwardUrl": "https://demo.vuestorefront.io/invalidate?key=aeSu7aip&tag=",      
     },
     "redis": {
       "host": "localhost",

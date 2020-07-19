@@ -200,7 +200,7 @@ It just works the same way with sub directories too.
 
 ```
 location /api/ {
-  proxy_pass http://localhost:8080/api/;
+  proxy_pass https://demo.vuestorefront.io/api/;
 }
 ```
 
@@ -208,7 +208,7 @@ The next proxy section is used for serving the API. It's a proxy to [`vue-storef
 
 ```
 location /img/ {
-  proxy_pass http://localhost:8080/img/;
+  proxy_pass https://demo.vuestorefront.io/img/;
 }
 ```
 
@@ -221,11 +221,11 @@ In case you are already using the apache2 web server in your environment as well
 ```
 ProxyRequests off
 
-ProxyPass /api/ http://localhost:8080/api/
-ProxyPassReverse /api http://localhost:8080/api/
+ProxyPass /api/ https://demo.vuestorefront.io/api/
+ProxyPassReverse /api https://demo.vuestorefront.io/api/
 
-ProxyPass /img/ http://localhost:8080/img/
-ProxyPassReverse /img http://localhost:8080/img/
+ProxyPass /img/ https://demo.vuestorefront.io/img/
+ProxyPassReverse /img https://demo.vuestorefront.io/img/
 
 ProxyPass /assets/ http://localhost:3000/assets/
 ProxyPassReverse /assets http://localhost:3000/assets/

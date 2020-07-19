@@ -26,10 +26,10 @@ server {
     }
 
     location /api/ {
-        proxy_pass http://localhost:8080/api/;
+        proxy_pass https://demo.vuestorefront.io/api/;
     }
 
     location /img/ {
-        proxy_pass http://localhost:8080/img/;
+        proxy_pass https://demo.vuestorefront.io/img/;
     }
 }

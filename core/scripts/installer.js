@@ -417,7 +417,7 @@ class Storefront extends Abstract {
 
         if (Abstract.wasLocalBackendInstalled) {
           graphQlHost = 'localhost'
-          backendPath = 'http://localhost:8080'
+          backendPath = 'https://demo.vuestorefront.io'
         } else {
           backendPath = STOREFRONT_REMOTE_BACKEND_URL
           graphQlHost = backendPath.replace('https://', '').replace('http://', '')
@@ -463,7 +463,7 @@ class Storefront extends Abstract {
         if (this.answers.ssr_endpoints) {
           if (Abstract.wasLocalBackendInstalled) {
             graphQlHost = 'localhost'
-            backendPath = 'http://localhost:8080'
+            backendPath = 'https://demo.vuestorefront.io'
           } else {
             backendPath = STOREFRONT_REMOTE_BACKEND_URL
             graphQlHost = backendPath.replace('https://', '').replace('http://', '')
@@ -711,7 +711,7 @@ class Manager extends Abstract {
         'All required servers are running in background',
         '',
         'Storefront: http://localhost:3000',
-        'Backend: ' + (Abstract.wasLocalBackendInstalled ? 'http://localhost:8080' : STOREFRONT_REMOTE_BACKEND_URL),
+        'Backend: ' + (Abstract.wasLocalBackendInstalled ? 'https://demo.vuestorefront.io' : STOREFRONT_REMOTE_BACKEND_URL),
         '',
         Abstract.logsWereCreated ? `Logs: ${LOG_DIR}/` : 'You don\'t have log files created.',
         '',
@@ -779,7 +779,7 @@ let questions = [
     message: 'Choose path for images endpoint',
     choices: [
       `${STOREFRONT_REMOTE_BACKEND_URL}/img/`,
-      'http://localhost:8080/img/',
+      'https://demo.vuestorefront.io/img/',
       'Custom url'
     ],
     when: function (answers) {

@@ -391,17 +391,17 @@ If this option is set to `true`, Vue Storefront will add price item with a disco
 If this option is set to `items`, Vue Storefront will calculate the cart count based on items instead of item quantities.
 
 ```json
-  "create_endpoint": "http://localhost:8080/api/cart/create?token={{token}}",
-  "updateitem_endpoint": "http://localhost:8080/api/cart/update?token={{token}}&cartId={{cartId}}",
-  "deleteitem_endpoint": "http://localhost:8080/api/cart/delete?token={{token}}&cartId={{cartId}}",
-  "pull_endpoint": "http://localhost:8080/api/cart/pull?token={{token}}&cartId={{cartId}}",
-  "totals_endpoint": "http://localhost:8080/api/cart/totals?token={{token}}&cartId={{cartId}}",
-  "paymentmethods_endpoint": "http://localhost:8080/api/cart/payment-methods?token={{token}}&cartId={{cartId}}",
-  "shippingmethods_endpoint": "http://localhost:8080/api/cart/shipping-methods?token={{token}}&cartId={{cartId}}",
-  "shippinginfo_endpoint": "http://localhost:8080/api/cart/shipping-information?token={{token}}&cartId={{cartId}}",
-  "collecttotals_endpoint": "http://localhost:8080/api/cart/collect-totals?token={{token}}&cartId={{cartId}}",
-  "deletecoupon_endpoint": "http://localhost:8080/api/cart/delete-coupon?token={{token}}&cartId={{cartId}}",
-  "applycoupon_endpoint": "http://localhost:8080/api/cart/apply-coupon?token={{token}}&cartId={{cartId}}&coupon={{coupon}}"
+  "create_endpoint": "https://demo.vuestorefront.io/api/cart/create?token={{token}}",
+  "updateitem_endpoint": "https://demo.vuestorefront.io/api/cart/update?token={{token}}&cartId={{cartId}}",
+  "deleteitem_endpoint": "https://demo.vuestorefront.io/api/cart/delete?token={{token}}&cartId={{cartId}}",
+  "pull_endpoint": "https://demo.vuestorefront.io/api/cart/pull?token={{token}}&cartId={{cartId}}",
+  "totals_endpoint": "https://demo.vuestorefront.io/api/cart/totals?token={{token}}&cartId={{cartId}}",
+  "paymentmethods_endpoint": "https://demo.vuestorefront.io/api/cart/payment-methods?token={{token}}&cartId={{cartId}}",
+  "shippingmethods_endpoint": "https://demo.vuestorefront.io/api/cart/shipping-methods?token={{token}}&cartId={{cartId}}",
+  "shippinginfo_endpoint": "https://demo.vuestorefront.io/api/cart/shipping-information?token={{token}}&cartId={{cartId}}",
+  "collecttotals_endpoint": "https://demo.vuestorefront.io/api/cart/collect-totals?token={{token}}&cartId={{cartId}}",
+  "deletecoupon_endpoint": "https://demo.vuestorefront.io/api/cart/delete-coupon?token={{token}}&cartId={{cartId}}",
+  "applycoupon_endpoint": "https://demo.vuestorefront.io/api/cart/apply-coupon?token={{token}}&cartId={{cartId}}&coupon={{coupon}}"
 ```
 
 These endpoints should point to the `vue-storefront-api` instance and typically, you're changing just the domain-name/base-url without touching the specific endpoint URLs, as it's related to the `vue-storefront-api` specifics.
@@ -479,7 +479,7 @@ This is related to `alwaysSyncPlatformPricesOver`. When true, Vue Storefront wil
 
 
 ```json
-  "endpoint": "http://localhost:8080/api/product",
+  "endpoint": "https://demo.vuestorefront.io/api/product",
 ```
 
 This is the `vue-storefront-api` endpoint for rendering product lists.
@@ -538,7 +538,7 @@ The dimensions of the images in the gallery.
 
 ```json
 "orders": {
-  "endpoint": "http://localhost:8080/api/order",
+  "endpoint": "https://demo.vuestorefront.io/api/order",
 ```
 
 This property sets the URL of the order endpoint. Orders will be placed to this specific URL as soon as the internet connection is available.
@@ -597,14 +597,14 @@ We're using [localForage](https://github.com/localForage/localForage) library to
 ```json
 "users": {
   "autoRefreshTokens": true,
-  "endpoint": "http://localhost:8080/api/user",
-  "history_endpoint": "http://localhost:8080/api/user/order-history?token={{token}}",
-  "resetPassword_endpoint": "http://localhost:8080/api/user/reset-password",
-  "changePassword_endpoint": "http://localhost:8080/api/user/change-password?token={{token}}",
-  "login_endpoint": "http://localhost:8080/api/user/login",
-  "create_endpoint": "http://localhost:8080/api/user/create",
-  "me_endpoint": "http://localhost:8080/api/user/me?token={{token}}",
-  "refresh_endpoint": "http://localhost:8080/api/user/refresh"
+  "endpoint": "https://demo.vuestorefront.io/api/user",
+  "history_endpoint": "https://demo.vuestorefront.io/api/user/order-history?token={{token}}",
+  "resetPassword_endpoint": "https://demo.vuestorefront.io/api/user/reset-password",
+  "changePassword_endpoint": "https://demo.vuestorefront.io/api/user/change-password?token={{token}}",
+  "login_endpoint": "https://demo.vuestorefront.io/api/user/login",
+  "create_endpoint": "https://demo.vuestorefront.io/api/user/create",
+  "me_endpoint": "https://demo.vuestorefront.io/api/user/me?token={{token}}",
+  "refresh_endpoint": "https://demo.vuestorefront.io/api/user/refresh"
 },
 ```
 
@@ -618,7 +618,7 @@ When the `autoRefreshTokens` property is set to `true` (default) Vue Storefront 
 "stock": {
   "synchronize": true,
   "allowOutOfStockInCart": true,
-  "endpoint": "http://localhost:8080/api/stock"
+  "endpoint": "https://demo.vuestorefront.io/api/stock"
 },
 ```
 
@@ -726,7 +726,7 @@ Internationalization settings are used by the translation engine (`defautlLocale
 
 ```json
 "mailchimp": {
-  "endpoint": "http://localhost:8080/api/ext/mailchimp-subscribe/subscribe"
+  "endpoint": "https://demo.vuestorefront.io/api/ext/mailchimp-subscribe/subscribe"
 },
 ```
 
@@ -766,7 +766,7 @@ You can put your Hotjar Site ID in here as to be used by the hotjar extension.
 
 ```json
 "cms": {
-  "endpoint": "http://localhost:8080/api/ext/cms-data/cms{{type}}/{{cmsId}}"
+  "endpoint": "https://demo.vuestorefront.io/api/ext/cms-data/cms{{type}}/{{cmsId}}"
 }
 ```
 

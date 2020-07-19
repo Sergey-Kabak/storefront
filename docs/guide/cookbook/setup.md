@@ -962,7 +962,7 @@ At [`vue-storefront/config/default.json`](https://github.com/DivanteLtd/vue-stor
   "port": 8080
 },
 "api": {
-  "url": "http://localhost:8080"
+  "url": "https://demo.vuestorefront.io"
 },
 ```
 
@@ -1189,17 +1189,17 @@ At [`vue-storefront/config/default.json`](https://github.com/DivanteLtd/vue-stor
   "askBeforeRemoveProduct": true,
   "displayItemDiscounts": true,
   "minicartCountType": "quantities",
-  "create_endpoint": "http://localhost:8080/api/cart/create?token={{token}}",
-  "updateitem_endpoint": "http://localhost:8080/api/cart/update?token={{token}}&cartId={{cartId}}",
-  "deleteitem_endpoint": "http://localhost:8080/api/cart/delete?token={{token}}&cartId={{cartId}}",
-  "pull_endpoint": "http://localhost:8080/api/cart/pull?token={{token}}&cartId={{cartId}}",
-  "totals_endpoint": "http://localhost:8080/api/cart/totals?token={{token}}&cartId={{cartId}}",
-  "paymentmethods_endpoint": "http://localhost:8080/api/cart/payment-methods?token={{token}}&cartId={{cartId}}",
-  "shippingmethods_endpoint": "http://localhost:8080/api/cart/shipping-methods?token={{token}}&cartId={{cartId}}",
-  "shippinginfo_endpoint": "http://localhost:8080/api/cart/shipping-information?token={{token}}&cartId={{cartId}}",
-  "collecttotals_endpoint": "http://localhost:8080/api/cart/collect-totals?token={{token}}&cartId={{cartId}}",
-  "deletecoupon_endpoint": "http://localhost:8080/api/cart/delete-coupon?token={{token}}&cartId={{cartId}}",
-  "applycoupon_endpoint": "http://localhost:8080/api/cart/apply-coupon?token={{token}}&cartId={{cartId}}&coupon={{coupon}}"
+  "create_endpoint": "https://demo.vuestorefront.io/api/cart/create?token={{token}}",
+  "updateitem_endpoint": "https://demo.vuestorefront.io/api/cart/update?token={{token}}&cartId={{cartId}}",
+  "deleteitem_endpoint": "https://demo.vuestorefront.io/api/cart/delete?token={{token}}&cartId={{cartId}}",
+  "pull_endpoint": "https://demo.vuestorefront.io/api/cart/pull?token={{token}}&cartId={{cartId}}",
+  "totals_endpoint": "https://demo.vuestorefront.io/api/cart/totals?token={{token}}&cartId={{cartId}}",
+  "paymentmethods_endpoint": "https://demo.vuestorefront.io/api/cart/payment-methods?token={{token}}&cartId={{cartId}}",
+  "shippingmethods_endpoint": "https://demo.vuestorefront.io/api/cart/shipping-methods?token={{token}}&cartId={{cartId}}",
+  "shippinginfo_endpoint": "https://demo.vuestorefront.io/api/cart/shipping-information?token={{token}}&cartId={{cartId}}",
+  "collecttotals_endpoint": "https://demo.vuestorefront.io/api/cart/collect-totals?token={{token}}&cartId={{cartId}}",
+  "deletecoupon_endpoint": "https://demo.vuestorefront.io/api/cart/delete-coupon?token={{token}}&cartId={{cartId}}",
+  "applycoupon_endpoint": "https://demo.vuestorefront.io/api/cart/apply-coupon?token={{token}}&cartId={{cartId}}&coupon={{coupon}}"
 },
 "products": {
   "useShortCatalogUrls": false,
@@ -1215,7 +1215,7 @@ At [`vue-storefront/config/default.json`](https://github.com/DivanteLtd/vue-stor
   "clearPricesBeforePlatformSync": false,
   "waitForPlatformSync": false,
   "setupVariantByAttributeCode": true,
-  "endpoint": "http://localhost:8080/api/product",
+  "endpoint": "https://demo.vuestorefront.io/api/product",
   "defaultFilters": ["color", "size", "price", "erin_recommends"],
   "systemFilterNames": ["sort"],
   "filterFieldMapping": {
@@ -1244,7 +1244,7 @@ At [`vue-storefront/config/default.json`](https://github.com/DivanteLtd/vue-stor
 },
 "orders": {
   "directBackendSync": true,
-  "endpoint": "http://localhost:8080/api/order",
+  "endpoint": "https://demo.vuestorefront.io/api/order",
   "payment_methods_mapping": {
   },
   "offline_orders": {
@@ -1276,23 +1276,23 @@ At [`vue-storefront/config/default.json`](https://github.com/DivanteLtd/vue-stor
   }
 },
 "reviews": {
-  "create_endpoint": "http://localhost:8080/api/review/create"
+  "create_endpoint": "https://demo.vuestorefront.io/api/review/create"
 },
 "users": {
   "autoRefreshTokens": true,
-  "endpoint": "http://localhost:8080/api/user",
-  "history_endpoint": "http://localhost:8080/api/user/order-history?token={{token}}",
-  "resetPassword_endpoint": "http://localhost:8080/api/user/reset-password",
-  "changePassword_endpoint": "http://localhost:8080/api/user/change-password?token={{token}}",
-  "login_endpoint": "http://localhost:8080/api/user/login",
-  "create_endpoint": "http://localhost:8080/api/user/create",
-  "me_endpoint": "http://localhost:8080/api/user/me?token={{token}}",
-  "refresh_endpoint": "http://localhost:8080/api/user/refresh"
+  "endpoint": "https://demo.vuestorefront.io/api/user",
+  "history_endpoint": "https://demo.vuestorefront.io/api/user/order-history?token={{token}}",
+  "resetPassword_endpoint": "https://demo.vuestorefront.io/api/user/reset-password",
+  "changePassword_endpoint": "https://demo.vuestorefront.io/api/user/change-password?token={{token}}",
+  "login_endpoint": "https://demo.vuestorefront.io/api/user/login",
+  "create_endpoint": "https://demo.vuestorefront.io/api/user/create",
+  "me_endpoint": "https://demo.vuestorefront.io/api/user/me?token={{token}}",
+  "refresh_endpoint": "https://demo.vuestorefront.io/api/user/refresh"
 },
 "stock": {
   "synchronize": true,
   "allowOutOfStockInCart": true,
-  "endpoint": "http://localhost:8080/api/stock"
+  "endpoint": "https://demo.vuestorefront.io/api/stock"
 },
 "images": {
   "useExactUrlsNoProxy": false,
@@ -1355,12 +1355,12 @@ At [`vue-storefront/config/default.json`](https://github.com/DivanteLtd/vue-stor
   "bundleAllStoreviewLanguages": true
 },
 "mailchimp": {
-  "endpoint": "http://localhost:8080/api/ext/mailchimp-subscribe/subscribe"
+  "endpoint": "https://demo.vuestorefront.io/api/ext/mailchimp-subscribe/subscribe"
 },
 "mailer": {
   "endpoint": {
-    "send": "http://localhost:8080/api/ext/mail-service/send-email",
-    "token": "http://localhost:8080/api/ext/mail-service/get-token"
+    "send": "https://demo.vuestorefront.io/api/ext/mail-service/send-email",
+    "token": "https://demo.vuestorefront.io/api/ext/mail-service/get-token"
   },
   "contactAddress": "contributors@vuestorefront.io",
   "sendConfirmation": true
@@ -1373,8 +1373,8 @@ At [`vue-storefront/config/default.json`](https://github.com/DivanteLtd/vue-stor
   "id": false
 },
 "cms": {
-  "endpoint": "http://localhost:8080/api/ext/cms-data/cms{{type}}/{{cmsId}}",
-  "endpointIdentifier": "http://localhost:8080/api/ext/cms-data/cms{{type}}Identifier/{{cmsIdentifier}}/storeId/{{storeId}}"
+  "endpoint": "https://demo.vuestorefront.io/api/ext/cms-data/cms{{type}}/{{cmsId}}",
+  "endpointIdentifier": "https://demo.vuestorefront.io/api/ext/cms-data/cms{{type}}Identifier/{{cmsIdentifier}}/storeId/{{storeId}}"
 },
 "cms_block": {
   "max_count": 500
@@ -1468,7 +1468,7 @@ If you answer `No` on the previous question, please be sure the Docker is runnin
 ? Would you like to use https://demo.vuestorefront.io as the backend? No
 ? Please provide Git path (if it's not globally installed) git
 ? Please provide path for installing backend locally ../vue-storefront-api
-? Choose path for images endpoint http://localhost:8080/img/
+? Choose path for images endpoint https://demo.vuestorefront.io/img/
 ```
 
 As for images endpoint: you can choose between `https://demo.vuestorefront.io/img/` again or host your images on localhost.
@@ -1483,7 +1483,7 @@ After you answered all the questions, the installation process will start (it mi
 │ All required servers are running in background                 │
 │                                                                │
 │ Storefront: http://localhost:3000                              │
-│ Backend: http://localhost:8080                                 │
+│ Backend: https://demo.vuestorefront.io                                 │
 │                                                                │
 │ Logs: /Users/natalia/Desktop/work/test/vue-storefront/var/log/ │
 │                                                                │
