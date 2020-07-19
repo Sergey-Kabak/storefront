@@ -40,16 +40,13 @@ export const PersonalDetails = {
         emailAddress: receivedData.email
       }
     },
-    sendDataToCheckout () {
 
+    sendDataToCheckout () {
       if (this.createAccount) {
         this.personalDetails.password = this.password
         this.personalDetails.createAccount = true
       } else {
         this.personalDetails.createAccount = false
-        if(!this.personalDetails.emailAddress){
-          this.personalDetails.emailAddress = '0123456789@domainname.com'
-        }
       }
 
       this.$bus.$emit('checkout-after-personalDetails', this.personalDetails, this.$v)
