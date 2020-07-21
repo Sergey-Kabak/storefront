@@ -194,7 +194,7 @@
               {{ personalDetails.firstName }} {{ personalDetails.lastName }}
             </p>
             <div>
-              <span class="pr15">{{ checkEmail(personalDetails.emailAddress) }}</span>
+              <span class="pr15">{{ personalDetails.emailAddress }}</span>
               <tooltip>{{ $t('We will send you details regarding the order') }}</tooltip>
             </div>
             <template v-if="createAccount && !currentUser">
@@ -257,14 +257,6 @@ export default {
     },
     acceptConditions: {
       sameAs: sameAs(() => true)
-    }
-  },
-  methods: {
-    checkEmail(email){
-      if(!email){
-        this.personalDetails.emailAddress = '0123456789@domainname.com'
-      }
-      return this.personalDetails.emailAddress
     }
   },
 }
