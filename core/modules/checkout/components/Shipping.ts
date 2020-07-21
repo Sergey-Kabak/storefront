@@ -96,7 +96,7 @@ export const Shipping = {
       }
     },
     sendDataToCheckout () {
-      if (this.shipping.phoneNumber) {
+      if (this.shipping.phoneNumber && !this.$store.state.checkout.personalDetails.emailAddress) {
         this.$store.state.checkout.personalDetails.emailAddress = this.shipping.phoneNumber + '@domainname.com'
       }
       this.$bus.$emit('checkout-after-shippingDetails', this.shipping, this.$v)
