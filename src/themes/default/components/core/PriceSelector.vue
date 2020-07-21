@@ -1,52 +1,72 @@
 <template>
-  <div @click="$emit('change', variant)">
+  <div class="price-selector">
+    <div class="inputs">
+      <custom-input label="От" :amount="variant.min" v-model="variant.from" />
+      <custom-input label="До" :amount="variant.max" v-model="variant.to" />
+    </div>
     <button
-      class="relative brdr-cl-bg-tertiary brdr-1 bg-cl-transparent mr10 pointer price-selector"
-      :class="{ active: isActive }"
-      :aria-label="$t('Price {variant}', { variant: variant.label })"
+      class="price-selector-button"
+      @click="changeFilter()"
+      :disabled="$v.$invalid"
     >
-      <span class="bg-cl-transparent absolute block square" />
+      OK
     </button>
-    <span>{{ variant.label }}</span>
   </div>
 </template>
 
 <script>
 import filterMixin from 'theme/mixins/filterMixin.ts'
+import { required, numeric } from 'vuelidate/lib/validators'
+import CustomInput from 'theme/components/core/blocks/Form/CustomInput'
 
 export default {
-  mixins: [filterMixin]
-}
+  components: {
+    CustomInput
+  },
+  mixins: [filterMixin],
+  validations: {
+    variant: {
+      from: {
+        required,
+        numeric,
+        maxValue: function () {
+          return +this.variant.to >= +this.variant.from;
+        }
+      },
+      to: {
+        required,
+        numeric
+      }
+    }
+  },
+  methods: {
+    changeFilter () {
+      // currency sign should be received from i18n
+      this.variant.label = `${this.variant.from}₴ - ${this.variant.to}₴`;
+      this.variant.id = `${this.variant.from}-${this.variant.to}`;
+      this.$emit('change', this.variant);
+    }
+  }
+};
 </script>
 
 <style lang="scss" scoped>
-  @import '~theme/css/variables/colors';
-  @import '~theme/css/helpers/functions/color';
-  $color-event: color(tertiary);
-  $color-active: color(accent);
+.inputs {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
 
-  .price-selector {
-    width: 20px;
-    height: 20px;
+.price-selector-button {
+  border: none;
+  background: #23be20;
+  border-radius: 4px;
+  color: #fff;
+  width: 100%;
+  padding: 5px 12px;
 
-    &:hover {
-      .square {
-        background-color: $color-event;
-      }
-    }
-
-    &.active {
-      .square {
-        background-color: $color-active;
-      }
-    }
+  &:disabled {
+    background: #bdbdbd;
   }
-
-  .square {
-    width: 80%;
-    height: 80%;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%,-50%);
-  }
+}
 </style>

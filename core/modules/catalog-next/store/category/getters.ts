@@ -1,5 +1,6 @@
 import { nonReactiveState } from './index';
 import { GetterTree } from 'vuex'
+import { router } from '@vue-storefront/core/app'
 import RootState from '@vue-storefront/core/types/RootState'
 import CategoryState from './CategoryState'
 import { compareByLabel } from '../../helpers/categoryHelpers'
@@ -79,23 +80,25 @@ const getters: GetterTree<CategoryState, RootState> = {
           filters[attrToFilter] = filterOptions.sort(compareByLabel)
         } else { // special case is range filter for prices
           const currencySign = currentStoreView().i18n.currencySign
+          const query = router.currentRoute.query
+          const priceQueryFromString = query && typeof query.price === 'string' && (query.price as string).split('-')
+          const priceQueryFromArray = query.price && query.price[0] && query.price[0].split('-')
+          const priceQuery = priceQueryFromString || priceQueryFromArray
+          const from = priceQuery && priceQuery[0]
+          const to = priceQuery && priceQuery[1]
 
-          if (aggregations['agg_range_' + attrToFilter]) {
-            let index = 0
-            let count = aggregations['agg_range_' + attrToFilter].buckets.length
-            for (let option of aggregations['agg_range_' + attrToFilter].buckets) {
-              filterOptions.push({
-                id: option.key,
-                type: attrToFilter,
-                from: option.from,
-                to: option.to,
-                label: (index === 0 || (index === count - 1)) ? (option.to ? '< ' + currencySign + option.to : '> ' + currencySign + option.from) : currencySign + option.from + (option.to ? ' - ' + option.to : ''), // TODO: add better way for formatting, extract currency sign
-                single: true
-              })
-              index++
-            }
-            filters[attrToFilter] = filterOptions
-          }
+          filterOptions.push({
+            id: `${from}-${to}`,
+            type: attrToFilter,
+            from,
+            to,
+            label: `${from}₴-${to}₴`,
+            // should received real min and max products price
+            min: '10',
+            max: '120',
+            single: true
+          })
+          filters[attrToFilter] = filterOptions
         }
       }
       // Add sort to available filters
