@@ -10,9 +10,11 @@
       </div>
     </div>
     <!-- Should be animated -->
-    <div class="filter-body" v-show="isActive">
-      <slot />
-    </div>
+    <transition name="slide">
+      <div class="filter-body" v-show="isActive">
+        <slot />
+      </div>
+    </transition>
   </div>
 </template>
 
@@ -60,6 +62,19 @@ export default {
   overflow-y: auto;
 }
 
+.slide-enter-active,
+.slide-leave-active {
+  transition: all 0.2s;
+  max-height: auto;
+}
+
+.slide-enter,
+.slide-leave-to {
+  overflow: hidden;
+  opacity: 0;
+  max-height: 0px;
+}
+
 ::-webkit-scrollbar {
   width: 4px;
 }
@@ -92,7 +107,7 @@ export default {
     top: 0;
     opacity: 0;
     transform: rotate(90deg);
-    transition: 0.2s ease-in-out;
+    transition: .2s all ease-in;
   }
 
   &.active {
