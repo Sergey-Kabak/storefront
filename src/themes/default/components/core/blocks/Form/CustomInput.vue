@@ -55,8 +55,8 @@ export default {
   position: relative;
   overflow: hidden;
   width: 100%;
-  max-width: 148px;
   margin-right: 20px;
+
   &:last-child {
     margin-right: 0px;
   }

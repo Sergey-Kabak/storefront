@@ -54,29 +54,29 @@ const getters: GetterTree<CategoryState, RootState> = {
       for (let attrToFilter of products.defaultFilters) { // fill out the filter options
         let filterOptions: FilterVariant[] = []
 
-        let uniqueFilterValues = new Set<string>()
+        let uniqueFilterValues = {}
         if (attrToFilter !== 'price') {
           if (aggregations['agg_terms_' + attrToFilter]) {
             let buckets = aggregations['agg_terms_' + attrToFilter].buckets
             if (aggregations['agg_terms_' + attrToFilter + '_options']) {
               buckets = buckets.concat(aggregations['agg_terms_' + attrToFilter + '_options'].buckets)
             }
-
             for (let option of buckets) {
-              uniqueFilterValues.add(toString(option.key))
+              uniqueFilterValues[option.key] = option.doc_count
             }
           }
 
-          uniqueFilterValues.forEach(key => {
+          for (let key in uniqueFilterValues) {
             const label = optionLabel(rootState.attribute, { attributeKey: attrToFilter, optionId: key })
             if (trim(label) !== '') { // is there any situation when label could be empty and we should still support it?
               filterOptions.push({
                 id: key,
+                count: uniqueFilterValues[key],
                 label: label,
                 type: attrToFilter
               })
             }
-          });
+          }
           filters[attrToFilter] = filterOptions.sort(compareByLabel)
         } else { // special case is range filter for prices
           const currencySign = currentStoreView().i18n.currencySign

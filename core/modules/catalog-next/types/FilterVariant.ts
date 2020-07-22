@@ -4,7 +4,6 @@ export default interface FilterVariant {
   type: string,
   from?: string,
   to?: string,
-  min?: string,
-  max?: string,
+  count?: string,
   single?: boolean
 }
