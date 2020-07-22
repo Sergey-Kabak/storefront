@@ -1,8 +1,8 @@
 <template>
   <div class="price-selector">
     <div class="inputs">
-      <custom-input label="От" :amount="variant.min" v-model="variant.from" />
-      <custom-input label="До" :amount="variant.max" v-model="variant.to" />
+      <custom-input label="От" v-model="variant.from" @keypress="isNumber($event)" />
+      <custom-input label="До" v-model="variant.to" @keypress="isNumber($event)" />
     </div>
     <button
       class="price-selector-button"
@@ -45,6 +45,14 @@ export default {
       this.variant.label = `${this.variant.from}₴ - ${this.variant.to}₴`;
       this.variant.id = `${this.variant.from}-${this.variant.to}`;
       this.$emit('change', this.variant);
+    },
+    isNumber (event) {
+      const charCode = (event.which) ? event.which : event.keyCode;
+      if ((charCode > 31 && (charCode < 48 || charCode > 57))) {
+        event.preventDefault();
+      } else {
+        return true;
+      }
     }
   }
 };

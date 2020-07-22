@@ -6,11 +6,8 @@
       v-bind="$attrs"
       v-on="$listeners"
     >
-    <div class="placeholder" v-if="!innerValue">
+    <div v-if="label" class="label">
       {{ label }}
-      <span v-if="amount" class="placeholder-price" @click="focusInput()">
-        {{ amount }}
-      </span>
     </div>
   </div>
 </template>
@@ -28,10 +25,6 @@ export default {
     label: {
       type: String,
       default: ''
-    },
-    amount: {
-      type: [String, Number],
-      default: () => []
     }
   },
   watch: {
@@ -69,11 +62,17 @@ export default {
   }
 }
 input {
+  font-family: DIN Pro;
+  font-style: normal;
+  font-size: 13px;
+  line-height: 16px;
   border: 1px solid #e0e0e0;
   margin-right: 20px;
   width: 100%;
   padding-left: 15px;
+  padding-left: 20px;
   box-sizing: border-box;
+  padding-left: 34px;
   border-radius: 4px;
 
   &:last-child {
@@ -86,21 +85,16 @@ input {
   }
 }
 
-.placeholder {
+.label {
   font-family: DIN Pro;
   display: inline-block;
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  left: 20px;
+  left: 15px;
   font-style: normal;
   color: rgba(95, 94, 94, 0.6);
   font-size: 13px;
   line-height: 16px;
-}
-
-.placeholder-price {
-  color: #5f5e5e;
-  cursor: text;
 }
 </style>

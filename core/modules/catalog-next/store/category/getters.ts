@@ -84,18 +84,16 @@ const getters: GetterTree<CategoryState, RootState> = {
           const priceQueryFromString = query && typeof query.price === 'string' && (query.price as string).split('-')
           const priceQueryFromArray = query.price && query.price[0] && query.price[0].split('-')
           const priceQuery = priceQueryFromString || priceQueryFromArray
+
           const from = priceQuery && priceQuery[0]
           const to = priceQuery && priceQuery[1]
-
+          // should received real min and max price
           filterOptions.push({
             id: `${from}-${to}`,
             type: attrToFilter,
-            from,
-            to,
+            from: from || '0',
+            to: to || '10000',
             label: `${from}₴-${to}₴`,
-            // should received real min and max products price
-            min: '10',
-            max: '120',
             single: true
           })
           filters[attrToFilter] = filterOptions

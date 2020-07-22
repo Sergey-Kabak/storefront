@@ -43,7 +43,7 @@
         <div class="col-md-3 start-xs category-filters">
           <div>
             <p class="products-count">
-              {{ $t('{count} items', { count: getCategoryProductsTotal }) }}
+              {{ $t('Selected {count} items', { count: getCategoryProductsTotal }) }}
             </p>
           </div>
           <sidebar :filters="getAvailableFilters" @changeFilter="changeFilter" />

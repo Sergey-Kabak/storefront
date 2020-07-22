@@ -25,13 +25,13 @@
       :key="filterIndex"
       class="filter"
     >
-      <category-filter :label="filterIndex + '_filter'" v-if="['brand'].includes(filterIndex)">
+      <category-filter :label="filterIndex + '_filter'" v-if="isCheckboxFilter(filterIndex)">
         <checkbox-selector
           context="category"
           :code="filterIndex"
-          v-for="(brand, index) in sortById(filter)"
+          v-for="(item, index) in sortById(filter)"
           :key="index"
-          :variant="brand"
+          :variant="item"
           :selected-filters="getCurrentFilters"
           @change="$emit('changeFilter', $event)"
         />
@@ -47,7 +47,7 @@
           @change="$emit('changeFilter', $event)"
         />
       </category-filter>
-      <category-filter :label="filterIndex + '_filter'" v-else-if="['memory'].includes(filterIndex)">
+      <category-filter :label="filterIndex + '_filter'" v-else-if="isButtonFilter(filterIndex)">
         <button-selector
           context="category"
           :code="filterIndex"
@@ -123,6 +123,13 @@ export default {
     },
     sortById (filters) {
       return [...filters].sort((a, b) => { return a.id - b.id })
+    },
+    // should be received from config
+    isCheckboxFilter (filterName) {
+      return ['manufacturer', 'dyagonal_ekrana', 'emkost_akkumulyatora_mach', 'sim', 'slot_dlya_karty_pamyaty', 'cores', 'material_korpusu', 'operatsyonnaya_systema'].includes(filterName)
+    },
+    isButtonFilter (filterName) {
+      return ['obem_vstroennoj_pamyaty', 'obem_operatyvnoj_pamyaty', 'camerares', 'frontalnaya_kamera_mp'].includes(filterName)
     }
   }
 }
