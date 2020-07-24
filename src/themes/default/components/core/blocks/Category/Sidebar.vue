@@ -111,7 +111,7 @@ export default {
       return this.$store.getters['category-next/getCurrentFilters']
     },
     getActiveFilters () {
-      return Object.values(this.getCurrentFilters).flat()
+      return Object.values(this.getCurrentFilters).reduce((acc, val) => acc.concat(val), [])
     },
     availableFilters () {
       return pickBy(this.filters, (filter, filterType) => { return (filter.length && !this.$store.getters['category-next/getSystemFilterNames'].includes(filterType)) })

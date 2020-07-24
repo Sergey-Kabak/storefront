@@ -39,13 +39,6 @@ export default {
     if (this.value) {
       this.innerValue = this.value;
     }
-  },
-  methods: {
-    focusInput () {
-      this.$nextTick(() => {
-        this.$refs.input.focus();
-      });
-    }
   }
 };
 </script>
