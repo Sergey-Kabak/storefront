@@ -1,16 +1,9 @@
 <template>
   <div class="price-selector">
     <div class="inputs">
-      <custom-input label="От" v-model="variant.from" @keypress="isNumber($event)" />
-      <custom-input label="До" v-model="variant.to" @keypress="isNumber($event)" />
+      <custom-input label="От" v-model="variant.from" @keypress="isNumber($event)" @change="changeFilter()" />
+      <custom-input label="До" v-model="variant.to" @keypress="isNumber($event)"  @change="changeFilter()" />
     </div>
-    <button
-      class="price-selector-button"
-      @click="changeFilter()"
-      :disabled="$v.$invalid"
-    >
-      OK
-    </button>
   </div>
 </template>
 
@@ -27,24 +20,24 @@ export default {
   validations: {
     variant: {
       from: {
-        required,
         numeric,
         maxValue: function () {
           return +this.variant.to >= +this.variant.from;
         }
       },
       to: {
-        required,
         numeric
       }
     }
   },
   methods: {
     changeFilter () {
+      if (!this.$v.$invalid) {
+        this.variant.label = `${this.variant.from}₴ - ${this.variant.to}₴`;
+        this.variant.id = `${this.variant.from}-${this.variant.to}`;
+        this.$emit('change', this.variant);
+      }
       // currency sign should be received from i18n
-      this.variant.label = `${this.variant.from}₴ - ${this.variant.to}₴`;
-      this.variant.id = `${this.variant.from}-${this.variant.to}`;
-      this.$emit('change', this.variant);
     },
     isNumber (event) {
       const charCode = (event.which) ? event.which : event.keyCode;
@@ -62,19 +55,7 @@ export default {
 .inputs {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   margin-bottom: 20px;
-}
-
-.price-selector-button {
-  border: none;
-  background: #23be20;
-  border-radius: 4px;
-  color: #fff;
-  width: 100%;
-  padding: 5px 12px;
-
-  &:disabled {
-    background: #bdbdbd;
-  }
 }
 </style>

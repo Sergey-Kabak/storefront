@@ -16,6 +16,7 @@
       {{ $t('Clear filters') }}
     </span>
     <h4 class="sidebar__header relative mt25 flex center-md">
+      <img src="assets/custom/Filter.svg" :alt="$t('Filter')">
       <span class="filter-title">
         {{ $t('Filter') }}
       </span>
@@ -139,8 +140,8 @@ export default {
 .sidebar {
   &__header {
     margin-bottom: 0px;
-    justify-content: space-between;
     min-height: 47px;
+    justify-content: flex-start;
     flex-wrap: wrap;
     border-bottom: 1px solid #E0E0E0;
     border-top: 1px solid #E0E0E0;
@@ -154,10 +155,12 @@ export default {
       font-size: 16px;
       line-height: 24px;
       color: #23BE20;
-      svg {
-        margin-right: 10px;
-      }
     }
+
+    img {
+        margin-right: 19px;
+    }
+
     &__clear {
       align-self: center;
       font-size: .8em;
