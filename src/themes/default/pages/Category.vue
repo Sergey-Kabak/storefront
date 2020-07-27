@@ -12,11 +12,11 @@
             <columns @change-column="columnChange" />
           </div>
           <!--<div class="sorting col-sm-2 align-right mt50">-->
-            <!--<sort-by-->
-              <!--:has-label="true"-->
-              <!--@change="changeFilter"-->
-              <!--:value="getCurrentSearchQuery.sort"-->
-            <!--/>-->
+          <!--<sort-by-->
+          <!--:has-label="true"-->
+          <!--@change="changeFilter"-->
+          <!--:value="getCurrentSearchQuery.sort"-->
+          <!--/>-->
           <!--</div>-->
         </div>
       </div>
@@ -29,8 +29,8 @@
             />
           </div>
           <button
-              class="col-xs-5 mt25 mr15 p15 mobile-filters-button bg-cl-th-accent brdr-none cl-white h5 sans-serif fs-medium-small"
-              @click="openFilters"
+            class="col-xs-5 mt25 mr15 p15 mobile-filters-button bg-cl-th-accent brdr-none cl-white h5 sans-serif fs-medium-small"
+            @click="openFilters"
           >
             {{ $t('Filters') }}
             <span>{{ Object.keys(getCurrentSearchQuery && getCurrentSearchQuery.filters).length }}</span>
@@ -41,9 +41,9 @@
     <div class="container pb60">
       <div class="row m0 pt15">
         <div class="col-md-3 start-xs category-filters">
-          <div class="row">
+          <div>
             <p class="products-count">
-              {{ $t('{count} items', { count: getCategoryProductsTotal }) }}
+              {{ $t('Selected {count} items', { count: getCategoryProductsTotal }) }}
             </p>
           </div>
           <sidebar :filters="getAvailableFilters" @changeFilter="changeFilter" />
@@ -64,12 +64,12 @@
           </button-full>
         </div>
         <div class="col-md-9 px10 border-box products-list">
-          <p class="col-md-12 hidden-xs start-md m0 pb20 cl-secondary">
+          <p class="col-md-12 hidden-xs start-md mt0 cl-secondary category-sort">
             <span class="product-sorting">{{ $t('First') }}: </span>
             <new-sort-by
-                :has-label="true"
-                @change="changeFilter"
-                :value="getCurrentSearchQuery.sort"
+              :has-label="true"
+              @change="changeFilter"
+              :value="getCurrentSearchQuery.sort"
             />
           </p>
           <div v-if="isCategoryEmpty" class="hidden-xs">
@@ -235,13 +235,14 @@ export default {
   }
   .category-filters {
     width: 242px;
+
     .products-count {
+      margin: 0 0 30px 0;
       font-family: DIN Pro;
       font-style: normal;
       font-size: 13px;
       line-height: 16px;
       color: #1A1919;
-      margin: 0;
     }
   }
 
@@ -303,6 +304,10 @@ export default {
     label {
       margin-right: 10px;
     }
+  }
+
+  .category-sort {
+    margin-bottom: 6px;
   }
 
   @media (max-width: 64em) {

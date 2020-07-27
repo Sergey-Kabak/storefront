@@ -27,6 +27,7 @@
 "Product {productName} has been removed from wishlist!","Товар {productName} удален из списка пожеланий!"
 "Registering the account ...","Создается учетная запись ..."
 "Reset password feature does not work while offline!","Возможность переустановки пароля не работает при отсутствующем соединении к интернету!"
+"Selected {count} items","Выбрано {count} товар"
 "Shopping cart is empty. Please add some products before entering Checkout","Корзина пустая. Пожалуйста добавьте товары перед оформлением заказа"
 "Some of the ordered products are not available!","Некоторые из заказанных товаров не доступны!"
 "Stock check in progress, please wait while available stock quantities are checked","Производится проверка товаров на наличие, пожалуйста дождитесь завершения процесса проверки доступного количества"
@@ -42,3 +43,5 @@
 "You need to be logged in to see this page","Вы должны войти в систему, чтобы увидеть эту страницу"
 "You submitted your review for moderation.","You submitted your review for moderation."
 "You're logged out","Вы вышли из учетной записи"
+"brand_filter","Бренд"
+"memory_filter","Память"

@@ -618,9 +618,19 @@
     "endpoint": "/api/product",
     "defaultFilters": [
       "color",
-      "erin_recommends",
       "price",
-      "size"
+      "manufacturer",
+      "dyagonal_ekrana",
+      "obem_vstroennoj_pamyaty",
+      "obem_operatyvnoj_pamyaty",
+      "camerares",
+      "frontalnaya_kamera_mp",
+      "emkost_akkumulyatora_mach",
+      "sim",
+      "slot_dlya_karty_pamyaty",
+      "cores",
+      "material_korpusu",
+      "operatsyonnaya_systema"
     ],
     "systemFilterNames": [
       "sort"
@@ -664,10 +674,7 @@
     "priceFilterKey": "final_price",
     "priceFilters": {
       "ranges": [
-        { "from": 0, "to": 50 },
-        { "from": 50, "to": 100 },
-        { "from": 100, "to": 150 },
-        { "from": 150 }
+        { "from": null, "to": null }
       ]
     }
   },

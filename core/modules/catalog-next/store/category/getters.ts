@@ -1,5 +1,6 @@
 import { nonReactiveState } from './index';
 import { GetterTree } from 'vuex'
+import { router } from '@vue-storefront/core/app'
 import RootState from '@vue-storefront/core/types/RootState'
 import CategoryState from './CategoryState'
 import { compareByLabel } from '../../helpers/categoryHelpers'
@@ -53,49 +54,49 @@ const getters: GetterTree<CategoryState, RootState> = {
       for (let attrToFilter of products.defaultFilters) { // fill out the filter options
         let filterOptions: FilterVariant[] = []
 
-        let uniqueFilterValues = new Set<string>()
+        let uniqueFilterValues = {}
         if (attrToFilter !== 'price') {
           if (aggregations['agg_terms_' + attrToFilter]) {
             let buckets = aggregations['agg_terms_' + attrToFilter].buckets
             if (aggregations['agg_terms_' + attrToFilter + '_options']) {
               buckets = buckets.concat(aggregations['agg_terms_' + attrToFilter + '_options'].buckets)
             }
-
             for (let option of buckets) {
-              uniqueFilterValues.add(toString(option.key))
+              uniqueFilterValues[option.key] = option.doc_count
             }
           }
 
-          uniqueFilterValues.forEach(key => {
+          for (let key in uniqueFilterValues) {
             const label = optionLabel(rootState.attribute, { attributeKey: attrToFilter, optionId: key })
             if (trim(label) !== '') { // is there any situation when label could be empty and we should still support it?
               filterOptions.push({
                 id: key,
+                count: uniqueFilterValues[key],
                 label: label,
                 type: attrToFilter
               })
             }
-          });
+          }
           filters[attrToFilter] = filterOptions.sort(compareByLabel)
         } else { // special case is range filter for prices
           const currencySign = currentStoreView().i18n.currencySign
+          const query = router.currentRoute.query
+          const priceQueryFromString = query && typeof query.price === 'string' && (query.price as string).split('-')
+          const priceQueryFromArray = query.price && query.price[0] && query.price[0].split('-')
+          const priceQuery = priceQueryFromString || priceQueryFromArray
 
-          if (aggregations['agg_range_' + attrToFilter]) {
-            let index = 0
-            let count = aggregations['agg_range_' + attrToFilter].buckets.length
-            for (let option of aggregations['agg_range_' + attrToFilter].buckets) {
-              filterOptions.push({
-                id: option.key,
-                type: attrToFilter,
-                from: option.from,
-                to: option.to,
-                label: (index === 0 || (index === count - 1)) ? (option.to ? '< ' + currencySign + option.to : '> ' + currencySign + option.from) : currencySign + option.from + (option.to ? ' - ' + option.to : ''), // TODO: add better way for formatting, extract currency sign
-                single: true
-              })
-              index++
-            }
-            filters[attrToFilter] = filterOptions
-          }
+          const from = priceQuery && priceQuery[0]
+          const to = priceQuery && priceQuery[1]
+          // should received real min and max price
+          filterOptions.push({
+            id: `${from}-${to}`,
+            type: attrToFilter,
+            from: from || '0',
+            to: to || '10000',
+            label: `${from}₴-${to}₴`,
+            single: true
+          })
+          filters[attrToFilter] = filterOptions
         }
       }
       // Add sort to available filters
