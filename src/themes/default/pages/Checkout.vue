@@ -109,11 +109,7 @@
                 </div>
               </div>
               <div class="col-md-5 hidden-xs">
-                <div class="row">
-                  <div class="hidden-xs col-sm-12 bg-cl-secondary">
-                    <cart-summary />
-                  </div>
-                </div>
+                <cart-summary />
               </div>
             </div>
           </div>

@@ -1,28 +1,26 @@
 <template>
   <div class="minusplusnumber">
-    <div class="mpbtn minus" v-on:click="mpminus()">
-      <svg width="12" height="2" viewBox="0 0 12 2" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M11.8337 1.83333H0.166992V0.166664H11.8337V1.83333Z" fill="#E0E0E0"/>
+    <div class="mpbtn minus" :class="{'active': isMinusActive}" v-on:click="mpminus()">
+      <svg width="12" height="2" viewBox="0 0 12 2" xmlns="http://www.w3.org/2000/svg">
+        <path d="M11.8337 1.83333H0.166992V0.166664H11.8337V1.83333Z"/>
       </svg>
     </div>
     <div id="field_container">
       <input
-
         :id="getInputId"
         type="number"
         :min="min"
         :max="max"
         :disabled="disabled"
-
         :focus="autofocus"
-        v-model="inputValue"
+        v-model.number="inputValue"
+        @input="isValid($event)"
         @blur="$emit('blur', $event.target.value)"
-
       />
     </div>
-    <div class="mpbtn plus" v-on:click="mpplus()">
-      <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M11.8337 6.83333H6.83366V11.8333H5.16699V6.83333H0.166992V5.16666H5.16699V0.166664H6.83366V5.16666H11.8337V6.83333Z" fill="white"/>
+    <div class="mpbtn plus" v-on:click="mpplus()" :class="{'active': isPlusActive}">
+      <svg width="12" height="12" viewBox="0 0 12 12" xmlns="http://www.w3.org/2000/svg">
+        <path d="M11.8337 6.83333H6.83366V11.8333H5.16699V6.83333H0.166992V5.16666H5.16699V0.166664H6.83366V5.16666H11.8337V6.83333Z" />
       </svg>
     </div>
   </div>
@@ -59,10 +57,6 @@
       validations: {
         type: Array,
         default: () => []
-      },
-      onlyPositive: {
-        type: Boolean,
-        default: false
       }
     },
     computed: {
@@ -74,30 +68,36 @@
           return this.value
         },
         set (value) {
-          // if (!this.onlyPositive) {
-          //   this.$emit('input', value)
-          // } else {
-          //   const targetValue = parseInt(value, 10)
-          //   if (!isNaN(targetValue)) {
-          //     this.$emit('input', targetValue !== 0 ? Math.abs(targetValue) : 1)
-          //   }
-          // }
+          const qty = parseInt(value, 10)
+          const targetValue = qty !== 0 ? Math.abs(qty) : 1
+          this.$emit('input', targetValue || 1)
         }
+      },
+      isMinusActive() {
+        return this.value > 1
+      },
+      isPlusActive() {
+        return this.value < this.max
       }
     },
-
     data() {
       return {
         newValue: 0
       }
     },
-
     methods: {
+      isValid() {
+        this.$nextTick(() => {
+          if (this.inputValue > this.max) {
+            this.inputValue = this.max
+            event.preventDefault()
+          }
+        })
+      },
       getNotificationClass(notification) {
         return `alert alert-${notification.type}`
       },
       mpplus: function () {
-        console.log('asdasdasdasd');
         if (this.max === undefined || (this.newValue < this.max)) {
           this.newValue = this.newValue + 1
           this.$emit('input', this.newValue)
@@ -167,30 +167,35 @@
     justify-content: center;
     align-items: center;
   }
+  
+  .minus, .plus {
+    border: 1px solid #E0E0E0;
+    background: #F9F9F9;
+    svg {
+      fill: #E0E0E0;
+    }
+
+    &.active {
+      background: #23BE20;
+
+      svg {
+        fill: #fff;
+      }
+    }
+  }
 
   .minus {
     border-radius: 4px 0 0 4px;
-    border: 1px solid #E0E0E0;
     border-right: none;
-    background: #F9F9F9 !important;
   }
 
   .plus {
     border-radius: 0 4px 4px 0;
-    background: #23BE20 !important;
   }
 
   input[type=number]::-webkit-inner-spin-button,
   input[type=number]::-webkit-outer-spin-button {
     -webkit-appearance: none;
     margin: 0;
-  }
-
-  .minusplusnumber .mpbtn:hover {
-    background-color: #DDD;
-  }
-
-  .minusplusnumber .mpbtn:active {
-    background-color: #c5c5c5;
   }
 </style>

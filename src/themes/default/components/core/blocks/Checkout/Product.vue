@@ -1,91 +1,150 @@
 <template>
-  <div class="row p25 between-xs">
-    <div class="blend">
-      <product-image :image="image" />
+  <div class="product">
+    <div class="product-remove" @click="removeFromCart()">
+      <img src="assets/custom/Delete.svg" alt="remove" />
     </div>
-    <div class="col-xs">
-      <div class="row">
-        <div class="col-xs-12 col-md-9 pb15">
-          <div class="mb15">
-            <div class="h4 weight-400 cl-accent serif">
-              {{ product.name | htmlDecode }}
-            </div>
-            <div class="error" v-if="product.errors && Object.keys(product.errors).length > 0">
-              {{ product.errors | formatProductMessages }}
-            </div>
-            <div class="h5 cl-tertiary pt5">
-              {{ product.sku }}
-            </div>
-            <div class="h6 cl-bg-tertiary pt5 options" v-if="product.totals && product.totals.options">
-              <div v-for="opt in product.totals.options" :key="opt.label">
-                <span class="opn">{{ opt.label }}: </span>
-                <span class="opv" v-html="opt.value" />
-              </div>
-            </div>
-            <div class="h6 cl-bg-tertiary pt5 options" v-else-if="product.options">
-              <div v-for="opt in product.options" :key="opt.label">
-                <span class="opn">{{ opt.label }}: </span>
-                <span class="opv" v-html="opt.value" />
-              </div>
-            </div>
-          </div>
-          <div>
-            <div>
-              <span class="h5 cl-secondary">
-                {{ $t('Qty') }}
-                <span class="weight-700">
-                  {{ product.qty }}
-                </span>
-              </span>
-            </div>
-          </div>
-        </div>
-        <div class="col-xs-12 col-md-3 serif">
-          <div v-if="isOnline && product.totals">
-            <span class="h4 cl-error" v-if="product.totals.discount_amount">{{ product.totals.row_total - product.totals.discount_amount + product.totals.tax_amount | price(storeView) }} </span>
-            <span class="price-original h5" v-if="product.totals.discount_amount">{{ product.totals.row_total_incl_tax | price(storeView) }}</span>
-            <span v-if="!product.totals.discount_amount" class="h4">{{ product.totals.row_total_incl_tax | price(storeView) }}</span>
-          </div>
-          <div v-else>
-            <span class="h4 cl-error" v-if="product.special_price">{{ product.price_incl_tax * product.qty | price(storeView) }} </span>
-            <span class="price-original h5" v-if="product.special_price">{{ product.original_price_incl_tax * product.qty | price(storeView) }}</span>
-            <span v-if="!product.special_price" class="h4">{{ product.price_incl_tax * product.qty | price(storeView) }}</span>
-          </div>
-        </div>
+    <div class="product-image">
+      <img :src="image.src" alt="product" />
+    </div>
+    <div class="product-info">
+      <div class="product-info-name">
+        {{ product.name }}
       </div>
+      <div class="product-info-price">{{ product.price }} ₴</div>
+    </div>
+    <div class="product-quantity" v-if="product.type_id !== 'grouped' && product.type_id !== 'bundle'">
+      <product-quantity-new
+        class="row m0"
+        v-model="product.qty"
+        @input="update($event)"
+        :max-quantity="product.stock.qty"
+        :is-simple-or-configurable="isSimpleOrConfigurable"
+        :show-quantity="manageQuantity"
+        :check-max-quantity="manageQuantity"
+      />
+    </div>
+    <div class="product-price">
+      <span> {{ product.price * product.qty }} ₴ </span>
     </div>
   </div>
 </template>
 
 <script>
-import { Product } from '@vue-storefront/core/modules/checkout/components/Product'
-import { onlineHelper } from '@vue-storefront/core/helpers'
-import ProductImage from 'theme/components/core/ProductImage'
-import { currentStoreView } from '@vue-storefront/core/lib/multistore'
+import { Product } from "@vue-storefront/core/modules/checkout/components/Product";
+import ProductQuantityNew from "theme/components/core/ProductQuantityNew.vue";
+import { onlineHelper } from "@vue-storefront/core/helpers";
+import ProductImage from "theme/components/core/ProductImage";
+import { currentStoreView } from "@vue-storefront/core/lib/multistore";
+import { mapState } from "vuex";
 
 export default {
+  mixins: [Product],
+  components: {
+    ProductImage,
+    ProductQuantityNew
+  },
+  data: () => ({
+    maxQuantity: 0,
+    detailsOpen: false,
+    quantityError: false,
+    isStockInfoLoading: false,
+    hasAttributesLoaded: false,
+    manageQuantity: true
+  }),
   computed: {
-    storeView () {
-      return currentStoreView()
-    },
-    isOnline () {
-      return onlineHelper.isOnline
-    },
-    image () {
+    image() {
       return {
         loading: this.thumbnail,
         src: this.thumbnail
-      }
+      };
+    },
+    isSimpleOrConfigurable () {
+      return ['simple', 'configurable'].includes(this.product.type_id)
+    },
+    isOnline (value) {
+      return onlineHelper.isOnline
+    },
+    storeView() {
+      return currentStoreView();
     }
   },
-  mixins: [Product],
-  components: {
-    ProductImage
+  methods: {
+    removeFromCart () {
+      this.$store.dispatch('cart/removeItem', { product: this.product })
+    },
+    removeFromCart() {
+      this.$store.dispatch('cart/removeItem', { product: this.product })
+    }
   }
-}
+};
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+.product {
+  display: flex;
+  align-items: center;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #e0e0e0;
+  margin-bottom: 15px;
+}
+
+.product-remove {
+  margin-right: 10px;
+  cursor: pointer;
+  
+  img {
+    width: 14px;
+    height: 18px;
+  }
+}
+
+.product-image {
+  margin-right: 10px;
+  display: flex;
+  align-items: center;
+  max-width: 40px;
+  width: 100%;
+  font-family: DIN Pro;
+  font-style: normal;
+}
+
+.product-info {
+  margin-right: 15px;
+}
+
+.product-info-name {
+  font-size: 13px;
+  line-height: 16px;
+}
+
+.product-info-price {
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 16px;
+  color: #1a1919;
+}
+
+.product-price {
+  font-family: DIN Pro;
+  font-style: normal;
+  font-size: 18px;
+  line-height: 24px;
+  white-space: nowrap;
+  font-weight: 600;
+  margin-left: 8px;
+  max-width: 70px;
+  width: 100%;
+  text-align: right;
+}
+
+.product-quantity {
+  margin-left: auto;
+}
+
+img {
+  width: 100%;
+}
+
 .price-original {
   text-decoration: line-through;
 }
