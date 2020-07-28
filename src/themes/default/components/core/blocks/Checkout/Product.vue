@@ -16,7 +16,6 @@
       <product-quantity-new
         class="row m0"
         v-model="product.qty"
-        @input="update($event)"
         :max-quantity="product.stock.qty"
         :is-simple-or-configurable="isSimpleOrConfigurable"
         :show-quantity="manageQuantity"
@@ -30,12 +29,13 @@
 </template>
 
 <script>
-import { Product } from "@vue-storefront/core/modules/checkout/components/Product";
-import ProductQuantityNew from "theme/components/core/ProductQuantityNew.vue";
-import { onlineHelper } from "@vue-storefront/core/helpers";
-import ProductImage from "theme/components/core/ProductImage";
-import { currentStoreView } from "@vue-storefront/core/lib/multistore";
-import { mapState } from "vuex";
+import ProductQuantityNew from 'theme/components/core/ProductQuantityNew.vue'
+import { onlineHelper } from '@vue-storefront/core/helpers'
+import ProductImage from 'theme/components/core/ProductImage'
+import { currentStoreView } from '@vue-storefront/core/lib/multistore'
+import { mapState } from 'vuex'
+import { Product } from '@vue-storefront/core/modules/checkout/components/Product'
+
 
 export default {
   mixins: [Product],
@@ -52,7 +52,7 @@ export default {
     manageQuantity: true
   }),
   computed: {
-    image() {
+    image () {
       return {
         loading: this.thumbnail,
         src: this.thumbnail
@@ -64,15 +64,12 @@ export default {
     isOnline (value) {
       return onlineHelper.isOnline
     },
-    storeView() {
+    storeView () {
       return currentStoreView();
     }
   },
   methods: {
     removeFromCart () {
-      this.$store.dispatch('cart/removeItem', { product: this.product })
-    },
-    removeFromCart() {
       this.$store.dispatch('cart/removeItem', { product: this.product })
     }
   }
@@ -91,7 +88,7 @@ export default {
 .product-remove {
   margin-right: 10px;
   cursor: pointer;
-  
+
   img {
     width: 14px;
     height: 18px;

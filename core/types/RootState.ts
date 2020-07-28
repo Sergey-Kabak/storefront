@@ -12,6 +12,7 @@ export default interface RootState {
   wishlist: any,
   attribute: any,
   ui: any,
+  customShipping: any,
   newsletter: any,
   category: {
     current_path: string,

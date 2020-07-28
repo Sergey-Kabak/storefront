@@ -226,7 +226,7 @@
               <!--{{ $t('Payment method') }}-->
             <!--</h4>-->
           <!--</div>-->
-          <div v-for="(method, index) in paymentMethods" :key="index" class="col-md-6">
+          <div v-for="(method, index) in paymentMethods" :key="index" class="col-md-6" v-if="isShowPaymentMethod(method)">
             <label class="radioStyled"> {{ method.title ? method.title : method.name }}
               <input
                 type="radio"
@@ -242,7 +242,18 @@
         </div>
       </div>
     </div>
-    <div class="row" v-if="isActive">
+    <div class="row">
+      <div class="col-xs-12">
+        <div class="row">
+          <div class="col-xs-12 col-md-8 my30">
+            <div id="checkout-order-review-additional-container">
+              <div id="checkout-order-review-additional">&nbsp;</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- <div class="row" v-if="isShowPayment">
       <div class="col-xs-12">
         <div class="row">
           <div class="col-xs-12 col-md-8 my30">
@@ -257,7 +268,7 @@
           </div>
         </div>
       </div>
-    </div>
+    </div> -->
     <!--<div class="row pl20" v-if="!isActive && isFilled">-->
       <!--<div class="hidden-xs col-sm-2 col-md-1" />-->
       <!--<div class="col-xs-12 col-sm-9 col-md-11">-->
@@ -309,6 +320,7 @@ import BaseInput from 'theme/components/core/blocks/Form/BaseInput'
 import BaseSelect from 'theme/components/core/blocks/Form/BaseSelect'
 import ButtonFull from 'theme/components/theme/ButtonFull'
 import Tooltip from 'theme/components/core/Tooltip'
+import { mapState } from 'vuex'
 
 export default {
   components: {
@@ -319,7 +331,29 @@ export default {
     Tooltip
   },
   mixins: [Payment],
+  watch: {
+    type() {
+      this.payment.paymentMethod = this.assoc[this.type][0]
+      this.changePaymentMethod()
+    },
+    'payment.paymentMethod': {
+      handler: function () {
+        this.payment.paymentMethod = this.assoc[this.type][0]      
+      },
+      deep: true
+    }
+  },
+  data: () => ({
+    assoc: {
+      'currier': ['liqpaymagento_liqpay', 'banktransfer'],
+      'new_post': ['cashondelivery', 'banktransfer', 'checkmo'],
+      'shop': ['cashondelivery', 'banktransfer', 'checkmo']
+    }
+  }),
   computed: {
+    ...mapState({
+      type: state => state.customShipping.type
+    }),
     countryOptions () {
       return this.countries.map((item) => {
         return {
@@ -327,7 +361,18 @@ export default {
           label: item.name
         }
       })
-    }
+    },
+    isShowPayment () {
+      return this.payment.method !== 'liqpaymagento_liqpay'
+    },
+    // paymentMethod: {
+    //   get() {
+    //     return this.payment.paymentMethod = this.assoc[this.type][0]
+    //   },
+    //   set(val) {
+    //     this.payment.paymentMethod
+    //   }
+    // }
   },
   validations () {
     if (!this.generateInvoice) {
@@ -413,6 +458,15 @@ export default {
         }
       }
     }
+  },
+  methods: {
+    isShowPaymentMethod(method) {
+      return this.assoc[this.type].includes(method.code)
+    }
+  },
+  mounted() {
+    this.payment.paymentMethod = this.assoc[this.type][0]
+    this.changePaymentMethod()
   }
 }
 </script>

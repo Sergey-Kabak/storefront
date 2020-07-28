@@ -1,8 +1,8 @@
 <template>
   <div class="minusplusnumber">
-    <div class="mpbtn minus" :class="{'active': isMinusActive}" v-on:click="mpminus()">
+    <div class="mpbtn minus" :class="{'active': isMinusActive}" @click="mpminus()" >
       <svg width="12" height="2" viewBox="0 0 12 2" xmlns="http://www.w3.org/2000/svg">
-        <path d="M11.8337 1.83333H0.166992V0.166664H11.8337V1.83333Z"/>
+        <path d="M11.8337 1.83333H0.166992V0.166664H11.8337V1.83333Z" />
       </svg>
     </div>
     <div id="field_container">

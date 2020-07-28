@@ -18,11 +18,11 @@
 </template>
 
 <script>
-import { CartSummary } from "@vue-storefront/core/modules/checkout/components/CartSummary";
-import { currentStoreView } from "@vue-storefront/core/lib/multistore";
-import Product from "theme/components/core/blocks/Checkout/Product";
-import PromoCode from "theme/components/core/blocks/Checkout/PromoCode";
-import { mapGetters } from "vuex";
+import { CartSummary } from '@vue-storefront/core/modules/checkout/components/CartSummary'
+import { currentStoreView } from '@vue-storefront/core/lib/multistore'
+import Product from 'theme/components/core/blocks/Checkout/Product'
+import PromoCode from 'theme/components/core/blocks/Checkout/PromoCode'
+import { mapGetters } from 'vuex'
 
 export default {
   mixins: [CartSummary],
@@ -31,11 +31,11 @@ export default {
     PromoCode
   },
   computed: {
-    ...mapGetters("cart", ["getItemsTotalQuantity"]),
-    storeView() {
-      return currentStoreView();
+    ...mapGetters('cart', ['getItemsTotalQuantity']),
+    storeView () {
+      return currentStoreView ();
     },
-    totalPrice() {
+    totalPrice () {
       return this.productsInCart.reduce((acc, it) => acc + it.price * it.qty, 0)
     }
   }

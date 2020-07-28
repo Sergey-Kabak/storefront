@@ -77,6 +77,7 @@ import {Shipping} from '@vue-storefront/core/modules/checkout/components/Shippin
 import CustomShipping from 'src/modules/custom-shipping/custom-shipping'
 import CitySelect from 'src/modules/custom-shipping/components/city-select'
 import NewPost from 'src/modules/nova-poshta/index';
+import { mapState } from 'vuex';
 
 export default {
   components: {
@@ -94,7 +95,6 @@ export default {
   },
   data () {
     return {
-      type: 'shop',
       loading: false,
       cities: [],
       city: 'Киев',
@@ -102,6 +102,9 @@ export default {
     }
   },
   computed: {
+    ...mapState({
+      type: state => state.customShipping.type
+    }),
     countryOptions() {
       return this.countries.map((item) => {
         return {
@@ -123,7 +126,7 @@ export default {
   methods: {
     changeType (type) {
       this.loading = true
-      this.type = type
+      this.$store.commit('customShipping/changeShippingType', type)
       setTimeout(() => {this.loading = false})
     },
     changeCity (city = this.city) {
