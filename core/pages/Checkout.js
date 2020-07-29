@@ -173,11 +173,10 @@ export default {
     onAfterPaymentDetails (receivedData, validationResult) {
       this.payment = receivedData
       this.validationResults.payment = validationResult
-      this.activateSection('orderReview')
       this.savePaymentDetails()
-      setTimeout(() => {
-        this.$bus.$emit('checkout-before-placeOrder')
-      })
+      // setTimeout(() => {
+      //   this.$bus.$emit('checkout-before-placeOrder')
+      // })
     },
     onAfterShippingDetails (receivedData, validationResult) {
       this.shipping = receivedData
@@ -314,6 +313,7 @@ export default {
       return this.order
     },
     placeOrder () {
+      this.activateSection('orderReview')
       this.checkConnection({ online: typeof navigator !== 'undefined' ? navigator.onLine : true })
       if (this.checkStocks()) {
         this.$store.dispatch('checkout/placeOrder', { order: this.prepareOrder() })

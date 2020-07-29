@@ -3,6 +3,8 @@
     method="POST"
     action="https://www.liqpay.ua/api/3/checkout"
     accept-charset="utf-8"
+    target="_blank"
+    ref="form"
   >
     <input
       type="hidden"
@@ -14,7 +16,7 @@
       name="signature"
       :value="signature"
     />
-    <button type="submit">Оплатить</button>
+    <button @click="onCreateOrder()">{{ $t('To pay') }}</button>
   </form>
 </template>
 
@@ -24,12 +26,16 @@ import Base64 from 'crypto-js/enc-base64';
 import Utf8 from 'crypto-js/enc-utf8'
 import sha1 from 'crypto-js/sha1'
 import config from 'config'
+import { mapState } from 'vuex';
 
 export default {
-	props: ["cart"],
 	computed: {
+    ...mapState({
+      cartItems: (state) => state.cart.cartItems,
+      cartServerToken: (state) => state.cart.cartServerToken
+    }),
 		totalPrice () {
-      return this.cart && this.cart.cartItems.reduce((acc, it) => acc + it.price * it.qty, 0)
+      return this.cartItems.reduce((acc, it) => acc + it.price * it.qty, 0)
     },
 		data () {
 			return Base64.stringify(
@@ -40,15 +46,21 @@ export default {
 						action: config.liqpay.action,
 						currency: config.liqpay.currency, 
 						amount: this.totalPrice,
-						"description":"test",
-						"order_id":"000002"
-			})))
-		},
+						description: "description",
+						order_id: this.cartServerToken
+          })
+        )
+      )
+    },
 		signature () {
 			return Base64.stringify(sha1(config.liqpay.private_key + this.data + config.liqpay.private_key))
-		}
-	},
-  created: function() {}
+    }
+  },
+  methods: {
+    onCreateOrder () {
+      this.$bus.$emit('checkout-before-placeOrder')
+    }
+  }
 };
 </script>
 

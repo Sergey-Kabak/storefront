@@ -233,7 +233,7 @@
                 :value="method.code"
                 name="payment-method"
                 v-model="payment.paymentMethod"
-                @change="$v.payment.paymentMethod.$touch(); changePaymentMethod();"
+                @change="onPaymentMethodChange()"
               >
               <span class="checkmark" />
             </label>
@@ -241,34 +241,17 @@
           <span class="validation-error" v-if="!$v.payment.paymentMethod.required">{{ $t('Field is required') }}</span>
         </div>
       </div>
-    </div>
-    <div class="row">
-      <div class="col-xs-12">
-        <div class="row">
-          <div class="col-xs-12 col-md-8 my30">
-            <div id="checkout-order-review-additional-container">
-              <div id="checkout-order-review-additional">&nbsp;</div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <!-- <div class="row" v-if="isShowPayment">
-      <div class="col-xs-12">
-        <div class="row">
-          <div class="col-xs-12 col-md-8 my30">
-            <button-full
-              class="custom-action-button"
-              @click.native="sendDataToCheckout"
-              data-testid="paymentSubmit"
-              :disabled="$v.payment.$invalid"
-            >
-              {{ $t('To pay') }}
-            </button-full>
-          </div>
-        </div>
-      </div>
-    </div> -->
+  </div>
+  <LiqPay v-if="payment.paymentMethod === 'liqpaymagento_liqpay'" />
+  <button-full
+    v-else
+    class="custom-action-button"
+    @click.native="placeOrder()"
+    data-testid="paymentSubmit"
+    :disabled="$v.payment.$invalid"
+  >
+    {{ $t('To pay') }}
+  </button-full>
     <!--<div class="row pl20" v-if="!isActive && isFilled">-->
       <!--<div class="hidden-xs col-sm-2 col-md-1" />-->
       <!--<div class="col-xs-12 col-sm-9 col-md-11">-->
@@ -321,6 +304,7 @@ import BaseSelect from 'theme/components/core/blocks/Form/BaseSelect'
 import ButtonFull from 'theme/components/theme/ButtonFull'
 import Tooltip from 'theme/components/core/Tooltip'
 import { mapState } from 'vuex'
+import LiqPay from 'src/modules/payment-liqpay/components/Liqpay'
 
 export default {
   components: {
@@ -328,32 +312,19 @@ export default {
     BaseInput,
     BaseSelect,
     ButtonFull,
-    Tooltip
+    Tooltip,
+    LiqPay,
   },
   mixins: [Payment],
   watch: {
-    type() {
-      this.payment.paymentMethod = this.assoc[this.type][0]
-      this.changePaymentMethod()
-    },
-    'payment.paymentMethod': {
-      handler: function () {
-        this.payment.paymentMethod = this.assoc[this.type][0]      
+    'payment.paymentMethods': {
+      handler: function (after, before) {
+        this.sendDataToCheckout()
       },
       deep: true
     }
   },
-  data: () => ({
-    assoc: {
-      'currier': ['liqpaymagento_liqpay', 'banktransfer'],
-      'new_post': ['cashondelivery', 'banktransfer', 'checkmo'],
-      'shop': ['cashondelivery', 'banktransfer', 'checkmo']
-    }
-  }),
   computed: {
-    ...mapState({
-      type: state => state.customShipping.type
-    }),
     countryOptions () {
       return this.countries.map((item) => {
         return {
@@ -361,18 +332,7 @@ export default {
           label: item.name
         }
       })
-    },
-    isShowPayment () {
-      return this.payment.method !== 'liqpaymagento_liqpay'
-    },
-    // paymentMethod: {
-    //   get() {
-    //     return this.payment.paymentMethod = this.assoc[this.type][0]
-    //   },
-    //   set(val) {
-    //     this.payment.paymentMethod
-    //   }
-    // }
+    }
   },
   validations () {
     if (!this.generateInvoice) {
@@ -460,13 +420,17 @@ export default {
     }
   },
   methods: {
-    isShowPaymentMethod(method) {
+    isShowPaymentMethod (method) {
       return this.assoc[this.type].includes(method.code)
+    },
+    onPaymentMethodChange () {
+      this.$v.payment.paymentMethod.$touch()
+      this.changePaymentMethod() 
+      this.sendDataToCheckout()
+    },
+    placeOrder () {
+      this.$bus.$emit('checkout-before-placeOrder')
     }
-  },
-  mounted() {
-    this.payment.paymentMethod = this.assoc[this.type][0]
-    this.changePaymentMethod()
   }
 }
 </script>
