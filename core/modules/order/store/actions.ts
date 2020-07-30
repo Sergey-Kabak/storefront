@@ -59,7 +59,9 @@ const actions: ActionTree<OrderState, RootState> = {
 
       commit(types.ORDER_LAST_ORDER_WITH_CONFIRMATION, { order, confirmation: task.result })
       orderHooksExecutors.afterPlaceOrder({ order, task })
-      EventBus.$emit('order-after-placed', { order, confirmation: task.result })
+      if (order.addressInformation.payment_method_code !== 'liqpaymagento_liqpay') {
+        EventBus.$emit('order-after-placed', { order, confirmation: task.result })
+      }
       EventBus.$emit('notification-progress-stop')
       return task
     }
