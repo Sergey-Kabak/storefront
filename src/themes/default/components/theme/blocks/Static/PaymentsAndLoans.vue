@@ -1,5 +1,5 @@
 <template>
-  <div class="using-a-promo-code">{{ translate('using a promo code text') }}</div>
+  <div class="payments-and-loans">{{ translate('payments and loans text') }}</div>
 </template>
 
 <script>

@@ -1,4 +1,4 @@
- is out of stock!,немає у наявності
+is out of stock!,немає у наявності
 404 Page Not Found,Помилка 404 сторінка не знайдена
 Account data has successfully been updated,Дані облікового запису успішно оновлені
 Adding a review ...,Залишити відгук
@@ -10,15 +10,15 @@ Field is required,Обов'язкове поле
 Field is required.,Обов'язкове поле
 Grand total,Загальна сума
 Home Page,Головна сторінка
-Internal validation error. Please check if all required fields are filled in. Please contact us on {email},Виникла помилка. Будь ласка заповніть всі обов'язкові поля. 
+Internal validation error. Please check if all required fields are filled in. Please contact us on {email},Виникла помилка. Будь ласка заповніть всі обов'язкові поля.
 My Account,Особистий кабінет
 Newsletter preferences have successfully been updated,Налаштування розсилки новин успішно оновлені
 No products synchronized for this category. Please come back while online!,"Товари даної категорії не синхронізовані. Будь ласка спробуйте, коли будете онлайн!"
 No such configuration for the product. Please do choose another combination of attributes.,Товари з обраним набором характеристик відсутні. Спробуйте змінити налаштування фільтра.
-Only {maxQuantity} products of this type are available!,Доступні лише { } продукти цього типу 
+Only {maxQuantity} products of this type are available!,Доступні лише { } продукти цього типу
 Out of stock!,Немає у наявності
 Please fix the validation errors,Будь ласка виправте помилки
-Product has been added to the cart!,Товар додано до кошика 
+Product has been added to the cart!,Товар додано до кошика
 "Product price is unknown, product cannot be added to the cart!","Ціна товару невідома, товар не можна додати у кошик!"
 Product quantity has been updated!,Кількість товару оновлена!
 Product {productName} has been added to the compare!,Товар доданий для порівняння!

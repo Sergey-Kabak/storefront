@@ -39,14 +39,25 @@ import { getPathForStaticPage } from 'theme/helpers'
 import { localizedRoute } from '@vue-storefront/core/lib/multistore'
 
 import Delivery from 'theme/components/theme/blocks/Static/Delivery'
+import Payment from 'theme/components/theme/blocks/Static/Payments'
+import PaymentAndLoans from 'theme/components/theme/blocks/Static/PaymentsAndLoans'
+import WarrantyExchangeReturn from 'theme/components/theme/blocks/Static/WarrantyExchangeReturns'
+import ServiceCenters from 'theme/components/theme/blocks/Static/ServiceCenters'
+import UsingAPromoCode from 'theme/components/theme/blocks/Static/UsingAPromoCode'
+import PublicOffer from 'theme/components/theme/blocks/Static/PublicOffer'
+import PromotionalOffers from 'theme/components/theme/blocks/Static/PromotionalOffers'
+import Shops from 'theme/components/theme/blocks/Static/Shops'
+import AboutTheCompany from 'theme/components/theme/blocks/Static/Company'
+import OwnAccount from 'theme/components/theme/blocks/Static/OwnAccount'
+import WorkInTheCompany from 'theme/components/theme/blocks/Static/WorkInTheCompany'
+import Landlords from 'theme/components/theme/blocks/Static/Landlords'
+import Contacts from 'theme/components/theme/blocks/Static/Contacts'
 
 export default {
   components: {
     Breadcrumbs
   },
   metaInfo () {
-    console.log(i18n.t(this.$route.meta.description))
-    debugger
     return {
       title: this.$route.meta.title || this.$props.title,
       meta: this.$route.meta.description ? [{ vmid: 'description', description: i18n.t(this.$route.meta.description) }] : []
@@ -72,6 +83,20 @@ export default {
     return {
       navigation: [
         { title: i18n.t('Delivery'), link: '/delivery', component: Delivery },
+        { title: i18n.t('Payment'), link: '/payment', component: Payment },
+        { title: i18n.t('PaymentAndLoans'), link: '/payments-and-loans', component: PaymentAndLoans },
+        { title: i18n.t('WarrantyExchangeReturn'), link: '/warranty-exchange-return', component: WarrantyExchangeReturn },
+        { title: i18n.t('ServiceCenters'), link: '/service-centers', component: ServiceCenters },
+        { title: i18n.t('UsingAPromoCode'), link: '/using-a-promo-code', component: UsingAPromoCode },
+        { title: i18n.t('PublicOffer'), link: '/public-offer', component: PublicOffer },
+        { title: i18n.t('PromotionalOffers'), link: '/promotional-offers', component: PromotionalOffers },
+        { title: i18n.t('Shops'), link: '/shops', component: Shops },
+        { title: i18n.t('AboutTheCompany'), link: '/about-the-company', component: AboutTheCompany },
+        { title: i18n.t('OwnAccount'), link: '/own-account', component: OwnAccount },
+        { title: i18n.t('WorkInTheCompany'), link: '/work-in-the-company', component: WorkInTheCompany },
+        { title: i18n.t('Landlords'), link: '/landlords', component: Landlords },
+        { title: i18n.t('Contacts'), link: '/contacts', component: Contacts },
+
         { title: i18n.t('About us'), link: getPathForStaticPage('/about-us'), component: StaticExample },
         { title: i18n.t('Customer service'), link: getPathForStaticPage('/customer-service'), component: StaticShortExample },
         { title: i18n.t('Store locator'), link: localizedRoute('/store-locator'), component: StaticExample },

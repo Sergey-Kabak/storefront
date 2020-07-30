@@ -70,32 +70,32 @@
                 </router-link>
               </div>
               <div>
-                <router-link class="cl-secondary" :to="localizedRoute('/')" exact>
+                <router-link class="cl-secondary" :to="localizedRoute('/payments-and-loans')" exact>
                   {{ $t('Payments and loans') }}
                 </router-link>
               </div>
               <div>
-                <router-link class="cl-secondary" :to="localizedRoute('/returns')" exact>
+                <router-link class="cl-secondary" :to="localizedRoute('/warranty-exchange-return')" exact>
                   {{ $t('Warranty, Exchange, Return') }}
                 </router-link>
               </div>
               <div>
-                <router-link class="cl-secondary" :to="localizedRoute('/')" exact>
+                <router-link class="cl-secondary" :to="localizedRoute('/service-centers')" exact>
                   {{ $t('Service centres') }}
                 </router-link>
               </div>
               <div>
-                <router-link class="cl-secondary" :to="localizedRoute('/')" exact>
+                <router-link class="cl-secondary" :to="localizedRoute('/using-a-promo-code')" exact>
                   {{ $t('Use promotional code') }}
                 </router-link>
               </div>
               <div>
-                <router-link class="cl-secondary" :to="localizedRoute('/')" exact>
+                <router-link class="cl-secondary" :to="localizedRoute('/public-offer')" exact>
                   {{ $t('Public offer') }}
                 </router-link>
               </div>
               <div>
-                <router-link class="cl-secondary" :to="localizedRoute('/')" exact>
+                <router-link class="cl-secondary" :to="localizedRoute('/promotional-offers')" exact>
                   {{ $t('Promotions') }}
                 </router-link>
               </div>
@@ -105,27 +105,27 @@
                 {{ $t('About Us') }}
               </h3>
               <div class="mt15">
-                <router-link class="cl-secondary" :to="localizedRoute('/')" exact>
+                <router-link class="cl-secondary" :to="localizedRoute('/shops')" exact>
                   {{ $t('The shops') }}
                 </router-link>
               </div>
               <div>
-                <router-link class="cl-secondary" :to="localizedRoute('/')" exact>
+                <router-link class="cl-secondary" :to="localizedRoute('/about-the-company')" exact>
                   {{ $t('Company') }}
                 </router-link>
               </div>
               <div>
-                <router-link class="cl-secondary" :to="localizedRoute('/')" exact>
+                <router-link class="cl-secondary" :to="localizedRoute('/work-in-the-company')" exact>
                   {{ $t('Vacancies') }}
                 </router-link>
               </div>
               <div>
-                <router-link class="cl-secondary" :to="localizedRoute('/')" exact>
+                <router-link class="cl-secondary" :to="localizedRoute('/own-account')" exact>
                   {{ $t('Own account') }}
                 </router-link>
               </div>
               <div>
-                <router-link class="cl-secondary" :to="localizedRoute('/')" exact>
+                <router-link class="cl-secondary" :to="localizedRoute('/landlords')" exact>
                   {{ $t('To landlords') }}
                 </router-link>
               </div>

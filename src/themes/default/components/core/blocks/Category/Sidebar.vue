@@ -16,7 +16,7 @@
       {{ $t('Clear filters') }}
     </span>
     <h4 class="sidebar__header relative mt25 flex center-md">
-      <img src="assets/custom/Filter.svg" :alt="$t('Filter')">
+      <img src="assets/custom/Filter.svg" alt="">
       <span class="filter-title">
         {{ $t('Filter') }}
       </span>

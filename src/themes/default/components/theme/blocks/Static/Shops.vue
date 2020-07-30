@@ -1,5 +1,7 @@
 <template>
-  <div class="using-a-promo-code">{{ translate('using a promo code text') }}</div>
+  <div>
+    <p>{{ translate('stores text') }}</p>
+  </div>
 </template>
 
 <script>

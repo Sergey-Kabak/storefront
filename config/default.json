@@ -29,7 +29,7 @@
     ],
     "invalidateCacheKey": "aeSu7aip",
     "invalidateCacheForwarding": false,
-    "invalidateCacheForwardUrl": "https://front.ringoo.ua/invalidate?key=aeSu7aip&tag=",
+    "invalidateCacheForwardUrl": "https://vue.ringoo.ua/invalidate?key=aeSu7aip&tag=",
     "dynamicConfigReload": true,
     "dynamicConfigContinueOnError": false,
     "dynamicConfigExclude": [
@@ -105,11 +105,11 @@
     "port": 8080
   },
   "api": {
-    "url": "https://front.ringoo.ua"
+    "url": "https://vue.ringoo.ua"
   },
   "elasticsearch": {
     "httpAuth": "",
-    "host": "https://front.ringoo.ua/api/catalog",
+    "host": "https://vue.ringoo.ua/api/catalog",
     "index": "vue_storefront_catalog",
     "min_score": 0.02,
     "csrTimeout": 5000,
@@ -618,18 +618,7 @@
     "defaultFilters": [
       "color",
       "price",
-      "manufacturer",
-      "dyagonal_ekrana",
-      "obem_vstroennoj_pamyaty",
-      "obem_operatyvnoj_pamyaty",
-      "camerares",
-      "frontalnaya_kamera_mp",
-      "emkost_akkumulyatora_mach",
-      "sim",
-      "slot_dlya_karty_pamyaty",
-      "cores",
-      "material_korpusu",
-      "operatsyonnaya_systema"
+      "manufacturer"
     ],
     "systemFilterNames": [
       "sort"
@@ -637,7 +626,7 @@
     "maxFiltersQuerySize": 999,
     "routerFiltersSource": "query",
     "filterFieldMapping": {
-      "category.name": "category.name.keyword"
+      "category.name": "category.name.text"
     },
     "colorMappings": {
       "Melange graphite": "#eeeeee"
@@ -718,7 +707,7 @@
     "endpoint": "/api/user",
     "history_endpoint": "/api/user/order-history?token={{token}}&pageSize={{pageSize}}&currentPage={{currentPage}}",
     "resetPassword_endpoint": "/api/user/reset-password",
-    "createPassword_endpoint": "https://front.ringoo.ua/api/user/create-password",
+    "createPassword_endpoint": "/api/user/create-password",
     "changePassword_endpoint": "/api/user/change-password?token={{token}}",
     "login_endpoint": "/api/user/login",
     "create_endpoint": "/api/user/create",
@@ -732,7 +721,7 @@
   },
   "images": {
     "useExactUrlsNoProxy": false,
-    "baseUrl": "https://demo.vuestorefront.io/img/",
+    "baseUrl": "https://vue.ringoo.ua/img/",
     "useSpecificImagePaths": false,
     "paths": {
       "product": "/catalog/product"
@@ -771,21 +760,21 @@
     "disablePersistentTaskQueue": true
   },
   "i18n": {
-    "defaultCountry": "US",
-    "defaultLanguage": "EN",
+    "defaultCountry": "UA",
+    "defaultLanguage": "UA",
     "availableLocale": [
-      "en-US"
+      "ua-UA"
     ],
-    "defaultLocale": "en-US",
-    "currencyCode": "USD",
-    "currencySign": "$",
+    "defaultLocale": "ua-UA",
+    "currencyCode": "UAH",
+    "currencySign": "грн",
     "currencyDecimal": "",
     "currencyGroup": "",
     "fractionDigits": 2,
-    "priceFormat": "{sign}{amount}",
+    "priceFormat": "{amount}{sign}",
     "dateFormat": "HH:mm D/M/YYYY",
-    "fullCountryName": "United States",
-    "fullLanguageName": "English",
+    "fullCountryName": "Ukraine",
+    "fullLanguageName": "Ukraine",
     "bundleAllStoreviewLanguages": false
   },
   "expireHeaders": {
@@ -809,7 +798,7 @@
     "id": false
   },
   "googleTagManager": {
-    "id": false,
+    "id": "GTM-5596FL9",
     "debug": true,
     "product_attributes": [
       "name",
@@ -896,35 +885,35 @@
       "url_path": "women.html",
       "title": "Smartphones",
       "description": "Apple, Samsung, Heawei, Xiaomi",
-      "image": "https://www.ixbt.com/img/n1/news/2019/7/0/unnamed%20(1).png"
+      "image": "https://info.ringoo.ua/images/mag/smartphones.png"
     },
     {
       "slug": "men-11",
       "url_path": "men.html",
-      "title": "Computers and laptops",
-      "description": "PCs, computers, accessories, monitors",
-      "image": "https://s1.iconbird.com/ico/0612/HydroPROv2/w512h5121339358929MyComputer.png"
+      "title": "Electronics",
+      "description": "PC, notebooks, tablets",
+      "image": "https://info.ringoo.ua/images/mag/electronics.png"
     },
     {
       "slug": "women-20",
       "url_path": "women.html",
       "title": "Gadgets",
       "description": "Smart watches, Cameras, Fitness bracelets",
-      "image": "https://c7.hotpng.com/preview/622/162/436/xiaomi-mi-a1-amazon-com-smartwatch-android-watches-thumbnail.jpg"
+      "image": "https://info.ringoo.ua/images/mag/gadgets.png"
     },
     {
       "slug": "men-11",
       "url_path": "men.html",
-      "title": "TV and audio",
-      "description": "PCs, computers, accessories, monitors",
-      "image": "https://s1.iconbird.com/ico/0612/HydroPROv2/w512h5121339359186HPTVDock512.png"
+      "title": "Apple",
+      "description": "iPhone Xs, iPhone 11, iPhone SE",
+      "image": "https://info.ringoo.ua/images/mag/apple.png"
     },
     {
       "slug": "women-20",
       "url_path": "women.html",
       "title": "Accessories",
-      "description": "Headphones and headsets, cases, chargers",
-      "image": "https://zhmivsetut.com.ua/wp-content/uploads/2020/04/slider-1.png"
+      "description": "Covers, protective glass, memory cards",
+      "image": " https://info.ringoo.ua/images/mag/accessories.png"
     }
   ],
   "stockGoods": {
@@ -947,7 +936,7 @@
     {
       "parentSku": "MP06",
       "sku": "MP06",
-      "url_path": "mithra-warmup-pant.html",
+      "url_path": "realme-6-pro-8128gb-2079.html?childSku=r662970",
       "type_id": "configurable",
       "slug": "mithra-warmup-pant-808",
       "options": [],

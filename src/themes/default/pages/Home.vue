@@ -1,5 +1,7 @@
 <template>
   <div id="home">
+    <!--<pre>{{getBestsellers}}</pre>-->
+    <!--<pre>{{getEverythingNewCollection}}</pre>-->
     <section class="container px15">
       <no-ssr>
         <home-carousel />
@@ -111,11 +113,11 @@
       </div>
       <div class="row center-xs">
         <lazy-hydrate :trigger-hydration="!loading" v-if="isLazyHydrateEnabled">
-          <!--<product-listing columns="4" :products="getBestsellers" />-->
-          <product-listing columns="4" :products="products" />
+          <product-listing columns="4" :products="getEverythingNewCollection" />
+          <!--<product-listing columns="4" :products="products" />-->
         </lazy-hydrate>
-        <!--<product-listing v-else columns="4" :products="getBestsellers" />-->
-        <product-listing v-else columns="4" :products="products" />
+        <product-listing v-else columns="4" :products="getEverythingNewCollection" />
+        <!--<product-listing v-else columns="4" :products="products" />-->
         <button-full
             class="mt35 show-all"
             type="submit"
@@ -128,7 +130,7 @@
 
     <section class="container px15 pb60">
       <div class="banner">
-        <img src="https://i.imgur.com/iABZzDh.png" alt="banner">
+        <img src="https://info.ringoo.ua/images/mag/main_baner.png" alt="banner">
       </div>
     </section>
 
@@ -276,7 +278,7 @@ export default {
         this.$store.dispatch('claims/set', { claimCode: 'onboardingAccepted', value: true })
       }
     }
-    let inspirationsQuery = prepareQuery({queryConfig: 'all'})
+    let inspirationsQuery = prepareQuery({queryConfig: 'newProducts'})
 
     const res = await this.$store.dispatch('product/list', {
       query: inspirationsQuery,
@@ -315,6 +317,7 @@ export default {
   },
   mounted () {
     if (!this.isLoggedIn && localStorage.getItem('redirect')) this.$bus.$emit('modal-show', 'modal-signup')
+    console.log('sdhflkajksdhdfflaksjdklfjalsd====> ', this.getEverythingNewCollection, this.getBestsellers)
   },
   destroyed () {
     clearAllBodyScrollLocks()
@@ -431,7 +434,7 @@ export default {
             padding: 16px
             height: 230px
           .text
-            width: 220px
+            width: 200px
             overflow: hidden
             @media (max-width: 767px)
               width: 100%
