@@ -38,14 +38,18 @@ import StaticShortExample from 'theme/components/theme/blocks/Static/Short'
 import { getPathForStaticPage } from 'theme/helpers'
 import { localizedRoute } from '@vue-storefront/core/lib/multistore'
 
+import Delivery from 'theme/components/theme/blocks/Static/Delivery'
+
 export default {
   components: {
     Breadcrumbs
   },
   metaInfo () {
+    console.log(i18n.t(this.$route.meta.description))
+    debugger
     return {
       title: this.$route.meta.title || this.$props.title,
-      meta: this.$route.meta.description ? [{ vmid: 'description', description: this.$route.meta.description }] : []
+      meta: this.$route.meta.description ? [{ vmid: 'description', description: i18n.t(this.$route.meta.description) }] : []
     }
   },
   props: {
@@ -67,10 +71,10 @@ export default {
   data () {
     return {
       navigation: [
+        { title: i18n.t('Delivery'), link: '/delivery', component: Delivery },
         { title: i18n.t('About us'), link: getPathForStaticPage('/about-us'), component: StaticExample },
         { title: i18n.t('Customer service'), link: getPathForStaticPage('/customer-service'), component: StaticShortExample },
         { title: i18n.t('Store locator'), link: localizedRoute('/store-locator'), component: StaticExample },
-        { title: i18n.t('Delivery'), link: '/delivery', component: StaticShortExample },
         { title: i18n.t('Return policy'), link: '/returns', component: StaticExample },
         { title: i18n.t('Privacy policy'), link: '/privacy', component: StaticShortExample },
         { title: i18n.t('Size guide'), link: '/size-guide', component: StaticExample },

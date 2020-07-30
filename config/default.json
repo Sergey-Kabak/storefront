@@ -29,7 +29,7 @@
     ],
     "invalidateCacheKey": "aeSu7aip",
     "invalidateCacheForwarding": false,
-    "invalidateCacheForwardUrl": "http://localhost:8080/invalidate?key=aeSu7aip&tag=",
+    "invalidateCacheForwardUrl": "https://front.ringoo.ua/invalidate?key=aeSu7aip&tag=",
     "dynamicConfigReload": true,
     "dynamicConfigContinueOnError": false,
     "dynamicConfigExclude": [
@@ -105,12 +105,11 @@
     "port": 8080
   },
   "api": {
-    "url": "http://localhost:8080",
-    "saveBandwidthOverCache": true
+    "url": "https://front.ringoo.ua"
   },
   "elasticsearch": {
     "httpAuth": "",
-    "host": "/api/catalog",
+    "host": "https://front.ringoo.ua/api/catalog",
     "index": "vue_storefront_catalog",
     "min_score": 0.02,
     "csrTimeout": 5000,
@@ -719,7 +718,7 @@
     "endpoint": "/api/user",
     "history_endpoint": "/api/user/order-history?token={{token}}&pageSize={{pageSize}}&currentPage={{currentPage}}",
     "resetPassword_endpoint": "/api/user/reset-password",
-    "createPassword_endpoint": "http://localhost:8080/api/user/create-password",
+    "createPassword_endpoint": "https://front.ringoo.ua/api/user/create-password",
     "changePassword_endpoint": "/api/user/change-password?token={{token}}",
     "login_endpoint": "/api/user/login",
     "create_endpoint": "/api/user/create",
@@ -890,5 +889,105 @@
     "nginx",
     "varnish",
     "cloudflare"
+  ],
+  "actualCategory": [
+    {
+      "slug": "women-20",
+      "url_path": "women.html",
+      "title": "Smartphones",
+      "description": "Apple, Samsung, Heawei, Xiaomi",
+      "image": "https://www.ixbt.com/img/n1/news/2019/7/0/unnamed%20(1).png"
+    },
+    {
+      "slug": "men-11",
+      "url_path": "men.html",
+      "title": "Computers and laptops",
+      "description": "PCs, computers, accessories, monitors",
+      "image": "https://s1.iconbird.com/ico/0612/HydroPROv2/w512h5121339358929MyComputer.png"
+    },
+    {
+      "slug": "women-20",
+      "url_path": "women.html",
+      "title": "Gadgets",
+      "description": "Smart watches, Cameras, Fitness bracelets",
+      "image": "https://c7.hotpng.com/preview/622/162/436/xiaomi-mi-a1-amazon-com-smartwatch-android-watches-thumbnail.jpg"
+    },
+    {
+      "slug": "men-11",
+      "url_path": "men.html",
+      "title": "TV and audio",
+      "description": "PCs, computers, accessories, monitors",
+      "image": "https://s1.iconbird.com/ico/0612/HydroPROv2/w512h5121339359186HPTVDock512.png"
+    },
+    {
+      "slug": "women-20",
+      "url_path": "women.html",
+      "title": "Accessories",
+      "description": "Headphones and headsets, cases, chargers",
+      "image": "https://zhmivsetut.com.ua/wp-content/uploads/2020/04/slider-1.png"
+    }
+  ],
+  "stockGoods": {
+    "slug": "women-20",
+    "url_path": "women.html"
+  },
+  "salesLeaders": {
+    "slug": "women-20",
+    "url_path": "women.html"
+  },
+  "new": {
+    "slug": "women-20",
+    "url_path": "women.html"
+  },
+  "recommends": {
+    "slug": "women-20",
+    "url_path": "women.html"
+  },
+  "sliderProduct": [
+    {
+      "parentSku": "MP06",
+      "sku": "MP06",
+      "url_path": "mithra-warmup-pant.html",
+      "type_id": "configurable",
+      "slug": "mithra-warmup-pant-808",
+      "options": [],
+      "configurable_children": []
+    },
+    {
+      "parentSku": "MP06",
+      "sku": "MP06",
+      "url_path": "mithra-warmup-pant.html",
+      "type_id": "configurable",
+      "slug": "mithra-warmup-pant-808",
+      "options": [],
+      "configurable_children": []
+    },
+    {
+      "parentSku": "MP06",
+      "sku": "MP06",
+      "url_path": "mithra-warmup-pant.html",
+      "type_id": "configurable",
+      "slug": "mithra-warmup-pant-808",
+      "options": [],
+      "configurable_children": []
+    },
+    {
+      "parentSku": "MP06",
+      "sku": "MP06",
+      "url_path": "mithra-warmup-pant.html",
+      "type_id": "configurable",
+      "slug": "mithra-warmup-pant-808",
+      "options": [],
+      "configurable_children": []
+    },
+    {
+      "parentSku": "MP06",
+      "sku": "MP06",
+      "url_path": "mithra-warmup-pant.html",
+      "type_id": "configurable",
+      "slug": "mithra-warmup-pant-808",
+      "options": [],
+      "configurable_children": []
+    }
   ]
 }
