@@ -1,7 +1,5 @@
 <template>
   <div id="home">
-    <!--<pre>{{getBestsellers}}</pre>-->
-    <!--<pre>{{getEverythingNewCollection}}</pre>-->
     <section class="container px15">
       <no-ssr>
         <home-carousel />
@@ -89,9 +87,9 @@
       </div>
       <div class="row center-xs">
         <lazy-hydrate :trigger-hydration="!loading" v-if="isLazyHydrateEnabled">
-          <product-listing columns="4" :products="products" />
+          <product-listing columns="4" :products="stockGoodsProduct" />
         </lazy-hydrate>
-        <product-listing v-else columns="4" :products="products" />
+        <product-listing v-else columns="4" :products="stockGoodsProduct" />
 
         <button-full
             class="mt35 show-all"
@@ -113,10 +111,10 @@
       </div>
       <div class="row center-xs">
         <lazy-hydrate :trigger-hydration="!loading" v-if="isLazyHydrateEnabled">
-          <product-listing columns="4" :products="getEverythingNewCollection" />
+          <product-listing columns="4" :products="salesLeadersProduct" />
           <!--<product-listing columns="4" :products="products" />-->
         </lazy-hydrate>
-        <product-listing v-else columns="4" :products="getEverythingNewCollection" />
+        <product-listing v-else columns="4" :products="salesLeadersProduct" />
         <!--<product-listing v-else columns="4" :products="products" />-->
         <button-full
             class="mt35 show-all"
@@ -159,9 +157,9 @@
       </div>
       <div class="row center-xs">
         <lazy-hydrate :trigger-hydration="!loading" v-if="isLazyHydrateEnabled">
-          <product-listing columns="4" :products="products" />
+          <product-listing columns="4" :products="newProduct" />
         </lazy-hydrate>
-        <product-listing v-else columns="4" :products="products" />
+        <product-listing v-else columns="4" :products="newProduct" />
 
         <button-full
             class="mt35 show-all"
@@ -184,10 +182,10 @@
       <div class="row center-xs">
         <lazy-hydrate :trigger-hydration="!loading" v-if="isLazyHydrateEnabled">
           <!--<product-listing columns="4" :products="getBestsellers" />-->
-          <product-listing columns="4" :products="products" />
+          <product-listing columns="4" :products="recommendsProduct" />
         </lazy-hydrate>
         <!--<product-listing v-else columns="4" :products="getBestsellers" />-->
-        <product-listing v-else columns="4" :products="products" />
+        <product-listing v-else columns="4" :products="recommendsProduct" />
         <button-full
             class="mt35 show-all"
             type="submit"
@@ -239,7 +237,11 @@ export default {
       currentSlide: 0,
       gallery: [],
       productName: '',
-      products: []
+      products: [],
+      stockGoodsProduct: [],
+      salesLeadersProduct: [],
+      newProduct: [],
+      recommendsProduct: [],
     }
   },
   mixins: [Home, ProductOption],
@@ -278,15 +280,40 @@ export default {
         this.$store.dispatch('claims/set', { claimCode: 'onboardingAccepted', value: true })
       }
     }
-    let inspirationsQuery = prepareQuery({queryConfig: 'newProducts'})
+    let stockGoodsQuery = prepareQuery({queryConfig: 'stockGoods'})
+    let salesLeadersQuery = prepareQuery({queryConfig: 'salesLeaders'})
+    let newQuery = prepareQuery({queryConfig: 'new'})
+    let recommendsQuery = prepareQuery({queryConfig: 'recommends'})
 
-    const res = await this.$store.dispatch('product/list', {
-      query: inspirationsQuery,
-      size: 4,
-      sort: 'created_at:desc'
-    })
-    if (res) {
-      this.products = res.items
+    try {
+      let res = await Promise.all([
+        this.$store.dispatch('product/list', {
+          query: stockGoodsQuery,
+          size: 4,
+          sort: 'created_at:desc'
+        }),
+        this.$store.dispatch('product/list', {
+          query: salesLeadersQuery,
+          size: 4,
+          sort: 'created_at:desc'
+        }),
+        this.$store.dispatch('product/list', {
+          query: newQuery,
+          size: 4,
+          sort: 'created_at:desc'
+        }),
+        this.$store.dispatch('product/list', {
+          query: recommendsQuery,
+          size: 4,
+          sort: 'created_at:desc'
+        })
+      ])
+      this.stockGoodsProduct = res && res[0] && res[0].items
+      this.salesLeadersProduct = res && res[1] && res[1].items
+      this.newProduct = res && res[2] && res[2].items
+      this.recommendsProduct = res && res[3] && res[3].items
+    } catch (e) {
+      console.log(e)
     }
   },
   methods: {
