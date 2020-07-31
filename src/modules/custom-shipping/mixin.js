@@ -1,4 +1,4 @@
-import { shop } from 'src/modules/locations/droppoints2';
+import { shop } from 'src/modules/locations/droppoints';
 import { mapGetters } from 'vuex';
 import NewPost from 'src/modules/nova-poshta/index';
 
