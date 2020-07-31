@@ -650,8 +650,8 @@
     },
     "sortByAttributes": {
       "Latest": "updated_at:desc",
-      "Price: Low to high": "final_price",
-      "Price: High to low": "final_price:desc"
+      "Price: Low to high": "price",
+      "Price: High to low": "price:desc"
     },
     "gallery": {
       "mergeConfigurableChildren": true,
@@ -892,7 +892,7 @@
     "varnish",
     "cloudflare"
   ],
-    "actualCategory": [
+  "actualCategory": [
     {
       "slug": "women-20",
       "url_path": "smartfoni-i-telefoni",
@@ -935,61 +935,36 @@
   },
   "salesLeaders": {
     "slug": "women-20",
-    "url_path": "smartfoni-i-telefoni"
+    "url_path": "aksesuari"
   },
   "new": {
     "slug": "women-20",
-    "url_path": "smartfoni-i-telefoni"
+    "url_path": "gadzheti"
   },
   "recommends": {
     "slug": "women-20",
-    "url_path": "smartfoni-i-telefoni"
+    "url_path": "elektronika"
   },
   "sliderProduct": [
     {
-      "parentSku": "MP06",
-      "sku": "MP06",
-      "url_path": "realme-6-pro-8128gb.html?childSku=r662970",
-      "type_id": "configurable",
-      "slug": "mithra-warmup-pant-808",
-      "options": [],
-      "configurable_children": []
+      "url_path": "smartfon-realme-6-8-128gb.html?childSku=r662970",
+      "type_id": "configurable"
     },
     {
-      "parentSku": "MP06",
-      "sku": "MP06",
-      "url_path": "mithra-warmup-pant.html",
-      "type_id": "configurable",
-      "slug": "mithra-warmup-pant-808",
-      "options": [],
-      "configurable_children": []
+      "url_path": "smartfoni-i-telefoni?manufacturer=115",
+      "type_id": "configurable"
     },
     {
-      "parentSku": "MP06",
-      "sku": "MP06",
-      "url_path": "mithra-warmup-pant.html",
-      "type_id": "configurable",
-      "slug": "mithra-warmup-pant-808",
-      "options": [],
-      "configurable_children": []
+      "url_path": "smartfoni-i-telefoni?manufacturer=142",
+      "type_id": "configurable"
     },
     {
-      "parentSku": "MP06",
-      "sku": "MP06",
-      "url_path": "mithra-warmup-pant.html",
-      "type_id": "configurable",
-      "slug": "mithra-warmup-pant-808",
-      "options": [],
-      "configurable_children": []
+      "url_path": "huawei-p40-lite-e-4-64gb.html?childSku=%D1%8227102",
+      "type_id": "configurable"
     },
     {
-      "parentSku": "MP06",
-      "sku": "MP06",
-      "url_path": "mithra-warmup-pant.html",
-      "type_id": "configurable",
-      "slug": "mithra-warmup-pant-808",
-      "options": [],
-      "configurable_children": []
+      "url_path": "aksesuari/navushniki-ta-garnituri",
+      "type_id": "configurable"
     }
   ]
 }

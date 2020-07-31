@@ -1,23 +1,4 @@
 export const shop = [{
-  'position': { 'lat': 0, 'lng': 0 },
-  'name': 'Default Source',
-  'id': 'default',
-  'country': 'US',
-  'zipcode': '00000',
-  'streetname': '',
-  'streetname2': '',
-  'city_id': 2
-}, {
-  'position': { 'lat': 38.74132, 'lng': -90.363267 },
-  'name': 'Test',
-  'id': 'Test',
-  'country': 'UA',
-  'city': 'St. Louis',
-  'zipcode': '63145',
-  'streetname': '',
-  'streetname2': '',
-  'city_id': 2
-}, {
   'position': { 'lat': 50.52643, 'lng': 30.796418 },
   'name': 'Бровары(Киевская316)',
   'id': 'ГМЦ-00001',

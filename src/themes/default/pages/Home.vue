@@ -459,7 +459,7 @@ export default {
           @media (max-width: 767px)
             flex-direction: column
             padding: 16px
-            height: 230px
+            height: 265px
           .text
             width: 200px
             overflow: hidden

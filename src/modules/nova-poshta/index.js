@@ -8,7 +8,7 @@ export default {
       let cities = await api.address.getAreas();
       let centers = cities.data.map(c => api.address.getCities({ Ref: c.AreasCenter }));
       let response = await Promise.all(centers);
-      this.cities = response.filter(r => r.data.length).map(r => r.data && r.data[0] && r.data[0].DescriptionRu);
+      this.cities = response.filter(r => r.data.length).map(r => r.data && r.data[0] && r.data[0].Description);
     },
     async getListByAddress (city) {
       try {

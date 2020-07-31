@@ -97,7 +97,7 @@ export default {
       type: 'shop',
       loading: false,
       cities: [],
-      city: 'Киев',
+      city: 'Київ',
       showCityPicker: false
     }
   },
