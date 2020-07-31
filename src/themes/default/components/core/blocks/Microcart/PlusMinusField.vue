@@ -14,7 +14,6 @@
         :disabled="disabled"
         :focus="autofocus"
         v-model.number="inputValue"
-        @input="isValid($event)"
         @blur="$emit('blur', $event.target.value)"
       />
     </div>
@@ -57,6 +56,10 @@
       validations: {
         type: Array,
         default: () => []
+      },
+      loading: {
+        type: Boolean,
+        default: false
       }
     },
     computed: {
@@ -74,10 +77,10 @@
         }
       },
       isMinusActive() {
-        return this.value > 1
+        return this.value > 1 && !this.loading
       },
       isPlusActive() {
-        return this.value < this.max
+        return !this.loading
       }
     },
     data() {
@@ -86,14 +89,6 @@
       }
     },
     methods: {
-      isValid() {
-        this.$nextTick(() => {
-          if (this.inputValue > this.max) {
-            this.inputValue = this.max
-            event.preventDefault()
-          }
-        })
-      },
       getNotificationClass(notification) {
         return `alert alert-${notification.type}`
       },

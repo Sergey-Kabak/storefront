@@ -21,11 +21,11 @@
 
     <div class="row middle-xs bg-cl-primary top-sm px40 actions">
       <div class="col-xs-12 col-sm microcart-top">
-        <h2 class="microcart-top-title cl-accent mt35" v-if="productsInCart.length">
+        <h2 class="microcart-top-title cl-accent" v-if="productsInCart.length">
           {{ $t('Your cart') }}
         </h2>
 
-        <h2 class="microcart-top-title cl-accent mt35" v-if="!productsInCart.length">
+        <h2 class="microcart-top-title cl-accent" v-if="!productsInCart.length">
           {{ $t('Your shopping cart is empty.') }}
         </h2>
 
@@ -35,12 +35,16 @@
           <path d="M16.5 21C17.3284 21 18 20.3284 18 19.5C18 18.6716 17.3284 18 16.5 18C15.6716 18 15 18.6716 15 19.5C15 20.3284 15.6716 21 16.5 21Z" fill="#23BE20"/>
         </svg>
 
-        <p v-if="!productsInCart.length">{{ $t('Add your favorite products to the basket!') }}</p>
-
         <span class="microcart-top-total-count" v-if="productsInCart.length">
-          {{ productsInCart.length }}
+          {{ totalProducts }}
         </span>
 
+        <span 
+          v-if="productsInCart.length"
+          @click="clearCart()"
+          class="microcart-top-remove"> 
+          {{ $t('Remove all') }}
+        </span>
         <!--<div class="mt0 end-sm clearcart-col">-->
           <!--<clear-cart-button-->
               <!--v-if="productsInCart.length"-->
@@ -68,13 +72,17 @@
 <!--      </router-link>-->
 <!--      {{ $t('to find something beautiful for You!') }}-->
 <!--    </div>-->
-
-    <div class="microcart-scroll-content" v-if="productsInCart.length">
-      <ul v-if="productsInCart.length" class="bg-cl-primary m0 px40 pb40 products">
+    <div  v-if="!productsInCart.length" class="row middle-xs bg-cl-primary top-sm px40">
+      <div class="col-xs-12 col-sm">
+        <p>{{ $t('Add your favorite products to the basket!') }}</p>
+      </div>
+    </div>
+    <div class="microcart-scroll-content px40" v-if="productsInCart.length">
+      <ul v-if="productsInCart.length" class="bg-cl-primary m0 products">
         <product v-for="product in productsInCart" :key="product.server_item_id || product.id" :product="product" />
       </ul>
       <!--<promo-code />-->
-      <div v-if="OnlineOnly" class="col-xs-12 pt30 px40 coupon-wrapper">
+      <div v-if="OnlineOnly" class="coupon-wrapper">
         <div class="coupon-input">
           <label class="h6 cl-secondary">{{ $t('Enter promotional code') }}</label>
           <base-input type="text" id="couponinput" class="promocode-input" :autofocus="true" v-model.trim="couponCode" @keyup.enter="setCoupon" />
@@ -87,8 +95,8 @@
 
     <!--<microcart-buttom v-if="productsInCart.length" />-->
 
-    <div v-if="productsInCart.length" class="summary px40 cl-accent serif">
-      <h3 class="m0 pt40 mb30 weight-400 summary-heading">
+    <div v-if="productsInCart.length" class="summary cl-accent px40 serif">
+      <!-- <h3 class="m0 pt40 mb30 weight-400 summary-heading">
         {{ $t('Shopping summary') }}
       </h3>
       <div v-for="(segment, index) in totals" :key="index" class="row py20" v-if="segment.code !== 'grand_total'">
@@ -105,7 +113,7 @@
             {{ segment.value | price(storeView) }}
           </div>
         </template>
-      </div>
+      </div> -->
       <!--<div class="row py20">-->
       <!--<div v-if="OnlineOnly && !addCouponPressed" class="col-xs-12">-->
       <!--<button-->
@@ -127,7 +135,7 @@
       <!--</div>-->
       <!--</div>-->
 
-      <div class="row pt30 pb20 weight-700 middle-xs" v-for="(segment, index) in totals" :key="index" v-if="segment.code === 'grand_total'">
+      <div class="row weight-700 middle-xs prices" v-for="(segment, index) in totals" :key="index" v-if="segment.code === 'grand_total'">
         <div class="col-xs h4 total-price-label">
           {{ segment.title }}
         </div>
@@ -138,24 +146,33 @@
     </div>
 
     <div
-      class="row py20 px40 middle-xs actions"
+      class="row px40 middle-xs actions actions-button"
       v-if="productsInCart.length && !isCheckoutMode"
     >
-      <div class="col-xs-12 col-sm-6 first-sm">
+      <!-- <div class="col-xs-12 col-sm-6 first-sm">
         <router-link :to="localizedRoute('/')" class="no-underline cl-secondary link">
           <span @click="closeMicrocartExtend">
             {{ $t('Return to shopping') }}
           </span>
         </router-link>
+      </div> -->
+      <div class="col-xs-12 first-xs col-sm-6 end-sm">
+        <button-outline
+          class="credit-button"
+        >
+          {{ $t('Buy in credit') }}
+        </button-outline>
+        <!-- <instant-checkout v-if="isInstantCheckoutRegistered" class="no-outline button-full block brdr-none w-100 px10 py20 bg-cl-mine-shaft :bg-cl-th-secondary ripple weight-400 h4 cl-white sans-serif fs-medium mt20" /> -->
       </div>
-      <div class="col-xs-12 first-xs col-sm-4 end-sm">
+      <div class="col-xs-12 first-xs col-sm-6 end-sm">
         <button-full
           :link="{ name: 'checkout' }"
           @click.native="closeMicrocartExtend"
+          class="checkout-button"
         >
           {{ $t('Go to checkout') }}
         </button-full>
-        <instant-checkout v-if="isInstantCheckoutRegistered" class="no-outline button-full block brdr-none w-100 px10 py20 bg-cl-mine-shaft :bg-cl-th-secondary ripple weight-400 h4 cl-white sans-serif fs-medium mt20" />
+        <!-- <instant-checkout v-if="isInstantCheckoutRegistered" class="no-outline button-full block brdr-none w-100 px10 py20 bg-cl-mine-shaft :bg-cl-th-secondary ripple weight-400 h4 cl-white sans-serif fs-medium mt20" /> -->
       </div>
     </div>
   </div>
@@ -176,7 +193,7 @@ import BaseInput from 'theme/components/core/blocks/Form/BaseInput'
 import ClearCartButton from 'theme/components/core/blocks/Microcart/ClearCartButton'
 import ButtonFull from 'theme/components/theme/ButtonFull'
 import ButtonOutline from 'theme/components/theme/ButtonOutline'
-import Product from 'theme/components/core/blocks/Microcart/Product'
+import Product from 'theme/components/core/blocks/Checkout/Product'
 import EditMode from './EditMode'
 import { InstantCheckoutModule } from 'src/modules/instant-checkout'
 import PromoCode from "./PromoCode";
@@ -226,7 +243,8 @@ export default {
       productsInCart: 'cart/getCartItems',
       appliedCoupon: 'cart/getCoupon',
       totals: 'cart/getTotals',
-      isOpen: 'cart/getIsMicroCartOpen'
+      isOpen: 'cart/getIsMicroCartOpen',
+      totalProducts: 'cart/getItemsTotalQuantity'
     }),
     storeView () {
       return currentStoreView()
@@ -287,6 +305,8 @@ export default {
 
 <style lang="scss">
   .microcart {
+    display: flex;
+    flex-direction: column;
 
     .promocode-input {
       input {
@@ -298,6 +318,11 @@ export default {
         height: 45px;
       }
     }
+
+    .summary {
+      margin-top: auto;
+    }
+
     .promocode-btn {
       margin-bottom: -6px;
       border: 1px solid #23BE20;
@@ -318,12 +343,45 @@ export default {
         color: #ffffff;
       }
     }
+    .credit-button {
+      width: 100%;
+      box-sizing: border-box;
+      padding: 12px 0;
+      text-align: center;
+      color: #1A1919;
+      font-weight: 500;
+      display: block;
+      font-family: DIN Pro;
+      font-style: normal;
+      color: #1A1919;
+      font-size: 15px;
+      line-height: 16px;
+      background: #FFFFFF;
+      border: 1px solid #23BE20;
+      box-sizing: border-box;
+      border-radius: 4px;
+
+      &:hover {
+        background: #23BE20;
+        border-color: #23BE20;
+        color: #ffffff;
+      }
+    }
+
+    .checkout-button {
+      font-size: 15px; 
+    }
+    .actions-button {
+      padding-bottom: 32px;
+    }
+    .prices {
+      margin-bottom: 24px;
+    }
   }
 </style>
 
 <style lang="scss" scoped>
   @import "~theme/css/animations/transitions";
-
   .microcart {
     /*&-scroll-content {*/
     overflow-y: auto;
@@ -345,7 +403,6 @@ export default {
 
       i {
         opacity: 0.6;
-        background-color: #F9F9F9;
         padding: 13px;
         margin: 0;
       }
@@ -359,19 +416,24 @@ export default {
     }
 
     &-top {
+      display: flex;
+      align-items: center;
+      padding-top: 50px;
+      padding-bottom: 30px;
+
       &-title {
         font-family: DIN Pro;
         font-style: normal;
         font-size: 18px;
         line-height: 18px;
         display: inline-block;
-        margin-bottom: 30px;
+        margin: 0 15px 0 0;
       }
 
       svg {
-        width: 30px;
-        margin-bottom: -9px;
-        height: 30px;
+        margin-right: 10px;
+        width: 24px;
+        height: 24px;
       }
 
       &-total-count {
@@ -388,8 +450,21 @@ export default {
         color: white;
         display: inline-flex;
         justify-content: center;
+        cursor: pointer;
         align-items: center;
         border-radius: 50%;
+      }
+
+      &-remove {
+        margin-left: auto;
+        cursor: pointer;
+        font-family: DIN Pro;
+        font-style: normal;
+        font-size: 13px;
+        line-height: 16px;
+        color: #1A1919;
+        padding-bottom: 4px;
+        border-bottom: 1px dashed #1A1919;;
       }
     }
   }
@@ -408,15 +483,16 @@ export default {
   }
 
   .products {
+    padding-left: 0;
     @media (max-width: 767px) {
       padding: 30px 15px;
     }
   }
 
   .actions {
-    @media (max-width: 767px) {
-      padding: 0 15px;
-    }
+    // @media (max-width: 767px) {
+    //   padding: 0 15px;
+    // }
     .link {
       @media (max-width: 767px) {
         display: flex;
@@ -475,6 +551,7 @@ export default {
   .coupon-wrapper {
     display: flex;
     align-items: center;
+    border-bottom: 1px solid #E0E0E0;
 
     .button-outline {
       text-transform: inherit;

@@ -5,6 +5,7 @@
       :value="value"
       :min="1"
       :max="max"
+      :loading="loading"
       :disabled="disabled"
       @input="$emit('input', $event)"
       @blur="$v.$touch()"
@@ -97,6 +98,9 @@ export default {
 .product-quantity {
   position: relative;
   /deep/ .spinner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     position: absolute;
     top: 0;
     right: 0;

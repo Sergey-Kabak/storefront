@@ -3,7 +3,7 @@
     :is="compontentType"
     :type="!link ? type : false"
     :to="redirectionLink"
-    class="no-outline button-full block brdr-none w-100 px10 py20 bg-cl-main-green :bg-cl-th-forest-green ripple weight-400 h4 cl-white sans-serif fs-medium"
+    class="no-outline button-full block brdr-none w-100 px10 bg-cl-main-green :bg-cl-th-forest-green ripple weight-400 h4 cl-white sans-serif fs-medium"
     :class="{ 'no-underline pointer align-center border-box': link, 'disabled': disabled, 'button-disabled': disabled }"
     data-testid="subscribeSubmit"
     :disabled="disabled"
@@ -55,6 +55,11 @@ export default {
 
 <style lang="scss">
   .button-full {
+    font-family: DIN Pro;
+    font-size: 15px;
+    line-height: 16px;
     min-width: 250px;
+    padding: 12px 0;
+    border-radius: 4px;
   }
 </style>

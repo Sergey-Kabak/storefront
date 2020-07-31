@@ -47,7 +47,8 @@ export default {
 						currency: config.liqpay.currency, 
 						amount: this.totalPrice,
 						description: "description",
-						order_id: this.cartServerToken
+            order_id: this.cartServerToken,
+            result_url: config.liqpay.result_url
           })
         )
       )

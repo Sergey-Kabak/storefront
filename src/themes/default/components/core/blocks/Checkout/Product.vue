@@ -1,7 +1,9 @@
 <template>
   <div class="product">
     <div class="product-remove" @click="removeFromCart()">
-      <img src="assets/custom/Delete.svg" alt="remove" />
+      <svg width="14" height="18" viewBox="0 0 14 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M1 16C1 17.1 1.9 18 3 18H11C12.1 18 13 17.1 13 16V4H1V16ZM3.5 8.9L4.9 7.5L7 9.6L9.1 7.5L10.5 8.9L8.4 11L10.5 13.1L9.1 14.5L7 12.4L4.9 14.5L3.5 13.1L5.6 11L3.5 8.9ZM10.5 1L9.5 0H4.5L3.5 1H0V3H14V1H10.5Z" fill="#BDBDBD"/>
+      </svg>
     </div>
     <div class="product-image">
       <img :src="image.src" alt="product" />
@@ -10,16 +12,35 @@
       <div class="product-info-name">
         {{ product.name }}
       </div>
-      <div class="product-info-price">{{ product.price }} ₴</div>
+      <div class="product-info-price">
+        <span
+            class="mr5 original-price"
+            :class="{'disabled': product.original_special_price}"
+        >
+          {{ product.original_price_incl_tax | price(storeView) }}
+        </span>
+        <span 
+          class="price-special cl-accent weight-700"
+          v-if="product.original_special_price"
+        >
+          {{ product.original_special_price | price(storeView) }}
+        </span>
+        <span 
+          v-if="product.original_price_incl_tax && product.original_special_price"
+          class="lh30 cl-secondary price-sale">
+          -{{ (product.original_price_incl_tax - product.original_special_price) | price(storeView) }}
+        </span>
+      </div>
     </div>
     <div class="product-quantity" v-if="product.type_id !== 'grouped' && product.type_id !== 'bundle'">
       <product-quantity-new
         class="row m0"
-        v-model="product.qty"
-        :max-quantity="product.stock.qty"
+        v-model.number="product.qty"
+        @input="udpateQty($event)"
         :is-simple-or-configurable="isSimpleOrConfigurable"
         :show-quantity="manageQuantity"
         :check-max-quantity="manageQuantity"
+        :loading="isQtyUpdating"
       />
     </div>
     <div class="product-price">
@@ -48,6 +69,7 @@ export default {
     detailsOpen: false,
     quantityError: false,
     isStockInfoLoading: false,
+    isQtyUpdating: false,
     hasAttributesLoaded: false,
     manageQuantity: true
   }),
@@ -71,6 +93,11 @@ export default {
   methods: {
     removeFromCart () {
       this.$store.dispatch('cart/removeItem', { product: this.product })
+    },
+    async udpateQty(qty) {
+      this.isQtyUpdating = true
+      await this.$store.dispatch('cart/updateQuantity', { product: this.product, qty })
+      this.isQtyUpdating = false
     }
   }
 };
@@ -85,11 +112,25 @@ export default {
   margin-bottom: 15px;
 }
 
+.price-sale {
+  font-family: DIN Pro;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 11px;
+  line-height: 16px;
+  text-transform: uppercase;
+  color: #FFFFFF;
+  background: #EE2C39;
+  border-radius: 30px;
+  padding: 1px 7px;
+  margin-left: 10px;
+}
+
 .product-remove {
   margin-right: 10px;
   cursor: pointer;
 
-  img {
+  svg {
     width: 14px;
     height: 18px;
   }
@@ -111,6 +152,7 @@ export default {
 
 .product-info-name {
   font-size: 13px;
+  margin-bottom: 4px;
   line-height: 16px;
 }
 
@@ -130,6 +172,7 @@ export default {
   font-weight: 600;
   margin-left: 8px;
   max-width: 70px;
+  color: #1A1919;
   width: 100%;
   text-align: right;
 }
@@ -142,9 +185,17 @@ img {
   width: 100%;
 }
 
-.price-original {
-  text-decoration: line-through;
+.original-price {
+  &.disabled {
+    text-decoration: line-through;
+    color: #5F5E5E;
+  }
 }
+
+.price-special {
+  color: #1A1919;
+}
+
 .blend {
   flex: 0 0 121px;
 }

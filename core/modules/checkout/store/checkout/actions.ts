@@ -8,11 +8,6 @@ import { StorageManager } from '@vue-storefront/core/lib/storage-manager'
 const actions: ActionTree<CheckoutState, RootState> = {
   async placeOrder ({ dispatch, rootState }, { order }) {
     try {
-      if (rootState.order && rootState.order.last_order_confirmation && rootState.order.last_order_confirmation.order.cart_id) {
-        if (order.addressInformation.payment_method_code !== 'liqpaymagento_liqpay') {
-          order.cart_id = await dispatch('cart/resetCartToken', { guestCart: false }, { root: true })
-        }
-      }
       const result = await dispatch('order/placeOrder', order, { root: true })
       if (!result.resultCode || result.resultCode === 200) {
         await dispatch('updateOrderTimestamp')
