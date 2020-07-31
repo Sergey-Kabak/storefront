@@ -892,17 +892,17 @@
     "varnish",
     "cloudflare"
   ],
-  "actualCategory": [
+    "actualCategory": [
     {
       "slug": "women-20",
-      "url_path": "women.html",
+      "url_path": "smartfoni-i-telefoni",
       "title": "Smartphones",
       "description": "Apple, Samsung, Heawei, Xiaomi",
       "image": "https://info.ringoo.ua/images/mag/smartphones.png"
     },
     {
       "slug": "men-11",
-      "url_path": "men.html",
+      "url_path": "elektronika",
       "title": "Electronics",
       "description": "PC, notebooks, tablets",
       "image": "https://info.ringoo.ua/images/mag/electronics.png"
@@ -910,20 +910,20 @@
     {
       "slug": "women-20",
       "url_path": "women.html",
-      "title": "Gadgets",
+      "title": "gadzheti",
       "description": "Smart watches, Cameras, Fitness bracelets",
       "image": "https://info.ringoo.ua/images/mag/gadgets.png"
     },
     {
       "slug": "men-11",
-      "url_path": "men.html",
+      "url_path": "apple",
       "title": "Apple",
       "description": "iPhone Xs, iPhone 11, iPhone SE",
       "image": "https://info.ringoo.ua/images/mag/apple.png"
     },
     {
       "slug": "women-20",
-      "url_path": "women.html",
+      "url_path": "aksesuari",
       "title": "Accessories",
       "description": "Covers, protective glass, memory cards",
       "image": " https://info.ringoo.ua/images/mag/accessories.png"
@@ -931,25 +931,25 @@
   ],
   "stockGoods": {
     "slug": "women-20",
-    "url_path": "women.html"
+    "url_path": "smartfoni-i-telefoni"
   },
   "salesLeaders": {
     "slug": "women-20",
-    "url_path": "women.html"
+    "url_path": "smartfoni-i-telefoni"
   },
   "new": {
     "slug": "women-20",
-    "url_path": "women.html"
+    "url_path": "smartfoni-i-telefoni"
   },
   "recommends": {
     "slug": "women-20",
-    "url_path": "women.html"
+    "url_path": "smartfoni-i-telefoni"
   },
   "sliderProduct": [
     {
       "parentSku": "MP06",
       "sku": "MP06",
-      "url_path": "realme-6-pro-8128gb-2079.html?childSku=r662970",
+      "url_path": "realme-6-pro-8128gb.html?childSku=r662970",
       "type_id": "configurable",
       "slug": "mithra-warmup-pant-808",
       "options": [],
