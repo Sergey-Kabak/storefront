@@ -337,7 +337,6 @@ export default {
     },
     goToCategory (cat) {
       let link = formatCategoryLink(config && config.catLinks[cat])
-	    debugger
       return this.$router.push(link)
     },
     getCategoryData (category) {
