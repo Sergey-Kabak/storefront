@@ -280,7 +280,7 @@ export default {
         this.$store.dispatch('claims/set', { claimCode: 'onboardingAccepted', value: true })
       }
     }
-    let stockGoodsQuery = prepareQuery({queryConfig: 'stockGoods'})
+    let stockGoodsQuery = prepareQuery({queryConfig: 'all'})
     let salesLeadersQuery = prepareQuery({queryConfig: 'salesLeaders'})
     let newQuery = prepareQuery({queryConfig: 'new'})
     let recommendsQuery = prepareQuery({queryConfig: 'recommends'})
