@@ -34,69 +34,69 @@ export default {
       },
       np_number: '',
       trigger: true
-    }
+    };
   },
   computed: {
     ...mapGetters({
       shipping: 'checkout/getShippingDetails'
     }),
     check () {
-      return !this.isProduct || !this.hideProducts
+      return !this.isProduct || !this.hideProducts;
     },
     isOnline () {
-      return typeof window !== 'undefined'
+      return typeof window !== 'undefined';
     },
     valid () {
-      return !!(this.currierAddress.house && this.currierAddress.address && this.currierAddress.apartmentNumber && this.city)
+      return !!(this.currierAddress.house && this.currierAddress.address && this.currierAddress.apartmentNumber && this.city);
     },
     cDroppoints () {
-      return this.np_number ? this.droppoints.filter(dp => dp.number === this.np_number) : this.droppoints
+      return this.np_number ? this.droppoints.filter(dp => dp.number === this.np_number) : this.droppoints;
     }
   },
   beforeDestroy () {
-    if (this.isOnline) window.removeEventListener('resize', this.handleResize)
+    if (this.isOnline) window.removeEventListener('resize', this.handleResize);
   },
   methods: {
     sendDataToCheckout () {
-      this.$emit('sendDataToCheckout')
+      this.$emit('sendDataToCheckout');
     },
     handleResize (val) {
-      this.mob = !!(val.target.innerWidth < 991)
+      this.mob = !!(val.target.innerWidth < 991);
     },
     onFilterChanged (filter) {
-      console.log(filter)
+      console.log(filter);
     },
     onNavClick (val) {
-      this.showList = val
-      if (this.showList) this.changeCity()
+      this.showList = val;
+      if (this.showList) this.changeCity();
     },
     fetchDps () {
       let dpsList = this[this.type];
       this[this.type].forEach(dp => {
         if (!this.cities.includes(dp.city)) {
-          this.cities.push(dp.city)
+          this.cities.push(dp.city);
         }
-      })
+      });
 
       // this.city = (this.shipping && this.shipping.city) || this.cities[0]
-      this.selected = (this.shipping && (this.shipping.company || (this.shipping.droppoint && this.shipping.droppoint.id))) || ''
-      this.setDroppoints(this[this.type].filter(dp => dp.city === this.city))
+      this.selected = (this.shipping && (this.shipping.company || (this.shipping.droppoint && this.shipping.droppoint.id))) || '';
+      this.setDroppoints(this[this.type].filter(dp => dp.city === this.city));
     },
     // checked
     changeCity (city = this.city) {
       // this.city = city
-      this.setDroppoints([this.type].filter(dp => dp.city === city))
+      this.setDroppoints([this.type].filter(dp => dp.city === city));
     },
     async setDroppoints (droppoints) {
-      this.droppoints = droppoints
-      this.center = await droppoints[0].position
-      this.loading = false
+      this.droppoints = droppoints;
+      this.loading = false;
+      if (this.droppoints && this.droppoints.length) this.center = await droppoints && droppoints[0] && droppoints[0].position;
       // this.stockId = droppoints[0].city_id || 2
       // if (this.items && this.items.length) this.getData()
       // this.loadData = false
     },
     next () {
-      if (!this.valid) return
+      if (!this.valid) return;
       this.$bus.$emit('checked-location', {
         country: 'UA',
         streetname: `${this.currierAddress.address} ${this.currierAddress.house}`,
@@ -107,19 +107,23 @@ export default {
         region_id: 0,
         zipcode: this.currierAddress.zipcode || '69068',
         shopName: 'Доставка на дом'
-      })
+      });
     }
   },
   mounted () {
     if (this.type === 'new_post') {
-      this.loading = true
+      this.loading = true;
       this.getListByAddress(this.city);
     }
-    if (this.type === 'shop') this.fetchDps()
+    if (this.type === 'shop') this.fetchDps();
   },
   watch: {
     city (val, old) {
-      this.getListByAddress(val)
+      if (this.type === 'new_post') {
+        this.loading = true;
+        this.getListByAddress(val);
+      }
+      if (this.type === 'shop') this.fetchDps();
     }
   }
-}
+};

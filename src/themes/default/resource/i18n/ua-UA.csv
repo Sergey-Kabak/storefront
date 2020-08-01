@@ -314,7 +314,7 @@ Electronics,Електроніка
 "We found other products you might like","Ми знайшли інші продукти, які вам можуть сподобатися"
 "Grand Total","Сума"
 "Instant Checkout","Миттєве замовлення"
-"Subtotal","Підточний"
+"Subtotal","Підсумок"
 "Tax","Налог"
 "Shipping & Handling (Flat Rate - Fixed)","Доставка та обробка (фіксований тариф - фіксований)"
 "Proceed to checkout","Перейти к оформлению заказа"
@@ -326,6 +326,7 @@ Electronics,Електроніка
 "Latest","Нещодавні"
 "Price: Low to high","Ціна: від низької до високої"
 "Price: High to low","Ціна: від високої до низької"
+"Nothing to show","магазинів не знайдено"
 
 
 "payment metadesc","Вибирайте зручний спосіб оплати замовлення в інтернет-магазині ringoo: картка Visa або MasterCard, готівкою в точці видачі перевізника або в магазинах нашої мережі, безготівковим переказом на рахунок."
