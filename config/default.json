@@ -860,42 +860,56 @@
     "bestSellers": {
       "filter": [
         {
-          "key": "category.name",
-          "value": { "eq": "Смартфони і телефони" }
+          "key": "category_ids",
+          "value": { "eq": [3] }
         }
       ]
     },
     "stockGoods": {
       "filter": [
         {
-          "key": "category.name",
-          "value": { "eq": "Смартфони і телефони" }
+          "key": "category_ids",
+          "value": { "eq": [3] }
         }
       ]
     },
     "salesLeaders": {
       "filter": [
         {
-          "key": "category.name",
-          "value": { "eq": "Смартфони і телефони" }
+          "key": "category_ids",
+          "value": { "eq": [22] }
         }
       ]
     },
     "new": {
       "filter": [
         {
-          "key": "new",
-          "value": { "eq": 1 }
+          "key": "category_ids",
+          "value": { "eq": [16] }
         }
       ]
     },
     "recommends": {
       "filter": [
         {
-          "key": "category.name",
-          "value": { "eq": "Смартфони і телефони" }
+          "key": "category_ids",
+          "value": { "eq": [21] }
         }
       ]
+    }
+  },
+  "catLinks": {
+    "stockGoods": {
+      "url_path": "smartfoni-i-telefoni"
+    },
+    "salesLeaders": {
+      "url_path": "aksesuari"
+    },
+    "new": {
+      "url_path": "apple"
+    },
+    "recommends": {
+      "url_path": "gadzheti"
     }
   },
   "urlModule": {
