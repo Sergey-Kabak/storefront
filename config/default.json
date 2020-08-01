@@ -896,7 +896,7 @@
           "value": { "eq": "Смартфони і телефони" }
         }
       ]
-    },
+    }
   },
   "urlModule": {
     "enableMapFallbackUrl": false,
