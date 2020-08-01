@@ -372,11 +372,9 @@ export default {
     if (!isServer && !from.name) { // Loading products to cache on SSR render
       next(vm => {
         vm.$store.dispatch('homepage/fetchNewCollection').then(res => {
-          debugger
           vm.loading = false
         })
         vm.$store.dispatch('homepage/loadBestsellers').then(res => {
-          debugger
           vm.loading = false
         })
       })
