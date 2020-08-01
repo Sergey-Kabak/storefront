@@ -885,7 +885,7 @@
       "filter": [
         {
           "key": "category_ids",
-          "value": { "eq": [16] }
+          "value": { "eq": [18] }
         }
       ]
     },
@@ -893,7 +893,7 @@
       "filter": [
         {
           "key": "category_ids",
-          "value": { "eq": [21] }
+          "value": { "eq": [37] }
         }
       ]
     }
