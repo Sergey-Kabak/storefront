@@ -29,7 +29,7 @@
     ],
     "invalidateCacheKey": "aeSu7aip",
     "invalidateCacheForwarding": false,
-    "invalidateCacheForwardUrl": "https://front.ringoo.ua/invalidate?key=aeSu7aip&tag=",
+    "invalidateCacheForwardUrl": "https://vsf.podorozhnyk.com/invalidate?key=aeSu7aip&tag=",
     "dynamicConfigReload": true,
     "dynamicConfigContinueOnError": false,
     "dynamicConfigExclude": [
@@ -105,11 +105,11 @@
     "port": 8080
   },
   "api": {
-    "url": "https://front.ringoo.ua"
+    "url": "https://vsf.podorozhnyk.com"
   },
   "elasticsearch": {
     "httpAuth": "",
-    "host": "https://front.ringoo.ua/api/catalog",
+    "host": "https://vsf.podorozhnyk.com/api/catalog",
     "index": "vue_storefront_catalog",
     "min_score": 0.02,
     "csrTimeout": 5000,
@@ -734,7 +734,7 @@
   },
   "images": {
     "useExactUrlsNoProxy": false,
-    "baseUrl": "https://front.ringoo.ua/img/",
+    "baseUrl": "https://vsf.podorozhnyk.com/img/",
     "useSpecificImagePaths": false,
     "paths": {
       "product": "/catalog/product"
@@ -845,7 +845,7 @@
       "filter": [
         {
           "key": "category.name",
-          "value": { "eq": "Performance Fabrics" }
+          "value": { "eq": "Аксесуари" }
         }
       ]
     },
@@ -861,10 +861,42 @@
       "filter": [
         {
           "key": "category.name",
-          "value": { "eq": "Tees" }
+          "value": { "eq": "Смартфони і телефони" }
         }
       ]
-    }
+    },
+    "stockGoods": {
+      "filter": [
+        {
+          "key": "category.name",
+          "value": { "eq": "Смартфони і телефони" }
+        }
+      ]
+    },
+    "salesLeaders": {
+      "filter": [
+        {
+          "key": "category.name",
+          "value": { "eq": "Смартфони і телефони" }
+        }
+      ]
+    },
+    "new": {
+      "filter": [
+        {
+          "key": "new",
+          "value": { "eq": 1 }
+        }
+      ]
+    },
+    "recommends": {
+      "filter": [
+        {
+          "key": "category.name",
+          "value": { "eq": "Смартфони і телефони" }
+        }
+      ]
+    },
   },
   "urlModule": {
     "enableMapFallbackUrl": false,

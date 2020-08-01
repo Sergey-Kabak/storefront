@@ -312,6 +312,7 @@ export default {
       this.salesLeadersProduct = res && res[1] && res[1].items
       this.newProduct = res && res[2] && res[2].items
       this.recommendsProduct = res && res[3] && res[3].items
+      console.log(res)
     } catch (e) {
       console.log(e)
     }
@@ -369,11 +370,16 @@ export default {
 
   beforeRouteEnter (to, from, next) {
     if (!isServer && !from.name) { // Loading products to cache on SSR render
-      next(vm =>
+      next(vm => {
         vm.$store.dispatch('homepage/fetchNewCollection').then(res => {
+          debugger
           vm.loading = false
         })
-      )
+        vm.$store.dispatch('homepage/loadBestsellers').then(res => {
+          debugger
+          vm.loading = false
+        })
+      })
     } else {
       next()
     }

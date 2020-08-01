@@ -116,5 +116,10 @@ export default {
       this.getListByAddress(this.city);
     }
     if (this.type === 'shop') this.fetchDps()
+  },
+  watch: {
+    city (val, old) {
+      this.getListByAddress(val)
+    }
   }
 }
