@@ -906,10 +906,10 @@
       "url_path": "aksesuari"
     },
     "new": {
-      "url_path": "apple"
+      "url_path": "gadzheti"
     },
     "recommends": {
-      "url_path": "gadzheti"
+      "url_path": "apple"
     }
   },
   "urlModule": {
