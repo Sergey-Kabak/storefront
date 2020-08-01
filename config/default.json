@@ -893,7 +893,7 @@
       "filter": [
         {
           "key": "category_ids",
-          "value": { "eq": [37] }
+          "value": { "eq": [44] }
         }
       ]
     }
