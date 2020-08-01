@@ -119,7 +119,7 @@
         <button-full
             class="mt35 show-all"
             type="submit"
-            @click="goToCategory('salesLeaders')"
+            @click.native="goToCategory('salesLeaders')"
         >
           {{ $t('See all') }}
         </button-full>
@@ -164,7 +164,7 @@
         <button-full
             class="mt35 show-all"
             type="submit"
-            @click="goToCategory('new')"
+            @click.native="goToCategory('new')"
         >
           {{ $t('See all') }}
         </button-full>
@@ -189,7 +189,7 @@
         <button-full
             class="mt35 show-all"
             type="submit"
-            @click="goToCategory('recommends')"
+            @click.native="goToCategory('recommends')"
         >
           {{ $t('See all') }}
         </button-full>
@@ -280,7 +280,7 @@ export default {
         this.$store.dispatch('claims/set', { claimCode: 'onboardingAccepted', value: true })
       }
     }
-    let stockGoodsQuery = prepareQuery({queryConfig: 'all'})
+    let stockGoodsQuery = prepareQuery({queryConfig: 'stockGoods'})
     let salesLeadersQuery = prepareQuery({queryConfig: 'salesLeaders'})
     let newQuery = prepareQuery({queryConfig: 'new'})
     let recommendsQuery = prepareQuery({queryConfig: 'recommends'})
@@ -336,7 +336,8 @@ export default {
       return formatCategoryLink(config && config.actualCategory && config.actualCategory[category])
     },
     goToCategory (cat) {
-      let link = formatCategoryLink(config && config[cat])
+      let link = formatCategoryLink(config && config.catLinks[cat])
+	    debugger
       return this.$router.push(link)
     },
     getCategoryData (category) {
@@ -345,7 +346,6 @@ export default {
   },
   mounted () {
     if (!this.isLoggedIn && localStorage.getItem('redirect')) this.$bus.$emit('modal-show', 'modal-signup')
-    console.log('sdhflkajksdhdfflaksjdklfjalsd====> ', this.getEverythingNewCollection, this.getBestsellers)
   },
   destroyed () {
     clearAllBodyScrollLocks()
