@@ -287,6 +287,7 @@ export default {
 
 <style lang="scss">
   .microcart {
+    overflow: auto;
 
     .promocode-input {
       input {
@@ -312,6 +313,7 @@ export default {
       font-size: 15px;
       line-height: 16px;
       color: #1A1919;
+      padding: 0;
       &:hover {
         background: #23BE20;
         border-color: #23BE20;
@@ -475,6 +477,7 @@ export default {
   .coupon-wrapper {
     display: flex;
     align-items: center;
+    padding: 0 15px;
 
     .button-outline {
       text-transform: inherit;

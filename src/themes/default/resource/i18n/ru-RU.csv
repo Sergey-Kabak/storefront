@@ -80,7 +80,7 @@
 About us,О нас
 Accepts only alphabet characters.,Используйте только буквы алфавита
 Add a discount code,Код купона
-Add discount code,Применить купон
+Add discount code,Применить
 Add to cart,Добавить в корзину
 Add to compare,Добавить для сравнения
 Add to favorite,Добавить в избранное
@@ -326,6 +326,7 @@ Electronics, Электроника
 "Price: Low to high","Цена: от низкой к высокой"
 "Price: High to low","Цена: от высокой к низкой"
 "Nothing to show","магазинов не найдено"
+"Product that you are trying to add is not available.","Продукт, который вы пытаетесь добавить, недоступен."
 
 
 "payment metadesc"," Выбирайте удобный способ оплаты заказа в интернет-магазине ringoo: карта Visa или MasterCard, наличными в точке выдачи перевозчика или в магазинах нашей сети, безналичным переводом на счет."
