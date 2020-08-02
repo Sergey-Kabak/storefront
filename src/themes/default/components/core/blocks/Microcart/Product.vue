@@ -329,6 +329,9 @@
 
   .product-info {
     max-width: 300px;
+    @media (max-width: 767px) {
+      max-width: 140px;
+    }
   }
 
   .details {
