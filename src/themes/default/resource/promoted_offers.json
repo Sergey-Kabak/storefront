@@ -23,10 +23,10 @@
   ],
   "productBanners": [
     {
-      "title": "Spring is coming",
-      "subtitle": "Hats",
-      "image": "/assets/ban3.jpg",
-      "link": "/gear/gear-3"
+      "title": "",
+      "subtitle": "",
+      "image": "https://info.ringoo.ua/images/mag/main_baner.png",
+      "link": "/"
     }
   ]
 }
