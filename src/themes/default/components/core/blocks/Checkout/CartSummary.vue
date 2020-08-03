@@ -9,7 +9,7 @@
       :key="product.server_item_id || product.id"
       :product="product"
     />
-    <promo-code />
+    <promo-code isToggled />
     <div class="summary-price">
       <span>Всего:</span>
       {{ totalPrice }} ₴
@@ -21,8 +21,8 @@
 import { CartSummary } from '@vue-storefront/core/modules/checkout/components/CartSummary'
 import { currentStoreView } from '@vue-storefront/core/lib/multistore'
 import Product from 'theme/components/core/blocks/Checkout/Product'
-import PromoCode from 'theme/components/core/blocks/Checkout/PromoCode'
 import { mapGetters } from 'vuex'
+import PromoCode from 'theme/components/core/blocks/Microcart/PromoCode'
 
 export default {
   mixins: [CartSummary],
@@ -46,7 +46,6 @@ export default {
 .summary-price {
   display: flex;
   justify-content: space-between;
-  padding: 30px 0;
   font-family: DIN Pro;
   font-style: normal;
   font-weight: 600;

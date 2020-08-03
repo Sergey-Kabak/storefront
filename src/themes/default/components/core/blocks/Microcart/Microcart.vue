@@ -81,8 +81,8 @@
       <ul v-if="productsInCart.length" class="bg-cl-primary m0 products">
         <product v-for="product in productsInCart" :key="product.server_item_id || product.id" :product="product" />
       </ul>
-      <!--<promo-code />-->
-      <div v-if="OnlineOnly" class="coupon-wrapper">
+      <promo-code v-if="OnlineOnly" />
+      <!-- <div >
         <div class="coupon-input">
           <label class="h6 cl-secondary">{{ $t('Enter promotional code') }}</label>
           <base-input type="text" id="couponinput" class="promocode-input" :autofocus="true" v-model.trim="couponCode" @keyup.enter="setCoupon" />
@@ -90,7 +90,7 @@
         <button-outline color="dark" class="promocode-btn" :disabled="!couponCode" @click.native="setCoupon">
           {{ $t('Add discount code') }}
         </button-outline>
-      </div>
+      </div> -->
     </div>
 
     <!--<microcart-buttom v-if="productsInCart.length" />-->

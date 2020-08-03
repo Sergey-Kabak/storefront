@@ -56,8 +56,11 @@ const actions: ActionTree<OrderState, RootState> = {
 
     if (task.resultCode === 200) {
       dispatch('enqueueOrder', { newOrder: order })
-
+      if (order.addressInformation.payment_method_code === 'liqpaymagento_liqpay') {
+        EventBus.$emit('liqpay')
+      }
       commit(types.ORDER_LAST_ORDER_WITH_CONFIRMATION, { order, confirmation: task.result })
+      localStorage.setItem('shop/order', JSON.stringify({...order, ...task.result}))
       orderHooksExecutors.afterPlaceOrder({ order, task })
       if (order.addressInformation.payment_method_code !== 'liqpaymagento_liqpay') {
         EventBus.$emit('order-after-placed', { order, confirmation: task.result })

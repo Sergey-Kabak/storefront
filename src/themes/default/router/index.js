@@ -8,7 +8,7 @@ const Checkout = () => import(/* webpackChunkName: "vsf-checkout" */ 'theme/page
 const Compare = () => import(/* webpackChunkName: "vsf-compare" */ 'theme/pages/Compare.vue')
 const MyAccount = () => import(/* webpackChunkName: "vsf-my-account" */ 'theme/pages/MyAccount.vue')
 const Static = () => import(/* webpackChunkName: "vsf-static" */ 'theme/pages/Static.vue')
-// const ThankYouPage = () => import(/* webpackChunkName: "vsf-static" */ 'src/themes/default/components/core/blocks/Checkout/ThankYouPage.vue')
+const ThankYouPage = () => import(/* webpackChunkName: "vsf-static" */ 'theme/pages/ThankYouPage.vue')
 
 let routes = [
   { name: 'home', path: '/', component: Home, alias: '/pwa.html' },
@@ -45,6 +45,7 @@ let routes = [
   { name: 'product', path: '/p/:parentSku/:slug/:childSku', component: Product }, // :sku param can be marked as optional with ":sku?" (https://github.com/vuejs/vue-router/blob/dev/examples/route-matching/app.js#L16), but it requires a lot of work to adjust the rest of the site
   { name: 'category', path: '/c/:slug', component: Category },
   { name: 'cms-page', path: '/i/:slug', component: CmsPage },
+  { name: 'thank-you', path: '/thank-you', component: ThankYouPage },
   { name: 'page-not-found', path: '*', component: PageNotFound }
 ]
 

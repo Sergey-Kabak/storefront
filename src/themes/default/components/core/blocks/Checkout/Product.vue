@@ -54,9 +54,8 @@ import ProductQuantityNew from 'theme/components/core/ProductQuantityNew.vue'
 import { onlineHelper } from '@vue-storefront/core/helpers'
 import ProductImage from 'theme/components/core/ProductImage'
 import { currentStoreView } from '@vue-storefront/core/lib/multistore'
-import { mapState } from 'vuex'
 import { Product } from '@vue-storefront/core/modules/checkout/components/Product'
-
+import i18n from '@vue-storefront/i18n'
 
 export default {
   mixins: [Product],
@@ -92,7 +91,17 @@ export default {
   },
   methods: {
     removeFromCart () {
-      this.$store.dispatch('cart/removeItem', { product: this.product })
+      this.$store.dispatch('notification/spawnNotification', {
+        type: 'warning',
+        message: i18n.t('Are you sure you would like to remove item from the shopping cart?'),
+        action1: { label: i18n.t('Cancel'), action: 'close' },
+        action2: { label: i18n.t('OK'),
+          action: async () => {
+            this.$store.dispatch('cart/removeItem', { product: this.product })
+          }
+        },
+        hasNoTimeout: true
+      })
     },
     async udpateQty(qty) {
       this.isQtyUpdating = true

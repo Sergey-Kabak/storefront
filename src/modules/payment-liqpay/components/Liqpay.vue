@@ -1,10 +1,10 @@
 <template>
   <form
     method="POST"
-    action="https://www.liqpay.ua/api/3/checkout"
     accept-charset="utf-8"
     target="_blank"
     ref="form"
+    action="https://www.liqpay.ua/api/3/checkout"
   >
     <input
       type="hidden"
@@ -16,23 +16,25 @@
       name="signature"
       :value="signature"
     />
-    <button @click="onCreateOrder()">{{ $t('To pay') }}</button>
+    <button @click="onCreateOrder($event)">{{ $t('To pay') }}</button>
   </form>
 </template>
 
 <script>
 
-import Base64 from 'crypto-js/enc-base64';
+import Base64 from 'crypto-js/enc-base64'
 import Utf8 from 'crypto-js/enc-utf8'
 import sha1 from 'crypto-js/sha1'
 import config from 'config'
 import { mapState } from 'vuex';
-
 export default {
+  beforeMount: function() {
+    this.$bus.$on('liqpay', this.submit)
+  },
 	computed: {
     ...mapState({
       cartItems: (state) => state.cart.cartItems,
-      cartServerToken: (state) => state.cart.cartServerToken
+      orderId: (state) => state.order.last_order_confirmation && state.order.last_order_confirmation.confirmation && state.order.last_order_confirmation.confirmation.orderNumber
     }),
 		totalPrice () {
       return this.cartItems.reduce((acc, it) => acc + it.price * it.qty, 0)
@@ -47,7 +49,7 @@ export default {
 						currency: config.liqpay.currency, 
 						amount: this.totalPrice,
 						description: "description",
-            order_id: this.cartServerToken,
+            order_id: this.orderId,
             result_url: config.liqpay.result_url
           })
         )
@@ -58,9 +60,16 @@ export default {
     }
   },
   methods: {
-    onCreateOrder () {
+    onCreateOrder (event) {
+      event.preventDefault()
       this.$bus.$emit('checkout-before-placeOrder')
+    },
+    submit() {
+      this.$refs.form.submit()
     }
+  },
+  beforeDestroy (){
+    this.$bus.$off('liqpay', this.submit)
   }
 };
 </script>
