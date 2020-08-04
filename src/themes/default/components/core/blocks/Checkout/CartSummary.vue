@@ -17,7 +17,7 @@
 
         <div class="row pt20 pb20 pl30 pr55 weight-400 h3" v-for="(segment, index) in totals" :key="index" v-if="segment.code === 'grand_total'">
           <div class="col-xs">
-            {{ segment.title }}
+            {{ $t(segment.title) }}
           </div>
           <div class="col-xs align-right">
             {{ segment.value | price(storeView) }}
