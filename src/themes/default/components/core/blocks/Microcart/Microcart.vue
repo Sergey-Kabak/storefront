@@ -1,7 +1,6 @@
 <template>
   <div
     class="microcart cl-accent relative"
-    :class="[productsInCart.length ? 'bg-cl-secondary' : 'bg-cl-primary']"
     data-testid="microcart"
   >
     <div class="scroll-bar">

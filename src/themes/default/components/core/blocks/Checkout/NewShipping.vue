@@ -24,6 +24,7 @@
                 :selected="city"
                 :error="error"
                 @onCityChange="changeCity"
+                @onSearch="onSearch"
             />
           </div>
         </div>
@@ -77,6 +78,7 @@ import {Shipping} from '@vue-storefront/core/modules/checkout/components/Shippin
 import CustomShipping from 'src/modules/custom-shipping/custom-shipping'
 import CitySelect from 'src/modules/custom-shipping/components/city-select'
 import NewPost from 'src/modules/nova-poshta/index';
+import {debounce} from 'debounce';
 
 export default {
   components: {
@@ -88,6 +90,7 @@ export default {
     this.$bus.$on('checked-location', this.sendDataToCheckout)
     // this.cities = new_post.map(dp => dp.city).filter((value, index, self) => self.indexOf(value) === index)
     this.getCityList()
+    this.onSearch = debounce(this.onSearch, 1000)
   },
   beforeDestroy () {
     this.$bus.$off('checked-location', this.sendDataToCheckout)
@@ -130,6 +133,12 @@ export default {
       this.showCityPicker = false;
       this.city = city
     },
+    deb: debounce((self, data) => {
+      self.searchByString(data)
+    }, 300),
+    onSearch (data) {
+      this.deb(this, data)
+    }
   },
   validations: {
     shipping: {

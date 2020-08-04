@@ -2,17 +2,22 @@
   <div class="col-sm-12 mb10 city-select">
     <div class="row">
       <div class="col-sm-12">
-        <v-select class="vue-select"
-                  :searchable="true"
-                  name="cities"
-                  :options="options"
-                  :value="selected"
-                  @input="changeCity"
+        <v-select
+            class="vue-select"
+            :searchable="true"
+            name="cities"
+            :options="options"
+            :value="selected"
+            @search="fetchOptions"
+            @input="changeCity"
         >
           <template slot="option" slot-scope="option">
-            <span :class="{'id': option.id}">
+            <span :key="option.toString()" :class="{'id': option.id}">
               {{ option.value }}
             </span>
+          </template>
+          <template slot="no-options">
+            {{ $t('no cities') }}
           </template>
         </v-select>
       </div>
@@ -54,6 +59,10 @@ export default {
   methods: {
     changeCity (val) {
       this.$emit('onCityChange', val.value)
+    },
+    fetchOptions (search, loading) {
+      loading(true);
+      this.$emit('onSearch', {loading, search});
     }
   },
   computed: {
