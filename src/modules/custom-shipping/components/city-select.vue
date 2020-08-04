@@ -12,9 +12,12 @@
             @input="changeCity"
         >
           <template slot="option" slot-scope="option">
-            <span :key="option.toString()" :class="{'id': option.id}">
-              {{ option.value }}
-            </span>
+            <span
+                class="custom-option"
+                :key="option.toString()"
+                :class="{'id': option.id}"
+                v-html="highlight(search, option.value)"
+            ></span>
           </template>
           <template slot="no-options">
             {{ $t('no cities') }}
@@ -54,14 +57,21 @@ export default {
   data () {
     return {
       city: this.selected || '',
+      search: ''
     }
   },
   methods: {
     changeCity (val) {
       this.$emit('onCityChange', val.value)
     },
+    highlight (search, text) {
+      let highlight = text.substring(0, search.length);
+      let last = text.substring(search.length);
+      return `<span class='highlight'>${highlight}</span>${last}`;
+    },
     fetchOptions (search, loading) {
       loading(true);
+      this.search = search;
       this.$emit('onSearch', {loading, search});
     }
   },
@@ -114,6 +124,10 @@ export default {
         background: #ffffff;
         margin: 5px 10px;
         border: 1px solid #bdbdbd;
+        font-family: DIN Pro;
+        font-style: normal;
+        font-size: 14px;
+        line-height: 16px;
       }
       .vs__dropdown-toggle {
         padding: 0;
@@ -128,6 +142,63 @@ export default {
             font-weight: bold;
           }
         }
+      }
+    }
+  }
+  .vs__dropdown-toggle {
+    background: #FFFFFF;
+    border: 1px solid #23BE20;
+    box-sizing: border-box;
+    border-radius: 4px;
+    padding: 0;
+  }
+  .city-select {
+    padding: 0;
+    .vs__dropdown-option {
+      &:hover, &.vs__dropdown-option--selected, &.vs__dropdown-option--highlight {
+        background: #F9F9F9;
+        .custom-option {
+          color: #000;
+        }
+      }
+    }
+    .vs--open .vs__search {
+      height: 40px;
+      background: #ffffff;
+      margin: 0;
+      border: none;
+    }
+    .vs__search {
+      margin-top: 0;
+    }
+    .vs__selected {
+      margin: 0;
+      padding: 0;
+      font-family: DIN Pro;
+      font-style: normal;
+      font-weight: 0;
+      font-size: 13px;
+      line-height: 16px;
+      color: #1A1919;
+    }
+    .vs__selected-options {
+      padding: 0 16px;
+    }
+    .vs__dropdown-menu {
+      background: #fff !important;
+      border: 1px solid #E0E0E0;
+      box-sizing: border-box;
+      border-radius: 4px;
+      padding: 8px 0;
+    }
+    .custom-option {
+      font-family: DIN Pro;
+      font-style: normal;
+      font-weight: 0;
+      font-size: 14px;
+      line-height: 16px;
+      .highlight {
+        color: #23BE20;
       }
     }
   }
