@@ -250,17 +250,24 @@ export default {
     }
   },
   computed: {
-    ...mapGetters('category', ['getCategories']),
+    // ...mapGetters('category', ['getCategories']),
+    ...mapGetters('category-next', ['getMenuCategories']),
     ...mapGetters({
       isLogged: 'user/isLoggedIn'
     }),
     multistoreEnabled () {
       return config.storeViews.multistore
     },
-    getVersionInfo () {
-      return `v${process.env.__APPVERSION__} ${process.env.__BUILDTIME__}`
+    // getVersionInfo () {
+    //   return `v${process.env.__APPVERSION__} ${process.env.__BUILDTIME__}`
+    // },
+    getCategories () {
+      return this.getMenuCategories
     },
     visibleCategories () {
+      console.log('HERE CAT');
+      console.log(this.getMenuCategories);
+      console.log('END HERE CAT');
       return this.categories.filter(category => {
         return category.product_count > 0 || category.children_count > 0
       })
