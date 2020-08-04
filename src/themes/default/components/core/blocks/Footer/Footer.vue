@@ -15,7 +15,7 @@
               <div class="row social mt20">
                 <a
                     class="social-icon mx10 brdr-circle no-underline"
-                    href="https://www.facebook.com/"
+                    href="https://www.facebook.com/ringoo.ua"
                     :aria-label="$t('Go to Facebook')"
                 >
                   <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -27,7 +27,7 @@
                 </a>
                 <a
                     class="social-icon mx10 brdr-circle no-underline"
-                    href="https://www.instagram.com"
+                    href="https://www.instagram.com/ringoo.ua/"
                     :aria-label="$t('Go to Instagram')"
                 >
                   <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -38,7 +38,7 @@
                 </a>
                 <a
                     class="social-icon mx10 brdr-circle no-underline"
-                    href="https://www.youtube.com"
+                    href="https://www.youtube.com/user/ringooua"
                     :aria-label="$t('Go to Youtube')"
                 >
                   <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
