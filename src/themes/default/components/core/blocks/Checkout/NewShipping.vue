@@ -22,7 +22,6 @@
                 class="city-select__wrapper"
                 :options="citiesOptions"
                 :selected="city"
-                :error="error"
                 @onCityChange="changeCity"
                 @onSearch="onSearch"
             />
