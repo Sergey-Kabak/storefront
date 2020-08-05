@@ -993,11 +993,15 @@
   },
   "sliderProduct": [
     {
-      "url_path": "smartfon-realme-6-8-128gb.html?childSku=r662970",
+      "url_path": "smartfoni-i-telefoni?manufacturer=115",
       "type_id": "configurable"
     },
     {
       "url_path": "smartfoni-i-telefoni?manufacturer=115",
+       "type_id": "configurable"
+    },
+    {
+      "url_path": "gadzheti/fitnes-brasleti?manufacturer=142",
       "type_id": "configurable"
     },
     {
@@ -1005,11 +1009,19 @@
       "type_id": "configurable"
     },
     {
-      "url_path": "huawei-p40-lite-e-4-64gb.html?childSku=%D1%8227102",
+      "url_path": "aksesuari/navushniki-ta-garnituri",
       "type_id": "configurable"
     },
     {
-      "url_path": "aksesuari/navushniki-ta-garnituri",
+      "url_path": "smartfoni-i-telefoni?manufacturer=142",
+      "type_id": "configurable"
+    },
+    {
+      "url_path": "gadzheti/fitnes-brasleti?manufacturer=142",
+      "type_id": "configurable"
+    },
+    {
+      "url_path": "xiaomi-redmi-note-8t-4-64gb.html?childSku=т26939",
       "type_id": "configurable"
     }
   ]

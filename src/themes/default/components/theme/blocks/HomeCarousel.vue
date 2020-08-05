@@ -15,7 +15,7 @@
             :to="productLink(0)"
             data-testid="productLink"
         >
-          <img src="https://info.ringoo.ua/images/mag/2.jpg" alt="1">
+          <img src="https://info.ringoo.ua/images/mag/6.jpg" alt="1">
         </router-link>
       </slide>
       <slide>
@@ -31,7 +31,7 @@
             :to="productLink(2)"
             data-testid="productLink"
         >
-          <img src="https://info.ringoo.ua/images/mag/4.jpg" alt="3">
+          <img src="https://info.ringoo.ua/images/mag/7.jpg" alt="3">
         </router-link>
       </slide>
       <slide>
@@ -39,7 +39,7 @@
             :to="productLink(3)"
             data-testid="productLink"
         >
-          <img src="https://info.ringoo.ua/images/mag/1.jpg" alt="4">
+          <img src="https://info.ringoo.ua/images/mag/8.jpg" alt="4">
         </router-link>
       </slide>
       <slide>
@@ -47,7 +47,31 @@
             :to="productLink(4)"
             data-testid="productLink"
         >
-          <img src="https://info.ringoo.ua/images/mag/3.jpg" alt="5">
+          <img src="https://info.ringoo.ua/images/mag/9.jpg" alt="5">
+        </router-link>
+      </slide>
+      <slide>
+        <router-link
+            :to="productLink(5)"
+            data-testid="productLink"
+        >
+          <img src="https://info.ringoo.ua/images/mag/10.jpg" alt="6">
+        </router-link>
+      </slide>
+            <slide>
+        <router-link
+            :to="productLink(6)"
+            data-testid="productLink"
+        >
+          <img src="https://info.ringoo.ua/images/mag/11.jpg" alt="7">
+        </router-link>
+      </slide>
+      <slide>
+        <router-link
+            :to="productLink(7)"
+            data-testid="productLink"
+        >
+          <img src="https://info.ringoo.ua/images/mag/1.jpg" alt="8">
         </router-link>
       </slide>
     </carousel>
