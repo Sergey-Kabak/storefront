@@ -33,7 +33,7 @@
           </div>
           <div class="col-xs-12 col-md-5 data">
             <div class="product-in-stock hidden-xs block">
-              {{(getCurrentProduct.stock && getCurrentProduct.stock.is_in_stock) ? 'В наличии' : 'Нет в наличии'}}
+              {{(getCurrentProduct.stock && getCurrentProduct.stock.is_in_stock) ? $t('In stock') : $t('Not available')}}
             </div>
             <h1
               class="mb20 mt0 cl-mine-shaft product-name hidden-xs block"
