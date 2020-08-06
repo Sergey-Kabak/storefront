@@ -92,6 +92,7 @@ export default {
       this.deb(this, data)
     },
     onSubmit () {
+      this.close()
       this.$bus.$emit('change-city', this.city)
     }
   }
