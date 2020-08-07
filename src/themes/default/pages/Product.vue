@@ -32,7 +32,10 @@
             />
           </div>
           <div class="col-xs-12 col-md-5 data">
-            <div class="product-in-stock hidden-xs block">
+            <div
+              class="product-in-stock hidden-xs block"
+              :class="{ 'not-available': !(getCurrentProduct.stock && getCurrentProduct.stock.is_in_stock) }"
+            >
               {{(getCurrentProduct.stock && getCurrentProduct.stock.is_in_stock) ? $t('In stock') : $t('Not available')}}
             </div>
             <h1
@@ -501,6 +504,10 @@ $color-tertiary: color(tertiary);
 $color-secondary: color(secondary);
 $color-white: color(white);
 $bg-secondary: color(secondary, $colors-background);
+
+.not-available {
+  color: #ee2c39 !important;
+}
 
 .product {
   &__add-to-compare {
