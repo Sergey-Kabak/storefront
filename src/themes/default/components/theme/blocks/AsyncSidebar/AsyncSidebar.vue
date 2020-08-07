@@ -98,8 +98,7 @@ export default {
   right: 0;
   z-index: 4;
   height: 100%;
-  /*width: 100%;*/
-  width: auto;
+  width: 100%;
   max-width: 600px;
   min-width: 320px;
   overflow-y: auto;
