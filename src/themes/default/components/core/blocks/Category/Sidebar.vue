@@ -1,60 +1,72 @@
 <template>
   <div class="sidebar">
-    <h4 class="sidebar__header relative mt25 mb20 flex center-md">
+    <div class="active-filters" v-if="hasActiveFilters">
+      <active-filter
+        v-for="(activeFilter, index) in getActiveFilters"
+        :filter="activeFilter"
+        :key="index"
+        @remove="$emit('changeFilter', $event)"
+      />
+    </div>
+    <span
+      class="clear-filters"
+      @click="resetAllFilters"
+      v-show="hasActiveFilters"
+    >
+      {{ $t('Clear filters') }}
+    </span>
+    <h4 class="sidebar__header relative mt25 flex center-md">
+      <svg width="18" height="12" viewBox="0 0 18 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M7 12H11V10H7V12ZM0 0V2H18V0H0ZM3 7H15V5H3V7Z" fill="#23BE20"/>
+      </svg>
       <span class="filter-title">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M10 18H14V16H10V18ZM3 6V8H21V6H3ZM6 13H18V11H6V13Z" fill="#23BE20"/>
-        </svg>
-
         {{ $t('Filter') }}
-      </span>
-      <span
-        class="weight-400 sidebar__header__clear pointer sans-serif flex lh25"
-        @click="resetAllFilters"
-        v-show="hasActiveFilters"
-      >
-        <i class="material-icons cl-accent mr5">
-          cancel
-        </i>
-        {{ $t('Clear filters') }}
       </span>
     </h4>
     <div
       v-for="(filter, filterIndex) in availableFilters"
       :key="filterIndex"
+      class="filter"
     >
-      <h5>
-        {{ $t(filterIndex + '_filter') }}
-      </h5>
-
-      <div v-if="filterIndex==='color'">
+      <category-filter :label="filterIndex + '_filter'" v-if="isCheckboxFilter(filterIndex)">
+        <checkbox-selector
+          context="category"
+          :code="filterIndex"
+          v-for="(item, index) in sortById(filter)"
+          :key="index"
+          :variant="item"
+          :selected-filters="getCurrentFilters"
+          @change="$emit('changeFilter', $event)"
+        />
+      </category-filter>
+      <category-filter :label="filterIndex + '_filter'" v-else-if="filterIndex === 'color'">
         <color-selector
           context="category"
-          code="color"
+          :code="filterIndex"
           v-for="(color, index) in filter"
           :key="index"
           :variant="color"
           :selected-filters="getCurrentFilters"
           @change="$emit('changeFilter', $event)"
         />
-      </div>
-      <div v-else-if="filterIndex==='size'">
-        <size-selector
+      </category-filter>
+      <category-filter :label="filterIndex + '_filter'" v-else-if="isButtonFilter(filterIndex)">
+        <button-selector
           context="category"
-          code="size"
+          :code="filterIndex"
           class="size-select mr10 mb10"
-          v-for="(size, index) in sortById(filter)"
+          v-for="(item, index) in sortById(filter)"
           :key="index"
-          :variant="size"
+          :variant="item"
           :selected-filters="getCurrentFilters"
           @change="$emit('changeFilter', $event)"
         />
-      </div>
-      <div v-else-if="filterIndex==='price'">
+      </category-filter>
+      <category-filter :label="filterIndex + '_filter'" v-else-if="filterIndex==='price'">
         <price-selector
           context="category"
           class="price-select mb10 block"
-          code="price"
+          :code="filterIndex"
           v-for="(price, index) in filter"
           :key="index"
           :id="price.id"
@@ -65,50 +77,28 @@
           :selected-filters="getCurrentFilters"
           @change="$emit('changeFilter', $event)"
         />
-      </div>
-      <div v-else class="sidebar__inline-selecors">
-        <generic-selector
-          context="category"
-          class="mr10 mb10 block"
-          :code="filterIndex"
-          v-for="(option, index) in filter"
-          :key="index"
-          :variant="option"
-          :selected-filters="getCurrentFilters"
-          @change="$emit('changeFilter', $event)"
-        />
-      </div>
+      </category-filter>
     </div>
-    <!-- add the custom controls to other available filters set in config.products.defaultFilters; must be numeric field in ES
-    <div v-if="filters.erin_recommends && filters.erin_recommends.length">
-      <h5>
-        {{ $t('Erin recommends') }}
-      </h5>
-      <div
-        class="size-select mr10 mb10"
-        v-for="(er, index) in filters.erin_recommends"
-        :key="index"
-        :id="er.id"
-        :label="er.label"
-      >{{ er.label }}</div>
-    </div>
-    -->
   </div>
 </template>
 
 <script>
 import ColorSelector from 'theme/components/core/ColorSelector'
-import SizeSelector from 'theme/components/core/SizeSelector'
 import PriceSelector from 'theme/components/core/PriceSelector'
-import GenericSelector from 'theme/components/core/GenericSelector'
+import ButtonSelector from 'theme/components/core/ButtonSelector'
+import CheckboxSelector from 'theme/components/core/CheckboxSelector'
+import CategoryFilter from 'theme/components/core/blocks/Category/CategoryFilter'
+import ActiveFilter from 'theme/components/core/blocks/Category/ActiveFilter'
 import pickBy from 'lodash-es/pickBy'
 
 export default {
   components: {
     ColorSelector,
-    SizeSelector,
     PriceSelector,
-    GenericSelector
+    CategoryFilter,
+    ButtonSelector,
+    CheckboxSelector,
+    ActiveFilter
   },
   props: {
     filters: {
@@ -123,6 +113,9 @@ export default {
     getCurrentFilters () {
       return this.$store.getters['category-next/getCurrentFilters']
     },
+    getActiveFilters () {
+      return Object.values(this.getCurrentFilters).reduce((acc, val) => acc.concat(val), [])
+    },
     availableFilters () {
       return pickBy(this.filters, (filter, filterType) => { return (filter.length && !this.$store.getters['category-next/getSystemFilterNames'].includes(filterType)) })
     }
@@ -133,6 +126,13 @@ export default {
     },
     sortById (filters) {
       return [...filters].sort((a, b) => { return a.id - b.id })
+    },
+    // should be received from config
+    isCheckboxFilter (filterName) {
+      return ['manufacturer', 'dyagonal_ekrana', 'emkost_akkumulyatora_mach', 'sim', 'slot_dlya_karty_pamyaty', 'cores', 'material_korpusu', 'operatsyonnaya_systema'].includes(filterName)
+    },
+    isButtonFilter (filterName) {
+      return ['obem_vstroennoj_pamyaty', 'obem_operatyvnoj_pamyaty', 'camerares', 'frontalnaya_kamera_mp'].includes(filterName)
     }
   }
 }
@@ -141,11 +141,17 @@ export default {
 <style lang="scss" scoped>
 .sidebar {
   &__header {
-    justify-content: space-between;
+    margin-bottom: 0px;
     min-height: 47px;
+    justify-content: flex-start;
     flex-wrap: wrap;
     border-bottom: 1px solid #E0E0E0;
     border-top: 1px solid #E0E0E0;
+
+    svg {
+      margin: 18px 20px 0 0;
+    }
+
     .filter-title {
       display: flex;
       align-items: center;
@@ -155,10 +161,12 @@ export default {
       font-size: 16px;
       line-height: 24px;
       color: #23BE20;
-      svg {
-        margin-right: 10px;
-      }
     }
+
+    img {
+        margin-right: 19px;
+    }
+
     &__clear {
       align-self: center;
       font-size: .8em;
@@ -171,6 +179,27 @@ export default {
 
   &__inline-selecors {
     display: flex;
+  }
+
+  .filter:not(:last-child) {
+    border-bottom: 1px solid #E0E0E0;
+  }
+
+  .active-filters {
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 15px;
+  }
+
+  .clear-filters {
+    font-family: DIN Pro;
+    font-style: normal;
+    font-size: 13px;
+    line-height: 16px;
+    padding-bottom: 4px;
+    border-bottom: 1px dashed #1A1919;
+    box-sizing: border-box;
+    cursor: pointer;
   }
 }
 </style>

@@ -20,7 +20,7 @@
             <ul class="m0 p0">
               <li class="mb20" v-for="(page, index) in navigation" :key="index" @click="notify(page.title)">
                 <router-link :to="localizedRoute(page.link)" class="cl-accent">
-                  {{ page.title }}
+                  {{ page.title }} sdfasdfs
                 </router-link>
               </li>
             </ul>

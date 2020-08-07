@@ -102,7 +102,6 @@ import CustomLoader from 'theme/components/core/CustomLoader.vue'
 import LocationList from 'src/modules/locations/locations-list'
 import MobileLocationList from 'src/modules/locations/mobile-location-list'
 import GoogleMap from 'src/modules/google-map/google-map'
-import CitySelect from 'src/modules/custom-shipping/components/city-select'
 import NoSSR from 'vue-no-ssr'
 import CustomShippingMixin from 'src/modules/custom-shipping/mixin'
 import Vue from 'vue';
@@ -117,7 +116,6 @@ export default {
     LocationList,
     MobileLocationList,
     GoogleMap,
-    CitySelect,
     'no-ssr': NoSSR,
     BaseInput,
     CustomLoader

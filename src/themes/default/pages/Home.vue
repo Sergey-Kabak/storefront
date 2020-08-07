@@ -87,9 +87,9 @@
       </div>
       <div class="row center-xs">
         <lazy-hydrate :trigger-hydration="!loading" v-if="isLazyHydrateEnabled">
-          <product-listing columns="4" :products="products" />
+          <product-listing columns="4" :products="stockGoodsProduct" />
         </lazy-hydrate>
-        <product-listing v-else columns="4" :products="products" />
+        <product-listing v-else columns="4" :products="stockGoodsProduct" />
 
         <button-full
             class="mt35 show-all"
@@ -111,15 +111,15 @@
       </div>
       <div class="row center-xs">
         <lazy-hydrate :trigger-hydration="!loading" v-if="isLazyHydrateEnabled">
-          <!--<product-listing columns="4" :products="getBestsellers" />-->
-          <product-listing columns="4" :products="products" />
+          <product-listing columns="4" :products="salesLeadersProduct" />
+          <!--<product-listing columns="4" :products="products" />-->
         </lazy-hydrate>
-        <!--<product-listing v-else columns="4" :products="getBestsellers" />-->
-        <product-listing v-else columns="4" :products="products" />
+        <product-listing v-else columns="4" :products="salesLeadersProduct" />
+        <!--<product-listing v-else columns="4" :products="products" />-->
         <button-full
             class="mt35 show-all"
             type="submit"
-            @click="goToCategory('salesLeaders')"
+            @click.native="goToCategory('salesLeaders')"
         >
           {{ $t('See all') }}
         </button-full>
@@ -128,7 +128,7 @@
 
     <section class="container px15 pb60">
       <div class="banner">
-        <img src="https://i.imgur.com/iABZzDh.png" alt="banner">
+        <img src="https://info.ringoo.ua/images/mag/main_baner.png" alt="banner">
       </div>
     </section>
 
@@ -157,14 +157,14 @@
       </div>
       <div class="row center-xs">
         <lazy-hydrate :trigger-hydration="!loading" v-if="isLazyHydrateEnabled">
-          <product-listing columns="4" :products="products" />
+          <product-listing columns="4" :products="newProduct" />
         </lazy-hydrate>
-        <product-listing v-else columns="4" :products="products" />
+        <product-listing v-else columns="4" :products="newProduct" />
 
         <button-full
             class="mt35 show-all"
             type="submit"
-            @click="goToCategory('new')"
+            @click.native="goToCategory('new')"
         >
           {{ $t('See all') }}
         </button-full>
@@ -182,14 +182,14 @@
       <div class="row center-xs">
         <lazy-hydrate :trigger-hydration="!loading" v-if="isLazyHydrateEnabled">
           <!--<product-listing columns="4" :products="getBestsellers" />-->
-          <product-listing columns="4" :products="products" />
+          <product-listing columns="4" :products="recommendsProduct" />
         </lazy-hydrate>
         <!--<product-listing v-else columns="4" :products="getBestsellers" />-->
-        <product-listing v-else columns="4" :products="products" />
+        <product-listing v-else columns="4" :products="recommendsProduct" />
         <button-full
             class="mt35 show-all"
             type="submit"
-            @click="goToCategory('recommends')"
+            @click.native="goToCategory('recommends')"
         >
           {{ $t('See all') }}
         </button-full>
@@ -237,7 +237,11 @@ export default {
       currentSlide: 0,
       gallery: [],
       productName: '',
-      products: []
+      products: [],
+      stockGoodsProduct: [],
+      salesLeadersProduct: [],
+      newProduct: [],
+      recommendsProduct: [],
     }
   },
   mixins: [Home, ProductOption],
@@ -276,15 +280,41 @@ export default {
         this.$store.dispatch('claims/set', { claimCode: 'onboardingAccepted', value: true })
       }
     }
-    let inspirationsQuery = prepareQuery({queryConfig: 'all'})
+    let stockGoodsQuery = prepareQuery({queryConfig: 'stockGoods'})
+    let salesLeadersQuery = prepareQuery({queryConfig: 'salesLeaders'})
+    let newQuery = prepareQuery({queryConfig: 'new'})
+    let recommendsQuery = prepareQuery({queryConfig: 'recommends'})
 
-    const res = await this.$store.dispatch('product/list', {
-      query: inspirationsQuery,
-      size: 4,
-      sort: 'created_at:desc'
-    })
-    if (res) {
-      this.products = res.items
+    try {
+      let res = await Promise.all([
+        this.$store.dispatch('product/list', {
+          query: stockGoodsQuery,
+          size: 4,
+          sort: 'created_at:desc'
+        }),
+        this.$store.dispatch('product/list', {
+          query: salesLeadersQuery,
+          size: 4,
+          sort: 'created_at:desc'
+        }),
+        this.$store.dispatch('product/list', {
+          query: newQuery,
+          size: 4,
+          sort: 'created_at:desc'
+        }),
+        this.$store.dispatch('product/list', {
+          query: recommendsQuery,
+          size: 4,
+          sort: 'created_at:desc'
+        })
+      ])
+      this.stockGoodsProduct = res && res[0] && res[0].items
+      this.salesLeadersProduct = res && res[1] && res[1].items
+      this.newProduct = res && res[2] && res[2].items
+      this.recommendsProduct = res && res[3] && res[3].items
+      console.log(res)
+    } catch (e) {
+      console.log(e)
     }
   },
   methods: {
@@ -306,7 +336,7 @@ export default {
       return formatCategoryLink(config && config.actualCategory && config.actualCategory[category])
     },
     goToCategory (cat) {
-      let link = formatCategoryLink(config && config[cat])
+      let link = formatCategoryLink(config && config.catLinks[cat])
       return this.$router.push(link)
     },
     getCategoryData (category) {
@@ -339,11 +369,14 @@ export default {
 
   beforeRouteEnter (to, from, next) {
     if (!isServer && !from.name) { // Loading products to cache on SSR render
-      next(vm =>
+      next(vm => {
         vm.$store.dispatch('homepage/fetchNewCollection').then(res => {
           vm.loading = false
         })
-      )
+        vm.$store.dispatch('homepage/loadBestsellers').then(res => {
+          vm.loading = false
+        })
+      })
     } else {
       next()
     }
@@ -429,9 +462,9 @@ export default {
           @media (max-width: 767px)
             flex-direction: column
             padding: 16px
-            height: 230px
+            height: 265px
           .text
-            width: 220px
+            width: 200px
             overflow: hidden
             @media (max-width: 767px)
               width: 100%

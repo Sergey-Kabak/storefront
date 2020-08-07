@@ -63,6 +63,7 @@
     "cross-env": "^3.1.4",
     "crypto-js": "^4.0.0",
     "dayjs": "^1.8.21",
+    "debounce": "^1.2.0",
     "es6-promise": "^4.2.8",
     "express": "^4.14.0",
     "fs-extra": "^8.1.0",

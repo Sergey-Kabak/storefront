@@ -38,6 +38,21 @@ import StaticShortExample from 'theme/components/theme/blocks/Static/Short'
 import { getPathForStaticPage } from 'theme/helpers'
 import { localizedRoute } from '@vue-storefront/core/lib/multistore'
 
+import Delivery from 'theme/components/theme/blocks/Static/Delivery'
+import Payment from 'theme/components/theme/blocks/Static/Payments'
+import PaymentAndLoans from 'theme/components/theme/blocks/Static/PaymentsAndLoans'
+import WarrantyExchangeReturn from 'theme/components/theme/blocks/Static/WarrantyExchangeReturns'
+import ServiceCenters from 'theme/components/theme/blocks/Static/ServiceCenters'
+import UsingAPromoCode from 'theme/components/theme/blocks/Static/UsingAPromoCode'
+import PublicOffer from 'theme/components/theme/blocks/Static/PublicOffer'
+import PromotionalOffers from 'theme/components/theme/blocks/Static/PromotionalOffers'
+import Shops from 'theme/components/theme/blocks/Static/Shops'
+import AboutTheCompany from 'theme/components/theme/blocks/Static/Company'
+import OwnAccount from 'theme/components/theme/blocks/Static/OwnAccount'
+import WorkInTheCompany from 'theme/components/theme/blocks/Static/WorkInTheCompany'
+import Landlords from 'theme/components/theme/blocks/Static/Landlords'
+import Contacts from 'theme/components/theme/blocks/Static/Contacts'
+
 export default {
   components: {
     Breadcrumbs
@@ -45,7 +60,7 @@ export default {
   metaInfo () {
     return {
       title: this.$route.meta.title || this.$props.title,
-      meta: this.$route.meta.description ? [{ vmid: 'description', description: this.$route.meta.description }] : []
+      meta: this.$route.meta.description ? [{ vmid: 'description', description: i18n.t(this.$route.meta.description) }] : []
     }
   },
   props: {
@@ -67,14 +82,28 @@ export default {
   data () {
     return {
       navigation: [
-        { title: i18n.t('About us'), link: getPathForStaticPage('/about-us'), component: StaticExample },
-        { title: i18n.t('Customer service'), link: getPathForStaticPage('/customer-service'), component: StaticShortExample },
-        { title: i18n.t('Store locator'), link: localizedRoute('/store-locator'), component: StaticExample },
-        { title: i18n.t('Delivery'), link: '/delivery', component: StaticShortExample },
-        { title: i18n.t('Return policy'), link: '/returns', component: StaticExample },
-        { title: i18n.t('Privacy policy'), link: '/privacy', component: StaticShortExample },
-        { title: i18n.t('Size guide'), link: '/size-guide', component: StaticExample },
-        { title: i18n.t('Contact us'), link: '/contact', component: StaticShortExample }
+        { title: i18n.t('Payment and delivery'), link: '/delivery', component: Delivery },
+        { title: i18n.t('Payment'), link: '/payment', component: Payment },
+        { title: i18n.t('Payments and loans'), link: '/payments-and-loans', component: PaymentAndLoans },
+        { title: i18n.t('Warranty, Exchange, Return'), link: '/warranty-exchange-return', component: WarrantyExchangeReturn },
+        { title: i18n.t('Service centres'), link: '/service-centers', component: ServiceCenters },
+        { title: i18n.t('Use promotional code'), link: '/using-a-promo-code', component: UsingAPromoCode },
+        { title: i18n.t('Public offer'), link: '/public-offer', component: PublicOffer },
+        { title: i18n.t('Promotions'), link: '/promotional-offers', component: PromotionalOffers },
+        { title: i18n.t('The shops'), link: '/shops', component: Shops },
+        { title: i18n.t('Company'), link: '/about-the-company', component: AboutTheCompany },
+        { title: i18n.t('Own account'), link: '/own-account', component: OwnAccount },
+        { title: i18n.t('Vacancies'), link: '/work-in-the-company', component: WorkInTheCompany },
+        { title: i18n.t('To landlords'), link: '/landlords', component: Landlords },
+        { title: i18n.t('Contact'), link: '/contacts', component: Contacts },
+
+        // { title: i18n.t('About us'), link: getPathForStaticPage('/about-us'), component: StaticExample },
+        // { title: i18n.t('Customer service'), link: getPathForStaticPage('/customer-service'), component: StaticShortExample },
+        // { title: i18n.t('Store locator'), link: localizedRoute('/store-locator'), component: StaticExample },
+        // { title: i18n.t('Return policy'), link: '/returns', component: StaticExample },
+        // { title: i18n.t('Privacy policy'), link: '/privacy', component: StaticShortExample },
+        // { title: i18n.t('Size guide'), link: '/size-guide', component: StaticExample },
+        // { title: i18n.t('Contact us'), link: '/contact', component: StaticShortExample }
       ]
     }
   }

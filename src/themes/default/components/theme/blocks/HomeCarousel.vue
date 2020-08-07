@@ -15,7 +15,7 @@
             :to="productLink(0)"
             data-testid="productLink"
         >
-          <img src="https://i.imgur.com/XjPpA80.png" alt="1">
+          <img src="https://info.ringoo.ua/images/mag/2.jpg" alt="1">
         </router-link>
       </slide>
       <slide>
@@ -23,7 +23,7 @@
             :to="productLink(1)"
             data-testid="productLink"
         >
-          <img src="https://i.imgur.com/5NrzD9r.png" alt="2">
+          <img src="https://info.ringoo.ua/images/mag/5.jpg" alt="2">
         </router-link>
       </slide>
       <slide>
@@ -31,7 +31,7 @@
             :to="productLink(2)"
             data-testid="productLink"
         >
-          <img src="https://i.imgur.com/5WOKs4I.png" alt="3">
+          <img src="https://info.ringoo.ua/images/mag/4.jpg" alt="3">
         </router-link>
       </slide>
       <slide>
@@ -39,7 +39,7 @@
             :to="productLink(3)"
             data-testid="productLink"
         >
-          <img src="https://i.imgur.com/NDm9r2o.png" alt="4">
+          <img src="https://info.ringoo.ua/images/mag/1.jpg" alt="4">
         </router-link>
       </slide>
       <slide>
@@ -47,15 +47,7 @@
             :to="productLink(4)"
             data-testid="productLink"
         >
-          <img src="https://i.imgur.com/WMgPHzX.png" alt="5">
-        </router-link>
-      </slide>
-      <slide>
-        <router-link
-            :to="productLink(5)"
-            data-testid="productLink"
-        >
-          <img src="https://i.imgur.com/5NrzD9r.png" alt="6">
+          <img src="https://info.ringoo.ua/images/mag/3.jpg" alt="5">
         </router-link>
       </slide>
     </carousel>
