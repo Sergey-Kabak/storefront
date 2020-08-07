@@ -181,10 +181,10 @@ export default {
       }
 
       &-body-wrapper {
-        height: calc(100vh - 105px - 129px);
 
         .products {
-
+          margin: 0;
+          padding: 0 16px;
         }
       }
 
@@ -213,7 +213,6 @@ export default {
   }
 
   .wishlist {
-    width: 549px;
     &-empty-wrapper {
       display: flex;
       h4 {
@@ -261,7 +260,7 @@ export default {
     }
     &-header-wrapper {
       margin: 0;
-      padding: 25px 32px 0px 32px;
+      padding: 56px 32px 0 32px;
       h2 {
         font-family: DIN Pro;
         font-style: normal;
@@ -295,12 +294,11 @@ export default {
         }
       }
       .clear-btn {
+        position: absolute;
+        top: 16px;
+        left: 16px;
         margin-left: auto;
       }
-    }
-    &-body-wrapper {
-      overflow-x: scroll;
-      height: calc(100vh - 115px - 118px);
     }
     &-footer-wrapper {
       &-row {
