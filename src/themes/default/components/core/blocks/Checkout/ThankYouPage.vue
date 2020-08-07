@@ -1,25 +1,12 @@
 <template>
   <div>
-    <!--<header class="thank-you-title bg-cl-secondary py35 pl20">-->
-      <!--<div class="container">-->
-        <!--<breadcrumbs-->
-          <!--:with-homepage="true"-->
-          <!--:routes="[]"-->
-          <!--:active-route="this.$t('Order confirmation')"-->
-        <!--/>-->
-        <!--<h2 class="category-title">-->
-          <!--{{ $t('Order confirmation') }}-->
-        <!--</h2>-->
-      <!--</div>-->
-    <!--</header>-->
     <div class="thank-you-content align-justify py40 pl20">
       <div class="container">
         <div class="row">
           <div class="col-md-8 pl20 pr20 pt70 m-auto align-center">
             <h3 v-if="OnlineOnly">
-              <!--{{ $t('Your purchase') }}-->
               {{ $t('Thank!') }}
-              {{ $t('Your order') }} <span v-if="OnlineOnly && lastOrderConfirmation.orderNumber">№{{lastOrderConfirmation.orderNumber}}</span>
+              {{ $t('Your order') }} <span v-if="OnlineOnly && lastOrderConfirmation.orderNumber">№{{ lastOrderConfirmation.orderNumber }}</span>
               {{ $t('already going )') }}
             </h3>
             <p>{{ $t('In the near future we will call you back to clarify the details. Have a nice day!)') }}</p>
@@ -34,7 +21,6 @@
               </button-outline>
             </p>
             <div id="thank-you-extensions" />
-
             <div class="grid-container">
               <div class="grid-item" v-if="addressInfo">
                 <div class="flex">
@@ -79,55 +65,7 @@
                 </li>
               </ul>
             </div>
-
-            <!--<p v-if="OnlineOnly" v-html="this.$t('You have successfuly placed the order. You can check status of your order by using our <b>delivery status</b> feature. You will receive an order confirmation e-mail with details of your order and a link to track its progress.')" />-->
-            <!--<p v-if="OnlineOnly && lastOrderConfirmation.orderNumber" v-html="this.$t('The OrderNumber is {id}', { id: lastOrderConfirmation.orderNumber })" />-->
-
-            <!--<h4 v-if="OfflineOnly">-->
-              <!--{{ $t('You are offline') }}-->
-            <!--</h4>-->
-            <!--<p v-if="OfflineOnly && !isNotificationSupported">-->
-              <!--{{ $t('To finish the order just come back to our store while online. Your order will be sent to the server as soon as you come back here while online and then confirmed regarding the stock quantities of selected items') }}-->
-            <!--</p>-->
-            <!--<p v-if="OfflineOnly && isNotificationSupported && !isPermissionGranted">-->
-              <!--{{ $t("You can allow us to remind you about the order via push notification after coming back online. You'll only need to click on it to confirm.") }}-->
-            <!--</p>-->
-            <!--<p v-if="OfflineOnly && isNotificationSupported && !isPermissionGranted">-->
-              <!--{{ $t(`Or if you will stay on "Order confirmation" page, the order will be placed automatically without confirmation, once the internet connection will be back.`) }}-->
-            <!--</p>-->
-            <!--<p v-if="OfflineOnly && isNotificationSupported && isPermissionGranted">-->
-              <!--<strong>{{ $t('You will receive Push notification after coming back online. You can confirm the order by clicking on it') }}</strong>-->
-            <!--</p>-->
-            <!--<p v-if="!isPermissionGranted && isNotificationSupported">-->
-              <!--<button-outline color="dark" @click.native="requestNotificationPermission()">-->
-                <!--{{ $t('Allow notification about the order') }}-->
-              <!--</button-outline>-->
-            <!--</p>-->
           </div>
-          <!--<div class="col-md-6">-->
-            <!--<google-map :center="center" :droppoints="[]" :stock-id="''" />-->
-          <!--</div>-->
-          <!--<div class="col-md-6 bg-cl-secondary thank-you-improvment">-->
-            <!--<h3>-->
-              <!--{{ $t('What we can improve?') }}-->
-            <!--</h3>-->
-            <!--<p class="mb25">-->
-              <!--{{ $t('Your feedback is important for us. Let us know what we could improve.') }}-->
-            <!--</p>-->
-            <!--<form @submit.prevent="sendFeedback">-->
-              <!--<base-textarea-->
-                <!--class="mb25"-->
-                <!--type="text"-->
-                <!--name="body"-->
-                <!--v-model="feedback"-->
-                <!--:placeholder="$t('Type your opinion')"-->
-                <!--:autofocus="true"-->
-              <!--/>-->
-              <!--<button-outline color="dark">-->
-                <!--{{ $t('Give a feedback') }}-->
-              <!--</button-outline>-->
-            <!--</form>-->
-          <!--</div>-->
         </div>
       </div>
     </div>

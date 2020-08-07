@@ -3,8 +3,9 @@
     :is="compontentType"
     :type="!link ? type : false"
     :to="redirectionLink"
-    class="button-full"
+    class="button-small"
     :class="{
+      'no-underline pointer align-center border-box': link,
       disabled: disabled,
       'button-disabled': disabled
     }"
@@ -51,23 +52,21 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.button-full {
+.button-small {
+  width: 100% !important;
   padding: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  display: block;
   text-align: center;
   border-style: none;
   background: #23be20;
   color: #ffffff;
   height: 40px;
-  max-width: 260px;
-  width: 100%;
+  max-width: 131px;
   font-family: DIN Pro;
   font-size: 15px;
   font-weight: 600;
   line-height: 16px;
-  min-width: 250px;
+  min-width: 100px;
   border-radius: 4px;
   transition: .2s ease-in-out;
 

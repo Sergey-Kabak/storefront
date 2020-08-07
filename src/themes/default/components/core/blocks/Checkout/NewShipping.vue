@@ -7,10 +7,12 @@
             {{ $t('How do you want to receive your order?') }}
           </h1>
         </div>
-        <div class="number-block d-flex align-items-center">
-          <div class="number align-center">1</div>
+        <div class="subtitle">
+          <div class="number-block">
+            <div class="number align-center">1</div>
+          </div>
           <div class="text d-flex align-items-center w-100">
-            <span>Доставка в городе :</span>
+            <span class="shipping-title">Доставка в</span>
             <div class="picked-city" @click="showCityPicker = !showCityPicker">
               {{ city }}
               <svg width="8" height="5" viewBox="0 0 8 5" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -18,12 +20,12 @@
               </svg>
             </div>
             <city-select
-                v-if="showCityPicker"
-                class="city-select__wrapper"
-                :options="citiesOptions"
-                :selected="city"
-                :error="error"
-                @onCityChange="changeCity"
+              v-if="showCityPicker"
+              class="city-select__wrapper"
+              :options="citiesOptions"
+              :selected="city"
+              :error="error"
+              @onCityChange="changeCity"
             />
           </div>
         </div>
@@ -184,17 +186,6 @@ export default {
       position: relative
       span
         min-width: 130px
-      .picked-city
-        margin-left: 10px
-        font-family: DIN Pro
-        font-size: 14px
-        line-height: 20px
-        color: #1A1919
-        position: relative
-        border-bottom: 1px dashed #1A1919
-        cursor: pointer
-        svg
-          margin-left: 5px
     .city-select__wrapper
       position: absolute
       top: 36px
@@ -245,4 +236,24 @@ export default {
           color: #BDBDBD
         .icon .material-icons
           color: #BDBDBD
+  .shipping-title
+    font-family: DIN Pro
+    font-style: normal
+    font-weight: 0
+    font-size: 13px
+    line-height: 20px
+    color: #000000
+    font-weight: 600
+    margin-right: 8px
+  .picked-city
+    font-weight: 600
+    font-family: DIN Pro
+    font-size: 14px
+    line-height: 20px
+    color: #1A1919
+    position: relative
+    border-bottom: 1px dashed #1A1919
+    cursor: pointer
+    svg
+      margin-left: 5px
 </style>

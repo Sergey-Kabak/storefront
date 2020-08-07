@@ -134,10 +134,9 @@
       <!--</button-outline>-->
       <!--</div>-->
       <!--</div>-->
-
       <div class="row weight-700 middle-xs prices" v-for="(segment, index) in totals" :key="index" v-if="segment.code === 'grand_total'">
         <div class="col-xs h4 total-price-label">
-          {{ segment.title }}
+          {{ $t(segment.title) }}
         </div>
         <div class="col-xs align-right h2 total-price-value">
           {{ segment.value | price(storeView) }}
@@ -168,7 +167,6 @@
         <button-full
           :link="{ name: 'checkout' }"
           @click.native="closeMicrocartExtend"
-          class="checkout-button"
         >
           {{ $t('Go to checkout') }}
         </button-full>
@@ -368,9 +366,6 @@ export default {
       }
     }
 
-    .checkout-button {
-      font-size: 15px; 
-    }
     .actions-button {
       padding-bottom: 32px;
     }

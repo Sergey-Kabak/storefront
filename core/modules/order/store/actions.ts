@@ -21,12 +21,19 @@ const actions: ActionTree<OrderState, RootState> = {
    * @param {Object} commit method
    * @param {Order} order order data to be send
    */
-  async placeOrder ({ commit, getters, dispatch }, newOrder: Order) {
+  async placeOrder ({ commit, getters, dispatch, rootState }, newOrder: Order) {
     // Check if order is already processed/processing
     const optimizedOrder = optimizeOrder(newOrder)
     const currentOrderHash = sha3_224(JSON.stringify(optimizedOrder))
     const isAlreadyProcessed = getters.getSessionOrderHashes.includes(currentOrderHash)
-    if (isAlreadyProcessed) return
+
+    if (newOrder.addressInformation.payment_method_code === 'liqpaymagento_liqpay' && rootState.order && rootState.order.last_order_confirmation) {
+      EventBus.$emit('liqpay')
+      return
+    } else if (isAlreadyProcessed) {
+      return
+    }
+    dispatch('cart/connect', { guestCart: true }, { root: true })
     commit(types.ORDER_ADD_SESSION_STAMPS, newOrder)
     commit(types.ORDER_ADD_SESSION_ORDER_HASH, currentOrderHash)
     const preparedOrder = prepareOrder(optimizedOrder)
@@ -53,14 +60,12 @@ const actions: ActionTree<OrderState, RootState> = {
   async processOrder ({ commit, dispatch }, { newOrder, currentOrderHash }) {
     const order = { ...newOrder, transmited: true }
     const task = await OrderService.placeOrder(order)
-
     if (task.resultCode === 200) {
       dispatch('enqueueOrder', { newOrder: order })
+      commit(types.ORDER_LAST_ORDER_WITH_CONFIRMATION, { order, confirmation: task.result })
       if (order.addressInformation.payment_method_code === 'liqpaymagento_liqpay') {
         EventBus.$emit('liqpay')
       }
-      commit(types.ORDER_LAST_ORDER_WITH_CONFIRMATION, { order, confirmation: task.result })
-      localStorage.setItem('shop/order', JSON.stringify({...order, ...task.result}))
       orderHooksExecutors.afterPlaceOrder({ order, task })
       if (order.addressInformation.payment_method_code !== 'liqpaymagento_liqpay') {
         EventBus.$emit('order-after-placed', { order, confirmation: task.result })

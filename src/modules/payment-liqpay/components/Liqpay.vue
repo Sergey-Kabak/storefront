@@ -1,40 +1,41 @@
 <template>
-  <form
-    method="POST"
-    accept-charset="utf-8"
-    target="_blank"
-    ref="form"
-    action="https://www.liqpay.ua/api/3/checkout"
-  >
-    <input
-      type="hidden"
-      name="data"
-      :value="data"
-    />
-    <input
-      type="hidden"
-      name="signature"
-      :value="signature"
-    />
-    <button @click="onCreateOrder($event)">{{ $t('To pay') }}</button>
-  </form>
+  <div>
+    <ButtonSmall @click.native="onCreateOrder()">
+      {{ $t('To pay') }}
+    </ButtonSmall>
+    <div id="liqpay_checkout" />
+  </div>
 </template>
-
 <script>
 
+import ButtonSmall from 'theme/components/theme/ButtonFilledSmall'
 import Base64 from 'crypto-js/enc-base64'
 import Utf8 from 'crypto-js/enc-utf8'
 import sha1 from 'crypto-js/sha1'
 import config from 'config'
 import { mapState } from 'vuex';
+
 export default {
+  data: () => ({
+    liqpayStatus: null
+  }),
+  components: {
+    ButtonSmall
+  },
   beforeMount: function() {
     this.$bus.$on('liqpay', this.submit)
+  },
+  mounted: function() {
+    let liqpayScript = document.createElement('script')
+    liqpayScript.setAttribute('src', 'http://static.liqpay.ua/libjs/checkout.js')
+    liqpayScript.async = true
+    document.head.appendChild(liqpayScript)
   },
 	computed: {
     ...mapState({
       cartItems: (state) => state.cart.cartItems,
-      orderId: (state) => state.order.last_order_confirmation && state.order.last_order_confirmation.confirmation && state.order.last_order_confirmation.confirmation.orderNumber
+      orderId: (state) => state.order.last_order_confirmation && state.order.last_order_confirmation.confirmation && state.order.last_order_confirmation.confirmation.backendOrderId,
+      incrementId: (state) => state.order.last_order_confirmation && state.order.last_order_confirmation.confirmation && state.order.last_order_confirmation.confirmation.orderNumber
     }),
 		totalPrice () {
       return this.cartItems.reduce((acc, it) => acc + it.price * it.qty, 0)
@@ -48,9 +49,11 @@ export default {
 						action: config.liqpay.action,
 						currency: config.liqpay.currency, 
 						amount: this.totalPrice,
-						description: "description",
+						description: 'description',
             order_id: this.orderId,
-            result_url: config.liqpay.result_url
+            incrementId: this.incrementId,
+            result_url: config.liqpay.result_url,
+            server_url: config.liqpay.server_url
           })
         )
       )
@@ -60,12 +63,29 @@ export default {
     }
   },
   methods: {
-    onCreateOrder (event) {
-      event.preventDefault()
+    onCreateOrder () {
       this.$bus.$emit('checkout-before-placeOrder')
     },
     submit() {
-      this.$refs.form.submit()
+      this.$nextTick(() => {
+        LiqPayCheckout.init({
+          data: this.data,
+          signature: this.signature,
+          embedTo: '#liqpay_checkout',
+          language: 'ru',
+          mode: 'popup'
+        }).on('liqpay.callback', (data) => {
+          this.liqpayStatus = data.status
+        }).on('liqpay.close', (data) => {
+          if(this.liqpayStatus === 'success') {
+            this.$store.dispatch('checkout/setThankYouPage', true)
+            this.$store.dispatch('user/getOrdersHistory', { refresh: true, useCache: true })
+            this.$store.commit('ui/setMicrocart', false)
+            this.$store.dispatch('cart/clear', { sync: false }, { root: true })
+          }
+          this.liqpayStatus = null
+        })
+      })
     }
   },
   beforeDestroy (){
@@ -73,20 +93,3 @@ export default {
   }
 };
 </script>
-
-<style lang="scss" scoped>	
-	button {
-		width: 100%;
-    height: 40px;
-    background: #23BE20;
-		border-style: none;
-		max-width: 250px;
-    border-radius: 4px;
-    font-family: 'DIN Pro';
-    font-weight: 700;
-    font-size: 15px;
-    line-height: 16px;
-    color: #FFFFFF;
-    padding: 12px 0;
-	}
-</style>

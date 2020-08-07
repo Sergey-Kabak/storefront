@@ -6,7 +6,7 @@
          py10 w-100 border-box brdr-none brdr-bottom-1
          brdr-cl-primary h4 sans-serif
        "
-        :class="{pr30: type === 'password', empty: value === ''}"
+        :class="{pr30: type === 'password', empty: value === '', 'invalid': invalid}"
         :type="type === 'password' ? passType : type"
         :name="name"
         :autocomplete="autocomplete"
@@ -91,6 +91,11 @@ export default {
       default: () => []
     }
   },
+  computed: {
+    invalid() {
+      return this.validations.every(it => it.condition)
+    }
+  },
   methods: {
     togglePassType () {
       if (this.passType === 'password') {
@@ -136,6 +141,12 @@ export default {
   input {
     background: inherit;
 
+    &.invalid {
+      &:focus {
+        border-color:#EE2C39;
+      }
+    }
+
     &:hover,
     &:focus {
       outline: none;
@@ -148,8 +159,13 @@ export default {
       cursor: not-allowed;
       pointer-events: none;
     }
+
+    
   }
   label {
+    font-family: DIN Pro;
+    font-size: 13px;
+    line-height: 16px;
     color:#999;
     position:absolute;
     pointer-events:none;

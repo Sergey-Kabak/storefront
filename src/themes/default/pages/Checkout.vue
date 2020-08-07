@@ -5,13 +5,13 @@
         <div class="col-xs-12 pb70">
           <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
-              <li class="breadcrumb-item active" aria-current="page">
+              <li class="breadcrumb-item" :class="{'active': activeSection.shipping}" aria-current="page">
                 1. {{ $t('Delivery') }} <span class="material-icons">keyboard_arrow_right</span>
               </li>
-              <li class="breadcrumb-item">
+              <li class="breadcrumb-item" :class="{'active': activeSection.personalDetails}">
                 2. {{ $t('Contact details') }} <span class="material-icons">keyboard_arrow_right</span>
               </li>
-              <li class="breadcrumb-item">3. {{ $t('the Payment') }}</li>
+              <li class="breadcrumb-item" :class="{'active': activeSection.payment}">3. {{ $t('the Payment') }}</li>
             </ol>
           </nav>
           <shipping
@@ -23,10 +23,10 @@
             <div class="row">
               <div class="col-md-7 col-xs-12">
                 <div class="container-fluid">
-                  <div class="row pl20">
+                  <div class="row checkout-title-wrap">
                     <div class="col-xs-12 col-sm-12 col-md-12">
-                      <div class="row mb15">
-                        <div class="checkout-title mb-3">
+                      <div class="row">
+                        <div class="checkout-title">
                           <h1>
                             {{ $t('Checkout') }}
                           </h1>
@@ -37,13 +37,14 @@
                   <div class="row">
                     <div class="col-xs-12">
                       <div class="shipping-details__edit" v-if="activeSection.personalDetails || activeSection.payment || activeSection.orderReview">
-                        <div class="number-block d-flex align-items-center">
-                          <div class="number align-center">1</div>
-                          <div class="text">{{ $t('Delivery') }}:</div>
+                        <div class="subtitle">
+                          <div class="number-block" :class="{'checked': !activeSection.shipping}">
+                            <div class="number align-center" v-if="activeSection.shipping">1</div>
+                            <img src='/assets/custom/Check.svg' v-else alt="correct">
+                          </div>
+                          <div class="subtitle-text">{{ $t('Delivery') }}:</div>
                           <div class="lh30 flex end-lg ml-auto">
-                            <a href="#" class="cl-tertiary flex action" @click.prevent="$bus.$emit('checkout-before-edit', 'shipping')">
-                              <span class="pr5">{{ $t('Edit') }}</span>
-                            </a>
+                            <span class="edit" @click.prevent="$bus.$emit('checkout-before-edit', 'shipping')">{{ $t('Edit') }}</span>
                           </div>
                         </div>
                         <div class="shipping-data">
@@ -53,14 +54,15 @@
                           </div>
                         </div>
                       </div>
-                      <div class="shipping-details__edit mt-3" v-if="activeSection.payment || activeSection.orderReview">
-                        <div class="number-block d-flex align-items-center">
-                          <div class="number align-center">2</div>
-                          <div class="text">{{ $t('Contact details') }}:</div>
+                      <div class="shipping-details__edit" v-if="activeSection.payment || activeSection.orderReview">
+                        <div class="subtitle">
+                          <div class="number-block" :class="{'checked': !activeSection.personalDetails}">
+                            <div class="number" v-if="activeSection.shipping">3</div>
+                            <img src='/assets/custom/Check.svg' v-else alt="correct">
+                          </div>
+                          <div class="subtitle-text">{{ $t('Contact details') }}:</div>
                           <div class="lh30 flex end-lg ml-auto">
-                            <a href="#" class="cl-tertiary flex action" @click.prevent="$bus.$emit('checkout-before-edit', 'personalDetails')">
-                              <span class="pr5">{{ $t('Edit') }}</span>
-                            </a>
+                            <span class="edit" @click.prevent="$bus.$emit('checkout-before-edit', 'personalDetails')">{{ $t('Edit') }}</span>
                           </div>
                         </div>
                         <div class="shipping-data">
@@ -69,14 +71,12 @@
                           </div>
                         </div>
                       </div>
-                      <div class="shipping-details__edit mt-3" v-if="activeSection.orderReview">
+                      <!-- <div class="shipping-details__edit" v-if="activeSection.orderReview">
                         <div class="number-block d-flex align-items-center">
                           <div class="number align-center">3</div>
                           <div class="text">{{ $t('the Payment') }}:</div>
                           <div class="lh30 flex end-lg ml-auto">
-                            <a href="#" class="cl-tertiary flex action" @click.prevent="$bus.$emit('checkout-before-edit', 'payment')">
-                              <span class="pr5">{{ $t('Edit') }}</span>
-                            </a>
+                            <span class="edit" @click.prevent="$bus.$emit('checkout-before-edit', 'payment')">{{ $t('Edit') }}</span>
                           </div>
                         </div>
                         <div class="shipping-data">
@@ -84,27 +84,24 @@
                             {{ `${personalDetails.firstName} ${personalDetails.lastName}, ${shippingDetails.phoneNumber}, ${personalDetails.emailAddress}` }}
                           </div>
                         </div>
-                      </div>
+                      </div> -->
                     </div>
                   </div>
-                  <div class="container-fuild">
-                    <personal-details
+                  <div class="row">
+                    <div class="col-xs-12">
+                      <personal-details
+                        :isSectionActive="!!activeSection.personalDetails"
                         :class="{hidden: !activeSection.personalDetails}"
                         class="line relative"
                         :is-active="activeSection.personalDetails"
                         :focused-field="focusedField"
-                    />
-                    <payment
+                      />
+                      <payment
+                        :activeSection="activeSection"
                         class="line relative"
                         :is-active="activeSection.payment"
-                        :class="{hidden: !activeSection.payment}"
-                    />
-                    <!--<order-review-->
-                        <!--class="line relative"-->
-                        <!--:is-active="activeSection.orderReview"-->
-                        <!--:class="{hidden: !activeSection.orderReview}"-->
-                    <!--/>-->
-                    <div id="custom-steps" />
+                      />
+                    </div>
                   </div>
                 </div>
               </div>
@@ -187,54 +184,74 @@ export default {
 
 <style lang="sass">
   #checkout
-    .number-block
-      margin-bottom: 24px
-      .number
-        font-family: 'DIN Pro'
-        font-size: 14px
-        line-height: 16px
-        color: #ffffff
-        background: #23BE20
-        border-radius: 100%
-        width: 30px
-        height: 30px
-        padding-top: 7px
-      .text
-        margin-left: 10px
-        font-family: 'DIN Pro'
-        font-size: 14px
-        line-height: 16px
-        color: #1A1919
-        font-weight: 700
-      .action
-        font-family: 'DIN Pro'
-        font-size: 13px
-        line-height: 16px
-        color: #1A1919
+    .container 
+      max-width: 1200px
+    .action
+      font-family: 'DIN Pro'
+      font-size: 13px
+      line-height: 16px
+      color: #1A1919
     .shipping-details__edit
+      margin-bottom: 24px
       .shipping-data
-        background: #F9F9F9
-        border-radius: 4px
-        padding: 16px
+        border-bottom: 1px solid #E0E0E0
         .text
           font-family: 'DIN Pro'
+          padding-bottom: 24px
           font-size: 13px
           line-height: 16px
-          color: #1A1919
+          color: #5F5E5E
+          opacity: 0.6
           background: #ffffff
-          padding: 12px 20px
-          border-radius: 8px
-    .custom-action-button
-      width: auto !important
-      height: 40px
-      background: #23BE20
-      border-radius: 4px
-      font-family: 'DIN Pro'
-      font-weight: 700
-      font-size: 15px
-      line-height: 16px
-      color: #FFFFFF
-      padding: 12px 0
+  .edit
+    cursor: pointer
+    font-family: DIN Pro
+    font-style: normal
+    padding-bottom: 4px
+    border-bottom: 1px dashed #1A1919
+    font-size: 13px
+    line-height: 16px
+    color: #1A1919
+
+    &:hover
+      border-color: transparent
+
+  .number-block
+    display: flex;
+    align-items: center;
+    justify-content: center
+    font-family: 'DIN Pro'
+    font-size: 14px
+    line-height: 16px
+    color: #ffffff
+    margin-right: 15px
+    background: #ffffff
+    border-radius: 100%
+    border: 1px solid #23BE20
+    color: #1A1919
+    font-weight: 600
+    box-sizing: border-box
+    width: 24px
+    height: 24px
+
+    &.checked
+      background-color: #23BE20
+  .subtitle
+    margin-bottom: 24px
+    display: flex
+    align-items: center
+
+    &.disabled
+      opacity: .5
+      .number-block
+        background-color: #ffffff
+  
+  .subtitle-text
+    font-family: 'DIN Pro'
+    font-size: 14px
+    line-height: 16px
+    color: #1A1919
+    font-weight: 700
 </style>
 
 <style lang="scss">
@@ -247,6 +264,10 @@ export default {
   $color-error: color(error);
   $color-white: color(white);
   $color-black: color(black);
+
+  .checkout-title-wrap {
+    margin-bottom: 24px;
+  }
 
   #checkout {
     .breadcrumb {
@@ -281,7 +302,6 @@ export default {
     .radioStyled {
       display: block;
       position: relative;
-      margin-bottom: 12px;
       cursor: pointer;
       font-size: 13px;
       line-height: 16px;
@@ -292,6 +312,7 @@ export default {
       background: #FFFFFF;
       border: 1px solid #23BE20;
       box-sizing: border-box;
+      margin-bottom: 0;
       border-radius: 4px;
       text-align: center;
       padding: 58px 16px 16px;
@@ -319,9 +340,10 @@ export default {
         &:after {
           content: "";
           position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
           display: none;
-          top: 3px;
-          left: 3px;
           width: 10px;
           height: 10px;
           border-radius: 50%;
@@ -356,10 +378,11 @@ export default {
   .checkout-title {
     h1 {
       font-family: 'DIN Pro';
+      margin-bottom: 0!important;
       font-style: normal;
-      font-weight: bold;
-      font-size: 24px;
-      line-height: 30px;
+      font-size: 24px!important;
+      font-weight: 600!important;
+      line-height: 30px!important;
       color: #1A1919;
     }
     @media (max-width: 767px) {

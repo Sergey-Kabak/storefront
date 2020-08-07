@@ -313,7 +313,6 @@ export default {
       return this.order
     },
     placeOrder () {
-      this.activateSection('orderReview')
       this.checkConnection({ online: typeof navigator !== 'undefined' ? navigator.onLine : true })
       if (this.checkStocks()) {
         this.$store.dispatch('checkout/placeOrder', { order: this.prepareOrder() })

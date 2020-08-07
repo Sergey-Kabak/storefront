@@ -55,7 +55,7 @@ export default {
 }
 .cart-summary {
   width: 100%;
-  padding: 0 0 0px 32px;
+  padding: 0 0 0px 30px;
   border-left: 1px solid #ededed;
 }
 
