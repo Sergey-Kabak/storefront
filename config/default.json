@@ -869,7 +869,7 @@
       "filter": [
         {
           "key": "category_ids",
-          "value": { "eq": [3] }
+          "value": { "eq": [46] }
         }
       ]
     },
@@ -877,7 +877,7 @@
       "filter": [
         {
           "key": "category_ids",
-          "value": { "eq": [22] }
+          "value": { "eq": [47] }
         }
       ]
     },
@@ -885,7 +885,7 @@
       "filter": [
         {
           "key": "category_ids",
-          "value": { "eq": [18] }
+          "value": { "eq": [48] }
         }
       ]
     },
@@ -893,23 +893,23 @@
       "filter": [
         {
           "key": "category_ids",
-          "value": { "eq": [44] }
+          "value": { "eq": [49] }
         }
       ]
     }
   },
   "catLinks": {
     "stockGoods": {
-      "url_path": "smartfoni-i-telefoni"
+      "url_path": "golovna-storinka/tovary-mesjaca"
     },
     "salesLeaders": {
-      "url_path": "aksesuari"
+      "url_path": "golovna-storinka/akustika-glavnaja-stranica"
     },
     "new": {
-      "url_path": "gadzheti"
+      "url_path": "golovna-storinka/novinki"
     },
     "recommends": {
-      "url_path": "apple"
+      "url_path": "golovna-storinka/elektronika"
     }
   },
   "urlModule": {
@@ -993,23 +993,35 @@
   },
   "sliderProduct": [
     {
-      "url_path": "smartfon-realme-6-8-128gb.html?childSku=r662970",
+      "url_path": "samsung-a31-4-64gb-a315.html?childSku=т27150",
       "type_id": "configurable"
     },
     {
       "url_path": "smartfoni-i-telefoni?manufacturer=115",
+       "type_id": "configurable"
+    },
+    {
+      "url_path": "fitnes-braslet-mi-smart-band-4.html?childSku=т26177",
       "type_id": "configurable"
     },
     {
-      "url_path": "smartfoni-i-telefoni?manufacturer=142",
+      "url_path": "xiaomi-redmi-note-9-4-128gb.html",
       "type_id": "configurable"
     },
     {
-      "url_path": "huawei-p40-lite-e-4-64gb.html?childSku=%D1%8227102",
+      "url_path": "navushniki-redmi-airdots-s.html?childSku=т29829",
       "type_id": "configurable"
     },
     {
-      "url_path": "aksesuari/navushniki-ta-garnituri",
+      "url_path": "xiaomi-redmi-8-4-64gb.html?childSku=т26783",
+      "type_id": "configurable"
+    },
+    {
+      "url_path": "fitnes-braslet-mi-smart-band-5-black.html",
+      "type_id": "configurable"
+    },
+    {
+      "url_path": "xiaomi-redmi-note-8t-4-64gb.html?childSku=т26939",
       "type_id": "configurable"
     }
   ]

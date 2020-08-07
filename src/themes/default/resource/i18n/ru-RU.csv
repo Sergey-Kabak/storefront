@@ -12,7 +12,7 @@
 "Clear wishlist","Очистить список желаний"
 "Columns","Колонки"
 "Company","Компания"
-"Compare Products","Сравнение товаров"
+"Compare products","Сравнение товаров"
 "Component couldn't be loaded due to lack of network connectivity.","Не удалось загрузить компонент из-за отсутствия сетевого подключения."
 "Computers and laptops","Компьютеры и ноутбуки"
 "Configure","Настройка"
@@ -81,6 +81,7 @@
 "Warranty, Exchange, Return","Гарантия, обмен, возврат"
 "We accept","Мы принимаем"
 "We found other products you might like","Мы нашли другие продукты, которые вам могут понравиться"
+"You submitted your review for moderation.":"Вы отправили свой отзыв на модерацию."
 "Your cart","Ваша корзина"
 "Your order","Ваш заказ"
 "about the company metadesc","С 2007 года сеть магазинов ringoo предоставляет широкий выбор интересных технологических смартфонов, аксессуаров, современных гаджетов и полезных сервисов. Сеть магазинов ringoo является официальным партнером Apple, Samsung, Huawei, TP-Link Neffos, Motorola и других брендов. ☎️ (097) 090-87-07, (073) 090-87-07 - ringoo"
@@ -356,3 +357,4 @@ search,Поиск
 size_filter,Размер
 to find product you were looking for.,"Найти товар, который вы просматривали"
 to find something beautiful for You!,Найти что-то красивое для Вас!
+"Choose your city","Выберите ваш город"

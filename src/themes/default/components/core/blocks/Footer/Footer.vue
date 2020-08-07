@@ -15,7 +15,7 @@
               <div class="row social mt20">
                 <a
                     class="social-icon mx10 brdr-circle no-underline"
-                    href="https://www.facebook.com/"
+                    href="https://www.facebook.com/ringoo.ua"
                     :aria-label="$t('Go to Facebook')"
                 >
                   <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -27,7 +27,7 @@
                 </a>
                 <a
                     class="social-icon mx10 brdr-circle no-underline"
-                    href="https://www.instagram.com"
+                    href="https://www.instagram.com/ringoo.ua/"
                     :aria-label="$t('Go to Instagram')"
                 >
                   <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -38,7 +38,7 @@
                 </a>
                 <a
                     class="social-icon mx10 brdr-circle no-underline"
-                    href="https://www.youtube.com"
+                    href="https://www.youtube.com/user/ringooua"
                     :aria-label="$t('Go to Youtube')"
                 >
                   <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -191,9 +191,9 @@
         </div>
         <div class="col-xs col-sm-9 end-xs">
           <ul class="pl0 links" data-testid="bottomLinks">
-            <li class="footer__version-info">
-              {{ getVersionInfo }}
-            </li>
+<!--            <li class="footer__version-info">-->
+<!--              {{ getVersionInfo }}-->
+<!--            </li>-->
             <li class="inline-flex">
               <router-link
                 class="cl-tertiary mr10 underline"
@@ -250,17 +250,24 @@ export default {
     }
   },
   computed: {
-    ...mapGetters('category', ['getCategories']),
+    // ...mapGetters('category', ['getCategories']),
+    ...mapGetters('category-next', ['getMenuCategories']),
     ...mapGetters({
       isLogged: 'user/isLoggedIn'
     }),
     multistoreEnabled () {
       return config.storeViews.multistore
     },
-    getVersionInfo () {
-      return `v${process.env.__APPVERSION__} ${process.env.__BUILDTIME__}`
+    // getVersionInfo () {
+    //   return `v${process.env.__APPVERSION__} ${process.env.__BUILDTIME__}`
+    // },
+    getCategories () {
+      return this.getMenuCategories
     },
     visibleCategories () {
+      console.log('HERE CAT');
+      console.log(this.getMenuCategories);
+      console.log('END HERE CAT');
       return this.categories.filter(category => {
         return category.product_count > 0 || category.children_count > 0
       })

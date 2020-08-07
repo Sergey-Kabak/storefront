@@ -10,6 +10,7 @@ export default {
       let centers = cities.data.map(c => api.address.getCities({ Ref: c.AreasCenter }));
       let response = await Promise.all(centers);
       this.cities = response.filter(r => r.data.length).map(r => r.data && r.data[0] && r.data[0].Description);
+      this.areasCities = response.filter(r => r.data.length).map(r => r.data && r.data[0] && r.data[0].Description);
     },
     async searchByString ({ loading, search }) {
       try {

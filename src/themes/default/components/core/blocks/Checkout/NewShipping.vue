@@ -12,22 +12,14 @@
             <div class="number align-center">1</div>
           </div>
           <div class="text d-flex align-items-center w-100">
-            <span class="shipping-title">Доставка в</span>
-            <div class="picked-city" @click="showCityPicker = !showCityPicker">
+            <span>Доставка в городе :</span>
+            <!--<div class="picked-city" @click="showCityPicker = !showCityPicker">-->
+            <div class="picked-city" @click="onShowModal">
               {{ city }}
               <svg width="8" height="5" viewBox="0 0 8 5" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M0.25 0.5L4 4.25L7.75 0.5H0.25Z" fill="#BDBDBD"/>
               </svg>
             </div>
-            <city-select
-              v-if="showCityPicker"
-              class="city-select__wrapper"
-              :options="citiesOptions"
-              :selected="city"
-              :error="error"
-              @onCityChange="changeCity"
-              @onSearch="onSearch"
-            />
           </div>
         </div>
       </div>
@@ -78,7 +70,6 @@ import {required, minLength} from 'vuelidate/lib/validators';
 import {unicodeAlpha, unicodeAlphaNum} from '@vue-storefront/core/helpers/validators';
 import {Shipping} from '@vue-storefront/core/modules/checkout/components/Shipping';
 import CustomShipping from 'src/modules/custom-shipping/custom-shipping'
-import CitySelect from 'src/modules/custom-shipping/components/city-select'
 import NewPost from 'src/modules/nova-poshta/index';
 import { mapState } from 'vuex';
 import { debounce } from 'debounce';
@@ -86,17 +77,17 @@ import { debounce } from 'debounce';
 export default {
   components: {
     CustomShipping,
-    CitySelect
   },
   mixins: [Shipping, NewPost],
   beforeMount () {
     this.$bus.$on('checked-location', this.sendDataToCheckout)
+    this.$bus.$on('change-city', this.changeCity)
     // this.cities = new_post.map(dp => dp.city).filter((value, index, self) => self.indexOf(value) === index)
     this.getCityList()
-    this.onSearch = debounce(this.onSearch, 1000)
   },
   beforeDestroy () {
     this.$bus.$off('checked-location', this.sendDataToCheckout)
+    this.$bus.$off('change-city', this.changeCity)
   },
   data () {
     return {
@@ -143,6 +134,9 @@ export default {
     }, 300),
     onSearch (data) {
       this.deb(this, data)
+    },
+    onShowModal () {
+      this.$bus.$emit('modal-show', 'modal-custom-city-picker')
     }
   },
   validations: {

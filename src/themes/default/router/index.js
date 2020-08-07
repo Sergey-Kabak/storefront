@@ -1,3 +1,5 @@
+import i18n from '@vue-storefront/i18n';
+
 const Home = () => import(/* webpackChunkName: "vsf-home" */ 'theme/pages/Home.vue');
 const PageNotFound = () => import(/* webpackChunkName: "vsf-not-found" */ 'theme/pages/PageNotFound.vue');
 const ErrorPage = () => import(/* webpackChunkName: "vsf-error" */ 'theme/pages/Error.vue');
@@ -15,20 +17,20 @@ let routes = [
   // { name: 'ThankYouPage', path: '/thank-you-page', component: ThankYouPage },
   { name: 'checkout', path: '/checkout', component: Checkout },
 
-  { name: 'delivery', path: '/delivery', component: Static, props: { page: 'lorem', title: 'Delivery' }, meta: { description: 'delivery metadesc' } },
-  { name: 'payment', path: '/payment', component: Static, props: { page: 'lorem', title: 'Payment' }, meta: { description: 'payment metadesc' } },
-  { name: 'payments and loans', path: '/payments-and-loans', component: Static, props: { page: 'lorem', title: 'PaymentAndLoans' }, meta: { description: 'payments and loans metadesc' } },
-  { name: 'warranty exchange return', path: '/warranty-exchange-return', component: Static, props: { page: 'lorem', title: 'WarrantyExchangeReturn' }, meta: { description: 'warranty, exchange, return metadesc' } },
-  { name: 'service centers', path: '/service-centers', component: Static, props: { page: 'lorem', title: 'ServiceCenters' }, meta: { description: 'service centers metadesc' } },
-  { name: 'using a promo code', path: '/using-a-promo-code', component: Static, props: { page: 'lorem', title: 'UsingAPromoCode' }, meta: { description: 'using a promo code metadesc' } },
-  { name: 'public offer', path: '/public-offer', component: Static, props: { page: 'lorem', title: 'PublicOffer' }, meta: { description: 'public offer metadesc' } },
-  { name: 'promotional offers', path: '/promotional-offers', component: Static, props: { page: 'lorem', title: 'PromotionalOffers' }, meta: { description: 'promotional offers metadesc' } },
-  { name: 'shops', path: '/shops', component: Static, props: { page: 'lorem', title: 'Shops' }, meta: { description: 'shops metadesc' } },
-  { name: 'about the company', path: '/about-the-company', component: Static, props: { page: 'lorem', title: 'AboutTheCompany' }, meta: { description: 'about the company metadesc' } },
-  { name: 'own account', path: '/own-account', component: Static, props: { page: 'lorem', title: 'OwnAccount' }, meta: { description: 'own account metadesc' } },
-  { name: 'work in the company', path: '/work-in-the-company', component: Static, props: { page: 'lorem', title: 'WorkInTheCompany' }, meta: { description: 'work in the company metadesc' } },
-  { name: 'landlords', path: '/landlords', component: Static, props: { page: 'lorem', title: 'Landlords' }, meta: { description: 'landlords metadesc' } },
-  { name: 'contacts', path: '/contacts', component: Static, props: { page: 'lorem', title: 'Contacts' }, meta: { description: 'contacts metadesc' } },
+  { name: 'delivery', path: '/delivery', component: Static, props: { page: 'lorem', title: i18n.t('Delivery') }, meta: { description: 'delivery metadesc' } },
+  { name: 'payment', path: '/payment', component: Static, props: { page: 'lorem', title: i18n.t('Payment') }, meta: { description: 'payment metadesc' } },
+  { name: 'payments and loans', path: '/payments-and-loans', component: Static, props: { page: 'lorem', title: i18n.t('Payments and loans') }, meta: { description: 'payments and loans metadesc' } },
+  { name: 'warranty exchange return', path: '/warranty-exchange-return', component: Static, props: { page: 'lorem', title: i18n.t('Warranty, Exchange, Return') }, meta: { description: 'warranty, exchange, return metadesc' } },
+  { name: 'service centers', path: '/service-centers', component: Static, props: { page: 'lorem', title: i18n.t('Service centres') }, meta: { description: 'service centers metadesc' } },
+  { name: 'using a promo code', path: '/using-a-promo-code', component: Static, props: { page: 'lorem', title: i18n.t('Use promotional code') }, meta: { description: 'using a promo code metadesc' } },
+  { name: 'public offer', path: '/public-offer', component: Static, props: { page: 'lorem', title: i18n.t('Public offer') }, meta: { description: 'public offer metadesc' } },
+  { name: 'promotional offers', path: '/promotional-offers', component: Static, props: { page: 'lorem', title: i18n.t('Promotions') }, meta: { description: 'promotional offers metadesc' } },
+  { name: 'shops', path: '/shops', component: Static, props: { page: 'lorem', title: i18n.t('The shops') }, meta: { description: 'shops metadesc' } },
+  { name: 'about the company', path: '/about-the-company', component: Static, props: { page: 'lorem', title: i18n.t('Company') }, meta: { description: 'about the company metadesc' } },
+  { name: 'own account', path: '/own-account', component: Static, props: { page: 'lorem', title: i18n.t('Own account') }, meta: { description: 'own account metadesc' } },
+  { name: 'work in the company', path: '/work-in-the-company', component: Static, props: { page: 'lorem', title: i18n.t('Vacancies') }, meta: { description: 'work in the company metadesc' } },
+  { name: 'landlords', path: '/landlords', component: Static, props: { page: 'lorem', title: i18n.t('To landlords') }, meta: { description: 'landlords metadesc' } },
+  { name: 'contacts', path: '/contacts', component: Static, props: { page: 'lorem', title: i18n.t('Contact') }, meta: { description: 'contacts metadesc' } },
 
   // { name: 'legal', path: '/legal', component: Static, props: { page: 'lorem', title: 'Legal Notice' }, meta: { title: 'Legal Notice', description: 'Legal Notice - example of description usage' } },
   // { name: 'privacy', path: '/privacy', component: Static, props: { page: 'lorem', title: 'Privacy' } },
