@@ -4,7 +4,7 @@
         class="main-carousel home-carousel"
         ref="carousel1"
         :per-page="1"
-        :per-page-custom="[[320, 1], [420, 2], [787, 3], [1024, 5]]"
+        :per-page-custom="[[320, 1], [420, 2], [787, 3], [1180, 4], [1200, 5]]"
         :center-mode="true"
         :mouse-drag="true"
         :autoplay="true"
