@@ -1,10 +1,10 @@
 <template>
   <div class="home-carousel-wrapper">
     <carousel
-        class="main-carousel"
+        class="main-carousel home-carousel"
         ref="carousel1"
         :per-page="1"
-        :per-page-custom="[[768, 1], [1024, 5]]"
+        :per-page-custom="[[320, 1], [420, 2], [787, 3], [1024, 5]]"
         :center-mode="true"
         :mouse-drag="true"
         :autoplay="true"
@@ -97,3 +97,12 @@ export default {
   }
 };
 </script>
+
+<style lang="scss">
+  .home-carousel {
+    img {
+      width: auto !important;
+      margin: 0 auto;
+    }
+  }
+</style>
