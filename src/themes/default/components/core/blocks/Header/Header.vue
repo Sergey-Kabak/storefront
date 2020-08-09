@@ -195,6 +195,18 @@ export default {
 @import '~theme/css/helpers/functions/color';
 $color-icon-hover: color(secondary, $colors-background);
 
+@media (max-width: 549px) {
+  .header-black-line ul li {
+    margin: 0 15px !important;
+  }
+}
+
+@media (max-width: 549px) {
+  .header-black-line ul li {
+    margin: 0 6px !important;
+  }
+}
+
 .header {
   &-black-line {
     background-color: #1A1919;
@@ -203,6 +215,7 @@ $color-icon-hover: color(secondary, $colors-background);
     position: relative;
     box-sizing: border-box;
     ul {
+      padding: 0;
       list-style: none;
       display: flex;
       margin: 0;
