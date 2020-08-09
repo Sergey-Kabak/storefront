@@ -1,95 +1,99 @@
 <template>
   <div class="personal-details">
-      <div class="subtitle">
-        <div class="number-block" :class="{'checked': !isSectionActive}">
-          <div class="number align-center" v-if="isSectionActive">2</div>
-          <img src='/assets/custom/Check.svg' v-else alt="correct">
-        </div>
-        <div class="subtitle-text">{{ $t('Contact details') }}:</div>
+    <div class="subtitle">
+      <div class="number-block" :class="{'checked': !isSectionActive}">
+        <div class="number align-center" v-if="isSectionActive">2</div>
+        <img src='/assets/custom/Check.svg' v-else alt="correct">
       </div>
-      <div class="personal-details-body">
-        <div class="label">
-          Как вас зовут?
-          <span class="label--highlighted">*</span>
-        </div>
-        <div class="personal-details-row">
-          <base-input
-            class="custom-input"
-            :class="{error: ($v.personalDetails.firstName.$error && !$v.personalDetails.firstName.required) || !$v.personalDetails.firstName.minLength}"
-            type="text"
-            :autofocus="true"
-            name="first-name"
-            :placeholder="$t('First name')"
-            v-model.trim="personalDetails.firstName"
-            @blur="$v.personalDetails.firstName.$touch()"
-            autocomplete="given-name"
-            :validations="[
-              {
-                condition: $v.personalDetails.firstName.$error && !$v.personalDetails.firstName.required,
-                text: $t('Field is required')
-              },
-              {
-                condition: !$v.personalDetails.firstName.minLength,
-                text: $t('Name must have at least 2 letters.')
-              }
-            ]"
-          />
-
-          <base-input
-            class="custom-input"
-            type="text"
-            name="last-name"
-            :placeholder="$t('Last name')"
-            v-model.trim="personalDetails.lastName"
-            @blur="$v.personalDetails.lastName.$touch()"
-            autocomplete="family-name"
-            :validations="[{
-              condition: $v.personalDetails.lastName.$error && !$v.personalDetails.lastName.required,
+      <div class="subtitle-text">{{ $t('Contact details') }}:</div>
+    </div>
+    <div class="personal-details-body">
+      <div class="label">
+        {{ $t('What is your name?') }}
+        <span class="label--highlighted">*</span>
+      </div>
+      <div class="personal-details-row">
+        <base-input
+          class="custom-input"
+          :class="{ error: ($v.personalDetails.firstName.$error && !$v.personalDetails.firstName.required) || !$v.personalDetails.firstName.minLength }"
+          type="text"
+          :autofocus="true"
+          name="first-name"
+          :placeholder="$t('First name')"
+          v-model.trim="personalDetails.firstName"
+          @blur="$v.personalDetails.firstName.$touch()"
+          autocomplete="given-name"
+          :validations="[
+            {
+              condition: $v.personalDetails.firstName.$error && !$v.personalDetails.firstName.required,
               text: $t('Field is required')
-            }]"
-          />
-        </div>
-        <div class="label">
-          Ваши контакты
-          <span class="label--highlighted">*</span>
-        </div>
-        <div class="personal-details-row">
-          <base-input
-            class="custom-input"
-            type="text"
-            name="phone-number"
-            :placeholder="$t('Phone Number')"
-            v-model.trim="personalDetails.phoneNumber"
-            autocomplete="tel"
-            :validations="[
-              {
-                condition: $v.personalDetails.phoneNumber.$error && !$v.personalDetails.phoneNumber.required,
-                text: $t('Field is required')
-              },
-            ]"
-          />
-          <base-input
-            class="custom-input"
-            type="email"
-            name="email-address"
-            :placeholder="$t('Email address')"
-            v-model="personalDetails.emailAddress"
-            @blur="$v.personalDetails.emailAddress.$touch()"
-            autocomplete="email"
-            @keyup.enter="sendDataToCheckout"
-            :validations="[
-              {
-                condition: $v.personalDetails.emailAddress.$error && !$v.personalDetails.emailAddress.required,
-                text: $t('Field is required')
-              },
-              {
-                condition: !$v.personalDetails.emailAddress.email && $v.personalDetails.emailAddress.$error,
-                text: $t('Please provide valid e-mail address.')
-                }
-              ]"
-            />
-        </div>
+            },
+            {
+              condition: !$v.personalDetails.firstName.minLength,
+              text: $t('Name must have at least 2 letters.')
+            }
+          ]"
+        />
+
+        <base-input
+          class="custom-input"
+          type="text"
+          name="last-name"
+          :placeholder="$t('Last name')"
+          v-model.trim="personalDetails.lastName"
+          @blur="$v.personalDetails.lastName.$touch()"
+          autocomplete="family-name"
+          :class="{ error: ($v.personalDetails.lastName.$error && !$v.personalDetails.lastName.required) }"
+          :validations="[{
+            condition: $v.personalDetails.lastName.$error && !$v.personalDetails.lastName.required,
+            text: $t('Field is required')
+          }]"
+        />
       </div>
+      <div class="label">
+        Ваши контакты
+        <span class="label--highlighted">*</span>
+      </div>
+      <div class="personal-details-row">
+        <base-input
+          class="custom-input"
+          type="text"
+          name="phone-number"
+          @blur="$v.personalDetails.phoneNumber.$touch()"
+          :placeholder="$t('Phone Number')"
+          v-model.trim="personalDetails.phoneNumber"
+          autocomplete="tel"
+          :class="{ error: ($v.personalDetails.phoneNumber.$error && !$v.personalDetails.phoneNumber.required) }"
+          :validations="[
+            {
+              condition: $v.personalDetails.phoneNumber.$error && !$v.personalDetails.phoneNumber.required,
+              text: $t('Field is required')
+            }
+          ]"
+        />
+        <base-input
+          class="custom-input"
+          type="email"
+          name="email-address"
+          :placeholder="$t('Email address')"
+          v-model="personalDetails.emailAddress"
+          @blur="$v.personalDetails.emailAddress.$touch()"
+          autocomplete="email"
+          @keyup.enter="sendDataToCheckout"
+          :class="{ error: ($v.personalDetails.emailAddress.$error && !$v.personalDetails.emailAddress.required) || !$v.personalDetails.emailAddress.email }"
+          :validations="[
+            {
+              condition: $v.personalDetails.emailAddress.$error && !$v.personalDetails.emailAddress.required,
+              text: $t('Field is required')
+            },
+            {
+              condition: !$v.personalDetails.emailAddress.email && $v.personalDetails.emailAddress.$error,
+              text: $t('Please provide valid e-mail address.')
+            }
+          ]"
+        />
+      </div>
+    </div>
     <div class="row" v-show="isActive">
       <div class="col-xs-12">
         <div class="row">
@@ -97,7 +101,7 @@
             <button-small
               class="custom-action-button"
               data-testid="personalDetailsSubmit"
-              @click.native="sendDataToCheckout"
+              @click.native="sendDataToCheckout()"
               :disabled="createAccount ? $v.$invalid : $v.personalDetails.$invalid"
             >
               {{ $t((isVirtualCart ? 'Далее' : 'Далее')) }}
@@ -220,8 +224,18 @@ export default {
   display: flex;
   justify-content: space-between;
 
+  .relative {
+    &:first-child {
+      margin-right: 10px;
+    }
+
+    &:last-child {
+      margin-left: 10px;
+    }
+  }
+
   &:last-of-type {
-    margin-bottom: 16px;
+    margin-bottom: 14px;
   }
 }
 
@@ -249,4 +263,36 @@ export default {
     color: #23BE20;
   }
 }
+
+@media (max-width: 960px) {
+  .custom-input {
+    max-width: 100%!important;
+    margin-bottom: 0;
+  }
+
+  .personal-details-row {
+    &:last-of-type {
+      margin-bottom: 0;
+    }
+  }
+}
+
+@media (max-width: 460px) {
+  .personal-details-row {
+    flex-direction: column;
+
+    .relative {
+      &:first-child,
+      &:last-child {
+        margin-right: 0;
+        margin-left: 0;
+      }
+    }
+  }
+
+  .custom-action-button {
+    max-width: 100%;
+  }
+}
+
 </style>

@@ -9,10 +9,10 @@
       :key="product.server_item_id || product.id"
       :product="product"
     />
-    <promo-code isToggled />
+    <promo-code class="promo-code"/>
     <div class="summary-price">
       <span>Всего:</span>
-      {{ totalPrice }} ₴
+      {{ totalPrice | price(storeView) }}
     </div>
   </div>
 </template>
@@ -33,7 +33,7 @@ export default {
   computed: {
     ...mapGetters('cart', ['getItemsTotalQuantity']),
     storeView () {
-      return currentStoreView ();
+      return currentStoreView();
     },
     totalPrice () {
       return this.productsInCart.reduce((acc, it) => acc + it.price * it.qty, 0)
@@ -59,6 +59,10 @@ export default {
   border-left: 1px solid #ededed;
 }
 
+.promo-code {
+  margin-bottom: 32px;
+}
+
 .summary-title {
   display: flex;
   align-items: center;
@@ -80,9 +84,6 @@ export default {
     line-height: 13px;
     border-radius: 50%;
     background: #23be20;
-  }
-  @media (max-width: 767px) {
-    margin-left: 0;
   }
 }
 </style>

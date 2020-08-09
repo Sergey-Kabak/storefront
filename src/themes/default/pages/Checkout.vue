@@ -1,116 +1,83 @@
 <template>
   <div id="checkout">
-    <div class="container">
-      <div class="row" v-show="!isThankYouPage">
-        <div class="col-xs-12 pb70">
-          <nav aria-label="breadcrumb">
-            <ol class="breadcrumb">
-              <li class="breadcrumb-item" :class="{'active': activeSection.shipping}" aria-current="page">
-                1. {{ $t('Delivery') }} <span class="material-icons">keyboard_arrow_right</span>
-              </li>
-              <li class="breadcrumb-item" :class="{'active': activeSection.personalDetails}">
-                2. {{ $t('Contact details') }} <span class="material-icons">keyboard_arrow_right</span>
-              </li>
-              <li class="breadcrumb-item" :class="{'active': activeSection.payment}">3. {{ $t('the Payment') }}</li>
-            </ol>
-          </nav>
-          <shipping
-              class="line relative"
-              :class="{hidden: !activeSection.shipping}"
-              :is-active="activeSection.shipping"
-          />
-          <div class="custom-active-block container-fluid" v-show="!activeSection.shipping">
-            <div class="row">
-              <div class="col-md-7 col-xs-12">
-                <div class="container-fluid">
-                  <div class="row checkout-title-wrap">
-                    <div class="col-xs-12 col-sm-12 col-md-12">
-                      <div class="row">
-                        <div class="checkout-title">
-                          <h1>
-                            {{ $t('Checkout') }}
-                          </h1>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="col-xs-12">
-                      <div class="shipping-details__edit" v-if="activeSection.personalDetails || activeSection.payment || activeSection.orderReview">
-                        <div class="subtitle">
-                          <div class="number-block" :class="{'checked': !activeSection.shipping}">
-                            <div class="number align-center" v-if="activeSection.shipping">1</div>
-                            <img src='/assets/custom/Check.svg' v-else alt="correct">
-                          </div>
-                          <div class="subtitle-text">{{ $t('Delivery') }}:</div>
-                          <div class="lh30 flex end-lg ml-auto">
-                            <span class="edit" @click.prevent="$bus.$emit('checkout-before-edit', 'shipping')">{{ $t('Edit') }}</span>
-                          </div>
-                        </div>
-                        <div class="shipping-data">
-                          <div class="text">
-                            {{ `${shippingDetails.city}, ${shippingDetails.shopName ? shippingDetails.shopName : ''},
-                            ${$t('st.')} ${shippingDetails.streetAddress}, ${shippingDetails.apartmentNumber}` }}
-                          </div>
-                        </div>
-                      </div>
-                      <div class="shipping-details__edit" v-if="activeSection.payment || activeSection.orderReview">
-                        <div class="subtitle">
-                          <div class="number-block" :class="{'checked': !activeSection.personalDetails}">
-                            <div class="number" v-if="activeSection.shipping">3</div>
-                            <img src='/assets/custom/Check.svg' v-else alt="correct">
-                          </div>
-                          <div class="subtitle-text">{{ $t('Contact details') }}:</div>
-                          <div class="lh30 flex end-lg ml-auto">
-                            <span class="edit" @click.prevent="$bus.$emit('checkout-before-edit', 'personalDetails')">{{ $t('Edit') }}</span>
-                          </div>
-                        </div>
-                        <div class="shipping-data">
-                          <div class="text">
-                            {{ `${personalDetails.firstName} ${personalDetails.lastName}, ${shippingDetails.phoneNumber}, ${personalDetails.emailAddress}` }}
-                          </div>
-                        </div>
-                      </div>
-                      <!-- <div class="shipping-details__edit" v-if="activeSection.orderReview">
-                        <div class="number-block d-flex align-items-center">
-                          <div class="number align-center">3</div>
-                          <div class="text">{{ $t('the Payment') }}:</div>
-                          <div class="lh30 flex end-lg ml-auto">
-                            <span class="edit" @click.prevent="$bus.$emit('checkout-before-edit', 'payment')">{{ $t('Edit') }}</span>
-                          </div>
-                        </div>
-                        <div class="shipping-data">
-                          <div class="text">
-                            {{ `${personalDetails.firstName} ${personalDetails.lastName}, ${shippingDetails.phoneNumber}, ${personalDetails.emailAddress}` }}
-                          </div>
-                        </div>
-                      </div> -->
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="col-xs-12">
-                      <personal-details
-                        :isSectionActive="!!activeSection.personalDetails"
-                        :class="{hidden: !activeSection.personalDetails}"
-                        class="line relative"
-                        :is-active="activeSection.personalDetails"
-                        :focused-field="focusedField"
-                      />
-                      <payment
-                        :activeSection="activeSection"
-                        class="line relative"
-                        :is-active="activeSection.payment"
-                      />
-                    </div>
-                  </div>
-                </div>
+    <div class="checkout-container" v-show="!isThankYouPage">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item" :class="{'active': activeSection.shipping}" aria-current="page">
+            <span>1.</span>
+            {{ $t('Delivery') }} <span class="material-icons">keyboard_arrow_right</span>
+          </li>
+          <li class="breadcrumb-item" :class="{'active': activeSection.personalDetails}">
+            <span>2.</span>
+            {{ $t('Contact details') }} <span class="material-icons">keyboard_arrow_right</span>
+          </li>
+          <li class="breadcrumb-item" :class="{'active': activeSection.payment}">
+            <span>3.</span> 
+            {{ $t('the Payment') }}
+          </li>
+        </ol>
+      </nav>
+      <shipping
+          class="line relative"
+          :class="{hidden: !activeSection.shipping}"
+          :is-active="activeSection.shipping"
+      />
+      <div class="custom-active-block" v-show="!activeSection.shipping">
+        <div class="checkout-left">
+          <div class="checkout-title">
+            <h1>
+              {{ $t('Checkout') }}
+            </h1>
+          </div>
+          <div class="shipping-details__edit" v-if="activeSection.personalDetails || activeSection.payment || activeSection.orderReview">
+            <div class="subtitle">
+              <div class="number-block" :class="{'checked': !activeSection.shipping}">
+                <div class="number align-center" v-if="activeSection.shipping">1</div>
+                <img src='/assets/custom/Check.svg' v-else alt="correct">
               </div>
-              <div class="col-md-5 hidden-xs">
-                <cart-summary />
+              <div class="subtitle-text">{{ $t('Delivery') }}:</div>
+              <div class="lh30 flex end-lg ml-auto">
+                <span class="edit" @click.prevent="$bus.$emit('checkout-before-edit', 'shipping')">{{ $t('Edit') }}</span>
+              </div>
+            </div>
+            <div class="shipping-data">
+              <div class="text">
+                {{ `${shippingDetails.city}, ${shippingDetails.shopName ? shippingDetails.shopName : ''},
+                ${$t('st.')} ${shippingDetails.streetAddress}, ${shippingDetails.apartmentNumber}` }}
               </div>
             </div>
           </div>
+          <div class="shipping-details__edit" v-if="activeSection.payment || activeSection.orderReview">
+            <div class="subtitle">
+              <div class="number-block" :class="{'checked': !activeSection.personalDetails}">
+                <div class="number" v-if="activeSection.shipping">3</div>
+                <img src='/assets/custom/Check.svg' v-else alt="correct">
+              </div>
+              <div class="subtitle-text">{{ $t('Contact details') }}:</div>
+              <div class="lh30 flex end-lg ml-auto">
+                <span class="edit" @click.prevent="$bus.$emit('checkout-before-edit', 'personalDetails')">{{ $t('Edit') }}</span>
+              </div>
+            </div>
+            <div class="shipping-data">
+              <div class="text">
+                {{ `${personalDetails.firstName} ${personalDetails.lastName}, ${shippingDetails.phoneNumber}, ${personalDetails.emailAddress}` }}
+              </div>
+            </div>
+          </div>
+          <personal-details
+            :isSectionActive="!!activeSection.personalDetails"
+            :class="{hidden: !activeSection.personalDetails}"
+            class="line relative"
+            :is-active="activeSection.personalDetails"
+            :focused-field="focusedField"
+          />
+          <payment
+            :activeSection="activeSection"
+            class="line relative"
+            :is-active="activeSection.payment"
+          />
         </div>
+        <cart-summary class="checkout-right" />
       </div>
     </div>
     <thank-you-page v-show="isThankYouPage" />
@@ -184,8 +151,12 @@ export default {
 
 <style lang="sass">
   #checkout
-    .container 
-      max-width: 1200px
+    .checkout-container
+      box-sizing: border-box
+      padding-top: 18px
+      max-width: 1324px
+      width: 95%
+      margin: auto
     .action
       font-family: 'DIN Pro'
       font-size: 13px
@@ -197,6 +168,9 @@ export default {
         border-bottom: 1px solid #E0E0E0
         .text
           font-family: 'DIN Pro'
+          overflow: hidden
+          white-space: nowrap
+          text-overflow: ellipsis;
           padding-bottom: 24px
           font-size: 13px
           line-height: 16px
@@ -265,14 +239,11 @@ export default {
   $color-white: color(white);
   $color-black: color(black);
 
-  .checkout-title-wrap {
-    margin-bottom: 24px;
-  }
-
   #checkout {
     .breadcrumb {
+      padding: 0;
+      margin: 0 0 24px 0;
       background-color: transparent;
-      margin-top: 38px;
       &-item {
         font-family: 'DIN Pro';
         font-size: 13px;
@@ -300,7 +271,10 @@ export default {
       }
     }
     .radioStyled {
-      display: block;
+      display: flex;
+      width: 100%;
+      flex-direction: column-reverse;
+      align-items: center;
       position: relative;
       cursor: pointer;
       font-size: 13px;
@@ -315,7 +289,7 @@ export default {
       margin-bottom: 0;
       border-radius: 4px;
       text-align: center;
-      padding: 58px 16px 16px;
+      padding: 13px 0;
       font-family: 'DIN Pro';
       color: #1A1919;
 
@@ -326,11 +300,8 @@ export default {
       }
 
       .checkmark {
-        position: absolute;
-        top: 16px;
-        left: 0;
-        right: 0;
-        margin: 0 auto;
+        position: relative;
+        margin-bottom: 18px;
         height: 20px;
         width: 20px;
         border-radius: 50%;
@@ -376,6 +347,8 @@ export default {
   }
 
   .checkout-title {
+    margin-bottom: 24px;
+
     h1 {
       font-family: 'DIN Pro';
       margin-bottom: 0!important;
@@ -390,6 +363,55 @@ export default {
 
       h1 {
         font-size: 36px;
+      }
+    }
+  }
+
+  .custom-active-block {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .checkout-left {
+    max-width: 652px;
+    width: 100%;
+    margin-right: 76px;
+  }
+
+  .checkout-right {
+    max-width: 592px;
+    width: 100%;
+  }
+
+  @media (max-width: 960px) {
+    .checkout-right {
+      display: none;
+    }
+
+    .checkout-left {
+      max-width: 100%;
+      margin-right: 0;
+    }
+  }
+
+  @media (max-width: 460px) {
+    .breadcrumb {
+      justify-content: center;
+      align-items: center;
+
+      .material-icons {
+        display: none;
+      }
+
+      .breadcrumb-item {
+        flex-direction: column;
+        justify-content: center;
+        margin-right: 15px;
+        align-items: center;
+
+        &:last-child {
+          margin-right: 0;
+        }
       }
     }
   }

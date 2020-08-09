@@ -47,7 +47,7 @@
         />
       </div>
       <div class="product-price">
-        <span> {{ product.price * product.qty }} ₴ </span>
+        <span> {{ product.price * product.qty | price(storeView) }} </span>
       </div>
     </div>
   </div>
