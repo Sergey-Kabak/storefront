@@ -1,50 +1,54 @@
 <template>
   <div class="product">
-    <div class="product-remove" @click="removeFromCart()">
-      <svg width="14" height="18" viewBox="0 0 14 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M1 16C1 17.1 1.9 18 3 18H11C12.1 18 13 17.1 13 16V4H1V16ZM3.5 8.9L4.9 7.5L7 9.6L9.1 7.5L10.5 8.9L8.4 11L10.5 13.1L9.1 14.5L7 12.4L4.9 14.5L3.5 13.1L5.6 11L3.5 8.9ZM10.5 1L9.5 0H4.5L3.5 1H0V3H14V1H10.5Z" fill="#BDBDBD"/>
-      </svg>
-    </div>
-    <div class="product-image">
-      <img :src="image.src" alt="product" />
-    </div>
-    <div class="product-info">
-      <div class="product-info-name">
-        {{ product.name }}
+    <div class="product-left">
+      <div class="product-remove" @click="removeFromCart()">
+        <svg width="14" height="18" viewBox="0 0 14 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M1 16C1 17.1 1.9 18 3 18H11C12.1 18 13 17.1 13 16V4H1V16ZM3.5 8.9L4.9 7.5L7 9.6L9.1 7.5L10.5 8.9L8.4 11L10.5 13.1L9.1 14.5L7 12.4L4.9 14.5L3.5 13.1L5.6 11L3.5 8.9ZM10.5 1L9.5 0H4.5L3.5 1H0V3H14V1H10.5Z" fill="#BDBDBD"/>
+        </svg>
       </div>
-      <div class="product-info-price">
-        <span
+      <div class="product-image">
+        <img :src="image.src" alt="product" />
+      </div>
+      <div class="product-info">
+        <div class="product-info-name">
+          {{ product.name }}
+        </div>
+        <div class="product-info-price">
+          <span
             class="mr5 original-price"
             :class="{'disabled': product.original_special_price}"
-        >
-          {{ product.original_price_incl_tax | price(storeView) }}
-        </span>
-        <span 
-          class="price-special cl-accent weight-700"
-          v-if="product.original_special_price"
-        >
-          {{ product.original_special_price | price(storeView) }}
-        </span>
-        <span 
-          v-if="product.original_price_incl_tax && product.original_special_price"
-          class="lh30 cl-secondary price-sale">
-          -{{ (product.original_price_incl_tax - product.original_special_price) | price(storeView) }}
-        </span>
+          >
+            {{ product.original_price_incl_tax | price(storeView) }}
+          </span>
+          <span
+            class="price-special cl-accent weight-700"
+            v-if="product.original_special_price"
+          >
+            {{ product.original_special_price | price(storeView) }}
+          </span>
+          <span
+            v-if="product.original_price_incl_tax && product.original_special_price"
+            class="lh30 cl-secondary price-sale"
+          >
+            -{{ (product.original_price_incl_tax - product.original_special_price) | price(storeView) }}
+          </span>
+        </div>
       </div>
     </div>
-    <div class="product-quantity" v-if="product.type_id !== 'grouped' && product.type_id !== 'bundle'">
-      <product-quantity-new
-        class="row m0"
-        v-model.number="product.qty"
-        @input="udpateQty($event)"
-        :is-simple-or-configurable="isSimpleOrConfigurable"
-        :show-quantity="manageQuantity"
-        :check-max-quantity="manageQuantity"
-        :loading="isQtyUpdating"
-      />
-    </div>
-    <div class="product-price">
-      <span> {{ product.price * product.qty }} ₴ </span>
+    <div class="product-right">
+      <div class="product-qty" v-if="product.type_id !== 'grouped' && product.type_id !== 'bundle'">
+        <product-quantity-new
+          v-model.number="product.qty"
+          @input="udpateQty($event)"
+          :is-simple-or-configurable="isSimpleOrConfigurable"
+          :show-quantity="manageQuantity"
+          :check-max-quantity="manageQuantity"
+          :loading="isQtyUpdating"
+        />
+      </div>
+      <div class="product-price">
+        <span> {{ product.price * product.qty }} ₴ </span>
+      </div>
     </div>
   </div>
 </template>
@@ -52,7 +56,6 @@
 <script>
 import ProductQuantityNew from 'theme/components/core/ProductQuantityNew.vue'
 import { onlineHelper } from '@vue-storefront/core/helpers'
-import ProductImage from 'theme/components/core/ProductImage'
 import { currentStoreView } from '@vue-storefront/core/lib/multistore'
 import { Product } from '@vue-storefront/core/modules/checkout/components/Product'
 import i18n from '@vue-storefront/i18n'
@@ -60,7 +63,6 @@ import i18n from '@vue-storefront/i18n'
 export default {
   mixins: [Product],
   components: {
-    ProductImage,
     ProductQuantityNew
   },
   data: () => ({
@@ -93,7 +95,7 @@ export default {
     removeFromCart () {
       this.$store.dispatch('notification/spawnNotification', {
         type: 'warning',
-        message: i18n.t('Are you sure you would like to remove item from the shopping cart?'),
+        message: i18n.t('Are you sure you would like to remove this item from the shopping cart?'),
         action1: { label: i18n.t('Cancel'), action: 'close' },
         action2: { label: i18n.t('OK'),
           action: async () => {
@@ -103,7 +105,7 @@ export default {
         hasNoTimeout: true
       })
     },
-    async udpateQty(qty) {
+    async udpateQty (qty) {
       this.isQtyUpdating = true
       await this.$store.dispatch('cart/updateQuantity', { product: this.product, qty })
       this.isQtyUpdating = false
@@ -119,6 +121,19 @@ export default {
   padding-bottom: 15px;
   border-bottom: 1px solid #e0e0e0;
   margin-bottom: 15px;
+}
+
+.product-left,
+.product-right {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+}
+
+.product-right {
+  margin-left: auto;
+  max-width: 200px;
+  width: 100%;
 }
 
 .price-sale {
@@ -156,7 +171,8 @@ export default {
 }
 
 .product-info {
-  margin-right: 15px;
+  margin-right: 20px;
+  max-width: 280px;
 }
 
 .product-info-name {
@@ -173,20 +189,19 @@ export default {
 }
 
 .product-price {
+  width: 100%;
+  max-width: 80px;
   font-family: DIN Pro;
   font-style: normal;
   font-size: 18px;
   line-height: 24px;
-  white-space: nowrap;
   font-weight: 600;
-  margin-left: 8px;
-  max-width: 70px;
   color: #1A1919;
-  width: 100%;
   text-align: right;
 }
 
-.product-quantity {
+.product-qty {
+  margin-right: 20px;
   margin-left: auto;
 }
 

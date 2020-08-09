@@ -18,15 +18,15 @@
 </template>
 
 <script>
-import focusClean from "theme/components/theme/directives/focusClean";
+import focusClean from 'theme/components/theme/directives/focusClean';
 export default {
-  name: "ButtonFull",
+  name: 'ButtonFull',
   directives: { focusClean },
   props: {
     type: {
       type: String,
       required: false,
-      default: "button"
+      default: 'button'
     },
     link: {
       type: Object,
@@ -40,34 +40,33 @@ export default {
     }
   },
   computed: {
-    compontentType() {
-      return this.link ? "router-link" : "button";
+    compontentType () {
+      return this.link ? 'router-link' : 'button';
     },
-    redirectionLink() {
+    redirectionLink () {
       return this.link ? this.localizedRoute(this.link) : null;
     }
   }
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang='scss' scoped>
 .button-full {
-  padding: 0;
   display: flex;
   justify-content: center;
   align-items: center;
   text-align: center;
+  height: 40px;
+  padding: 0 5px;
+  width: 100%;
   border-style: none;
   background: #23be20;
   color: #ffffff;
-  height: 40px;
   max-width: 260px;
-  width: 100%;
   font-family: DIN Pro;
   font-size: 15px;
   font-weight: 600;
   line-height: 16px;
-  min-width: 250px;
   border-radius: 4px;
   transition: .2s ease-in-out;
 
