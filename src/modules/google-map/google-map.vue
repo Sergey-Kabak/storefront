@@ -18,14 +18,19 @@
         :icon="{url: cUrl(m)}"
         @click="onClick(m,index)"
       />
-      <!--<gmap-info-window-->
-          <!--:options="infoOptions"-->
-          <!--:position="infoWindowPos"-->
-          <!--:opened="infoWinOpen"-->
-          <!--@closeclick="infoWinOpen=false"-->
-      <!--&gt;-->
-        <!--<info-popup :marker="infoContent" :checked="getChecked || shippingDetails.id || ''" :hide-products="hideProducts" />-->
-      <!--</gmap-info-window>-->
+      <gmap-info-window
+        :options="infoOptions"
+        :position="infoWindowPos"
+        :opened="infoWinOpen"
+        @closeclick="infoWinOpen=false"
+      >
+        <info-popup
+          :marker="infoContent"
+          :checked="getChecked || shippingDetails.id || ''"
+          :hide-products="hideProducts"
+          @close="infoWinOpen=false"
+        />
+      </gmap-info-window>
     </gmap-map>
 
   </div>
