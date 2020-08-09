@@ -143,7 +143,7 @@ export default {
         : (this.isProduct ? this.openPopup(m) : this.toCheckout(m))
     },
     toggleInfoWindow (marker, idx) {
-      this.zoom = 17
+      // this.zoom = 17
       this.infoWindowPos = marker.position
       this.infoContent = marker
       // check if its the same marker that was selected if yes toggle
