@@ -43,6 +43,8 @@ export default {
     getSelected () {
       this.$store.dispatch('shipping/updateChecked', this.item.id)
       this.hideProducts ? this.toFavorite(this.item) : (this.isProduct ? this.saveShippingDetails(this.item) : this.toCheckout(this.item))
+
+      this.$emit("onClick", this.item);
     },
     saveShippingDetails (val) {
       this.shipping = {
@@ -144,13 +146,13 @@ export default {
       box-sizing: border-box;
       cursor: pointer;
       display: block;
-      padding: 10px;
+      padding: 12px;
       text-align: center;
-      font-size: 13px;
+      font-size: 15px;
+      line-height: 16px;
       font-weight: 400;
       max-width: 350px;
-      border: 1px solid #00612B;
-      background-color: #00612B;
+      background: #23BE20;
       min-width: 250px;
       border-radius: 5px;
       color: #FFFFFF;
