@@ -19,7 +19,10 @@
                   class="web-share"
               />
             </h1>
-            <div class="product-in-stock">
+            <div
+              class="product-in-stock"
+              :class="{ 'not-available': !(getCurrentProduct.stock && getCurrentProduct.stock.is_in_stock) }"
+            >
               {{(getCurrentProduct.stock && getCurrentProduct.stock.is_in_stock) ? $t('In stock') : $t('Not available')}}
             </div>
           </div>
