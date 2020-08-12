@@ -83,7 +83,7 @@
                     {{ option.label }}
                     <span
                       class="weight-700"
-                    >{{ getOptionLabel(option) }}</span>
+                    >{{ $t(getOptionLabel(option)) }}</span>
                   </div>
                   <div class="row top-xs m0 pt15 pb40 variants-wrapper">
                     <div v-if="option.attribute_code == 'color'">
