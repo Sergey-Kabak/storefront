@@ -909,7 +909,7 @@
       "url_path": "akczijni-propozicziyi/novinki"
     },
     "recommends": {
-      "url_path": "akczijni-propozicziyi/elektronika"
+      "url_path": "akczijni-propozicziyi/elektronika-akcziya"
     }
   },
   "urlModule": {
@@ -993,23 +993,15 @@
   },
   "sliderProduct": [
     {
-      "url_path": "samsung-a31-4-64gb-a315.html?childSku=т27150",
-      "type_id": "configurable"
-    },
-    {
-      "url_path": "smartfoni-i-telefoni?manufacturer=115",
-      "type_id": "configurable"
-    },
-    {
       "url_path": "fitnes-braslet-mi-smart-band-4.html?childSku=т26177",
       "type_id": "configurable"
     },
     {
-      "url_path": "xiaomi-redmi-note-9-4-128gb.html",
+      "url_path": "smartfoni-i-telefoni?manufacturer=142",
       "type_id": "configurable"
     },
     {
-      "url_path": "navushniki-redmi-airdots-s.html?childSku=т29829",
+      "url_path": "bezdrotovi-navushniki-redmi-airdots-s-black.html",
       "type_id": "configurable"
     },
     {
@@ -1021,7 +1013,11 @@
       "type_id": "configurable"
     },
     {
-      "url_path": "xiaomi-redmi-note-8t-4-64gb.html?childSku=т26939",
+      "url_path": "samsung-a31-4-64gb-a315.html?childSku=т27150",
+      "type_id": "configurable"
+    },
+    {
+      "url_path": "smartfoni-i-telefoni?manufacturer=115",
       "type_id": "configurable"
     }
   ]
