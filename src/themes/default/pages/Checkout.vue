@@ -114,7 +114,7 @@
               </div>
               <div class="col-md-5 hidden-xs">
                 <div class="row">
-                  <div class="hidden-xs col-sm-12 bg-cl-secondary">
+                  <div class="hidden-xs col-sm-12">
                     <cart-summary />
                   </div>
                 </div>

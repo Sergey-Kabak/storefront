@@ -30,6 +30,10 @@
                     {
                       condition: !$v.personalDetails.firstName.minLength,
                       text: $t('Name must have at least 2 letters.')
+                    },
+                    {
+                      condition: !$v.personalDetails.firstName.lettersOnly,
+                      text: $t('Accepts only alphabet characters.')
                     }
                   ]"
               />
@@ -42,24 +46,39 @@
                   v-model.trim="personalDetails.lastName"
                   @blur="$v.personalDetails.lastName.$touch()"
                   autocomplete="family-name"
-                  :validations="[{
-              condition: $v.personalDetails.lastName.$error && !$v.personalDetails.lastName.required,
-              text: $t('Field is required')
-            }]"
+                  :validations="[
+                    {
+                      condition: $v.personalDetails.lastName.$error && !$v.personalDetails.lastName.required,
+                      text: $t('Field is required')
+                    },
+                    {
+                      condition: !$v.personalDetails.lastName.minLength,
+                      text: $t('Name must have at least 2 letters.')
+                    },
+                    {
+                      condition: !$v.personalDetails.lastName.lettersOnly,
+                      text: $t('Accepts only alphabet characters.')
+                    }
+                  ]"
               />
 
               <base-input
                   class="col-xs-12 col-md-6 mb10 custom-input"
                   type="text"
                   name="phone-number"
-                  :placeholder="$t('Phone Number *')"
+                  :placeholder="$t('Phone Number') + ' *'"
                   v-model.trim="personalDetails.phoneNumber"
                   autocomplete="tel"
+                  @blur="$v.personalDetails.phoneNumber.$touch()"
                   :validations="[
                     {
                       condition: $v.personalDetails.phoneNumber.$error && !$v.personalDetails.phoneNumber.required,
                       text: $t('Field is required')
                     },
+                    {
+                      condition: !$v.personalDetails.phoneNumber.isPhone && $v.personalDetails.phoneNumber.$error,
+                      text: $t('Please provide valid phone number')
+                    }
                   ]"
               />
 
@@ -223,6 +242,11 @@ import BaseInput from 'theme/components/core/blocks/Form/BaseInput'
 import ButtonFull from 'theme/components/theme/ButtonFull'
 import Tooltip from 'theme/components/core/Tooltip'
 
+const lettersOnly = value => (
+  /^[\u0400-\u04FF]+$/.test(value) ||
+  /^[a-zA-Z]+$/.test(value)
+);
+
 export default {
   components: {
     ButtonFull,
@@ -235,17 +259,27 @@ export default {
     personalDetails: {
       firstName: {
         required,
-        minLength: minLength(2)
+        minLength: minLength(2),
+        lettersOnly
       },
       lastName: {
-        required
+        required,
+        minLength: minLength(2),
+        lettersOnly
       },
       emailAddress: {
         required,
         email
       },
       phoneNumber: {
-        required
+        required,
+        isPhone: (value) => {
+          console.log("value", value);
+          return (
+            /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/.test(value) ||
+            /^\+?3?8?(0\d{9})$/.test(value)
+          );
+        }
       }
     },
     password: {
