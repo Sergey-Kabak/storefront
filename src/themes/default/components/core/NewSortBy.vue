@@ -11,6 +11,7 @@
           name="sortby"
           :value="variant"
           v-model="sortby"
+          @change="changeOrder"
       />
       {{ $t(variant.label) }}
     </div>
@@ -33,11 +34,6 @@ export default {
       default: ''
     }
   },
-  data () {
-    return {
-      sortby: null
-    }
-  },
   watch: {
     value: {
       handler () {
@@ -45,9 +41,6 @@ export default {
         this.sortby = this.sortingVariants.find(variant => variant.id.includes(defaultVariant))
       },
       immediate: true
-    },
-    sortby (val, old) {
-      if (val.id !== old.id) this.changeOrder()
     }
   }
 }
