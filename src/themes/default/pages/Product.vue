@@ -71,6 +71,9 @@
                 :product="getCurrentProduct"
                 :custom-options="getCurrentCustomOptions"
               />
+              <div class="custom-seller">
+                <h4 @click="showCustomSeller">custom seller</h4>
+              </div>
               <div class="cl-primary variants" v-if="getCurrentProduct.type_id =='configurable'">
                 <div
                   class="error"
@@ -453,6 +456,9 @@ export default {
     },
     handleQuantityError (error) {
       this.quantityError = error
+    },
+    showCustomSeller () {
+      this.$bus.$emit('modal-show', 'modal-custom-seller-product')
     }
   },
   metaInfo () {
