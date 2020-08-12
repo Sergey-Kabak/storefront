@@ -73,6 +73,7 @@ export default {
   }
 
   &-title {
+    width: fit-content;
     padding-bottom: 20px;
   }
 

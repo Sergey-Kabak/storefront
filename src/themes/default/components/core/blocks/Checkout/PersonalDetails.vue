@@ -252,6 +252,8 @@ export default {
 }
 
 .label {
+  display: flex;
+  align-items: center;
   color: #5F5E5E;
   font-family: DIN Pro;
   font-style: normal;

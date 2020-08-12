@@ -41,7 +41,7 @@
       <promo-code class="promo-code"/>
       <div class="summary-price">
         <span>Всего:</span>
-        {{ totalPrice | price(storeView) }}
+        <!-- {{ totalPrice | price(storeView) }} -->
       </div>
     </div>
     <div v-show="isActive">
@@ -53,7 +53,7 @@
         :disabled="$v.payment.$invalid"
         class="button-pay"
       >
-        {{ $t('Next') }}
+        {{ $t('To pay') }}
       </button-full>
     </div>
   </div>
@@ -241,20 +241,25 @@ export default {
 
   .payment-methods {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr;
     grid-gap: 20px;
     margin-bottom: 30px;
   }
 
   .payment-card {
     box-sizing: border-box;
-    max-width: 204px;
     display: flex;
     justify-content: center;
     align-items: center;
   }
 
+  .button-pay {
+    max-width: 131px;
+  }
+
   .label {
+    display: flex;
+    align-items: center;
     color: #5F5E5E;
     font-family: DIN Pro;
     font-style: normal;
@@ -283,7 +288,7 @@ export default {
     }
 
     .payment-methods {
-      grid-template-columns: 1fr;
+      grid-template-columns: 1fr 1fr;
       margin-bottom: 0;
     }
 
@@ -298,6 +303,7 @@ export default {
     }
 
     .button-pay {
+      max-width: 131px;
       margin-bottom: 16px;
     }
   }
@@ -321,11 +327,8 @@ export default {
       }
     }
 
-    .button-pay ::v-deep {
-
-      button {
-        max-width: 100%;
-      }
+    .button-pay {
+      max-width: 100%;
     }
   }
 </style>

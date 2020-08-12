@@ -11,10 +11,6 @@ const actions: ActionTree<CheckoutState, RootState> = {
       const result = await dispatch('order/placeOrder', order, { root: true })
       if (!result.resultCode || result.resultCode === 200) {
         await dispatch('updateOrderTimestamp')
-        // clear cart without sync, because after order cart will be already cleared on backend
-        if (order.addressInformation.payment_method_code !== 'liqpaymagento_liqpay') {
-          await dispatch('cart/clear', { sync: false }, { root: true })
-        }
         await dispatch('dropPassword')
       }
     } catch (e) {

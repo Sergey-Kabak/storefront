@@ -17,15 +17,20 @@ import { mapState } from 'vuex';
 
 export default {
   data: () => ({
-    liqpayStatus: null
+    liqpayStatus: null,
+    languages: {
+      'ua-UA': 'uk',
+      'ru-RU': 'ru',
+      'en-US': 'en'
+    }
   }),
   components: {
     ButtonSmall
   },
-  beforeMount: function() {
+  beforeMount: function () {
     this.$bus.$on('liqpay', this.submit)
   },
-  mounted: function() {
+  mounted: function () {
     let liqpayScript = document.createElement('script')
     liqpayScript.setAttribute('src', 'http://static.liqpay.ua/libjs/checkout.js')
     liqpayScript.async = true
@@ -43,17 +48,15 @@ export default {
 		data () {
 			return Base64.stringify(
 				Utf8.parse(
-					JSON.stringify({ 
-						public_key: config.liqpay.public_key, 
+					JSON.stringify({
+						public_key: config.liqpay.public_key,
 						version: config.liqpay.version,
-						action: config.liqpay.action,
-						currency: config.liqpay.currency, 
+						action: 'pay',
+						currency: config.liqpay.currency,
 						amount: this.totalPrice,
 						description: 'description',
             order_id: this.orderId,
-            incrementId: this.incrementId,
-            result_url: config.liqpay.result_url,
-            server_url: config.liqpay.server_url
+            incrementId: this.incrementId
           })
         )
       )
@@ -66,22 +69,19 @@ export default {
     onCreateOrder () {
       this.$bus.$emit('checkout-before-placeOrder')
     },
-    submit() {
+    submit(payload) {
       this.$nextTick(() => {
         LiqPayCheckout.init({
           data: this.data,
           signature: this.signature,
           embedTo: '#liqpay_checkout',
-          language: 'ru',
+          language: this.languages[this.$i18n.locale],
           mode: 'popup'
         }).on('liqpay.callback', (data) => {
           this.liqpayStatus = data.status
         }).on('liqpay.close', (data) => {
-          if(this.liqpayStatus === 'success') {
-            this.$store.dispatch('checkout/setThankYouPage', true)
-            this.$store.dispatch('user/getOrdersHistory', { refresh: true, useCache: true })
-            this.$store.commit('ui/setMicrocart', false)
-            this.$store.dispatch('cart/clear', { sync: false }, { root: true })
+          if (this.liqpayStatus === 'success') {
+            this.$bus.$emit('order-after-placed', payload)
           }
           this.liqpayStatus = null
         })

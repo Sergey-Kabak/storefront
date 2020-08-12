@@ -239,7 +239,7 @@ Newsletter,Новости
 No orders yet,Заказы отсутствуют
 No products found!,Товары не найдены!
 No results were found.,Результаты не найдены.
-Online payment,'Картой на сайте'
+Online payment,Картой на сайте
 Open menu,Открыть меню
 Open microcart,Открыть корзину
 Open my account,Открыть личный кабинет
@@ -354,9 +354,12 @@ a chat,чат
 a contact page,страница контактов
 browse our catalog,Просмотреть каталог
 color_filter,Цвет
+free,бесплатно
+liqpaymagento_liqpay,Картой на сайте
 login to your account,войти под своей учетной записью
 or write to us through,или написать нам через
 or,или
+paid,оплачено
 price_filter,Цена
 register an account,Создать учетную запись
 return to log in,Вернуться для авторизации
@@ -364,3 +367,4 @@ search,Поиск
 size_filter,Размер
 to find product you were looking for.,"Найти товар, который вы просматривали"
 to find something beautiful for You!,Найти что-то красивое для Вас!
+to main,На главную

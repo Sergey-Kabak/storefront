@@ -33,7 +33,7 @@
           </div>
         </div>
         <div class="row between-xs middle-xs" v-if="isCheckoutPage && !isThankYouPage">
-          <div class="col-xs-5 col-md-3 middle-xs header-left">
+          <div class="col-xs-5 col-md-3 middle-xs header-left hidden-sm hidden-xs">
             <div class="header-back">
               <span class="material-icons icon">keyboard_arrow_left</span>
               <router-link
@@ -43,10 +43,10 @@
               </router-link>
             </div>
           </div>
-          <div class="col-xs-2 col-md-6 center-xs">
+          <div class="col-xs-2 col-md-6 col-sm-12 col-xs-12 center-xs">
             <logo width="auto" height="41px" />
           </div>
-          <div class="col-xs-5 col-md-3 end-xs header-right">
+          <div class="col-xs-5 col-md-3 end-xs header-right hidden-sm hidden-xs">
             <!-- <div>
               <a
                 v-if="!currentUser"

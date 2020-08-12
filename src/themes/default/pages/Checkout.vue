@@ -414,6 +414,10 @@ export default {
         }
       }
     }
+
+    .promo-code-button {
+      max-width: 100px;
+    }
   }
 </style>
 

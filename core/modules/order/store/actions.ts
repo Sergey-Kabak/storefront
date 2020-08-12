@@ -27,13 +27,10 @@ const actions: ActionTree<OrderState, RootState> = {
     const currentOrderHash = sha3_224(JSON.stringify(optimizedOrder))
     const isAlreadyProcessed = getters.getSessionOrderHashes.includes(currentOrderHash)
 
-    if (newOrder.addressInformation.payment_method_code === 'liqpaymagento_liqpay' && rootState.order && rootState.order.last_order_confirmation) {
-      EventBus.$emit('liqpay')
-      return
-    } else if (isAlreadyProcessed) {
-      return
+    if (isAlreadyProcessed) return
+    if (rootState.order) {
+      dispatch('cart/connect', { guestCart: true }, { root: true })
     }
-    dispatch('cart/connect', { guestCart: true }, { root: true })
     commit(types.ORDER_ADD_SESSION_STAMPS, newOrder)
     commit(types.ORDER_ADD_SESSION_ORDER_HASH, currentOrderHash)
     const preparedOrder = prepareOrder(optimizedOrder)
@@ -64,10 +61,9 @@ const actions: ActionTree<OrderState, RootState> = {
       dispatch('enqueueOrder', { newOrder: order })
       commit(types.ORDER_LAST_ORDER_WITH_CONFIRMATION, { order, confirmation: task.result })
       if (order.addressInformation.payment_method_code === 'liqpaymagento_liqpay') {
-        EventBus.$emit('liqpay')
-      }
-      orderHooksExecutors.afterPlaceOrder({ order, task })
-      if (order.addressInformation.payment_method_code !== 'liqpaymagento_liqpay') {
+        EventBus.$emit('liqpay', { order, confirmation: task.result })
+      } else {
+        orderHooksExecutors.afterPlaceOrder({ order, task })
         EventBus.$emit('order-after-placed', { order, confirmation: task.result })
       }
       EventBus.$emit('notification-progress-stop')
