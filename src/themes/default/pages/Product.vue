@@ -19,7 +19,10 @@
                   class="web-share"
               />
             </h1>
-            <div class="product-in-stock">
+            <div
+              class="product-in-stock"
+              :class="{ 'not-available': !(getCurrentProduct.stock && getCurrentProduct.stock.is_in_stock) }"
+            >
               {{(getCurrentProduct.stock && getCurrentProduct.stock.is_in_stock) ? $t('In stock') : $t('Not available')}}
             </div>
           </div>
@@ -80,7 +83,7 @@
                     {{ option.label }}
                     <span
                       class="weight-700"
-                    >{{ getOptionLabel(option) }}</span>
+                    >{{ $t(getOptionLabel(option)) }}</span>
                   </div>
                   <div class="row top-xs m0 pt15 pb40 variants-wrapper">
                     <div v-if="option.attribute_code == 'color'">

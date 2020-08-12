@@ -30,6 +30,7 @@
 "Gadgets","Гаджети"
 "Grand Total","Сума"
 "Headphones and headsets, cases, chargers","Навушники та гарнітури, чохли, зарядні пристрої"
+"Homepage","Головна сторінка"
 "How do you want to receive your order?","Як хочете отримати ваше замовлення?"
 "I want to receive a newsletter, and agree to its terms",Я хочу підписатися на розсилку новин і погоджуюсь з умовами її отримання
 "In stock","В наявності"
@@ -363,3 +364,20 @@ search,Пошук
 size_filter,Розмір
 to find product you were looking for.,"Знайти товар, який ви дивилися"
 to find something beautiful for You!,Знайти щось гарне для Вас!
+"Black":"Чорний"
+"Grey":"Сірий"
+"Green":"Зелений"
+"White":"Білий"
+"Yellow":"Жовтий"
+"Golden":"Золотий"
+"Silver":"Срібний"
+"Purple":"Фіолетовий"
+"Red":"Червоний"
+"Blue":"Синій"
+"Pink":"Рожевий"
+"Multi":"Багатоколірний"
+"Snow":"Сніг"
+"Brown":"Коричневий"
+"Cyan":"Блакитний"
+"Orange":"Помаранчевий"
+"Olive":"Оливковий"
