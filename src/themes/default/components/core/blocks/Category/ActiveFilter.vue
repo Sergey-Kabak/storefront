@@ -1,7 +1,7 @@
 <template>
   <div class="active-filter" @click="$emit('remove', filter)">
     <span class="active-filter__title">
-      {{ filter.label }}
+      {{ $t(filter.label) }}
     </span>
     <img src="/assets/custom/Cancel.svg" alt="cancel">
   </div>

@@ -15,17 +15,24 @@
         :position="m.position"
         :clickable="true"
         :marker="m"
-        :icon="{url: cUrl(m)}"
+        :icon="{
+          url: cUrl(m)
+        }"
         @click="onClick(m,index)"
       />
-      <!--<gmap-info-window-->
-          <!--:options="infoOptions"-->
-          <!--:position="infoWindowPos"-->
-          <!--:opened="infoWinOpen"-->
-          <!--@closeclick="infoWinOpen=false"-->
-      <!--&gt;-->
-        <!--<info-popup :marker="infoContent" :checked="getChecked || shippingDetails.id || ''" :hide-products="hideProducts" />-->
-      <!--</gmap-info-window>-->
+      <gmap-info-window
+        :options="infoOptions"
+        :position="infoWindowPos"
+        :opened="infoWinOpen"
+        @closeclick="infoWinOpen=false"
+      >
+        <info-popup
+          :marker="infoContent"
+          :checked="getChecked || shippingDetails.id || ''"
+          :hide-products="hideProducts"
+          @close="infoWinOpen=false"
+        />
+      </gmap-info-window>
     </gmap-map>
 
   </div>
@@ -83,8 +90,8 @@ export default {
   },
   data () {
     return {
-      marker: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABsAAAAhCAYAAAAoNdCeAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAoZJREFUeNq8lj9I3FAcx18irYhXCYgcBRFacZWzmw5yDlKwS65LF2k5HCx1UBFc2sEDXQRBB8FFrODQTneLXW4wONStBscW6gliPQp6aET8U9PfN753xNzFu1wSf/B4yV3y+7zf7/3ye1+JVWGmaSo0xWnEyvyt09AkSSpU8iNVgAAwSkPF/dWfPLs+zBf/lyMRVt/xXNxmaCwQVPME45GkEQ0AR8tr7Hx7x4I5DcBIbzdretXPGro6BTRZLlKpDAip2rgxzpS/80vs5FuWVWuR3h4W/TRBC2gEqI+AuitMgC5+/Vb2RybZjWEwr4ZIWxdnkd4SoORI3a4fkAvwmUipbHtmhfbENwiG92/9nCGAleIibFWn5mfmfIPswPz0HC5V7r8Y2Siq7fzHDgvSjM3vVhXzz4fJfK/UwtcMC8NO1rMiOkUWXQGrCMOMzS1xGQcszkMNxbB3VOG4jMmiDYVpougs2HXIsDul/7ij/cFghbonjQ8G09Ct0WJCAZBffhroMm+UORwTYZjNryY6SAbnURjG/X5GMxawBYTa8KIzUNCjp1GRwtViNRI1B3rz0GCgMBykXJ9oziMmFWR08MOjSt35zmzRzUc/TviuTLwPP3yvtBKYiI7ynGsZG/YFw3aQH5zO4yUdxBYdHkg2DfQzjNpKvYcpbyzll3AqLLlEbt2GnWoZe08awlsbw/O8KFLl9KN0j0BNk4ZQd1+/q0oqYJ/aVheRvgyBEq6N2MWSpP90qKRKBSPUFIHQjZK1ym+F68iYm+qyyTad68RCTbBKQC+gqg1AGtuXB4fm3tsP5s/ul9aMe/zOFxScceDGv1PDPP6SNjGjiAIHOaBTgGL2+u5/AQYABv46QVSV82wAAAAASUVORK5CYII=',
-      checkedMarker: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABsAAAAhCAYAAAAoNdCeAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAmdJREFUeNq8ljFM20AUhs8eShkquaILmUgXpKKqltoJlkRiBGQkmMELY1MmxtZjp5CpEkuSoRMDFqxI8UC2VlggkLo07tJOLVY7AF3c95s7dHHiJo7tPOl0tnN+n9+7l3e/woawIAg0mko09D4/uzQcRVH8QX6UARAAKjQM3Ht/rsIhTJuYZPrUtLi1adQI6iSC8UgOEA2cW5+OmfP9axdIBhozz9jG7EtWKjwVULNfpEofEFLV8v/eaNvtI9b48pkNa0ZxjtXL60x78BCgMgHdWJgAuT9/aOXDPebfXrOkhkhbK1tIbw9QiaSukwYUAyyKlKrSmjrtSWoQDO+Hfmgr4Fc8V6WqM8zWfmqQDIQ/+OX+7yOroNowsjS7cyF8VkIY3yujdt5meVjzrpoRnaaKroCvyMNs71JclgArZZ2+6N5RheNSV0UbytNE0YWwbznDukr/xZPC2GA+9bKxwRx0a7SYPAx++WngqrxRejgm8jDJryM6iI3zKA/jfhtoxgJWQ6g83Mxs5tFj4bN5X41E9UB/+2oxUxgOUq5PnOgRY2UZneTL6vqfSdHthsd6ysrE+zyqhiyA1Mg6i/LsVeeXUsGwHeQHp/N2TweRosMCc5MqaHPE6oToefN8AZerUYWl9situ7Ct6sIy0xO2Mazn6bP66UflPwL1gDSEUfz4fiipgH06XXuN9NkEWo1txDFmUs90oZIGFYxQUwRCNzJHld8a15F6nOqSZJvLdaI/EmwQMAloaAOQxmnn969A368F7MNOOOMez/kHZWcc2Lq6vQ6qZycBZhRR5qAI9B2gmJO++0+AAQBgCzscXjEeUAAAAABJRU5ErkJggg==',
+      marker: 'data:image/svg+xml,%3Csvg width=\'31\' height=\'40\' viewBox=\'0 0 31 40\' fill=\'none\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cpath d=\'M15.5 0C6.95333 0 0 6.88618 0 15.3504C0 18.937 1.2485 22.2399 3.33759 24.856L15.5 40L27.6624 24.856C29.7515 22.2399 31 18.937 31 15.3504C31 6.88618 24.0467 0 15.5 0Z\' fill=\'%231A1919\'/%3E%3Cpath fill-rule=\'evenodd\' clip-rule=\'evenodd\' d=\'M18.8847 10C17.1807 10 15.5729 10.5913 14.2827 11.6787V10.8315H11.5V25H14.2781V24.9939H14.2827V17.3639C14.3756 14.6387 16.3221 12.6082 18.8847 12.6082C19.3604 12.6082 19.8158 12.6783 20.2414 12.811C20.2493 12.813 20.2658 12.8185 20.2658 12.8185L21.5 10.4933C20.6783 10.1701 19.7953 10 18.8847 10Z\' fill=\'%2323BE20\'/%3E%3C/svg%3E%0A',
+      checkedMarker: 'data:image/svg+xml,%3Csvg width=\'31\' height=\'40\' viewBox=\'0 0 31 40\' fill=\'none\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cpath d=\'M15.5 0C6.95333 0 0 6.88618 0 15.3504C0 18.937 1.2485 22.2399 3.33759 24.856L15.5 40L27.6624 24.856C29.7515 22.2399 31 18.937 31 15.3504C31 6.88618 24.0467 0 15.5 0Z\' fill=\'%2323BE20\'/%3E%3Cpath fill-rule=\'evenodd\' clip-rule=\'evenodd\' d=\'M18.8847 10C17.1807 10 15.5729 10.5913 14.2827 11.6787V10.8315H11.5V25H14.2781V24.9939H14.2827V17.3639C14.3756 14.6387 16.3221 12.6082 18.8847 12.6082C19.3604 12.6082 19.8158 12.6783 20.2414 12.811C20.2493 12.813 20.2658 12.8185 20.2658 12.8185L21.5 10.4933C20.6783 10.1701 19.7953 10 18.8847 10Z\' fill=\'%23ffffff\'/%3E%3C/svg%3E',
       notAllMarker: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABsAAAAiCAYAAACuoaIwAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAmFJREFUeNq8lz1P21AUhl9HgqFShQdYWOiAhLpUSE3XKvkDTTK3QywmpoqFiQ6oW5eqU6cqMHQO9A8QsTAQhMWCkBjCwkKHtEgMdHDPez+IY6wkzrU50pWvEvt97jnnfpwLPKF5WV6OoqgiD1/aqvkplNb3PK+Ty2gIkNaOrN3/jaKbY93YH1jbDCa7Z/IhR/9VWgW/u8DVPnB9APy7HX7x2SKwUAaWasB8mb/Qyw3xNpwIJqCmAv258HH2BbjpThYGQl9tAnMrfQPcGQkzoBYuf0KBpjECl9+zF8SBXgJUl0cbJ58kbL/ckk0YoUBDgHvslGIgX3lEiCuIxshonZbRHsBUju6u/alDl2bUoqaeaBom5BfyaOL8++PZ5mLUoqZok2E9q8sI8glf0qipHahbWE2toaJMa9csTBbucXEwrV0pDcW3KGOKOEEe9rNJdwkHo2c91ZtbKR4mq1vDZp8/iWdQ3s2/KY6itUML62CxWhxMa3csbFfljGdT3kZdPR/2Fcwc6z28XM8ftvxBhZCM+Ea8jaV3+XpHLWoC34Z2fXPI9cwZlI9prZ49QEuJvwOVzIWyO4gaemIEyamPWO728PozMOOw7vgtNUQrXuaVUl4NJNZ9p3ASRI2YV6kwGQlfaqjE6uRmrz10+BpGC6M8s+HcViPMkj9CdEQ20qpkb0w13JKjp4nDNUgNOX7xvv3BfO0IKJiq1hfgqQBXRwIHoI6AquM24lFWFZFQiaUdQwNQqHLteosxdd/BIw+HQdXkhHC5zfjqpsKby9HHKOpu2VvMQxGauxlxa60s3/4XYADv+hKMdM2+mQAAAABJRU5ErkJggg==',
       infoContent: {},
       infoWindowPos: {
@@ -102,7 +109,8 @@ export default {
       zoom: 12,
       id: '',
       filteredDrp: [],
-      filterLength: 0
+      filterLength: 0,
+      selectedMarker: null
     }
   },
   beforeDestroy () {
@@ -128,17 +136,18 @@ export default {
   },
   methods: {
     cUrl (drp) {
-      return (this.getChecked || this.shippingDetails.id) === drp.id ? this.checkedMarker : (drp.missing && drp.missing.length) ? this.notAllMarker : this.checkedMarker
+      return this.selectedMarker && this.selectedMarker.id === drp.id ? this.checkedMarker : (drp.missing && drp.missing.length) ? this.notAllMarker : this.marker
     },
     onClick (m, index) {
       this.$store.dispatch('shipping/updateChecked', m.id)
-      this.toggleInfoWindow(m, index)
+      this.toggleInfoWindow(m, index);
+      this.selectedMarker = this.selectedMarker && this.selectedMarker.id === m.id ? null : m;
       this.hideProducts
         ? this.toFavorite(m)
         : (this.isProduct ? this.openPopup(m) : this.toCheckout(m))
     },
     toggleInfoWindow (marker, idx) {
-      this.zoom = 17
+      // this.zoom = 17
       this.infoWindowPos = marker.position
       this.infoContent = marker
       // check if its the same marker that was selected if yes toggle

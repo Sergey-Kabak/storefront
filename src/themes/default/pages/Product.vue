@@ -19,7 +19,10 @@
                   class="web-share"
               />
             </h1>
-            <div class="product-in-stock">
+            <div
+              class="product-in-stock"
+              :class="{ 'not-available': !(getCurrentProduct.stock && getCurrentProduct.stock.is_in_stock) }"
+            >
               {{(getCurrentProduct.stock && getCurrentProduct.stock.is_in_stock) ? $t('In stock') : $t('Not available')}}
             </div>
           </div>
@@ -32,8 +35,11 @@
             />
           </div>
           <div class="col-xs-12 col-md-5 data">
-            <div class="product-in-stock hidden-xs block">
-              {{(getCurrentProduct.stock && getCurrentProduct.stock.is_in_stock) ? 'В наличии' : 'Нет в наличии'}}
+            <div
+              class="product-in-stock hidden-xs block"
+              :class="{ 'not-available': !(getCurrentProduct.stock && getCurrentProduct.stock.is_in_stock) }"
+            >
+              {{(getCurrentProduct.stock && getCurrentProduct.stock.is_in_stock) ? $t('In stock') : $t('Not available')}}
             </div>
             <h1
               class="mb20 mt0 cl-mine-shaft product-name hidden-xs block"
@@ -77,7 +83,7 @@
                     {{ option.label }}
                     <span
                       class="weight-700"
-                    >{{ getOptionLabel(option) }}</span>
+                    >{{ $t(getOptionLabel(option)) }}</span>
                   </div>
                   <div class="row top-xs m0 pt15 pb40 variants-wrapper">
                     <div v-if="option.attribute_code == 'color'">
@@ -501,6 +507,10 @@ $color-tertiary: color(tertiary);
 $color-secondary: color(secondary);
 $color-white: color(white);
 $bg-secondary: color(secondary, $colors-background);
+
+.not-available {
+  color: #ee2c39 !important;
+}
 
 .product {
   &__add-to-compare {

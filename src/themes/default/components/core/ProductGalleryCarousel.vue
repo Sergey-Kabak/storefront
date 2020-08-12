@@ -110,10 +110,11 @@ export default {
       this.currentPage = index
     },
     async selectVariant (configuration) {
+      let configData = configuration ? {color: configuration} : this.configuration
       await this.$nextTick()
       if (config.products.gallery.mergeConfigurableChildren) {
-        const option = reduce(map(this.configuration, 'attribute_code'), (result, attribute) => {
-          result[attribute] = this.configuration[attribute].id
+        const option = reduce(map((configData), 'attribute_code'), (result, attribute) => {
+          result[attribute] = configData[attribute].id
           return result
         }, {})
         if (option) {
@@ -123,7 +124,6 @@ export default {
           this.navigate(index)
         }
       }
-
       this.$emit('close')
     },
     openOverlay () {

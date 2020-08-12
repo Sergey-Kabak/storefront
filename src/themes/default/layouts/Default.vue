@@ -39,6 +39,11 @@
       <main-footer/>
       <notification/>
       <sign-up/>
+
+      <custom-city-picker-modal />
+
+      <custom-seller-product />
+
       <cookie-notification/>
       <offline-badge/>
       <order-confirmation :orders-data="ordersData" v-if="loadOrderConfirmation"/>
@@ -68,6 +73,8 @@ const Microcart = () => import(/* webpackPreload: true */ /* webpackChunkName: "
 const Wishlist = () => import(/* webpackPreload: true */ /* webpackChunkName: "vsf-wishlist" */ 'theme/components/core/blocks/Wishlist/Wishlist.vue');
 const SearchPanel = () => import(/* webpackChunkName: "vsf-search-panel" */ 'theme/components/core/blocks/SearchPanel/SearchPanel.vue');
 const OrderConfirmation = () => import(/* webpackChunkName: "vsf-order-confirmation" */ 'theme/components/core/blocks/Checkout/OrderConfirmation.vue');
+const CustomCityPickerModal = () => import(/* webpackChunkName: "vsf-custom-city-picker-modal" */ 'theme/components/core/blocks/CustomCityPickerModal/CustomCityPickerModal.vue');
+const CustomSellerProduct = () => import(/* webpackChunkName: "vsf-custom-city-picker-modal" */ 'theme/components/core/blocks/CustomSellerProduct/CustomSellerProduct.vue');
 
 export default {
   data() {
@@ -77,7 +84,7 @@ export default {
       Microcart,
       Wishlist,
       SearchPanel,
-      SidebarMenu
+      SidebarMenu,
     };
   },
   computed: {
@@ -141,7 +148,9 @@ export default {
     CookieNotification,
     OfflineBadge,
     OrderConfirmation,
-    AsyncSidebar
+    AsyncSidebar,
+    CustomCityPickerModal,
+    CustomSellerProduct
   }
 };
 </script>
