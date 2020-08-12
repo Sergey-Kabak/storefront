@@ -48,8 +48,12 @@
                         </div>
                         <div class="shipping-data">
                           <div class="text">
-                            {{ `${shippingDetails.city}, ${shippingDetails.shopName ? shippingDetails.shopName : ''},
-                            ${$t('st.')} ${shippingDetails.streetAddress}, ${shippingDetails.apartmentNumber}` }}
+                            <template v-if="shippingDetails.isNewPost">
+                              {{ `${shippingDetails.city}, ${shippingDetails.shopName}` }}
+                            </template>
+                            <template v-else>
+                              {{ `${shippingDetails.city}, ${shippingDetails.streetAddress}, ${shippingDetails.apartmentNumber}` }}
+                            </template>
                           </div>
                         </div>
                       </div>

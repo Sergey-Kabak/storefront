@@ -110,13 +110,14 @@ export const Shipping = {
         ...this.shipping,
         country: location.country,
         streetAddress: location.streetname,
-        apartmentNumber: location.streetname2 || location.number,
+        apartmentNumber: location.number ? `Нова Пошта ${location.name}` : location.streetname2,
         city: location.city,
         state: '',
         region_id: 0,
         zipCode: location.zipcode || '69068',
         phoneNumber: '',
-        shopName: location.name,
+        shopName: `Нова Пошта ${location.name}`,
+        isNewPost: !!location.number,
         location
       }
       this.$bus.$emit('checkout-after-shippingDetails', this.shipping, this.$v)

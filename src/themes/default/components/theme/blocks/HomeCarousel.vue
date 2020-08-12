@@ -15,7 +15,7 @@
             :to="productLink(0)"
             data-testid="productLink"
         >
-          <img src="https://info.ringoo.ua/images/mag/6.jpg" alt="1">
+          <img src="https://info.ringoo.ua/images/slider/1.png" alt="1">
         </router-link>
       </slide>
       <slide>
@@ -23,7 +23,7 @@
             :to="productLink(1)"
             data-testid="productLink"
         >
-          <img src="https://info.ringoo.ua/images/mag/5.jpg" alt="2">
+          <img src="https://info.ringoo.ua/images/slider/2.png" alt="2">
         </router-link>
       </slide>
       <slide>
@@ -31,7 +31,7 @@
             :to="productLink(2)"
             data-testid="productLink"
         >
-          <img src="https://info.ringoo.ua/images/mag/7.jpg" alt="3">
+          <img src="https://info.ringoo.ua/images/slider/3.png" alt="3">
         </router-link>
       </slide>
       <slide>
@@ -39,7 +39,7 @@
             :to="productLink(3)"
             data-testid="productLink"
         >
-          <img src="https://info.ringoo.ua/images/mag/8.jpg" alt="4">
+          <img src="https://info.ringoo.ua/images/slider/4.png" alt="4">
         </router-link>
       </slide>
       <slide>
@@ -47,7 +47,7 @@
             :to="productLink(4)"
             data-testid="productLink"
         >
-          <img src="https://info.ringoo.ua/images/mag/9.jpg" alt="5">
+          <img src="https://info.ringoo.ua/images/slider/5.png" alt="5">
         </router-link>
       </slide>
       <slide>
@@ -55,23 +55,15 @@
             :to="productLink(5)"
             data-testid="productLink"
         >
-          <img src="https://info.ringoo.ua/images/mag/10.jpg" alt="6">
-        </router-link>
-      </slide>
-            <slide>
-        <router-link
-            :to="productLink(6)"
-            data-testid="productLink"
-        >
-          <img src="https://info.ringoo.ua/images/mag/11.jpg" alt="7">
+          <img src="https://info.ringoo.ua/images/slider/6.png" alt="6">
         </router-link>
       </slide>
       <slide>
         <router-link
-            :to="productLink(7)"
+            :to="productLink(6)"
             data-testid="productLink"
         >
-          <img src="https://info.ringoo.ua/images/mag/1.jpg" alt="8">
+          <img src="https://info.ringoo.ua/images/slider/7.png" alt="7">
         </router-link>
       </slide>
     </carousel>
@@ -86,14 +78,14 @@ import config from 'config'
 export default {
   components: {
     'Carousel': () => import('vue-carousel').then(Slider => Slider.Carousel),
-    'Slide': () => import('vue-carousel').then(Slider => Slider.Slide),
+    'Slide': () => import('vue-carousel').then(Slider => Slider.Slide)
   },
   methods: {
     productLink (pid) {
       let product = config && config.sliderProduct && config.sliderProduct[pid]
       let isProduct = !!(product && product.url_path)
       return formatProductLink(isProduct && product, currentStoreView().storeCode)
-    },
+    }
   }
 };
 </script>
