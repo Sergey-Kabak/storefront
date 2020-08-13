@@ -15,12 +15,12 @@
     >
       {{ $t('Clear filters') }}
     </span>
-    <h4 class="sidebar__header relative mt25 flex center-md">
+    <h4 class="sidebar__header relative mt45 flex center-md">
       <svg width="18" height="12" viewBox="0 0 18 12" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M7 12H11V10H7V12ZM0 0V2H18V0H0ZM3 7H15V5H3V7Z" fill="#23BE20"/>
       </svg>
       <span class="filter-title">
-        {{ $t('Filter') }}
+        {{ $t('Filters') }}
       </span>
     </h4>
     <div
@@ -39,7 +39,7 @@
           @change="$emit('changeFilter', $event)"
         />
       </category-filter>
-      <category-filter :label="filterIndex + '_filter'" v-else-if="filterIndex === 'color'">
+      <category-filter :label="filterIndex + '_filter'" v-else-if="filterIndex === 'color'" noscroll="true">
         <color-selector
           context="category"
           :code="filterIndex"
@@ -114,7 +114,20 @@ export default {
       return this.$store.getters['category-next/getCurrentFilters']
     },
     getActiveFilters () {
-      return Object.values(this.getCurrentFilters).reduce((acc, val) => acc.concat(val), [])
+      let sequence = Object.keys(this.availableFilters),
+          filters  = Object.values(this.getCurrentFilters).reduce((acc, val) => acc.concat(val), []),
+          res = [];
+      
+      
+      sequence.forEach(el => {
+        let condition = filters.filter(filter => filter.type === el)
+        if (condition){
+          res.push(condition)
+        }
+        
+      })
+
+      return res.flat(2)
     },
     availableFilters () {
       return pickBy(this.filters, (filter, filterType) => { return (filter.length && !this.$store.getters['category-next/getSystemFilterNames'].includes(filterType)) })
@@ -139,20 +152,71 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+$mobile_screen : 768px;
+.mt45{
+  margin-top: 45px;
+}
+.clear-filters{
+  @media (max-width : 768px){
+    display: none;
+  }
+}
+/deep/ .color {
+    width: 38px;
+    height: 38px;
+    margin-right: 6px;
+}
+/deep/ .color-inside {
+  width: 30px;
+  height: 30px;
+}
+/deep/ .checkbox-selector{
+  span.checkbox{
+    margin-right: 16px;
+    &-title{
+      color: #1A1919 ;
+    }
+    &-amount{
+      color: #5F5E5E;
+    }
+  }
+}
+/deep/ .button-selector{
+  background-color: #F2F2F2;
+  color: #1A1919;
+  text-transform: uppercase;
+}
 .sidebar {
+  @media (max-width : $mobile_screen){
+    padding-top: 20px;
+  }
   &__header {
+    @media (max-width : $mobile_screen){
+       margin-top: 0;
+       border-bottom : none;
+     }
+    display: flex;
+    align-items: center;
     margin-bottom: 0px;
-    min-height: 47px;
+    min-height: 54px;
     justify-content: flex-start;
     flex-wrap: wrap;
     border-bottom: 1px solid #E0E0E0;
     border-top: 1px solid #E0E0E0;
 
     svg {
-      margin: 18px 20px 0 0;
+      @media (max-width : $mobile_screen){
+        display: none;
+      }
+      margin: 0 20px 0 0;
     }
 
     .filter-title {
+      @media (max-width : $mobile_screen){
+        font-size: 24px;
+        line-height: 30px;
+        color: #1A1919;
+      }
       display: flex;
       align-items: center;
       font-family: DIN Pro;
