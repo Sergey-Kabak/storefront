@@ -32,7 +32,7 @@ export default {
   },
   mounted: function () {
     let liqpayScript = document.createElement('script')
-    liqpayScript.setAttribute('src', 'http://static.liqpay.ua/libjs/checkout.js')
+    liqpayScript.setAttribute('src', 'https://static.liqpay.ua/libjs/checkout.js')
     liqpayScript.async = true
     document.head.appendChild(liqpayScript)
   },
