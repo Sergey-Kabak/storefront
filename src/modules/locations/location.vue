@@ -18,21 +18,23 @@
             <div class="d-flex flex-column ml-auto">
               <div class="name">{{ location.name }}</div>
               <div class="phone">{{ location.phone || '044 234 44 54' }}</div>
-              <div class="time">Забрать завтра с 15:00</div>
+              <div class="time">{{ $t('Pick up tomorrow from 15:00') }}</div>
             </div>
           </div>
         </div>
         <div class="col-sm">
           <div class="d-flex flex-column">
-            <div class="address">Ул. {{ location.streetname }} {{ location.streetname2 }}</div>
-            <div class="working-time">{{ location.time || 'Пн-ПТ: 08:00-20:00; Сб: 10:00-18:00; Вс:11:00-17:00' }}</div>
+            <div class="address">
+<!--              {{ $t('street') }}. -->
+              {{ location.streetname }} {{ location.streetname2 }}</div>
+            <div class="working-time">{{ location.time || $t('Mon-Fri: 08: 00-20: 00; Sat: 10: 00-18: 00; Sun: 11: 00-17: 00') }}</div>
           </div>
         </div>
         <div class="col-sm ml-auto p-0">
           <div class="d-flex flex-column align-right">
-            <div class="status">{{ location.status || 'В наличии все товары' }}</div>
+            <div class="status">{{ location.status || $t('All products are in stock') }}</div>
             <div class="action">
-              <button @click="$bus.$emit('checked-location', location)" type="button" class="btn btn-success">Забрать здесь</button>
+              <button @click="$bus.$emit('checked-location', location)" type="button" class="btn btn-success">{{ $t('Pick up here') }}</button>
             </div>
           </div>
         </div>
@@ -44,7 +46,7 @@
 <script>
 
 export default {
-  props: ['location']
+  props: ['location'],
 }
 </script>
 
