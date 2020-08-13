@@ -118,6 +118,7 @@ export default {
 .product {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   padding-bottom: 15px;
   border-bottom: 1px solid #e0e0e0;
   margin-bottom: 15px;
@@ -132,7 +133,7 @@ export default {
 
 .product-right {
   margin-left: auto;
-  max-width: 200px;
+  max-width: 220px;
   width: 100%;
 }
 
@@ -190,7 +191,6 @@ export default {
 
 .product-price {
   width: 100%;
-  max-width: 80px;
   font-family: DIN Pro;
   font-style: normal;
   font-size: 18px;
