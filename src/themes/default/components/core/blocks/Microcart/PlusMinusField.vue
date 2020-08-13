@@ -1,6 +1,6 @@
 <template>
   <div class="minusplusnumber">
-    <div class="mpbtn minus" :class="{'active': isMinusActive}" @click="mpminus()" >
+    <div class="mpbtn minus" :class="{'active': isMinusActive, 'disabled': !isMinusActive }" @click="mpminus()" >
       <svg width="12" height="2" viewBox="0 0 12 2" xmlns="http://www.w3.org/2000/svg">
         <path d="M11.8337 1.83333H0.166992V0.166664H11.8337V1.83333Z" />
       </svg>
@@ -146,7 +146,7 @@
     border: none;
     height: 28px;
     box-sizing: border-box;
-
+    background: #ffffff;
     font-family: DIN Pro;
     font-style: normal;
     font-size: 12px;
@@ -182,10 +182,28 @@
   .minus {
     border-radius: 4px 0 0 4px;
     border-right: none;
+
   }
 
   .plus {
     border-radius: 0 4px 4px 0;
+  }
+
+  .minus,
+  .plus {
+    transition: .2s ease-in-out;
+
+    &.disabled {
+      pointer-events: none;
+    }
+
+    &:hover {
+      background: #20af1d;
+    }
+
+    &:active {
+      background: #1da01b;
+    }
   }
 
   input[type=number]::-webkit-inner-spin-button,

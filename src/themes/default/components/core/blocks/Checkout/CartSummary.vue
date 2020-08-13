@@ -46,6 +46,7 @@ export default {
 .summary-price {
   display: flex;
   justify-content: space-between;
+  margin-bottom: 24px;
   font-family: DIN Pro;
   font-style: normal;
   font-weight: 600;

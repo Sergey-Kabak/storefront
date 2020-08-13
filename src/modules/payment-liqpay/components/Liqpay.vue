@@ -56,7 +56,8 @@ export default {
 						amount: this.totalPrice,
 						description: 'description',
             order_id: this.orderId,
-            incrementId: this.incrementId
+            incrementId: this.incrementId,
+            server_url: config.liqpay.server_url
           })
         )
       )
@@ -82,6 +83,8 @@ export default {
         }).on('liqpay.close', (data) => {
           if (this.liqpayStatus === 'success') {
             this.$bus.$emit('order-after-placed', payload)
+          } else {
+            this.$store.dispatch('payment/cancelPayment', this.orderId)
           }
           this.liqpayStatus = null
         })

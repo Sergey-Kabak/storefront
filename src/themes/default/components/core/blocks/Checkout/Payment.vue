@@ -41,7 +41,7 @@
       <promo-code class="promo-code"/>
       <div class="summary-price">
         <span>Всего:</span>
-        <!-- {{ totalPrice | price(storeView) }} -->
+        {{ totalPrice | price(storeView) }}
       </div>
     </div>
     <div v-show="isActive">
@@ -110,7 +110,10 @@ export default {
     },
     storeView () {
       return currentStoreView();
-    }
+    },
+    totalPrice () {
+      return this.$store.state.cart.cartItems.reduce((acc, it) => acc + it.price * it.qty, 0)
+    },
   },
   validations () {
     if (!this.generateInvoice) {
@@ -203,7 +206,7 @@ export default {
     },
     onPaymentMethodChange () {
       this.$v.payment.paymentMethod.$touch()
-      this.changePaymentMethod() 
+      this.changePaymentMethod()
       this.sendDataToCheckout()
     },
     placeOrder () {
@@ -282,7 +285,7 @@ export default {
     .summary-price {
       margin-bottom: 24px;
     }
-    
+
     .promo-code {
       margin-bottom: 24px;
     }
@@ -310,8 +313,8 @@ export default {
 
   @media (max-width: 460px) {
 
-    .payment-card {
-      max-width: 100%;
+    .payment-methods {
+      grid-template-columns: 1fr;
     }
 
     #checkout {
@@ -319,7 +322,7 @@ export default {
         flex-direction: row-reverse;
         justify-content: center;
         padding: 12px 20px;
-  
+
         .checkmark {
           margin-bottom: 0;
           margin-right: 20px;
@@ -327,8 +330,17 @@ export default {
       }
     }
 
-    .button-pay {
+    .promo-code ::v-deep {
+      .promo-code-button {
+        max-width: 100px;
+      }
+    }
+
+    .button-pay ::v-deep {
       max-width: 100%;
+      button {
+        max-width: 100%;
+      }
     }
   }
 </style>

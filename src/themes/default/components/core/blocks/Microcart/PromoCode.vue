@@ -42,7 +42,7 @@ export default {
     ...mapActions({
       applyCoupon: 'cart/applyCoupon'
     }),
-    async setCoupon() {
+    async setCoupon () {
       const couponApplied = await this.applyCoupon(this.couponCode);
       this.couponCode = '';
       if (!couponApplied) {
@@ -92,6 +92,7 @@ export default {
     font-weight: 0;
     font-size: 13px;
     line-height: 16px;
+
     &:focus {
       outline: none;
       border-color: #23BE20;

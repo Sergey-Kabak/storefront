@@ -12,7 +12,7 @@
             <div class="number align-center">1</div>
           </div>
           <div class="text d-flex align-items-center w-100">
-            <span>Доставка в городе :</span>
+            <span class="shipping-title">Доставка в городе :</span>
             <!--<div class="picked-city" @click="showCityPicker = !showCityPicker">-->
             <div class="picked-city" @click="onShowModal">
               {{ city }}
@@ -183,7 +183,7 @@ export default {
 
 </style>
 
-<style lang="sass">
+<style lang="sass" scoped>
   .new-shipping
     .number-block
       position: relative

@@ -1,8 +1,8 @@
 <template>
   <div class="personal-details">
     <div class="subtitle">
-      <div class="number-block" :class="{'checked': !isSectionActive}">
-        <div class="number align-center" v-if="isSectionActive">2</div>
+      <div class="number-block" :class="{'checked': !isActive}">
+        <div class="number align-center" v-if="isActive">2</div>
         <img src='/assets/custom/Check.svg' v-else alt="correct">
       </div>
       <div class="subtitle-text">{{ $t('Contact details') }}:</div>
@@ -51,7 +51,7 @@
         />
       </div>
       <div class="label">
-        Ваши контакты
+        {{ $t('Your contacts') }}
         <span class="label--highlighted">*</span>
       </div>
       <div class="personal-details-row">
@@ -122,13 +122,6 @@ import BaseInput from 'theme/components/core/blocks/Form/BaseInput'
 import Tooltip from 'theme/components/core/Tooltip'
 
 export default {
-  props: {
-    isSectionActive: {
-      type: Boolean,
-      required: true,
-      default: false
-    }
-  },
   components: {
     Tooltip,
     BaseCheckbox,

@@ -12,15 +12,15 @@
             {{ $t('Contact details') }} <span class="material-icons">keyboard_arrow_right</span>
           </li>
           <li class="breadcrumb-item" :class="{'active': activeSection.payment}">
-            <span>3.</span> 
+            <span>3.</span>
             {{ $t('the Payment') }}
           </li>
         </ol>
       </nav>
       <shipping
-          class="line relative"
-          :class="{hidden: !activeSection.shipping}"
-          :is-active="activeSection.shipping"
+        class="line relative"
+        :class="{hidden: !activeSection.shipping}"
+        :is-active="activeSection.shipping"
       />
       <div class="custom-active-block" v-show="!activeSection.shipping">
         <div class="checkout-left">
@@ -65,7 +65,6 @@
             </div>
           </div>
           <personal-details
-            :isSectionActive="!!activeSection.personalDetails"
             :class="{hidden: !activeSection.personalDetails}"
             class="line relative"
             :is-active="activeSection.personalDetails"
@@ -90,7 +89,6 @@ import Checkout from '@vue-storefront/core/pages/Checkout'
 import PersonalDetails from 'theme/components/core/blocks/Checkout/PersonalDetails'
 import Shipping from 'theme/components/core/blocks/Checkout/NewShipping'
 import Payment from 'theme/components/core/blocks/Checkout/Payment'
-import OrderReview from 'theme/components/core/blocks/Checkout/OrderReview'
 import CartSummary from 'theme/components/core/blocks/Checkout/CartSummary'
 import ThankYouPage from 'theme/components/core/blocks/Checkout/ThankYouPage'
 import { registerModule } from '@vue-storefront/core/lib/modules'
@@ -101,7 +99,6 @@ export default {
     PersonalDetails,
     Shipping,
     Payment,
-    OrderReview,
     CartSummary,
     ThankYouPage
   },
@@ -242,7 +239,7 @@ export default {
   #checkout {
     .breadcrumb {
       padding: 0;
-      margin: 0 0 24px 0;
+      margin: 0 0 26px 0;
       background-color: transparent;
       &-item {
         font-family: 'DIN Pro';
@@ -256,6 +253,7 @@ export default {
           display: none;
         }
         .material-icons {
+          color: #BDBDBD;
           line-height: 16px;
         }
       }
@@ -383,6 +381,12 @@ export default {
     width: 100%;
   }
 
+  @media (max-width: 1200px) {
+    .checkout-left {
+      margin-right: 30px;
+    }
+  }
+
   @media (max-width: 960px) {
     .checkout-right {
       display: none;
@@ -395,28 +399,40 @@ export default {
   }
 
   @media (max-width: 460px) {
-    .breadcrumb {
-      justify-content: center;
-      align-items: center;
-
-      .material-icons {
-        display: none;
+    #checkout {
+      .checkout-container {
+        width: 92%;
       }
 
-      .breadcrumb-item {
-        flex-direction: column;
+      .breadcrumb {
         justify-content: center;
-        margin-right: 15px;
         align-items: center;
+        margin-bottom: 15px;
 
-        &:last-child {
-          margin-right: 0;
+        .material-icons {
+          display: none;
+        }
+
+        .breadcrumb-item {
+          flex-direction: column;
+          justify-content: center;
+          margin-right: 30px;
+          align-items: center;
+
+          &:last-child {
+            margin-right: 0;
+          }
         }
       }
+      .subtitle {
+        margin-bottom: 15px;
+      }
+      .text {
+        padding-bottom: 15px!important;
+      }
     }
-
-    .promo-code-button {
-      max-width: 100px;
+    .checkout-title {
+      margin-bottom: 15px;
     }
   }
 </style>
