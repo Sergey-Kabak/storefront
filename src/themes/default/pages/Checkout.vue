@@ -99,7 +99,6 @@ export default {
     PersonalDetails,
     Shipping,
     Payment,
-    OrderReview,
     CartSummary,
     ThankYouPage
   },
