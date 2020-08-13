@@ -3,7 +3,7 @@
     <ButtonSmall @click.native="onCreateOrder()">
       {{ $t('To pay') }}
     </ButtonSmall>
-    <div id="liqpay_checkout" />
+    <div id="liqpay_checkout" :key="liqpayKey"/>
   </div>
 </template>
 <script>
@@ -17,6 +17,7 @@ import { mapState } from 'vuex';
 
 export default {
   data: () => ({
+    liqpayKey: 1,
     liqpayStatus: null,
     languages: {
       'ua-UA': 'uk',
@@ -64,6 +65,9 @@ export default {
     },
 		signature () {
 			return Base64.stringify(sha1(config.liqpay.private_key + this.data + config.liqpay.private_key))
+    },
+    liqpayUpdate () {
+      this.liqpayKey += 1
     }
   },
   methods: {
@@ -86,6 +90,7 @@ export default {
           } else {
             this.$store.dispatch('payment/cancelPayment', this.orderId)
           }
+          this.liqpayUpdate()
           this.liqpayStatus = null
         })
       })
