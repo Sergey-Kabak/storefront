@@ -9,7 +9,7 @@
       @input="$emit('input', $event)"
       @blur="$v.$touch()"
     />
-    <spinner v-if="loading" />
+    <spinner v-if="loading" containerClass="quantity-spinner" />
   </div>
 </template>
 
@@ -95,6 +95,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 .product-quantity {
+  display: inline-flex;
   position: relative;
   /deep/ .spinner {
     position: absolute;
@@ -104,5 +105,15 @@ export default {
     left: 0;
     margin: auto;
   }
+}
+</style>
+<style>
+.quantity-spinner {
+  display: flex;
+  justify-content: center;
+  background: rgba(255,255,255,.5);
+  height: 30px;
+  align-items: center;
+  bottom: auto!important;
 }
 </style>

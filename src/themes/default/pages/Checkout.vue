@@ -1,6 +1,6 @@
 <template>
   <div id="checkout">
-    <div class="container">
+    <div class="container-fluid">
       <div class="row" v-show="!isThankYouPage">
         <div class="col-xs-12 pb70">
           <nav aria-label="breadcrumb">
@@ -113,8 +113,8 @@
                 </div>
               </div>
               <div class="col-md-5 hidden-xs">
-                <div class="row">
-                  <div class="hidden-xs col-sm-12">
+                <div class="cart-summary-container">
+                  <div class="hidden-xs">
                     <cart-summary />
                   </div>
                 </div>
@@ -243,6 +243,9 @@ export default {
       line-height: 16px
       color: #FFFFFF
       padding: 12px 0
+    .cart-summary-container
+      width: 100%
+      flex: 1
 </style>
 
 <style lang="scss">

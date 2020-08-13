@@ -191,7 +191,8 @@ import { required, email, minLength, sameAs, alphaNum } from 'vuelidate/lib/vali
 
 const lettersOnly = value => (
   /^[\u0400-\u04FF]+$/.test(value) ||
-  /^[a-zA-Z]+$/.test(value)
+  /^[a-zA-Z]+$/.test(value) ||
+    value === ""
 );
 
 export default {

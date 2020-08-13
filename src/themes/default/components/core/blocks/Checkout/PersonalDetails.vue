@@ -53,7 +53,7 @@
                     },
                     {
                       condition: !$v.personalDetails.lastName.minLength,
-                      text: $t('Name must have at least 2 letters.')
+                      text: $t('Last name must have at least 2 letters.')
                     },
                     {
                       condition: !$v.personalDetails.lastName.lettersOnly,
@@ -244,7 +244,8 @@ import Tooltip from 'theme/components/core/Tooltip'
 
 const lettersOnly = value => (
   /^[\u0400-\u04FF]+$/.test(value) ||
-  /^[a-zA-Z]+$/.test(value)
+  /^[a-zA-Z]+$/.test(value) ||
+    value === ""
 );
 
 export default {

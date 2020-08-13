@@ -8,21 +8,21 @@
       </div>
       <product v-for="product in productsInCart" :key="product.server_item_id || product.id" :product="product" />
 
-      <div v-if="productsInCart && productsInCart.length" class="checkout serif cl-accent row cart-total-details">
+      <div v-if="productsInCart && productsInCart.length" class="checkout serif cl-accent cart-total-details">
         <div v-for="(segment, index) in totals" :key="index" class="cart-row" v-if="segment.code !== 'grand_total'">
-          <div class="cart-row-item">
+          <div class="cart-row-item item-left">
             {{ $t(segment.title) }}:
           </div>
-          <div v-if="segment.value != null" class="cart-row-item">
+          <div v-if="segment.value != null" class="cart-row-item item-right">
             {{ segment.value }} ₴
           </div>
         </div>
 
         <div class="cart-row total-row" v-for="(segment, index) in totals" :key="index" v-if="segment.code === 'grand_total'">
-          <div class="cart-row-item total">
+          <div class="cart-row-item item-left total">
             {{ $t(segment.title) }}:
           </div>
-          <div class="cart-row-item total">
+          <div class="cart-row-item item-right total">
             {{ segment.value }} ₴
           </div>
         </div>
@@ -129,6 +129,11 @@ export default {
       font-size: 14px;
       line-height: 16px;
       color: #1A1919;
+
+      &.item-left {
+        flex: 1;
+        margin-right: 15px;
+      }
 
       &.total {
         font-size: 24px;

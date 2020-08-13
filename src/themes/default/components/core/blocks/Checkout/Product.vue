@@ -1,5 +1,8 @@
 <template>
   <div class="product">
+    <div class="remove-button-container">
+      <remove-button class="mx5 product-item-btns checkout-remove-button" @click="removeItem" />
+    </div>
     <div class="blend">
       <product-image className="product-image" :image="image" />
     </div>
@@ -26,16 +29,24 @@
 <!--            <span class="opv" v-html="opt.value" />-->
 <!--          </div>-->
 <!--        </div>-->
-        <span class="product-name">
-          {{ $t('Qty') }}
-          <span class="weight-700">
-            {{ product.qty }}
-          </span>
-        </span>
+
         <div class="product-price">
           {{ product.price }} ₴
         </div>
       </div>
+
+      <div class="checkout-product-quantity">
+        <product-quantity
+          class="h5 cl-accent lh25"
+          :value="product.qty"
+          :max-quantity="maxQuantity"
+          :loading="quantityIsLoading"
+          :is-simple-or-configurable="true"
+          @input="updateQuantity"
+          @error="handleQuantityError"
+        />
+      </div>
+
       <div class="product-price-container">
         <div v-if="isOnline && product.totals">
           <span class="h4 cl-error total-price" v-if="product.totals.discount_amount">{{ product.totals.row_total - product.totals.discount_amount + product.totals.tax_amount }} ₴</span>
@@ -56,7 +67,10 @@
 import { Product } from '@vue-storefront/core/modules/checkout/components/Product'
 import { onlineHelper } from '@vue-storefront/core/helpers'
 import ProductImage from 'theme/components/core/ProductImage'
+import ProductQuantity from 'theme/components/core/ProductQuantityNew'
 import { currentStoreView } from '@vue-storefront/core/lib/multistore'
+import ProductMixin from '@vue-storefront/core/compatibility/components/blocks/Microcart/Product'
+import RemoveButton from "../Microcart/RemoveButton";
 
 export default {
   computed: {
@@ -73,14 +87,58 @@ export default {
       }
     }
   },
-  mixins: [Product],
+  data () {
+    return {
+      maxQuantity: this.product.qty,
+      quantityIsLoading: true,
+    }
+  },
+  methods: {
+    updateQuantity (quantity) {
+      this.quantityIsLoading = true;
+      this.$store.dispatch('cart/updateQuantity', { product: this.product, qty: quantity })
+        .finally(() => {
+          this.quantityIsLoading = false;
+        });
+    },
+    handleQuantityError (error) {
+      console.log("Quantity error", error);
+    },
+    removeFromCart () {
+      setTimeout(() => {
+        this.$store.dispatch('cart/removeItem', { product: this.product });
+      }, 250);
+    },
+  },
+  async mounted () {
+    const maxQuantity = await this.$store.dispatch('stock/check', {
+      product: this.product,
+      qty: this.product.qty
+    })
+    this.maxQuantity = maxQuantity.qty;
+    this.quantityIsLoading = false;
+  },
+  mixins: [Product, ProductMixin],
   components: {
-    ProductImage
+    ProductImage,
+    ProductQuantity,
+    RemoveButton
   }
 }
 </script>
 
 <style lang="scss" scoped>
+.remove-button-container {
+  display: flex;
+  align-items: center;
+  margin-right: 12px;
+  .checkout-remove-button {
+    svg {
+      width: 14px;
+      height: 18px;
+    }
+  }
+}
 .price-original {
   text-decoration: line-through;
 }
@@ -103,7 +161,7 @@ export default {
   font-size: 13px;
   line-height: 16px;
   color: #1A1919;
-  margin-bottom: 6px;
+  margin-bottom: 2px;
 }
 
 .product-data {
@@ -125,7 +183,6 @@ export default {
   font-size: 15px;
   line-height: 16px;
   color: #1A1919;
-  margin-top: 5px;
   font-weight: bold;
 }
 .total-price {
@@ -140,4 +197,9 @@ export default {
   width: 50px;
   height: 50px;
 }
+</style>
+<style>
+  .checkout-product-quantity {
+    padding: 0 20px;
+  }
 </style>
