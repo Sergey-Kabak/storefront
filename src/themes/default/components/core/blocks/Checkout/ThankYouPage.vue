@@ -24,9 +24,9 @@
           <span class="middle">{{ $t(addressInformation.payment_method_code) }}</span>
           <span class="right label-paid" v-if="addressInformation.payment_method_code === 'liqpaymagento_liqpay'"> {{ $t('paid') }} </span>
         </div>
-        <div class="thank-you-row" v-if="billingAddress">
+        <div class="thank-you-row" v-if="addressInformation">
           <span class="left">{{ $t('Shipping method') }}: </span>
-          <span class="middle">{{ $t(addressInformation.shipping_method_code) }}</span>
+          <span class="middle">{{ $t(addressInformation && addressInformation.shipping_method_code) }}</span>
           <span class="right label-free"> {{ $t('free') }} </span>
         </div>
         <div class="thank-you-row" v-if="billingAddress">

@@ -12,7 +12,7 @@ import { homepageStore } from 'theme/store/homepage'
 import { uiStore } from 'theme/store/ui'
 import { customShipping } from 'theme/store/custom-shipping'
 import { promotedStore } from 'theme/store/promoted-offers'
-import { payment } from 'theme/store/payment'
+import { paymentStore } from 'theme/store/payment'
 import { StorageManager } from '@vue-storefront/core/lib/storage-manager'
 
 once('__VUE_EXTEND_DROPPOINT_VPB__', () => {
@@ -38,7 +38,7 @@ function initTheme (app, router, store, config, ssrContext) {
   store.registerModule('ui', uiStore);
   store.registerModule('promoted', promotedStore);
   store.registerModule('customShipping', customShipping);
-  store.registerModule('payment', payment);
+  store.registerModule('payment', paymentStore);
 }
 
 export {

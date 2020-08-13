@@ -6,7 +6,7 @@
     <div slot="content" class="modal-custom-city-picker_content">
 
       <div class="action-block">
-        <button @click="onSubmit" class="action">{{ $t('To apply') }}</button>
+        <button class="action">{{ $t('To apply') }}</button>
       </div>
     </div>
   </modal>

@@ -343,7 +343,6 @@ export default {
       }
     }
   }
-
   .checkout-title {
     margin-bottom: 24px;
 
