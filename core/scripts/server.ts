@@ -4,6 +4,7 @@ let config = require('config')
 const path = require('path')
 const glob = require('glob')
 const fs = require('fs')
+require('win-ca')
 const rootPath = require('app-root-path').path
 const resolve = file => path.resolve(rootPath, file)
 const serverExtensions = glob.sync('src/modules/*/server.{ts,js}')

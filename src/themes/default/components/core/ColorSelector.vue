@@ -11,7 +11,7 @@
       :style="colorFrom(variant.label)"
     />
   </button>
-  <span class="tooltip absolute">{{variant.label}}</span>
+  <span class="tooltip absolute">{{ $t(variant.label) }}</span>
   </div>
 </template>
 
