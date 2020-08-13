@@ -73,7 +73,7 @@ export default {
     }
   },
   mounted () {
-    this.getCityList()
+    if (this.$route.name === 'checkout') this.getCityList()
   },
   methods: {
     close () {
@@ -94,6 +94,11 @@ export default {
     onSubmit () {
       this.close()
       this.$bus.$emit('change-city', this.city)
+    }
+  },
+  watch: {
+    '$route.name': function (val, old) {
+      if (val === 'checkout') this.getCityList()
     }
   }
 }

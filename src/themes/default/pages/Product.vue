@@ -19,7 +19,10 @@
                   class="web-share"
               />
             </h1>
-            <div class="product-in-stock">
+            <div
+              class="product-in-stock"
+              :class="{ 'not-available': !(getCurrentProduct.stock && getCurrentProduct.stock.is_in_stock) }"
+            >
               {{(getCurrentProduct.stock && getCurrentProduct.stock.is_in_stock) ? $t('In stock') : $t('Not available')}}
             </div>
           </div>
@@ -32,7 +35,10 @@
             />
           </div>
           <div class="col-xs-12 col-md-5 data">
-            <div class="product-in-stock hidden-xs block">
+            <div
+              class="product-in-stock hidden-xs block"
+              :class="{ 'not-available': !(getCurrentProduct.stock && getCurrentProduct.stock.is_in_stock) }"
+            >
               {{(getCurrentProduct.stock && getCurrentProduct.stock.is_in_stock) ? $t('In stock') : $t('Not available')}}
             </div>
             <h1
@@ -65,6 +71,9 @@
                 :product="getCurrentProduct"
                 :custom-options="getCurrentCustomOptions"
               />
+              <!--<div class="custom-seller">-->
+                <!--<h4 @click="showCustomSeller">custom seller</h4>-->
+              <!--</div>-->
               <div class="cl-primary variants" v-if="getCurrentProduct.type_id =='configurable'">
                 <div
                   class="error"
@@ -77,7 +86,7 @@
                     {{ option.label }}
                     <span
                       class="weight-700"
-                    >{{ getOptionLabel(option) }}</span>
+                    >{{ $t(getOptionLabel(option)) }}</span>
                   </div>
                   <div class="row top-xs m0 pt15 pb40 variants-wrapper">
                     <div v-if="option.attribute_code == 'color'">
@@ -447,6 +456,9 @@ export default {
     },
     handleQuantityError (error) {
       this.quantityError = error
+    },
+    showCustomSeller () {
+      this.$bus.$emit('modal-show', 'modal-custom-seller-product')
     }
   },
   metaInfo () {
@@ -501,6 +513,10 @@ $color-tertiary: color(tertiary);
 $color-secondary: color(secondary);
 $color-white: color(white);
 $bg-secondary: color(secondary, $colors-background);
+
+.not-available {
+  color: #ee2c39 !important;
+}
 
 .product {
   &__add-to-compare {
