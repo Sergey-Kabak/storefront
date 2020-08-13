@@ -1,6 +1,6 @@
 <template>
   <div id="checkout">
-    <div class="container-fluid">
+    <div class="container">
       <div class="row" v-show="!isThankYouPage">
         <div class="col-xs-12 pb70">
           <nav aria-label="breadcrumb">
