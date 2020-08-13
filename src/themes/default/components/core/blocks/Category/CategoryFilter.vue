@@ -11,7 +11,7 @@
     </div>
     <!-- Should be animated -->
     <transition name="slide">
-      <div class="filter-body" v-show="isActive">
+      <div class="filter-body" v-show="isActive" :style="noscroll && 'overflow : visible'">
         <slot />
       </div>
     </transition>
@@ -27,6 +27,10 @@ export default {
     label: {
       type: String,
       required: true
+    },
+    noscroll : {
+      type: String,
+      required: false
     }
   },
   methods: {
@@ -114,6 +118,10 @@ export default {
     .line-vertical {
       transform: translateX(-50%) rotate(0);
       opacity: 1;
+    }
+    .line-horizontal,
+    .line-vertical{
+      background: #23BE20;
     }
   }
 }

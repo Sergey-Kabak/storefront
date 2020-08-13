@@ -49,19 +49,48 @@
           <sidebar :filters="getAvailableFilters" @changeFilter="changeFilter" />
         </div>
         <div class="col-md-3 start-xs mobile-filters" v-show="mobileFilters">
-          <div class="close-container absolute w-100">
-            <i class="material-icons p15 close cl-accent" @click="closeFilters">close</i>
+          <div class="filter-overlay" :class="{'hasFilters' : Object.keys(getCurrentSearchQuery.filters).length > 0}">
+            
+            <div
+              @click="closeFilters" 
+              class="close-container w-100">
+              <span class="material-icons">
+                keyboard_arrow_left
+              </span>
+              <span class="close-text">Назад</span>
+            </div>
+            
+            <sidebar :filters="getAvailableFilters" @changeFilter="changeFilter" />
+            
+            <div class="relative pb20 pt15">
+              <div class="brdr-top-1 brdr-cl-primary absolute divider w-100" />
+            </div>
+            
+            <div 
+              v-if="Object.keys(getCurrentSearchQuery.filters).length > 0" 
+              class="active-filters-mobile">
+              <div class="selected-products">
+                Выбрано {{getCategoryProductsTotal}} товар
+              </div>
+
+              <div class="buttons-group">
+                <button-full
+                    class="buttons-group"
+                    @click.native="resetAllFilters"
+                  >
+                  Очистить все
+                </button-full>
+                <button-full
+                    class="buttons-group"
+                    @click.native="closeFilters"
+                  >
+                  Показать
+                </button-full>
+              </div>
+            </div>
+    
           </div>
-          <sidebar class="mobile-filters-body" :filters="getAvailableFilters" @changeFilter="changeFilter" />
-          <div class="relative pb20 pt15">
-            <div class="brdr-top-1 brdr-cl-primary absolute divider w-100" />
-          </div>
-          <button-full
-            class="mb20 btn__filter"
-            @click.native="closeFilters"
-          >
-            {{ $t('Filter') }}
-          </button-full>
+          
         </div>
         <div class="col-md-9 px10 border-box products-list">
           <p class="col-md-12 hidden-xs start-md mt0 cl-secondary category-sort">
@@ -178,10 +207,15 @@ export default {
     }
   },
   methods: {
+    resetAllFilters () {
+      this.$store.dispatch('category-next/resetSearchFilters')
+    },
     openFilters () {
+      document.querySelector('body').style.overflow = 'hidden'
       this.mobileFilters = true
     },
     closeFilters () {
+      document.querySelector('body').style.overflow = ''
       this.mobileFilters = false
     },
     async changeFilter (filterVariant) {
@@ -223,6 +257,52 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+$mobile_screen : 768px;
+  .active-filters-mobile{
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    width: calc(100% - 32px);
+    padding: 16px;
+    box-sizing: border-box;
+    background-color: #fff;
+    box-shadow: 0px -1px 4px rgba(0, 0, 0, 0.25);
+    .selected-products{
+      display: block;
+      text-align: center;
+      font-size: 13px;
+      line-height: 16px;
+      color: #1A1919;
+      margin-bottom: 16px;
+    }
+    .buttons-group{
+      display: flex;
+      button{
+        &:first-child{
+          background-color: #fff;
+          color: #1A1919;
+        }
+        &:not(:last-child){
+          margin-right: 16px;
+        }
+        min-width: 1px;
+        flex: 1;
+        display: block;
+        text-align: center;
+        font-size: 15px;
+        max-width: 50%;
+        border: 1px solid #23BE20;
+        box-sizing: border-box;
+        border-radius: 4px;
+      }
+    }
+  }
+  .divider{
+      @media (max-width : $mobile_screen){
+        left: 0 !important;
+        width: 100% !important;
+      }
+  }
   .btn {
     &__filter {
       min-width: 100px;
@@ -258,6 +338,7 @@ export default {
   .mobile-filters {
     display: none;
     overflow: auto;
+    padding: 0;
   }
 
   .mobile-filters-button {
@@ -356,12 +437,40 @@ export default {
     }
 
     .mobile-filters {
+      .filter-overlay{
+        &.hasFilters{
+          padding-bottom: 70px;
+        }
+        min-height: 100vh;
+        padding: 16px;
+        display: flex;
+        flex-direction: column;
+        background-color: #fff;
+        width: calc(100% - 32px);
+        margin-left: auto;
+        box-sizing: border-box;
+        .close-container{
+          cursor: pointer;
+          display: flex;
+          align-items: center;
+          position: relative;
+          left: -7px;
+          .material-icons{
+            color: #23BE20;
+            margin-right: 3px;
+          }
+          .close-text{
+            color: #23BE20;
+            font-size: 13px;
+            line-height: 16px;
+          }
+        }
+      }
       position: fixed;
-      background-color: #F2F2F2;
+      background-color: rgba(0,0,0,0.38);
       z-index: 5;
-      padding: 0 40px;
       left: 0;
-      width: 100vw;
+      width: 100%;
       height: 100vh;
       top: 0;
       box-sizing: border-box;

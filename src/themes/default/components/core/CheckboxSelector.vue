@@ -22,6 +22,14 @@ export default {
 
 <style lang="scss" scoped>
   .checkbox-selector {
+    &:hover{
+      .checkbox-amount{
+        opacity: 1;
+      }
+      span.checkbox{
+        border-color : #5F5E5E;
+      }
+    }
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -43,6 +51,7 @@ export default {
     font-style: normal;
     font-size: 15px;
     line-height: 24px;
+    transition: color ease-in 0.1s;
   }
 
   .checkbox-title {
@@ -51,10 +60,12 @@ export default {
   }
 
   .checkbox-amount {
-    color: #BDBDBD;
+    color: #5F5E5E;;
+    opacity: 0.6;
   }
 
   .checkbox {
+    transition: ease-in 0.1s;
     display: flex;
     position: relative;
     display: inline-block;
