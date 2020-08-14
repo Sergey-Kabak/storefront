@@ -33,70 +33,70 @@
 </template>
 
 <script>
-import { onlineHelper } from '@vue-storefront/core/helpers'
+  import { onlineHelper } from '@vue-storefront/core/helpers'
 
-export default {
-  props: {
-    calcRatio: {
-      type: Boolean,
-      default: true
+  export default {
+    props: {
+      calcRatio: {
+        type: Boolean,
+        default: true
+      },
+      image: {
+        type: Object,
+        default: () => ({
+          src: '',
+          loading: ''
+        })
+      },
+      alt: {
+        type: String,
+        default: ''
+      }
     },
-    image: {
-      type: Object,
-      default: () => ({
-        src: '',
-        loading: ''
-      })
+    data () {
+      return {
+        lowerQualityImage: false,
+        lowerQualityImageError: false,
+        highQualityImage: false,
+        highQualityImageError: false,
+        basic: true
+      }
     },
-    alt: {
-      type: String,
-      default: ''
-    }
-  },
-  data () {
-    return {
-      lowerQualityImage: false,
-      lowerQualityImageError: false,
-      highQualityImage: false,
-      highQualityImageError: false,
-      basic: true
-    }
-  },
-  watch: {
-    lowerQualityImage (state) {
-      if (state) {
-        this.basic = this.$refs.lQ.naturalWidth < this.$refs.lQ.naturalHeight;
+    watch: {
+      lowerQualityImage (state) {
+        if (state) {
+          this.basic = this.$refs.lQ.naturalWidth < this.$refs.lQ.naturalHeight;
+        }
+      }
+    },
+    computed: {
+      showPlaceholder () {
+        return !this.showLowerQuality && !this.showHighQuality
+      },
+      showLowerQuality () {
+        return this.lowerQualityImage && !this.showHighQuality
+      },
+      showHighQuality () {
+        return this.highQualityImage
+      },
+      imageRatio () {
+        const { width, height } = this.$store.state.config.products.gallery
+        return `${height / (width / 100)}%`
+      },
+      style () {
+        return this.calcRatio ? { paddingBottom: this.imageRatio } : {}
+      },
+      isOnline (value) {
+        return onlineHelper.isOnline
+      }
+    },
+    methods: {
+      imageLoaded (type, success = true) {
+        this[`${type}QualityImage`] = success
+        this[`${type}QualityImageError`] = !success
       }
     }
-  },
-  computed: {
-    showPlaceholder () {
-      return !this.showLowerQuality && !this.showHighQuality
-    },
-    showLowerQuality () {
-      return this.lowerQualityImage && !this.showHighQuality
-    },
-    showHighQuality () {
-      return this.highQualityImage
-    },
-    imageRatio () {
-      const { width, height } = this.$store.state.config.products.gallery
-      return `${height / (width / 100)}%`
-    },
-    style () {
-      return this.calcRatio ? { paddingBottom: this.imageRatio } : {}
-    },
-    isOnline (value) {
-      return onlineHelper.isOnline
-    }
-  },
-  methods: {
-    imageLoaded (type, success = true) {
-      this[`${type}QualityImage`] = success
-      this[`${type}QualityImageError`] = !success
-    }
   }
-}
 </script>
 
 <style lang="scss" scoped>
@@ -112,6 +112,8 @@ export default {
     &--height {
       .product-image__thumb {
         height: 100%;
+        width: auto;
+        max-height: 215px;
       }
     }
     &--width {

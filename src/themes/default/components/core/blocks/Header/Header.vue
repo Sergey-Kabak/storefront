@@ -34,11 +34,24 @@
             <a href="tel:+380970908707">
               +38 097 090 87 07
             </a>
-<!--            <span>-->
-<!--              <svg width="8" height="6" viewBox="0 0 8 6" fill="none" xmlns="http://www.w3.org/2000/svg">-->
-<!--                <path d="M0.94 0.726667L4 3.78L7.06 0.726667L8 1.66667L4 5.66667L0 1.66667L0.94 0.726667Z" fill="#BDBDBD"/>-->
-<!--              </svg>-->
-<!--            </span>-->
+            <span
+              :class="{'icon-rotate': phoneModalIsOpen}"
+              @click.self="phoneModalIsOpen = !phoneModalIsOpen"
+            >
+              <svg @click.self="phoneModalIsOpen = !phoneModalIsOpen" width="8" height="6" viewBox="0 0 8 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M0.94 0.726667L4 3.78L7.06 0.726667L8 1.66667L4 5.66667L0 1.66667L0.94 0.726667Z" fill="#BDBDBD"/>
+              </svg>
+              <div
+                class="popup-absolute"
+                :class="{'visible-hide': !phoneModalIsOpen}"
+              >
+                <div class="popup-absolute-body">
+                  <ul>
+                    <li>+38 097 090 87 07</li>
+                  </ul>
+                </div>
+              </div>
+            </span>
           </li>
         </ul>
       </div>
@@ -141,6 +154,7 @@ export default {
       scrollTop: 0,
       lastScrollTop: 0,
       navbarHeight: 54,
+      phoneModalIsOpen: false
     }
   },
   computed: {
@@ -207,6 +221,44 @@ $color-icon-hover: color(secondary, $colors-background);
   }
 }
 
+.icon-rotate svg {
+  transition: 200ms;
+  transform: rotate(180deg);
+}
+
+.popup-absolute {
+  z-index: 1;
+  position: absolute;
+  right: 0;
+  top: 30px;
+
+  &.visible-hide {
+    display: none !important;
+  }
+  &-body {
+    background: #FFFFFF;
+    border-radius: 4px;
+    padding: 16px;
+    min-width: 100px;
+    min-height: 10px;
+    box-shadow: 0 0 8px 1px rgba(0,0,0,0.75);
+    &>ul {
+      padding: 0;
+      margin: 0;
+      list-style: none;
+      display: block;
+      white-space: nowrap;
+      height: auto;
+      width: auto;
+      &>li {
+        margin: 0 !important;
+        padding: 0;
+        cursor: pointer;
+      }
+    }
+  }
+}
+
 .header {
   &-black-line {
     background-color: #1A1919;
@@ -214,7 +266,7 @@ $color-icon-hover: color(secondary, $colors-background);
     width: 100%;
     position: relative;
     box-sizing: border-box;
-    ul {
+    &>ul {
       padding: 0;
       list-style: none;
       display: flex;
@@ -222,7 +274,7 @@ $color-icon-hover: color(secondary, $colors-background);
       height: 30px;
       justify-content: center;
       align-items: center;
-      li {
+      &>li {
         color: #BDBDBD;
         font-family: DIN Pro;
         font-style: normal;
@@ -235,6 +287,7 @@ $color-icon-hover: color(secondary, $colors-background);
         position: relative;
         transition: 300ms;
         transform: rotate(0deg);
+        z-index: 5;
 
         a {
           color: #BDBDBD;
