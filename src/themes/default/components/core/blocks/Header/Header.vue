@@ -4,7 +4,7 @@
       class="fixed w-100 brdr-bottom-1 bg-cl-primary brdr-cl-secondary"
       :class="{ 'is-visible': navVisible }"
     >
-      <div class="header-black-line">
+      <div class="header-black-line" v-if="!checkoutPage">
         <ul>
           <li>
             <a href="#">
@@ -151,6 +151,9 @@ export default {
       return this.$store.state.checkout.isThankYouPage
         ? this.$store.state.checkout.isThankYouPage
         : false
+    },
+    checkoutPage () {
+      return this.$route.name === 'checkout'
     }
   },
   beforeMount () {
@@ -260,8 +263,7 @@ $color-icon-hover: color(secondary, $colors-background);
 }
 
 header {
-  height: 84px;
-  top: -85px;
+  top: -88px;
   z-index: 3;
   transition: top 0.2s ease-in-out;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
@@ -346,7 +348,12 @@ header {
 }
 .return-to-shopping {
   &__text {
+    font-family: DIN Pro;
+    font-style: normal;
+    font-size: 15px;
+    line-height: 24px;
     display: block;
+    color: #5F5E5E;
   }
   &__icon {
     display: none;

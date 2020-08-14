@@ -1,6 +1,6 @@
 <template>
-  <div class="pt20 new-shipping">
-    <div class="row pl20">
+  <div class="new-shipping">
+    <div class="row">
       <div class="col-xs-12 col-md-7">
         <div class="checkout-title mb-3">
           <h1>
