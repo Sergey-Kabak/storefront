@@ -1,10 +1,11 @@
 <template>
-  <div class="header">
+  <div class="header-wrap" :class="{ 'expanded': isShowHeader }">
     <header
+      ref="header"
       class="fixed w-100 brdr-bottom-1 bg-cl-primary brdr-cl-secondary"
       :class="{ 'is-visible': navVisible }"
     >
-      <div class="header-black-line">
+      <div class="header-black-line" v-if="isShowHeader">
         <ul>
           <li>
             <a href="#">
@@ -42,68 +43,52 @@
           </li>
         </ul>
       </div>
-      <div class="container px15">
-        <div class="row between-xs middle-xs" v-if="!isCheckoutPage || isThankYouPage">
-          <div class="col-md-4 col-xs-2 middle-xs">
-            <div>
-              <hamburger-icon class="p15 icon" />
-            </div>
-          </div>
-          <div class="col-xs-2 visible-xs">
-            <search-icon class="p15 icon pointer" />
-          </div>
-          <div class="col-md-4 col-xs-4 center-xs">
-            <div>
-              <logo width="auto" height="41px" />
-            </div>
-          </div>
-          <div class="col-xs-2 visible-xs">
-            <wishlist-icon class="p15 icon pointer" />
-          </div>
-          <div class="col-md-4 col-xs-2 end-xs">
-            <div class="inline-flex right-icons">
-              <search-icon class="p15 icon hidden-xs pointer" />
-              <wishlist-icon class="p15 icon hidden-xs pointer" />
-              <compare-icon class="p15 icon hidden-xs pointer" />
-              <microcart-icon class="p15 icon pointer" />
-              <account-icon class="p15 icon hidden-xs pointer" />
-            </div>
+      <div class="header-container" v-if="!isCheckoutPage || isThankYouPage">
+        <div class="header-left">
+          <hamburger-icon class="icon menu" />
+          <div class="mobile-menu">
+            <svg width="16" height="12" viewBox="0 0 16 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M0 0H16V2H0V0ZM0 5H16V7H0V5ZM0 10H16V12H0V10Z" fill="#5F5E5E"/>
+            </svg>
           </div>
         </div>
-        <div class="row between-xs middle-xs px15" v-if="isCheckoutPage && !isThankYouPage">
-          <div class="col-xs-2 col-md-3 middle-xs">
-            <div>
-              <router-link
-                :to="localizedRoute('/')"
-                class="cl-tertiary links"
-              >
-                <span class="return-to-shopping__text">{{ $t('Return to shopping') }}</span>
-                <svg class="return-to-shopping__icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M13.293 17.707L7.58603 12L13.293 6.293L14.707 7.707L10.414 12L14.707 16.293L13.293 17.707Z" fill="#BDBDBD"/>
-                </svg>
-              </router-link>
-            </div>
-          </div>
-          <div class="col-xs-5 col-md-6 center-xs">
-            <logo width="auto" height="41px" />
-          </div>
-          <div class="col-xs-2 col-md-3 end-xs">
-            <div>
-              <a
-                v-if="!currentUser"
-                href="#"
-                @click.prevent="gotoAccount"
-                class="cl-tertiary links"
-              >
-                <span class="account__text">{{ $t('Login to your account') }}</span>
-                <svg class="account__icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M12 2C6.579 2 2 6.579 2 12C2 15.189 3.592 18.078 6 19.924V20H6.102C7.77 21.245 9.813 22 12 22C14.187 22 16.23 21.245 17.898 20H18V19.924C20.408 18.078 22 15.19 22 12C22 6.579 17.421 2 12 2ZM8.074 18.927C8.22136 18.2604 8.59154 17.6639 9.12347 17.236C9.6554 16.808 10.3173 16.5742 11 16.573H13C13.6827 16.5744 14.3445 16.8083 14.8764 17.2362C15.4082 17.6641 15.7785 18.2605 15.926 18.927C14.758 19.604 13.416 20 12 20C10.584 20 9.242 19.604 8.074 18.927ZM17.61 17.641C17.2286 16.7329 16.5877 15.9574 15.7677 15.4117C14.9477 14.866 13.985 14.5742 13 14.573H11C10.015 14.5742 9.05227 14.866 8.23227 15.4117C7.41227 15.9574 6.77144 16.7329 6.39 17.641C4.923 16.182 4 14.176 4 12C4 7.663 7.663 4 12 4C16.337 4 20 7.663 20 12C20 14.176 19.077 16.182 17.61 17.641Z" fill="#828282"/>
-                  <path d="M12 6C9.72 6 8 7.72 8 10C8 12.28 9.72 14 12 14C14.28 14 16 12.28 16 10C16 7.72 14.28 6 12 6ZM12 12C10.822 12 10 11.178 10 10C10 8.822 10.822 8 12 8C13.178 8 14 8.822 14 10C14 11.178 13.178 12 12 12Z" fill="#828282"/>
-                </svg>
-              </a>
-              <span v-else>{{ $t('You are logged in as {firstname}', currentUser) }}</span>
-            </div>
-          </div>
+
+        <div class="header-middle">
+          <logo width="auto" height="41px" class="logo"/>
+        </div>
+        <div class="header-right">
+          <search-icon class="icon pointer icon-search" />
+          <microcart-icon class="icon pointer icon-microcart" />
+          <wishlist-icon class="icon pointer icon-wishlist" />
+          <compare-icon class="icon pointer icon-compare" />
+          <account-icon class="icon pointer icon-account" />
+        </div>
+      </div>
+      <div class="header-container" v-if="isCheckoutPage && !isThankYouPage">
+        <router-link
+          :to="localizedRoute('/')"
+          class="cl-tertiary links"
+        >
+          <span class="return-to-shopping__text">{{ $t('Return to shopping') }}</span>
+          <svg class="return-to-shopping__icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M13.293 17.707L7.58603 12L13.293 6.293L14.707 7.707L10.414 12L14.707 16.293L13.293 17.707Z" fill="#BDBDBD"/>
+          </svg>
+        </router-link>
+        <logo width="auto" height="41px" />
+        <div class="header-account">
+          <a
+            v-if="!currentUser"
+            href="#"
+            @click.prevent="gotoAccount"
+            class="cl-tertiary links"
+          >
+            <span class="account__text">{{ $t('Login to your account') }}</span>
+            <svg class="account__icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 2C6.579 2 2 6.579 2 12C2 15.189 3.592 18.078 6 19.924V20H6.102C7.77 21.245 9.813 22 12 22C14.187 22 16.23 21.245 17.898 20H18V19.924C20.408 18.078 22 15.19 22 12C22 6.579 17.421 2 12 2ZM8.074 18.927C8.22136 18.2604 8.59154 17.6639 9.12347 17.236C9.6554 16.808 10.3173 16.5742 11 16.573H13C13.6827 16.5744 14.3445 16.8083 14.8764 17.2362C15.4082 17.6641 15.7785 18.2605 15.926 18.927C14.758 19.604 13.416 20 12 20C10.584 20 9.242 19.604 8.074 18.927ZM17.61 17.641C17.2286 16.7329 16.5877 15.9574 15.7677 15.4117C14.9477 14.866 13.985 14.5742 13 14.573H11C10.015 14.5742 9.05227 14.866 8.23227 15.4117C7.41227 15.9574 6.77144 16.7329 6.39 17.641C4.923 16.182 4 14.176 4 12C4 7.663 7.663 4 12 4C16.337 4 20 7.663 20 12C20 14.176 19.077 16.182 17.61 17.641Z" fill="#828282"/>
+              <path d="M12 6C9.72 6 8 7.72 8 10C8 12.28 9.72 14 12 14C14.28 14 16 12.28 16 10C16 7.72 14.28 6 12 6ZM12 12C10.822 12 10 11.178 10 10C10 8.822 10.822 8 12 8C13.178 8 14 8.822 14 10C14 11.178 13.178 12 12 12Z" fill="#828282"/>
+            </svg>
+          </a>
+          <span v-else>{{ $t('You are logged in as {firstname}', currentUser) }}</span>
         </div>
       </div>
     </header>
@@ -140,7 +125,8 @@ export default {
       isScrolling: false,
       scrollTop: 0,
       lastScrollTop: 0,
-      navbarHeight: 54,
+      navbarHeight: 67,
+      windowWidth: null
     }
   },
   computed: {
@@ -152,6 +138,12 @@ export default {
       return this.$store.state.checkout.isThankYouPage
         ? this.$store.state.checkout.isThankYouPage
         : false
+    },
+    isShowHeader () {
+      return this.$route.name !== 'checkout' && this.windowWidth > 767
+    },
+    isMobile () {
+      return this.windowWidth < 767
     }
   },
   beforeMount () {
@@ -170,6 +162,13 @@ export default {
       }
     }, 250)
   },
+  mounted: function() {
+    this.windowWidth = window.innerWidth
+    window.addEventListener('resize', this.onResize)
+  },
+  beforeDestroy() { 
+    window.removeEventListener('resize', this.onResize) 
+  },
   methods: {
     gotoAccount () {
       this.$bus.$emit('modal-toggle', 'modal-signup')
@@ -185,6 +184,9 @@ export default {
         this.navVisible = true
       }
       this.lastScrollTop = this.scrollTop
+    },
+    onResize() {
+      this.windowWidth = window.innerWidth
     }
   }
 }
@@ -205,6 +207,26 @@ $color-icon-hover: color(secondary, $colors-background);
   .header-black-line ul li {
     margin: 0 6px !important;
   }
+}
+
+.header-wrap {
+  margin-bottom: 30px;
+
+  &.expanded {
+    margin-bottom: 60px;
+  }
+}
+
+.header-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  align-items: center;
+  justify-content: center;
+  max-width: 1324px;
+  width: 95%;
+  height: 67px;
+  margin: auto;
+  box-sizing: border-box;
 }
 
 .header {
@@ -260,9 +282,43 @@ $color-icon-hover: color(secondary, $colors-background);
   }
 }
 
+.mobile-menu {
+  display: none;
+}
+
+.header-left {
+  height: 100%;
+  width: 100%;
+  max-width: 260px;
+  align-items: center;
+  justify-self: flex-start;
+}
+
+.header-middle {
+  justify-self: center;
+
+  .logo {
+    margin-top: 7px;
+  }
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  justify-self: flex-end;
+
+  .icon {
+    margin-right: 24px;
+    &:last-child {
+      margin-right: 0;
+    }
+  }
+}
+
 header {
-  height: 84px;
-  top: -85px;
+  box-sizing: border-box;
+  height: auto;
+  top: -97px;
   z-index: 3;
   transition: top 0.2s ease-in-out;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
@@ -277,10 +333,6 @@ header {
     background-color: $color-icon-hover;
     opacity: 1;
   }
-}
-.right-icons {
-  //for edge
-  float: right;
 }
 .header-placeholder {
   height: 54px;
@@ -304,39 +356,26 @@ header {
     display: none;
   }
 }
-@media (max-width: 767px) {
-  .return-to-shopping {
-    &__text {
-      display: none;
-    }
-    &__icon {
-      display: block;
-    }
-  }
-  .account {
-    &__text {
-      display: none;
-    }
-    &__icon {
-      display: block;
-    }
-  }
-  .row.middle-xs {
-    margin: 0 -15px;
 
-    &.py5 {
-      margin: 0;
-    }
+.header-account {
+  text-align: right;
+}
+
+@media (max-width: 767px) {
+  .custom-menu__button {
+    display: none;
   }
-  .col-xs-2:first-of-type {
-    padding-left: 0;
+
+  .icon-search {
+    display: none;
   }
-  .col-xs-2:last-of-type {
-    padding-right: 0;
+
+  .mobile-menu {
+    display: block;
   }
-  a,
-  span {
-    font-size: 12px;
+
+  .header-left {
+    height: auto;
   }
 }
 </style>

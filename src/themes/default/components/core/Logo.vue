@@ -1,5 +1,5 @@
 <template>
-  <router-link :to="localizedRoute('/')" :title="$t('Home Page')" class="no-underline inline-flex custom-logo pt10">
+  <router-link :to="localizedRoute('/')" :title="$t('Home Page')" class="no-underline inline-flex custom-logo">
     <!--<img-->
       <!--:width="width"-->
       <!--:height="height"-->
@@ -34,9 +34,10 @@ export default {
 }
 </script>
 
-<style lang="sass">
+<style lang="sass" scoped>
   .custom-logo
     font-size: 40px
+    margin: auto
     color: #23BE20
     font-family: 'DIN Pro'
     font-style: normal
