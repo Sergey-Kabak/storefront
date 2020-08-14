@@ -111,9 +111,9 @@
     }
     &--height {
       .product-image__thumb {
+        width: 100%;
         height: 100%;
-        width: auto;
-        max-height: 215px;
+        object-fit: cover;
       }
     }
     &--width {
