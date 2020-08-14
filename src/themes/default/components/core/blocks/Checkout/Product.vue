@@ -177,6 +177,7 @@ export default {
 .product-price-container {
   display: flex;
   align-items: center;
+  min-width: 75px;
 }
 .product-price {
   font-family: "DIN Pro";
