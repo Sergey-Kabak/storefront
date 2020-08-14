@@ -1,7 +1,10 @@
 <template>
   <div
     class="product-image"
-    :class="{'product-image--height': basic, 'product-image--width': !basic}"
+    :class="[
+      {'product-image--height': basic, 'product-image--width': !basic},
+      className
+    ]"
     v-on="$listeners"
   >
     <img
@@ -35,68 +38,72 @@
 <script>
   import { onlineHelper } from '@vue-storefront/core/helpers'
 
-  export default {
-    props: {
-      calcRatio: {
-        type: Boolean,
-        default: true
-      },
-      image: {
-        type: Object,
-        default: () => ({
-          src: '',
-          loading: ''
-        })
-      },
-      alt: {
-        type: String,
-        default: ''
-      }
+export default {
+  props: {
+    calcRatio: {
+      type: Boolean,
+      default: true
     },
-    data () {
-      return {
-        lowerQualityImage: false,
-        lowerQualityImageError: false,
-        highQualityImage: false,
-        highQualityImageError: false,
-        basic: true
-      }
+    image: {
+      type: Object,
+      default: () => ({
+        src: '',
+        loading: ''
+      })
     },
-    watch: {
-      lowerQualityImage (state) {
-        if (state) {
-          this.basic = this.$refs.lQ.naturalWidth < this.$refs.lQ.naturalHeight;
-        }
-      }
+    alt: {
+      type: String,
+      default: ''
     },
-    computed: {
-      showPlaceholder () {
-        return !this.showLowerQuality && !this.showHighQuality
-      },
-      showLowerQuality () {
-        return this.lowerQualityImage && !this.showHighQuality
-      },
-      showHighQuality () {
-        return this.highQualityImage
-      },
-      imageRatio () {
-        const { width, height } = this.$store.state.config.products.gallery
-        return `${height / (width / 100)}%`
-      },
-      style () {
-        return this.calcRatio ? { paddingBottom: this.imageRatio } : {}
-      },
-      isOnline (value) {
-        return onlineHelper.isOnline
-      }
-    },
-    methods: {
-      imageLoaded (type, success = true) {
-        this[`${type}QualityImage`] = success
-        this[`${type}QualityImageError`] = !success
+    className: {
+      type: String,
+      default: ""
+    }
+  },
+  data () {
+    return {
+      lowerQualityImage: false,
+      lowerQualityImageError: false,
+      highQualityImage: false,
+      highQualityImageError: false,
+      basic: true
+    }
+  },
+  watch: {
+    lowerQualityImage (state) {
+      if (state) {
+        this.basic = this.$refs.lQ.naturalWidth < this.$refs.lQ.naturalHeight;
       }
     }
+  },
+  computed: {
+    showPlaceholder () {
+      return !this.showLowerQuality && !this.showHighQuality
+    },
+    showLowerQuality () {
+      return this.lowerQualityImage && !this.showHighQuality
+    },
+    showHighQuality () {
+      return this.highQualityImage
+    },
+    imageRatio () {
+      const { width, height } = this.$store.state.config.products.gallery
+      return `${height / (width / 100)}%`
+    },
+    style () {
+      return this.calcRatio ? { paddingBottom: this.imageRatio } : {}
+    },
+    isOnline (value) {
+      return onlineHelper.isOnline
+    }
+  },
+  methods: {
+    imageLoaded (type, success = true) {
+      this[`${type}QualityImage`] = success
+      this[`${type}QualityImageError`] = !success
+    }
   }
+}
 </script>
 
 <style lang="scss" scoped>

@@ -24,7 +24,7 @@ export const Login = {
         }
       }).catch(err => {
         Logger.error(err, 'user')()
-        this.onFailure({ result: 'Unexpected authorization error. Check your Network conection.' })
+        this.onFailure({ result: this.$t('Unexpected authorization error. Check your Network conection.') })
         // TODO Move to theme
         this.$bus.$emit('notification-progress-stop')
       })
