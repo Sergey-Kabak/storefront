@@ -4,7 +4,6 @@
       :name="name"
       :value="value"
       :min="1"
-      :max="max"
       :disabled="disabled"
       @input="$emit('input', $event)"
       @blur="$v.$touch()"
