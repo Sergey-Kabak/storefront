@@ -1,7 +1,10 @@
 <template>
   <div
     class="product-image"
-    :class="{'product-image--height': basic, 'product-image--width': !basic}"
+    :class="[
+      {'product-image--height': basic, 'product-image--width': !basic},
+      className
+    ]"
     v-on="$listeners"
   >
     <img
@@ -51,6 +54,10 @@ export default {
     alt: {
       type: String,
       default: ''
+    },
+    className: {
+      type: String,
+      default: ""
     }
   },
   data () {

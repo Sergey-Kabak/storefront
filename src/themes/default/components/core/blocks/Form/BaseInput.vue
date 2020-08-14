@@ -1,12 +1,12 @@
 <template>
-  <div class="relative base-input">
+  <div
+    class="relative base-input"
+    :class="[containerClass]"
+  >
     <div class="relative">
       <input
-        class="
-         py10 w-100 border-box brdr-none brdr-bottom-1
-         brdr-cl-primary h4 sans-serif
-       "
-        :class="{pr30: type === 'password', empty: value === ''}"
+        class="py10 w-100 border-box brdr-none brdr-bottom-1 brdr-cl-primary h4 sans-serif"
+        :class="[{pr30: type === 'password', empty: value === '', 'error-input': validations.some(i => i.condition)}, inputClass]"
         :type="type === 'password' ? passType : type"
         :name="name"
         :autocomplete="autocomplete"
@@ -18,7 +18,7 @@
         @keyup.enter="$emit('keyup.enter', $event.target.value)"
         @keyup="$emit('keyup', $event)"
       >
-      <label>{{ placeholder }}</label>
+      <label :class="[labelClass]">{{ placeholder }}</label>
     </div>
     <button
       v-if="iconActive"
@@ -33,7 +33,7 @@
     >
       {{ icon }}
     </button>
-    <ValidationMessages v-if="validations" :validations="validations" />
+    <ValidationMessages v-if="validations" :validations="validations" :errorClass="errorClass" />
   </div>
 </template>
 
@@ -89,7 +89,23 @@ export default {
     validations: {
       type: Array,
       default: () => []
-    }
+    },
+    containerClass: {
+      type: String,
+      default: ""
+    },
+    inputClass: {
+      type: String,
+      default: ""
+    },
+    labelClass: {
+      type: String,
+      default: ""
+    },
+    errorClass: {
+      type: String,
+      default: ""
+    },
   },
   methods: {
     togglePassType () {
@@ -173,5 +189,9 @@ export default {
     &:focus {
       color: $color-hover;
     }
+  }
+
+  input.h4.sans-serif.error-input {
+    border-color: #eb5757!important;
   }
 </style>

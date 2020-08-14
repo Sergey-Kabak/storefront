@@ -19,7 +19,9 @@ const queueCheck = (sku: string, actionName: string): Promise<any> =>
   })
 
 const check = (sku: string): Promise<Task> =>
-  TaskQueue.execute({
+{
+    console.log(processURLAddress(`${getApiEndpointUrl(config.stock, 'endpoint')}/check?sku=${encodeURIComponent(sku)}`))
+  return TaskQueue.execute({
     url: processURLAddress(`${getApiEndpointUrl(config.stock, 'endpoint')}/check?sku=${encodeURIComponent(sku)}`),
     payload: {
       method: 'GET',
@@ -29,6 +31,7 @@ const check = (sku: string): Promise<Task> =>
     is_result_cacheable: true,
     product_sku: sku
   })
+}
 
 const list = (skuList: string[]): Promise<Task> =>
   TaskQueue.execute({
