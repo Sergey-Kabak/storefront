@@ -29,7 +29,8 @@ export default {
   methods: {
     close () {
       this.$bus.$emit('modal-hide', 'modal-custom-seller-product')
-    }
+    },
+    onSubmit () {}
   },
 }
 </script>
