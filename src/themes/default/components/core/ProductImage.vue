@@ -125,7 +125,8 @@ export default {
     }
     &--width {
       .product-image__thumb {
-        width: 100%;
+        width: auto;
+        height: 100%;
       }
     }
   }

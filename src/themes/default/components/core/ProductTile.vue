@@ -177,104 +177,104 @@
 </template>
 
 <script>
-  import rootStore from '@vue-storefront/core/store'
-  import { ProductTile } from '@vue-storefront/core/modules/catalog/components/ProductTile.ts'
-  import config from 'config'
-  import ProductImage from './ProductImage'
-  import AddToWishlist from 'theme/components/core/blocks/Wishlist/AddToWishlist'
-  import AddToCart from 'theme/components/core/AddToCart.vue'
-  import AddToCompare from 'theme/components/core/blocks/Compare/AddToCompare'
-  import { IsOnWishlist } from '@vue-storefront/core/modules/wishlist/components/IsOnWishlist'
-  import { IsOnCompare } from '@vue-storefront/core/modules/compare/components/IsOnCompare'
-  import { currentStoreView } from '@vue-storefront/core/lib/multistore'
-  import ButtonFull from 'theme/components/theme/ButtonFull.vue'
-  import Tag from "theme/components/core/Tag";
+import rootStore from '@vue-storefront/core/store'
+import { ProductTile } from '@vue-storefront/core/modules/catalog/components/ProductTile.ts'
+import config from 'config'
+import ProductImage from './ProductImage'
+import AddToWishlist from 'theme/components/core/blocks/Wishlist/AddToWishlist'
+import AddToCart from 'theme/components/core/AddToCart.vue'
+import AddToCompare from 'theme/components/core/blocks/Compare/AddToCompare'
+import { IsOnWishlist } from '@vue-storefront/core/modules/wishlist/components/IsOnWishlist'
+import { IsOnCompare } from '@vue-storefront/core/modules/compare/components/IsOnCompare'
+import { currentStoreView } from '@vue-storefront/core/lib/multistore'
+import ButtonFull from 'theme/components/theme/ButtonFull.vue'
+import Tag from "theme/components/core/Tag";
 
-  export default {
-    mixins: [ProductTile, IsOnWishlist, IsOnCompare],
-    components: {
-      ButtonFull,
-      ProductImage,
-      AddToWishlist,
-      AddToCompare,
-      AddToCart,
-      Tag
+export default {
+  mixins: [ProductTile, IsOnWishlist, IsOnCompare],
+  components: {
+    ButtonFull,
+    ProductImage,
+    AddToWishlist,
+    AddToCompare,
+    AddToCart,
+    Tag
+  },
+  props: {
+    isShowCompareAndFavorite: {
+      type: Boolean,
+      required: false,
+      default: false
     },
-    props: {
-      isShowCompareAndFavorite: {
-        type: Boolean,
-        required: false,
-        default: false
-      },
-      labelsActive: {
-        type: Boolean,
-        default: true
-      },
-      onlyImage: {
-        type: Boolean,
-        default: false
-      }
+    labelsActive: {
+      type: Boolean,
+      default: true
     },
-    computed: {
-      qwe() {
-        return this.IsOnWishlist
-      },
-      thumbnailObj () {
-        return {
-          src: this.thumbnail,
-          loading: this.thumbnail
-        }
-      },
-      favoriteIcon () {
-        return this.isOnWishlist ? 'favorite' : 'favorite_border'
-      },
-      storeView () {
-        return currentStoreView()
-      }
-    },
-    methods: {
-      toProduct () {
-        this.$router.push(this.productLink)
-      },
-      onProductPriceUpdate (product) {
-        if (product.sku === this.product.sku) {
-          Object.assign(this.product, product)
-        }
-      },
-      productPercent () {
-        let a = this.product.original_price_incl_tax / 100
-        let b = this.product.original_special_price / a
-        return 100 - b
-      },
-      visibilityChanged (isVisible, entry) {
-        if (
-          isVisible &&
-          config.products.configurableChildrenStockPrefetchDynamic &&
-          config.products.filterUnavailableVariants &&
-          this.product.type_id === 'configurable' &&
-          this.product.configurable_children &&
-          this.product.configurable_children.length > 0
-        ) {
-          const skus = [this.product.sku]
-          for (const confChild of this.product.configurable_children) {
-            const cachedItem = rootStore.state.stock.cache[confChild.id]
-            if (typeof cachedItem === 'undefined' || cachedItem === null) {
-              skus.push(confChild.sku)
-            }
-          }
-          if (skus.length > 0) {
-            rootStore.dispatch('stock/list', { skus: skus }) // store it in the cache
-          }
-        }
-      },
-    },
-    beforeMount () {
-      this.$bus.$on('product-after-priceupdate', this.onProductPriceUpdate)
-    },
-    beforeDestroy () {
-      this.$bus.$off('product-after-priceupdate', this.onProductPriceUpdate)
+    onlyImage: {
+      type: Boolean,
+      default: false
     }
+  },
+  computed: {
+    qwe() {
+      return this.IsOnWishlist
+    },
+    thumbnailObj () {
+      return {
+        src: this.thumbnail,
+        loading: this.thumbnail
+      }
+    },
+    favoriteIcon () {
+      return this.isOnWishlist ? 'favorite' : 'favorite_border'
+    },
+    storeView () {
+      return currentStoreView()
+    }
+  },
+  methods: {
+    toProduct () {
+      this.$router.push(this.productLink)
+    },
+    onProductPriceUpdate (product) {
+      if (product.sku === this.product.sku) {
+        Object.assign(this.product, product)
+      }
+    },
+    productPercent () {
+      let a = this.product.original_price_incl_tax / 100
+      let b = this.product.original_special_price / a
+      return 100 - b
+    },
+    visibilityChanged (isVisible, entry) {
+      if (
+        isVisible &&
+        config.products.configurableChildrenStockPrefetchDynamic &&
+        config.products.filterUnavailableVariants &&
+        this.product.type_id === 'configurable' &&
+        this.product.configurable_children &&
+        this.product.configurable_children.length > 0
+      ) {
+        const skus = [this.product.sku]
+        for (const confChild of this.product.configurable_children) {
+          const cachedItem = rootStore.state.stock.cache[confChild.id]
+          if (typeof cachedItem === 'undefined' || cachedItem === null) {
+            skus.push(confChild.sku)
+          }
+        }
+        if (skus.length > 0) {
+          rootStore.dispatch('stock/list', { skus: skus }) // store it in the cache
+        }
+      }
+    },
+  },
+  beforeMount () {
+    this.$bus.$on('product-after-priceupdate', this.onProductPriceUpdate)
+  },
+  beforeDestroy () {
+    this.$bus.$off('product-after-priceupdate', this.onProductPriceUpdate)
   }
+}
 </script>
 
 <style lang="scss">
@@ -351,6 +351,8 @@
       font-size: 15px;
       line-height: 24px;
       color: #1A1919;
+      height: 48px;
+      overflow: hidden;
       @media (max-width: 991px) {
         margin-bottom: 10px;
       }

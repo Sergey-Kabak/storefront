@@ -18,7 +18,7 @@
             <div class="d-flex flex-column ml-auto">
               <div class="name">{{ location.name }}</div>
               <div class="phone">{{ location.phone || '044 234 44 54' }}</div>
-              <div class="time">{{ $t('Pick up tomorrow from 15:00') }}</div>
+              <!--<div class="time">{{ $t('Pick up tomorrow from 15:00') }}</div>-->
             </div>
           </div>
         </div>
@@ -27,7 +27,7 @@
             <div class="address">
 <!--              {{ $t('street') }}. -->
               {{ location.streetname }} {{ location.streetname2 }}</div>
-            <div class="working-time">{{ location.time || $t('Mon-Fri: 08: 00-20: 00; Sat: 10: 00-18: 00; Sun: 11: 00-17: 00') }}</div>
+            <div class="working-time">{{ location.time || $t('Пн-Пт: 8:00-20:00; Сб: 10:00-18:00; Вс: 11:00-17:00') }}</div>
           </div>
         </div>
         <div class="col-sm ml-auto p-0">
