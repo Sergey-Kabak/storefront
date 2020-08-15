@@ -36,7 +36,7 @@
 </template>
 
 <script>
-import { onlineHelper } from '@vue-storefront/core/helpers'
+  import { onlineHelper } from '@vue-storefront/core/helpers'
 
 export default {
   props: {
@@ -118,12 +118,15 @@ export default {
     }
     &--height {
       .product-image__thumb {
+        width: 100%;
         height: 100%;
+        object-fit: contain;
       }
     }
     &--width {
       .product-image__thumb {
-        width: 100%;
+        width: auto;
+        height: 100%;
       }
     }
   }

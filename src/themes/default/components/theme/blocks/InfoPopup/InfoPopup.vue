@@ -37,7 +37,7 @@
           @click="onClick()"
           class="btn btn-success pickup-btn"
         >
-          Забрать здесь
+          {{ $t('Pick up here') }}
         </button>
       </div>
     </div>
