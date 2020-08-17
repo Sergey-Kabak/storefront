@@ -4,7 +4,7 @@
       class="categories__handler"
     >
       <h4 class="categories__heading">
-        {{ $t('Filter by categories') }}
+        {{ $t('Categories') }}
       </h4>
 
       <template v-for="category in categories">

@@ -119,8 +119,8 @@
 "Warranty, Exchange, Return","Гарантия, обмен, возврат"
 "We accept","Мы принимаем"
 "We found other products you might like","Мы нашли другие продукты, которые вам могут понравиться"
-"White","Белый"
 "Weekend","Выходные",
+"White","Белый"
 "Yellow","Желтый"
 "You submitted your review for moderation.":"Вы отправили свой отзыв на модерацию."
 "Your cart","Ваша корзина"
@@ -194,6 +194,7 @@ Back to login,Вернуться на страницу авторизации
 Back,Назад
 Billing address,Платежный адрес
 Cancel,Отмена
+Categories,Категории
 Change my password,Изменить пароль
 City *,Город *
 City,Город
