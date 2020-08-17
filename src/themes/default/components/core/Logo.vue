@@ -6,7 +6,7 @@
       <!--src="http://i.imgur.com/MluLoAB.png"-->
       <!--:alt="$t(defaultTitle)"-->
     <!--&gt;-->
-    <img :width="width" :height="height" src="/assets/custom/Ringo_logo_green.svg" :alt="$t(defaultTitle)">
+    <img :width="width" src="/assets/custom/Ringo_logo_green.svg" :alt="$t(defaultTitle)">
   </router-link>
 </template>
 
@@ -23,10 +23,6 @@ export default {
   },
   props: {
     width: {
-      type: [String, Number],
-      required: true
-    },
-    height: {
       type: [String, Number],
       required: true
     }

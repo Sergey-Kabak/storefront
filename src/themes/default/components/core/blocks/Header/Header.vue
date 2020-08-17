@@ -1,9 +1,10 @@
 <template>
-  <div class="header-wrap" :class="{ 'expanded': isShowHeader }">
+  <div class="header-wrap" :style="{ height: headerHeight + 'px' }">
     <header
       ref="header"
-      class="fixed w-100 brdr-bottom-1 bg-cl-primary brdr-cl-secondary"
+      class="w-100"
       :class="{ 'is-visible': navVisible }"
+      :style="{ 'z-index': headerIndex }"
     >
       <div class="header-black-line" v-if="isShowHeader">
         <ul>
@@ -43,52 +44,61 @@
           </li>
         </ul>
       </div>
-      <div class="header-container" v-if="!isCheckoutPage || isThankYouPage">
-        <div class="header-left">
-          <hamburger-icon class="icon menu" />
-          <div class="mobile-menu">
-            <svg width="16" height="12" viewBox="0 0 16 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M0 0H16V2H0V0ZM0 5H16V7H0V5ZM0 10H16V12H0V10Z" fill="#5F5E5E"/>
-            </svg>
+      <div class="header-container-wrap border" v-if="!isCheckoutPage || isThankYouPage">
+        <div class="header-container header-top-container">
+          <div class="header-top">
+            <div class="header-left">
+              <hamburger-icon class="icon menu" />
+              <mobile-hamburger-icon class="mobile-menu" />
+            </div>
+
+            <div class="header-middle">
+              <logo width="auto" class="logo"/>
+            </div>
+            <div class="header-right">
+              <search-icon class="icon pointer icon-search" />
+              <compare-icon class="icon pointer icon-compare" />
+              <microcart-icon class="icon pointer icon-microcart" />
+              <wishlist-icon class="icon pointer icon-wishlist" />
+              <account-icon class="icon pointer icon-account" />
+            </div>
           </div>
         </div>
-
-        <div class="header-middle">
-          <logo width="auto" height="41px" class="logo"/>
-        </div>
-        <div class="header-right">
-          <search-icon class="icon pointer icon-search" />
-          <microcart-icon class="icon pointer icon-microcart" />
-          <wishlist-icon class="icon pointer icon-wishlist" />
-          <compare-icon class="icon pointer icon-compare" />
-          <account-icon class="icon pointer icon-account" />
+      </div>
+      <div class="header-container-wrap border" v-if="!isCheckoutPage || isThankYouPage">
+        <div class="header-container">
+          <div class="header-bottom" v-if="isShowHeader">
+            <header-search />
+          </div>
         </div>
       </div>
-      <div class="header-container" v-if="isCheckoutPage && !isThankYouPage">
-        <router-link
-          :to="localizedRoute('/')"
-          class="cl-tertiary links"
-        >
-          <span class="return-to-shopping__text">{{ $t('Return to shopping') }}</span>
-          <svg class="return-to-shopping__icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M13.293 17.707L7.58603 12L13.293 6.293L14.707 7.707L10.414 12L14.707 16.293L13.293 17.707Z" fill="#BDBDBD"/>
-          </svg>
-        </router-link>
-        <logo width="auto" height="41px" />
-        <div class="header-account">
-          <a
-            v-if="!currentUser"
-            href="#"
-            @click.prevent="gotoAccount"
+      <div class="header-container-wrap border">
+        <div class="header-container minimal" v-if="isCheckoutPage && !isThankYouPage">
+          <router-link
+            :to="localizedRoute('/')"
             class="cl-tertiary links"
           >
-            <span class="account__text">{{ $t('Login to your account') }}</span>
-            <svg class="account__icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M12 2C6.579 2 2 6.579 2 12C2 15.189 3.592 18.078 6 19.924V20H6.102C7.77 21.245 9.813 22 12 22C14.187 22 16.23 21.245 17.898 20H18V19.924C20.408 18.078 22 15.19 22 12C22 6.579 17.421 2 12 2ZM8.074 18.927C8.22136 18.2604 8.59154 17.6639 9.12347 17.236C9.6554 16.808 10.3173 16.5742 11 16.573H13C13.6827 16.5744 14.3445 16.8083 14.8764 17.2362C15.4082 17.6641 15.7785 18.2605 15.926 18.927C14.758 19.604 13.416 20 12 20C10.584 20 9.242 19.604 8.074 18.927ZM17.61 17.641C17.2286 16.7329 16.5877 15.9574 15.7677 15.4117C14.9477 14.866 13.985 14.5742 13 14.573H11C10.015 14.5742 9.05227 14.866 8.23227 15.4117C7.41227 15.9574 6.77144 16.7329 6.39 17.641C4.923 16.182 4 14.176 4 12C4 7.663 7.663 4 12 4C16.337 4 20 7.663 20 12C20 14.176 19.077 16.182 17.61 17.641Z" fill="#828282"/>
-              <path d="M12 6C9.72 6 8 7.72 8 10C8 12.28 9.72 14 12 14C14.28 14 16 12.28 16 10C16 7.72 14.28 6 12 6ZM12 12C10.822 12 10 11.178 10 10C10 8.822 10.822 8 12 8C13.178 8 14 8.822 14 10C14 11.178 13.178 12 12 12Z" fill="#828282"/>
+            <span class="return-to-shopping__text">{{ $t('Return to shopping') }}</span>
+            <svg class="return-to-shopping__icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M13.293 17.707L7.58603 12L13.293 6.293L14.707 7.707L10.414 12L14.707 16.293L13.293 17.707Z" fill="#BDBDBD"/>
             </svg>
-          </a>
-          <span v-else>{{ $t('You are logged in as {firstname}', currentUser) }}</span>
+          </router-link>
+          <logo width="auto" height="41px" />
+          <div class="header-account">
+            <a
+              v-if="!currentUser"
+              href="#"
+              @click.prevent="gotoAccount"
+              class="cl-tertiary links"
+            >
+              <span class="account__text">{{ $t('Login to your account') }}</span>
+              <svg class="account__icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 2C6.579 2 2 6.579 2 12C2 15.189 3.592 18.078 6 19.924V20H6.102C7.77 21.245 9.813 22 12 22C14.187 22 16.23 21.245 17.898 20H18V19.924C20.408 18.078 22 15.19 22 12C22 6.579 17.421 2 12 2ZM8.074 18.927C8.22136 18.2604 8.59154 17.6639 9.12347 17.236C9.6554 16.808 10.3173 16.5742 11 16.573H13C13.6827 16.5744 14.3445 16.8083 14.8764 17.2362C15.4082 17.6641 15.7785 18.2605 15.926 18.927C14.758 19.604 13.416 20 12 20C10.584 20 9.242 19.604 8.074 18.927ZM17.61 17.641C17.2286 16.7329 16.5877 15.9574 15.7677 15.4117C14.9477 14.866 13.985 14.5742 13 14.573H11C10.015 14.5742 9.05227 14.866 8.23227 15.4117C7.41227 15.9574 6.77144 16.7329 6.39 17.641C4.923 16.182 4 14.176 4 12C4 7.663 7.663 4 12 4C16.337 4 20 7.663 20 12C20 14.176 19.077 16.182 17.61 17.641Z" fill="#828282"/>
+                <path d="M12 6C9.72 6 8 7.72 8 10C8 12.28 9.72 14 12 14C14.28 14 16 12.28 16 10C16 7.72 14.28 6 12 6ZM12 12C10.822 12 10 11.178 10 10C10 8.822 10.822 8 12 8C13.178 8 14 8.822 14 10C14 11.178 13.178 12 12 12Z" fill="#828282"/>
+              </svg>
+            </a>
+            <span v-else>{{ $t('You are logged in as {firstname}', currentUser) }}</span>
+          </div>
         </div>
       </div>
     </header>
@@ -106,6 +116,8 @@ import Logo from 'theme/components/core/Logo'
 import MicrocartIcon from 'theme/components/core/blocks/Header/MicrocartIcon'
 import SearchIcon from 'theme/components/core/blocks/Header/SearchIcon'
 import WishlistIcon from 'theme/components/core/blocks/Header/WishlistIcon'
+import HeaderSearch from 'theme/components/core/blocks/Header/HeaderSearch'
+import MobileHamburgerIcon from 'theme/components/core/blocks/Header/MobileHamburgerIcon'
 
 export default {
   name: 'Header',
@@ -116,7 +128,9 @@ export default {
     Logo,
     MicrocartIcon,
     SearchIcon,
-    WishlistIcon
+    WishlistIcon,
+    HeaderSearch,
+    MobileHamburgerIcon
   },
   mixins: [CurrentPage],
   data () {
@@ -125,14 +139,16 @@ export default {
       isScrolling: false,
       scrollTop: 0,
       lastScrollTop: 0,
-      navbarHeight: 67,
-      windowWidth: null
+      navbarHeight: 104,
+      headerHeight: null
     }
   },
   computed: {
     ...mapState({
       isOpenLogin: state => state.ui.signUp,
-      currentUser: state => state.user.current
+      currentUser: state => state.user.current,
+      headerIndex: state => state.ui.headerIndex,
+      mobileSearch: state => state.ui.mobileSearch
     }),
     isThankYouPage () {
       return this.$store.state.checkout.isThankYouPage
@@ -140,10 +156,7 @@ export default {
         : false
     },
     isShowHeader () {
-      return this.$route.name !== 'checkout' && this.windowWidth > 767
-    },
-    isMobile () {
-      return this.windowWidth < 767
+      return this.$route.name !== 'checkout'
     }
   },
   beforeMount () {
@@ -163,11 +176,11 @@ export default {
     }, 250)
   },
   mounted: function() {
-    this.windowWidth = window.innerWidth
+    this.headerHeight = this.$refs.header.clientHeight
     window.addEventListener('resize', this.onResize)
   },
-  beforeDestroy() { 
-    window.removeEventListener('resize', this.onResize) 
+  beforeDestroy() {
+    window.removeEventListener('resize', this.onResize)
   },
   methods: {
     gotoAccount () {
@@ -186,7 +199,10 @@ export default {
       this.lastScrollTop = this.scrollTop
     },
     onResize() {
-      this.windowWidth = window.innerWidth
+      if (window.innerWidth >= 767 && this.mobileSearch) {
+        this.$store.commit('ui/setOverlay', false)
+        this.$store.commit('ui/setMobileSearch', false)
+      }
     }
   }
 }
@@ -209,24 +225,38 @@ $color-icon-hover: color(secondary, $colors-background);
   }
 }
 
-.header-wrap {
-  margin-bottom: 30px;
+header {
+  background: #fff;
+}
 
-  &.expanded {
-    margin-bottom: 60px;
-  }
+.header-wrap {
+  margin-bottom: 18px;
+}
+
+.header-black-line {
+  display: block;
 }
 
 .header-container {
+  max-width: 1324px;
+  width: 95%;
+  height: 100%;
+  margin: auto;
+  box-sizing: border-box;
+
+  &.minimal {
+    display: flex;
+    align-items: center;
+    height: 67px;
+  }
+}
+
+.header-top {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   align-items: center;
-  justify-content: center;
-  max-width: 1324px;
-  width: 95%;
   height: 67px;
-  margin: auto;
-  box-sizing: border-box;
+  justify-content: center;
 }
 
 .header {
@@ -298,6 +328,7 @@ $color-icon-hover: color(secondary, $colors-background);
   justify-self: center;
 
   .logo {
+    height: 41px;
     margin-top: 7px;
   }
 }
@@ -308,7 +339,18 @@ $color-icon-hover: color(secondary, $colors-background);
   justify-self: flex-end;
 
   .icon {
-    margin-right: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 14px;
+    padding: 10px;
+    border-radius: 4px;
+    transition: .2s ease-in-out;
+
+    &:hover {
+      background-color: #f9f9f9!important;
+    }
+
     &:last-child {
       margin-right: 0;
     }
@@ -317,15 +359,25 @@ $color-icon-hover: color(secondary, $colors-background);
 
 header {
   box-sizing: border-box;
-  height: auto;
-  top: -97px;
+  position: fixed;
+  top: -115px;
+  overflow-y: auto;
+  max-height: 100vh;
   z-index: 3;
   transition: top 0.2s ease-in-out;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
   &.is-visible {
     top: 0;
   }
 }
+
+.header-container-wrap {
+  background: #fff;
+
+  &.border {
+    box-shadow: inset 0px -2px 2px -2px rgba(0, 0, 0, .3)
+  }
+}
+
 .icon {
   opacity: 1;
   &:hover,
@@ -361,21 +413,72 @@ header {
   text-align: right;
 }
 
+.header-bottom {
+  display: none;
+}
+
 @media (max-width: 767px) {
+  .header-top {
+    padding: 0 20px;
+  }
+
+  .header-black-line {
+    display: none;
+  }
+
+  .header-bottom {
+    display: block;
+  }
+
+  .header-container {
+    width: 100%;
+  }
+
   .custom-menu__button {
     display: none;
   }
 
-  .icon-search {
-    display: none;
+  .header-right {
+    .icon-search {
+      display: none;
+    }
   }
 
   .mobile-menu {
+    cursor: pointer;
     display: block;
   }
 
   .header-left {
     height: auto;
+  }
+
+  .header-middle {
+    .logo {
+      height: 35px;
+    }
+  }
+
+  .header-top {
+    height: 56px;
+  }
+}
+
+@media (max-width: 500px) {
+  .header-top {
+    grid-template-columns: auto 1fr auto
+  }
+
+  .header-right {
+    .icon {
+      margin-right: 0;
+    }
+  }
+  
+  .header-middle {
+    .logo {
+      margin-top: 12px;
+    }
   }
 }
 </style>
