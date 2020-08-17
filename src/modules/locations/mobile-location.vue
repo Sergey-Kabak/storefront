@@ -42,9 +42,9 @@
 
 <script>
 
-  export default {
-    props: ['location']
-  }
+export default {
+  props: ['location']
+}
 </script>
 
 <style lang="scss" scoped>
