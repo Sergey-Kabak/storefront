@@ -1020,5 +1020,16 @@
       "url_path": "bezdrotovi-navushniki-redmi-airdots-s-black.html",
       "type_id": "configurable"
     }
-  ]
+  ],
+  "customSeller": {
+    "name": "S-DIGIT",
+    "rate": 4.9,
+    "marks": 24,
+    "logo": "https://i1.rozetka.ua/sellers/1635/1635253.jpg",
+    "description": "Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit. Exercitation veniam consequat sunt nostrud amet.",
+    "email": "custom@email.com",
+    "phones": ["+380 44 000 00 00", "+380 63 000 00 00", "+380 97 000 00 00"],
+    "workTimes": ["Пн-Пт: 08:00-20:00;", "Сб: 10:00-18:00;", "Вс: 11:00-17:00"],
+    "link": "/smartfoni-i-telefoni"
+  }
 }
