@@ -997,7 +997,15 @@
       "type_id": "configurable"
     },
     {
+      "url_path": "samsung-galaxy-m21-4-64gb-m215.html",
+      "type_id": "configurable"
+    },
+    {
       "url_path": "xiaomi-redmi-note-9-4-128gb.html?childSku=т28320",
+      "type_id": "configurable"
+    },
+    {
+      "url_path": "samsung-sm-a515f-4-64gb.html?childSku=т26991",
       "type_id": "configurable"
     },
     {
@@ -1005,23 +1013,11 @@
       "type_id": "configurable"
     },
     {
-      "url_path": "apple-ipad-10-2-inch-32gb-2019-wi-fi.html?childSku=т29816",
+      "url_path": "apple-ipad-10-2-inch-32gb-2019-wi-fi.html",
       "type_id": "configurable"
     },
     {
       "url_path": "bezdrotovi-navushniki-redmi-airdots-s-black.html",
-      "type_id": "configurable"
-    },
-    {
-      "url_path": "gadzheti/smart-godinniki?manufacturer=25",
-      "type_id": "configurable"
-    },
-    {
-      "url_path": "apple-iphone-se-64gb.html?childSku=т28689",
-      "type_id": "configurable"
-    },
-    {
-      "url_path": "smartfoni-i-telefoni?manufacturer=142",
       "type_id": "configurable"
     }
   ]
