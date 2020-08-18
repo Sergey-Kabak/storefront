@@ -1,15 +1,30 @@
 <template>
-  <div class="work-in-the-company">{{ translate('work in the company text') }}</div>
+  <div class="work-in-the-company">
+    <p class="title">
+      Наша компанія — це молодий, амбітний і дружний колектив, який ставить перед собою цілі й досягає
+      результатів у заплановані терміни. Наше керівництво знає, що саме колектив формує вартість
+      компанії на ринку, ми культивуємо лояльне ставлення до себе як до роботодавця.
+    </p>
+    <p><strong>Переваги ringoo</strong></p>
+    <ul>
+      <li>Цінуємо кожного фахівця</li>
+      <li>Виконуємо фінансові зобов'язання вчасно</li>
+      <li>Винагороджуємо відповідно до прозорої системи мотивації</li>
+      <li>Підтримуємо фаховий розвиток</li>
+      <li>Пропонуємо систему лояльності для співробітників</li>
+      <li>Гарантуємо офіційне працевлаштування.</li>
+    </ul>
+    <p>Детальніше про наші вакансії дивіться <a target="__blank" href="https://info.ringoo.ua/ua/jobs.html">тут</a></p>
+  </div>
 </template>
 
 <script>
-import i18n from '@vue-storefront/i18n'
 
-export default {
-  methods: {
-    translate (t) {
-      return i18n.t(t)
-    }
-  }
-}
+export default {}
 </script>
+
+<style lang="scss" scoped>
+  .title {
+    margin-top: 0;
+  }
+</style>
