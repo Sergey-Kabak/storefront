@@ -329,6 +329,10 @@ export default {
         color: #ffffff;
       }
     }
+    .product-image--width .product-image__thumb {
+      width: 100%;
+      height: auto;
+    }
   }
 </style>
 

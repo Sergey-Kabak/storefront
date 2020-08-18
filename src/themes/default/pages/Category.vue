@@ -50,25 +50,23 @@
         </div>
         <div class="col-md-3 start-xs mobile-filters" v-show="mobileFilters">
           <div class="filter-overlay" :class="{'hasFilters' : Object.keys(getCurrentSearchQuery.filters).length > 0}">
-            
             <div
-              @click="closeFilters" 
-              class="close-container w-100">
+              @click="closeFilters"
+              class="close-container w-100"
+            >
               <span class="material-icons">
                 keyboard_arrow_left
               </span>
               <span class="close-text">Назад</span>
             </div>
-            
             <sidebar :filters="getAvailableFilters" @changeFilter="changeFilter" />
-            
             <div class="relative pb20 pt15">
               <div class="brdr-top-1 brdr-cl-primary absolute divider w-100" />
             </div>
-            
-            <div 
-              v-if="Object.keys(getCurrentSearchQuery.filters).length > 0" 
-              class="active-filters-mobile">
+            <div
+              v-if="Object.keys(getCurrentSearchQuery.filters).length > 0"
+              class="active-filters-mobile"
+            >
               <div class="selected-products">
                 Выбрано {{getCategoryProductsTotal}} товар
               </div>
@@ -88,9 +86,7 @@
                 </button-full>
               </div>
             </div>
-    
           </div>
-          
         </div>
         <div class="col-md-9 px10 border-box products-list">
           <p class="col-md-12 hidden-xs start-md mt0 cl-secondary category-sort">
