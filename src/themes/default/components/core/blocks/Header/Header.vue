@@ -376,7 +376,6 @@ header {
   box-sizing: border-box;
   position: fixed;
   top: -115px;
-  overflow-y: auto;
   max-height: 100vh;
   z-index: 3;
   transition: top 0.2s ease-in-out;
