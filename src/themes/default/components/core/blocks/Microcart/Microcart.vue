@@ -215,6 +215,7 @@ export default {
       position: absolute;
       right: 0;
       top: 0;
+      background-color: #F9F9F9;
 
       i {
         display: flex;

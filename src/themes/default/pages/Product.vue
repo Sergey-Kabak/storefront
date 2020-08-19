@@ -4,7 +4,7 @@
       <div class="container">
         <section class="row m0 between-xs">
           <div class="col-xs-12">
-            <breadcrumbs class="pt40 pb20"/>
+            <breadcrumbs class="pb20"/>
           </div>
           <div class="mobile-header hidden-md mt10">
             <h1
