@@ -11,7 +11,7 @@
       </div>
       <div class="product-info">
         <div class="product-info-name">
-          {{ product.name }}
+          {{ product.name | htmlDecode }}
         </div>
         <div class="product-info-price">
           <span
@@ -220,7 +220,41 @@ img {
   color: #1A1919;
 }
 
-.blend {
-  flex: 0 0 121px;
+.product-name {
+  font-family: "DIN Pro";
+  font-size: 13px;
+  line-height: 16px;
+  color: #1A1919;
+  margin-bottom: 2px;
 }
+
+.product-data {
+  display: flex;
+  margin-left: 18px;
+  flex: 1;
+}
+.product-info {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+.product-price-container {
+  display: flex;
+  align-items: center;
+  min-width: 75px;
+}
+
+.total-price {
+  font-family: "DIN Pro";
+  font-weight: bold;
+  font-size: 18px;
+  line-height: 24px;
+  text-align: right;
+  color: #1A1919;
+}
+</style>
+<style>
+  .checkout-product-quantity {
+    padding: 0 20px;
+  }
 </style>

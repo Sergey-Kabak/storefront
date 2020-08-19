@@ -26,7 +26,10 @@ export default {
         }
       },
       to: {
-        numeric
+        numeric,
+        minValue: function () {
+          return +this.variant.to >= +this.variant.from && +this.variant.to > 0;
+        }
       }
     }
   },

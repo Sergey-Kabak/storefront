@@ -1,22 +1,29 @@
 <template>
-  <div>
-    <header class="modal-header py25 px65 h1 serif weight-700 bg-cl-secondary">
+  <div class="auth-container">
+    <header class="modal-header header-title">
       {{ $t('Register') }}
       <i
         slot="close"
-        class="modal-close material-icons cl-bg-tertiary"
+        class="modal-close material-icons close-icon"
         @click="close"
       >
         close
       </i>
     </header>
 
-    <div class="modal-content bg-cl-primary pt30 pb60 px65 cl-secondary">
+    <div class="enter-details-message">
+      {{ $t('Please, enter all fields to create an account') }}
+    </div>
+
+    <div class="modal-content bg-cl-primary cl-secondary">
       <form @submit.prevent="register" novalidate>
         <base-input
-          class="mb10"
           type="email"
           name="email"
+          containerClass="auth-input-container"
+          inputClass="auth-input"
+          labelClass="auth-label"
+          errorClass="auth-error"
           autocomplete="email"
           v-model="email"
           @blur="$v.email.$touch()"
@@ -33,56 +40,67 @@
             }
           ]"
         />
-        <div class="row mb10">
-          <base-input
-            class="col-xs-6"
-            type="text"
-            name="first-name"
-            autocomplete="given-name"
-            v-model="firstName"
-            @blur="$v.firstName.$touch()"
-            :placeholder="$t('First name *')"
-            :validations="[
-              {
-                condition: !$v.firstName.required && $v.firstName.$error,
-                text: $t('Field is required.')
-              },
-              {
-                condition: !$v.firstName.minLength,
-                text: $t('Name must have at least 2 letters.')
-              },
-              {
-                condition: !$v.firstName.alpha && $v.firstName.$error,
-                text: $t('Accepts only alphabet characters.')
-              }
-            ]"
-          />
-          <base-input
-            class="col-xs-6"
-            type="text"
-            name="last-name"
-            autocomplete="last-name"
-            v-model="lastName"
-            @blur="$v.lastName.$touch()"
-            :placeholder="$t('Last name *')"
-            :validations="[
-              {
-                condition: !$v.lastName.required && $v.lastName.$error,
-                text: $t('Field is required.')
-              },
-              {
-                condition: !$v.lastName.alpha && $v.lastName.$error,
-                text: $t('Accepts only alphabet characters.')
-              }
-            ]"
-          />
-        </div>
         <base-input
-          class="mb10"
+          type="text"
+          name="first-name"
+          autocomplete="given-name"
+          containerClass="auth-input-container"
+          inputClass="auth-input"
+          labelClass="auth-label"
+          errorClass="auth-error"
+          v-model="firstName"
+          @blur="$v.firstName.$touch()"
+          :placeholder="$t('First name *')"
+          :validations="[
+            {
+              condition: !$v.firstName.required && $v.firstName.$error,
+              text: $t('Field is required.')
+            },
+            {
+              condition: !$v.firstName.minLength,
+              text: $t('Name must have at least 2 letters.')
+            },
+            {
+              condition: !$v.firstName.alp && $v.firstName.$error,
+              text: $t('Accepts only alphabet characters.')
+            }
+          ]"
+        />
+        <base-input
+          type="text"
+          name="last-name"
+          autocomplete="last-name"
+          containerClass="auth-input-container"
+          inputClass="auth-input"
+          labelClass="auth-label"
+          errorClass="auth-error"
+          v-model="lastName"
+          @blur="$v.lastName.$touch()"
+          :placeholder="$t('Last name *')"
+          :validations="[
+            {
+              condition: !$v.lastName.required && $v.lastName.$error,
+              text: $t('Field is required.')
+            },
+            {
+              condition: !$v.firstName.minLength,
+              text: $t('Name must have at least 2 letters.')
+            },
+            {
+              condition: !$v.lastName.alpha && $v.lastName.$error,
+              text: $t('Accepts only alphabet characters.')
+            }
+          ]"
+        />
+        <base-input
           type="password"
           name="password"
           ref="password"
           autocomplete="new-password"
+          containerClass="auth-input-container"
+          inputClass="auth-input"
+          labelClass="auth-label"
+          errorClass="auth-error"
           v-model="password"
           @blur="$v.password.$touch()"
           :placeholder="$t('Password *')"
@@ -98,10 +116,13 @@
           ]"
         />
         <base-input
-          class="mb10"
           type="password"
           name="password-confirm"
           autocomplete="new-password"
+          containerClass="auth-input-container"
+          inputClass="auth-input"
+          labelClass="auth-label"
+          errorClass="auth-error"
           v-model="rPassword"
           @blur="$v.rPassword.$touch()"
           :placeholder="$t('Repeat password *')"
@@ -116,23 +137,40 @@
             }
           ]"
         />
-        <base-checkbox
-          class="mb10"
-          id="terms"
-          v-model="conditions"
-          @blur="$v.conditions.$reset()"
-          @change="$v.conditions.$touch()"
-          :validations="[{
-            condition: !$v.conditions.sameAs && $v.conditions.$error,
-            text: $t('You must accept the terms and conditions.')
-          }]"
-        >
-          {{ $t('I accept terms and conditions') }} *
-        </base-checkbox>
-        <button-full :disabled="$v.$invalid" class="mb20" type="submit">
-          {{ $t('Register an account') }}
+        <ul class="auth-validation-description">
+          <li>
+            {{ $t("8 and more symbols") }}
+            <svg v-if="$v.password.$dirty && $v.password.minLength && !$v.password.$error" width="12" height="10" viewBox="0 0 12 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M4.00091 7.80007L1.20091 5.00006L0.267578 5.9334L4.00091 9.66673L12.0009 1.66673L11.0676 0.733398L4.00091 7.80007Z" fill="#23BE20"/>
+            </svg>
+            <svg v-if="$v.password.$dirty && !$v.password.minLength && $v.password.$error" width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M9.66732 1.2735L8.72732 0.333496L5.00065 4.06016L1.27398 0.333496L0.333984 1.2735L4.06065 5.00016L0.333984 8.72683L1.27398 9.66683L5.00065 5.94016L8.72732 9.66683L9.66732 8.72683L5.94065 5.00016L9.66732 1.2735Z" fill="#EE2C39"/>
+            </svg>
+          </li>
+          <li>
+            {{ $t("Latin letters and numbers") }}
+            <svg v-if="$v.password.$dirty && $v.password.alphaNum && password !== ''" width="12" height="10" viewBox="0 0 12 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M4.00091 7.80007L1.20091 5.00006L0.267578 5.9334L4.00091 9.66673L12.0009 1.66673L11.0676 0.733398L4.00091 7.80007Z" fill="#23BE20"/>
+            </svg>
+            <svg v-if="$v.password.$dirty && !$v.password.alphaNum" width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M9.66732 1.2735L8.72732 0.333496L5.00065 4.06016L1.27398 0.333496L0.333984 1.2735L4.06065 5.00016L0.333984 8.72683L1.27398 9.66683L5.00065 5.94016L8.72732 9.66683L9.66732 8.72683L5.94065 5.00016L9.66732 1.2735Z" fill="#EE2C39"/>
+            </svg>
+          </li>
+        </ul>
+
+        <button-full :disabled="$v.$invalid" class="mb20 auth-button" type="submit">
+          {{ $t('Registrate') }}
         </button-full>
-        <div class="center-xs">
+        <div class="auth-terms">
+          {{ $t('Registering, you are accepting') }}
+          <span
+            class="link pointer"
+            @click.prevent="openTermsModal()"
+          >
+            {{ $t('users accepting') }}
+          </span>
+        </div>
+        <div class="center-xs register-link">
           <span>
             {{ $t('or') }}
             <a href="#" @click.prevent="switchElem">
@@ -149,7 +187,13 @@ import Register from '@vue-storefront/core/compatibility/components/blocks/Auth/
 import ButtonFull from 'theme/components/theme/ButtonFull.vue'
 import BaseCheckbox from 'theme/components/core/blocks/Form/BaseCheckbox.vue'
 import BaseInput from 'theme/components/core/blocks/Form/BaseInput.vue'
-import { required, email, minLength, sameAs, alpha } from 'vuelidate/lib/validators'
+import { required, email, minLength, sameAs, alphaNum } from 'vuelidate/lib/validators'
+
+const lettersOnly = value => (
+  /^[\u0400-\u04FF]+$/.test(value) ||
+  /^[a-zA-Z]+$/.test(value) ||
+    value === ""
+);
 
 export default {
   validations: {
@@ -160,23 +204,23 @@ export default {
     firstName: {
       minLength: minLength(2),
       required,
-      alpha
+      alpha: lettersOnly
     },
     lastName: {
+      minLength: minLength(2),
       required,
-      alpha
+      alpha: lettersOnly
     },
     password: {
       minLength: minLength(8),
-      required
+      required,
+      alphaNum
     },
     rPassword: {
       required,
-      sameAsPassword: sameAs('password')
+      sameAsPassword: sameAs('password'),
+      alphaNum
     },
-    conditions: {
-      sameAs: sameAs(() => true)
-    }
   },
   mixins: [Register],
   components: {
@@ -210,6 +254,9 @@ export default {
         message: this.$t(result.result),
         action1: { label: this.$t('OK') }
       })
+    },
+    openTermsModal () {
+      this.$bus.$emit('modal-toggle', 'modal-terms')
     }
   }
 }

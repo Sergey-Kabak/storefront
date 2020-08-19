@@ -5,6 +5,7 @@
       :key="index"
       v-if="validation.condition"
       class="block cl-error h6 mt8"
+      :class="[errorClass]"
       data-testid="errorMessage"
     >
       {{ validation.text }}
@@ -17,6 +18,10 @@ export default {
     validations: {
       type: Array,
       default: () => []
+    },
+    errorClass: {
+      type: String,
+      default: ""
     }
   }
 }

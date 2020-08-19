@@ -28,12 +28,15 @@ export default {
 
 <style lang="sass">
   .custom-menu__button
+    display: flex
+    align-items: center
+    height: 100%
+    padding: 0 0 0 15px
     border-right: 1px solid gainsboro
     border-bottom: none
     border-top: none
     border-left: none
-    width: 296px
-    margin-top: -3px
+    width: 100%
     padding-right: 0
     line-height: 24px
     font-weight: bold

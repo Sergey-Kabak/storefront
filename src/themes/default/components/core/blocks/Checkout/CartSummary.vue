@@ -10,9 +10,9 @@
       :product="product"
     />
     <promo-code class="promo-code"/>
-    <div class="summary-price">
-      <span>Всего:</span>
-      {{ totalPrice | price(storeView) }}
+    <div class="summary-price" v-for="(segment, index) in totals" :key="index" v-if="segment.code === 'grand_total'">
+      <span>{{ $t('Grand total') }}:</span>
+      {{ segment.value | price(storeView) }}
     </div>
   </div>
 </template>
@@ -31,7 +31,10 @@ export default {
     PromoCode
   },
   computed: {
-    ...mapGetters('cart', ['getItemsTotalQuantity']),
+    ...mapGetters({
+      getItemsTotalQuantity: 'cart/getItemsTotalQuantity',
+      totals: 'cart/getTotals'
+    }),
     storeView () {
       return currentStoreView();
     },

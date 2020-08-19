@@ -1,7 +1,10 @@
 <template>
   <div
     class="product-image"
-    :class="{'product-image--height': basic, 'product-image--width': !basic}"
+    :class="[
+      {'product-image--height': basic, 'product-image--width': !basic},
+      className
+    ]"
     v-on="$listeners"
   >
     <img
@@ -33,7 +36,7 @@
 </template>
 
 <script>
-import { onlineHelper } from '@vue-storefront/core/helpers'
+  import { onlineHelper } from '@vue-storefront/core/helpers'
 
 export default {
   props: {
@@ -51,6 +54,10 @@ export default {
     alt: {
       type: String,
       default: ''
+    },
+    className: {
+      type: String,
+      default: ""
     }
   },
   data () {
@@ -111,12 +118,15 @@ export default {
     }
     &--height {
       .product-image__thumb {
+        width: 100%;
         height: 100%;
+        object-fit: contain;
       }
     }
     &--width {
       .product-image__thumb {
-        width: 100%;
+        width: auto;
+        height: 100%;
       }
     }
   }

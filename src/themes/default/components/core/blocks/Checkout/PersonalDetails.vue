@@ -121,6 +121,12 @@ import BaseCheckbox from 'theme/components/core/blocks/Form/BaseCheckbox'
 import BaseInput from 'theme/components/core/blocks/Form/BaseInput'
 import Tooltip from 'theme/components/core/Tooltip'
 
+const lettersOnly = value => (
+  /^[\u0400-\u04FF]+$/.test(value) ||
+  /^[a-zA-Z]+$/.test(value) ||
+    value === ""
+);
+
 export default {
   components: {
     Tooltip,
@@ -133,17 +139,27 @@ export default {
     personalDetails: {
       firstName: {
         required,
-        minLength: minLength(2)
+        minLength: minLength(2),
+        lettersOnly
       },
       lastName: {
-        required
+        required,
+        minLength: minLength(2),
+        lettersOnly
       },
       emailAddress: {
         required,
         email
       },
       phoneNumber: {
-        required
+        required,
+        isPhone: (value) => {
+          console.log("value", value);
+          return (
+            /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/.test(value) ||
+            /^\+?3?8?(0\d{9})$/.test(value)
+          );
+        }
       }
     },
     password: {

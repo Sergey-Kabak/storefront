@@ -59,7 +59,7 @@
           <li class="product-price">
             <div class="price-left">
               <span class="price-title">
-                {{ $t('Grand Total') }}:
+                {{ $t('Grand total') }}:
               </span>
             </div>
             <div class="price-right">
@@ -80,12 +80,11 @@ import ButtonFilledSmall from 'theme/components/theme/ButtonFilledSmall'
 import GoogleMap from 'src/modules/google-map/google-map'
 import VueOfflineMixin from 'vue-offline/mixin'
 import { EmailForm } from '@vue-storefront/core/modules/mailer/components/EmailForm'
-import { isServer } from '@vue-storefront/core/helpers'
 import config from 'config'
 import { mapState } from 'vuex'
 import { registerModule } from '@vue-storefront/core/lib/modules'
 import { MailerModule } from '@vue-storefront/core/modules/mailer'
-import { getThumbnailForProduct, getProductConfiguration } from '@vue-storefront/core/modules/cart/helpers'
+import { getThumbnailForProduct } from '@vue-storefront/core/modules/cart/helpers'
 import ProductImage from 'theme/components/core/ProductImage'
 import { currentStoreView } from '@vue-storefront/core/lib/multistore'
 
@@ -149,24 +148,6 @@ export default {
     }
   },
   methods: {
-    requestNotificationPermission () {
-      if (isServer) return false
-      if ('Notification' in window && Notification.permission !== 'granted') {
-        Notification.requestPermission()
-      }
-    },
-    sendFeedback () {
-      this.sendEmail(
-        {
-          sourceAddress: this.checkoutPersonalEmailAddress,
-          targetAddress: this.mailerElements,
-          subject: this.$t('What we can improve?'),
-          emailText: this.feedback
-        },
-        this.onSuccess,
-        this.onFailure
-      )
-    },
     onSuccess (message) {
       this.$store.dispatch('notification/spawnNotification', {
         type: 'success',

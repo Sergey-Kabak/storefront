@@ -150,7 +150,6 @@ export default {
   #checkout
     .checkout-container
       box-sizing: border-box
-      padding-top: 18px
       max-width: 1324px
       width: 95%
       margin: auto

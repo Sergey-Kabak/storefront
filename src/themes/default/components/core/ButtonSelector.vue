@@ -26,7 +26,10 @@ export default {
     font-weight: bold;
     font-size: 14px;
     line-height: 16px;
-
+    transition: ease-in 0.1s;
+    &:not(.active):hover{
+      background: #e4e4e4;
+    }
     &.active {
       border: 1px solid #23BE20;
     }

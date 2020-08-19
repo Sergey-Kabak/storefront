@@ -3,7 +3,7 @@
     <div class="container-fluid">
       <div class="row p-3">
         <div class="col-sm p-0">
-          <div class="d-flex justify-content-between">
+          <div class="d-flex">
             <div class="svg-logo" v-if="location.number">
               <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path fill-rule="evenodd" clip-rule="evenodd" d="M32.0519 11.8426C32.1728 11.804 32.332 11.8811 32.4911 12.0932C32.4911 12.0932 32.4911 12.0932 39.6852 19.2C40.1054 19.6241 40.1054 20.2667 39.6852 20.5815C39.6852 20.5815 39.6852 20.5815 32.4911 27.7976C32.332 28.0096 32.1728 28.061 32.0519 27.9968C31.9309 27.9325 31.8545 27.7462 31.8545 27.4763V12.3052C31.8545 12.0418 31.9309 11.8811 32.0519 11.8426Z" fill="#EC1B23"/>
@@ -15,24 +15,26 @@
             <div class="logo" v-else>
               <img src="/assets/custom/Ringo_logo_green.svg" alt="logo">
             </div>
-            <div class="d-flex flex-column ml-auto">
+            <div class="d-flex flex-column">
               <div class="name">{{ location.name }}</div>
               <div class="phone">{{ location.phone || '044 234 44 54' }}</div>
-              <div class="time">Забрать завтра с 15:00</div>
+              <!--<div class="time">{{ $t('Pick up tomorrow from 15:00') }}</div>-->
             </div>
           </div>
         </div>
         <div class="col-sm">
           <div class="d-flex flex-column">
-            <div class="address">Ул. {{ location.streetname }} {{ location.streetname2 }}</div>
-            <div class="working-time">{{ location.time || 'Пн-ПТ: 08:00-20:00; Сб: 10:00-18:00; Вс:11:00-17:00' }}</div>
+            <div class="address">
+<!--              {{ $t('street') }}. -->
+              {{ location.streetname }} {{ location.streetname2 }}</div>
+            <div class="working-time">{{ location.time || $t('Пн-Пт: 8:00-20:00; Сб: 10:00-18:00; Вс: 11:00-17:00') }}</div>
           </div>
         </div>
         <div class="col-sm ml-auto p-0">
           <div class="d-flex flex-column align-right">
-            <div class="status">{{ location.status || 'В наличии все товары' }}</div>
+            <div class="status">{{ location.status || $t('All products are in stock') }}</div>
             <div class="action">
-              <button @click="$bus.$emit('checked-location', location)" type="button" class="btn btn-success">Забрать здесь</button>
+              <button @click="$bus.$emit('checked-location', location)" type="button" class="btn btn-success">{{ $t('Pick up here') }}</button>
             </div>
           </div>
         </div>
@@ -44,7 +46,7 @@
 <script>
 
 export default {
-  props: ['location']
+  props: ['location'],
 }
 </script>
 
