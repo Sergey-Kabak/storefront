@@ -1,15 +1,26 @@
 <template>
-  <div class="work-in-the-company">{{ translate('work in the company text') }}</div>
+  <div class="work-in-the-company">
+    <p class="title">{{ $t('vacancies description') }}</p>
+    <p><strong>{{ $t('benefits ringoo') }}</strong></p>
+    <ul>
+      <li>{{ $t('benefits appreciate') }}</li>
+      <li>{{ $t('benefits pay') }}</li>
+      <li>{{ $t('benefits reward') }}</li>
+      <li>{{ $t('benefits progress') }}</li>
+      <li>{{ $t('benefits loyalty') }}</li>
+      <li>{{ $t('benefits employment') }}</li>
+    </ul>
+    <p>{{ $t('vacancies more information') }}<a target="__blank" href="https://info.ringoo.ua/ua/jobs.html"> {{ $t('here') }}</a></p>
+  </div>
 </template>
 
 <script>
-import i18n from '@vue-storefront/i18n'
 
-export default {
-  methods: {
-    translate (t) {
-      return i18n.t(t)
-    }
-  }
-}
+export default {}
 </script>
+
+<style lang="scss" scoped>
+  .title {
+    margin-top: 0;
+  }
+</style>
