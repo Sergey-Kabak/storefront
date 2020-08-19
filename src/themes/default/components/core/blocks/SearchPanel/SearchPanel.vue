@@ -13,13 +13,23 @@
       </i>
     </div>
     <div class="container">
+
+      <span class="search-title">
+        {{ $t('Type what you are looking for...') }}
+        <svg width="19" height="19" viewBox="0 0 19 19" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M8 16C9.77498 15.9996 11.4988 15.4054 12.897 14.312L17.293 18.708L18.707 17.294L14.311 12.898C15.405 11.4997 15.9996 9.77544 16 8C16 3.589 12.411 0 8 0C3.589 0 0 3.589 0 8C0 12.411 3.589 16 8 16ZM8 2C11.309 2 14 4.691 14 8C14 11.309 11.309 14 8 14C4.691 14 2 11.309 2 8C2 4.691 4.691 2 8 2Z" fill="#23BE20"/>
+        </svg>
+      </span>
+
       <div class="row">
         <div class="col-md-12 end-xs">
-          <label for="search" class="visually-hidden">
-            {{ $t('Search') }}
-          </label>
+
+<!--          <label for="search" class="visually-hidden">-->
+<!--            {{ $t('Search') }}-->
+<!--          </label>-->
+
           <div class="search-input-group">
-            <i class="material-icons search-icon">search</i>
+<!--            <i class="material-icons search-icon">search</i>-->
             <input
               ref="search"
               id="search"
@@ -157,7 +167,8 @@ export default {
 
 .searchpanel {
   height: 100vh;
-  width: 800px;
+  max-width: 549px;
+  width: 100%;
   top: 0;
   right: 0;
   z-index: 3;
@@ -165,9 +176,37 @@ export default {
   overflow-x: hidden;
   -webkit-overflow-scrolling: touch;
 
+  .search-title {
+    font-family: DIN Pro;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 24px;
+    line-height: 30px;
+    color: #1A1919;
+
+    svg {
+      margin-left: 18px;
+    }
+  }
+
   .close-icon-row {
     display: flex;
     justify-content: flex-end;
+
+    .close-icon {
+      width: 50px;
+      height: 50px;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: #F9F9F9;
+      opacity: 0.6;
+      &:hover {
+        opacity: 1;
+      }
+    }
   }
 
   .container {
@@ -223,7 +262,11 @@ export default {
 
   .search-input-group {
     display: flex;
-    border-bottom: 1px solid #bdbdbd;
+    background: #FFFFFF;
+    border: 1px solid #E0E0E0;
+    box-sizing: border-box;
+    border-radius: 4px;
+    margin-top: 32px;
   }
 
   .search-icon {
@@ -236,16 +279,22 @@ export default {
 
   .search-panel-input {
     width: 100%;
-    height: 60px;
-    padding-bottom: 0;
-    padding-top: 0;
+    height: 40px;
+    min-height: 40px;
+    padding: 0 16px;
     border: none;
+    border-radius: 4px;
     outline: 0;
-    font-size: 18px;
-    font-family: map-get($font-families, secondary);
+
+    font-family: DIN Pro;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 13px;
+    line-height: 16px;
+    color: #BDBDBD;
 
     @media #{$media-xs} {
-      font-size: 16px;
+      font-size: 14px;
     }
   }
 
