@@ -7,8 +7,9 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
-import 'src/themes/default/assets/fonts/stylesheet.css'
+import { mapState } from 'vuex';
+import 'src/themes/default/assets/fonts/stylesheet.css';
+
 const DefaultLayout = () => import(/* webpackChunkName: "vsf-layout-default" */ './layouts/Default')
 const EmptyLayout = () => import(/* webpackChunkName: "vsf-layout-empty" */ './layouts/Empty')
 const MinimalLayout = () => import(/* webpackChunkName: "vsf-layout-minimal" */ './layouts/Minimal')

@@ -1,4 +1,4 @@
-import { normalizeUrlPath } from '@vue-storefront/core/modules/url/helpers';
+import {normalizeUrlPath} from '@vue-storefront/core/modules/url/helpers';
 
 jest.mock('@vue-storefront/core/lib/multistore', () => ({
   currentStoreView: jest.fn(() => ({

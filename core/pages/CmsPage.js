@@ -1,6 +1,6 @@
-import { htmlDecode } from '@vue-storefront/core/filters/html-decode'
-import Composite from '@vue-storefront/core/mixins/composite'
-import { Logger } from '@vue-storefront/core/lib/logger'
+import { htmlDecode } from '@vue-storefront/core/filters/html-decode';
+import Composite from '@vue-storefront/core/mixins/composite';
+import { Logger } from '@vue-storefront/core/lib/logger';
 
 export default {
   name: 'CmsPage',

@@ -201,31 +201,34 @@
 
 <script>
 // query constructor
-import { isServer, onlineHelper } from '@vue-storefront/core/helpers'
-import LazyHydrate from 'vue-lazy-hydration'
+import {
+  isServer,
+  onlineHelper
+} from '@vue-storefront/core/helpers';
+import LazyHydrate from 'vue-lazy-hydration';
 
 // Core pages
-import Home from '@vue-storefront/core/pages/Home'
+import Home from '@vue-storefront/core/pages/Home';
 // Theme core components
-import ProductListing from 'theme/components/core/ProductListing'
+import ProductListing from 'theme/components/core/ProductListing';
 // Theme local components
-import Onboard from 'theme/components/theme/blocks/Home/Onboard'
-import TileLinks from 'theme/components/theme/blocks/TileLinks/TileLinks'
-import { Logger } from '@vue-storefront/core/lib/logger'
-import { mapGetters } from 'vuex'
-import config from 'config'
-import { registerModule } from '@vue-storefront/core/lib/modules'
-import { RecentlyViewedModule } from '@vue-storefront/core/modules/recently-viewed'
+import Onboard from 'theme/components/theme/blocks/Home/Onboard';
+import TileLinks from 'theme/components/theme/blocks/TileLinks/TileLinks';
+import { Logger } from '@vue-storefront/core/lib/logger';
+import { mapGetters } from 'vuex';
+import config from 'config';
+import { registerModule } from '@vue-storefront/core/lib/modules';
+import { RecentlyViewedModule } from '@vue-storefront/core/modules/recently-viewed';
 
-import { disableBodyScroll, clearAllBodyScrollLocks } from 'body-scroll-lock'
-import ButtonFull from 'theme/components/theme/ButtonFull.vue'
-import { prepareQuery } from '@vue-storefront/core/modules/catalog/queries/common'
-import NoSSR from 'vue-no-ssr'
-import HomeCarousel from 'theme/components/theme/blocks/HomeCarousel'
+import { clearAllBodyScrollLocks } from 'body-scroll-lock';
+import ButtonFull from 'theme/components/theme/ButtonFull.vue';
+import { prepareQuery } from '@vue-storefront/core/modules/catalog/queries/common';
+import NoSSR from 'vue-no-ssr';
+import HomeCarousel from 'theme/components/theme/blocks/HomeCarousel';
 
-import { formatCategoryLink } from '@vue-storefront/core/modules/url/helpers'
+import { formatCategoryLink } from '@vue-storefront/core/modules/url/helpers';
 
-import { ProductOption } from '@vue-storefront/core/modules/catalog/components/ProductOption.ts'
+import { ProductOption } from '@vue-storefront/core/modules/catalog/components/ProductOption.ts';
 
 export default {
   data () {

@@ -25,13 +25,13 @@
 </template>
 
 <script>
-import { ProductGallery } from '@vue-storefront/core/modules/catalog/components/ProductGallery.ts'
-import ProductGalleryOverlay from './ProductGalleryOverlay'
-import onEscapePress from '@vue-storefront/core/mixins/onEscapePress'
-import NoSSR from 'vue-no-ssr'
-import ProductImage from './ProductImage'
-import { onlineHelper } from '@vue-storefront/core/helpers'
-import ProductGalleryCarousel from './ProductGalleryCarousel.vue'
+import { ProductGallery } from '@vue-storefront/core/modules/catalog/components/ProductGallery.ts';
+import ProductGalleryOverlay from './ProductGalleryOverlay';
+import onEscapePress from '@vue-storefront/core/mixins/onEscapePress';
+import NoSSR from 'vue-no-ssr';
+import ProductImage from './ProductImage';
+import { onlineHelper } from '@vue-storefront/core/helpers';
+import ProductGalleryCarousel from './ProductGalleryCarousel.vue';
 
 export default {
   components: {

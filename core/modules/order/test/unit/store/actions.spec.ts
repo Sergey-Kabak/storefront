@@ -1,9 +1,8 @@
 import * as types from '../../../store/mutation-types';
 import orderActions from '../../../store/actions';
-import { createContextMock } from '@vue-storefront/unit-tests/utils';
-import { notifications } from '../../../helpers';
-import { Order } from '../../../types/Order';
-import { OrderService } from '@vue-storefront/core/data-resolver'
+import {createContextMock} from '@vue-storefront/unit-tests/utils';
+import {Order} from '../../../types/Order';
+import {OrderService} from '@vue-storefront/core/data-resolver'
 import config from 'config';
 
 jest.mock('@vue-storefront/i18n', () => ({ t: jest.fn(str => str) }));

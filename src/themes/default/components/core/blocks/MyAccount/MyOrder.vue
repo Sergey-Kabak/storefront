@@ -143,13 +143,16 @@
 </template>
 
 <script>
-import Vue from 'vue'
-import MyOrder from '@vue-storefront/core/compatibility/components/blocks/MyAccount/MyOrder'
-import ReturnIcon from 'theme/components/core/blocks/Header/ReturnIcon'
-import ProductImage from 'theme/components/core/ProductImage'
-import { getThumbnailPath, productThumbnailPath } from '@vue-storefront/core/helpers'
-import { currentStoreView } from '@vue-storefront/core/lib/multistore'
-import { mapActions } from 'vuex'
+import Vue from 'vue';
+import MyOrder from '@vue-storefront/core/compatibility/components/blocks/MyAccount/MyOrder';
+import ReturnIcon from 'theme/components/core/blocks/Header/ReturnIcon';
+import ProductImage from 'theme/components/core/ProductImage';
+import {
+  getThumbnailPath,
+  productThumbnailPath
+} from '@vue-storefront/core/helpers';
+import { currentStoreView } from '@vue-storefront/core/lib/multistore';
+import { mapActions } from 'vuex';
 
 export default {
   mixins: [MyOrder],

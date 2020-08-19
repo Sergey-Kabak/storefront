@@ -38,8 +38,8 @@
 </template>
 
 <script>
-import SearchPanel from '@vue-storefront/core/compatibility/components/blocks/SearchPanel/SearchPanel'
-import ProductTile from 'theme/components/core/ProductTile'
+import SearchPanel from '@vue-storefront/core/compatibility/components/blocks/SearchPanel/SearchPanel';
+import ProductTile from 'theme/components/core/ProductTile';
 
 export default {
   components: {

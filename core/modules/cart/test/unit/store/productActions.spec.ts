@@ -1,5 +1,5 @@
 import cartActions from '@vue-storefront/core/modules/cart/store/actions';
-import { createContextMock } from '@vue-storefront/unit-tests/utils';
+import {createContextMock} from '@vue-storefront/unit-tests/utils';
 
 jest.mock('@vue-storefront/core/store', () => ({
   dispatch: jest.fn(),

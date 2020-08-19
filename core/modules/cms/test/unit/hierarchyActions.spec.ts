@@ -1,5 +1,5 @@
 import hierarchyActions from '../../store/hierarchy/actions'
-import { quickSearchByQuery } from '@vue-storefront/core/lib/search'
+import {quickSearchByQuery} from '@vue-storefront/core/lib/search'
 
 jest.mock('@vue-storefront/core/lib/search')
 

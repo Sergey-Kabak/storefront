@@ -64,12 +64,18 @@
 </template>
 
 <script>
-import {required, minLength} from 'vuelidate/lib/validators';
-import {unicodeAlpha, unicodeAlphaNum} from '@vue-storefront/core/helpers/validators';
-import {Shipping} from '@vue-storefront/core/modules/checkout/components/Shipping';
-import CustomShipping from 'src/modules/custom-shipping/custom-shipping'
+import {
+  minLength,
+  required
+} from 'vuelidate/lib/validators';
+import {
+  unicodeAlpha,
+  unicodeAlphaNum
+} from '@vue-storefront/core/helpers/validators';
+import { Shipping } from '@vue-storefront/core/modules/checkout/components/Shipping';
+import CustomShipping from 'src/modules/custom-shipping/custom-shipping';
 import NewPost from 'src/modules/nova-poshta/index';
-import {debounce} from 'debounce';
+import { debounce } from 'debounce';
 
 export default {
   components: {

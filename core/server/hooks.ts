@@ -1,5 +1,5 @@
-import { createListenerHook, createMutatorHook } from '@vue-storefront/core/lib/hooks'
-import { Express, Request } from 'express'
+import {createListenerHook, createMutatorHook} from '@vue-storefront/core/lib/hooks'
+import {Express, Request} from 'express'
 import http from 'http'
 
 // To add like tracing which needs to be done as early as possible

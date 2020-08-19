@@ -1,5 +1,4 @@
-import { mailerStore } from '../../store/index'
-import config from 'config'
+import {mailerStore} from '../../store/index'
 
 jest.mock('@vue-storefront/i18n', () => ({ t: jest.fn(str => str) }));
 jest.mock('@vue-storefront/core/lib/storage-manager', () => jest.fn())

@@ -8,9 +8,9 @@
 </template>
 
 <script>
-import filterMixin from 'theme/mixins/filterMixin.ts'
-import { required, numeric } from 'vuelidate/lib/validators'
-import CustomInput from 'theme/components/core/blocks/Form/CustomInput'
+import filterMixin from 'theme/mixins/filterMixin.ts';
+import { numeric } from 'vuelidate/lib/validators';
+import CustomInput from 'theme/components/core/blocks/Form/CustomInput';
 
 export default {
   components: {

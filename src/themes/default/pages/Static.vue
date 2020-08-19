@@ -31,27 +31,23 @@
 </template>
 
 <script>
-import i18n from '@vue-storefront/i18n'
-import Breadcrumbs from 'theme/components/core/Breadcrumbs'
-import StaticExample from 'theme/components/theme/blocks/Static/Example'
-import StaticShortExample from 'theme/components/theme/blocks/Static/Short'
-import { getPathForStaticPage } from 'theme/helpers'
-import { localizedRoute } from '@vue-storefront/core/lib/multistore'
+import i18n from '@vue-storefront/i18n';
+import Breadcrumbs from 'theme/components/core/Breadcrumbs';
 
-import Delivery from 'theme/components/theme/blocks/Static/Delivery'
-import Payment from 'theme/components/theme/blocks/Static/Payments'
-import PaymentAndLoans from 'theme/components/theme/blocks/Static/PaymentsAndLoans'
-import WarrantyExchangeReturn from 'theme/components/theme/blocks/Static/WarrantyExchangeReturns'
-import ServiceCenters from 'theme/components/theme/blocks/Static/ServiceCenters'
-import UsingAPromoCode from 'theme/components/theme/blocks/Static/UsingAPromoCode'
-import PublicOffer from 'theme/components/theme/blocks/Static/PublicOffer'
-import PromotionalOffers from 'theme/components/theme/blocks/Static/PromotionalOffers'
-import Shops from 'theme/components/theme/blocks/Static/Shops'
-import AboutTheCompany from 'theme/components/theme/blocks/Static/Company'
-import OwnAccount from 'theme/components/theme/blocks/Static/OwnAccount'
-import WorkInTheCompany from 'theme/components/theme/blocks/Static/WorkInTheCompany'
-import Landlords from 'theme/components/theme/blocks/Static/Landlords'
-import Contacts from 'theme/components/theme/blocks/Static/Contacts'
+import Delivery from 'theme/components/theme/blocks/Static/Delivery';
+import Payment from 'theme/components/theme/blocks/Static/Payments';
+import PaymentAndLoans from 'theme/components/theme/blocks/Static/PaymentsAndLoans';
+import WarrantyExchangeReturn from 'theme/components/theme/blocks/Static/WarrantyExchangeReturns';
+import ServiceCenters from 'theme/components/theme/blocks/Static/ServiceCenters';
+import UsingAPromoCode from 'theme/components/theme/blocks/Static/UsingAPromoCode';
+import PublicOffer from 'theme/components/theme/blocks/Static/PublicOffer';
+import PromotionalOffers from 'theme/components/theme/blocks/Static/PromotionalOffers';
+import Shops from 'theme/components/theme/blocks/Static/Shops';
+import AboutTheCompany from 'theme/components/theme/blocks/Static/Company';
+import OwnAccount from 'theme/components/theme/blocks/Static/OwnAccount';
+import WorkInTheCompany from 'theme/components/theme/blocks/Static/WorkInTheCompany';
+import Landlords from 'theme/components/theme/blocks/Static/Landlords';
+import Contacts from 'theme/components/theme/blocks/Static/Contacts';
 
 export default {
   components: {

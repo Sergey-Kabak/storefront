@@ -1,4 +1,4 @@
-import { Order } from '@vue-storefront/core/modules/order/types/Order'
+import {Order} from '@vue-storefront/core/modules/order/types/Order'
 
 jest.mock('@vue-storefront/core/lib/multistore', () => ({
   currentStoreView: jest.fn(() => ({

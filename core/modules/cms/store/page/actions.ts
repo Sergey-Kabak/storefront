@@ -1,11 +1,11 @@
-import { ActionTree } from 'vuex'
-import { quickSearchByQuery } from '@vue-storefront/core/lib/search'
+import {ActionTree} from 'vuex'
+import {quickSearchByQuery} from '@vue-storefront/core/lib/search'
 import * as types from './mutation-types'
 import RootState from '@vue-storefront/core/types/RootState';
 import CmsPageState from '../../types/CmsPageState'
-import { StorageManager } from '@vue-storefront/core/lib/storage-manager'
-import { cmsPagesStorageKey } from './'
-import { createPageLoadingQuery, createSinglePageLoadQuery } from '@vue-storefront/core/modules/cms/helpers'
+import {StorageManager} from '@vue-storefront/core/lib/storage-manager'
+import {cmsPagesStorageKey} from './'
+import {createPageLoadingQuery, createSinglePageLoadQuery} from '@vue-storefront/core/modules/cms/helpers'
 
 const actions: ActionTree<CmsPageState, RootState> = {
   async list ({ commit }, { filterValues = null, filterField = 'identifier', size = 150, start = 0, excludeFields = null, includeFields = null, skipCache = false }) {

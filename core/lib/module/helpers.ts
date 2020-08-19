@@ -1,5 +1,5 @@
-import { VueStorefrontModuleConfig } from './types'
-import { Module } from 'vuex'
+import {VueStorefrontModuleConfig} from './types'
+import {Module} from 'vuex'
 import merge from 'lodash-es/merge'
 import some from 'lodash-es/some'
 import find from 'lodash-es/find'

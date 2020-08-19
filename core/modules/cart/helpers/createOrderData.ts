@@ -2,7 +2,7 @@ import OrderShippingDetails from '@vue-storefront/core/modules/cart/types/OrderS
 import PaymentMethod from '@vue-storefront/core/modules/cart/types/PaymentMethod'
 import ShippingMethod from '@vue-storefront/core/modules/cart/types/ShippingMethod'
 import CheckoutData from '@vue-storefront/core/modules/cart/types/CheckoutData'
-import { currentStoreView } from '@vue-storefront/core/lib/multistore'
+import {currentStoreView} from '@vue-storefront/core/lib/multistore'
 
 const getDefaultShippingMethod = (shippingMethods: ShippingMethod[] = []): ShippingMethod => {
   const onlineShippingMethods = shippingMethods.filter(shippingMethod => !shippingMethod.offline)
