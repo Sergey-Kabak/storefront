@@ -40,7 +40,7 @@
     <div class="mobile-data" v-show="isActive">
       <promo-code class="promo-code"/>
       <div class="summary-price">
-        <span>Всего:</span>
+        <span>{{ $t('Grand total') }}:</span>
         {{ totalPrice | price(storeView) }}
       </div>
     </div>
