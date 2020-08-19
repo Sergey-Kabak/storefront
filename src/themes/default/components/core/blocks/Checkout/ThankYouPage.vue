@@ -6,7 +6,7 @@
           <div class="col-md-8 pl20 pr20 pt70 m-auto align-center">
             <h3 v-if="OnlineOnly">
               {{ $t('Thank!') }}
-              {{ $t('Your order') }} <span v-if="OnlineOnly && lastOrderConfirmation.orderNumber">№{{lastOrderConfirmation.magentoOrderId}}</span>
+              {{ $t('Your order') }} <span v-if="OnlineOnly && lastOrderConfirmation.orderNumber">№{{lastOrderConfirmation.orderNumber}}</span>
               {{ $t('already going )') }}
             </h3>
             <p>{{ $t('In the near future we will call you back to clarify the details. Have a nice day!)') }}</p>

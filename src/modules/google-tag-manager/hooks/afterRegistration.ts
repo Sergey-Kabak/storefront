@@ -80,7 +80,7 @@ export function afterRegistration (config, store: Store<any>) {
 
       // Measuring Purchases
       if (type === 'order/orders/LAST_ORDER_CONFIRMATION') {
-        const orderId = payload.confirmation.backendOrderId
+        const orderId = payload.confirmation.orderNumber
         const products = payload.order.products.map(product => getProduct(product))
         store.dispatch(
           'user/getOrdersHistory',
