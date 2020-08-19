@@ -108,8 +108,8 @@
     "url": "https://vue.ringoo.ua"
   },
   "liqpay": {
-    "public_key": "i32012277522",
-    "private_key": "yn1ZNgkzlC3rw0F15BdiE8hzkYqzJvCrpckDtnJQ",
+    "public_key": "sandbox_i33827525821",
+    "private_key": "sandbox_ZoeELbqo1BBTi3LQnEsHF93wu425TzSvpZpYH11N",
     "version": "3",
     "currency": "UAH",
     "server_url": "https://vue.ringoo.ua/api/payment/liqpay/callback"
