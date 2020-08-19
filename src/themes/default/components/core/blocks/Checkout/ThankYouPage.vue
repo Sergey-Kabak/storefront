@@ -26,7 +26,7 @@
         </div>
         <div class="thank-you-row" v-if="addressInformation">
           <span class="left">{{ $t('Shipping method') }}: </span>
-          <span class="middle">{{ $t(addressInformation && addressInformation.shipping_method_code) }}</span>
+          <span class="middle">{{ $t(shippingType) }}</span>
           <span class="right label-free"> {{ $t('free') }} </span>
         </div>
         <div class="thank-you-row" v-if="billingAddress">
@@ -82,6 +82,7 @@ import VueOfflineMixin from 'vue-offline/mixin'
 import { EmailForm } from '@vue-storefront/core/modules/mailer/components/EmailForm'
 import { isServer } from '@vue-storefront/core/helpers'
 import config from 'config'
+import { mapState } from 'vuex'
 import { registerModule } from '@vue-storefront/core/lib/modules'
 import { MailerModule } from '@vue-storefront/core/modules/mailer'
 import { getThumbnailForProduct, getProductConfiguration } from '@vue-storefront/core/modules/cart/helpers'
@@ -111,6 +112,9 @@ export default {
     }
   },
   computed: {
+    ...mapState({
+      shippingType: state => state.customShipping.type
+    }),
     lastOrderConfirmation () {
       return this.$store.state.order.last_order_confirmation ? this.$store.state.order.last_order_confirmation.confirmation : {}
     },
@@ -141,7 +145,7 @@ export default {
       return currentStoreView();
     },
     totalPrice () {
-      return this.products.reduce((acc, it) => acc + it.special_price || it.price * it.qty, 0)
+      return this.products.reduce((acc, it) => acc + it.price * it.qty, 0)
     }
   },
   methods: {
