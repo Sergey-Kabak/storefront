@@ -167,7 +167,23 @@
         <!--      <span class="product-on-credit">{{ $t('In credit') }}</span>-->
 
         <button-full @click.native="toProduct()" :disabled="!(product && product.stock && product.stock.is_in_stock)" data-testid="addToCart" class="add-to-cart">
+
+          <svg v-if="!productIsInCart" width="20" height="17" viewBox="0 0 20 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M19 0H0V2H2.3L5.582 11.025C5.79362 11.6029 6.1773 12.1021 6.68134 12.4552C7.18539 12.8083 7.78556 12.9985 8.401 13H17V11H8.401C7.982 11 7.604 10.735 7.461 10.342L6.973 9H16.246C17.136 9 17.926 8.402 18.169 7.549L19.962 1.275C20.0039 1.12615 20.0109 0.969616 19.9823 0.817634C19.9537 0.665651 19.8904 0.522335 19.7973 0.398886C19.7041 0.275436 19.5837 0.175197 19.4454 0.106001C19.3071 0.0368048 19.1546 0.000526196 19 0ZM16.246 7H6.246L4.428 2H17.675L16.246 7Z" fill="white"/>
+            <path d="M8.5 17C9.32843 17 10 16.3284 10 15.5C10 14.6716 9.32843 14 8.5 14C7.67157 14 7 14.6716 7 15.5C7 16.3284 7.67157 17 8.5 17Z" fill="white"/>
+            <path d="M14.5 17C15.3284 17 16 16.3284 16 15.5C16 14.6716 15.3284 14 14.5 14C13.6716 14 13 14.6716 13 15.5C13 16.3284 13.6716 17 14.5 17Z" fill="white"/>
+          </svg>
+
+          <svg v-if="productIsInCart" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M10.5 22C11.3284 22 12 21.3284 12 20.5C12 19.6716 11.3284 19 10.5 19C9.67157 19 9 19.6716 9 20.5C9 21.3284 9.67157 22 10.5 22Z" fill="white"/>
+            <path d="M16.5 22C17.3284 22 18 21.3284 18 20.5C18 19.6716 17.3284 19 16.5 19C15.6716 19 15 19.6716 15 20.5C15 21.3284 15.6716 22 16.5 22Z" fill="white"/>
+            <path fill-rule="evenodd" clip-rule="evenodd" d="M14 5H2V7H4.3L7.582 16.025C7.79362 16.6029 8.1773 17.1021 8.68134 17.4552C9.18539 17.8083 9.78556 17.9985 10.401 18H19V16H10.401C9.982 16 9.604 15.735 9.461 15.342L8.973 14H18.246C19.136 14 19.926 13.402 20.169 12.549L21.0187 9.57574C20.4013 9.84851 19.7184 10 19 10C16.2386 10 14 7.76142 14 5Z" fill="white"/>
+            <path d="M18.25 8.16L15.5 5.16L16.66 4L18.25 5.59L21.84 2L23 3.41L18.25 8.16Z" fill="white"/>
+          </svg>
+
+
           <span class="add-to-cart-text">{{ $t('Buy') }}</span>
+
         </button-full>
       </div>
     </template>
@@ -191,6 +207,7 @@ import { IsOnCompare } from '@vue-storefront/core/modules/compare/components/IsO
 import { currentStoreView } from '@vue-storefront/core/lib/multistore'
 import ButtonFull from 'theme/components/theme/ButtonFull.vue'
 import Tag from "theme/components/core/Tag";
+import {mapGetters} from "vuex";
 
 export default {
   mixins: [ProductTile, IsOnWishlist, IsOnCompare],
@@ -218,8 +235,11 @@ export default {
     }
   },
   computed: {
-    qwe() {
-      return this.IsOnWishlist
+    ...mapGetters({
+      productsInCart: 'cart/getCartItems'
+    }),
+    productIsInCart() {
+      return !!(this.productsInCart.find(p => this.product.id === p.id))
     },
     thumbnailObj () {
       return {
@@ -285,8 +305,14 @@ export default {
       display: flex;
       align-items: center;
       justify-content: center;
+      svg {
+        display: none;
+      }
     }
     @media (max-width: 767px) {
+      .add-to-cart svg {
+        display: block !important;
+      }
       .add-to-cart {
         padding: 8px 0 !important;
       }
@@ -460,7 +486,7 @@ export default {
       align-self: center;
       margin: 10px 0;
       &-text {
-        display: block !important;
+        display: block;
       }
     }
 

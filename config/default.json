@@ -997,7 +997,15 @@
       "type_id": "configurable"
     },
     {
+      "url_path": "samsung-galaxy-m21-4-64gb-m215.html",
+      "type_id": "configurable"
+    },
+    {
       "url_path": "xiaomi-redmi-note-9-4-128gb.html?childSku=т28320",
+      "type_id": "configurable"
+    },
+    {
+      "url_path": "samsung-sm-a515f-4-64gb.html?childSku=т26991",
       "type_id": "configurable"
     },
     {
@@ -1005,24 +1013,23 @@
       "type_id": "configurable"
     },
     {
-      "url_path": "apple-ipad-10-2-inch-32gb-2019-wi-fi.html?childSku=т29816",
+      "url_path": "apple-ipad-10-2-inch-32gb-2019-wi-fi.html",
       "type_id": "configurable"
     },
     {
       "url_path": "bezdrotovi-navushniki-redmi-airdots-s-black.html",
       "type_id": "configurable"
-    },
-    {
-      "url_path": "gadzheti/smart-godinniki?manufacturer=25",
-      "type_id": "configurable"
-    },
-    {
-      "url_path": "apple-iphone-se-64gb.html?childSku=т28689",
-      "type_id": "configurable"
-    },
-    {
-      "url_path": "smartfoni-i-telefoni?manufacturer=142",
-      "type_id": "configurable"
     }
-  ]
+  ],
+  "customSeller": {
+    "name": "S-DIGIT",
+    "rate": 4.9,
+    "marks": 24,
+    "logo": "https://i1.rozetka.ua/sellers/1635/1635253.jpg",
+    "description": "Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit. Exercitation veniam consequat sunt nostrud amet.",
+    "email": "custom@email.com",
+    "phones": ["+380 44 000 00 00", "+380 63 000 00 00", "+380 97 000 00 00"],
+    "workTimes": ["Пн-Пт: 08:00-20:00;", "Сб: 10:00-18:00;", "Вс: 11:00-17:00"],
+    "link": "/smartfoni-i-telefoni"
+  }
 }

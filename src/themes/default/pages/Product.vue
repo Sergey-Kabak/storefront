@@ -71,9 +71,7 @@
                 :product="getCurrentProduct"
                 :custom-options="getCurrentCustomOptions"
               />
-              <!--<div class="custom-seller">-->
-                <!--<h4 @click="showCustomSeller">custom seller</h4>-->
-              <!--</div>-->
+
               <div class="cl-primary variants" v-if="getCurrentProduct.type_id =='configurable'">
                 <div
                   class="error"
@@ -142,17 +140,6 @@
               v-else-if="getCurrentProduct.custom_options && getCurrentProduct.custom_options.length > 0"
               :product="getCurrentProduct"
             />
-            <!--<product-quantity-->
-              <!--class="row m0 mb35"-->
-              <!--v-if="getCurrentProduct.type_id !== 'grouped' && getCurrentProduct.type_id !== 'bundle'"-->
-              <!--v-model="getCurrentProduct.qty"-->
-              <!--:max-quantity="maxQuantity"-->
-              <!--:loading="isStockInfoLoading"-->
-              <!--:is-simple-or-configurable="isSimpleOrConfigurable"-->
-              <!--:show-quantity="manageQuantity"-->
-              <!--:check-max-quantity="manageQuantity"-->
-              <!--@error="handleQuantityError"-->
-            <!--/>-->
             <product-quantity-new
                 class="row m0 mb35"
                 v-if="getCurrentProduct.type_id !== 'grouped' && getCurrentProduct.type_id !== 'bundle'"
@@ -182,6 +169,26 @@
                 <AddToWishlist :product="getCurrentProduct" />
               </div>
             </div>
+
+            <div class="seller-name-row" @click="showCustomSeller" v-if="getCurrentProduct.marketplace">
+              <template v-if="customSeller">
+                <div class="seller-name-col">
+                  <div class="seller-name">
+                    {{ $t("Seller:") }} <span>{{ $t(customSeller.name) }}</span>
+                  </div>
+                  <div class="seller-rating">
+                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M13.6315 5.11934C13.5896 4.99592 13.5125 4.88747 13.4096 4.80738C13.3068 4.72729 13.1828 4.67908 13.0528 4.66868L9.25218 4.36668L7.60751 0.72601C7.55514 0.608751 7.46994 0.509157 7.36221 0.439248C7.25448 0.369339 7.12882 0.332102 7.0004 0.332031C6.87197 0.331961 6.74627 0.36906 6.63846 0.438851C6.53066 0.508642 6.44535 0.608142 6.39285 0.725343L4.74818 4.36668L0.947514 4.66868C0.819817 4.67879 0.697739 4.72548 0.595884 4.80316C0.494028 4.88084 0.416709 4.98622 0.373176 5.1067C0.329643 5.22717 0.321739 5.35763 0.35041 5.48248C0.379082 5.60733 0.443114 5.72127 0.534847 5.81068L3.34351 8.54868L2.35018 12.85C2.32002 12.9802 2.32969 13.1165 2.37793 13.2411C2.42617 13.3657 2.51076 13.473 2.62072 13.549C2.73067 13.6249 2.86093 13.6661 2.99457 13.6671C3.12821 13.6681 3.25908 13.629 3.37018 13.5547L7.00018 11.1347L10.6302 13.5547C10.7437 13.6301 10.8777 13.6689 11.0139 13.6659C11.1502 13.6629 11.2823 13.6183 11.3924 13.538C11.5026 13.4577 11.5855 13.3456 11.63 13.2167C11.6746 13.0879 11.6786 12.9485 11.6415 12.8173L10.4222 8.55068L13.4462 5.82934C13.6442 5.65068 13.7168 5.37201 13.6315 5.11934Z" fill="#FFCA41"/>
+                    </svg>
+                    <span class="seller-data">{{ customSeller.rate }} ({{ customSeller.marks }} {{ $t("marks") }})</span>
+                  </div>
+                </div>
+                <div class="seller-logo">
+                  <img :src="customSeller.logo" alt="custom-seller-logo">
+                </div>
+              </template>
+            </div>
+
           </div>
         </section>
       </div>
@@ -231,8 +238,6 @@
 </template>
 
 <script>
-import i18n from '@vue-storefront/i18n'
-import VueOfflineMixin from 'vue-offline/mixin'
 import config from 'config'
 import RelatedProducts from 'theme/components/core/blocks/Product/Related.vue'
 import Reviews from 'theme/components/core/blocks/Reviews/Reviews.vue'
@@ -242,17 +247,14 @@ import ColorSelector from 'theme/components/core/ColorSelector.vue'
 import SizeSelector from 'theme/components/core/SizeSelector.vue'
 import Breadcrumbs from 'theme/components/core/Breadcrumbs.vue'
 import ProductAttribute from 'theme/components/core/ProductAttribute.vue'
-import ProductQuantity from 'theme/components/core/ProductQuantity.vue'
 import ProductQuantityNew from 'theme/components/core/ProductQuantityNew.vue'
 import ProductLinks from 'theme/components/core/ProductLinks.vue'
 import ProductCustomOptions from 'theme/components/core/ProductCustomOptions.vue'
 import ProductBundleOptions from 'theme/components/core/ProductBundleOptions.vue'
 import ProductGallery from 'theme/components/core/ProductGallery'
-import Spinner from 'theme/components/core/Spinner'
 import PromotedOffers from 'theme/components/theme/blocks/PromotedOffers/PromotedOffers'
 import focusClean from 'theme/components/theme/directives/focusClean'
 import WebShare from 'theme/components/theme/WebShare'
-import BaseInputNumber from 'theme/components/core/blocks/Form/BaseInputNumber'
 import SizeGuide from 'theme/components/core/blocks/Product/SizeGuide'
 import AddToWishlist from 'theme/components/core/blocks/Wishlist/AddToWishlist'
 import AddToCompare from 'theme/components/core/blocks/Compare/AddToCompare'
@@ -290,7 +292,6 @@ export default {
     WebShare,
     SizeGuide,
     LazyHydrate,
-    ProductQuantity,
     ProductQuantityNew,
     ProductPrice
   },
@@ -371,6 +372,9 @@ export default {
       }
 
       return this.isOnline && !this.maxQuantity && this.manageQuantity && this.isSimpleOrConfigurable
+    },
+    customSeller () {
+      return config && config.customSeller
     }
   },
   async mounted () {
@@ -479,6 +483,9 @@ export default {
       title: htmlDecode(this.getCurrentProduct.meta_title || this.getCurrentProduct.name),
       meta: this.getCurrentProduct.meta_description ? [{ vmid: 'description', name: 'description', content: htmlDecode(this.getCurrentProduct.meta_description) }] : []
     }
+  },
+  beforeDestroy () {
+    this.$bus.$emit('modal-hide', 'modal-custom-seller-product')
   }
 }
 </script>
@@ -513,6 +520,43 @@ $color-tertiary: color(tertiary);
 $color-secondary: color(secondary);
 $color-white: color(white);
 $bg-secondary: color(secondary, $colors-background);
+
+.seller-name-row {
+  cursor: pointer;
+  border: 1px solid #E0E0E0;
+  border-radius: 4px;
+  padding: 16px;
+  align-items: center;
+
+  .seller-name-col {
+    display: flex;
+    align-items: center;
+  }
+  .seller-name span {
+    border-bottom: 1px dashed #1A1919;
+    padding-bottom: 4px;
+  }
+  .seller-rating {
+    margin-top: 0!important;
+    margin-left: 10px;
+  }
+  .seller-data {
+    margin-left: 10px;
+    padding-bottom: 0;
+    border-bottom: none;
+  }
+  .seller-logo {
+    max-width: 50%;
+    max-height: 60px;
+    width: auto;
+    img {
+      display: block;
+      width: auto;
+      height: 100%;
+      max-height: 60px;
+    }
+  }
+}
 
 .not-available {
   color: #ee2c39 !important;

@@ -1,6 +1,6 @@
 <template>
   <div id="category">
-    <header class="py35 pl20">
+    <header class="pl20">
       <div class="container">
         <breadcrumbs />
         <div class="row middle-sm">
