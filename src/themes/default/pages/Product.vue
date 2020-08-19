@@ -379,6 +379,7 @@ export default {
   },
   async mounted () {
     await this.$store.dispatch('recently-viewed/addItem', this.getCurrentProduct)
+    console.log('==========================================================================================>', this.getCurrentProduct)
   },
   async asyncData ({ store, route, context }) {
     if (context) context.output.cacheTags.add('product')
