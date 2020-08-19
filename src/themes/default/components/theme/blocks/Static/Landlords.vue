@@ -1,45 +1,43 @@
 <template>
   <div class="landlords">
-    <p class="title">ringoo завжди прагне розвитку, тому ми постійно шукаємо можливості для відкриття нових магазинів.
-      Якщо ви маєте приміщення, яке відповідає вимогам, зазначеним нижче, телефонуйте або листуйте:
-    </p>
+    <p class="title">{{ $t('landlords description') }}</p>
     <p>
       <a href="tel:+380503407293">+38 (050) 340 72 93</a>
     </p>
     <p>
       <a href="mailto:o.tatsii@ringoo.ua">o.tatsii@ringoo.ua</a>
     </p>
-    <p>Олександр Тацій.</p>
-    <p>Зі свого боку ми гарантуємо своєчасну оплату та конфіденційність.</p>
-    <p><strong>Розташування</strong></p>
+    <p>{{ $t('alexandr tatsiy') }}.</p>
+    <p>{{ $t('landlords guarantee') }}</p>
+    <p><strong>{{ $t('placing') }}</strong></p>
     <ul>
-      <li>Торгові центри</li>
-      <li>Супермаркети</li>
-      <li>Ринки</li>
-      <li>Вокзали</li>
-      <li>Транспортні розв`язки</li>
-      <li>Центральні вулиці.</li>
+      <li>{{ $t('shopping centers') }}</li>
+      <li>{{ $t('supermarkets') }}</li>
+      <li>{{ $t('markets') }}</li>
+      <li>{{ $t('stations') }}</li>
+      <li>{{ $t('transport interchanges') }}</li>
+      <li>{{ $t('central streets') }}</li>
     </ul>
-    <p><strong>Локація</strong></p>
+    <p><strong>{{ $t('location') }}</strong></p>
     <ul>
-      <li>Місця з великою прохідністю</li>
-      <li>Прикасові зони в супермаркетах</li>
-      <li>Торгові площі на входах і виходах в ринок</li>
-      <li>Павільйони і фасади прилеглих до вокзалів будівель</li>
-      <li>Місця скупчення громадського транспорту</li>
-      <li>Перший поверх фасадних будівель центральних вулиць міста.</li>
+      <li>{{ $t('location high traffic') }}</li>
+      <li>{{ $t('location checkout areas') }}</li>
+      <li>{{ $t('location retail space') }}</li>
+      <li>{{ $t('location pavilions') }}</li>
+      <li>{{ $t('location accumulation') }}</li>
+      <li>{{ $t('location first floor') }}</li>
     </ul>
-    <p><strong>Пріоритети</strong></p>
+    <p><strong>{{ $t('priorities') }}</strong></p>
     <ul>
-      <li>Великий потік людей перед входом в магазин</li>
-      <li>Розміщення на «червоній лінії» забудови</li>
+      <li>{{ $t('priorities hight traffic') }}</li>
+      <li>{{ $t('priorities red line') }}</li>
     </ul>
-    <p><strong>Вимоги</strong></p>
+    <p><strong>{{ $t('requirements') }}</strong></p>
     <ul>
-      <li>Приміщення з ремонтом або можливістю зробити ремонт за рахунок погашення орендної плати</li>
-      <li>Приміщення з великими вітринами</li>
-      <li>Приміщення з безперебійною подачею електроенергії 5–7 кВт/год</li>
-      <li>Наявність у приміщення інтернету та зв'язку.</li>
+      <li>{{ $t('requirements repair') }}</li>
+      <li>{{ $t('requirements large windows') }}</li>
+      <li>{{ $t('requirements uninterrupted power') }}</li>
+      <li>{{ $t('requirements internet') }}</li>
     </ul>
   </div>
 </template>

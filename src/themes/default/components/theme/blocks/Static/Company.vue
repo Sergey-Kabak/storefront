@@ -1,57 +1,44 @@
 <template>
   <div class="company">
-    <p class="title">
-      З 2007 року мережа магазинів ringoo допомагає клієнтам, надаючи широкий вибір цікавих технічних
-      новинок та аксесуарів, сучасних гаджетів і корисних сервісів. Разом із вдосконаленням технологій
-      розвивалась й наша компанія, щоденно впроваджуючи нові тенденції.
-    </p>
+    <p class="title">{{ $t('company description') }}</p>
     <img src="/assets/static/ringoo_company.jpg" alt="ringoo_company">
-    <p>Мережа магазинів ringoo входить до групи компаній Fozzy Group — одного з лідерів роздрібної
-      торгівлі в Україні.
-    </p>
-    <h3>Наші досягнення</h3>
+    <p>{{ $t('company chain') }}</p>
+    <h3>{{ $t('our achievements') }}</h3>
     <ul>
-      <li>96 торгових точок</li>
-      <li>19 областей</li>
-      <li>63 населених пункта.</li>
+      <li>96 {{ $t('company outlets') }}</li>
+      <li>19 {{ $t('company areas') }}</li>
+      <li>63 {{ $t('company settlements') }}</li>
     </ul>
-    <h3>Чи знаєте ви, що</h3>
-    <p>Слово «рінго» у перекладі з японської означає «яблуко». Тому наш логотип має символічні закруглені
-      елементи, що нагадують форму яблука. Ось звідкіля з’явилась наша традиція вітати та пригощати
-      гостей на відкритті нових магазинів ringoo саме яблуками.
-    </p>
+    <h3>{{ $t('company do you know') }}</h3>
+    <p>{{ $t('company do you know description') }}</p>
     <img src="/assets/static/ringoo_apples.png" alt="ringoo_apples">
-    <h3>Наші переваги</h3>
+    <h3>{{ $t('our advantages') }}</h3>
     <p>
-      <strong>Команда. </strong>У кожній торговій точці та в інтернет-магазині працюють досвідчені фахівці, які залюбки:
+      <strong>{{ $t('team') }}</strong>{{ $t('company team description') }}
     </p>
     <ul>
-      <li>проконсультують щодо технічних характеристик</li>
-      <li>допоможуть вибрати необхідні товари й аксесуари</li>
-      <li>налаштують смартфон та встановлять застосунки</li>
-      <li>порадять найкращий тарифний план українських операторів зв’язку.</li>
+      <li>{{ $t('company command consult') }}</li>
+      <li>{{ $t('company command help') }}</li>
+      <li>{{ $t('company command set up') }}</li>
+      <li>{{ $t('company command advice') }}</li>
     </ul>
     <p>
-      <strong>Чесність. </strong> На наших полицях — лише сертифіковані товари. Наші ціни та пропозиції не містять
-      прихованих умов.
+      <strong>{{ $t('honesty') }}</strong> {{ $t('company honesty description') }}
     </p>
     <p>
-      <strong>Асортимент. </strong> У наших торгових точках та інтернет-магазині ви знайдете найсучасніші смартфони,
-      найновіші гаджети, аксесуари для захисту, прикрашення та розширення можливостей.
+      <strong>{{ $t('assortment') }}</strong> {{ $t('company assortment description') }}
     </p>
     <p>
-      <strong>Вигода</strong> Тільки в нашій мережі покупці отримують бали за всі покупки за програмою «Власний
-      рахунок» — найбільшої й найуспішнішої програми лояльності в Україні. Отримуйте більше вигоди,
-      купуючи у нас!
+      <strong>{{ $t('profit') }}</strong> {{ $t('company profit descipriton') }}
     </p>
-    <h3>Власний бренд</h3>
-    <p>На полицях наших магазинів ви знайдете аксесуари, випущені під надійним брендом ringoo, які
-    мають сертифікати якості та схвалені виробниками мобільних пристроїв: дата-кабелі, зарядні
-    пристрої, стереогарнітури та павербанки.
-    </p>
+    <h3>{{ $t('own brand') }}</h3>
+    <p>{{ $t('company own brand description') }}</p>
     <img src="/assets/static/ringoo_brand.png" alt="ringoo_brand">
-    <h3>Офіційні партнери</h3>
-    <p>Мережа магазинів ringoo є офіційним партнером Apple, Samsung, Huawei, Prestigio та інших брендів</p>
+    <h3>{{ $t('official partners') }}</h3>
+    <p>{{ $t('company official partners description') }}</p>
+    <p>{{ $t('company contact') }}
+      <router-link>{{ $t('Contact us') }}</router-link> 
+    </p>
   </div>
 </template>
 
