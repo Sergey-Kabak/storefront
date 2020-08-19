@@ -44,7 +44,7 @@
               class="subcategory-item"
             >
               <sub-btn
-                v-if="category.children_count > 0"
+                v-if="category.children_data && category.children_data.length"
                 class="bg-cl-transparent brdr-none fs-medium"
                 :id="category.id"
                 :ico="ico[category.id]"
