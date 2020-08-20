@@ -383,9 +383,7 @@ header {
   overflow: unset;
   z-index: 3;
   transition: top 0.2s ease-in-out;
-  @media (max-width: 787px) {
-    overflow: auto;
-  }
+
   &.is-visible {
     top: 0;
   }
