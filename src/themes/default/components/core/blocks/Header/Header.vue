@@ -3,7 +3,7 @@
     <header
       ref="header"
       class="w-100"
-      :class="{ 'is-visible': navVisible, 'is-active-search': mobileSearch }"
+      :class="{ 'is-visible': navVisible }"
       :style="{ 'z-index': headerIndex }"
     >
       <div class="header-black-line" v-if="isShowHeader">
@@ -361,7 +361,7 @@ header {
     align-items: center;
     justify-content: center;
     margin-right: 14px;
-    padding: 10px;
+    padding: 8px;
     border-radius: 4px;
     transition: .2s ease-in-out;
 
@@ -380,15 +380,11 @@ header {
   position: fixed;
   top: -115px;
   max-height: 100vh;
-  overflow-y: unset;
+  overflow: unset;
   z-index: 3;
   transition: top 0.2s ease-in-out;
   &.is-visible {
     top: 0;
-  }
-
-  &.is-active-search {
-    overflow-y: auto;
   }
 }
 
@@ -396,7 +392,7 @@ header {
   background: #fff;
 
   &.border {
-    box-shadow: inset 0px -2px 2px -2px rgba(0, 0, 0, .3)
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.05);
   }
 }
 
@@ -587,8 +583,12 @@ header {
 }
 
 @media (max-width: 767px) {
+  header {
+    overflow: auto;
+  }
+
   .header-top {
-    padding: 0 20px;
+    padding: 0 18px;
   }
 
   .header-black-line {
@@ -614,8 +614,12 @@ header {
   }
 
   .mobile-menu {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 24px;
+    height: 24px;
     cursor: pointer;
-    display: block;
   }
 
   .header-left {
@@ -630,6 +634,17 @@ header {
 
   .header-top {
     height: 56px;
+  }
+
+  .header-container-wrap {
+    &.border {
+      border-bottom: 1px solid #e0e0e0;
+      box-shadow: none;
+
+      &:last-child {
+        border-bottom: none;
+      }
+    }
   }
 }
 
