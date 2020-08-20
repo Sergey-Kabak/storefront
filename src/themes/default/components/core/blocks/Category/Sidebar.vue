@@ -192,9 +192,9 @@ $mobile_screen : 768px;
   }
   &__header {
     @media (max-width : $mobile_screen){
-       margin-top: 0;
        border-bottom : none;
      }
+    margin-top: 0;
     display: flex;
     align-items: center;
     margin-bottom: 0px;
@@ -256,6 +256,8 @@ $mobile_screen : 768px;
   }
 
   .clear-filters {
+    display: inline-block;
+    margin-bottom: 20px;
     font-family: DIN Pro;
     font-style: normal;
     font-size: 13px;
