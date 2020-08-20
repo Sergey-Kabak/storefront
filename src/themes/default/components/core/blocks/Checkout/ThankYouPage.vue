@@ -198,7 +198,7 @@ export default {
   }
 
   .thank-you {
-    padding: 60px 0;
+    padding: 42px 0;
 
     &-title {
       margin-bottom: 16px;
