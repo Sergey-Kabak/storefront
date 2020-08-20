@@ -2,7 +2,7 @@
   <div id="category">
     <header>
       <div class="container">
-        <breadcrumbs />
+        <breadcrumbs withHomepage />
         <div class="row middle-sm" v-if="getCurrentCategory && (getCurrentCategory.image && getCurrentCategory.description)">
           <div class="col-sm-12 mt-50">
             <div class="banner-description">
@@ -35,10 +35,10 @@
           <h1 class="col-sm-8 category-title mb10">
             {{ getCurrentCategory.name }}
           </h1>
-          <div class="sorting col-sm-2 align-right mt50">
+          <!-- <div class="sorting col-sm-2 align-right mt50">
             <label class="mr10">{{ $t('Columns') }}:</label>
             <columns @change-column="columnChange" />
-          </div>
+          </div> -->
           <!--<div class="sorting col-sm-2 align-right mt50">-->
           <!--<sort-by-->
           <!--:has-label="true"-->
