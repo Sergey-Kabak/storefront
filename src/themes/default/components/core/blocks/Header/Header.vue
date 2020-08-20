@@ -3,7 +3,7 @@
     <header
       ref="header"
       class="w-100"
-      :class="{ 'is-visible': navVisible }"
+      :class="{ 'is-visible': navVisible, 'is-active-search': mobileSearch }"
       :style="{ 'z-index': headerIndex }"
     >
       <div class="header-black-line" v-if="isShowHeader">
@@ -37,7 +37,7 @@
               <a href="tel:+380674666711">
                 +38 067 466 67 11
               </a>
-              <div class="phone-tooltip" v-show="isShowPhoneModal">
+              <div class="phone-tooltip" v-show="navVisible">
                 <span class="phone-tooltip-title">{{ $t('Consultation by telephone') }}</span>
                 <a class="phone-tooltip-number" href="tel:+380674666711">+38 067 466 67 11</a>
                 <span class="phone-tooltip-date">Пн-Пт: 9:00-18:00; Сб-Вс: {{ $t('Weekend') }}</span>
@@ -145,9 +145,7 @@ export default {
       isScrolling: false,
       scrollTop: 0,
       lastScrollTop: 0,
-      navbarHeight: 104,
-      headerHeight: null,
-      isShowPhoneModal: true
+      headerHeight: null
     }
   },
   watch:{
@@ -204,13 +202,11 @@ export default {
       this.scrollTop = window.scrollY
       if (
         this.scrollTop > this.lastScrollTop &&
-        this.scrollTop > this.navbarHeight
+        this.scrollTop > this.headerHeight
       ) {
         this.navVisible = false
-        this.isShowPhoneModal = false
       } else {
         this.navVisible = true
-        this.isShowPhoneModal = true
       }
       this.lastScrollTop = this.scrollTop
     },
@@ -384,10 +380,15 @@ header {
   position: fixed;
   top: -115px;
   max-height: 100vh;
+  overflow-y: unset;
   z-index: 3;
   transition: top 0.2s ease-in-out;
   &.is-visible {
     top: 0;
+  }
+
+  &.is-active-search {
+    overflow-y: auto;
   }
 }
 
