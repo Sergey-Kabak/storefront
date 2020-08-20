@@ -1,6 +1,6 @@
 <template>
   <div id="category">
-    <header class="pl20">
+    <header>
       <div class="container">
         <breadcrumbs />
         <div class="row middle-sm" v-if="getCurrentCategory && (getCurrentCategory.image && getCurrentCategory.description)">
@@ -310,6 +310,9 @@ export default {
       title: htmlDecode(meta_title || name),
       meta
     }
+  },
+  mounted () {
+    console.log('=================================> getCurrentCategory <==============================', this.getCurrentCategory)
   }
 }
 </script>
@@ -465,6 +468,7 @@ $mobile_screen : 768px;
     .products-list {
       width: 100%;
       max-width: none;
+      padding: 0 !important;
     }
 
     .mobile-filters {

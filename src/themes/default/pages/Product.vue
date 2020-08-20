@@ -170,7 +170,7 @@
               </div>
             </div>
 
-            <div class="seller-name-row" @click="showCustomSeller" v-if="getCurrentProduct.marketplace">
+            <div class="seller-name-row" @click="showCustomSeller" v-if="parseInt(getCurrentProduct.marketplace)">
               <template v-if="customSeller">
                 <div class="seller-name-col">
                   <div class="seller-name">

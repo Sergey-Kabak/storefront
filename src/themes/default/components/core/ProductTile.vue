@@ -367,7 +367,7 @@ export default {
       }
     }
     @media (max-width: 767px) {
-      padding-bottom: 10px;
+      padding: 5px;
     }
     &__icons {
       position: absolute;
@@ -418,6 +418,7 @@ export default {
       width: 100%;
 
       @media (max-width: 767px) {
+        flex-direction: column;
         .price-sale {
           margin-left: 0;
           margin-top: 5px;
@@ -515,6 +516,9 @@ export default {
       line-height: 30px;
       color: #1A1919;
       margin-right: 4px;
+      @media (max-width: 787px) {
+        font-size: 20px;
+      }
     }
     &-sale {
       font-family: DIN Pro;
