@@ -377,9 +377,11 @@ header {
   position: fixed;
   top: -115px;
   max-height: 100vh;
-  overflow: auto;
   z-index: 3;
   transition: top 0.2s ease-in-out;
+  @media (max-width: 787px) {
+    overflow: auto;
+  }
   &.is-visible {
     top: 0;
   }
