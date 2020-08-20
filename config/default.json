@@ -29,7 +29,7 @@
     ],
     "invalidateCacheKey": "aeSu7aip",
     "invalidateCacheForwarding": false,
-    "invalidateCacheForwardUrl": "https://vue.ringoo.ua/invalidate?key=aeSu7aip&tag=",
+    "invalidateCacheForwardUrl": "https://ringoo.ua/invalidate?key=aeSu7aip&tag=",
     "dynamicConfigReload": true,
     "dynamicConfigContinueOnError": false,
     "dynamicConfigExclude": [
@@ -105,11 +105,11 @@
     "port": 8080
   },
   "api": {
-    "url": "https://vue.ringoo.ua"
+    "url": "https://ringoo.ua"
   },
   "elasticsearch": {
     "httpAuth": "",
-    "host": "https://vue.ringoo.ua/api/catalog",
+    "host": "https://ringoo.ua/api/catalog",
     "index": "vue_storefront_catalog",
     "min_score": 0.02,
     "csrTimeout": 5000,
@@ -734,7 +734,7 @@
   },
   "images": {
     "useExactUrlsNoProxy": false,
-    "baseUrl": "https://vue.ringoo.ua/img/",
+    "baseUrl": "https://ringoo.ua/img/",
     "useSpecificImagePaths": false,
     "paths": {
       "product": "/catalog/product"
