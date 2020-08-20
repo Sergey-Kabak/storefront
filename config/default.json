@@ -252,6 +252,10 @@
     ],
     "category": {
       "includeFields": [
+        "description",
+        "image",
+        "custom_design_from",
+        "custom_design_to",
         "children_count",
         "id",
         "is_active",
