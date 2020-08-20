@@ -1,8 +1,36 @@
 <template>
   <div id="category">
-    <header class="pl20">
+    <header>
       <div class="container">
         <breadcrumbs />
+        <div class="row middle-sm" v-if="getCurrentCategory && (getCurrentCategory.image && getCurrentCategory.description)">
+          <div class="col-sm-12 mt-50">
+            <div class="banner-description">
+              <img class="desk" :src="`https://magento.ringoo.ua/${getCurrentCategory.image}`" alt="banner">
+              <img class="mob" src="http://i.imgur.com/qcHXFPR.png" alt="banner">
+              <div class="banner-description__block">
+                <h3>{{ $t('Description of the action') }}</h3>
+                <div class="banner-description__text" v-html="getCurrentCategory.description"></div>
+                <div class="banner-description__timer">
+                  <h3>{{ $t('Until the end of the promotion') }}</h3>
+                  <div class="time-wrapper">
+                    <div class="time">{{ getTimerData().days }}</div>
+                    <div class="time">{{ getTimerData().hours }}</div>
+                    <div class="time">{{ getTimerData().minutes }}</div>
+                    <div class="time">{{ getTimerData().seconds }}</div>
+                  </div>
+                  <div class="text-wrapper">
+                    <div class="text">{{ $t('d') }}</div>
+                    <div class="text">{{ $t('h') }}</div>
+                    <div class="text">{{ $t('m') }}</div>
+                    <div class="text">{{ $t('s') }}</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
         <div class="row middle-sm">
           <h1 class="col-sm-8 category-title mb10">
             {{ getCurrentCategory.name }}
@@ -163,7 +191,14 @@ export default {
       mobileFilters: false,
       defaultColumn: 3,
       loadingProducts: false,
-      loading: true
+      loading: true,
+      timerData: {
+        days: 0,
+        hours: 0,
+        minutes: 0,
+        seconds: 0
+      },
+      expired: null
     }
   },
   computed: {
@@ -179,7 +214,7 @@ export default {
     },
     isCategoryEmpty () {
       return this.getCategoryProductsTotal === 0
-    }
+    },
   },
   async asyncData ({ store, route, context }) { // this is for SSR purposes to prefetch data - and it's always executed before parent component methods
     if (context) context.output.cacheTags.add('category')
@@ -230,6 +265,33 @@ export default {
       } finally {
         this.loadingProducts = false
       }
+    },
+    getTimerData () {
+      let x = setInterval(() => {
+        let countDownDate = new Date(this.getCurrentCategory.custom_design_to).getTime();
+        let now = new Date().getTime();
+        let diff = countDownDate - now;
+        let tdays = Math.floor(diff / (1000 * 60 * 60 * 24));
+        let thours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        let tminutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+        let tseconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+        this.timerData.days = (tdays < 10) ? '0' + tdays : tdays;
+        this.timerData.hours = (thours < 10) ? '0' + thours : thours;
+        this.timerData.minutes = (tminutes < 10) ? '0' + tminutes : tminutes;
+        this.timerData.seconds = (tseconds < 10) ? '0' + tseconds : tseconds;
+
+        if (diff < 0) {
+          clearInterval(x);
+          this.expired = true;
+        }
+      }, 1000);
+      return {
+        days: this.timerData.days,
+        hours: this.timerData.hours,
+        minutes: this.timerData.minutes,
+        seconds: this.timerData.seconds
+      };
     }
   },
   metaInfo () {
@@ -248,6 +310,9 @@ export default {
       title: htmlDecode(meta_title || name),
       meta
     }
+  },
+  mounted () {
+    console.log('=================================> getCurrentCategory <==============================', this.getCurrentCategory)
   }
 }
 </script>
@@ -403,6 +468,7 @@ $mobile_screen : 768px;
     .products-list {
       width: 100%;
       max-width: none;
+      padding: 0 !important;
     }
 
     .mobile-filters {
@@ -488,5 +554,126 @@ $mobile_screen : 768px;
 <style lang="scss">
 .product-image {
   max-height: unset !important;
+}
+.banner-description {
+  margin-top: 25px;
+  display: flex;
+  img {
+    display: block;
+    width: auto;
+    height: 275px;
+    &.mob {
+      display: none;
+    }
+    @media (max-width: 1500px) {
+      &.desk {
+        display: none;
+      }
+      &.mob {
+        display: block;
+      }
+    }
+    @media (max-width: 650px) {
+      &.desk {
+        display: block;
+        width: 100%;
+        height: auto;
+      }
+      &.mob {
+        display: none;
+      }
+    }
+    @media (max-width: 500px) {
+      &.desk {
+        display: none;
+      }
+      &.mob {
+        display: block;
+        height: auto;
+        width: 100%;
+      }
+    }
+  }
+  @media (max-width: 650px) {
+    flex-direction: column;
+    .banner-description__block {
+      margin-left: 0;
+      margin-top: 30px;
+    }
+    .banner-description__text {
+      height: 210px;
+    }
+  }
+  &__block {
+    margin-left: 20px;
+    background: #FFFFFF;
+    border: 1px solid #E0E0E0;
+    box-sizing: border-box;
+    border-radius: 4px;
+    width: 100%;
+    padding: 16px;
+    position: relative;
+  }
+  h3 {
+    font-family: DIN Pro;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 23px;
+    color: #1A1919;
+    margin: 16px 0;
+  }
+  &__text {
+    font-family: DIN Pro;
+    font-size: 15px;
+    line-height: 24px;
+    color: #5F5E5E;
+    height: 110px;
+    overflow: auto;
+  }
+  &__timer {
+    position: absolute;
+    bottom: 16px;
+    left: 16px;
+    right: 16px;
+    padding-top: 30px;
+    width: calc(100% - 32px);
+    background: rgb(255,255,255);
+    background: linear-gradient(0deg, rgba(255,255,255,1) 0%, rgba(255,255,255,1) 65%, rgba(255,255,255,0) 100%);
+    .time-wrapper, .text-wrapper {
+      display: flex;
+      align-items: center;
+      margin: 0 -10px;
+    }
+    .time {
+      font-family: DIN Pro;
+      font-style: normal;
+      font-weight: 600;
+      font-size: 14px;
+      line-height: 16px;
+      color: #EE2C39;
+      width: 40px;
+      text-align: center;
+      position: relative;
+      &:not(:last-child) {
+        &:after {
+          position: absolute;
+          right: -2px;
+          top: -2px;
+          content: ':';
+          display: block;
+        }
+      }
+    }
+    .text {
+      font-family: DIN Pro;
+      font-style: normal;
+      font-size: 12px;
+      line-height: 12px;
+      color: #1A1919;
+      width: 40px;
+      text-align: center;
+    }
+  }
 }
 </style>

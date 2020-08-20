@@ -170,7 +170,7 @@
               </div>
             </div>
 
-            <div class="seller-name-row" @click="showCustomSeller" v-if="getCurrentProduct.marketplace">
+            <div class="seller-name-row" @click="showCustomSeller" v-if="parseInt(getCurrentProduct.marketplace)">
               <template v-if="customSeller">
                 <div class="seller-name-col">
                   <div class="seller-name">
@@ -379,6 +379,7 @@ export default {
   },
   async mounted () {
     await this.$store.dispatch('recently-viewed/addItem', this.getCurrentProduct)
+    console.log('==========================================================================================>', this.getCurrentProduct)
   },
   async asyncData ({ store, route, context }) {
     if (context) context.output.cacheTags.add('product')

@@ -34,12 +34,12 @@
               <path d="M2.36 1.33333C2.4 1.92667 2.5 2.50667 2.66 3.06L1.86 3.86C1.58667 3.06 1.41333 2.21333 1.35333 1.33333H2.36ZM8.93333 9.34667C9.5 9.50667 10.08 9.60667 10.6667 9.64667V10.64C9.78667 10.58 8.94 10.4067 8.13333 10.14L8.93333 9.34667ZM3 0H0.666667C0.3 0 0 0.3 0 0.666667C0 6.92667 5.07333 12 11.3333 12C11.7 12 12 11.7 12 11.3333V9.00667C12 8.64 11.7 8.34 11.3333 8.34C10.5067 8.34 9.7 8.20667 8.95333 7.96C8.88667 7.93333 8.81333 7.92667 8.74667 7.92667C8.57333 7.92667 8.40667 7.99333 8.27333 8.12L6.80667 9.58667C4.92 8.62 3.37333 7.08 2.41333 5.19333L3.88 3.72667C4.06667 3.54 4.12 3.28 4.04667 3.04667C3.8 2.3 3.66667 1.5 3.66667 0.666667C3.66667 0.3 3.36667 0 3 0Z"/>
             </svg>
             <div class="phone">
-              <a href="tel:+380674666711">
-                +38 067 466 67 11
+              <a href="tel:+380674666111">
+                +38 067 466 61 11
               </a>
               <div class="phone-tooltip" v-show="navVisible">
                 <span class="phone-tooltip-title">{{ $t('Consultation by telephone') }}</span>
-                <a class="phone-tooltip-number" href="tel:+380674666711">+38 067 466 67 11</a>
+                <a class="phone-tooltip-number" href="tel:+380674666111">+38 067 466 61 11</a>
                 <span class="phone-tooltip-date">Пн-Пт: 9:00-18:00; Сб-Вс: {{ $t('Weekend') }}</span>
                 <span class="phone-tooltip-description">{{ $t('Free of charge from landlines and mobile phones in Ukraine') }}</span>
               </div>
@@ -383,6 +383,9 @@ header {
   overflow: unset;
   z-index: 3;
   transition: top 0.2s ease-in-out;
+  @media (max-width: 787px) {
+    overflow: auto;
+  }
   &.is-visible {
     top: 0;
   }
