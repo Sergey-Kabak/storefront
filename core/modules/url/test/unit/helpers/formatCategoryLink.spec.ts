@@ -1,6 +1,6 @@
-import { formatCategoryLink } from '@vue-storefront/core/modules/url/helpers';
-import { Category } from '@vue-storefront/core/modules/catalog-next/types/Category';
-import { currentStoreView } from '@vue-storefront/core/lib/multistore';
+import {formatCategoryLink} from '@vue-storefront/core/modules/url/helpers';
+import {Category} from '@vue-storefront/core/modules/catalog-next/types/Category';
+import {currentStoreView} from '@vue-storefront/core/lib/multistore';
 import config from 'config';
 
 jest.mock('@vue-storefront/core/app', () => jest.fn());

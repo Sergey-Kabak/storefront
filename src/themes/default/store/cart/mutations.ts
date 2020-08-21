@@ -1,5 +1,5 @@
 import * as types from './mutation-types'
-import { MutationTree } from 'vuex'
+import {MutationTree} from 'vuex'
 import CartState from './types/CartState'
 
 const mutations: MutationTree<CartState> = {

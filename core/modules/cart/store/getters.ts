@@ -1,10 +1,10 @@
-import { GetterTree } from 'vuex'
+import {GetterTree} from 'vuex'
 import sumBy from 'lodash-es/sumBy'
 import CartState from '../types/CartState'
 import RootState from '@vue-storefront/core/types/RootState'
 import AppliedCoupon from '../types/AppliedCoupon'
-import { onlineHelper, isServer, calcItemsHmac } from '@vue-storefront/core/helpers'
-import { calculateTotals } from '@vue-storefront/core/modules/cart/helpers'
+import {calcItemsHmac, isServer, onlineHelper} from '@vue-storefront/core/helpers'
+import {calculateTotals} from '@vue-storefront/core/modules/cart/helpers'
 import config from 'config'
 
 const getters: GetterTree<CartState, RootState> = {

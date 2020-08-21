@@ -1,6 +1,6 @@
-import { RawLocation } from 'vue-router'
+import {RawLocation} from 'vue-router'
 import config from 'config'
-import { LocalizedRoute } from './types'
+import {LocalizedRoute} from './types'
 
 const getNormalizedPath = (matchedRouteOrUrl) => {
   const matchingPath = matchedRouteOrUrl && (matchedRouteOrUrl.path || matchedRouteOrUrl)

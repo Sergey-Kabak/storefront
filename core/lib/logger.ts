@@ -1,6 +1,7 @@
-import { isServer } from '@vue-storefront/core/helpers'
-import { coreHooksExecutors } from '@vue-storefront/core/hooks'
+import {isServer} from '@vue-storefront/core/helpers'
+import {coreHooksExecutors} from '@vue-storefront/core/hooks'
 import buildTimeConfig from 'config'
+
 const bgColorStyle = (color) => `color: white; background: ${color}; padding: 4px; font-weight: bold; font-size: 0.8em'`
 
 /** VS message logger. By default works only on dev mode */

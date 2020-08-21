@@ -1,5 +1,4 @@
-
-import { ActionTree } from 'vuex'
+import {ActionTree} from 'vuex'
 import RootState from '@vue-storefront/core/types/RootState'
 import CartState from '@vue-storefront/core/modules/cart/types/CartState'
 import connectActions from './connectActions'

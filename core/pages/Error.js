@@ -1,5 +1,5 @@
-import i18n from '@vue-storefront/i18n'
-import { Logger } from '@vue-storefront/core/lib/logger'
+import i18n from '@vue-storefront/i18n';
+import { Logger } from '@vue-storefront/core/lib/logger';
 
 export default {
   name: 'Error',

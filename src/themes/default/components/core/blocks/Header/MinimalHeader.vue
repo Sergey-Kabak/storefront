@@ -39,9 +39,9 @@
 </template>
 
 <script>
-import CurrentPage from 'theme/mixins/currentPage'
-import { currentStoreView } from '@vue-storefront/core/lib/multistore'
-import config from 'config'
+import CurrentPage from 'theme/mixins/currentPage';
+import { currentStoreView } from '@vue-storefront/core/lib/multistore';
+import config from 'config';
 
 export default {
   data () {

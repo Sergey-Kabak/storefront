@@ -33,10 +33,10 @@
 </template>
 
 <script>
-import Modal from 'theme/components/core/Modal.vue'
-import CitySelect from 'src/modules/custom-shipping/components/city-select'
+import Modal from 'theme/components/core/Modal.vue';
+import CitySelect from 'src/modules/custom-shipping/components/city-select';
 import NewPost from 'src/modules/nova-poshta/index';
-import {debounce} from 'debounce';
+import { debounce } from 'debounce';
 
 export default {
   mixins: [NewPost],

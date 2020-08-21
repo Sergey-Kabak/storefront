@@ -82,12 +82,12 @@
 </template>
 
 <script>
-import Wishlist from '@vue-storefront/core/compatibility/components/blocks/Wishlist/Wishlist'
-import Product from 'theme/components/core/blocks/Wishlist/Product'
-import ClearWishlistButton from 'theme/components/core/blocks/Wishlist/ClearWishlistButton'
-import {currentStoreView} from "@vue-storefront/core/lib/multistore"
-import ButtonFull from 'theme/components/theme/ButtonFull'
-import {notifications} from "@vue-storefront/core/modules/cart/helpers";
+import Wishlist from '@vue-storefront/core/compatibility/components/blocks/Wishlist/Wishlist';
+import Product from 'theme/components/core/blocks/Wishlist/Product';
+import ClearWishlistButton from 'theme/components/core/blocks/Wishlist/ClearWishlistButton';
+import { currentStoreView } from '@vue-storefront/core/lib/multistore';
+import ButtonFull from 'theme/components/theme/ButtonFull';
+import { notifications } from '@vue-storefront/core/modules/cart/helpers';
 
 export default {
   props: {

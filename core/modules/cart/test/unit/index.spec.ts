@@ -1,4 +1,4 @@
-import { CartModule } from '../../index'
+import {CartModule} from '../../index'
 
 jest.mock('../../store', () => ({}));
 jest.mock('@vue-storefront/core/lib/modules', () => ({ createModule: jest.fn(() => ({ module: 'cart' })) }));

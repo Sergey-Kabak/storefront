@@ -1,4 +1,4 @@
-import { slugify } from '@vue-storefront/core/helpers'
+import {slugify} from '@vue-storefront/core/helpers'
 import config from 'config'
 
 jest.clearAllMocks()

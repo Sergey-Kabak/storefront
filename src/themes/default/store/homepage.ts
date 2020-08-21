@@ -1,4 +1,4 @@
-import { prepareQuery } from '@vue-storefront/core/modules/catalog/queries/common'
+import {prepareQuery} from '@vue-storefront/core/modules/catalog/queries/common'
 
 export const homepageStore = {
   namespaced: true,

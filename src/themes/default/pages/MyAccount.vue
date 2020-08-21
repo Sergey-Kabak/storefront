@@ -37,17 +37,17 @@
 </template>
 
 <script>
-import MyAccount from '@vue-storefront/core/pages/MyAccount'
-import Breadcrumbs from '../components/core/Breadcrumbs'
-import MyProfile from '../components/core/blocks/MyAccount/MyProfile'
-import MyShippingDetails from '../components/core/blocks/MyAccount/MyShippingDetails'
-import MyNewsletter from '../components/core/blocks/MyAccount/MyNewsletter'
-import MyOrders from '../components/core/blocks/MyAccount/MyOrders'
-import MyOrder from '../components/core/blocks/MyAccount/MyOrder'
-import MyRecentlyViewed from '../components/core/blocks/MyAccount/MyRecentlyViewed'
-import NoSSR from 'vue-no-ssr'
-import { RecentlyViewedModule } from '@vue-storefront/core/modules/recently-viewed'
-import { registerModule } from '@vue-storefront/core/lib/modules'
+import MyAccount from '@vue-storefront/core/pages/MyAccount';
+import Breadcrumbs from '../components/core/Breadcrumbs';
+import MyProfile from '../components/core/blocks/MyAccount/MyProfile';
+import MyShippingDetails from '../components/core/blocks/MyAccount/MyShippingDetails';
+import MyNewsletter from '../components/core/blocks/MyAccount/MyNewsletter';
+import MyOrders from '../components/core/blocks/MyAccount/MyOrders';
+import MyOrder from '../components/core/blocks/MyAccount/MyOrder';
+import MyRecentlyViewed from '../components/core/blocks/MyAccount/MyRecentlyViewed';
+import NoSSR from 'vue-no-ssr';
+import { RecentlyViewedModule } from '@vue-storefront/core/modules/recently-viewed';
+import { registerModule } from '@vue-storefront/core/lib/modules';
 
 export default {
   data () {

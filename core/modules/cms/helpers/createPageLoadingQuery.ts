@@ -1,4 +1,4 @@
-import { SearchQuery } from 'storefront-query-builder'
+import {SearchQuery} from 'storefront-query-builder'
 
 const createPageLoadingQuery = ({ filterField, filterValues }): SearchQuery => {
   let query = new SearchQuery()

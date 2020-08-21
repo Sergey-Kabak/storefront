@@ -53,7 +53,7 @@
 </template>
 
 <script>
-import {mapState} from 'vuex';
+import { mapState } from 'vuex';
 import AsyncSidebar from 'theme/components/theme/blocks/AsyncSidebar/AsyncSidebar.vue';
 import MainHeader from 'theme/components/core/blocks/Header/Header.vue';
 import MainFooter from 'theme/components/core/blocks/Footer/Footer.vue';
@@ -63,7 +63,7 @@ import Notification from 'theme/components/core/Notification.vue';
 import SignUp from 'theme/components/core/blocks/Auth/SignUp.vue';
 import CookieNotification from 'theme/components/core/CookieNotification.vue';
 import OfflineBadge from 'theme/components/core/OfflineBadge.vue';
-import {isServer} from '@vue-storefront/core/helpers';
+import { isServer } from '@vue-storefront/core/helpers';
 import Head from 'theme/head';
 import config from 'config';
 

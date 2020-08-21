@@ -1,4 +1,4 @@
-import { Order } from '@vue-storefront/core/modules/order/types/Order'
+import {Order} from '@vue-storefront/core/modules/order/types/Order'
 
 describe('optimizeOrder method', () => {
   it('should return order without configurable_options and configurable_children', () => {

@@ -96,8 +96,8 @@
 </template>
 
 <script>
-import Modal from 'theme/components/core/Modal.vue'
-import config from 'config'
+import Modal from 'theme/components/core/Modal.vue';
+import config from 'config';
 
 export default {
   components: {

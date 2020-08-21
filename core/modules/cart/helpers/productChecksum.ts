@@ -1,5 +1,5 @@
 import CartItem from '@vue-storefront/core/modules/cart/types/CartItem'
-import { sha3_224 } from 'js-sha3'
+import {sha3_224} from 'js-sha3'
 import get from 'lodash-es/get'
 import flow from 'lodash-es/flow'
 import cloneDeep from 'lodash-es/cloneDeep';

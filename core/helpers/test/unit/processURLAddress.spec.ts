@@ -1,4 +1,4 @@
-import { processURLAddress } from '@vue-storefront/core/helpers'
+import {processURLAddress} from '@vue-storefront/core/helpers'
 import config from 'config'
 
 jest.clearAllMocks()
