@@ -66,6 +66,14 @@
           <img src="https://info.ringoo.ua/images/slider/7.jpg" alt="7">
         </router-link>
       </slide>
+      <slide>
+        <router-link
+            :to="productLink(7)"
+            data-testid="productLink"
+        >
+          <img src="https://info.ringoo.ua/images/slider/8.jpg" alt="8">
+        </router-link>
+      </slide>
     </carousel>
   </div>
 </template>
