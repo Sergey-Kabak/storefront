@@ -9,7 +9,6 @@
         <span class="line-vertical line" />
       </div>
     </div>
-    <!-- Should be animated -->
     <transition name="slide">
       <div class="filter-body" v-show="isActive" :style="noscroll && 'overflow : visible'">
         <slot />

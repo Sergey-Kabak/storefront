@@ -69,11 +69,9 @@
     <div class="container pb60">
       <div class="row m0 pt15">
         <div class="col-md-3 start-xs category-filters">
-          <!--<div>-->
-            <!--<p class="products-count">-->
-              <!--{{ $t('Selected {count} items', { count: getCategoryProductsTotal }) }}-->
-            <!--</p>-->
-          <!--</div>-->
+          <p class="products-count">
+            {{ $tc('{count} items', getCategoryProductsTotal) }}
+          </p>
           <sidebar :filters="getAvailableFilters" @changeFilter="changeFilter" />
         </div>
         <div class="col-md-3 start-xs mobile-filters" v-show="mobileFilters">
@@ -378,7 +376,7 @@ $mobile_screen : 768px;
     width: 242px;
 
     .products-count {
-      margin: 0 0 30px 0;
+      margin: 0 0 29px 0;
       font-family: DIN Pro;
       font-style: normal;
       font-size: 13px;
