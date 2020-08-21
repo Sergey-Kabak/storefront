@@ -3,7 +3,8 @@
     <span v-for="link in paths" :key="link.route_link">
       <router-link :to="link.route_link">
         {{ link.name | htmlDecode }}
-      </router-link> /
+      </router-link>
+      <span class="divider">/</span>
     </span>
     <span class="cl-mine-shaft">
       {{ current | htmlDecode }}
@@ -19,16 +20,31 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
   .breadcrumbs {
     span, a {
       font-family: DIN Pro;
       font-size: 13px;
       line-height: 16px;
-      color: #BDBDBD;
+      color: #bdbdbd;
     }
-    a {
-      color: #1A1A1A;
+
+    .divider {
+      margin: 0 5px;
     }
+
+    span {
+      a {
+        color: #5f5e5e;
+        transition: .2s ease-in-out;
+        &:hover {
+          color: #1a1919;
+        }
+      }
+    }
+  }
+
+  a.underline:after, a:not(.no-underline):hover:after {
+    content: none;
   }
 </style>
