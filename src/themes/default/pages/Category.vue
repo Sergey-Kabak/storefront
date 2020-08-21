@@ -1,8 +1,36 @@
 <template>
   <div id="category">
-    <header class="py35 pl20">
+    <header>
       <div class="container">
         <breadcrumbs />
+        <div class="row middle-sm" v-if="getCurrentCategory && (getCurrentCategory.image && getCurrentCategory.description)">
+          <div class="col-sm-12 mt-50">
+            <div class="banner-description">
+              <img class="desk" :src="`https://magento.ringoo.ua/${getCurrentCategory.image}`" alt="banner">
+              <img class="mob" src="http://i.imgur.com/qcHXFPR.png" alt="banner">
+              <div class="banner-description__block">
+                <h3>{{ $t('Description of the action') }}</h3>
+                <div class="banner-description__text" v-html="getCurrentCategory.description"></div>
+                <div class="banner-description__timer">
+                  <h3>{{ $t('Until the end of the promotion') }}</h3>
+                  <div class="time-wrapper">
+                    <div class="time">{{ getTimerData().days }}</div>
+                    <div class="time">{{ getTimerData().hours }}</div>
+                    <div class="time">{{ getTimerData().minutes }}</div>
+                    <div class="time">{{ getTimerData().seconds }}</div>
+                  </div>
+                  <div class="text-wrapper">
+                    <div class="text">{{ $t('d') }}</div>
+                    <div class="text">{{ $t('h') }}</div>
+                    <div class="text">{{ $t('m') }}</div>
+                    <div class="text">{{ $t('s') }}</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
         <div class="row middle-sm">
           <h1 class="col-sm-8 category-title mb10">
             {{ getCurrentCategory.name }}
@@ -49,19 +77,44 @@
           <sidebar :filters="getAvailableFilters" @changeFilter="changeFilter" />
         </div>
         <div class="col-md-3 start-xs mobile-filters" v-show="mobileFilters">
-          <div class="close-container absolute w-100">
-            <i class="material-icons p15 close cl-accent" @click="closeFilters">close</i>
+          <div class="filter-overlay" :class="{'hasFilters' : Object.keys(getCurrentSearchQuery.filters).length > 0}">
+            <div
+              @click="closeFilters"
+              class="close-container w-100"
+            >
+              <span class="material-icons">
+                keyboard_arrow_left
+              </span>
+              <span class="close-text">Назад</span>
+            </div>
+            <sidebar :filters="getAvailableFilters" @changeFilter="changeFilter" />
+            <div class="relative pb20 pt15">
+              <div class="brdr-top-1 brdr-cl-primary absolute divider w-100" />
+            </div>
+            <div
+              v-if="Object.keys(getCurrentSearchQuery.filters).length > 0"
+              class="active-filters-mobile"
+            >
+              <div class="selected-products">
+                Выбрано {{getCategoryProductsTotal}} товар
+              </div>
+
+              <div class="buttons-group">
+                <button-full
+                    class="buttons-group"
+                    @click.native="resetAllFilters"
+                  >
+                  Очистить все
+                </button-full>
+                <button-full
+                    class="buttons-group"
+                    @click.native="closeFilters"
+                  >
+                  Показать
+                </button-full>
+              </div>
+            </div>
           </div>
-          <sidebar class="mobile-filters-body" :filters="getAvailableFilters" @changeFilter="changeFilter" />
-          <div class="relative pb20 pt15">
-            <div class="brdr-top-1 brdr-cl-primary absolute divider w-100" />
-          </div>
-          <button-full
-            class="mb20 btn__filter"
-            @click.native="closeFilters"
-          >
-            {{ $t('Filter') }}
-          </button-full>
         </div>
         <div class="col-md-9 px10 border-box products-list">
           <p class="col-md-12 hidden-xs start-md mt0 cl-secondary category-sort">
@@ -138,7 +191,14 @@ export default {
       mobileFilters: false,
       defaultColumn: 3,
       loadingProducts: false,
-      loading: true
+      loading: true,
+      timerData: {
+        days: 0,
+        hours: 0,
+        minutes: 0,
+        seconds: 0
+      },
+      expired: null
     }
   },
   computed: {
@@ -154,7 +214,7 @@ export default {
     },
     isCategoryEmpty () {
       return this.getCategoryProductsTotal === 0
-    }
+    },
   },
   async asyncData ({ store, route, context }) { // this is for SSR purposes to prefetch data - and it's always executed before parent component methods
     if (context) context.output.cacheTags.add('category')
@@ -178,10 +238,15 @@ export default {
     }
   },
   methods: {
+    resetAllFilters () {
+      this.$store.dispatch('category-next/resetSearchFilters')
+    },
     openFilters () {
+      document.querySelector('body').style.overflow = 'hidden'
       this.mobileFilters = true
     },
     closeFilters () {
+      document.querySelector('body').style.overflow = ''
       this.mobileFilters = false
     },
     async changeFilter (filterVariant) {
@@ -200,6 +265,33 @@ export default {
       } finally {
         this.loadingProducts = false
       }
+    },
+    getTimerData () {
+      let x = setInterval(() => {
+        let countDownDate = new Date(this.getCurrentCategory.custom_design_to).getTime();
+        let now = new Date().getTime();
+        let diff = countDownDate - now;
+        let tdays = Math.floor(diff / (1000 * 60 * 60 * 24));
+        let thours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        let tminutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+        let tseconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+        this.timerData.days = (tdays < 10) ? '0' + tdays : tdays;
+        this.timerData.hours = (thours < 10) ? '0' + thours : thours;
+        this.timerData.minutes = (tminutes < 10) ? '0' + tminutes : tminutes;
+        this.timerData.seconds = (tseconds < 10) ? '0' + tseconds : tseconds;
+
+        if (diff < 0) {
+          clearInterval(x);
+          this.expired = true;
+        }
+      }, 1000);
+      return {
+        days: this.timerData.days,
+        hours: this.timerData.hours,
+        minutes: this.timerData.minutes,
+        seconds: this.timerData.seconds
+      };
     }
   },
   metaInfo () {
@@ -218,11 +310,60 @@ export default {
       title: htmlDecode(meta_title || name),
       meta
     }
+  },
+  mounted () {
+    console.log('=================================> getCurrentCategory <==============================', this.getCurrentCategory)
   }
 }
 </script>
 
 <style lang="scss" scoped>
+$mobile_screen : 768px;
+  .active-filters-mobile{
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    width: calc(100% - 32px);
+    padding: 16px;
+    box-sizing: border-box;
+    background-color: #fff;
+    box-shadow: 0px -1px 4px rgba(0, 0, 0, 0.25);
+    .selected-products{
+      display: block;
+      text-align: center;
+      font-size: 13px;
+      line-height: 16px;
+      color: #1A1919;
+      margin-bottom: 16px;
+    }
+    .buttons-group{
+      display: flex;
+      button{
+        &:first-child{
+          background-color: #fff;
+          color: #1A1919;
+        }
+        &:not(:last-child){
+          margin-right: 16px;
+        }
+        min-width: 1px;
+        flex: 1;
+        display: block;
+        text-align: center;
+        font-size: 15px;
+        max-width: 50%;
+        border: 1px solid #23BE20;
+        box-sizing: border-box;
+        border-radius: 4px;
+      }
+    }
+  }
+  .divider{
+      @media (max-width : $mobile_screen){
+        left: 0 !important;
+        width: 100% !important;
+      }
+  }
   .btn {
     &__filter {
       min-width: 100px;
@@ -258,6 +399,7 @@ export default {
   .mobile-filters {
     display: none;
     overflow: auto;
+    padding: 0;
   }
 
   .mobile-filters-button {
@@ -326,6 +468,7 @@ export default {
     .products-list {
       width: 100%;
       max-width: none;
+      padding: 0 !important;
     }
 
     .mobile-filters {
@@ -356,12 +499,40 @@ export default {
     }
 
     .mobile-filters {
+      .filter-overlay{
+        &.hasFilters{
+          padding-bottom: 70px;
+        }
+        min-height: 100vh;
+        padding: 16px;
+        display: flex;
+        flex-direction: column;
+        background-color: #fff;
+        width: calc(100% - 32px);
+        margin-left: auto;
+        box-sizing: border-box;
+        .close-container{
+          cursor: pointer;
+          display: flex;
+          align-items: center;
+          position: relative;
+          left: -7px;
+          .material-icons{
+            color: #23BE20;
+            margin-right: 3px;
+          }
+          .close-text{
+            color: #23BE20;
+            font-size: 13px;
+            line-height: 16px;
+          }
+        }
+      }
       position: fixed;
-      background-color: #F2F2F2;
+      background-color: rgba(0,0,0,0.38);
       z-index: 5;
-      padding: 0 40px;
       left: 0;
-      width: 100vw;
+      width: 100%;
       height: 100vh;
       top: 0;
       box-sizing: border-box;
@@ -383,5 +554,126 @@ export default {
 <style lang="scss">
 .product-image {
   max-height: unset !important;
+}
+.banner-description {
+  margin-top: 25px;
+  display: flex;
+  img {
+    display: block;
+    width: auto;
+    height: 275px;
+    &.mob {
+      display: none;
+    }
+    @media (max-width: 1500px) {
+      &.desk {
+        display: none;
+      }
+      &.mob {
+        display: block;
+      }
+    }
+    @media (max-width: 650px) {
+      &.desk {
+        display: block;
+        width: 100%;
+        height: auto;
+      }
+      &.mob {
+        display: none;
+      }
+    }
+    @media (max-width: 500px) {
+      &.desk {
+        display: none;
+      }
+      &.mob {
+        display: block;
+        height: auto;
+        width: 100%;
+      }
+    }
+  }
+  @media (max-width: 650px) {
+    flex-direction: column;
+    .banner-description__block {
+      margin-left: 0;
+      margin-top: 30px;
+    }
+    .banner-description__text {
+      height: 210px;
+    }
+  }
+  &__block {
+    margin-left: 20px;
+    background: #FFFFFF;
+    border: 1px solid #E0E0E0;
+    box-sizing: border-box;
+    border-radius: 4px;
+    width: 100%;
+    padding: 16px;
+    position: relative;
+  }
+  h3 {
+    font-family: DIN Pro;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 23px;
+    color: #1A1919;
+    margin: 16px 0;
+  }
+  &__text {
+    font-family: DIN Pro;
+    font-size: 15px;
+    line-height: 24px;
+    color: #5F5E5E;
+    height: 110px;
+    overflow: auto;
+  }
+  &__timer {
+    position: absolute;
+    bottom: 16px;
+    left: 16px;
+    right: 16px;
+    padding-top: 30px;
+    width: calc(100% - 32px);
+    background: rgb(255,255,255);
+    background: linear-gradient(0deg, rgba(255,255,255,1) 0%, rgba(255,255,255,1) 65%, rgba(255,255,255,0) 100%);
+    .time-wrapper, .text-wrapper {
+      display: flex;
+      align-items: center;
+      margin: 0 -10px;
+    }
+    .time {
+      font-family: DIN Pro;
+      font-style: normal;
+      font-weight: 600;
+      font-size: 14px;
+      line-height: 16px;
+      color: #EE2C39;
+      width: 40px;
+      text-align: center;
+      position: relative;
+      &:not(:last-child) {
+        &:after {
+          position: absolute;
+          right: -2px;
+          top: -2px;
+          content: ':';
+          display: block;
+        }
+      }
+    }
+    .text {
+      font-family: DIN Pro;
+      font-style: normal;
+      font-size: 12px;
+      line-height: 12px;
+      color: #1A1919;
+      width: 40px;
+      text-align: center;
+    }
+  }
 }
 </style>

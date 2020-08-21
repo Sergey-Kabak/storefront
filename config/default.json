@@ -29,7 +29,7 @@
     ],
     "invalidateCacheKey": "aeSu7aip",
     "invalidateCacheForwarding": false,
-    "invalidateCacheForwardUrl": "https://vue.ringoo.ua/invalidate?key=aeSu7aip&tag=",
+    "invalidateCacheForwardUrl": "https://ringoo.ua/invalidate?key=aeSu7aip&tag=",
     "dynamicConfigReload": true,
     "dynamicConfigContinueOnError": false,
     "dynamicConfigExclude": [
@@ -105,11 +105,11 @@
     "port": 8080
   },
   "api": {
-    "url": "https://vue.ringoo.ua"
+    "url": "https://ringoo.ua"
   },
   "elasticsearch": {
     "httpAuth": "",
-    "host": "https://vue.ringoo.ua/api/catalog",
+    "host": "https://ringoo.ua/api/catalog",
     "index": "vue_storefront_catalog",
     "min_score": 0.02,
     "csrTimeout": 5000,
@@ -252,6 +252,10 @@
     ],
     "category": {
       "includeFields": [
+        "description",
+        "image",
+        "custom_design_from",
+        "custom_design_to",
         "children_count",
         "id",
         "is_active",
@@ -734,7 +738,7 @@
   },
   "images": {
     "useExactUrlsNoProxy": false,
-    "baseUrl": "https://vue.ringoo.ua/img/",
+    "baseUrl": "https://ringoo.ua/img/",
     "useSpecificImagePaths": false,
     "paths": {
       "product": "/catalog/product"
@@ -993,32 +997,47 @@
   },
   "sliderProduct": [
     {
-      "url_path": "fitnes-braslet-mi-smart-band-4.html?childSku=т26177",
+      "url_path": "iphone-11-64gb.html?childSku=т29793",
       "type_id": "configurable"
     },
     {
-      "url_path": "smartfoni-i-telefoni?manufacturer=142",
+      "url_path": "back-to-school",
       "type_id": "configurable"
     },
     {
-      "url_path": "bezdrotovi-navushniki-redmi-airdots-s-black.html",
+      "url_path": "back-to-school",
       "type_id": "configurable"
     },
     {
-      "url_path": "xiaomi-redmi-8-4-64gb.html?childSku=т26783",
+      "url_path": "ditjachij-smart-godinnik-canyon-cne-kw51.html",
+      "type_id": "configurable"
+    },
+    {
+      "url_path": "samsung-a31-4-64gb-a315.html",
+      "type_id": "configurable"
+    },
+    {
+      "url_path": "bezdrotovi-navushniki-xiaomi-airdots-black.html",
+      "type_id": "configurable"
+    },
+    {
+      "url_path": "smart-godinnik-apple-watch-5-40mm.html",
       "type_id": "configurable"
     },
     {
       "url_path": "fitnes-braslet-mi-smart-band-5-black.html",
       "type_id": "configurable"
-    },
-    {
-      "url_path": "samsung-a31-4-64gb-a315.html?childSku=т27150",
-      "type_id": "configurable"
-    },
-    {
-      "url_path": "smartfoni-i-telefoni?manufacturer=115",
-      "type_id": "configurable"
     }
-  ]
+  ],
+  "customSeller": {
+    "name": "S-DIGIT",
+    "rate": 4.9,
+    "marks": 24,
+    "logo": "https://i1.rozetka.ua/sellers/1635/1635253.jpg",
+    "description": "Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit. Exercitation veniam consequat sunt nostrud amet.",
+    "email": "custom@email.com",
+    "phones": ["+380 44 000 00 00", "+380 63 000 00 00", "+380 97 000 00 00"],
+    "workTimes": ["Пн-Пт: 08:00-20:00;", "Сб: 10:00-18:00;", "Вс: 11:00-17:00"],
+    "link": "/smartfoni-i-telefoni"
+  }
 }

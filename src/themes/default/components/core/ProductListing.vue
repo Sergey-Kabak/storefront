@@ -2,7 +2,7 @@
   <div class="product-listing w-100 row m0 center-xs start-md">
     <div
       v-for="(product, key) in products"
-      :key="product.id"
+      :key="key"
       class="col-sm-6 flex"
       :class="['col-md-' + (12/columns)%10, wide(product.sale, product.new, key)]"
     >

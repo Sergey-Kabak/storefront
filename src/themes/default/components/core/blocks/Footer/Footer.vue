@@ -265,9 +265,6 @@ export default {
       return this.getMenuCategories
     },
     visibleCategories () {
-      console.log('HERE CAT');
-      console.log(this.getMenuCategories);
-      console.log('END HERE CAT');
       return this.categories.filter(category => {
         return category.product_count > 0 || category.children_count > 0
       })
