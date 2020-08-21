@@ -1,10 +1,10 @@
-import { mountMixinWithStore } from '@vue-storefront/unit-tests/utils';
+import {mountMixinWithStore} from '@vue-storefront/unit-tests/utils';
 
 import AppliedCoupon from '../../../types/AppliedCoupon'
 import CartTotalSegments from '../../../types/CartTotalSegments'
 import Product from '@vue-storefront/core/modules/catalog/types/Product';
 
-import { Microcart } from '../../../components/Microcart'
+import {Microcart} from '../../../components/Microcart'
 
 describe('Microcart', () => {
   beforeEach(() => {

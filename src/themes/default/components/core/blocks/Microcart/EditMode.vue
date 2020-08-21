@@ -1,6 +1,6 @@
 <script>
-import { mapGetters } from 'vuex'
-import get from 'lodash-es/get'
+import { mapGetters } from 'vuex';
+import get from 'lodash-es/get';
 
 export default {
   name: 'EditMode',

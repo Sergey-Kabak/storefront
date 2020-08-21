@@ -1,8 +1,8 @@
 import rootStore from '@vue-storefront/core/store';
-import VueRouter, { RouteConfig } from 'vue-router'
-import { RouterManager } from '@vue-storefront/core/lib/router-manager'
-import { ErrorHandler, RawLocation, Route } from 'vue-router/types/router'
-import { once } from '@vue-storefront/core/helpers'
+import VueRouter, {RouteConfig} from 'vue-router'
+import {RouterManager} from '@vue-storefront/core/lib/router-manager'
+import {ErrorHandler, RawLocation, Route} from 'vue-router/types/router'
+import {once} from '@vue-storefront/core/helpers'
 
 once('__VUE_EXTEND_PUSH_RR__', () => {
   const originalPush = VueRouter.prototype.push

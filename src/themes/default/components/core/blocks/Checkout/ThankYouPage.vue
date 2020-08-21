@@ -74,15 +74,15 @@
 </template>
 
 <script>
-import Composite from '@vue-storefront/core/mixins/composite'
-import ButtonOutline from 'theme/components/theme/ButtonOutline'
-import VueOfflineMixin from 'vue-offline/mixin'
-import { EmailForm } from '@vue-storefront/core/modules/mailer/components/EmailForm'
-import config from 'config'
-import { registerModule } from '@vue-storefront/core/lib/modules'
-import { MailerModule } from '@vue-storefront/core/modules/mailer'
-import { getThumbnailForProduct } from '@vue-storefront/core/modules/cart/helpers'
-import ProductImage from 'theme/components/core/ProductImage'
+import Composite from '@vue-storefront/core/mixins/composite';
+import ButtonOutline from 'theme/components/theme/ButtonOutline';
+import VueOfflineMixin from 'vue-offline/mixin';
+import { EmailForm } from '@vue-storefront/core/modules/mailer/components/EmailForm';
+import config from 'config';
+import { registerModule } from '@vue-storefront/core/lib/modules';
+import { MailerModule } from '@vue-storefront/core/modules/mailer';
+import { getThumbnailForProduct } from '@vue-storefront/core/modules/cart/helpers';
+import ProductImage from 'theme/components/core/ProductImage';
 
 export default {
   name: 'ThankYouPage',

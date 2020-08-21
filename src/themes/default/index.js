@@ -1,17 +1,17 @@
-import { setupMultistoreRoutes } from '@vue-storefront/core/lib/multistore'
-import App from './App.vue'
-import routes from './router'
-import Vue from 'vue'
-import VueProgressBar from 'vue-progressbar'
-import '@vue-storefront/core/lib/passive-listeners'
-import { once } from '@vue-storefront/core/helpers'
-import { module as cartModule } from './store/cart'
+import { setupMultistoreRoutes } from '@vue-storefront/core/lib/multistore';
+import App from './App.vue';
+import routes from './router';
+import Vue from 'vue';
+import VueProgressBar from 'vue-progressbar';
+import '@vue-storefront/core/lib/passive-listeners';
+import { once } from '@vue-storefront/core/helpers';
+import { module as cartModule } from './store/cart';
 
-import { claimsStore } from 'theme/store/claims'
-import { homepageStore } from 'theme/store/homepage'
-import { uiStore } from 'theme/store/ui'
-import { promotedStore } from 'theme/store/promoted-offers'
-import { StorageManager } from '@vue-storefront/core/lib/storage-manager'
+import { claimsStore } from 'theme/store/claims';
+import { homepageStore } from 'theme/store/homepage';
+import { uiStore } from 'theme/store/ui';
+import { promotedStore } from 'theme/store/promoted-offers';
+import { StorageManager } from '@vue-storefront/core/lib/storage-manager';
 
 once('__VUE_EXTEND_DROPPOINT_VPB__', () => {
   Vue.use(VueProgressBar)

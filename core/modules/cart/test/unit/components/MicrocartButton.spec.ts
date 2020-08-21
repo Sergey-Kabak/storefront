@@ -1,6 +1,6 @@
-import { mountMixinWithStore } from '@vue-storefront/unit-tests/utils';
+import {mountMixinWithStore} from '@vue-storefront/unit-tests/utils';
 
-import { MicrocartButton } from '../../../components/MicrocartButton'
+import {MicrocartButton} from '../../../components/MicrocartButton'
 
 describe('MicrocartButton', () => {
   beforeEach(() => {

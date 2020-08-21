@@ -1,9 +1,8 @@
-
-import { formatProductLink } from '@vue-storefront/core/modules/url/helpers';
-import { LocalizedRoute } from '@vue-storefront/core/lib/types'
+import {formatProductLink} from '@vue-storefront/core/modules/url/helpers';
+import {LocalizedRoute} from '@vue-storefront/core/lib/types'
 import * as data from './data'
 import config from 'config';
-import { currentStoreView } from '@vue-storefront/core/lib/multistore';
+import {currentStoreView} from '@vue-storefront/core/lib/multistore';
 
 jest.mock('config', () => ({}));
 jest.mock('@vue-storefront/core/lib/multistore', () => ({

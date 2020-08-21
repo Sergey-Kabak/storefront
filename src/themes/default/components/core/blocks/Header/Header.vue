@@ -113,17 +113,17 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
-import CurrentPage from 'theme/mixins/currentPage'
-import AccountIcon from 'theme/components/core/blocks/Header/AccountIcon'
-import CompareIcon from 'theme/components/core/blocks/Header/CompareIcon'
-import HamburgerIcon from 'theme/components/core/blocks/Header/HamburgerIcon'
-import Logo from 'theme/components/core/Logo'
-import MicrocartIcon from 'theme/components/core/blocks/Header/MicrocartIcon'
-import SearchIcon from 'theme/components/core/blocks/Header/SearchIcon'
-import WishlistIcon from 'theme/components/core/blocks/Header/WishlistIcon'
-import HeaderSearch from 'theme/components/core/blocks/Header/HeaderSearch'
-import MobileHamburgerIcon from 'theme/components/core/blocks/Header/MobileHamburgerIcon'
+import { mapState } from 'vuex';
+import CurrentPage from 'theme/mixins/currentPage';
+import AccountIcon from 'theme/components/core/blocks/Header/AccountIcon';
+import CompareIcon from 'theme/components/core/blocks/Header/CompareIcon';
+import HamburgerIcon from 'theme/components/core/blocks/Header/HamburgerIcon';
+import Logo from 'theme/components/core/Logo';
+import MicrocartIcon from 'theme/components/core/blocks/Header/MicrocartIcon';
+import SearchIcon from 'theme/components/core/blocks/Header/SearchIcon';
+import WishlistIcon from 'theme/components/core/blocks/Header/WishlistIcon';
+import HeaderSearch from 'theme/components/core/blocks/Header/HeaderSearch';
+import MobileHamburgerIcon from 'theme/components/core/blocks/Header/MobileHamburgerIcon';
 
 export default {
   name: 'Header',

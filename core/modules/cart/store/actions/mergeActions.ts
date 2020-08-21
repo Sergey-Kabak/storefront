@@ -1,16 +1,16 @@
 import * as types from '@vue-storefront/core/modules/cart/store/mutation-types'
-import { Logger } from '@vue-storefront/core/lib/logger'
+import {Logger} from '@vue-storefront/core/lib/logger'
 import config from 'config'
 import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
-import { CartService } from '@vue-storefront/core/data-resolver'
+import {CartService} from '@vue-storefront/core/data-resolver'
 import {
-  productsEquals,
+  createCartItemForUpdate,
   createDiffLog,
   notifications,
-  createCartItemForUpdate
+  productsEquals
 } from '@vue-storefront/core/modules/cart/helpers'
 import CartItem from '@vue-storefront/core/modules/cart/types/CartItem';
-import { cartHooksExecutors } from './../../hooks'
+import {cartHooksExecutors} from './../../hooks'
 
 const mergeActions = {
   async updateClientItem ({ dispatch }, { clientItem, serverItem }) {

@@ -61,11 +61,11 @@
 </template>
 
 <script>
-import { ConfirmOrders } from '@vue-storefront/core/modules/offline-order/components/ConfirmOrders'
-import { CancelOrders } from '@vue-storefront/core/modules/offline-order/components/CancelOrders'
-import Modal from 'theme/components/core/Modal'
-import ButtonFull from 'theme/components/theme/ButtonFull.vue'
-import { currentStoreView } from '@vue-storefront/core/lib/multistore'
+import { ConfirmOrders } from '@vue-storefront/core/modules/offline-order/components/ConfirmOrders';
+import { CancelOrders } from '@vue-storefront/core/modules/offline-order/components/CancelOrders';
+import Modal from 'theme/components/core/Modal';
+import ButtonFull from 'theme/components/theme/ButtonFull.vue';
+import { currentStoreView } from '@vue-storefront/core/lib/multistore';
 
 export default {
   props: {

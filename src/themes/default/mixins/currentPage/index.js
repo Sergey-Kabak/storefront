@@ -1,4 +1,4 @@
-import { isServer } from '@vue-storefront/core/helpers'
+import { isServer } from '@vue-storefront/core/helpers';
 
 export default {
   data () {

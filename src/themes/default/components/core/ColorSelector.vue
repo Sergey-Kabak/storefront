@@ -16,8 +16,8 @@
 </template>
 
 <script>
-import config from 'config'
-import filterMixin from 'theme/mixins/filterMixin.ts'
+import config from 'config';
+import filterMixin from 'theme/mixins/filterMixin.ts';
 
 export default {
   mixins: [filterMixin],

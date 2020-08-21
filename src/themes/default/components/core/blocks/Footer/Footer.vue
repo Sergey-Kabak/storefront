@@ -227,16 +227,16 @@
 </template>
 
 <script>
-import { currentStoreView, localizedRoute } from '@vue-storefront/core/lib/multistore'
-import CurrentPage from 'theme/mixins/currentPage'
-import LanguageSwitcher from '../../LanguageSwitcher.vue'
-import Newsletter from 'theme/components/core/blocks/Footer/Newsletter'
-import BackToTop from 'theme/components/core/BackToTop'
-import { getPathForStaticPage } from 'theme/helpers'
-import config from 'config'
-import Logo from 'theme/components/core/Logo'
+import { localizedRoute } from '@vue-storefront/core/lib/multistore';
+import CurrentPage from 'theme/mixins/currentPage';
+import LanguageSwitcher from '../../LanguageSwitcher.vue';
+import Newsletter from 'theme/components/core/blocks/Footer/Newsletter';
+import BackToTop from 'theme/components/core/BackToTop';
+import { getPathForStaticPage } from 'theme/helpers';
+import config from 'config';
+import Logo from 'theme/components/core/Logo';
 
-import { mapState, mapGetters } from 'vuex'
+import { mapGetters } from 'vuex';
 
 export default {
   mixins: [CurrentPage],

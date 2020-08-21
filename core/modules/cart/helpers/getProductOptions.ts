@@ -1,5 +1,5 @@
 import CartItem from '@vue-storefront/core/modules/cart/types/CartItem'
-import { ProductOption } from '@vue-storefront/core/modules/catalog/types/ProductConfiguration'
+import {ProductOption} from '@vue-storefront/core/modules/catalog/types/ProductConfiguration'
 
 const mapValues = (current) => (val) => ({
   id: val.value_index,

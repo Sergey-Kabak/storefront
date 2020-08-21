@@ -83,13 +83,13 @@
 </template>
 
 <script>
-import ColorSelector from 'theme/components/core/ColorSelector'
-import PriceSelector from 'theme/components/core/PriceSelector'
-import ButtonSelector from 'theme/components/core/ButtonSelector'
-import CheckboxSelector from 'theme/components/core/CheckboxSelector'
-import CategoryFilter from 'theme/components/core/blocks/Category/CategoryFilter'
-import ActiveFilter from 'theme/components/core/blocks/Category/ActiveFilter'
-import pickBy from 'lodash-es/pickBy'
+import ColorSelector from 'theme/components/core/ColorSelector';
+import PriceSelector from 'theme/components/core/PriceSelector';
+import ButtonSelector from 'theme/components/core/ButtonSelector';
+import CheckboxSelector from 'theme/components/core/CheckboxSelector';
+import CategoryFilter from 'theme/components/core/blocks/Category/CategoryFilter';
+import ActiveFilter from 'theme/components/core/blocks/Category/ActiveFilter';
+import pickBy from 'lodash-es/pickBy';
 
 export default {
   components: {
@@ -117,14 +117,14 @@ export default {
       let sequence = Object.keys(this.availableFilters),
           filters  = Object.values(this.getCurrentFilters).reduce((acc, val) => acc.concat(val), []),
           res = [];
-      
-      
+
+
       sequence.forEach(el => {
         let condition = filters.filter(filter => filter.type === el)
         if (condition){
           res.push(condition)
         }
-        
+
       })
 
       return res.flat(2)

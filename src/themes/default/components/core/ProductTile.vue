@@ -176,19 +176,19 @@
 </template>
 
 <script>
-import rootStore from '@vue-storefront/core/store'
-import { ProductTile } from '@vue-storefront/core/modules/catalog/components/ProductTile.ts'
-import config from 'config'
-import ProductImage from './ProductImage'
-import AddToWishlist from 'theme/components/core/blocks/Wishlist/AddToWishlist'
-import AddToCart from 'theme/components/core/AddToCart.vue'
-import AddToCompare from 'theme/components/core/blocks/Compare/AddToCompare'
-import { IsOnWishlist } from '@vue-storefront/core/modules/wishlist/components/IsOnWishlist'
-import { IsOnCompare } from '@vue-storefront/core/modules/compare/components/IsOnCompare'
-import { currentStoreView } from '@vue-storefront/core/lib/multistore'
-import ButtonFull from 'theme/components/theme/ButtonFull.vue'
-import Tag from "theme/components/core/Tag";
-import {mapGetters} from "vuex";
+import rootStore from '@vue-storefront/core/store';
+import { ProductTile } from '@vue-storefront/core/modules/catalog/components/ProductTile.ts';
+import config from 'config';
+import ProductImage from './ProductImage';
+import AddToWishlist from 'theme/components/core/blocks/Wishlist/AddToWishlist';
+import AddToCart from 'theme/components/core/AddToCart.vue';
+import AddToCompare from 'theme/components/core/blocks/Compare/AddToCompare';
+import { IsOnWishlist } from '@vue-storefront/core/modules/wishlist/components/IsOnWishlist';
+import { IsOnCompare } from '@vue-storefront/core/modules/compare/components/IsOnCompare';
+import { currentStoreView } from '@vue-storefront/core/lib/multistore';
+import ButtonFull from 'theme/components/theme/ButtonFull.vue';
+import Tag from 'theme/components/core/Tag';
+import { mapGetters } from 'vuex';
 
 export default {
   mixins: [ProductTile, IsOnWishlist, IsOnCompare],

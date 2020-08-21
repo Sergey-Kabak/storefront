@@ -1,15 +1,15 @@
 // @deprecated from 2.0
-import { Module } from 'vuex'
-import { RouteConfig, NavigationGuard } from 'vue-router'
+import {Module} from 'vuex'
+import {NavigationGuard, RouteConfig} from 'vue-router'
 import Vue from 'vue'
 import merge from 'lodash-es/merge'
 import rootStore from '@vue-storefront/core/store'
-import { Logger } from '@vue-storefront/core/lib/logger'
-import { setupMultistoreRoutes } from '../multistore'
-import { router } from '@vue-storefront/core/app'
-import { isServer } from '@vue-storefront/core/helpers'
-import { VSF, VueStorefrontModuleConfig } from './types'
-import { doesStoreAlreadyExists, mergeStores } from './helpers'
+import {Logger} from '@vue-storefront/core/lib/logger'
+import {setupMultistoreRoutes} from '../multistore'
+import {router} from '@vue-storefront/core/app'
+import {isServer} from '@vue-storefront/core/helpers'
+import {VSF, VueStorefrontModuleConfig} from './types'
+import {doesStoreAlreadyExists, mergeStores} from './helpers'
 import config from 'config'
 
 const moduleExtendings: VueStorefrontModuleConfig[] = []

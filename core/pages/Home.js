@@ -1,10 +1,10 @@
-import { mapGetters } from 'vuex'
+import { mapGetters } from 'vuex';
 
-import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
-import i18n from '@vue-storefront/i18n'
+import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus';
+import i18n from '@vue-storefront/i18n';
 
-import Composite from '@vue-storefront/core/mixins/composite'
-import { Logger } from '@vue-storefront/core/lib/logger'
+import Composite from '@vue-storefront/core/mixins/composite';
+import { Logger } from '@vue-storefront/core/lib/logger';
 
 export default {
   name: 'Home',

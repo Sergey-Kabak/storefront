@@ -1,16 +1,16 @@
-import { mapGetters } from 'vuex'
-import config from 'config'
+import { mapGetters } from 'vuex';
+import config from 'config';
 
-import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
-import { htmlDecode } from '@vue-storefront/core/filters'
-import { currentStoreView, localizedRoute } from '@vue-storefront/core/lib/multistore'
-import { CompareProduct } from '@vue-storefront/core/modules/compare/components/Product.ts'
-import { AddToCompare } from '@vue-storefront/core/modules/compare/components/AddToCompare.ts'
-import { ProductOption } from '@vue-storefront/core/modules/catalog/components/ProductOption.ts'
-import omit from 'lodash-es/omit'
-import Composite from '@vue-storefront/core/mixins/composite'
-import { Logger } from '@vue-storefront/core/lib/logger'
-import { formatProductLink } from '@vue-storefront/core/modules/url/helpers'
+import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus';
+import { htmlDecode } from '@vue-storefront/core/filters';
+import { currentStoreView } from '@vue-storefront/core/lib/multistore';
+import { CompareProduct } from '@vue-storefront/core/modules/compare/components/Product.ts';
+import { AddToCompare } from '@vue-storefront/core/modules/compare/components/AddToCompare.ts';
+import { ProductOption } from '@vue-storefront/core/modules/catalog/components/ProductOption.ts';
+import omit from 'lodash-es/omit';
+import Composite from '@vue-storefront/core/mixins/composite';
+import { Logger } from '@vue-storefront/core/lib/logger';
+import { formatProductLink } from '@vue-storefront/core/modules/url/helpers';
 
 export default {
   name: 'Product',

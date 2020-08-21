@@ -1,6 +1,6 @@
 import Vue from 'vue';
-import { Route } from 'vue-router';
-import { Context } from '@vue-storefront/core/scripts/utils/types'
+import {Route} from 'vue-router';
+import {Context} from '@vue-storefront/core/scripts/utils/types'
 
 interface AsyncDataParameter {
   store: any,

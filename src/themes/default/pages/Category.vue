@@ -142,23 +142,23 @@
 </template>
 
 <script>
-import LazyHydrate from 'vue-lazy-hydration'
-import Sidebar from '../components/core/blocks/Category/Sidebar.vue'
-import ProductListing from '../components/core/ProductListing.vue'
-import Breadcrumbs from '../components/core/Breadcrumbs.vue'
-import NewSortBy from '../components/core/NewSortBy.vue'
-import SortBy from '../components/core/SortBy.vue'
-import { isServer } from '@vue-storefront/core/helpers'
-import { getSearchOptionsFromRouteParams } from '@vue-storefront/core/modules/catalog-next/helpers/categoryHelpers'
-import config from 'config'
-import Columns from '../components/core/Columns.vue'
-import ButtonFull from 'theme/components/theme/ButtonFull.vue'
-import { mapGetters } from 'vuex'
-import onBottomScroll from '@vue-storefront/core/mixins/onBottomScroll'
-import rootStore from '@vue-storefront/core/store';
-import { catalogHooksExecutors } from '@vue-storefront/core/modules/catalog-next/hooks'
-import { localizedRoute, currentStoreView } from '@vue-storefront/core/lib/multistore'
-import { htmlDecode } from '@vue-storefront/core/filters'
+import LazyHydrate from 'vue-lazy-hydration';
+import Sidebar from '../components/core/blocks/Category/Sidebar.vue';
+import ProductListing from '../components/core/ProductListing.vue';
+import Breadcrumbs from '../components/core/Breadcrumbs.vue';
+import NewSortBy from '../components/core/NewSortBy.vue';
+import SortBy from '../components/core/SortBy.vue';
+import { isServer } from '@vue-storefront/core/helpers';
+import { getSearchOptionsFromRouteParams } from '@vue-storefront/core/modules/catalog-next/helpers/categoryHelpers';
+import config from 'config';
+import Columns from '../components/core/Columns.vue';
+import ButtonFull from 'theme/components/theme/ButtonFull.vue';
+import { mapGetters } from 'vuex';
+import onBottomScroll from '@vue-storefront/core/mixins/onBottomScroll';
+import { catalogHooksExecutors } from '@vue-storefront/core/modules/catalog-next/hooks';
+import { currentStoreView } from '@vue-storefront/core/lib/multistore';
+import { htmlDecode } from '@vue-storefront/core/filters';
+
 const THEME_PAGE_SIZE = 50
 const composeInitialPageState = async (store, route, forceLoad = false) => {
   try {
