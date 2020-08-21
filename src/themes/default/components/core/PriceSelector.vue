@@ -9,7 +9,7 @@
 
 <script>
 import filterMixin from 'theme/mixins/filterMixin.ts'
-import { required, numeric } from 'vuelidate/lib/validators'
+import { numeric } from 'vuelidate/lib/validators'
 import PriceInput from 'theme/components/core/blocks/Form/PriceInput'
 
 export default {
