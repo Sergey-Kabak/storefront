@@ -19,6 +19,7 @@
         </i>
       </button>
       <div class="microcart-top">
+        
         <div class="microcart-left">
           <h2 class="microcart-top-title cl-accent" v-if="productsInCart.length">
             {{ $t('Your cart') }}
@@ -243,15 +244,14 @@ export default {
       margin-bottom: 32px;
 
       &-title {
-        margin: 0;
+        display: inline-block;
+        margin: 0 16px 0 0;
         font-family: DIN Pro;
         font-style: normal;
         font-weight: 600;
         font-size: 24px;
         color: #1A1919;
         line-height: 30px;
-        display: inline-block;
-        margin-right: 15px;
       }
 
       svg {
@@ -294,6 +294,17 @@ export default {
     &-left {
       display: flex;
       align-items: center;
+    }
+  }
+
+  .microcart-empty {
+    p {
+      font-family: DIN Pro;
+      font-style: normal;
+      font-size: 15px;
+      line-height: 24px;
+      color: #1A1919;
+      margin: 0;
     }
   }
 
@@ -403,7 +414,7 @@ export default {
 
       &.is-empty {
         .scroll-bar {
-          padding-top: 65px;
+          padding-top: 50px;
         }
       }
     }

@@ -663,6 +663,7 @@ header {
   .header-middle {
     .logo {
       margin-top: 12px;
+      width: 80px;
     }
   }
 }
