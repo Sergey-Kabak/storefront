@@ -10,9 +10,9 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
-import Modal from 'theme/components/core/Modal'
-import SizeGuideContent from 'theme/components/theme/blocks/Static/Example'
+import { mapState } from 'vuex';
+import Modal from 'theme/components/core/Modal';
+import SizeGuideContent from 'theme/components/theme/blocks/Static/Example';
 
 export default {
   name: 'SizeGuide',

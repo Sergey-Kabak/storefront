@@ -17,7 +17,7 @@
 export default {
   data () {
     return {
-      column: 3,
+      column: 4,
       productsColumns: [2, 3, 4, 6]
     }
   },

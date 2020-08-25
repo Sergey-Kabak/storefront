@@ -1,14 +1,11 @@
-import { orderStore } from './store'
-import * as localForage from 'localforage'
-import UniversalStorage from '@vue-storefront/core/lib/store/storage'
+import {orderStore} from './store'
 import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus/index'
-import { Logger } from '@vue-storefront/core/lib/logger'
+import {Logger} from '@vue-storefront/core/lib/logger'
 import rootStore from '@vue-storefront/core/store'
 import i18n from '@vue-storefront/i18n'
-import { serial, onlineHelper, processURLAddress } from '@vue-storefront/core/helpers'
-import { StorageManager } from '@vue-storefront/core/lib/storage-manager'
-import { isServer } from '@vue-storefront/core/helpers'
-import { StorefrontModule } from '@vue-storefront/core/lib/modules';
+import {isServer, onlineHelper, processURLAddress, serial} from '@vue-storefront/core/helpers'
+import {StorageManager} from '@vue-storefront/core/lib/storage-manager'
+import {StorefrontModule} from '@vue-storefront/core/lib/modules';
 
 export const OrderModule: StorefrontModule = function ({ store }) {
   StorageManager.init('orders')

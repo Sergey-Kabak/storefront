@@ -1,7 +1,7 @@
-import { GetterTree } from 'vuex'
+import {GetterTree} from 'vuex'
 import RootState from '@vue-storefront/core/types/RootState'
 import CmsPageState from '../../types/CmsPageState'
-import { Logger } from '@vue-storefront/core/lib/logger'
+import {Logger} from '@vue-storefront/core/lib/logger'
 
 const getters: GetterTree<CmsPageState, RootState> = {
   cmsPages: (state, getters) => {

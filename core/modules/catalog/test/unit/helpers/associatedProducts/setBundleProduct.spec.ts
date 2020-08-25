@@ -1,6 +1,6 @@
-import { createBundleProduct, createGroupProduct, createSimpleProduct } from '../../../helpers/createProduct';
+import {createBundleProduct, createGroupProduct} from '../../../helpers/createProduct';
 import setBundleProducts from '@vue-storefront/core/modules/catalog/helpers/associatedProducts/setBundleProducts';
-import { ProductService } from '@vue-storefront/core/data-resolver/ProductService'
+import {ProductService} from '@vue-storefront/core/data-resolver/ProductService'
 
 jest.mock('@vue-storefront/core/helpers', () => ({
   once: (str) => jest.fn()

@@ -1,12 +1,12 @@
-import { SearchQuery } from 'storefront-query-builder'
-import { remove as removeAccents } from 'remove-accents'
-import { formatCategoryLink } from '@vue-storefront/core/modules/url/helpers'
+import {SearchQuery} from 'storefront-query-builder'
+import {remove as removeAccents} from 'remove-accents'
+import {formatCategoryLink} from '@vue-storefront/core/modules/url/helpers'
 import Vue from 'vue'
 import config from 'config'
-import { sha3_224 } from 'js-sha3'
+import {sha3_224} from 'js-sha3'
 import store from '@vue-storefront/core/store'
-import { adjustMultistoreApiUrl } from '@vue-storefront/core/lib/multistore'
-import { coreHooksExecutors } from '@vue-storefront/core/hooks';
+import {adjustMultistoreApiUrl} from '@vue-storefront/core/lib/multistore'
+import {coreHooksExecutors} from '@vue-storefront/core/hooks';
 import getApiEndpointUrl from '@vue-storefront/core/helpers/getApiEndpointUrl';
 import omit from 'lodash-es/omit'
 

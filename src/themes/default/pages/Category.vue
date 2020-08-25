@@ -2,13 +2,15 @@
   <div id="category">
     <header>
       <div class="container">
-        <breadcrumbs />
-        <div class="row middle-sm" v-if="getCurrentCategory && (getCurrentCategory.image && getCurrentCategory.description)">
+        <breadcrumbs withHomepage />
+        <div class="row middle-sm" v-if="getCurrentCategory">
           <div class="col-sm-12 mt-50">
             <div class="banner-description">
-              <img class="desk" :src="`https://magento.ringoo.ua/${getCurrentCategory.image}`" alt="banner">
-              <img class="mob" src="http://i.imgur.com/qcHXFPR.png" alt="banner">
-              <div class="banner-description__block">
+              <div v-if="getCurrentCategory.image" :class="{full: !getCurrentCategory.description}">
+                <img class="desk" :src="`https://magento.ringoo.ua/${getCurrentCategory.image}`" alt="banner">
+                <img class="mob" src="http://i.imgur.com/qcHXFPR.png" alt="banner">
+              </div>
+              <div class="banner-description__block" v-if="getCurrentCategory.description">
                 <h3>{{ $t('Description of the action') }}</h3>
                 <div class="banner-description__text" v-html="getCurrentCategory.description"></div>
                 <div class="banner-description__timer">
@@ -35,10 +37,10 @@
           <h1 class="col-sm-8 category-title mb10">
             {{ getCurrentCategory.name }}
           </h1>
-          <div class="sorting col-sm-2 align-right mt50">
-            <label class="mr10">{{ $t('Columns') }}:</label>
-            <columns @change-column="columnChange" />
-          </div>
+          <!--<div class="sorting col-sm-2 align-right mt50">-->
+            <!--<label class="mr10">{{ $t('Columns') }}:</label>-->
+            <!--<columns @change-column="columnChange" />-->
+          <!--</div>-->
           <!--<div class="sorting col-sm-2 align-right mt50">-->
           <!--<sort-by-->
           <!--:has-label="true"-->
@@ -69,11 +71,9 @@
     <div class="container pb60">
       <div class="row m0 pt15">
         <div class="col-md-3 start-xs category-filters">
-          <!--<div>-->
-            <!--<p class="products-count">-->
-              <!--{{ $t('Selected {count} items', { count: getCategoryProductsTotal }) }}-->
-            <!--</p>-->
-          <!--</div>-->
+          <p class="products-count">
+            {{ $tc('{count} items', getCategoryProductsTotal) }}
+          </p>
           <sidebar :filters="getAvailableFilters" @changeFilter="changeFilter" />
         </div>
         <div class="col-md-3 start-xs mobile-filters" v-show="mobileFilters">
@@ -142,23 +142,23 @@
 </template>
 
 <script>
-import LazyHydrate from 'vue-lazy-hydration'
-import Sidebar from '../components/core/blocks/Category/Sidebar.vue'
-import ProductListing from '../components/core/ProductListing.vue'
-import Breadcrumbs from '../components/core/Breadcrumbs.vue'
-import NewSortBy from '../components/core/NewSortBy.vue'
-import SortBy from '../components/core/SortBy.vue'
-import { isServer } from '@vue-storefront/core/helpers'
-import { getSearchOptionsFromRouteParams } from '@vue-storefront/core/modules/catalog-next/helpers/categoryHelpers'
-import config from 'config'
-import Columns from '../components/core/Columns.vue'
-import ButtonFull from 'theme/components/theme/ButtonFull.vue'
-import { mapGetters } from 'vuex'
-import onBottomScroll from '@vue-storefront/core/mixins/onBottomScroll'
-import rootStore from '@vue-storefront/core/store';
-import { catalogHooksExecutors } from '@vue-storefront/core/modules/catalog-next/hooks'
-import { localizedRoute, currentStoreView } from '@vue-storefront/core/lib/multistore'
-import { htmlDecode } from '@vue-storefront/core/filters'
+import LazyHydrate from 'vue-lazy-hydration';
+import Sidebar from '../components/core/blocks/Category/Sidebar.vue';
+import ProductListing from '../components/core/ProductListing.vue';
+import Breadcrumbs from '../components/core/Breadcrumbs.vue';
+import NewSortBy from '../components/core/NewSortBy.vue';
+import SortBy from '../components/core/SortBy.vue';
+import { isServer } from '@vue-storefront/core/helpers';
+import { getSearchOptionsFromRouteParams } from '@vue-storefront/core/modules/catalog-next/helpers/categoryHelpers';
+import config from 'config';
+import Columns from '../components/core/Columns.vue';
+import ButtonFull from 'theme/components/theme/ButtonFull.vue';
+import { mapGetters } from 'vuex';
+import onBottomScroll from '@vue-storefront/core/mixins/onBottomScroll';
+import { catalogHooksExecutors } from '@vue-storefront/core/modules/catalog-next/hooks';
+import { currentStoreView } from '@vue-storefront/core/lib/multistore';
+import { htmlDecode } from '@vue-storefront/core/filters';
+
 const THEME_PAGE_SIZE = 50
 const composeInitialPageState = async (store, route, forceLoad = false) => {
   try {
@@ -189,7 +189,7 @@ export default {
   data () {
     return {
       mobileFilters: false,
-      defaultColumn: 3,
+      defaultColumn: 4,
       loadingProducts: false,
       loading: true,
       timerData: {
@@ -198,7 +198,8 @@ export default {
         minutes: 0,
         seconds: 0
       },
-      expired: null
+      expired: null,
+      interval: null
     }
   },
   computed: {
@@ -214,7 +215,7 @@ export default {
     },
     isCategoryEmpty () {
       return this.getCategoryProductsTotal === 0
-    },
+    }
   },
   async asyncData ({ store, route, context }) { // this is for SSR purposes to prefetch data - and it's always executed before parent component methods
     if (context) context.output.cacheTags.add('category')
@@ -267,8 +268,8 @@ export default {
       }
     },
     getTimerData () {
-      let x = setInterval(() => {
-        let countDownDate = new Date(this.getCurrentCategory.custom_design_to).getTime();
+      this.interval = setInterval(() => {
+        let countDownDate = new Date(this.getCurrentCategory && this.getCurrentCategory.custom_design_to && this.getCurrentCategory.custom_design_to.replace(' ', 'T')).getTime();
         let now = new Date().getTime();
         let diff = countDownDate - now;
         let tdays = Math.floor(diff / (1000 * 60 * 60 * 24));
@@ -282,10 +283,10 @@ export default {
         this.timerData.seconds = (tseconds < 10) ? '0' + tseconds : tseconds;
 
         if (diff < 0) {
-          clearInterval(x);
+          clearInterval(this.interval);
           this.expired = true;
         }
-      }, 1000);
+      }, 1000, true);
       return {
         days: this.timerData.days,
         hours: this.timerData.hours,
@@ -311,8 +312,8 @@ export default {
       meta
     }
   },
-  mounted () {
-    console.log('=================================> getCurrentCategory <==============================', this.getCurrentCategory)
+  beforeDestroy () {
+    clearInterval(this.interval)
   }
 }
 </script>
@@ -378,7 +379,7 @@ $mobile_screen : 768px;
     width: 242px;
 
     .products-count {
-      margin: 0 0 30px 0;
+      margin: 0 0 29px 0;
       font-family: DIN Pro;
       font-style: normal;
       font-size: 13px;
@@ -450,12 +451,6 @@ $mobile_screen : 768px;
 
   .category-sort {
     margin-bottom: 6px;
-  }
-
-  @media (max-width: 64em) {
-    .products-list {
-      max-width: 530px;
-    }
   }
 
   @media (max-width: 770px) {
@@ -560,20 +555,23 @@ $mobile_screen : 768px;
   display: flex;
   img {
     display: block;
-    width: auto;
-    height: 275px;
+    width: calc(100% - 400px);
+    min-height: 200px;
+    max-height: 275px;
     &.mob {
       display: none;
     }
-    @media (max-width: 1500px) {
+    @media (max-width: 991px) {
       &.desk {
         display: none;
       }
       &.mob {
+        height: auto;
+        width: 100%;
         display: block;
       }
     }
-    @media (max-width: 650px) {
+    @media (max-width: 767px) {
       &.desk {
         display: block;
         width: 100%;
@@ -594,11 +592,35 @@ $mobile_screen : 768px;
       }
     }
   }
-  @media (max-width: 650px) {
+  .full {
+    width: 100%;
+    img.desk {
+      width: 100% !important;
+      height: auto !important;
+      min-width: 100%;
+      max-width: 100%;
+      min-height: 100%;
+      max-height: 100%;
+      display: block !important;
+    }
+    img.mob {
+      display: none !important;
+    }
+  }
+  @media (max-width: 1200px) {
+    .banner-description__block {
+      & > h3 {
+        margin: 0;
+      }
+    }
+  }
+  @media (max-width: 767px) {
     flex-direction: column;
     .banner-description__block {
       margin-left: 0;
       margin-top: 30px;
+      max-width: 100%;
+      min-width: 100%;
     }
     .banner-description__text {
       height: 210px;
@@ -610,6 +632,7 @@ $mobile_screen : 768px;
     border: 1px solid #E0E0E0;
     box-sizing: border-box;
     border-radius: 4px;
+    min-width: 380px;
     width: 100%;
     padding: 16px;
     position: relative;

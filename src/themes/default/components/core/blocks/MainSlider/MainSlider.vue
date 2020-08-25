@@ -30,9 +30,9 @@
 </template>
 
 <script>
-import NoSSR from 'vue-no-ssr'
-import sliderData from 'theme/resource/slider.json'
-import ButtonOutline from 'theme/components/theme/ButtonOutline'
+import NoSSR from 'vue-no-ssr';
+import sliderData from 'theme/resource/slider.json';
+import ButtonOutline from 'theme/components/theme/ButtonOutline';
 
 export default {
   data () {

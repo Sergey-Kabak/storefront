@@ -1,4 +1,4 @@
-import { mapGetters } from 'vuex';
+import {mapGetters} from 'vuex';
 
 /**
  * Component responsible for displaying user orders. Requires User module.

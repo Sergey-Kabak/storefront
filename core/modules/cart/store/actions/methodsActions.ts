@@ -1,9 +1,13 @@
 import * as types from '@vue-storefront/core/modules/cart/store/mutation-types'
-import { currentStoreView } from '@vue-storefront/core/lib/multistore'
-import { Logger } from '@vue-storefront/core/lib/logger'
+import {currentStoreView} from '@vue-storefront/core/lib/multistore'
+import {Logger} from '@vue-storefront/core/lib/logger'
 import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
-import { CartService } from '@vue-storefront/core/data-resolver'
-import { preparePaymentMethodsToSync, createOrderData, createShippingInfoData } from '@vue-storefront/core/modules/cart/helpers'
+import {CartService} from '@vue-storefront/core/data-resolver'
+import {
+  createOrderData,
+  createShippingInfoData,
+  preparePaymentMethodsToSync
+} from '@vue-storefront/core/modules/cart/helpers'
 import PaymentMethod from '../../types/PaymentMethod'
 
 const methodsActions = {

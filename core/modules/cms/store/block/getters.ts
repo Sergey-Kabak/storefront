@@ -1,4 +1,4 @@
-import { GetterTree } from 'vuex'
+import {GetterTree} from 'vuex'
 import CmsBlockState from '../../types/CmsBlockState'
 import RootState from '@vue-storefront/core/types/RootState'
 

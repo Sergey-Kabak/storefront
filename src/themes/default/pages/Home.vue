@@ -87,9 +87,9 @@
       </div>
       <div class="row center-xs">
         <lazy-hydrate :trigger-hydration="!loading" v-if="isLazyHydrateEnabled">
-          <product-listing columns="4" :products="stockGoodsProduct" />
+          <product-listing columns="4" :products="getStockGoods" />
         </lazy-hydrate>
-        <product-listing v-else columns="4" :products="stockGoodsProduct" />
+        <product-listing v-else columns="4" :products="getStockGoods" />
 
         <button-full
             class="mt35 show-all"
@@ -111,10 +111,10 @@
       </div>
       <div class="row center-xs">
         <lazy-hydrate :trigger-hydration="!loading" v-if="isLazyHydrateEnabled">
-          <product-listing columns="4" :products="salesLeadersProduct" />
+          <product-listing columns="4" :products="getSalesLeaders" />
           <!--<product-listing columns="4" :products="products" />-->
         </lazy-hydrate>
-        <product-listing v-else columns="4" :products="salesLeadersProduct" />
+        <product-listing v-else columns="4" :products="getSalesLeaders" />
         <!--<product-listing v-else columns="4" :products="products" />-->
         <button-full
             class="mt35 show-all"
@@ -134,7 +134,7 @@
 
     <section v-if="isOnline" class="container pb60 px15">
       <div class="row">
-        <header class="col-md-12" :class="{ pt40: getEverythingNewCollection && getEverythingNewCollection.length }">
+        <header class="col-md-12">
           <h2 class="cl-accent">
             {{ $t('Our shares') }}
           </h2>
@@ -157,9 +157,9 @@
       </div>
       <div class="row center-xs">
         <lazy-hydrate :trigger-hydration="!loading" v-if="isLazyHydrateEnabled">
-          <product-listing columns="4" :products="newProduct" />
+          <product-listing columns="4" :products="getNew" />
         </lazy-hydrate>
-        <product-listing v-else columns="4" :products="newProduct" />
+        <product-listing v-else columns="4" :products="getNew" />
 
         <button-full
             class="mt35 show-all"
@@ -182,10 +182,10 @@
       <div class="row center-xs">
         <lazy-hydrate :trigger-hydration="!loading" v-if="isLazyHydrateEnabled">
           <!--<product-listing columns="4" :products="getBestsellers" />-->
-          <product-listing columns="4" :products="recommendsProduct" />
+          <product-listing columns="4" :products="getRecommends" />
         </lazy-hydrate>
         <!--<product-listing v-else columns="4" :products="getBestsellers" />-->
-        <product-listing v-else columns="4" :products="recommendsProduct" />
+        <product-listing v-else columns="4" :products="getRecommends" />
         <button-full
             class="mt35 show-all"
             type="submit"
@@ -201,31 +201,34 @@
 
 <script>
 // query constructor
-import { isServer, onlineHelper } from '@vue-storefront/core/helpers'
-import LazyHydrate from 'vue-lazy-hydration'
+import {
+  isServer,
+  onlineHelper
+} from '@vue-storefront/core/helpers';
+import LazyHydrate from 'vue-lazy-hydration';
 
 // Core pages
-import Home from '@vue-storefront/core/pages/Home'
+import Home from '@vue-storefront/core/pages/Home';
 // Theme core components
-import ProductListing from 'theme/components/core/ProductListing'
+import ProductListing from 'theme/components/core/ProductListing';
 // Theme local components
-import Onboard from 'theme/components/theme/blocks/Home/Onboard'
-import TileLinks from 'theme/components/theme/blocks/TileLinks/TileLinks'
-import { Logger } from '@vue-storefront/core/lib/logger'
-import { mapGetters } from 'vuex'
-import config from 'config'
-import { registerModule } from '@vue-storefront/core/lib/modules'
-import { RecentlyViewedModule } from '@vue-storefront/core/modules/recently-viewed'
+import Onboard from 'theme/components/theme/blocks/Home/Onboard';
+import TileLinks from 'theme/components/theme/blocks/TileLinks/TileLinks';
+import { Logger } from '@vue-storefront/core/lib/logger';
+import { mapGetters } from 'vuex';
+import config from 'config';
+import { registerModule } from '@vue-storefront/core/lib/modules';
+import { RecentlyViewedModule } from '@vue-storefront/core/modules/recently-viewed';
 
-import { disableBodyScroll, clearAllBodyScrollLocks } from 'body-scroll-lock'
-import ButtonFull from 'theme/components/theme/ButtonFull.vue'
-import { prepareQuery } from '@vue-storefront/core/modules/catalog/queries/common'
-import NoSSR from 'vue-no-ssr'
-import HomeCarousel from 'theme/components/theme/blocks/HomeCarousel'
+import { clearAllBodyScrollLocks } from 'body-scroll-lock';
+import ButtonFull from 'theme/components/theme/ButtonFull.vue';
+import { prepareQuery } from '@vue-storefront/core/modules/catalog/queries/common';
+import NoSSR from 'vue-no-ssr';
+import HomeCarousel from 'theme/components/theme/blocks/HomeCarousel';
 
-import { formatCategoryLink } from '@vue-storefront/core/modules/url/helpers'
+import { formatCategoryLink } from '@vue-storefront/core/modules/url/helpers';
 
-import { ProductOption } from '@vue-storefront/core/modules/catalog/components/ProductOption.ts'
+import { ProductOption } from '@vue-storefront/core/modules/catalog/components/ProductOption.ts';
 
 export default {
   data () {
@@ -241,7 +244,7 @@ export default {
       stockGoodsProduct: [],
       salesLeadersProduct: [],
       newProduct: [],
-      recommendsProduct: [],
+      recommendsProduct: []
     }
   },
   mixins: [Home, ProductOption],
@@ -256,7 +259,7 @@ export default {
   },
   computed: {
     ...mapGetters('user', ['isLoggedIn']),
-    ...mapGetters('homepage', ['getEverythingNewCollection', 'getBestsellers']),
+    ...mapGetters('homepage', ['getStockGoods', 'getSalesLeaders', 'getNew', 'getRecommends']),
     categories () {
       return this.getCategories
     },
@@ -265,7 +268,7 @@ export default {
     },
     isLazyHydrateEnabled () {
       return config.ssr.lazyHydrateFor.some(
-        field => ['homepage', 'homepage.new_collection', 'homepage.bestsellers'].includes(field)
+        field => ['homepage', 'homepage.stock_goods', 'homepage.sales_leaders', 'homepage.new_products', 'homepage.recommends'].includes(field)
       )
     }
   },
@@ -279,42 +282,6 @@ export default {
         this.$bus.$emit('modal-toggle', 'modal-onboard')
         this.$store.dispatch('claims/set', { claimCode: 'onboardingAccepted', value: true })
       }
-    }
-    let stockGoodsQuery = prepareQuery({queryConfig: 'stockGoods'})
-    let salesLeadersQuery = prepareQuery({queryConfig: 'salesLeaders'})
-    let newQuery = prepareQuery({queryConfig: 'new'})
-    let recommendsQuery = prepareQuery({queryConfig: 'recommends'})
-
-    try {
-      let res = await Promise.all([
-        this.$store.dispatch('product/list', {
-          query: stockGoodsQuery,
-          size: 4,
-          sort: 'created_at:desc'
-        }),
-        this.$store.dispatch('product/list', {
-          query: salesLeadersQuery,
-          size: 4,
-          sort: 'created_at:desc'
-        }),
-        this.$store.dispatch('product/list', {
-          query: newQuery,
-          size: 4,
-          sort: 'created_at:desc'
-        }),
-        this.$store.dispatch('product/list', {
-          query: recommendsQuery,
-          size: 4,
-          sort: 'created_at:desc'
-        })
-      ])
-      this.stockGoodsProduct = res && res[0] && res[0].items
-      this.salesLeadersProduct = res && res[1] && res[1].items
-      this.newProduct = res && res[2] && res[2].items
-      this.recommendsProduct = res && res[3] && res[3].items
-      console.log(res)
-    } catch (e) {
-      console.log(e)
     }
   },
   methods: {
@@ -360,20 +327,26 @@ export default {
     Logger.info('Calling asyncData in Home (theme)')()
 
     await Promise.all([
-      store.dispatch('homepage/fetchNewCollection'),
-      store.dispatch('homepage/loadBestsellers'),
-      store.dispatch('promoted/updateHeadImage'),
-      store.dispatch('promoted/updatePromotedOffers')
+      store.dispatch('homepage/loadStockGoods'),
+      store.dispatch('homepage/loadSalesLeaders'),
+      store.dispatch('homepage/loadNew'),
+      store.dispatch('homepage/loadRecommends')
     ])
   },
 
   beforeRouteEnter (to, from, next) {
     if (!isServer && !from.name) { // Loading products to cache on SSR render
       next(vm => {
-        vm.$store.dispatch('homepage/fetchNewCollection').then(res => {
+        vm.$store.dispatch('homepage/loadStockGoods').then(res => {
           vm.loading = false
         })
-        vm.$store.dispatch('homepage/loadBestsellers').then(res => {
+        vm.$store.dispatch('homepage/loadSalesLeaders').then(res => {
+          vm.loading = false
+        })
+        vm.$store.dispatch('homepage/loadNew').then(res => {
+          vm.loading = false
+        })
+        vm.$store.dispatch('homepage/loadRecommends').then(res => {
           vm.loading = false
         })
       })
@@ -481,7 +454,7 @@ export default {
               font-size: 14px
               line-height: 18px
           .description
-            font-family: DIN Pro;
+            font-family: DIN Pro
             font-style: normal
             font-weight: normal
             font-size: 16px
@@ -512,8 +485,6 @@ export default {
               top: 0
               display: block
               margin: 0 auto
-
-
   .gallery-title
     margin: 32px 0
     font-family: 'DIN Pro'

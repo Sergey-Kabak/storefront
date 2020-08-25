@@ -1,4 +1,4 @@
-import { localizedDispatcherRouteName, currentStoreView } from '@vue-storefront/core/lib/multistore';
+import {currentStoreView, localizedDispatcherRouteName} from '@vue-storefront/core/lib/multistore';
 
 export const transformProductUrl = (product, urlParams = {}) => {
   const { storeCode, appendStoreCode } = currentStoreView()

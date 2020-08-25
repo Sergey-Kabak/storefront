@@ -127,25 +127,28 @@
 </template>
 
 <script>
-  import { mapActions, mapState } from 'vuex'
-  import config from 'config'
-  import { currentStoreView } from '@vue-storefront/core/lib/multistore'
-  import { formatProductLink } from '@vue-storefront/core/modules/url/helpers'
-  import Product from '@vue-storefront/core/compatibility/components/blocks/Microcart/Product'
+import { mapState } from 'vuex';
+import config from 'config';
+import { currentStoreView } from '@vue-storefront/core/lib/multistore';
+import { formatProductLink } from '@vue-storefront/core/modules/url/helpers';
+import Product from '@vue-storefront/core/compatibility/components/blocks/Microcart/Product';
 
-  import ProductQuantity from 'theme/components/core/ProductQuantityNew'
-  import ProductImage from 'theme/components/core/ProductImage'
-  import ColorSelector from 'theme/components/core/ColorSelector.vue'
-  import SizeSelector from 'theme/components/core/SizeSelector.vue'
-  import RemoveButton from './RemoveButton'
-  import EditButton from './EditButton'
-  import { onlineHelper } from '@vue-storefront/core/helpers'
-  import { ProductOption } from '@vue-storefront/core/modules/catalog/components/ProductOption'
-  import { getThumbnailForProduct, getProductConfiguration } from '@vue-storefront/core/modules/cart/helpers'
-  import ButtonFull from 'theme/components/theme/ButtonFull'
-  import EditMode from './EditMode'
+import ProductQuantity from 'theme/components/core/ProductQuantityNew';
+import ProductImage from 'theme/components/core/ProductImage';
+import ColorSelector from 'theme/components/core/ColorSelector.vue';
+import SizeSelector from 'theme/components/core/SizeSelector.vue';
+import RemoveButton from './RemoveButton';
+import EditButton from './EditButton';
+import { onlineHelper } from '@vue-storefront/core/helpers';
+import { ProductOption } from '@vue-storefront/core/modules/catalog/components/ProductOption';
+import {
+  getProductConfiguration,
+  getThumbnailForProduct
+} from '@vue-storefront/core/modules/cart/helpers';
+import ButtonFull from 'theme/components/theme/ButtonFull';
+import EditMode from './EditMode';
 
-  export default {
+export default {
     data () {
       return {
         maxQuantity: 0,

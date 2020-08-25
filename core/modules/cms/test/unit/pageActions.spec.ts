@@ -1,8 +1,8 @@
 import * as types from '../../store/page/mutation-types';
 import pageActions from '../../store/page/actions'
 
-import { StorageManager } from '@vue-storefront/core/lib/storage-manager';
-import { quickSearchByQuery } from '@vue-storefront/core/lib/search'
+import {StorageManager} from '@vue-storefront/core/lib/storage-manager';
+import {quickSearchByQuery} from '@vue-storefront/core/lib/search'
 
 jest.mock('@vue-storefront/i18n', () => ({ t: jest.fn(str => str) }));
 jest.mock('@vue-storefront/core/app', () => jest.fn())

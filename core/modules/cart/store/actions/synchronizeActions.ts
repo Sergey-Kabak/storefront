@@ -1,13 +1,13 @@
 import * as types from '@vue-storefront/core/modules/cart/store/mutation-types'
-import { Logger } from '@vue-storefront/core/lib/logger'
-import { isServer } from '@vue-storefront/core/helpers'
+import {Logger} from '@vue-storefront/core/lib/logger'
+import {isServer} from '@vue-storefront/core/helpers'
 import config from 'config'
-import { StorageManager } from '@vue-storefront/core/lib/storage-manager'
-import { CartService } from '@vue-storefront/core/data-resolver'
-import { createDiffLog } from '@vue-storefront/core/modules/cart/helpers'
+import {StorageManager} from '@vue-storefront/core/lib/storage-manager'
+import {CartService} from '@vue-storefront/core/data-resolver'
+import {createDiffLog} from '@vue-storefront/core/modules/cart/helpers'
 import i18n from '@vue-storefront/i18n'
 import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
-import { cartHooksExecutors } from '../../hooks'
+import {cartHooksExecutors} from '../../hooks'
 
 const synchronizeActions = {
   async load ({ commit, dispatch }, { forceClientState = false }: {forceClientState?: boolean} = {}) {

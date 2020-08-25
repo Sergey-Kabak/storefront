@@ -1,20 +1,20 @@
 <template>
   <div class="price-selector">
     <div class="inputs">
-      <custom-input label="От" v-model="variant.from" @keypress="isNumber($event)" @change="changeFilter()" />
-      <custom-input label="До" v-model="variant.to" @keypress="isNumber($event)"  @change="changeFilter()" />
+      <price-input label="От" v-model="variant.from" @keypress="isNumber($event)" @change="changeFilter()"/>
+      <price-input label="До" v-model="variant.to" @keypress="isNumber($event)"  @change="changeFilter()"/>
     </div>
   </div>
 </template>
 
 <script>
 import filterMixin from 'theme/mixins/filterMixin.ts'
-import { required, numeric } from 'vuelidate/lib/validators'
-import CustomInput from 'theme/components/core/blocks/Form/CustomInput'
+import { numeric } from 'vuelidate/lib/validators'
+import PriceInput from 'theme/components/core/blocks/Form/PriceInput'
 
 export default {
   components: {
-    CustomInput
+    PriceInput
   },
   mixins: [filterMixin],
   validations: {

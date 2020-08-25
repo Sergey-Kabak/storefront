@@ -1,4 +1,5 @@
-import { server } from 'config'
+import { server } from 'config';
+
 let instances = {}
 
 const isImplementingSearchAdapterInterface = (obj) => {

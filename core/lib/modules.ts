@@ -1,4 +1,4 @@
-import { Store } from 'vuex'
+import {Store} from 'vuex'
 import VueRouter from 'vue-router'
 import Vue from 'vue'
 import RootState from '@vue-storefront/core/types/RootState'

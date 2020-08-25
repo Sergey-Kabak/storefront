@@ -64,13 +64,13 @@
 </template>
 
 <script>
-import { Product } from '@vue-storefront/core/modules/checkout/components/Product'
-import { onlineHelper } from '@vue-storefront/core/helpers'
-import ProductImage from 'theme/components/core/ProductImage'
-import ProductQuantity from 'theme/components/core/ProductQuantityNew'
-import { currentStoreView } from '@vue-storefront/core/lib/multistore'
-import ProductMixin from '@vue-storefront/core/compatibility/components/blocks/Microcart/Product'
-import RemoveButton from "../Microcart/RemoveButton";
+import { Product } from '@vue-storefront/core/modules/checkout/components/Product';
+import { onlineHelper } from '@vue-storefront/core/helpers';
+import ProductImage from 'theme/components/core/ProductImage';
+import ProductQuantity from 'theme/components/core/ProductQuantityNew';
+import { currentStoreView } from '@vue-storefront/core/lib/multistore';
+import ProductMixin from '@vue-storefront/core/compatibility/components/blocks/Microcart/Product';
+import RemoveButton from '../Microcart/RemoveButton';
 
 export default {
   computed: {
