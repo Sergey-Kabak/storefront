@@ -88,9 +88,7 @@
               <span class="close-text">Назад</span>
             </div>
             <sidebar :filters="getAvailableFilters" @changeFilter="changeFilter" />
-            <div class="relative pb20 pt15">
-              <div class="brdr-top-1 brdr-cl-primary absolute divider w-100" />
-            </div>
+            
             <div
               v-if="Object.keys(getCurrentSearchQuery.filters).length > 0"
               class="active-filters-mobile"
@@ -347,6 +345,10 @@ $mobile_screen : 768px;
         &:not(:last-child){
           margin-right: 16px;
         }
+        padding-top: 10px;
+        padding-bottom: 10px;
+        max-height: 40px;
+        font-weight: 700;
         min-width: 1px;
         flex: 1;
         display: block;
@@ -496,7 +498,7 @@ $mobile_screen : 768px;
     .mobile-filters {
       .filter-overlay{
         &.hasFilters{
-          padding-bottom: 70px;
+          padding-bottom: 130px;
         }
         min-height: 100vh;
         padding: 16px;
