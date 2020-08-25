@@ -101,15 +101,15 @@
 
               <div class="buttons-group">
                 <button-full
-                    class="buttons-group"
-                    @click.native="resetAllFilters"
-                  >
+                  class="buttons-group"
+                  @click.native="resetAllFilters"
+                >
                   Очистить все
                 </button-full>
                 <button-full
-                    class="buttons-group"
-                    @click.native="closeFilters"
-                  >
+                  class="buttons-group"
+                  @click.native="closeFilters"
+                >
                   Показать
                 </button-full>
               </div>
@@ -394,6 +394,7 @@ $mobile_screen : 768px;
     font-size: 14px;
     line-height: 16px;
     color: #1A1919;
+    margin-right: 12px;
   }
 
   .mobile-filters {
@@ -449,6 +450,8 @@ $mobile_screen : 768px;
   }
 
   .category-sort {
+    display: flex;
+    align-items: center;
     margin-bottom: 6px;
   }
 
