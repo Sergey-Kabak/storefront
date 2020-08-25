@@ -5,6 +5,7 @@
       ref="input"
       v-bind="$attrs"
       v-on="$listeners"
+      :placeholder="placeholder"
     >
     <div v-if="label" class="label">
       {{ label }}
@@ -23,6 +24,10 @@ export default {
       required: true
     },
     label: {
+      type: String,
+      default: ''
+    },
+    placeholder : {
       type: String,
       default: ''
     }
