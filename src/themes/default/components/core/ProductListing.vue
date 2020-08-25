@@ -4,6 +4,7 @@
       v-for="(product, key) in products"
       :key="key"
       class="col-sm-6 flex"
+      style="min-width: 225px"
       :class="['col-md-' + (12/columns)%10, wide(product.sale, product.new, key)]"
     >
       <product-tile :product="product" :isShowCompareAndFavorite="isShowCompareAndFavorite" />

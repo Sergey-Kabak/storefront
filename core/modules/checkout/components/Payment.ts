@@ -19,24 +19,25 @@ export const Payment = {
       payment: this.$store.getters['checkout/getPaymentDetails'],
       generateInvoice: false,
       sendToShippingAddress: true,
-      sendToBillingAddress: true
+      sendToBillingAddress: true,
+      assoc: {
+        'currier': ['liqpaymagento_liqpay', 'banktransfer'],
+        'new_post': ['cashondelivery', 'banktransfer', 'checkmo'],
+        'shop': ['cashondelivery', 'banktransfer', 'checkmo']
+      }
     }
   },
   computed: {
     ...mapState({
       currentUser: (state: RootState) => state.user.current,
-      shippingDetails: (state: RootState) => state.checkout.shippingDetails
+      shippingDetails: (state: RootState) => state.checkout.shippingDetails,
+      type: (state: RootState) => state.customShipping.type
     }),
     ...mapGetters({
       paymentMethods: 'checkout/getPaymentMethods',
       paymentDetails: 'checkout/getPaymentDetails',
       isVirtualCart: 'cart/isVirtualCart'
     })
-  },
-  created () {
-    if (!this.payment.paymentMethod || this.notInMethods(this.payment.paymentMethod)) {
-      this.payment.paymentMethod = this.paymentMethods.length > 0 ? this.paymentMethods[0].code : 'cashondelivery'
-    }
   },
   beforeMount () {
     this.$bus.$on('checkout-after-load', this.onCheckoutLoad)
@@ -87,7 +88,6 @@ export const Payment = {
   methods: {
     sendDataToCheckout () {
       this.$bus.$emit('checkout-after-paymentDetails', this.payment, this.$v)
-      this.isFilled = true
     },
     edit () {
       if (this.isFilled) {
@@ -122,7 +122,7 @@ export const Payment = {
                 zipCode: addresses[i].postcode,
                 taxId: addresses[i].vat_id,
                 phoneNumber: addresses[i].telephone,
-                paymentMethod: this.paymentMethods[0].code
+                paymentMethod: this.assoc[this.type][0] || ''
               }
               this.generateInvoice = true
               this.sendToBillingAddress = true
@@ -145,7 +145,7 @@ export const Payment = {
           zipCode: '',
           phoneNumber: '',
           taxId: '',
-          paymentMethod: this.paymentMethods.length > 0 ? this.paymentMethods[0].code : ''
+          paymentMethod: this.assoc[this.type][0] || ''
         }
       }
     },
@@ -170,7 +170,7 @@ export const Payment = {
         apartmentNumber: this.shippingDetails.apartmentNumber,
         zipCode: this.shippingDetails.zipCode,
         phoneNumber: this.shippingDetails.phoneNumber,
-        paymentMethod: this.paymentMethods.length > 0 ? this.paymentMethods[0].code : ''
+        paymentMethod: this.assoc[this.type][0] || ''
       }
     },
     useBillingAddress () {
@@ -191,7 +191,7 @@ export const Payment = {
               zipCode: addresses[i].postcode,
               taxId: addresses[i].vat_id,
               phoneNumber: addresses[i].telephone,
-              paymentMethod: this.paymentMethods.length > 0 ? this.paymentMethods[0].code : ''
+              paymentMethod: this.assoc[this.type][0] || ''
             }
             this.generateInvoice = true
           }
@@ -242,7 +242,6 @@ export const Payment = {
       if (document.getElementById('checkout-order-review-additional-container')) {
         document.getElementById('checkout-order-review-additional-container').innerHTML = '<div id="checkout-order-review-additional">&nbsp;</div>' // reset
       }
-
       // Let anyone listening know that we've changed payment method, usually a payment extension.
       if (this.payment.paymentMethod) {
         this.$bus.$emit('checkout-payment-method-changed', this.payment.paymentMethod)

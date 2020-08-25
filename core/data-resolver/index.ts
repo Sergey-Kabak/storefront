@@ -5,6 +5,7 @@ import { OrderService } from './OrderService'
 import { StockService } from './StockService'
 import { ReviewsService } from './ReviewsService'
 import { NewsletterService } from './NewsletterService'
+import { PaymentService } from './PaymentService'
 
 export {
   CategoryService,
@@ -13,5 +14,6 @@ export {
   OrderService,
   StockService,
   ReviewsService,
-  NewsletterService
+  NewsletterService,
+  PaymentService
 }

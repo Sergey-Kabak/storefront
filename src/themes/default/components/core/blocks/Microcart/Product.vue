@@ -15,7 +15,7 @@
       <!--      <edit-button class="mx5 product-item-btns" @click="openEditMode" v-if="productsAreReconfigurable && !editMode" />-->
     </div>
     <div class="blend">
-      <div class="ml10 bg-cl-secondary">
+      <div class="ml10">
         <product-image :image="image" />
       </div>
     </div>
@@ -446,7 +446,7 @@ export default {
     span {
       white-space: nowrap;
       display: flex;
-      padding: 10px 8px;
+      padding: 10px 0px;
       align-items: center;
       font-family: 'DIN Pro';
       font-style: normal;
