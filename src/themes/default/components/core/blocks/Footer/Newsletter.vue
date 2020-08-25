@@ -23,9 +23,10 @@
 </template>
 
 <script>
-import SubscriptionStatus from '@vue-storefront/core/modules/newsletter/mixins/SubscriptionStatus'
-import ButtonOutline from 'theme/components/theme/ButtonOutline'
-import { mapState } from 'vuex'
+import SubscriptionStatus from '@vue-storefront/core/modules/newsletter/mixins/SubscriptionStatus';
+import ButtonOutline from 'theme/components/theme/ButtonOutline';
+import { mapState } from 'vuex';
+
 const NewsletterPopup = () => import(/* webpackChunkName: "vsf-newsletter-modal" */ 'theme/components/core/NewsletterPopup.vue')
 
 export default {

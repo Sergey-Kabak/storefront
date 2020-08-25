@@ -80,8 +80,8 @@
 </template>
 
 <script>
-import UserOrder from '@vue-storefront/core/modules/order/components/UserOrdersHistory'
-import { currentStoreView } from '@vue-storefront/core/lib/multistore'
+import UserOrder from '@vue-storefront/core/modules/order/components/UserOrdersHistory';
+import { currentStoreView } from '@vue-storefront/core/lib/multistore';
 
 export default {
   mixins: [UserOrder],

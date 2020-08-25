@@ -1,4 +1,4 @@
-import { buildLocaleIgnorePattern } from './../i18n/helpers';
+import {buildLocaleIgnorePattern} from './../i18n/helpers';
 import path from 'path';
 import fs from 'fs';
 import CaseSensitivePathsPlugin from 'case-sensitive-paths-webpack-plugin';
@@ -9,7 +9,6 @@ import webpack from 'webpack';
 import dayjs from 'dayjs';
 
 // const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
-
 // eslint-disable-next-line import/first
 import themeRoot from './theme-path';
 

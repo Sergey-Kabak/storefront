@@ -1,4 +1,4 @@
-import { getThumbnailForProduct, getProductConfiguration } from '@vue-storefront/core/modules/cart/helpers'
+import {getProductConfiguration, getThumbnailForProduct} from '@vue-storefront/core/modules/cart/helpers'
 
 // @deprecated moved to theme
 export const MicrocartProduct = {

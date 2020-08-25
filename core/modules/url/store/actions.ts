@@ -1,25 +1,28 @@
-import { transformProductUrl, transformCategoryUrl, transformCmsPageUrl } from '@vue-storefront/core/modules/url/helpers/transformUrl';
-import { isServer } from '@vue-storefront/core/helpers';
-import { UrlState } from '../types/UrlState'
-import { ActionTree } from 'vuex';
+import {
+  transformCategoryUrl,
+  transformCmsPageUrl,
+  transformProductUrl
+} from '@vue-storefront/core/modules/url/helpers/transformUrl';
+import {isServer, processURLAddress} from '@vue-storefront/core/helpers';
+import {UrlState} from '../types/UrlState'
+import {ActionTree} from 'vuex';
 // you can use this storage if you want to enable offline capabilities
-import { cacheStorage } from '../'
+import {cacheStorage} from '../'
 import queryString from 'query-string'
 import config from 'config'
-import { SearchQuery } from 'storefront-query-builder'
-import { preProcessDynamicRoutes, normalizeUrlPath, parametrizeRouteData, getFallbackRouteData } from '../helpers'
-import { removeStoreCodeFromRoute, currentStoreView, localizedDispatcherRouteName, adjustMultistoreApiUrl } from '@vue-storefront/core/lib/multistore'
+import {SearchQuery} from 'storefront-query-builder'
+import {getFallbackRouteData, normalizeUrlPath, parametrizeRouteData, preProcessDynamicRoutes} from '../helpers'
+import {adjustMultistoreApiUrl, removeStoreCodeFromRoute} from '@vue-storefront/core/lib/multistore'
 import storeCodeFromRoute from '@vue-storefront/core/lib/storeCodeFromRoute'
 import fetch from 'isomorphic-fetch'
-import { Logger } from '@vue-storefront/core/lib/logger'
-import { processURLAddress } from '@vue-storefront/core/helpers';
+import {Logger} from '@vue-storefront/core/lib/logger'
 import * as categoryMutationTypes from '@vue-storefront/core/modules/catalog-next/store/category/mutation-types'
 import * as cmsPageMutationTypes from '@vue-storefront/core/modules/cms/store/page/mutation-types'
 import isEqual from 'lodash-es/isEqual'
 import * as types from './mutation-types'
 import omit from 'lodash-es/omit'
-import { storeProductToCache } from '@vue-storefront/core/modules/catalog/helpers/search';
-import { prepareProducts } from '@vue-storefront/core/modules/catalog/helpers/prepare';
+import {storeProductToCache} from '@vue-storefront/core/modules/catalog/helpers/search';
+import {prepareProducts} from '@vue-storefront/core/modules/catalog/helpers/prepare';
 
 // it's a good practice for all actions to return Promises with effect of their execution
 export const actions: ActionTree<UrlState, any> = {

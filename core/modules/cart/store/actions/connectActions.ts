@@ -1,9 +1,8 @@
 import * as types from '@vue-storefront/core/modules/cart/store/mutation-types'
-import { Logger } from '@vue-storefront/core/lib/logger'
+import {Logger} from '@vue-storefront/core/lib/logger'
 import config from 'config'
-import { StorageManager } from '@vue-storefront/core/lib/storage-manager'
-import { CartService } from '@vue-storefront/core/data-resolver'
-import { createDiffLog } from '@vue-storefront/core/modules/cart/helpers'
+import {CartService} from '@vue-storefront/core/data-resolver'
+import {createDiffLog} from '@vue-storefront/core/modules/cart/helpers'
 
 const connectActions = {
   toggleMicrocart ({ commit }) {

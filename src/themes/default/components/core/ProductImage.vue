@@ -36,7 +36,7 @@
 </template>
 
 <script>
-  import { onlineHelper } from '@vue-storefront/core/helpers'
+import { onlineHelper } from '@vue-storefront/core/helpers';
 
 export default {
   props: {

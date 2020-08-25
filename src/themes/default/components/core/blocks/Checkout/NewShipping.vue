@@ -1,16 +1,18 @@
 <template>
-  <div class="pt20 new-shipping">
-    <div class="row pl20">
+  <div class="new-shipping">
+    <div class="row">
       <div class="col-xs-12 col-md-7">
         <div class="checkout-title mb-3">
           <h1>
             {{ $t('How do you want to receive your order?') }}
           </h1>
         </div>
-        <div class="number-block d-flex align-items-center">
-          <div class="number align-center">1</div>
+        <div class="subtitle">
+          <div class="number-block">
+            <div class="number align-center">1</div>
+          </div>
           <div class="text d-flex align-items-center w-100">
-            <span>Доставка в городе :</span>
+            <span class="shipping-title">Доставка в городе :</span>
             <!--<div class="picked-city" @click="showCityPicker = !showCityPicker">-->
             <div class="picked-city" @click="onShowModal">
               {{ city }}
@@ -64,12 +66,19 @@
 </template>
 
 <script>
-import {required, minLength} from 'vuelidate/lib/validators';
-import {unicodeAlpha, unicodeAlphaNum} from '@vue-storefront/core/helpers/validators';
-import {Shipping} from '@vue-storefront/core/modules/checkout/components/Shipping';
-import CustomShipping from 'src/modules/custom-shipping/custom-shipping'
+import {
+  minLength,
+  required
+} from 'vuelidate/lib/validators';
+import {
+  unicodeAlpha,
+  unicodeAlphaNum
+} from '@vue-storefront/core/helpers/validators';
+import { Shipping } from '@vue-storefront/core/modules/checkout/components/Shipping';
+import CustomShipping from 'src/modules/custom-shipping/custom-shipping';
 import NewPost from 'src/modules/nova-poshta/index';
-import {debounce} from 'debounce';
+import { mapState } from 'vuex';
+import { debounce } from 'debounce';
 
 export default {
   components: {
@@ -88,7 +97,6 @@ export default {
   },
   data () {
     return {
-      type: 'shop',
       loading: false,
       cities: [],
       city: 'Київ',
@@ -96,6 +104,9 @@ export default {
     }
   },
   computed: {
+    ...mapState({
+      type: state => state.customShipping.type
+    }),
     countryOptions() {
       return this.countries.map((item) => {
         return {
@@ -117,7 +128,7 @@ export default {
   methods: {
     changeType (type) {
       this.loading = true
-      this.type = type
+      this.$store.commit('customShipping/changeShippingType', type)
       setTimeout(() => {this.loading = false})
     },
     changeCity (city = this.city) {
@@ -178,23 +189,12 @@ export default {
 
 </style>
 
-<style lang="sass">
+<style lang="sass" scoped>
   .new-shipping
     .number-block
       position: relative
       span
         min-width: 130px
-      .picked-city
-        margin-left: 10px
-        font-family: DIN Pro
-        font-size: 14px
-        line-height: 20px
-        color: #1A1919
-        position: relative
-        border-bottom: 1px dashed #1A1919
-        cursor: pointer
-        svg
-          margin-left: 5px
     .city-select__wrapper
       position: absolute
       top: 36px
@@ -245,4 +245,24 @@ export default {
           color: #BDBDBD
         .icon .material-icons
           color: #BDBDBD
+  .shipping-title
+    font-family: DIN Pro
+    font-style: normal
+    font-weight: 0
+    font-size: 13px
+    line-height: 20px
+    color: #000000
+    font-weight: 600
+    margin-right: 8px
+  .picked-city
+    font-weight: 600
+    font-family: DIN Pro
+    font-size: 14px
+    line-height: 20px
+    color: #1A1919
+    position: relative
+    border-bottom: 1px dashed #1A1919
+    cursor: pointer
+    svg
+      margin-left: 5px
 </style>

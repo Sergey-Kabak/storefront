@@ -1,4 +1,4 @@
-import { Module } from 'vuex'
+import {Module} from 'vuex'
 import actions from './actions'
 import mutations from './mutations';
 import RootState from '@vue-storefront/core/types/RootState';

@@ -1,5 +1,5 @@
 import CartItem from '@vue-storefront/core/modules/cart/types/CartItem'
-import { ProductConfiguration } from '@vue-storefront/core/modules/catalog/types/ProductConfiguration'
+import {ProductConfiguration} from '@vue-storefront/core/modules/catalog/types/ProductConfiguration'
 import getProductOptions from './getProductOptions'
 
 const ATTRIBUTES = ['color', 'size']

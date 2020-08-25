@@ -1,5 +1,5 @@
 import Product from '@vue-storefront/core/modules/catalog/types/Product';
-import { ProductConfiguration } from '@vue-storefront/core/modules/catalog/types/ProductConfiguration';
+import {ProductConfiguration} from '@vue-storefront/core/modules/catalog/types/ProductConfiguration';
 import {
   getAvailableFiltersByProduct,
   getSelectedFiltersByProduct

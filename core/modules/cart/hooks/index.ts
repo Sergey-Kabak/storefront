@@ -1,4 +1,4 @@
-import { createListenerHook, createMutatorHook } from '@vue-storefront/core/lib/hooks'
+import {createListenerHook, createMutatorHook} from '@vue-storefront/core/lib/hooks'
 import CartItem from '../types/CartItem';
 
 const {

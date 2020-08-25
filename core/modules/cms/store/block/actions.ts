@@ -1,9 +1,9 @@
-import { ActionTree } from 'vuex'
-import { quickSearchByQuery } from '@vue-storefront/core/lib/search'
+import {ActionTree} from 'vuex'
+import {quickSearchByQuery} from '@vue-storefront/core/lib/search'
 import * as types from './mutation-types'
 import RootState from '@vue-storefront/core/types/RootState';
 import CmsBlockState from '../../types/CmsBlockState'
-import { createLoadingBlockQuery, createSingleBlockQuery } from '@vue-storefront/core/modules/cms/helpers'
+import {createLoadingBlockQuery, createSingleBlockQuery} from '@vue-storefront/core/modules/cms/helpers'
 
 const actions: ActionTree<CmsBlockState, RootState> = {
   async list ({ getters, commit }, { filterValues = null, filterField = 'identifier', size = 150, start = 0, excludeFields = null, includeFields = null, skipCache = false }) {

@@ -1,9 +1,9 @@
 import * as pageTypes from './page/mutation-types'
 import * as blockTypes from './block/mutation-types'
-import { cmsPagesStorageKey } from './page'
-import { cmsBlockStorageKey } from './block'
-import { StorageManager } from '@vue-storefront/core/lib/storage-manager'
-import { Logger } from '@vue-storefront/core/lib/logger'
+import {cmsPagesStorageKey} from './page'
+import {cmsBlockStorageKey} from './block'
+import {StorageManager} from '@vue-storefront/core/lib/storage-manager'
+import {Logger} from '@vue-storefront/core/lib/logger'
 
 const cmsPersistPlugin = (mutation, state) => {
   const cmsStorage = StorageManager.get('cms')

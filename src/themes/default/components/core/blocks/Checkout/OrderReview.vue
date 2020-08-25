@@ -114,16 +114,16 @@
 </template>
 
 <script>
-import { sameAs } from 'vuelidate/lib/validators'
-import Composite from '@vue-storefront/core/mixins/composite'
+import { sameAs } from 'vuelidate/lib/validators';
+import Composite from '@vue-storefront/core/mixins/composite';
 
-import BaseCheckbox from 'theme/components/core/blocks/Form/BaseCheckbox'
-import ButtonFull from 'theme/components/theme/ButtonFull'
-import CartSummary from 'theme/components/core/blocks/Checkout/CartSummary'
-import Modal from 'theme/components/core/Modal'
-import { OrderReview } from '@vue-storefront/core/modules/checkout/components/OrderReview'
-import { OrderModule } from '@vue-storefront/core/modules/order'
-import { registerModule } from '@vue-storefront/core/lib/modules'
+import BaseCheckbox from 'theme/components/core/blocks/Form/BaseCheckbox';
+import ButtonFull from 'theme/components/theme/ButtonFull';
+import CartSummary from 'theme/components/core/blocks/Checkout/CartSummary';
+import Modal from 'theme/components/core/Modal';
+import { OrderReview } from '@vue-storefront/core/modules/checkout/components/OrderReview';
+import { OrderModule } from '@vue-storefront/core/modules/order';
+import { registerModule } from '@vue-storefront/core/lib/modules';
 
 export default {
   components: {

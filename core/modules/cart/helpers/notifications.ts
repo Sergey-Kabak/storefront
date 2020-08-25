@@ -1,5 +1,5 @@
-import { router } from '@vue-storefront/core/app';
-import { currentStoreView, localizedRoute } from '@vue-storefront/core/lib/multistore';
+import {router} from '@vue-storefront/core/app';
+import {currentStoreView, localizedRoute} from '@vue-storefront/core/lib/multistore';
 import i18n from '@vue-storefront/i18n';
 import config from 'config';
 

@@ -131,4 +131,8 @@ declare namespace DataResolver {
     subscribe: (email: string) => Promise<boolean>,
     unsubscribe: (email: string) => Promise<boolean>
   }
+
+  interface PaymentService {
+    cancelPayment: (orderId: number) => Promise<Task>
+  }
 }

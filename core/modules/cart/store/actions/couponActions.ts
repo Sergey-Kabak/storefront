@@ -1,4 +1,4 @@
-import { CartService } from '@vue-storefront/core/data-resolver'
+import {CartService} from '@vue-storefront/core/data-resolver'
 import * as types from '@vue-storefront/core/modules/cart/store/mutation-types'
 
 const couponActions = {

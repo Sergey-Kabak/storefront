@@ -1,5 +1,5 @@
-import { StorageManager } from '@vue-storefront/core/lib/storage-manager'
-import { Logger } from '@vue-storefront/core/lib/logger'
+import {StorageManager} from '@vue-storefront/core/lib/storage-manager'
+import {Logger} from '@vue-storefront/core/lib/logger'
 
 export const claimsStore = {
   namespaced: true,

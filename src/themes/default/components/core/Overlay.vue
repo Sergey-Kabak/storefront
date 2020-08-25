@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import Overlay from '@vue-storefront/core/compatibility/components/Overlay'
+import Overlay from '@vue-storefront/core/compatibility/components/Overlay';
 
 export default {
   mixins: [Overlay],
@@ -16,6 +16,7 @@ export default {
       this.$store.commit('ui/setSidebar', false)
       this.$store.commit('ui/setHeaderIndex', 3)
       this.$store.dispatch('themeCart/closeEditMode')
+      document.documentElement.style.overflow = 'auto'
     }
   }
 }

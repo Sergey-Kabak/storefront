@@ -1,8 +1,8 @@
-import { cacheStorage } from '@vue-storefront/core/modules/recently-viewed/index';
-import { actions as urlActions } from '../../../store/actions';
-import { currentStoreView, removeStoreCodeFromRoute, localizedDispatcherRouteName } from '@vue-storefront/core/lib/multistore';
-import { normalizeUrlPath, parametrizeRouteData } from '../../../helpers';
-import { transformProductUrl } from '@vue-storefront/core/modules/url/helpers/transformUrl';
+import {cacheStorage} from '@vue-storefront/core/modules/recently-viewed/index';
+import {actions as urlActions} from '../../../store/actions';
+import {currentStoreView, removeStoreCodeFromRoute} from '@vue-storefront/core/lib/multistore';
+import {normalizeUrlPath, parametrizeRouteData} from '../../../helpers';
+import {transformProductUrl} from '@vue-storefront/core/modules/url/helpers/transformUrl';
 
 jest.mock('@vue-storefront/core/store', () => ({ Module: jest.fn() }))
 jest.mock('@vue-storefront/i18n', () => ({ t: jest.fn(str => str) }));

@@ -1,5 +1,5 @@
-import { Route } from 'vue-router';
-import { LocalizedRoute } from '@vue-storefront/core/lib/types'
+import {Route} from 'vue-router';
+import {LocalizedRoute} from '@vue-storefront/core/lib/types'
 
 interface UrlModuleRoute extends Partial<Route> {
   scrollPosition?: {

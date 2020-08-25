@@ -1,16 +1,15 @@
-import { ActionTree } from 'vuex'
+import {ActionTree} from 'vuex'
 import * as types from './mutation-types'
 import i18n from '@vue-storefront/i18n'
 import RootState from '@vue-storefront/core/types/RootState'
 import UserState from '../types/UserState'
-import { Logger } from '@vue-storefront/core/lib/logger'
-import { UserProfile } from '../types/UserProfile'
-import { onlineHelper } from '@vue-storefront/core/helpers'
-import { isServer } from '@vue-storefront/core/helpers'
-import { UserService } from '@vue-storefront/core/data-resolver'
+import {Logger} from '@vue-storefront/core/lib/logger'
+import {UserProfile} from '../types/UserProfile'
+import {isServer, onlineHelper} from '@vue-storefront/core/helpers'
+import {UserService} from '@vue-storefront/core/data-resolver'
 import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
-import { StorageManager } from '@vue-storefront/core/lib/storage-manager'
-import { userHooksExecutors, userHooks } from '../hooks'
+import {StorageManager} from '@vue-storefront/core/lib/storage-manager'
+import {userHooksExecutors} from '../hooks'
 
 const actions: ActionTree<UserState, RootState> = {
   async startSession ({ commit, dispatch, getters }) {

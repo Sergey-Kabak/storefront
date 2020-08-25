@@ -1,6 +1,6 @@
-import { currentStoreView } from '@vue-storefront/core/lib/multistore'
-import dayjs from 'dayjs'
-import dayjsLocalizedFormat from 'dayjs/plugin/localizedFormat'
+import { currentStoreView } from '@vue-storefront/core/lib/multistore';
+import dayjs from 'dayjs';
+import dayjsLocalizedFormat from 'dayjs/plugin/localizedFormat';
 import { once } from '../helpers';
 
 once('__VUE_EXTEND_DAYJS_LOCALIZED_FORMAT__', () => {

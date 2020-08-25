@@ -1,10 +1,10 @@
-import { prepareQueryVars } from './gqlQuery'
-import { currentStoreView, prepareStoreView } from '@vue-storefront/core/lib/multistore'
+import {prepareQueryVars} from './gqlQuery'
+import {currentStoreView, prepareStoreView} from '@vue-storefront/core/lib/multistore'
 import fetch from 'isomorphic-fetch'
-import { processESResponseType, processProductsType, processCmsType } from './processor/processType'
-import { SearchQuery } from 'storefront-query-builder'
+import {processCmsType, processESResponseType, processProductsType} from './processor/processType'
+import {SearchQuery} from 'storefront-query-builder'
 import config from 'config'
-import { isServer } from '@vue-storefront/core/helpers'
+import {isServer} from '@vue-storefront/core/helpers'
 import getApiEndpointUrl from '@vue-storefront/core/helpers/getApiEndpointUrl';
 
 export class SearchAdapter {

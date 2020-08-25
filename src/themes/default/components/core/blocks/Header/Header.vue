@@ -37,7 +37,7 @@
               <a href="tel:+380674666111">
                 +38 067 466 61 11
               </a>
-              <div class="phone-tooltip" v-show="isShowPhoneModal">
+              <div class="phone-tooltip" v-show="navVisible">
                 <span class="phone-tooltip-title">{{ $t('Consultation by telephone') }}</span>
                 <a class="phone-tooltip-number" href="tel:+380674666111">+38 067 466 61 11</a>
                 <span class="phone-tooltip-date">Пн-Пт: 9:00-18:00; Сб-Вс: {{ $t('Weekend') }}</span>
@@ -113,17 +113,17 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
-import CurrentPage from 'theme/mixins/currentPage'
-import AccountIcon from 'theme/components/core/blocks/Header/AccountIcon'
-import CompareIcon from 'theme/components/core/blocks/Header/CompareIcon'
-import HamburgerIcon from 'theme/components/core/blocks/Header/HamburgerIcon'
-import Logo from 'theme/components/core/Logo'
-import MicrocartIcon from 'theme/components/core/blocks/Header/MicrocartIcon'
-import SearchIcon from 'theme/components/core/blocks/Header/SearchIcon'
-import WishlistIcon from 'theme/components/core/blocks/Header/WishlistIcon'
-import HeaderSearch from 'theme/components/core/blocks/Header/HeaderSearch'
-import MobileHamburgerIcon from 'theme/components/core/blocks/Header/MobileHamburgerIcon'
+import { mapState } from 'vuex';
+import CurrentPage from 'theme/mixins/currentPage';
+import AccountIcon from 'theme/components/core/blocks/Header/AccountIcon';
+import CompareIcon from 'theme/components/core/blocks/Header/CompareIcon';
+import HamburgerIcon from 'theme/components/core/blocks/Header/HamburgerIcon';
+import Logo from 'theme/components/core/Logo';
+import MicrocartIcon from 'theme/components/core/blocks/Header/MicrocartIcon';
+import SearchIcon from 'theme/components/core/blocks/Header/SearchIcon';
+import WishlistIcon from 'theme/components/core/blocks/Header/WishlistIcon';
+import HeaderSearch from 'theme/components/core/blocks/Header/HeaderSearch';
+import MobileHamburgerIcon from 'theme/components/core/blocks/Header/MobileHamburgerIcon';
 
 export default {
   name: 'Header',
@@ -145,9 +145,14 @@ export default {
       isScrolling: false,
       scrollTop: 0,
       lastScrollTop: 0,
-      navbarHeight: 104,
-      headerHeight: null,
-      isShowPhoneModal: true
+      headerHeight: null
+    }
+  },
+  watch:{
+    $route (){
+      this.$nextTick(() => {
+        this.headerHeight = this.$refs.header.clientHeight
+      })
     }
   },
   computed: {
@@ -197,13 +202,11 @@ export default {
       this.scrollTop = window.scrollY
       if (
         this.scrollTop > this.lastScrollTop &&
-        this.scrollTop > this.navbarHeight
+        this.scrollTop > this.headerHeight
       ) {
         this.navVisible = false
-        this.isShowPhoneModal = false
       } else {
         this.navVisible = true
-        this.isShowPhoneModal = true
       }
       this.lastScrollTop = this.scrollTop
     },
@@ -358,7 +361,7 @@ header {
     align-items: center;
     justify-content: center;
     margin-right: 14px;
-    padding: 10px;
+    padding: 8px;
     border-radius: 4px;
     transition: .2s ease-in-out;
 
@@ -377,11 +380,10 @@ header {
   position: fixed;
   top: -115px;
   max-height: 100vh;
+  overflow: unset;
   z-index: 3;
   transition: top 0.2s ease-in-out;
-  @media (max-width: 787px) {
-    overflow: auto;
-  }
+
   &.is-visible {
     top: 0;
   }
@@ -391,7 +393,7 @@ header {
   background: #fff;
 
   &.border {
-    box-shadow: inset 0px -2px 2px -2px rgba(0, 0, 0, .3)
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.05);
   }
 }
 
@@ -428,7 +430,6 @@ header {
     cursor: pointer;
     color: #BDBDBD;
     margin-right: 25px;
-
     &:hover {
       background: none;
     }
@@ -554,7 +555,12 @@ header {
 }
 .return-to-shopping {
   &__text {
+    font-family: DIN Pro;
+    font-style: normal;
+    font-size: 15px;
+    line-height: 24px;
     display: block;
+    color: #5F5E5E;
   }
   &__icon {
     display: none;
@@ -578,8 +584,12 @@ header {
 }
 
 @media (max-width: 767px) {
+  header {
+    overflow: auto;
+  }
+
   .header-top {
-    padding: 0 20px;
+    padding: 0 18px;
   }
 
   .header-black-line {
@@ -605,8 +615,12 @@ header {
   }
 
   .mobile-menu {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 24px;
+    height: 24px;
     cursor: pointer;
-    display: block;
   }
 
   .header-left {
@@ -621,6 +635,17 @@ header {
 
   .header-top {
     height: 56px;
+  }
+
+  .header-container-wrap {
+    &.border {
+      border-bottom: 1px solid #e0e0e0;
+      box-shadow: none;
+
+      &:last-child {
+        border-bottom: none;
+      }
+    }
   }
 }
 
@@ -638,6 +663,7 @@ header {
   .header-middle {
     .logo {
       margin-top: 12px;
+      width: 80px;
     }
   }
 }
