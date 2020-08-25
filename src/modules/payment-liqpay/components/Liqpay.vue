@@ -13,7 +13,7 @@ import Base64 from 'crypto-js/enc-base64'
 import Utf8 from 'crypto-js/enc-utf8'
 import sha1 from 'crypto-js/sha1'
 import config from 'config'
-import { mapState } from 'vuex';
+import { mapState, mapGetters } from 'vuex';
 
 export default {
   data: () => ({
@@ -38,14 +38,14 @@ export default {
     document.head.appendChild(liqpayScript)
   },
 	computed: {
+    ...mapGetters({
+      totals: 'cart/getTotals'
+    }),
     ...mapState({
       cartItems: (state) => state.cart.cartItems,
       orderId: (state) => state.order.last_order_confirmation && state.order.last_order_confirmation.confirmation && state.order.last_order_confirmation.confirmation.backendOrderId,
       incrementId: (state) => state.order.last_order_confirmation && state.order.last_order_confirmation.confirmation && state.order.last_order_confirmation.confirmation.orderNumber
     }),
-		totalPrice () {
-      return this.cartItems.reduce((acc, it) => acc + it.price * it.qty, 0)
-    },
 		data () {
 			return Base64.stringify(
 				Utf8.parse(
@@ -61,6 +61,9 @@ export default {
           })
         )
       )
+    },
+    totalPrice () {
+      return this.totals.find(it => it.code === 'grand_total').value
     },
 		signature () {
 			return Base64.stringify(sha1(config.liqpay.private_key + this.data + config.liqpay.private_key))

@@ -68,7 +68,7 @@ import {
   unicodeAlpha,
   unicodeAlphaNum
 } from '@vue-storefront/core/helpers/validators';
-import { mapState } from 'vuex';
+import { mapState, mapGetters } from 'vuex';
 import { Payment } from '@vue-storefront/core/modules/checkout/components/Payment';
 import { currentStoreView } from '@vue-storefront/core/lib/multistore';
 import PromoCode from 'theme/components/core/blocks/Microcart/PromoCode';
@@ -106,6 +106,9 @@ export default {
     }
   },
   computed: {
+    ...mapGetters({
+      totals: 'cart/getTotals',
+    }),
     countryOptions () {
       return this.countries.map((item) => {
         return {
@@ -118,7 +121,7 @@ export default {
       return currentStoreView();
     },
     totalPrice () {
-      return this.$store.state.cart.cartItems.reduce((acc, it) => acc + it.price * it.qty, 0)
+      return this.totals.find(it => it.code === 'grand_total').value
     },
   },
   validations () {
