@@ -11,8 +11,8 @@
 </template>
 
 <script>
-import config from 'config'
-import { currentStoreView } from '@vue-storefront/core/lib/multistore'
+import config from 'config';
+import { currentStoreView } from '@vue-storefront/core/lib/multistore';
 
 export default {
   data () {

@@ -183,11 +183,17 @@
   </div>
 </template>
 <script>
-import Register from '@vue-storefront/core/compatibility/components/blocks/Auth/Register'
-import ButtonFull from 'theme/components/theme/ButtonFull.vue'
-import BaseCheckbox from 'theme/components/core/blocks/Form/BaseCheckbox.vue'
-import BaseInput from 'theme/components/core/blocks/Form/BaseInput.vue'
-import { required, email, minLength, sameAs, alphaNum } from 'vuelidate/lib/validators'
+import Register from '@vue-storefront/core/compatibility/components/blocks/Auth/Register';
+import ButtonFull from 'theme/components/theme/ButtonFull.vue';
+import BaseCheckbox from 'theme/components/core/blocks/Form/BaseCheckbox.vue';
+import BaseInput from 'theme/components/core/blocks/Form/BaseInput.vue';
+import {
+  alphaNum,
+  email,
+  minLength,
+  required,
+  sameAs
+} from 'vuelidate/lib/validators';
 
 const lettersOnly = value => (
   /^[\u0400-\u04FF]+$/.test(value) ||

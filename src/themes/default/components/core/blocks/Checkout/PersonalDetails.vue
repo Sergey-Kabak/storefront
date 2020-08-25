@@ -114,12 +114,18 @@
 </template>
 
 <script>
-import { required, minLength, email, sameAs } from 'vuelidate/lib/validators'
-import { PersonalDetails } from '@vue-storefront/core/modules/checkout/components/PersonalDetails'
-import ButtonSmall from 'theme/components/theme/ButtonFilledSmall'
-import BaseCheckbox from 'theme/components/core/blocks/Form/BaseCheckbox'
-import BaseInput from 'theme/components/core/blocks/Form/BaseInput'
-import Tooltip from 'theme/components/core/Tooltip'
+import { 
+  required,
+  minLength,
+  email,
+  sameAs
+} from 'vuelidate/lib/validators';
+import { PersonalDetails } from '@vue-storefront/core/modules/checkout/components/PersonalDetails';
+
+import ButtonSmall from 'theme/components/theme/ButtonFilledSmall';
+import BaseCheckbox from 'theme/components/core/blocks/Form/BaseCheckbox';
+import BaseInput from 'theme/components/core/blocks/Form/BaseInput';
+import Tooltip from 'theme/components/core/Tooltip';
 
 const lettersOnly = value => (
   /^[\u0400-\u04FF]+$/.test(value) ||

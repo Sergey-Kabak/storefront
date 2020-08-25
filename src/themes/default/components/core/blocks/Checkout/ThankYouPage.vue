@@ -73,20 +73,20 @@
 </template>
 
 <script>
-import Composite from '@vue-storefront/core/mixins/composite'
-import Breadcrumbs from 'theme/components/core/Breadcrumbs'
-import BaseTextarea from 'theme/components/core/blocks/Form/BaseTextarea'
-import ButtonFilledSmall from 'theme/components/theme/ButtonFilledSmall'
-import GoogleMap from 'src/modules/google-map/google-map'
-import VueOfflineMixin from 'vue-offline/mixin'
-import { EmailForm } from '@vue-storefront/core/modules/mailer/components/EmailForm'
-import config from 'config'
-import { mapState } from 'vuex'
-import { registerModule } from '@vue-storefront/core/lib/modules'
-import { MailerModule } from '@vue-storefront/core/modules/mailer'
-import { getThumbnailForProduct } from '@vue-storefront/core/modules/cart/helpers'
-import ProductImage from 'theme/components/core/ProductImage'
-import { currentStoreView } from '@vue-storefront/core/lib/multistore'
+import Composite from '@vue-storefront/core/mixins/composite';
+import Breadcrumbs from 'theme/components/core/Breadcrumbs';
+import BaseTextarea from 'theme/components/core/blocks/Form/BaseTextarea';
+import ButtonFilledSmall from 'theme/components/theme/ButtonFilledSmall';
+import GoogleMap from 'src/modules/google-map/google-map';
+import VueOfflineMixin from 'vue-offline/mixin';
+import { EmailForm } from '@vue-storefront/core/modules/mailer/components/EmailForm';
+import config from 'config';
+import { mapState } from 'vuex';
+import { registerModule } from '@vue-storefront/core/lib/modules';
+import { MailerModule } from '@vue-storefront/core/modules/mailer';
+import { getThumbnailForProduct } from '@vue-storefront/core/modules/cart/helpers';
+import ProductImage from 'theme/components/core/ProductImage';
+import { currentStoreView } from '@vue-storefront/core/lib/multistore';
 
 export default {
   name: 'ThankYouPage',

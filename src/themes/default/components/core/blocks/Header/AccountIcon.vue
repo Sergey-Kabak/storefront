@@ -42,8 +42,8 @@
 </template>
 
 <script>
-import NoSSR from 'vue-no-ssr'
-import AccountIcon from '@vue-storefront/core/compatibility/components/blocks/Header/AccountIcon'
+import NoSSR from 'vue-no-ssr';
+import AccountIcon from '@vue-storefront/core/compatibility/components/blocks/Header/AccountIcon';
 
 export default {
   mixins: [AccountIcon],

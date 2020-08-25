@@ -17,8 +17,9 @@
 </template>
 
 <script>
-import SortBy from '@vue-storefront/core/compatibility/components/SortBy'
-import { products } from 'config'
+import SortBy from '@vue-storefront/core/compatibility/components/SortBy';
+import { products } from 'config';
+
 export default {
   mixins: [SortBy],
   props: {

@@ -1,4 +1,4 @@
-import { buildFilterProductsQuery } from '@vue-storefront/core/helpers'
+import {buildFilterProductsQuery} from '@vue-storefront/core/helpers'
 
 jest.mock('remove-accents', () => jest.fn());
 jest.mock('@vue-storefront/core/modules/url/helpers', () => jest.fn());

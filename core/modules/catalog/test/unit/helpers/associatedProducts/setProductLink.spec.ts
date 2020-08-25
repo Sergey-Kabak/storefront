@@ -1,4 +1,4 @@
-import { createBundleProduct, createGroupProduct, createSimpleProduct } from '../../../helpers/createProduct';
+import {createBundleProduct, createGroupProduct, createSimpleProduct} from '../../../helpers/createProduct';
 import setProductLink from '@vue-storefront/core/modules/catalog/helpers/associatedProducts/setProductLink';
 
 jest.mock('@vue-storefront/core/helpers', () => ({

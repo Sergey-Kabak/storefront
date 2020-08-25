@@ -60,18 +60,24 @@
 </template>
 
 <script>
-import { required, minLength } from 'vuelidate/lib/validators'
-import { unicodeAlpha, unicodeAlphaNum } from '@vue-storefront/core/helpers/validators'
-import { Payment } from '@vue-storefront/core/modules/checkout/components/Payment'
-import { currentStoreView } from '@vue-storefront/core/lib/multistore'
-import PromoCode from 'theme/components/core/blocks/Microcart/PromoCode'
-import BaseCheckbox from 'theme/components/core/blocks/Form/BaseCheckbox'
-import BaseInput from 'theme/components/core/blocks/Form/BaseInput'
-import BaseSelect from 'theme/components/core/blocks/Form/BaseSelect'
-import ButtonFull from 'theme/components/theme/ButtonFull'
-import Tooltip from 'theme/components/core/Tooltip'
-import { mapState } from 'vuex'
-import LiqPay from 'src/modules/payment-liqpay/components/Liqpay'
+import { 
+  required,
+  minLength
+} from 'vuelidate/lib/validators';
+import { 
+  unicodeAlpha,
+  unicodeAlphaNum
+} from '@vue-storefront/core/helpers/validators';
+import { mapState } from 'vuex';
+import { Payment } from '@vue-storefront/core/modules/checkout/components/Payment';
+import { currentStoreView } from '@vue-storefront/core/lib/multistore';
+import PromoCode from 'theme/components/core/blocks/Microcart/PromoCode';
+import BaseCheckbox from 'theme/components/core/blocks/Form/BaseCheckbox';
+import BaseInput from 'theme/components/core/blocks/Form/BaseInput';
+import BaseSelect from 'theme/components/core/blocks/Form/BaseSelect';
+import ButtonFull from 'theme/components/theme/ButtonFull';
+import Tooltip from 'theme/components/core/Tooltip';
+import LiqPay from 'src/modules/payment-liqpay/components/Liqpay';
 
 export default {
   props: {

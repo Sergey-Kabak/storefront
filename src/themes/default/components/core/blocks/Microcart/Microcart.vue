@@ -82,21 +82,26 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex'
-import i18n from '@vue-storefront/i18n'
-import { isModuleRegistered } from '@vue-storefront/core/lib/modules'
-import { currentStoreView } from '@vue-storefront/core/lib/multistore'
+import {
+  mapGetters,
+  mapActions
+} from 'vuex';
+import { 
+  isModuleRegistered,
+  registerModule
+} from '@vue-storefront/core/lib/modules';
+import i18n from '@vue-storefront/i18n';
+import { currentStoreView } from '@vue-storefront/core/lib/multistore';
 
-import VueOfflineMixin from 'vue-offline/mixin'
-import onEscapePress from '@vue-storefront/core/mixins/onEscapePress'
-import { registerModule } from '@vue-storefront/core/lib/modules'
+import VueOfflineMixin from 'vue-offline/mixin';
+import onEscapePress from '@vue-storefront/core/mixins/onEscapePress';
 
-import ButtonFull from 'theme/components/theme/ButtonFull'
-import ButtonOutline from 'theme/components/theme/ButtonOutline'
-import ButtonText from 'theme/components/theme/ButtonText'
-import Product from 'theme/components/core/blocks/Checkout/Product'
-import EditMode from './EditMode'
-import { InstantCheckoutModule } from 'src/modules/instant-checkout'
+import ButtonFull from 'theme/components/theme/ButtonFull';
+import ButtonOutline from 'theme/components/theme/ButtonOutline';
+import ButtonText from 'theme/components/theme/ButtonText';
+import Product from 'theme/components/core/blocks/Checkout/Product';
+import EditMode from './EditMode';
+import { InstantCheckoutModule } from 'src/modules/instant-checkout';
 import PromoCode from './PromoCode';
 
 export default {

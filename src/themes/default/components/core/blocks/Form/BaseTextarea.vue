@@ -28,7 +28,7 @@
 </template>
 
 <script>
-import ValidationMessages from './ValidationMessages.vue'
+import ValidationMessages from './ValidationMessages.vue';
 
 export default {
   name: 'BaseTextarea',

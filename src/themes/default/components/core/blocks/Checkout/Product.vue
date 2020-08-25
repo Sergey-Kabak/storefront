@@ -54,11 +54,11 @@
 </template>
 
 <script>
-import ProductQuantityNew from 'theme/components/core/ProductQuantityNew.vue'
-import { onlineHelper } from '@vue-storefront/core/helpers'
-import { currentStoreView } from '@vue-storefront/core/lib/multistore'
-import { Product } from '@vue-storefront/core/modules/checkout/components/Product'
-import i18n from '@vue-storefront/i18n'
+import ProductQuantityNew from 'theme/components/core/ProductQuantityNew.vue';
+import { onlineHelper } from '@vue-storefront/core/helpers';
+import { currentStoreView } from '@vue-storefront/core/lib/multistore';
+import { Product } from '@vue-storefront/core/modules/checkout/components/Product';
+import i18n from '@vue-storefront/i18n';
 
 export default {
   mixins: [Product],

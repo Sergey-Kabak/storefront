@@ -15,11 +15,11 @@
 </template>
 
 <script>
-import ProductListing from 'theme/components/core/ProductListing'
-import { mapGetters } from 'vuex'
-import { prepareRelatedQuery } from '@vue-storefront/core/modules/catalog/queries/related'
-import i18n from '@vue-storefront/i18n'
-import config from 'config'
+import ProductListing from 'theme/components/core/ProductListing';
+import { mapGetters } from 'vuex';
+import { prepareRelatedQuery } from '@vue-storefront/core/modules/catalog/queries/related';
+import i18n from '@vue-storefront/i18n';
+import config from 'config';
 
 export default {
   name: 'Related',

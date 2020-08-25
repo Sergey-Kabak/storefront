@@ -1,7 +1,7 @@
-import { MutationTree } from 'vuex'
+import {MutationTree} from 'vuex'
 import * as types from './mutation-types'
 import OrderState from '../types/OrderState'
-import { Order } from '../types/Order'
+import {Order} from '../types/Order'
 import * as entities from '@vue-storefront/core/lib/store/entities'
 
 const mutations: MutationTree<OrderState> = {

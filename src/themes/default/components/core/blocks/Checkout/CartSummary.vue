@@ -18,11 +18,11 @@
 </template>
 
 <script>
-import { CartSummary } from '@vue-storefront/core/modules/checkout/components/CartSummary'
-import { currentStoreView } from '@vue-storefront/core/lib/multistore'
-import Product from 'theme/components/core/blocks/Checkout/Product'
-import { mapGetters } from 'vuex'
-import PromoCode from 'theme/components/core/blocks/Microcart/PromoCode'
+import { CartSummary } from '@vue-storefront/core/modules/checkout/components/CartSummary';
+import { currentStoreView } from '@vue-storefront/core/lib/multistore';
+import Product from 'theme/components/core/blocks/Checkout/Product';
+import { mapGetters } from 'vuex';
+import PromoCode from 'theme/components/core/blocks/Microcart/PromoCode';
 
 export default {
   mixins: [CartSummary],

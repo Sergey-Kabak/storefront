@@ -23,7 +23,7 @@
 
 <script>
 // import ButtonOutline from 'theme/components/theme/ButtonOutline'
-import { mapGetters } from 'vuex'
+import { mapGetters } from 'vuex';
 
 export default {
   components: {

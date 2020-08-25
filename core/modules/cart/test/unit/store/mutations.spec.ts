@@ -1,6 +1,7 @@
 import * as types from '../../../store/mutation-types'
 import cartMutations from '../../../store/mutations'
 import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
+
 jest.mock('@vue-storefront/core/helpers', () => ({
   once: (str) => jest.fn()
 }))

@@ -1,4 +1,4 @@
-import { cartCacheHandlerFactory } from './cartCacheHandler'
+import {cartCacheHandlerFactory} from './cartCacheHandler'
 import optimizeProduct from './optimizeProduct'
 import prepareProductsToAdd from './prepareProductsToAdd'
 import productChecksum from './productChecksum'
