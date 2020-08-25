@@ -1,73 +1,72 @@
 <template>
-  <div>
-    <div class="thank-you-content align-justify py40 pl20">
-      <div class="container">
-        <div class="row">
-          <div class="col-md-8 pl20 pr20 pt70 m-auto align-center">
-            <h3 v-if="OnlineOnly">
-              {{ $t('Thank!') }}
-              {{ $t('Your order') }} <span v-if="OnlineOnly && lastOrderConfirmation.orderNumber">№{{lastOrderConfirmation.orderNumber}}</span>
-              {{ $t('already going )') }}
-            </h3>
-            <p>{{ $t('In the near future we will call you back to clarify the details. Have a nice day!)') }}</p>
-
-            <p>
-              <button-outline
-                  color="dark"
-                  class="custom-action-button"
-                  @click.native="$router.push('/')"
-              >
-                {{ $t('Return to shopping') }}
-              </button-outline>
-            </p>
-            <div id="thank-you-extensions" />
-
-            <div class="grid-container">
-              <div class="grid-item" v-if="addressInfo">
-                <div class="flex">
-                  <span class="left">{{ $t('Contact details') }}: </span>
-                  <span class="right">{{ addressInfo.firstname }} {{ addressInfo.lastname }}, {{ addressInfo.telephone }}, {{ addressInfo.email }}</span>
-                </div>
-              </div>
-              <div class="grid-item" v-if="addressInfo">
-                <div class="flex">
-                  <span class="left">{{ $t('Shipping address') }}: </span>
-                  <span class="right">{{ $t('st.') }} {{ addressInfo.street && addressInfo.street[0] }}, {{ addressInfo.street && addressInfo.street[1] }}</span>
-                </div>
-              </div>
-              <ul v-if="products.length" class="thank-you-page-products products">
-                <li class="row py10 product-item-row" v-for="product in products" :key="product.server_item_id || product.id">
-                  <div class="blend">
-                    <div class="ml10">
-                      <product-image :image="image(product)" />
-                    </div>
-                  </div>
-                  <div class="col-xs flex flex-wrap">
-                    <div class="flex flex-nowrap details w-100">
-                      <div class="flex w-100 flex-wrap between-xs main-info">
-                        <div class="mr-auto">
-                          <span class="serif h4 name">
-                            {{ product.name | htmlDecode }}
-                          </span>
-                        </div>
-                        <div class="qty">
-                          {{ product.qty }}{{ $t('pc.') }}
-                        </div>
-                        <div class="flex mr10 align-right start-xs between-sm prices">
-                          <div class="prices">
-                            <span class="h4 serif price-special" v-if="product && product.totals">
-                              {{ product.totals.row_total - product.totals.discount_amount + product.totals.tax_amount }}₴
-                            </span>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </li>
-              </ul>
-            </div>
-          </div>
+  <div class="thank-you">
+    <div class="thank-you-content">
+      <h3 v-if="OnlineOnly" class="thank-you-title">
+        {{ $t('Thank!') }}
+        {{ $t('Your order') }} <span v-if="OnlineOnly && lastOrderConfirmation.orderNumber">№{{ lastOrderConfirmation.orderNumber }}</span>
+        {{ $t('already going )') }}
+      </h3>
+      <p class="thank-you-description">{{ $t('In the near future we will call you back to clarify the details. Have a nice day!)') }}</p>
+      <button-filled-small
+          color="dark"
+          class="thank-you-button"
+          @click.native="$router.push('/')"
+      >
+        {{ $t('to main') }}
+      </button-filled-small>
+      <div class="thank-you-body">
+        <div class="thank-you-row" v-if="billingAddress">
+          <span class="left">{{ $t('Contact details') }}: </span>
+          <span class="middle">{{ billingAddress.firstname }} {{ billingAddress.lastname }}, {{ billingAddress.telephone }}, {{ billingAddress.email }}</span>
         </div>
+        <div class="thank-you-row" v-if="addressInformation">
+          <span class="left">{{ $t('Payment method') }}: </span>
+          <span class="middle">{{ $t(addressInformation.payment_method_code) }}</span>
+          <span class="right label-paid" v-if="addressInformation.payment_method_code === 'liqpaymagento_liqpay'"> {{ $t('paid') }} </span>
+        </div>
+        <div class="thank-you-row" v-if="addressInformation">
+          <span class="left">{{ $t('Shipping method') }}: </span>
+          <span class="middle">{{ $t(shippingType) }}</span>
+          <span class="right label-free"> {{ $t('free') }} </span>
+        </div>
+        <div class="thank-you-row" v-if="billingAddress">
+          <span class="left">{{ $t('Shipping address') }}: </span>
+          <span class="middle">{{ $t('st.') }} {{ billingAddress.street && billingAddress.street[0] }}, {{ billingAddress.street && billingAddress.street[1] }}</span>
+        </div>
+      </div>
+      <div class="thank-you-body" v-if="products.length">
+        <ul class="thank-you-page-products products">
+          <li class="product-item-row" v-for="product in products" :key="product.server_item_id || product.id">
+            <product-image :image="image(product)" />
+            <div class="product-left">
+              <span class="product-name">
+                {{ product.name | htmlDecode }}
+              </span>
+            </div>
+            <div class="product-middle">
+              <span class="qty">
+                {{ product.qty }}&nbsp;{{ $t('pc.') }}
+              </span>
+            </div>
+            <div class="product-right">
+              <div class="prices">
+                <span class="price-special">
+                  {{ product.price | price(storeView) }}
+                </span>
+              </div>
+            </div>
+          </li>
+          <li class="product-price">
+            <div class="price-left">
+              <span class="price-title">
+                {{ $t('Grand total') }}:
+              </span>
+            </div>
+            <div class="price-right">
+              <span class="price-total"> {{ totalPrice | price(storeView) }} </span>
+            </div>
+          </li>
+        </ul>
       </div>
     </div>
   </div>
@@ -75,17 +74,29 @@
 
 <script>
 import Composite from '@vue-storefront/core/mixins/composite';
-import ButtonOutline from 'theme/components/theme/ButtonOutline';
+import Breadcrumbs from 'theme/components/core/Breadcrumbs';
+import BaseTextarea from 'theme/components/core/blocks/Form/BaseTextarea';
+import ButtonFilledSmall from 'theme/components/theme/ButtonFilledSmall';
+import GoogleMap from 'src/modules/google-map/google-map';
 import VueOfflineMixin from 'vue-offline/mixin';
 import { EmailForm } from '@vue-storefront/core/modules/mailer/components/EmailForm';
 import config from 'config';
+import { mapState } from 'vuex';
 import { registerModule } from '@vue-storefront/core/lib/modules';
 import { MailerModule } from '@vue-storefront/core/modules/mailer';
 import { getThumbnailForProduct } from '@vue-storefront/core/modules/cart/helpers';
 import ProductImage from 'theme/components/core/ProductImage';
+import { currentStoreView } from '@vue-storefront/core/lib/multistore';
 
 export default {
   name: 'ThankYouPage',
+  components: {
+    BaseTextarea,
+    Breadcrumbs,
+    GoogleMap,
+    ProductImage,
+    ButtonFilledSmall
+  },
   mixins: [Composite, VueOfflineMixin, EmailForm],
   beforeCreate () {
     registerModule(MailerModule)
@@ -100,20 +111,40 @@ export default {
     }
   },
   computed: {
+    ...mapState({
+      shippingType: state => state.customShipping.type
+    }),
     lastOrderConfirmation () {
       return this.$store.state.order.last_order_confirmation ? this.$store.state.order.last_order_confirmation.confirmation : {}
     },
     products () {
       return (this.$store.state.order.last_order_confirmation && this.$store.state.order.last_order_confirmation.order) ? this.$store.state.order.last_order_confirmation.order.products : []
     },
-    addressInfo () {
+    billingAddress () {
       return (this.$store.state.order.last_order_confirmation && this.$store.state.order.last_order_confirmation.order && this.$store.state.order.last_order_confirmation.order.addressInformation) ? this.$store.state.order.last_order_confirmation.order.addressInformation.billingAddress : {}
+    },
+    addressInformation () {
+      return this.$store.state.order.last_order_confirmation && this.$store.state.order.last_order_confirmation.order && this.$store.state.order.last_order_confirmation.order.addressInformation
+    },
+    isNotificationSupported () {
+      if (isServer || !('Notification' in window)) return false
+      return 'Notification' in window
+    },
+    isPermissionGranted () {
+      if (isServer || !('Notification' in window)) return false
+      return Notification.permission === 'granted'
     },
     checkoutPersonalEmailAddress () {
       return this.$store.state.checkout.personalDetails.emailAddress
     },
     mailerElements () {
       return config.mailer.contactAddress
+    },
+    storeView () {
+      return currentStoreView();
+    },
+    totalPrice () {
+      return this.products.reduce((acc, it) => acc + it.price * it.qty, 0)
     }
   },
   methods: {
@@ -154,97 +185,84 @@ export default {
   },
   destroyed () {
     this.$store.dispatch('checkout/setThankYouPage', false)
-  },
-  components: {
-    ButtonOutline,
-    ProductImage
   }
 }
 </script>
 
-<style lang="sass">
-  .custom-action-button
-    width: auto !important
-    height: 40px
-    background: #23BE20
-    border-radius: 4px
-    font-family: 'DIN Pro'
-    font-weight: 700
-    font-size: 15px
-    line-height: 16px
-    color: #FFFFFF
-    padding: 12px 0
-</style>
+<style lang="scss" scoped>
+  span {
+    font-family: DIN Pro;
+    font-size: 13px;
+    line-height: 16px;
+    color: #1A1919;
+  }
 
-<style lang="scss">
+  .thank-you {
+    padding: 42px 0;
+
+    &-title {
+      margin-bottom: 16px;
+      margin-top: 0;
+    }
+    
+    &-button {
+      margin: auto;
+      margin-bottom: 33px;
+    }
+
+    &-description {
+      margin: 0 0 32px 0;
+    }
+  }
+
+  .thank-you-body {
+    border-radius: 4px;
+    margin-bottom: 22px;
+    box-sizing: border-box;
+    border: 1px solid #e0e0e0;
+  }
+
+  .thank-you-row {
+    display: grid;
+    align-items: flex-start;
+    grid-template-columns: 40% 48% 12%;
+    padding: 16px 15px 22px 15px;
+    text-align: left;
+
+    .left {
+      color: #5F5E5E;
+      margin-right: 80px;
+      font-weight: 600;
+    }
+
+    .right {
+      text-align: right;
+    }
+
+    .middle {
+      text-align: left;
+      margin-right: 80px;
+    }
+  }
+
+  .product-image {
+    grid-row-start: 1;
+    min-width: 35px;
+    width: 35px;
+    margin-right: 17px;
+  }
+
   .thank-you-content {
+    max-width: 680px;
+    width: 95%;
+    margin: auto;
+    text-align: center;
     padding-left: 0;
-    min-height: calc(100vh - 188px);
 
     .products {
       margin: 0;
       padding: 0;
       list-style: none;
-    }
-
-    .grid-container {
-      border: 1px solid #E0E0E0;
-      box-sizing: border-box;
-      border-radius: 4px;
-      .grid-item {
-        padding: 16px;
-        border-bottom: 1px solid #e0e0e0;
-        .left {
-          font-family: DIN Pro;
-          font-style: normal;
-          font-weight: 700;
-          font-size: 13px;
-          line-height: 16px;
-          color: #5F5E5E;
-          opacity: 0.6;
-        }
-        .right {
-          font-family: DIN Pro;
-          font-style: normal;
-          font-weight: 400;
-          font-size: 13px;
-          line-height: 16px;
-          color: #1A1919;
-          margin-left: 20px;
-        }
-      }
-      .name {
-        font-family: DIN Pro;
-        font-style: normal;
-        font-weight: 400;
-        font-size: 13px;
-        line-height: 16px;
-        color: #1A1919;
-      }
-      .product-image {
-        width: 32px;
-        height: auto;
-      }
-      .prices {
-        margin-left: auto;
-        .price-special {
-          font-family: DIN Pro;
-          font-style: normal;
-          font-weight: 400;
-          font-size: 13px;
-          line-height: 16px;
-          text-align: right;
-          color: #1A1919;
-        }
-      }
-      .qty {
-        font-family: DIN Pro;
-        font-style: normal;
-        font-weight: 400;
-        font-size: 13px;
-        line-height: 16px;
-        color: #1A1919;
-      }
     }
 
     .m-auto {
@@ -263,6 +281,9 @@ export default {
       color: #1A1919;
 
       span {
+        font-size: 24px;
+        font-weight: 600;
+        margin: 0 5px;
         color: #23BE20;
       }
     }
@@ -273,22 +294,122 @@ export default {
       line-height: 24px;
       color: #5F5E5E;
     }
+  }
 
-    @media (min-width: 64em) {
-      h4 {
-        font-size: 24px;
-      }
+  .product-item-row {
+    display: grid;
+    border-bottom: 1px solid #e0e0e0;;
+    align-items: flex-start;
+    grid-template-columns: auto 52% 20% 20%;
+    padding: 20px 15px;
+    text-align: left;
+    font-family: DIN Pro;
+    font-style: normal;
+    font-size: 13px;
+    line-height: 16px;
+        
+    .product-left {
+      display: flex;
+      grid-row-start: 1;
+      align-items: flex-start;
+      margin-right: 60px;
+    }
+
+    .product-right {
+      grid-row-start: 1;
+      text-align: right;
+    }
+
+    .product-middle {
+      grid-row-start: 1;
     }
   }
+
+  .product-price {
+    padding: 24px 16px 16px 16px;   
+  }
+
   .thank-you-improvment {
     padding: 0 20px 15px;
 
-    @media (min-width: 64em) {
-      padding: 0 40px 10px;
-    }
-
     textarea {
       min-height: 100px;
+    }
+  }
+
+  .product-price {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .price-title,
+  .price-total {
+    font-weight: 600;
+    font-size: 24px;
+    line-height: 30px;
+    color: #1A1919;
+  }
+
+  .price-special {
+    font-weight: 600;
+  }
+
+  .label-paid {
+    font-weight: 600;
+    color: #23BE20;
+  }
+
+  .label-free {
+    font-weight: 600;
+  }
+
+  @media (max-width: 700px) {
+    .thank-you-row {
+      padding: 15px;
+      grid-template: 1fr / 2fr;
+
+      .middle {
+        grid-row-start: 2;
+        margin-right: 50px;
+        margin-right: 0;
+      }
+
+      .right {
+        grid-row-start: 2;
+      }
+
+      .left {
+        margin-bottom: 15px;
+      }
+    }
+
+    .product-item-row {
+      grid-template-columns: auto 1fr;
+
+      .product-left {
+        grid-column-start: 2;
+        grid-row-start: 1;
+        margin-bottom: 20px;
+      }
+
+      .product-middle {
+        grid-row-start: 1;
+        grid-column-start: 2;
+        margin-left: auto;
+        margin-top: auto;
+      }
+
+      .product-right {
+        margin-top: auto;
+        margin-right: auto;
+        grid-row-start: 1;
+        grid-column-start: 2;
+      }
+    }
+
+    .product-image {
+      grid-row-start: 1;
     }
   }
 </style>

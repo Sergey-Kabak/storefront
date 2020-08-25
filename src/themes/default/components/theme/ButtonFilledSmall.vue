@@ -3,8 +3,9 @@
     :is="compontentType"
     :type="!link ? type : false"
     :to="redirectionLink"
-    class="button-full"
+    class="button-small"
     :class="{
+      'no-underline pointer align-center border-box': link,
       disabled: disabled,
       'button-disabled': disabled
     }"
@@ -18,15 +19,15 @@
 </template>
 
 <script>
-import focusClean from 'theme/components/theme/directives/focusClean';
+import focusClean from "theme/components/theme/directives/focusClean";
 export default {
-  name: 'ButtonFull',
+  name: "ButtonFull",
   directives: { focusClean },
   props: {
     type: {
       type: String,
       required: false,
-      default: 'button'
+      default: "button"
     },
     link: {
       type: Object,
@@ -40,33 +41,32 @@ export default {
     }
   },
   computed: {
-    compontentType () {
-      return this.link ? 'router-link' : 'button';
+    compontentType() {
+      return this.link ? "router-link" : "button";
     },
-    redirectionLink () {
+    redirectionLink() {
       return this.link ? this.localizedRoute(this.link) : null;
     }
   }
 };
 </script>
 
-<style lang='scss' scoped>
-.button-full {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+<style lang="scss" scoped>
+.button-small {
+  width: 100% !important;
+  padding: 0;
+  display: block;
   text-align: center;
-  height: 40px;
-  padding: 0 5px;
-  width: 100%;
   border-style: none;
   background: #23be20;
   color: #ffffff;
-  max-width: 260px;
+  height: 40px;
+  max-width: 131px;
   font-family: DIN Pro;
   font-size: 15px;
   font-weight: 600;
   line-height: 16px;
+  min-width: 100px;
   border-radius: 4px;
   transition: .2s ease-in-out;
 

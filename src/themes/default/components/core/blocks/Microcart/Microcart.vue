@@ -1,13 +1,13 @@
 <template>
   <div
     class="microcart cl-accent relative"
+    :class="{'is-empty': !productsInCart.length}"
     data-testid="microcart"
   >
     <div class="scroll-bar">
       <transition name="fade">
         <div v-if="isEditMode" class="overlay" @click="closeEditMode" />
       </transition>
-
       <button
         type="button"
         class="p0 brdr-none bg-cl-transparent close"
@@ -18,145 +18,64 @@
           close
         </i>
       </button>
-
-      <div class="middle-xs bg-cl-primary top-sm px20 actions">
-        <div class="col-xs-12 col-sm microcart-top">
-          <h2 class="microcart-top-title cl-accent mt35" v-if="productsInCart.length">
+      <div class="microcart-top">
+        
+        <div class="microcart-left">
+          <h2 class="microcart-top-title cl-accent" v-if="productsInCart.length">
             {{ $t('Your cart') }}
           </h2>
-
-          <h2 class="microcart-top-title cl-accent mt35" v-if="!productsInCart.length">
+          <h2 class="microcart-top-title cl-accent" v-if="!productsInCart.length">
             {{ $t('Your shopping cart is empty.') }}
           </h2>
-
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M21 4H2V6H4.3L7.582 15.025C7.79362 15.6029 8.1773 16.1021 8.68134 16.4552C9.18539 16.8083 9.78556 16.9985 10.401 17H19V15H10.401C9.982 15 9.604 14.735 9.461 14.342L8.973 13H18.246C19.136 13 19.926 12.402 20.169 11.549L21.962 5.275C22.0039 5.12615 22.0109 4.96962 21.9823 4.81763C21.9537 4.66565 21.8904 4.52234 21.7973 4.39889C21.7041 4.27544 21.5837 4.1752 21.4454 4.106C21.3071 4.0368 21.1546 4.00053 21 4ZM18.246 11H8.246L6.428 6H19.675L18.246 11Z" fill="#23BE20"/>
             <path d="M10.5 21C11.3284 21 12 20.3284 12 19.5C12 18.6716 11.3284 18 10.5 18C9.67157 18 9 18.6716 9 19.5C9 20.3284 9.67157 21 10.5 21Z" fill="#23BE20"/>
             <path d="M16.5 21C17.3284 21 18 20.3284 18 19.5C18 18.6716 17.3284 18 16.5 18C15.6716 18 15 18.6716 15 19.5C15 20.3284 15.6716 21 16.5 21Z" fill="#23BE20"/>
           </svg>
-
-          <p v-if="!productsInCart.length">{{ $t('Add your favorite products to the basket!') }}</p>
-
           <span class="microcart-top-total-count" v-if="productsInCart.length">
-          {{ productsInCart.length }}
-        </span>
-
-          <!--<div class="mt0 end-sm clearcart-col">-->
-          <!--<clear-cart-button-->
-          <!--v-if="productsInCart.length"-->
-          <!--@click.native="clearCart"-->
-          <!--/>-->
-          <!--</div>-->
-
+          {{ countProducts }}
+          </span>
         </div>
-        <!--      <div class="col-xs-12 col-sm mt35 mb35 mt0 end-sm clearcart-col">-->
-        <!--        <clear-cart-button-->
-        <!--          v-if="productsInCart.length"-->
-        <!--          @click.native="clearCart"-->
-        <!--        />-->
-        <!--      </div>-->
+        <div class="microcart-right" v-if="productsInCart.length">
+          <button-text @click.native="clearCart()">{{ $t('Remove all') }}</button-text>
+        </div>
       </div>
-
-      <!--    <h4 v-if="!productsInCart.length" class="cl-accent ml30">-->
-      <!--      {{ $t('Ваша корзина пуста.') }}-->
-      <!--    </h4>-->
-
-      <!--    <div v-if="!productsInCart.length" class="ml30" @click="closeMicrocartExtend">-->
-      <!--      {{ $t("Don't hesitate and") }}-->
-      <!--      <router-link :to="localizedRoute('/')">-->
-      <!--        {{ $t('browse our catalog') }}-->
-      <!--      </router-link>-->
-      <!--      {{ $t('to find something beautiful for You!') }}-->
-      <!--    </div>-->
-
+      <div class="microcart-empty" v-if="!productsInCart.length">
+        <p>{{ $t('Add your favorite products to the basket!') }}</p>
+      </div>
       <div class="microcart-scroll-content" v-if="productsInCart.length">
-        <ul v-if="productsInCart.length" class="bg-cl-primary m0 px40 pb40 products">
+        <ul v-if="productsInCart.length" class="products">
           <product v-for="product in productsInCart" :key="product.server_item_id || product.id" :product="product" />
         </ul>
-        <!--<promo-code />-->
-        <div v-if="OnlineOnly" class="col-xs-12 pt30 px40 coupon-wrapper">
-          <div class="coupon-input">
-            <label class="h6 cl-secondary">{{ $t('Enter promotional code') }}</label>
-            <base-input type="text" id="couponinput" class="promocode-input" :autofocus="true" v-model.trim="couponCode" @keyup.enter="setCoupon" />
-          </div>
-          <button-outline color="dark" class="promocode-btn" :disabled="!couponCode" @click.native="setCoupon">
-            {{ $t('Add discount code') }}
-          </button-outline>
-        </div>
+        <promo-code class="promo-code" v-if="OnlineOnly" />
       </div>
-
-      <!--<microcart-buttom v-if="productsInCart.length" />-->
-
-      <div v-if="productsInCart.length" class="summary px40 cl-accent serif">
-        <h3 class="m0 pt40 mb30 weight-400 summary-heading">
-          {{ $t('Shopping summary') }}
-        </h3>
-        <div v-for="(segment, index) in totals" :key="index" class="row py20" v-if="segment.code !== 'grand_total'">
-          <template v-if="segment.code !== 'tax'">
-            <div class="col-xs" >
-              {{ $t(segment.title) }}
-              <button v-if="appliedCoupon && segment.code === 'discount'" type="button" class="p0 brdr-none bg-cl-transparent close delete-button ml10" @click="clearCoupon">
-                <i class="material-icons cl-accent">
-                  close
-                </i>
-              </button>
-            </div>
-            <div v-if="segment.value != null" class="col-xs align-right">
-              {{ segment.value | price(storeView) }}
-            </div>
-          </template>
-        </div>
-        <!--<div class="row py20">-->
-        <!--<div v-if="OnlineOnly && !addCouponPressed" class="col-xs-12">-->
-        <!--<button-->
-        <!--class="p0 brdr-none serif fs-medium-small cl-accent bg-cl-transparent"-->
-        <!--type="button"-->
-        <!--@click="addDiscountCoupon"-->
-        <!--&gt;-->
-        <!--{{ $t('Add a discount code') }}-->
-        <!--</button>-->
-        <!--</div>-->
-        <!--<div v-if="OnlineOnly && addCouponPressed" class="col-xs-12 pt30 coupon-wrapper">-->
-        <!--<div class="coupon-input">-->
-        <!--<label class="h6 cl-secondary">{{ $t('Discount code') }}</label>-->
-        <!--<base-input type="text" id="couponinput" :autofocus="true" v-model.trim="couponCode" @keyup.enter="setCoupon" />-->
-        <!--</div>-->
-        <!--<button-outline color="dark" :disabled="!couponCode" @click.native="setCoupon">-->
-        <!--{{ $t('Add discount code') }}-->
-        <!--</button-outline>-->
-        <!--</div>-->
-        <!--</div>-->
-
-        <div class="row pt30 pb20 weight-700 middle-xs" v-for="(segment, index) in totals" :key="index" v-if="segment.code === 'grand_total'">
-          <div class="col-xs h4 total-price-label">
-            {{ $t(segment.title) }}
+      <div v-if="productsInCart.length" class="summary cl-accent serif">
+        <div class="total-price" v-for="(segment, index) in totals" :key="index" v-if="segment.code === 'grand_total'">
+          <div class="total-price-label">
+            {{ $t(segment.title) }}:
           </div>
-          <div class="col-xs align-right h2 total-price-value">
+          <div class="total-price-value">
             {{ segment.value | price(storeView) }}
           </div>
         </div>
       </div>
-
       <div
-          class="row py20 px40 middle-xs actions"
-          v-if="productsInCart.length && !isCheckoutMode"
+        class="actions-button"
+        v-if="productsInCart.length && !isCheckoutMode"
       >
-        <div class="col-xs-12 col-sm-6 first-sm">
-          <router-link :to="localizedRoute('/')" class="no-underline cl-secondary link">
-          <span @click="closeMicrocartExtend">
-            {{ $t('Return to shopping') }}
-          </span>
-          </router-link>
-        </div>
-        <div class="col-xs-12 first-xs col-sm-4 end-sm">
-          <button-full
-              :link="{ name: 'checkout' }"
-              @click.native="closeMicrocartExtend"
-          >
-            {{ $t('Go to checkout') }}
-          </button-full>
-          <instant-checkout v-if="isInstantCheckoutRegistered" class="no-outline button-full block brdr-none w-100 px10 py20 bg-cl-mine-shaft :bg-cl-th-secondary ripple weight-400 h4 cl-white sans-serif fs-medium mt20" />
-        </div>
+        <button-outline
+          class="button"
+          disabled
+        >
+          {{ $t('Buy in credit') }}
+        </button-outline>
+        <button-full
+          :link="{ name: 'checkout' }"
+          class="button"
+          @click.native="closeMicrocartExtend"
+        >
+          {{ $t('Go to checkout') }}
+        </button-full>
       </div>
     </div>
   </div>
@@ -164,40 +83,34 @@
 
 <script>
 import {
-  mapActions,
-  mapGetters
+  mapGetters,
+  mapActions
 } from 'vuex';
-import i18n from '@vue-storefront/i18n';
-import {
+import { 
   isModuleRegistered,
   registerModule
 } from '@vue-storefront/core/lib/modules';
+import i18n from '@vue-storefront/i18n';
 import { currentStoreView } from '@vue-storefront/core/lib/multistore';
 
 import VueOfflineMixin from 'vue-offline/mixin';
 import onEscapePress from '@vue-storefront/core/mixins/onEscapePress';
-import InstantCheckout from 'src/modules/instant-checkout/components/InstantCheckout.vue';
 
-import BaseInput from 'theme/components/core/blocks/Form/BaseInput';
-import ClearCartButton from 'theme/components/core/blocks/Microcart/ClearCartButton';
 import ButtonFull from 'theme/components/theme/ButtonFull';
 import ButtonOutline from 'theme/components/theme/ButtonOutline';
-import Product from 'theme/components/core/blocks/Microcart/Product';
+import ButtonText from 'theme/components/theme/ButtonText';
+import Product from 'theme/components/core/blocks/Checkout/Product';
 import EditMode from './EditMode';
 import { InstantCheckoutModule } from 'src/modules/instant-checkout';
 import PromoCode from './PromoCode';
-import MicrocartButtom from './MicrocartButtom';
 
 export default {
   components: {
-    MicrocartButtom,
     PromoCode,
     Product,
-    ClearCartButton,
     ButtonFull,
     ButtonOutline,
-    BaseInput,
-    InstantCheckout
+    ButtonText
   },
   mixins: [
     VueOfflineMixin,
@@ -232,10 +145,14 @@ export default {
       productsInCart: 'cart/getCartItems',
       appliedCoupon: 'cart/getCoupon',
       totals: 'cart/getTotals',
-      isOpen: 'cart/getIsMicroCartOpen'
+      isOpen: 'cart/getIsMicroCartOpen',
+      totalProducts: 'cart/getItemsTotalQuantity'
     }),
     storeView () {
       return currentStoreView()
+    },
+    countProducts () {
+      return this.productsInCart.reduce((acc, it) => acc + it.qty, 0)
     }
   },
   methods: {
@@ -291,73 +208,29 @@ export default {
 }
 </script>
 
-<style lang="scss">
-  .microcart {
-    /*overflow: auto;*/
-    /*-webkit-overflow-scrolling: touch;*/
-    /*height: 100%;*/
-    /*background-color: white;*/
-    /*box-sizing: border-box;*/
-    /*position: fixed;*/
-    /*z-index: 9999;*/
-    /*right: 0;*/
-    /*top: 0;*/
-    /*min-height: 100vh;*/
-    .promocode-input {
-      input {
-        background: #FFFFFF;
-        border: 1px solid #E0E0E0;
-        box-sizing: border-box;
-        border-radius: 4px;
-        padding: 0 10px;
-        height: 45px;
-      }
-    }
-    .promocode-btn {
-      margin-bottom: -6px;
-      border: 1px solid #23BE20;
-      box-sizing: border-box;
-      border-radius: 4px;
-      height: 45px;
-      width: 100%;
-      background-color: white;
-      font-family: DIN Pro;
-      font-style: normal;
-      font-weight: 500;
-      font-size: 15px;
-      line-height: 16px;
-      color: #1A1919;
-      padding: 0;
-      &:hover {
-        background: #23BE20;
-        border-color: #23BE20;
-        color: #ffffff;
-      }
-    }
-    .product-image--width .product-image__thumb {
-      width: 100%;
-      height: auto;
-    }
-  }
-</style>
-
 <style lang="scss" scoped>
   @import "~theme/css/animations/transitions";
   .microcart {
+    height: 100%;
 
-    @media (max-width: 549px) {
-      width: 100%;
+    .summary {
+      margin-top: auto;
     }
 
     .close {
       position: absolute;
       right: 0;
       top: 0;
+      background-color: #F9F9F9;
 
       i {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 14px;
+        height: 14px;
         opacity: 0.6;
-        background-color: #F9F9F9;
-        padding: 13px;
+        padding: 18px;
         margin: 0;
       }
 
@@ -370,44 +243,95 @@ export default {
     }
 
     &-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 32px;
+
       &-title {
+        display: inline-block;
+        margin: 0 16px 0 0;
         font-family: DIN Pro;
         font-style: normal;
-        font-size: 18px;
-        line-height: 18px;
-        display: inline-block;
-        margin-bottom: 30px;
+        font-weight: 600;
+        font-size: 24px;
+        color: #1A1919;
+        line-height: 30px;
       }
 
       svg {
-        width: 30px;
-        margin-bottom: -9px;
-        height: 30px;
+        margin-right: 10px;
+        width: 24px;
+        height: 24px;
       }
 
       &-total-count {
+        box-sizing: border-box;
         font-family: DIN Pro;
         font-style: normal;
         font-weight: 500;
         font-size: 14px;
         line-height: 13px;
-
         background-color: #22be21;
         padding: 5px;
-        width: 24px;
-        height: 24px;
+        min-width: 24px;
+        min-height: 24px;
         color: white;
         display: inline-flex;
         justify-content: center;
         align-items: center;
         border-radius: 50%;
       }
+
+      &-remove {
+        margin-left: auto;
+        cursor: pointer;
+        font-family: DIN Pro;
+        font-style: normal;
+        font-size: 13px;
+        line-height: 16px;
+        color: #1A1919;
+        padding-bottom: 4px;
+        border-bottom: 1px dashed #1A1919;;
+      }
+    }
+
+    &-left {
+      display: flex;
+      align-items: center;
     }
   }
 
-  .mt0 {
-    @media (max-width: 767px) {
-      margin-top: 0;
+  .microcart-empty {
+    p {
+      font-family: DIN Pro;
+      font-style: normal;
+      font-size: 15px;
+      line-height: 24px;
+      color: #1A1919;
+      margin: 0;
+    }
+  }
+
+  .scroll-bar {
+    height: 100%;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    padding: 50px 32px 28px 32px;
+  }
+
+  .actions-button {
+    justify-content: space-between;
+    display: flex;
+
+    .button {
+      box-sizing: border-box;
+      max-width: 232px;
+
+      &:first-child {
+        margin-right: 2%;
+      }
     }
   }
 
@@ -419,39 +343,15 @@ export default {
   }
 
   .products {
-    @media (max-width: 767px) {
-      padding: 30px 15px;
-    }
+    padding-left: 0;
+    margin: 0;
   }
 
-  .actions {
-    @media (max-width: 767px) {
-      padding: 0 15px;
-    }
-    .link {
-      @media (max-width: 767px) {
-        display: flex;
-        justify-content: center;
-        padding: 20px 70px;
-        &.checkout {
-          margin-top: 55px;
-          padding: 0;
-        }
-      }
-    }
-  }
-
-  .summary {
-    @media (max-width: 767px) {
-      padding:  0 15px;
-      font-size: 12px;
-    }
-  }
-
-  .summary-heading {
-    @media (max-width: 767px) {
-      font-size: 18px;
-    }
+  .total-price {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
   }
 
   .total-price-label {
@@ -461,9 +361,6 @@ export default {
     font-size: 24px;
     line-height: 30px;
     color: #19223D;
-    @media (max-width: 767px) {
-      font-size: 18px;
-    }
   }
 
   .total-price-value {
@@ -474,42 +371,10 @@ export default {
     line-height: 30px;
     text-align: right;
     color: #19223D;
-    @media (max-width: 767px) {
-      font-size: 24px;
-    }
   }
 
-  .delete-button {
-    vertical-align: middle;
-  }
-
-  .coupon-wrapper {
-    display: flex;
-    align-items: center;
-    padding: 0 15px;
-
-    .button-outline {
-      text-transform: inherit;
-      width: 50%;
-    }
-
-    .coupon-input {
-      margin-right: 20px;
-      width: 100%;
-
-      label {
-        font-family: 'DIN Pro';
-        font-style: normal;
-        font-weight: 100;
-        font-size: 13px;
-        line-height: 16px;
-        padding-bottom: 4px;
-        margin-bottom: 10px;
-        border-bottom: 1px dashed #1A1919;
-        color: #1A1919;
-        display: inline-block;
-      }
-    }
+  .promo-code {
+    margin-bottom: 20px;
   }
 
   .overlay {
@@ -529,65 +394,59 @@ export default {
   .fade-enter, .fade-leave-to {
     opacity: 0;
   }
-</style>
 
-<style lang="scss" scoped>
-  .microcart-buttom {
-    &-wrapper {
-      position: absolute;
-      background-color: white;
-      bottom: 0;
-      box-sizing: border-box;
-      padding-bottom: 20px;
+  @media (max-width: 500px) {
+    .scroll-bar {
+      padding: 18px 16px;
     }
-    &-top-row {
-      font-family: DIN Pro;
-      font-style: normal;
-      font-weight: bold;
-      font-size: 24px;
-      line-height: 30px;
-      margin-bottom: 10px;
 
-      display: flex;
-      justify-content: space-between;
-    }
-    &-body-row {
-      &-left {
-        button {
-          margin-bottom: 10px;
-          padding: 10px 20px;
-          height: 45px;
+    .microcart {
+      &-top {
+        flex-direction: column-reverse;
+        align-items: flex-start;
+        margin-bottom: 25px;
+      }
 
-          background: #FFFFFF;
-          border: 1px solid #23BE20;
-          box-sizing: border-box;
-          border-radius: 4px;
+      &-right {
+        margin-bottom: 25px;
+      }
 
-          font-family: DIN Pro;
-          font-style: normal;
-          font-weight: bold;
-          font-size: 15px;
-          line-height: 16px;
-          align-items: center;
-          text-align: center;
+      .close {
+        i {
+          padding: 21px;
         }
       }
-      &-right {
-        button {
-          padding: 11px 20px;
-          height: 45px;
 
-          border: none;
-          box-sizing: border-box;
-          background: #23BE20;
-          border-radius: 4px;
-          font-family: DIN Pro;
-          font-style: normal;
-          font-weight: 500;
-          font-size: 15px;
-          line-height: 16px;
-          align-items: center;
-          text-align: center;
+      &.is-empty {
+        .scroll-bar {
+          padding-top: 50px;
+        }
+      }
+    }
+
+    ::v-deep .product  {
+      flex-direction: column;
+      align-items: flex-start;
+
+      &-left {
+        margin-bottom: 17px;
+      }
+
+      &-right {
+        max-width: 100%;
+        justify-content: space-between;
+        padding-left: 20px;
+      }
+
+      &-qty {
+        margin: 0;
+      }
+    }
+
+    .actions-button {
+      .button {
+        &:first-child {
+          margin-right: 16px;
         }
       }
     }

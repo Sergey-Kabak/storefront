@@ -1,14 +1,16 @@
-is out of stock!,немає у наявності
+"Product price is unknown, product cannot be added to the cart!","Ціна товару невідома, товар не можна додати у кошик!"
+"Stock check in progress, please wait while available stock quantities are checked",Виконується перевірка товарів на наявність. Будь ласка дочекайтеся завершення процесу перевірки
+"Unhandled error, wrong response format!","Необроблена помилка, невірний формат відповіді!"
 404 Page Not Found,Помилка 404 сторінка не знайдена
 Account data has successfully been updated,Дані облікового запису успішно оновлені
-Adding a review ...,Залишити відгук
+Adding a review ...,Залишити 
 Are you sure you would like to remove this item from the shopping cart?,"Ви впевнені, що хочете видалити цей товар з кошика?"
 Checkout,Оформити замовлення
 Compare Products,Порівняти товари
 Error with response - bad content-type!,Помилка у відповіді — невірний тип контенту
 Field is required,Обов'язкове поле
 Field is required.,Обов'язкове поле
-Grand total,Загальна сума
+Grand total,Всього
 Home Page,Головна сторінка
 Internal validation error. Please check if all required fields are filled in. Please contact us on {email},Виникла помилка. Будь ласка заповніть всі обов'язкові поля.
 My Account,Особистий кабінет
@@ -19,7 +21,6 @@ Only {maxQuantity} products of this type are available!,Доступні лиш�
 Out of stock!,Немає у наявності
 Please fix the validation errors,Будь ласка виправте помилки
 Product has been added to the cart!,Товар додано до кошика
-"Product price is unknown, product cannot be added to the cart!","Ціна товару невідома, товар не можна додати у кошик!"
 Product quantity has been updated!,Кількість товару оновлена!
 Product {productName} has been added to the compare!,Товар доданий для порівняння!
 Product {productName} has been added to wishlist!,Товар доданий до списку бажань!
@@ -29,7 +30,6 @@ Registering the account …,Створюється обліковий запис
 Reset password feature does not work while offline!,Неможливо змінити пароль через відсутність з'єднання з інтернетом!
 Shopping cart is empty. Please add some products before entering Checkout,"Кошик порожній. Будь ласка додайте товари, щоб оформити замовлення"
 Some of the ordered products are not available!,Деякі з обраних товарів недоступні!
-"Stock check in progress, please wait while available stock quantities are checked",Виконується перевірка товарів на наявність. Будь ласка дочекайтеся завершення процесу перевірки
 Subtotal incl. tax,Сума з ПДВ
 The product is out of stock and cannot be added to the cart!,Товару немає в наявності і його не можна додати до кошика
 The system is not sure about the stock quantity (volatile). Product has been added to the cart for pre-reservation.,Кількість товару обмежена. Товар доданий у кошик для попереднього бронювання.
@@ -37,8 +37,8 @@ There is no Internet connection. You can still place your order. We will notify 
 This feature is not implemented yet! Please take a look at https://github.com/DivanteLtd/vue-storefront/issues for our Roadmap!,Дана можливість поки не реалізована! Будь ласка ознайомтеся з картою сайту тут: https://github.com/DivanteLtd/vue-storefront/issues
 Thumbnail,
 Type what you are looking for...,Пошук товарів
-"Unhandled error, wrong response format!","Необроблена помилка, невірний формат відповіді!"
 You are logged in!,Ви увійшли в обліковий запис!
 You need to be logged in to see this page,Увійдіть в систему для перегляду сторінки
 You submitted your review for moderation,Дякуємо за ваш відгук. Після перевірки модератором він буде опублікований
 You're logged out,Ви вийшли з облікового запису
+is out of stock!,немає у наявності

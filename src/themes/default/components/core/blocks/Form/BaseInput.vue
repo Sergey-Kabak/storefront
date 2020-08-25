@@ -5,8 +5,11 @@
   >
     <div class="relative">
       <input
-        class="py10 w-100 border-box brdr-none brdr-bottom-1 brdr-cl-primary h4 sans-serif"
-        :class="[{pr30: type === 'password', empty: value === '', 'error-input': validations.some(i => i.condition)}, inputClass]"
+        class="
+         py10 w-100 border-box brdr-none brdr-bottom-1
+         brdr-cl-primary h4 sans-serif
+        "
+        :class="{pr30: type === 'password', empty: value === ''}"
         :type="type === 'password' ? passType : type"
         :name="name"
         :autocomplete="autocomplete"
@@ -151,6 +154,7 @@ export default {
 
   input {
     background: inherit;
+    height: 40px;;
 
     &:hover,
     &:focus {
@@ -165,7 +169,11 @@ export default {
       pointer-events: none;
     }
   }
+
   label {
+    font-family: DIN Pro;
+    font-size: 13px;
+    line-height: 16px;
     color:#999;
     position:absolute;
     pointer-events:none;
