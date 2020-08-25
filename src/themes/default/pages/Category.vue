@@ -556,6 +556,7 @@ $mobile_screen : 768px;
 .banner-description {
   margin-top: 25px;
   display: flex;
+  flex-direction: column;
   img {
     display: block;
     width: auto;
@@ -593,17 +594,18 @@ $mobile_screen : 768px;
     }
   }
   @media (max-width: 650px) {
-    flex-direction: column;
-    .banner-description__block {
-      margin-left: 0;
-      margin-top: 30px;
-    }
-    .banner-description__text {
-      height: 210px;
-    }
+    /*flex-direction: column;*/
+    /*.banner-description__block {*/
+    /*  margin-left: 0;*/
+    /*  margin-top: 30px;*/
+    /*}*/
+    /*.banner-description__text {*/
+    /*  height: 210px;*/
+    /*}*/
   }
   &__block {
-    margin-left: 20px;
+    /*margin-left: 20px;*/
+    margin-top: 25px;
     background: #FFFFFF;
     border: 1px solid #E0E0E0;
     box-sizing: border-box;
@@ -626,11 +628,12 @@ $mobile_screen : 768px;
     font-size: 15px;
     line-height: 24px;
     color: #5F5E5E;
-    height: 110px;
+    /*height: 110px;*/
     overflow: auto;
   }
   &__timer {
-    position: absolute;
+    /*position: absolute;*/
+    position: relative;
     bottom: 16px;
     left: 16px;
     right: 16px;
