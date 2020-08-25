@@ -104,7 +104,7 @@
               @click.native="sendDataToCheckout()"
               :disabled="createAccount ? $v.$invalid : $v.personalDetails.$invalid"
             >
-              {{ $t((isVirtualCart ? 'Далее' : 'Далее')) }}
+              {{ $t((isVirtualCart ? 'next' : 'next')) }}
             </button-small>
           </div>
         </div>

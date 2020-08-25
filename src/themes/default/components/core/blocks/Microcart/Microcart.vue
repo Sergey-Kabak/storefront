@@ -274,8 +274,8 @@ export default {
         line-height: 13px;
         background-color: #22be21;
         padding: 5px;
-        width: 24px;
-        height: 24px;
+        min-width: 24px;
+        min-height: 24px;
         color: white;
         display: inline-flex;
         justify-content: center;

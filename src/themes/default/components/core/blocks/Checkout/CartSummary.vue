@@ -1,7 +1,7 @@
 <template>
   <div class="cart-summary">
     <h3 class="summary-title">
-      Мой заказ
+      {{ $t('My Order') }}
       <span class="summary-title__count">{{ getItemsTotalQuantity }}</span>
     </h3>
     <product
