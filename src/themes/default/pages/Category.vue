@@ -637,7 +637,7 @@ $mobile_screen : 768px;
     border: 1px solid #E0E0E0;
     box-sizing: border-box;
     border-radius: 4px;
-    min-width: 380px;
+    /*min-width: 380px;*/
     width: 100%;
     padding: 16px;
     position: relative;
