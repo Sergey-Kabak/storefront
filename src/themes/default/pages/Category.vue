@@ -558,9 +558,10 @@ $mobile_screen : 768px;
   flex-direction: column;
   img {
     display: block;
-    width: calc(100% - 400px);
-    min-height: 200px;
-    max-height: 275px;
+    /*width: calc(100% - 400px);*/
+    /*min-height: 200px;*/
+    /*max-height: 275px;*/
+    width: 100%;
     &.mob {
       display: none;
     }
