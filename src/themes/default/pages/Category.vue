@@ -8,7 +8,6 @@
             <div class="banner-description">
               <div v-if="getCurrentCategory.image" :class="{full: !getCurrentCategory.description}">
                 <img class="desk" :src="`https://magento.ringoo.ua/${getCurrentCategory.image}`" alt="banner">
-                <img class="mob" src="http://i.imgur.com/qcHXFPR.png" alt="banner">
               </div>
               <div class="banner-description__block" v-if="getCurrentCategory.description">
                 <h3>{{ $t('Description of the action') }}</h3>
@@ -88,7 +87,7 @@
               <span class="close-text">Назад</span>
             </div>
             <sidebar :filters="getAvailableFilters" @changeFilter="changeFilter" />
-            
+
             <div
               v-if="Object.keys(getCurrentSearchQuery.filters).length > 0"
               class="active-filters-mobile"
@@ -213,7 +212,7 @@ export default {
     },
     isCategoryEmpty () {
       return this.getCategoryProductsTotal === 0
-    }
+    },
   },
   async asyncData ({ store, route, context }) { // this is for SSR purposes to prefetch data - and it's always executed before parent component methods
     if (context) context.output.cacheTags.add('category')
@@ -299,13 +298,7 @@ export default {
     const meta = meta_description ? [
       { vmid: 'description', name: 'description', content: htmlDecode(meta_description) }
     ] : []
-    /* const categoryLocaliedLink = localizedRoute({
-      name: 'category-amp',
-      params: { slug }
-    }, storeView.storeCode)
-    const ampCategoryLink = this.$router.resolve(categoryLocaliedLink).href */
     return {
-      // link: [ { rel: 'amphtml', href: ampCategoryLink } ],
       title: htmlDecode(meta_title || name),
       meta
     }
@@ -555,43 +548,12 @@ $mobile_screen : 768px;
 .banner-description {
   margin-top: 25px;
   display: flex;
+  flex-direction: column;
   img {
     display: block;
-    width: calc(100% - 400px);
-    min-height: 200px;
-    max-height: 275px;
+    width: 100%;
     &.mob {
       display: none;
-    }
-    @media (max-width: 991px) {
-      &.desk {
-        display: none;
-      }
-      &.mob {
-        height: auto;
-        width: 100%;
-        display: block;
-      }
-    }
-    @media (max-width: 767px) {
-      &.desk {
-        display: block;
-        width: 100%;
-        height: auto;
-      }
-      &.mob {
-        display: none;
-      }
-    }
-    @media (max-width: 500px) {
-      &.desk {
-        display: none;
-      }
-      &.mob {
-        display: block;
-        height: auto;
-        width: 100%;
-      }
     }
   }
   .full {
@@ -616,25 +578,12 @@ $mobile_screen : 768px;
       }
     }
   }
-  @media (max-width: 767px) {
-    flex-direction: column;
-    .banner-description__block {
-      margin-left: 0;
-      margin-top: 30px;
-      max-width: 100%;
-      min-width: 100%;
-    }
-    .banner-description__text {
-      height: 210px;
-    }
-  }
   &__block {
-    margin-left: 20px;
+    margin-top: 25px;
     background: #FFFFFF;
     border: 1px solid #E0E0E0;
     box-sizing: border-box;
     border-radius: 4px;
-    min-width: 380px;
     width: 100%;
     padding: 16px;
     position: relative;
@@ -653,11 +602,12 @@ $mobile_screen : 768px;
     font-size: 15px;
     line-height: 24px;
     color: #5F5E5E;
-    height: 110px;
+    /*height: 110px;*/
     overflow: auto;
   }
   &__timer {
-    position: absolute;
+    /*position: absolute;*/
+    position: relative;
     bottom: 16px;
     left: 16px;
     right: 16px;
