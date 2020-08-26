@@ -141,7 +141,6 @@ import SortBy from '../components/core/SortBy.vue';
 import { isServer } from '@vue-storefront/core/helpers';
 import { getSearchOptionsFromRouteParams } from '@vue-storefront/core/modules/catalog-next/helpers/categoryHelpers';
 import config from 'config';
-import Columns from '../components/core/Columns.vue';
 import ButtonFull from 'theme/components/theme/ButtonFull.vue';
 import { mapGetters } from 'vuex';
 import onBottomScroll from '@vue-storefront/core/mixins/onBottomScroll';
@@ -173,8 +172,7 @@ export default {
     MobileBreadcrumbs,
     Sidebar,
     SortBy,
-    NewSortBy,
-    Columns
+    NewSortBy
   },
   mixins: [onBottomScroll],
   data () {
