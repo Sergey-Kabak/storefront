@@ -5,7 +5,7 @@
         v-for="(activeFilter, index) in getActiveFilters"
         :filter="activeFilter"
         :key="index"
-        @remove="$emit('changeFilter', $event)"
+        @remove="$emit('changeFilter', $event)" 
       />
     </div>
     <span
@@ -15,7 +15,7 @@
     >
       {{ $t('Clear filters') }}
     </span>
-    <h4 class="sidebar__header relative mt45 flex center-md">
+    <h4 class="sidebar__header relative flex center-md" :class="{'mt20' : hasActiveFilters , 'mt45' : !hasActiveFilters}">
       <svg width="18" height="12" viewBox="0 0 18 12" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M7 12H11V10H7V12ZM0 0V2H18V0H0ZM3 7H15V5H3V7Z" fill="#23BE20"/>
       </svg>
@@ -152,12 +152,12 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-$mobile_screen : 768px;
+$mobile_screen : 767px;
 .mt45{
   margin-top: 45px;
 }
 .clear-filters{
-  @media (max-width : 768px){
+  @media (max-width : 767px){
     display: none;
   }
 }
@@ -181,18 +181,29 @@ $mobile_screen : 768px;
     }
   }
 }
-/deep/ .button-selector{
-  background-color: #F2F2F2;
-  color: #1A1919;
-  text-transform: uppercase;
-}
 .sidebar {
   @media (max-width : $mobile_screen){
-    padding-top: 20px;
+    padding-top: 14px;
+    display: flex;
+    flex-direction: column;
   }
   &__header {
     @media (max-width : $mobile_screen){
-       border-bottom : none;
+      order: -1;
+      border : none;
+      min-height: 1px;
+      padding-top: 9px;
+      margin: 0 0 -3px;
+      position: relative;
+      &:before{
+        position: absolute;
+        content: '';
+        left: -16px;
+        top: 0;
+        width: calc(100% + 32px);
+        height: 1px;
+        background-color: #E0E0E0;
+      }
      }
     margin-top: 0;
     display: flex;
@@ -252,7 +263,11 @@ $mobile_screen : 768px;
   .active-filters {
     display: flex;
     flex-wrap: wrap;
-    margin-bottom: 15px;
+    margin-bottom: 11px;
+    @media (max-width : $mobile_screen){
+      margin-top: 25px;
+      margin-bottom: -15px;
+    }
   }
 
   .clear-filters {

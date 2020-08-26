@@ -290,6 +290,7 @@ export default {
 $color-secondary: color(secondary);
 
 footer {
+  margin-top: auto;
   border-top: 1px solid #E0E0E0;
   background-color: #1A1919;
 

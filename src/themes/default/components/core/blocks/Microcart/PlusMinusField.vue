@@ -98,6 +98,12 @@ export default {
         this.$emit('input', this.newValue)
       }
     },
+    mpplus: function () {
+      if (this.max === undefined || (this.newValue < this.max)) {
+        this.newValue = this.newValue + 1
+        this.$emit('input', this.newValue)
+      }
+    },
     mpminus: function () {
       if ((this.newValue) > this.min) {
         this.newValue = this.newValue - 1
@@ -179,6 +185,46 @@ export default {
   }
 }
 
+.minusplusnumber #field_container input {
+  width: 38px;
+  text-align: center;
+  padding: 3px;
+  border: none;
+  height: 28px;
+  box-sizing: border-box;
+  background: #ffffff;
+  font-family: DIN Pro;
+  font-style: normal;
+  font-size: 12px;
+  line-height: 13px;
+}
+
+.minusplusnumber .mpbtn {
+  cursor: pointer;
+  height: 30px;
+  width: 30px;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.minus, .plus {
+  border: 1px solid #E0E0E0;
+  background: #F9F9F9;
+  svg {
+    fill: #E0E0E0;
+  }
+
+  &.active {
+    background: #23BE20;
+
+    svg {
+      fill: #fff;
+    }
+  }
+}
+
 .minus {
   border-radius: 4px 0 0 4px;
   border-right: none;
@@ -203,13 +249,15 @@ export default {
 
   &:active {
     background: #1da01b;
-    border: 1px solid #23BE20;
   }
 }
-
-input[type=number]::-webkit-inner-spin-button,
-input[type=number]::-webkit-outer-spin-button {
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
+}
+
+input[type=number] {
+  -moz-appearance: textfield;
 }
 </style>

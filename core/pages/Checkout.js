@@ -155,6 +155,7 @@ export default {
     async onAfterPlaceOrder (payload) {
       this.confirmation = payload.confirmation
       this.$store.dispatch('checkout/setThankYouPage', true)
+      this.$store.dispatch('cart/clear', { sync: false }, { root: true })
       this.$store.dispatch('user/getOrdersHistory', { refresh: true, useCache: true })
       Logger.debug(payload.order)()
     },
@@ -178,11 +179,10 @@ export default {
     onAfterPaymentDetails (receivedData, validationResult) {
       this.payment = receivedData
       this.validationResults.payment = validationResult
-      this.activateSection('orderReview')
       this.savePaymentDetails()
-      setTimeout(() => {
-        this.$bus.$emit('checkout-before-placeOrder')
-      })
+      // setTimeout(() => {
+      //   this.$bus.$emit('checkout-before-placeOrder')
+      // })
     },
     onAfterShippingDetails (receivedData, validationResult) {
       this.shipping = receivedData
