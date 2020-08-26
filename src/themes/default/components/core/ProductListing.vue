@@ -1,6 +1,6 @@
 <template>
   <div class="product-listing" :style="{'grid-template-columns': `repeat(${columns}, 1fr)`}">
-    <product-tile 
+    <product-tile
       v-for="(product, key) in products"
       :key="key"
       :product="product"
@@ -29,8 +29,8 @@ export default {
     },
     columns: {
       type: Number,
-      required: true,
-      default: 3
+      required: false,
+      default: 4
     }
   }
 }

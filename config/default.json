@@ -315,6 +315,7 @@
     "productList": {
       "sort": "updated_at:desc",
       "includeFields": [
+        "rma",
         "activity",
         "configurable_children.attributes",
         "configurable_children.id",
@@ -384,6 +385,7 @@
     },
     "productListWithChildren": {
       "includeFields": [
+        "rma",
         "activity",
         "configurable_children.attributes",
         "configurable_children.image",
@@ -491,6 +493,7 @@
       "includeFields": null,
       "useDynamicAttributeLoader": true,
       "standardSystemFields": [
+        "rma",
         "category",
         "category_ids",
         "color_options",

@@ -1,6 +1,7 @@
 <template>
   <div id="product" itemscope itemtype="http://schema.org/Product">
     <section class=" px20 product-top-section">
+      <pre>{{ getCurrentProduct }}</pre>
       <div class="container">
         <section class="row m0 between-xs">
           <div class="col-xs-12">
