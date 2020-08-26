@@ -1,10 +1,11 @@
 <template>
   <div id="category">
     <header>
-      <div class="container">
+      <div class="v-container">
         <breadcrumbs withHomepage />
-        <div class="row middle-sm" v-if="getCurrentCategory">
-          <div class="col-sm-12 mt-50">
+        <mobile-breadcrumbs withHomepage />
+        <div class="row middle-sm" v-if="getCurrentCategory.image || getCurrentCategory.description">
+          <div class="col-sm-12 mt-50" >
             <div class="banner-description">
               <div v-if="getCurrentCategory.image" :class="{full: !getCurrentCategory.description}">
                 <img class="desk" :src="`https://magento.ringoo.ua/${getCurrentCategory.image}`" alt="banner">
@@ -33,10 +34,14 @@
           </div>
         </div>
 
-        <div class="row middle-sm">
-          <h1 class="col-sm-8 category-title mb10">
+        <div class="title">
+          <h1 class="category-title">
             {{ getCurrentCategory.name }}
           </h1>
+          <span class="products-count mobile">
+            {{ $tc('{count} items', getCategoryProductsTotal) }}
+          </span>
+        </div>
           <!--<div class="sorting col-sm-2 align-right mt50">-->
             <!--<label class="mr10">{{ $t('Columns') }}:</label>-->
             <!--<columns @change-column="columnChange" />-->
@@ -48,35 +53,34 @@
           <!--:value="getCurrentSearchQuery.sort"-->
           <!--/>-->
           <!--</div>-->
-        </div>
       </div>
-      <div class="container">
-        <div class="row m0">
-          <div class="mobile-sorting col-xs-6 mt25">
+      <div class="v-container">
+        <div class="mobile-actions">
+          <div class="mobile-sorting">
             <sort-by
               @change="changeFilter"
               :value="getCurrentSearchQuery.sort"
             />
           </div>
           <button
-            class="col-xs-5 mt25 mr15 p15 mobile-filters-button bg-cl-th-accent brdr-none cl-white h5 sans-serif fs-medium-small"
+            class="mobile-filters-button"
             @click="openFilters"
           >
             {{ $t('Filters') }}
-            <span>{{ Object.keys(getCurrentSearchQuery && getCurrentSearchQuery.filters).length }}</span>
+            <span v-if="filterLength">{{ filterLength }}</span>
           </button>
         </div>
       </div>
     </header>
-    <div class="container pb60">
-      <div class="row m0 pt15">
-        <div class="col-md-3 start-xs category-filters">
+    <div class="v-container">
+      <div class="category">
+        <div class="category-filters">
           <p class="products-count">
             {{ $tc('{count} items', getCategoryProductsTotal) }}
           </p>
           <sidebar :filters="getAvailableFilters" @changeFilter="changeFilter" />
         </div>
-        <div class="col-md-3 start-xs mobile-filters" v-show="mobileFilters">
+        <div class="mobile-filters" v-show="mobileFilters">
           <div class="filter-overlay" :class="{'hasFilters' : Object.keys(getCurrentSearchQuery.filters).length > 0}">
             <div
               @click="closeFilters"
@@ -96,7 +100,7 @@
               class="active-filters-mobile"
             >
               <div class="selected-products">
-                Выбрано {{getCategoryProductsTotal}} товар
+                {{ $tc('{count} items', getCategoryProductsTotal) }}
               </div>
 
               <div class="buttons-group">
@@ -116,8 +120,8 @@
             </div>
           </div>
         </div>
-        <div class="col-md-9 px10 border-box products-list">
-          <p class="col-md-12 hidden-xs start-md mt0 cl-secondary category-sort">
+        <div class="products-list">
+          <p class="category-sort">
             <span class="product-sorting">{{ $t('First') }}: </span>
             <new-sort-by
               :has-label="true"
@@ -132,9 +136,9 @@
             <p>{{ $t('Please change Your search criteria and try again. If still not finding anything relevant, please visit the Home page and try out some of our bestsellers!') }}</p>
           </div>
           <lazy-hydrate :trigger-hydration="!loading" v-if="isLazyHydrateEnabled">
-            <product-listing :columns="defaultColumn" :products="getCategoryProducts" />
+            <product-listing :products="getCategoryProducts" />
           </lazy-hydrate>
-          <product-listing v-else :columns="defaultColumn" :products="getCategoryProducts" />
+          <product-listing v-else :products="getCategoryProducts" />
         </div>
       </div>
     </div>
@@ -146,6 +150,7 @@ import LazyHydrate from 'vue-lazy-hydration';
 import Sidebar from '../components/core/blocks/Category/Sidebar.vue';
 import ProductListing from '../components/core/ProductListing.vue';
 import Breadcrumbs from '../components/core/Breadcrumbs.vue';
+import MobileBreadcrumbs from '../components/core/MobileBreadcrumbs.vue';
 import NewSortBy from '../components/core/NewSortBy.vue';
 import SortBy from '../components/core/SortBy.vue';
 import { isServer } from '@vue-storefront/core/helpers';
@@ -180,6 +185,7 @@ export default {
     ButtonFull,
     ProductListing,
     Breadcrumbs,
+    MobileBreadcrumbs,
     Sidebar,
     SortBy,
     NewSortBy,
@@ -189,7 +195,6 @@ export default {
   data () {
     return {
       mobileFilters: false,
-      defaultColumn: 4,
       loadingProducts: false,
       loading: true,
       timerData: {
@@ -215,6 +220,9 @@ export default {
     },
     isCategoryEmpty () {
       return this.getCategoryProductsTotal === 0
+    },
+    filterLength () {
+      return Object.keys(this.getCurrentSearchQuery && this.getCurrentSearchQuery.filters).length
     }
   },
   async asyncData ({ store, route, context }) { // this is for SSR purposes to prefetch data - and it's always executed before parent component methods
@@ -252,9 +260,6 @@ export default {
     },
     async changeFilter (filterVariant) {
       this.$store.dispatch('category-next/switchSearchFilters', [filterVariant])
-    },
-    columnChange (column) {
-      this.defaultColumn = column
     },
     async onBottomScroll () {
       if (this.loadingProducts) return
@@ -320,6 +325,11 @@ export default {
 
 <style lang="scss" scoped>
 $mobile_screen : 768px;
+
+  .v-container {
+    width: 95%;
+  }
+
   .active-filters-mobile{
     position: fixed;
     bottom: 0;
@@ -359,6 +369,22 @@ $mobile_screen : 768px;
       }
     }
   }
+  
+  .category {
+    display: flex;
+    padding-bottom: 68px;
+  }
+
+  .products-list {
+    width: 100%;
+  }
+
+  .breadcrumbs {
+    &.mobile {
+      display: none;
+    }
+  }
+
   .divider{
       @media (max-width : $mobile_screen){
         left: 0 !important;
@@ -376,15 +402,24 @@ $mobile_screen : 768px;
     left: -36px;
   }
   .category-filters {
-    width: 242px;
+    box-sizing: border-box;
+    max-width: 319px;
+    min-width: 240px;
+    width: 100%;
+    margin-right: 20px;
+  }
+  
+  .products-count {
+    margin: 0 0 29px 0;
+    font-family: DIN Pro;
+    font-style: normal;
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 16px;
+    color: #1A1919;
 
-    .products-count {
-      margin: 0 0 29px 0;
-      font-family: DIN Pro;
-      font-style: normal;
-      font-size: 13px;
-      line-height: 16px;
-      color: #1A1919;
+    &.mobile {
+      display: none;
     }
   }
 
@@ -416,6 +451,9 @@ $mobile_screen : 768px;
     text-align: center;
     color: #000000;
     span {
+      display: flex;
+      align-items: center;
+      justify-content: center;
       font-family: DIN Pro;
       font-weight: 600;
       font-size: 12px;
@@ -424,8 +462,8 @@ $mobile_screen : 768px;
       color: #FFFFFF;
       background: #23BE20;
       border-radius: 100%;
-      width: 16px;
-      height: 16px;
+      min-width: 24px;
+      min-height: 24px;
       margin-left: 7px;
     }
   }
@@ -434,13 +472,23 @@ $mobile_screen : 768px;
     display: none;
   }
 
-  .category-title {
-    font-family: DIN Pro;
-    font-style: normal;
-    font-weight: 800;
-    font-size: 36px;
-    line-height: 46px;
-    color: #1A1919;
+  .title {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    margin: 20px 0px 24px 0;
+
+    .category-title {
+      display: inline;
+      margin: 0;
+      font-family: DIN Pro;
+      font-style: normal;
+      font-weight: 600;
+      font-size: 36px;
+      line-height: 46px;
+      display: inline-block;
+      color: #1A1919;
+    }
   }
 
   .sorting {
@@ -450,14 +498,20 @@ $mobile_screen : 768px;
   }
 
   .category-sort {
-    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    margin: 0 0 25px 0;
   }
 
-  @media (max-width: 770px) {
-    .category-title {
-      margin: 0;
-      /*font-size: 36px;*/
-      /*line-height: 40px;*/
+  @media (max-width: 768px) {
+    .title {
+      .category-title {
+        display: flex;
+        align-items: flex-end;
+        font-size: 24px;
+        line-height: 30px;
+        margin: 0px 8px 8px 0px;
+      }
     }
 
     .products-list {
@@ -474,7 +528,7 @@ $mobile_screen : 768px;
       display: flex;
       justify-content: center;
       align-items: center;
-      height: 45px;
+      height: 40px;
     }
 
     .sorting {
@@ -536,6 +590,36 @@ $mobile_screen : 768px;
     .mobile-filters-body {
       padding-top: 50px;
     }
+
+    .products-count {
+      margin: 0px;
+      line-height: 18px;
+
+      &.mobile {
+        display: inline;
+      }
+    }
+
+    .mobile-actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-gap: 16px;
+    }
+
+    .category-sort {
+      display: none;
+    }
+
+    header {
+      margin-bottom: 16px;
+    }
+
+    .breadcrumbs {
+      display: none;
+      &.mobile {
+        display: block;
+      }
+    }
   }
 
   .close-container {
@@ -550,6 +634,7 @@ $mobile_screen : 768px;
 .product-image {
   max-height: unset !important;
 }
+
 .banner-description {
   margin-top: 25px;
   display: flex;
@@ -571,7 +656,7 @@ $mobile_screen : 768px;
         display: block;
       }
     }
-    @media (max-width: 767px) {
+    @media (max-width: 768px) {
       &.desk {
         display: block;
         width: 100%;
@@ -614,7 +699,7 @@ $mobile_screen : 768px;
       }
     }
   }
-  @media (max-width: 767px) {
+  @media (max-width: 768px) {
     flex-direction: column;
     .banner-description__block {
       margin-left: 0;
@@ -696,6 +781,46 @@ $mobile_screen : 768px;
       color: #1A1919;
       width: 40px;
       text-align: center;
+    }
+  }
+}
+
+@media (max-width: 950px) {
+  .product-listing {
+    grid-template-columns: 1fr 1fr!important;
+  }
+  
+  .category-filters {
+    max-width: 250px!important;
+  }
+}
+
+@media (max-width: 500px) {
+  #category {
+    .v-container {
+      width: 90%!important;
+    }
+  }
+
+  .products-list {
+    .product-listing  {
+      grid-gap: 0!important;
+      grid-row-gap: 16px!important;
+  
+      .product {
+        min-width: auto;
+
+        &:nth-child(2n) {
+          border-left: none;
+          border-top-left-radius: 0;
+          border-bottom-left-radius: 0;
+        }
+
+        &:nth-child(2n-1) {
+          border-top-right-radius: 0;
+          border-bottom-right-radius: 0;
+        }
+      }
     }
   }
 }

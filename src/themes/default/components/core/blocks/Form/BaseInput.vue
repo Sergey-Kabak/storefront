@@ -168,8 +168,6 @@ export default {
   label {
     color:#999;
     position:absolute;
-    pointer-events:none;
-    user-select: none;
     left: 0;
     top: 10px;
     transition:0.2s ease all;
