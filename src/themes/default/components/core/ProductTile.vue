@@ -1,11 +1,11 @@
 <template>
-  <div class="product w-100 pb20 d-flex-column btw mt20" v-observe-visibility="visibilityChanged">
+  <div class="product w-100 pb20 d-flex-column btw" v-observe-visibility="visibilityChanged">
     <div class="product__icons">
       <AddToWishlist :product="product">
         <div
-            class="product__icon"
-            :class="{'product__icon--active': isOnWishlist }"
-            :title="isOnWishlist ? $t('Remove') : $t('Add to favorite') "
+          class="product__icon"
+          :class="{'product__icon--active': isOnWishlist }"
+          :title="isOnWishlist ? $t('Remove') : $t('Add to favorite') "
         >
           <template v-if="!isOnWishlist">
             <svg width="20" height="19" viewBox="0 0 20 19" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -21,9 +21,9 @@
       </AddToWishlist>
       <AddToCompare :product="product">
         <div
-            class="product__icon"
-            :class="{'product__icon--active':isOnCompare } "
-            :title="isOnCompare ? $t('Remove from compare') : $t('Add to compare')"
+          class="product__icon"
+          :class="{'product__icon--active':isOnCompare } "
+          :title="isOnCompare ? $t('Remove from compare') : $t('Add to compare')"
         >
           <template v-if="!isOnCompare">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -41,9 +41,9 @@
     </div>
 
     <router-link
-        class="flex flex-column no-underline product-link"
-        :to="productLink"
-        data-testid="productLink"
+      class="flex flex-column no-underline product-link"
+      :to="productLink"
+      data-testid="productLink"
     >
 
       <!--      <div class="product-tag-wrapper">-->
@@ -55,15 +55,15 @@
       <!--      </div>-->
 
       <div
-          class="product-cover bg-cl-secondary"
-          :class="[{ sale: labelsActive && isOnSale }, { new: labelsActive && isNew }]"
+        class="product-cover bg-cl-secondary"
+        :class="[{ sale: labelsActive && isOnSale }, { new: labelsActive && isNew }]"
       >
         <product-image
-            class="product-cover__thumb"
-            :image="thumbnailObj"
-            :alt="product.name | htmlDecode"
-            :calc-ratio="false"
-            data-testid="productImage"
+          class="product-cover__thumb"
+          :image="thumbnailObj"
+          :alt="product.name | htmlDecode"
+          :calc-ratio="false"
+          data-testid="productImage"
         />
       </div>
 
@@ -84,30 +84,30 @@
       </p>
 
       <div class="flex center-xs start-md mt-auto product-price-block">
-          <span
-              class="price-original mr5 lh30 cl-secondary"
-              v-if="product.special_price && parseFloat(product.original_price_incl_tax) > 0 && !onlyImage"
-          >
-            {{ product.original_price_incl_tax | price(storeView) }}
-          </span>
         <span
-            class="price-special lh30 cl-accent weight-700"
-            v-if="product.special_price && parseFloat(product.special_price) > 0 && !onlyImage"
+          class="price-original mr5 lh30 cl-secondary"
+          v-if="product.special_price && parseFloat(product.original_price_incl_tax) > 0 && !onlyImage"
+        >
+          {{ product.original_price_incl_tax | price(storeView) }}
+        </span>
+        <span
+          class="price-special lh30 cl-accent weight-700"
+          v-if="product.special_price && parseFloat(product.special_price) > 0 && !onlyImage"
         >
             {{ product.price_incl_tax | price(storeView) }}
           </span>
         <span
-            class="lh30 cl-secondary price-special"
-            v-if="!product.special_price && parseFloat(product.price_incl_tax) > 0 && !onlyImage"
+          class="lh30 cl-secondary price-special"
+          v-if="!product.special_price && parseFloat(product.price_incl_tax) > 0 && !onlyImage"
         >
-            {{ product.price_incl_tax | price(storeView) }}
-          </span>
+          {{ product.price_incl_tax | price(storeView) }}
+        </span>
         <span
-            v-if="product.original_price_incl_tax && product.original_special_price"
-            class="lh30 cl-secondary price-sale"
+          v-if="product.original_price_incl_tax && product.original_special_price"
+          class="lh30 cl-secondary price-sale"
         >
-            -{{ (product.original_price_incl_tax - product.original_special_price) | price(storeView) }}
-          </span>
+          -{{ (product.original_price_incl_tax - product.original_special_price) | price(storeView) }}
+        </span>
         <!--      <span class="product-on-credit">{{ $t('In credit') }}</span>-->
       </div>
 
@@ -131,20 +131,20 @@
 
     <template v-if="product.stock">
       <span
-          class="product-is-not-available"
-          v-if="!(product && (product.price_incl_tax && product.price_incl_tax > 0) && (product.stock && product.stock.is_in_stock))"
+        class="product-is-not-available"
+        v-if="!(product && (product.price_incl_tax && product.price_incl_tax > 0) && (product.stock && product.stock.is_in_stock))"
       >
         {{ $t('Not available') }}
       </span>
 
       <div
-          class="d-flex btw w-100 product-card-bottom-options"
-          v-if="!!(product && (product.price_incl_tax && product.price_incl_tax > 0) && (product.stock && product.stock.is_in_stock))"
+        class="d-flex btw w-100 product-card-bottom-options"
+        v-if="!!(product && (product.price_incl_tax && product.price_incl_tax > 0) && (product.stock && product.stock.is_in_stock))"
       >
         <button-full
-            @click.native="toProduct()"
-            :disabled="!(product && product.stock && product.stock.is_in_stock)"
-            data-testid="addToCart" class="add-to-cart"
+          @click.native="toProduct()"
+          :disabled="!(product && product.stock && product.stock.is_in_stock)"
+          data-testid="addToCart" class="add-to-cart"
         >
           <template v-if="!productIsInCart">
             <svg  width="20" height="17" viewBox="0 0 20 17" fill="none" xmlns="http://www.w3.org/2000/svg">

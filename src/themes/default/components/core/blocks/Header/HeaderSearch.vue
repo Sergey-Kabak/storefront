@@ -164,7 +164,7 @@ export default {
 		padding: 20px;
 	}
 
-	@media (max-width: 767px) {
+	@media (max-width: 768px) {
 		.search-icon {
 			left: 18px;
 		}

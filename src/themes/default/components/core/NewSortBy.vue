@@ -52,7 +52,8 @@ export default {
   @import '~theme/css/helpers/functions/color';
   $color-tertiary: color(tertiary);
   .sort-by {
-    display: inline-flex;
+    display: flex;
+    align-items: center;
     position: relative;
     .label {
       font-family: DIN Pro;

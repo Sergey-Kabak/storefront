@@ -125,8 +125,10 @@ export default {
     }
     &--width {
       .product-image__thumb {
+        max-width: 100%;
         width: auto;
-        height: 100%;
+        height: auto;
+        max-height: 225px;
       }
     }
   }

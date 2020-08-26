@@ -22,6 +22,9 @@ export const Breadcrumbs = {
     },
     current () {
       return this.activeRoute || this.getBreadcrumbsCurrent
+    },
+    previousRoute () {
+      return this.paths && this.paths[this.paths.length - 1]
     }
   },
   props: {
