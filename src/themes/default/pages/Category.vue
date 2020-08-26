@@ -15,18 +15,7 @@
                 <div class="banner-description__text" v-html="getCurrentCategory.description"></div>
                 <div class="banner-description__timer">
                   <h3>{{ $t('Until the end of the promotion') }}</h3>
-                  <div class="time-wrapper">
-                    <div class="time">{{ getTimerData().days }}</div>
-                    <div class="time">{{ getTimerData().hours }}</div>
-                    <div class="time">{{ getTimerData().minutes }}</div>
-                    <div class="time">{{ getTimerData().seconds }}</div>
-                  </div>
-                  <div class="text-wrapper">
-                    <div class="text">{{ $t('d') }}</div>
-                    <div class="text">{{ $t('h') }}</div>
-                    <div class="text">{{ $t('m') }}</div>
-                    <div class="text">{{ $t('s') }}</div>
-                  </div>
+                  <CountDown :end-time="getEndTime()" />
                 </div>
               </div>
             </div>
@@ -123,7 +112,7 @@
           <!--<pre>{{ getCurrentCategory }}</pre>-->
           <!--<pre>{{ getCategoryProducts }}</pre>-->
           <lazy-hydrate :trigger-hydration="!loading" v-if="isLazyHydrateEnabled">
-            <product-listing :products="getCategoryProducts" />
+            <product-listing :columns="4" :products="getCategoryProducts" />
           </lazy-hydrate>
           <product-listing v-else :products="getCategoryProducts" />
         </div>
@@ -149,6 +138,7 @@ import onBottomScroll from '@vue-storefront/core/mixins/onBottomScroll';
 import { catalogHooksExecutors } from '@vue-storefront/core/modules/catalog-next/hooks';
 import { currentStoreView } from '@vue-storefront/core/lib/multistore';
 import { htmlDecode } from '@vue-storefront/core/filters';
+import CountDown from "../components/core/CountDown";
 
 const THEME_PAGE_SIZE = 50
 const composeInitialPageState = async (store, route, forceLoad = false) => {
@@ -167,6 +157,7 @@ const composeInitialPageState = async (store, route, forceLoad = false) => {
 }
 export default {
   components: {
+    CountDown,
     LazyHydrate,
     ButtonFull,
     ProductListing,
@@ -174,7 +165,7 @@ export default {
     MobileBreadcrumbs,
     Sidebar,
     SortBy,
-    NewSortBy
+    NewSortBy,
   },
   mixins: [onBottomScroll],
   data () {
@@ -257,32 +248,8 @@ export default {
         this.loadingProducts = false
       }
     },
-    getTimerData () {
-      this.interval = setInterval(() => {
-        let countDownDate = new Date(this.getCurrentCategory && this.getCurrentCategory.custom_design_to && this.getCurrentCategory.custom_design_to.replace(' ', 'T')).getTime();
-        let now = new Date().getTime();
-        let diff = countDownDate - now;
-        let tdays = Math.floor(diff / (1000 * 60 * 60 * 24));
-        let thours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        let tminutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-        let tseconds = Math.floor((diff % (1000 * 60)) / 1000);
-
-        this.timerData.days = (tdays < 10) ? '0' + tdays : tdays;
-        this.timerData.hours = (thours < 10) ? '0' + thours : thours;
-        this.timerData.minutes = (tminutes < 10) ? '0' + tminutes : tminutes;
-        this.timerData.seconds = (tseconds < 10) ? '0' + tseconds : tseconds;
-
-        if (diff < 0) {
-          clearInterval(this.interval);
-          this.expired = true;
-        }
-      }, 1000, true);
-      return {
-        days: this.timerData.days,
-        hours: this.timerData.hours,
-        minutes: this.timerData.minutes,
-        seconds: this.timerData.seconds
-      };
+    getEndTime () {
+      return new Date(this.getCurrentCategory && this.getCurrentCategory.custom_design_to && this.getCurrentCategory.custom_design_to.replace(' ', 'T')).getTime();
     }
   },
   metaInfo () {
@@ -686,40 +653,6 @@ $mobile_screen : 768px;
     width: calc(100% - 32px);
     background: rgb(255,255,255);
     background: linear-gradient(0deg, rgba(255,255,255,1) 0%, rgba(255,255,255,1) 65%, rgba(255,255,255,0) 100%);
-    .time-wrapper, .text-wrapper {
-      display: flex;
-      align-items: center;
-      margin: 0 -10px;
-    }
-    .time {
-      font-family: DIN Pro;
-      font-style: normal;
-      font-weight: 600;
-      font-size: 14px;
-      line-height: 16px;
-      color: #EE2C39;
-      width: 40px;
-      text-align: center;
-      position: relative;
-      &:not(:last-child) {
-        &:after {
-          position: absolute;
-          right: -2px;
-          top: -2px;
-          content: ':';
-          display: block;
-        }
-      }
-    }
-    .text {
-      font-family: DIN Pro;
-      font-style: normal;
-      font-size: 12px;
-      line-height: 12px;
-      color: #1A1919;
-      width: 40px;
-      text-align: center;
-    }
   }
 }
 

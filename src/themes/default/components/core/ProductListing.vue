@@ -28,7 +28,7 @@ export default {
       required: true
     },
     columns: {
-      type: Number,
+      type: Number | String,
       required: false,
       default: 4
     }

@@ -1,7 +1,6 @@
 <template>
   <div id="product" itemscope itemtype="http://schema.org/Product">
     <section class=" px20 product-top-section">
-      <pre>{{ getCurrentProduct }}</pre>
       <div class="container">
         <section class="row m0 between-xs">
           <div class="col-xs-12">
@@ -36,6 +35,7 @@
             />
           </div>
           <div class="col-xs-12 col-md-5 data">
+            <Promo />
             <div
               class="product-in-stock hidden-xs block"
               :class="{ 'not-available': !(getCurrentProduct.stock && getCurrentProduct.stock.is_in_stock) }"
@@ -281,6 +281,7 @@ import {
 } from '@vue-storefront/core/helpers';
 import { catalogHooksExecutors } from '@vue-storefront/core/modules/catalog-next/hooks';
 import ProductPrice from 'theme/components/core/ProductPrice.vue';
+import Promo from "../components/core/blocks/Product/Promo";
 
 export default {
   components: {
@@ -303,7 +304,8 @@ export default {
     SizeGuide,
     LazyHydrate,
     ProductQuantityNew,
-    ProductPrice
+    ProductPrice,
+    Promo
   },
   mixins: [ProductOption],
   directives: { focusClean },
