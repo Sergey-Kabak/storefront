@@ -72,8 +72,8 @@ export default {
 <style lang="scss" scoped>
   @import '~theme/css/variables/colors';
   @import '~theme/css/helpers/functions/color';
-  $color-silver: color(silver);
-  $color-active: color(secondary);
+  $color-silver: #E0E0E0;
+  $color-active: #23BE20;
   $color-white: color(white);
 
   label {
@@ -82,10 +82,12 @@ export default {
       position: absolute;
       top: 3px;
       left: 0;
-      width: 22px;
-      height: 22px;
+      width: 20px;
+      height: 20px;
       background-color: $color-white;
-      border: 1px solid $color-silver;
+      border: 2px solid $color-silver;
+      border-radius: 50%;
+      box-sizing: border-box;
       cursor: pointer;
     }
   }
@@ -98,21 +100,20 @@ export default {
     &:checked + label {
       &:before {
         background-color: $color-silver;
-        border-color: $color-silver;
+        border-color: $color-active;
         cursor: pointer;
       }
       &:after {
         content: '';
         position: absolute;
-        top: 9px;
-        left: 5px;
-        width: 11px;
-        height: 5px;
-        border: 3px solid $color-white;
-        border-top: none;
-        border-right: none;
-        background-color: $color-silver;
-        transform: rotate(-45deg);
+        top: 5px;
+        left: 2px;
+        width: 16px;
+        height: 16px; 
+        border: 3px solid #fff;
+        border-radius: 50%;
+        background-color: $color-active;
+        box-sizing: border-box;
       }
     }
     &:hover,

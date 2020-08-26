@@ -35,6 +35,9 @@
             />
           </div>
           <div class="col-xs-12 col-md-5 data">
+
+            <promo/>
+
             <div
               class="product-in-stock hidden-xs block"
               :class="{ 'not-available': !(getCurrentProduct.stock && getCurrentProduct.stock.is_in_stock) }"
@@ -160,6 +163,9 @@
                 :disabled="isAddToCartDisabled"
                 class="col-xs-12 col-sm-4 col-md-6"
               />
+              <button-white @click.native="$bus.$emit('modal-show', 'modal-credits')" class="buy_in_credit h40 flex1">
+                В кредит 1050 ₴ / мес
+              </button-white>
             </div>
             <div class="row py40 add-to-buttons">
               <div class="col-xs-6 col-sm-3 col-md-6">
@@ -281,6 +287,9 @@ import {
 import { catalogHooksExecutors } from '@vue-storefront/core/modules/catalog-next/hooks';
 import ProductPrice from 'theme/components/core/ProductPrice.vue';
 
+import Promo from 'theme/components/core/blocks/Product/Promo.vue'
+import ButtonWhite from 'theme/components/core/blocks/Product/ButtonWhite.vue'
+
 export default {
   components: {
     AddToCart,
@@ -302,7 +311,9 @@ export default {
     SizeGuide,
     LazyHydrate,
     ProductQuantityNew,
-    ProductPrice
+    ProductPrice,
+    Promo,
+    ButtonWhite
   },
   mixins: [ProductOption],
   directives: { focusClean },
@@ -499,6 +510,10 @@ export default {
   }
 }
 </script>
+
+<style lang="scss">
+@import '~theme/css/pages/product';
+</style>
 
 <style lang="scss">
   #product {

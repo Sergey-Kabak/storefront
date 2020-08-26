@@ -5,6 +5,7 @@ export const homepageStore = {
   state: {
     new_collection: [],
     bestsellers: [],
+    currentDate : null,
     stock_goods: [],
     sales_leaders: [],
     new_products: [],
@@ -73,6 +74,9 @@ export const homepageStore = {
     },
   },
   mutations: {
+    SET_NEW_DATE(state , payload) {
+      state.currentDate = payload;
+    },
     SET_NEW_COLLECTION(state, products) {
       state.new_collection = products || []
     },
@@ -93,6 +97,9 @@ export const homepageStore = {
     },
   },
   getters: {
+    getNewDate(state) {
+      return state.currentDate
+    },
     getEverythingNewCollection(state) {
       return state.new_collection
     },
