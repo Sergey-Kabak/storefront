@@ -1,6 +1,6 @@
-import { processDynamicRoute } from '@vue-storefront/core/modules/url/helpers';
-import { LocalizedRoute } from '@vue-storefront/core/lib/types'
-import { RouterManager } from '../../../../../lib/router-manager';
+import {processDynamicRoute} from '@vue-storefront/core/modules/url/helpers';
+import {LocalizedRoute} from '@vue-storefront/core/lib/types'
+import {RouterManager} from '../../../../../lib/router-manager';
 
 jest.mock('@vue-storefront/core/lib/multistore', () => ({
   currentStoreView: jest.fn(() => ({

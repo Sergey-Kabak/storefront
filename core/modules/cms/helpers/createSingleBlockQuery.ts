@@ -1,4 +1,4 @@
-import { SearchQuery } from 'storefront-query-builder'
+import {SearchQuery} from 'storefront-query-builder'
 
 const createSingleBlockQuery = ({ key, value }): SearchQuery => {
   let query = new SearchQuery()

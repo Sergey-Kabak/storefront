@@ -1,11 +1,11 @@
 import map from 'lodash-es/map'
 import fetch from 'isomorphic-fetch'
-import { slugify, processURLAddress } from '@vue-storefront/core/helpers'
+import {processURLAddress, slugify} from '@vue-storefront/core/helpers'
 import queryString from 'query-string'
-import { currentStoreView, prepareStoreView } from '@vue-storefront/core/lib/multistore'
-import { SearchQuery } from 'storefront-query-builder'
+import {currentStoreView, prepareStoreView} from '@vue-storefront/core/lib/multistore'
+import {SearchQuery} from 'storefront-query-builder'
 import HttpQuery from '@vue-storefront/core/types/search/HttpQuery'
-import { SearchResponse } from '@vue-storefront/core/types/search/SearchResponse'
+import {SearchResponse} from '@vue-storefront/core/types/search/SearchResponse'
 import config from 'config'
 import getApiEndpointUrl from '@vue-storefront/core/helpers/getApiEndpointUrl';
 

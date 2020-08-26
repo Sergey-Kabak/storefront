@@ -107,6 +107,13 @@
   "api": {
     "url": "https://ringoo.ua"
   },
+  "liqpay": {
+    "public_key": "sandbox_i33827525821",
+    "private_key": "sandbox_ZoeELbqo1BBTi3LQnEsHF93wu425TzSvpZpYH11N",
+    "version": "3",
+    "currency": "UAH",
+    "server_url": "https://vue.ringoo.ua/api/payment/liqpay/callback"
+  },
   "elasticsearch": {
     "httpAuth": "",
     "host": "https://ringoo.ua/api/catalog",
@@ -798,6 +805,9 @@
     "default": "30d",
     "application/json": "24h",
     "image/png": "7d"
+  },
+  "payments": {
+    "endpoint": "/api/payment"
   },
   "newsletter": {
     "endpoint": "/api/ext/mailchimp-subscribe/subscribe"

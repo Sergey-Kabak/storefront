@@ -2,13 +2,9 @@
   <component
     :is="compontentType"
     :to="redirectionLink"
-    class="button-outline no-outline py15 bg-cl-transparent h4 no-underline sans-serif fs-medium"
+    class="button-outline no-outline bg-cl-transparent h4 no-underline sans-serif fs-medium"
     :class="{
-      light : color === 'light', 'brdr-white' : color === 'light', 'cl-white' : color === 'light',
-      dark : color === 'dark', 'brdr-darkgray' : color === 'dark', 'cl-secondary' : color === 'dark',
-      green : color === 'green', 'brdr-green' : color === 'green', 'cl-main-green' : color === 'green',
-      px0 : link ? true : false,
-      px40 : link ? false : true
+      'disabled': disabled
     }"
   >
     <slot>Button</slot>
@@ -24,12 +20,18 @@ export default {
   props: {
     color: {
       type: String,
-      required: true
+      required: false,
+      default: null
     },
     link: {
       type: String,
       default: null,
       required: false
+    },
+    disabled: {
+      type: Boolean,
+      required: false,
+      default: false
     }
   },
   computed: {
@@ -44,49 +46,33 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "~theme/css/variables/colors";
-@import "~theme/css/helpers/functions/color";
-$dark-border: color(secondary);
-$green-border: color(main-green);
-$white: color(white);
-$black: color(black);
-$green: color(main-green);
-
 .button-outline {
-  border: 2px solid;
-  height: 62px;
-}
+  box-sizing: border-box;
+  width: 100%;
+  font-family: DIN Pro;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 15px;
+  line-height: 24px;
+  background: #FFFFFF;
+  border: 1px solid #23BE20;
+  box-sizing: border-box;
+  border-radius: 4px;
+  transition: .2s ease-in-out;
 
-@media screen and (min-width: 900px) {
-  .button-outline {
-    border: 2px solid;
-    min-width: 220px;
+  &:hover {
+    color: #ffffff  ;
+    background-color: #23BE20;
   }
-}
-.dark {
-  border: 1px solid $dark-border;
-  &:hover,
-  &:focus {
-    color: $white;
-    background: $black;
-    border-color: $black;
+
+  &:active {
+    background-color: #1fa71c
   }
-}
-.green {
-  border: 1px solid $green-border;
-  &:hover,
-  &:focus {
-    color: $white;
-    background: $green;
-    border-color: $green-border;
-  }
-}
-.light {
-  &:hover,
-  &:focus {
-    color: $black;
-    background: $white;
-    border-color: $white;
+
+  &.disabled {
+    pointer-events: none;
+    border-color: #abe6aa;
+    color: #9e9e9e
   }
 }
 </style>

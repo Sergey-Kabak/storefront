@@ -2,7 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 
 import * as types from '../../../store/mutation-types'
-import { Logger } from '@vue-storefront/core/lib/logger'
+import {Logger} from '@vue-storefront/core/lib/logger'
 
 const StorageManager = {
   cart: {

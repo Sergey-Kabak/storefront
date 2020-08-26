@@ -1,4 +1,5 @@
-import prepareShippingInfoForUpdateTotals from '@vue-storefront/core/modules/cart/helpers/prepareShippingInfoForUpdateTotals'
+import prepareShippingInfoForUpdateTotals
+  from '@vue-storefront/core/modules/cart/helpers/prepareShippingInfoForUpdateTotals'
 import Totals from '@vue-storefront/core/modules/cart/types/Totals'
 
 describe('Cart prepareShippingInfoForUpdateTotals', () => {

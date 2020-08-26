@@ -1,7 +1,7 @@
 import * as types from '../../store/block/mutation-types';
 import blockActions from '../../store/block/actions'
 
-import { quickSearchByQuery } from '@vue-storefront/core/lib/search'
+import {quickSearchByQuery} from '@vue-storefront/core/lib/search'
 
 jest.mock('@vue-storefront/i18n', () => ({ t: jest.fn(str => str) }));
 jest.mock('@vue-storefront/core/app', () => jest.fn())

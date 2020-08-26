@@ -5,6 +5,9 @@
       ref="input"
       v-bind="$attrs"
       v-on="$listeners"
+      :placeholder="placeholder"
+      @focus="clearValue()"
+      @blur="setPreviousValue()"
     >
     <div v-if="label" class="label">
       {{ label }}
@@ -15,7 +18,8 @@
 <script>
 export default {
   data: () => ({
-    innerValue: null
+    innerValue: null,
+    previousValue: null
   }),
   props: {
     value: {
@@ -25,19 +29,34 @@ export default {
     label: {
       type: String,
       default: ''
+    },
+    placeholder : {
+      type: String,
+      default: ''
     }
   },
   watch: {
     innerValue (newVal) {
-      this.$emit('input', newVal);
+      this.$emit('input', newVal)
     },
     value (newVal) {
-      this.innerValue = newVal;
+      this.innerValue = newVal
     }
   },
   created: function () {
     if (this.value) {
-      this.innerValue = this.value;
+      this.innerValue = this.value
+    }
+  },
+  methods: {
+    clearValue() {
+      this.previousValue = this.innerValue
+      this.innerValue = ''
+    },
+    setPreviousValue() {
+      if (!this.innerValue) {
+        this.innerValue = this.previousValue
+      }
     }
   }
 };

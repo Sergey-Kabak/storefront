@@ -1,4 +1,4 @@
-import { GetterTree } from 'vuex'
+import {GetterTree} from 'vuex'
 import OrderState from '../types/OrderState'
 import RootState from '@vue-storefront/core/types/RootState'
 

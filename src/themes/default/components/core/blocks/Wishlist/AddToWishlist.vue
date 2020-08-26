@@ -23,13 +23,13 @@
 </template>
 
 <script>
-  import { IsOnWishlist } from '@vue-storefront/core/modules/wishlist/components/IsOnWishlist'
-  import { AddToWishlist } from '@vue-storefront/core/modules/wishlist/components/AddToWishlist'
-  import { RemoveFromWishlist } from '@vue-storefront/core/modules/wishlist/components/RemoveFromWishlist'
-  import i18n from '@vue-storefront/i18n'
-  import { htmlDecode } from '@vue-storefront/core/lib/store/filters'
+import { IsOnWishlist } from '@vue-storefront/core/modules/wishlist/components/IsOnWishlist';
+import { AddToWishlist } from '@vue-storefront/core/modules/wishlist/components/AddToWishlist';
+import { RemoveFromWishlist } from '@vue-storefront/core/modules/wishlist/components/RemoveFromWishlist';
+import i18n from '@vue-storefront/i18n';
+import { htmlDecode } from '@vue-storefront/core/lib/store/filters';
 
-  export default {
+export default {
     mixins: [ IsOnWishlist, AddToWishlist, RemoveFromWishlist ],
     computed: {
       favoriteIcon () {

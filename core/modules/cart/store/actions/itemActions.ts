@@ -1,13 +1,13 @@
 import * as types from '@vue-storefront/core/modules/cart/store/mutation-types'
-import { Logger } from '@vue-storefront/core/lib/logger'
+import {Logger} from '@vue-storefront/core/lib/logger'
 import {
+  createDiffLog,
+  notifications,
   prepareProductsToAdd,
   productsEquals,
-  validateProduct,
-  createDiffLog,
-  notifications
+  validateProduct
 } from '@vue-storefront/core/modules/cart/helpers'
-import { cartHooksExecutors } from './../../hooks'
+import {cartHooksExecutors} from './../../hooks'
 import config from 'config'
 
 const itemActions = {

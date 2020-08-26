@@ -1,5 +1,5 @@
-import { Order } from '@vue-storefront/core/modules/order/types/Order'
-import { currentStoreView } from '@vue-storefront/core/lib/multistore'
+import {Order} from '@vue-storefront/core/modules/order/types/Order'
+import {currentStoreView} from '@vue-storefront/core/lib/multistore'
 
 const prepareOrder = (order: Order): Order => {
   const storeView = currentStoreView()

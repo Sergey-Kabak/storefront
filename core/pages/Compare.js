@@ -1,4 +1,4 @@
-import { Compare } from '@vue-storefront/core/modules/compare/components/Compare.ts'
+import { Compare } from '@vue-storefront/core/modules/compare/components/Compare.ts';
 
 export default {
   name: 'Compare',

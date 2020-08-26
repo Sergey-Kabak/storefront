@@ -1,17 +1,17 @@
 import storeCodeFromRoute from '@vue-storefront/core/lib/storeCodeFromRoute'
-import { LocalizedRoute } from '@vue-storefront/core/lib/types'
+import {LocalizedRoute} from '@vue-storefront/core/lib/types'
 import {
-  prepareStoreView,
   adjustMultistoreApiUrl,
   localizedDispatcherRoute,
-  setupMultistoreRoutes,
+  localizedRouteConfig,
   localizedRoutePath,
-  localizedRouteConfig
+  prepareStoreView,
+  setupMultistoreRoutes
 } from '@vue-storefront/core/lib/multistore'
 import config from 'config'
 import rootStore from '@vue-storefront/core/store';
-import { router } from '@vue-storefront/core/app';
-import { RouteConfig } from 'vue-router'
+import {router} from '@vue-storefront/core/app';
+import {RouteConfig} from 'vue-router'
 
 jest.mock('@vue-storefront/core/app', () => ({
   createApp: jest.fn(),

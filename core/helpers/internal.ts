@@ -1,4 +1,4 @@
-import { isServer } from '@vue-storefront/core/helpers'
+import {isServer} from '@vue-storefront/core/helpers'
 
 /**
   * ValidationError to be used with multiple validation errors return from Ajv or other validators

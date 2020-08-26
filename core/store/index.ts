@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import RootState from '@vue-storefront/core/types/RootState'
-import { once } from '@vue-storefront/core/helpers'
+import {once} from '@vue-storefront/core/helpers'
 import actions from './actions'
 import getters from './getters'
 import mutations from './mutations'

@@ -1,8 +1,8 @@
-import { Logger } from '@vue-storefront/core/lib/logger'
+import {Logger} from '@vue-storefront/core/lib/logger'
 import MailItem from '../types/MailItem'
-import { Module } from 'vuex'
+import {Module} from 'vuex'
 import config from 'config'
-import { processURLAddress } from '@vue-storefront/core/helpers'
+import {processURLAddress} from '@vue-storefront/core/helpers'
 import getApiEndpointUrl from '@vue-storefront/core/helpers/getApiEndpointUrl';
 
 export const mailerStore: Module<any, any> = {

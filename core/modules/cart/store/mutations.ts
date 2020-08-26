@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import { MutationTree } from 'vuex'
+import {MutationTree} from 'vuex'
 import * as types from './mutation-types'
 import CartState from '../types/CartState'
 import config from 'config'

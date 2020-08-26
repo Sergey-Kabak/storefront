@@ -9,11 +9,11 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
-import MinimalHeader from 'theme/components/core/blocks/Header/MinimalHeader.vue'
-import MinimalFooter from 'theme/components/core/blocks/Footer/MinimalFooter.vue'
+import { mapState } from 'vuex';
+import MinimalHeader from 'theme/components/core/blocks/Header/MinimalHeader.vue';
+import MinimalFooter from 'theme/components/core/blocks/Footer/MinimalFooter.vue';
 
-import Head from 'theme/head'
+import Head from 'theme/head';
 
 export default {
   data () {

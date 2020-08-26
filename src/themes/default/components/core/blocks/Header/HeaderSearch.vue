@@ -41,12 +41,10 @@
 </template>
 
 <script>
-import SearchPanel from '@vue-storefront/core/compatibility/components/blocks/SearchPanel/SearchPanel'
-import ProductTile from 'theme/components/core/ProductTile'
-import VueOfflineMixin from 'vue-offline/mixin'
-import CategoryPanel from 'theme/components/core/blocks/Category/CategoryPanel'
-import { minLength } from 'vuelidate/lib/validators'
-import { disableBodyScroll, clearAllBodyScrollLocks } from 'body-scroll-lock'
+import SearchPanel from '@vue-storefront/core/compatibility/components/blocks/SearchPanel/SearchPanel';
+import ProductTile from 'theme/components/core/ProductTile';
+import VueOfflineMixin from 'vue-offline/mixin';
+import CategoryPanel from 'theme/components/core/blocks/Category/CategoryPanel';
 
 export default {
 	components: {
@@ -148,7 +146,7 @@ export default {
 		color: #23BE20;
 		position: absolute;
 		left: 0;
-		width: 18px;
+		width: 24px;
 		top: 50%;
 		transform: translateY(-50%);
 	}
@@ -168,15 +166,11 @@ export default {
 
 	@media (max-width: 767px) {
 		.search-icon {
-			left: 20px
+			left: 18px;
 		}
 
 		.search-panel-input {
-			padding: 0 20px 0 60px;
-		}
-
-		.search-input-group {
-			box-shadow: inset 0px -2px 2px -2px rgba(0, 0, 0, 0.3);
+			padding: 0 20px 0 56px;
 		}
 
 		.categories {

@@ -51,11 +51,11 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-import { Logger } from '@vue-storefront/core/lib/logger'
-import i18n from '@vue-storefront/i18n'
-import LazyHydrate from 'vue-lazy-hydration'
-import ProductTile from '../components/core/ProductTile.vue'
+import { mapGetters } from 'vuex';
+import { Logger } from '@vue-storefront/core/lib/logger';
+import i18n from '@vue-storefront/i18n';
+import LazyHydrate from 'vue-lazy-hydration';
+import ProductTile from '../components/core/ProductTile.vue';
 
 export default {
   name: 'PageNotFound',

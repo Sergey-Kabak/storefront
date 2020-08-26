@@ -1,4 +1,4 @@
-import { currentStoreView } from '@vue-storefront/core/lib/multistore'
+import { currentStoreView } from '@vue-storefront/core/lib/multistore';
 
 const applyCurrencySign = (formattedPrice, { currencySign, priceFormat }) => {
   return priceFormat.replace('{sign}', currencySign).replace('{amount}', formattedPrice)

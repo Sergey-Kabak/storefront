@@ -139,13 +139,16 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
-import i18n from '@vue-storefront/i18n'
-import SidebarMenu from '@vue-storefront/core/compatibility/components/blocks/SidebarMenu/SidebarMenu'
-import SubBtn from 'theme/components/core/blocks/SidebarMenu/SubBtn'
-import SubCategory from 'theme/components/core/blocks/SidebarMenu/SubCategory'
-import { formatCategoryLink } from '@vue-storefront/core/modules/url/helpers'
-import { disableBodyScroll, clearAllBodyScrollLocks } from 'body-scroll-lock'
+import { mapState } from 'vuex';
+import i18n from '@vue-storefront/i18n';
+import SidebarMenu from '@vue-storefront/core/compatibility/components/blocks/SidebarMenu/SidebarMenu';
+import SubBtn from 'theme/components/core/blocks/SidebarMenu/SubBtn';
+import SubCategory from 'theme/components/core/blocks/SidebarMenu/SubCategory';
+import { formatCategoryLink } from '@vue-storefront/core/modules/url/helpers';
+import {
+  clearAllBodyScrollLocks,
+  disableBodyScroll
+} from 'body-scroll-lock';
 
 export default {
   components: {

@@ -1,5 +1,5 @@
-import { parametrizeRouteData } from '@vue-storefront/core/modules/url/helpers';
-import { LocalizedRoute } from '@vue-storefront/core/lib/types'
+import {parametrizeRouteData} from '@vue-storefront/core/modules/url/helpers';
+import {LocalizedRoute} from '@vue-storefront/core/lib/types'
 
 jest.mock('@vue-storefront/core/app', () => jest.fn());
 jest.mock('@vue-storefront/core/lib/router-manager', () => jest.fn());

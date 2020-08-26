@@ -1,4 +1,4 @@
-import { ActionTree } from 'vuex'
+import {ActionTree} from 'vuex'
 import * as types from './mutation-types'
 import RootState from '@vue-storefront/core/types/RootState'
 

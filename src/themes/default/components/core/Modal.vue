@@ -32,9 +32,12 @@
 </template>
 
 <script>
-import { mapMutations } from 'vuex'
-import onEscapePress from '@vue-storefront/core/mixins/onEscapePress'
-import { disableBodyScroll, clearAllBodyScrollLocks } from 'body-scroll-lock'
+import { mapMutations } from 'vuex';
+import onEscapePress from '@vue-storefront/core/mixins/onEscapePress';
+import {
+  clearAllBodyScrollLocks,
+  disableBodyScroll
+} from 'body-scroll-lock';
 
 export default {
   name: 'Modal',

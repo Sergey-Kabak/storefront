@@ -1,11 +1,11 @@
 import * as types from '@vue-storefront/core/modules/cart/store/mutation-types'
-import { Logger } from '@vue-storefront/core/lib/logger'
-import { CartService } from '@vue-storefront/core/data-resolver'
+import {Logger} from '@vue-storefront/core/lib/logger'
+import {CartService} from '@vue-storefront/core/data-resolver'
 import {
-  preparePaymentMethodsToSync,
-  prepareShippingInfoForUpdateTotals,
   createOrderData,
-  createShippingInfoData
+  createShippingInfoData,
+  preparePaymentMethodsToSync,
+  prepareShippingInfoForUpdateTotals
 } from '@vue-storefront/core/modules/cart/helpers'
 import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
 

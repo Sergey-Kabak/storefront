@@ -66,16 +66,15 @@
 </template>
 
 <script>
-import config from 'config'
-import Product from '@vue-storefront/core/compatibility/components/blocks/Wishlist/Product'
-import { currentStoreView } from '@vue-storefront/core/lib/multistore'
-import { formatProductLink } from '@vue-storefront/core/modules/url/helpers'
-import ProductImage from 'theme/components/core/ProductImage'
-import RemoveButton from './RemoveButton'
-import i18n from '@vue-storefront/i18n'
-import { htmlDecode } from '@vue-storefront/core/lib/store/filters'
-import AddToCart from 'theme/components/core/AddToCart'
-import AddToCompare from 'theme/components/core/blocks/Compare/AddToCompare'
+import Product from '@vue-storefront/core/compatibility/components/blocks/Wishlist/Product';
+import { currentStoreView } from '@vue-storefront/core/lib/multistore';
+import { formatProductLink } from '@vue-storefront/core/modules/url/helpers';
+import ProductImage from 'theme/components/core/ProductImage';
+import RemoveButton from './RemoveButton';
+import i18n from '@vue-storefront/i18n';
+import { htmlDecode } from '@vue-storefront/core/lib/store/filters';
+import AddToCart from 'theme/components/core/AddToCart';
+import AddToCompare from 'theme/components/core/blocks/Compare/AddToCompare';
 
 export default {
   components: {

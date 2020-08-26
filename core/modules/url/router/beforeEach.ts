@@ -1,14 +1,14 @@
 // This function will be executed before entering each route.
 // It's important to have 'next()'. It enables navigation to new route.
 // See https://router.vuejs.org/guide/advanced/navigation-guards.html#global-guards
-import { Route } from 'vue-router'
+import {Route} from 'vue-router'
 import store from '@vue-storefront/core/store'
-import { Logger } from '@vue-storefront/core/lib/logger'
-import { processDynamicRoute, normalizeUrlPath } from '../helpers'
-import { currentStoreView } from '@vue-storefront/core/lib/multistore'
-import { LocalizedRoute } from '@vue-storefront/core/lib/types'
-import { RouterManager } from '@vue-storefront/core/lib/router-manager'
-import { routerHelper } from '@vue-storefront/core/helpers'
+import {Logger} from '@vue-storefront/core/lib/logger'
+import {normalizeUrlPath, processDynamicRoute} from '../helpers'
+import {currentStoreView} from '@vue-storefront/core/lib/multistore'
+import {LocalizedRoute} from '@vue-storefront/core/lib/types'
+import {RouterManager} from '@vue-storefront/core/lib/router-manager'
+import {routerHelper} from '@vue-storefront/core/helpers'
 
 export const UrlDispatchMapper = async (to) => {
   const routeData = await store.dispatch('url/mapUrl', { url: to.path, query: to.query })

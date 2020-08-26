@@ -75,11 +75,12 @@
 </template>
 <script>
 
-import { mapGetters } from 'vuex'
-import Modal from 'theme/components/core/Modal.vue'
-import AvailabilitySheet from '@vue-storefront/theme-default/components/theme/blocks/AvailabilitySheet/AvailabilitySheet'
-import QtyInput from 'default/components/core/blocks/QtyInput/QtyInput.vue'
-import BaseCheckbox from 'theme/components/core/blocks/Form/BaseCheckbox'
+import { mapGetters } from 'vuex';
+import Modal from 'theme/components/core/Modal.vue';
+import AvailabilitySheet
+  from '@vue-storefront/theme-default/components/theme/blocks/AvailabilitySheet/AvailabilitySheet';
+import QtyInput from 'default/components/core/blocks/QtyInput/QtyInput.vue';
+import BaseCheckbox from 'theme/components/core/blocks/Form/BaseCheckbox';
 
 export default {
   components: {

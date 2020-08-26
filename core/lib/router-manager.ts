@@ -1,5 +1,5 @@
-import { baseRouter } from '@vue-storefront/core/app'
-import { RouteConfig } from 'vue-router'
+import {baseRouter} from '@vue-storefront/core/app'
+import {RouteConfig} from 'vue-router'
 
 const RouterManager = {
   _registeredRoutes: new Array<RouteConfig>(),

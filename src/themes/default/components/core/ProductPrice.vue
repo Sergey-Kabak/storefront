@@ -20,10 +20,16 @@
   </div>
 </template>
 <script>
-import { getCustomOptionValues, getCustomOptionPriceDelta } from '@vue-storefront/core/modules/catalog/helpers/customOption'
-import { getBundleOptionsValues, getBundleOptionPrice } from '@vue-storefront/core/modules/catalog/helpers/bundleOptions'
-import get from 'lodash-es/get'
-import { currentStoreView } from '@vue-storefront/core/lib/multistore'
+import {
+  getCustomOptionPriceDelta,
+  getCustomOptionValues
+} from '@vue-storefront/core/modules/catalog/helpers/customOption';
+import {
+  getBundleOptionPrice,
+  getBundleOptionsValues
+} from '@vue-storefront/core/modules/catalog/helpers/bundleOptions';
+import get from 'lodash-es/get';
+import { currentStoreView } from '@vue-storefront/core/lib/multistore';
 
 export default {
   name: 'ProductPrice',

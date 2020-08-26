@@ -1,7 +1,7 @@
-import { Logger } from '@vue-storefront/core/lib/logger'
+import {Logger} from '@vue-storefront/core/lib/logger'
 import * as localForage from 'localforage'
 import UniversalStorage from '@vue-storefront/core/lib/store/storage'
-import { currentStoreView } from '@vue-storefront/core/lib/multistore'
+import {currentStoreView} from '@vue-storefront/core/lib/multistore'
 import config from 'config'
 
 function _prepareCacheStorage (key, localized = !config.storeViews.commonCache, storageQuota = 0) {

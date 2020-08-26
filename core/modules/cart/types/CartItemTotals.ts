@@ -1,4 +1,3 @@
-
 import CartItemOption from './CartItemOption'
 
 export default interface CartItemTotals {

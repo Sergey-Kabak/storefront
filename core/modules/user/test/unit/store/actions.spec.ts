@@ -1,8 +1,8 @@
 import * as types from '../../../store/mutation-types'
 import * as data from './data'
 import userActions from '../../../store/actions'
-import { StorageManager } from '@vue-storefront/core/lib/storage-manager'
-import { UserService } from '@vue-storefront/core/data-resolver'
+import {StorageManager} from '@vue-storefront/core/lib/storage-manager'
+import {UserService} from '@vue-storefront/core/data-resolver'
 import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
 
 jest.mock('@vue-storefront/i18n', () => ({ t: jest.fn(str => str) }));
