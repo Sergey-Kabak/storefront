@@ -1,22 +1,27 @@
 <template>
   <div class="promo-block flex w-100">
     <div class="promo-block-gift relative flex v-center">
-      <img src="https://ringoo.ua/img/600/744/resize/6/5/6571351_0_1.jpg" alt="">
+      <img :src="getImageUrl()" alt="">
       <div class="promo-block-gift-icon absolute flex h-center v-center">
         <GiftSvg />
       </div>
     </div>
     <div class="promo-block-description">
             <span class="promo-block-description-text block">
-                Покупайте мобильный телефон {{getCurrentProduct.name}} и получайте повербанк в подарок!
+<!--                Покупайте мобильный телефон {{getCurrentProduct.name}} и получайте повербанк в подарок!-->
+              {{ getTitle() }}
             </span>
       <div class="promo-block-actions flex">
-        <button-grey @click.native="showDetails" class="details">
-          <span>Детальнее</span>
-        </button-grey>
-
+        <router-link
+          :to="localizedRoute('/back-to-school')"
+          exact
+        >
+          <button-grey @click.native="showDetails" class="details">
+            <span>{{ $t('Details') }}</span>
+          </button-grey>
+        </router-link>
         <div class="timer flex v-center">
-          <count-down :end-time="1600030800000" />
+          <count-down :end-time="getEndDate()" />
         </div>
       </div>
     </div>
@@ -29,8 +34,15 @@
   import CountDown from "../../CountDown";
   import ButtonGrey from './ButtonGrey'
   import GiftSvg from '../Svg/GiftSvg';
+  import config from 'config';
 
   export default {
+    props: {
+      labelValue: {
+        type: Number | String,
+        required: true
+      }
+    },
     components : {
       CountDown,
       ButtonGrey,
@@ -44,8 +56,17 @@
     methods : {
       showDetails(){
         this.$bus.$emit('modal-toggle', 'modal-terms-of-action')
+      },
+      getImageUrl() {
+        return config.rma[this.labelValue].image_url;
+      },
+      getTitle() {
+        return config.rma[this.labelValue].title;
+      },
+      getEndDate() {
+        return new Date(config.rma[this.labelValue].time).getTime();
       }
-    }
+    },
   }
 </script>
 
