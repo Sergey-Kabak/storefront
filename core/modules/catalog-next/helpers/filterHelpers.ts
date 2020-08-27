@@ -11,20 +11,20 @@ export const changeFilterQuery = ({ currentQuery = {}, filterVariant }: {current
   const newQuery = JSON.parse(JSON.stringify(currentQuery))
   if (!filterVariant) return newQuery
   if (getSystemFilterNames.includes(filterVariant.type)) {
-    if (newQuery[filterVariant.type] && newQuery[filterVariant.type] === filterVariant.id) {
+    if (newQuery[filterVariant.type] && newQuery[filterVariant.type] === filterVariant.label) {
       delete newQuery[filterVariant.type]
     } else {
-      newQuery[filterVariant.type] = filterVariant.id
+      newQuery[filterVariant.type] = filterVariant.label
     }
   } else {
     let queryFilter = newQuery[filterVariant.type] || []
     if (!Array.isArray(queryFilter)) queryFilter = [queryFilter]
-    if (queryFilter.includes(filterVariant.id)) {
-      queryFilter = queryFilter.filter(value => value !== filterVariant.id)
+    if (queryFilter.includes(filterVariant.label)) {
+      queryFilter = queryFilter.filter(value => value !== filterVariant.label)
     } else if (filterVariant.single) {
-      queryFilter = [filterVariant.id]
+      queryFilter = [filterVariant.label]
     } else {
-      queryFilter.push(filterVariant.id)
+      queryFilter.push(filterVariant.label)
     }
     // delete or add filter variant to query
     if (!queryFilter.length) delete newQuery[filterVariant.type]
@@ -47,7 +47,7 @@ export const getFiltersFromQuery = ({ filtersQuery = {}, availableFilters = {} }
     } else {
       queryValue = [].concat(filtersQuery[filterKey])
       queryValue.map(singleValue => {
-        const variant = filter.find(filterVariant => filterVariant.id === singleValue)
+        const variant = filter.find(filterVariant => filterVariant.label === singleValue)
         if (!variant) return
         if (!Array.isArray(searchQuery.filters[filterKey])) searchQuery.filters[filterKey] = []
         searchQuery.filters[filterKey].push({ ...variant, attribute_code: filterKey })
