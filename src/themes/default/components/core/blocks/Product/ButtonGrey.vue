@@ -30,7 +30,8 @@
       opacity: 0.38;
     }
     transition: ease-in 0.2s;
-    padding: 0 28px;
+    text-align: center;
+    justify-content: center;
     width: 131px;
     height: 32px;
     background: #FFFFFF;

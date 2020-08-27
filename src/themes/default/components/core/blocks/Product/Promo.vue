@@ -7,16 +7,16 @@
       </div>
     </div>
     <div class="promo-block-description">
-            <span class="promo-block-description-text block">
-<!--                Покупайте мобильный телефон {{getCurrentProduct.name}} и получайте повербанк в подарок!-->
-              {{ getTitle() }}
-            </span>
+      <span class="promo-block-description-text block">
+        {{ getTitle() }}
+      </span>
       <div class="promo-block-actions flex">
         <router-link
-          :to="localizedRoute('/back-to-school')"
+          class="no-underline super-link"
+          :to="localizedRoute(getCatLink())"
           exact
         >
-          <button-grey @click.native="showDetails" class="details">
+          <button-grey class="details">
             <span>{{ $t('Details') }}</span>
           </button-grey>
         </router-link>
@@ -29,45 +29,47 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+import CountDown from '../../CountDown';
+import ButtonGrey from './ButtonGrey'
+import GiftSvg from '../Svg/GiftSvg';
+import config from 'config';
 
-  import { mapGetters } from 'vuex'
-  import CountDown from "../../CountDown";
-  import ButtonGrey from './ButtonGrey'
-  import GiftSvg from '../Svg/GiftSvg';
-  import config from 'config';
-
-  export default {
-    props: {
-      labelValue: {
-        type: Number | String,
-        required: true
-      }
+export default {
+  props: {
+    labelValue: {
+      type: Number | String,
+      required: true
+    }
+  },
+  components: {
+    CountDown,
+    ButtonGrey,
+    GiftSvg
+  },
+  computed: {
+    ...mapGetters({
+      getCurrentProduct: 'product/getCurrentProduct',
+    })
+  },
+  methods: {
+    showDetails(){
+      this.$bus.$emit('modal-toggle', 'modal-terms-of-action')
     },
-    components : {
-      CountDown,
-      ButtonGrey,
-      GiftSvg
+    getImageUrl() {
+      return config.rma[this.labelValue].image_url;
     },
-    computed : {
-      ...mapGetters({
-        getCurrentProduct: 'product/getCurrentProduct',
-      })
+    getTitle() {
+      return config.rma[this.labelValue].title;
     },
-    methods : {
-      showDetails(){
-        this.$bus.$emit('modal-toggle', 'modal-terms-of-action')
-      },
-      getImageUrl() {
-        return config.rma[this.labelValue].image_url;
-      },
-      getTitle() {
-        return config.rma[this.labelValue].title;
-      },
-      getEndDate() {
-        return new Date(config.rma[this.labelValue].time).getTime();
-      }
+    getEndDate() {
+      return new Date(config.rma[this.labelValue].time).getTime();
     },
+    getCatLink() {
+      return config.rma[this.labelValue].category_link;
+    }
   }
+}
 </script>
 
 <style lang="scss" scoped>
@@ -78,6 +80,10 @@
     border: 1px solid #E0E0E0;
     box-sizing: border-box;
     border-radius: 4px;
+    .super-link {
+      display: flex;
+      max-width: 131px;
+    }
     &-gift{
       @media (max-width : 575px){
         display: none;
