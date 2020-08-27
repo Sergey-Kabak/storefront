@@ -5,6 +5,7 @@
       ref="input"
       v-bind="$attrs"
       v-on="$listeners"
+      :placeholder="placeholder"
       @focus="clearValue()"
       @blur="setPreviousValue()"
     >
@@ -26,6 +27,10 @@ export default {
       required: true
     },
     label: {
+      type: String,
+      default: ''
+    },
+    placeholder : {
       type: String,
       default: ''
     }

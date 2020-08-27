@@ -1,4 +1,7 @@
  is out of stock!,нет в наличии
+"Product price is unknown, product cannot be added to the cart!","Цена товара неизвестна, товар нельзя добавить в корзину!"
+"Stock check in progress, please wait while available stock quantities are checked",Выполняется проверка товаров на наличие. Пожалуйста дождитесь завершения процесса проверки
+"Unhandled error, wrong response format!","Необработанная ошибка, неверный формат ответа!"
 404 Page Not Found,Ошибка 404 страница не найдена
 Account data has successfully been updated,Данные учетной записи успешно обновлены
 Adding a review ...,Оставить отзыв
@@ -8,7 +11,7 @@ Compare Products,Сравнить товары
 Error with response - bad content-type!,Ошибка в ответе — неверный тип контента
 Field is required,Обязательное поле
 Field is required.,Обязательное поле
-Grand total,Общая сумма
+Grand total,Всего
 Home Page,Главная страница
 Internal validation error. Please check if all required fields are filled in. Please contact us on {email},Произошла ошибка. Пожалуйста заполните все обязательные поля.
 My Account,Личный кабинет
@@ -19,7 +22,6 @@ Only {maxQuantity} products of this type are available!,Доступны тол�
 Out of stock!,Нет в наличии!
 Please fix the validation errors,Пожалуйста исправьте ошибки
 Product has been added to the cart!,Товар добавлен в корзину!
-"Product price is unknown, product cannot be added to the cart!","Цена товара неизвестна, товар нельзя добавить в корзину!"
 Product quantity has been updated!,Количество товара обновлено!
 Product {productName} has been added to the compare!,Товар {productName} добавлен для сравнения!
 Product {productName} has been added to wishlist!,Товар {productName} добавлен в список желаний!
@@ -29,7 +31,6 @@ Registering the account …,Создается учетная запись ...
 Reset password feature does not work while offline!,Невозможно изменить пароль из-за отсутствия соединения с интернетом!
 Shopping cart is empty. Please add some products before entering Checkout,Корзина пустая. Пожалуйста добавьте товары перед оформлением заказа
 Some of the ordered products are not available!,Некоторые из выбранных товаров недоступны!
-"Stock check in progress, please wait while available stock quantities are checked",Выполняется проверка товаров на наличие. Пожалуйста дождитесь завершения процесса проверки
 Subtotal incl. tax,"Сумма, включая НДС"
 The product is out of stock and cannot be added to the cart!,Товара нет в наличии и его нельзя добавить в корзину
 The system is not sure about the stock quantity (volatile). Product has been added to the cart for pre-reservation.,Количество товара ограничено. Товар добавлен в корзину для предварительного бронирования.
@@ -37,7 +38,6 @@ There is no Internet connection. You can still place your order. We will notify 
 This feature is not implemented yet! Please take a look at https://github.com/DivanteLtd/vue-storefront/issues for our Roadmap!,Данная возможность пока не реализована! Пожалуйста ознакомьтесь с картой сайта здесь: https://github.com/DivanteLtd/vue-storefront/issues
 Thumbnail,
 Type what you are looking for...,Поиск товаров
-"Unhandled error, wrong response format!","Необработанная ошибка, неверный формат ответа!"
 You are logged in!,Вы вошли в учетную запись!
 You need to be logged in to see this page,Войдите в систему для просмотра страницы
 You submitted your review for moderation,Спасибо за Ваш отзыв. После проверки модератором он будет опубликован

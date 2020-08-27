@@ -17,5 +17,16 @@ a {
 }
 
 #viewport {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
   overflow-x: hidden;
+}
+
+.v-container {
+  max-width: 1324px;
+  width: 100%;
+  height: 100%;
+  margin: auto;
+  box-sizing: border-box;
 }

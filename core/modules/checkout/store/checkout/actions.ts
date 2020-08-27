@@ -6,13 +6,11 @@ import { Logger } from '@vue-storefront/core/lib/logger'
 import { StorageManager } from '@vue-storefront/core/lib/storage-manager'
 
 const actions: ActionTree<CheckoutState, RootState> = {
-  async placeOrder ({ dispatch }, { order }) {
+  async placeOrder ({ dispatch, rootState }, { order }) {
     try {
       const result = await dispatch('order/placeOrder', order, { root: true })
       if (!result.resultCode || result.resultCode === 200) {
         await dispatch('updateOrderTimestamp')
-        // clear cart without sync, because after order cart will be already cleared on backend
-        await dispatch('cart/clear', { sync: false }, { root: true })
         await dispatch('dropPassword')
       }
     } catch (e) {

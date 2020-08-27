@@ -500,6 +500,10 @@ export default {
 </style>
 
 <style lang="scss" scoped>
+  ::v-deep .product-listing {
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr))!important;
+  }
+
   .new-collection {
     @media (max-width: 767px) {
       padding-top: 0;

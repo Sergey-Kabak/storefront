@@ -146,7 +146,7 @@ export default {
 		color: #23BE20;
 		position: absolute;
 		left: 0;
-		width: 18px;
+		width: 24px;
 		top: 50%;
 		transform: translateY(-50%);
 	}
@@ -164,17 +164,13 @@ export default {
 		padding: 20px;
 	}
 
-	@media (max-width: 767px) {
+	@media (max-width: 768px) {
 		.search-icon {
-			left: 20px
+			left: 18px;
 		}
 
 		.search-panel-input {
-			padding: 0 20px 0 60px;
-		}
-
-		.search-input-group {
-			box-shadow: inset 0px -2px 2px -2px rgba(0, 0, 0, 0.3);
+			padding: 0 20px 0 56px;
 		}
 
 		.categories {
