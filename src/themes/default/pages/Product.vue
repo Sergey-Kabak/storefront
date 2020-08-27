@@ -35,6 +35,7 @@
             />
           </div>
           <div class="col-xs-12 col-md-5 data">
+            <Promo v-if="isProductRma" :label-value="getLabelValue()" />
             <div
               class="product-in-stock hidden-xs block"
               :class="{ 'not-available': !(getCurrentProduct.stock && getCurrentProduct.stock.is_in_stock) }"
@@ -280,6 +281,7 @@ import {
 } from '@vue-storefront/core/helpers';
 import { catalogHooksExecutors } from '@vue-storefront/core/modules/catalog-next/hooks';
 import ProductPrice from 'theme/components/core/ProductPrice.vue';
+import Promo from "../components/core/blocks/Product/Promo";
 
 export default {
   components: {
@@ -302,7 +304,8 @@ export default {
     SizeGuide,
     LazyHydrate,
     ProductQuantityNew,
-    ProductPrice
+    ProductPrice,
+    Promo
   },
   mixins: [ProductOption],
   directives: { focusClean },
@@ -330,6 +333,9 @@ export default {
       attributesByCode: 'attribute/attributeListByCode',
       getCurrentCustomOptions: 'product/getCurrentCustomOptions'
     }),
+    isProductRma() {
+      return this.getCurrentProduct.hasOwnProperty("rma")
+    },
     getOptionLabel () {
       return (option) => {
         const configName = option.attribute_code ? option.attribute_code : option.label.toLowerCase()
@@ -388,7 +394,6 @@ export default {
   },
   async mounted () {
     await this.$store.dispatch('recently-viewed/addItem', this.getCurrentProduct)
-    console.log('==========================================================================================>', this.getCurrentProduct)
   },
   async asyncData ({ store, route, context }) {
     if (context) context.output.cacheTags.add('product')
@@ -416,6 +421,19 @@ export default {
     }
   },
   methods: {
+    getLabelValue() {
+
+      let attributes = this.getCurrentProduct.attributes_metadata;
+      let attribute = attributes.find((attr) => {
+        return attr.attribute_code === "rma"
+      });
+
+      if (!attribute.options.length > 0) {
+        return false;
+      }
+
+      return attribute.options[0].label;
+    },
     showDetails (event) {
       this.detailsOpen = true
       event.target.classList.add('hidden')
