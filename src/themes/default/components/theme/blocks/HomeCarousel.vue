@@ -101,8 +101,8 @@ export default {
 <style lang="scss">
   .home-carousel {
     img {
-      width: 260px;
-      height: auto;
+      width: 100% !important;
+      height: auto !important;
       margin: 0 auto;
     }
   }
