@@ -433,3 +433,6 @@
 "{count} items","Items not found | {count} item | {count} items"
 "next","Next"
 "My Order","My Order"
+"Promocode is not valid","Promocode is not valid"
+"grand_total","Grand Total"
+"discount","Discount on promotional code"

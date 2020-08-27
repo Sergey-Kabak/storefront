@@ -103,7 +103,7 @@ export default {
 	methods: {
 		setOverlay() {
 			this.$store.commit('ui/setMobileSearch', true)
-			document.documentElement.style.overflow = 'hidden'
+			document.body.style.overflow = 'hidden'
 			this.$store.commit('ui/setOverlay', true)
 			this.$store.commit('ui/setHeaderIndex', 4)
 		},
@@ -112,7 +112,7 @@ export default {
 			this.search = ''
 			this.makeSearch(this.search)
 			this.$store.commit('ui/setOverlay', false)
-			document.documentElement.style.overflow = 'auto'
+			document.body.style.overflow = 'auto'
 		}
 	}
 }

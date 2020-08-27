@@ -9,11 +9,12 @@
       :key="product.server_item_id || product.id"
       :product="product"
     />
-    <promo-code class="promo-code"/>
-    <div class="summary-price" v-for="(segment, index) in totals" :key="index" v-if="segment.code === 'grand_total'">
-      <span>{{ $t('Grand total') }}:</span>
-      {{ segment.value | price(storeView) }}
-    </div>
+    <promo-code 
+      class="promo-code"
+      @onPromocodeToggle="isShowPromocode = $event"
+      :isActive="isShowPromocode"
+    />
+    <total-price />
   </div>
 </template>
 
@@ -23,13 +24,18 @@ import { currentStoreView } from '@vue-storefront/core/lib/multistore';
 import Product from 'theme/components/core/blocks/Checkout/Product';
 import { mapGetters } from 'vuex';
 import PromoCode from 'theme/components/core/blocks/Microcart/PromoCode';
+import TotalPrice from 'theme/components/core/TotalPrice';
 
 export default {
   mixins: [CartSummary],
   components: {
     Product,
-    PromoCode
+    PromoCode,
+    TotalPrice
   },
+  data: () => ({
+    isShowPromocode: false
+  }),
   computed: {
     ...mapGetters({
       getItemsTotalQuantity: 'cart/getItemsTotalQuantity',

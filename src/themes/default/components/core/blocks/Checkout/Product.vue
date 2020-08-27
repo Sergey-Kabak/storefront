@@ -34,6 +34,14 @@
           </span>
         </div>
       </div>
+      <more-icon>
+        <div class="more-item" @click="removeFromCart()">
+          <svg width="14" height="18" viewBox="0 0 14 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M1 16C1 17.1 1.9 18 3 18H11C12.1 18 13 17.1 13 16V4H1V16ZM3.5 8.9L4.9 7.5L7 9.6L9.1 7.5L10.5 8.9L8.4 11L10.5 13.1L9.1 14.5L7 12.4L4.9 14.5L3.5 13.1L5.6 11L3.5 8.9ZM10.5 1L9.5 0H4.5L3.5 1H0V3H14V1H10.5Z" fill="#BDBDBD"/>
+          </svg>
+          <span>Удалить</span>
+        </div>
+      </more-icon>
     </div>
     <div class="product-right">
       <div class="product-qty" v-if="product.type_id !== 'grouped' && product.type_id !== 'bundle'">
@@ -59,11 +67,13 @@ import { onlineHelper } from '@vue-storefront/core/helpers';
 import { currentStoreView } from '@vue-storefront/core/lib/multistore';
 import { Product } from '@vue-storefront/core/modules/checkout/components/Product';
 import i18n from '@vue-storefront/i18n';
+import MoreIcon from 'theme/components/core/MoreIcon';
 
 export default {
   mixins: [Product],
   components: {
-    ProductQuantityNew
+    ProductQuantityNew,
+    MoreIcon
   },
   data: () => ({
     maxQuantity: 0,
@@ -119,13 +129,14 @@ export default {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding-bottom: 15px;
+  padding-bottom: 16px;
+  margin-bottom: 16px;
   border-bottom: 1px solid #e0e0e0;
-  margin-bottom: 15px;
 }
 
 .product-left,
 .product-right {
+  width: 100%;
   box-sizing: border-box;
   display: flex;
   align-items: center;
@@ -133,8 +144,13 @@ export default {
 
 .product-right {
   margin-left: auto;
-  max-width: 220px;
+  max-width: 205px;
   width: 100%;
+}
+
+.more {
+  display: none;
+  margin-left: auto;
 }
 
 .price-sale {
@@ -152,7 +168,7 @@ export default {
 }
 
 .product-remove {
-  margin-right: 10px;
+  margin-right: 12px;
   cursor: pointer;
 
   svg {
@@ -164,11 +180,19 @@ export default {
 .product-image {
   margin-right: 10px;
   display: flex;
+  justify-content: center;
   align-items: center;
-  max-width: 40px;
-  width: 100%;
+  width: 50px;
+  height: 50px;
   font-family: DIN Pro;
   font-style: normal;
+
+  img {
+    max-width: 50px;
+    max-height: 50px;
+    width: auto;
+    height: auto;
+  }
 }
 
 .product-info {
@@ -177,12 +201,17 @@ export default {
 }
 
 .product-info-name {
+  font-family: DIN Pro;
+  font-style: normal;
   font-size: 13px;
-  margin-bottom: 4px;
   line-height: 16px;
+  color: #1A1919;
+  margin-bottom: 4px;
 }
 
 .product-info-price {
+  font-family: DIN Pro;
+  font-style: normal;
   font-size: 15px;
   font-weight: 600;
   line-height: 16px;
@@ -251,6 +280,23 @@ img {
   line-height: 24px;
   text-align: right;
   color: #1A1919;
+}
+
+.more-item {
+  display: flex;
+  align-items: center;
+  
+  svg {
+    margin-right: 20px;
+  }
+
+  span {
+    font-family: DIN Pro;
+    font-style: normal;
+    font-size: 14px;
+    line-height: 24px;
+    color: #5F5E5E;
+  }
 }
 </style>
 <style>

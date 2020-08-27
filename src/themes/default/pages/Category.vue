@@ -549,9 +549,6 @@ $mobile_screen : 768px;
   }
 </style>
 <style lang="scss">
-.product-image {
-  max-height: unset !important;
-}
 .banner-description {
   margin-top: 25px;
   display: flex;
