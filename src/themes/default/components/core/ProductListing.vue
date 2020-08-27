@@ -42,4 +42,8 @@ export default {
     display: grid;
     grid-gap: 20px;
   }
+  
+  ::v-deep .product-image__thumb {
+    max-height: 200px!important;
+  }
 </style>

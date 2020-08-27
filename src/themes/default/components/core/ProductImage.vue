@@ -128,7 +128,7 @@ export default {
         max-width: 100%;
         width: auto;
         height: auto;
-        max-height: 225px;
+        max-height: 500px;
       }
     }
   }
