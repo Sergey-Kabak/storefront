@@ -32,7 +32,8 @@ export default {
     },
     columns: {
       type: [Number, String],
-      required: true
+      required: false,
+      default: 3
     }
   },
   methods: {

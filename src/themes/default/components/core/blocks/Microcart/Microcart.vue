@@ -430,12 +430,6 @@ export default {
       .summary {
         padding: 16px;
       }
-
-      &.is-empty {
-        .scroll-bar {
-          padding-top: 50px;
-        }
-      }
       
       &-empty {
         padding: 0 16px;
