@@ -30,6 +30,8 @@ export default {
 <style lang="scss" scoped>
 .more {
   cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
   display: flex;
   position: relative;
   padding: 4px;
