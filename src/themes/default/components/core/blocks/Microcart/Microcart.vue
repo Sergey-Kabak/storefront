@@ -39,7 +39,7 @@
               <svg width="14" height="18" viewBox="0 0 14 18" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M1 16C1 17.1 1.9 18 3 18H11C12.1 18 13 17.1 13 16V4H1V16ZM3.5 8.9L4.9 7.5L7 9.6L9.1 7.5L10.5 8.9L8.4 11L10.5 13.1L9.1 14.5L7 12.4L4.9 14.5L3.5 13.1L5.6 11L3.5 8.9ZM10.5 1L9.5 0H4.5L3.5 1H0V3H14V1H10.5Z" fill="#BDBDBD"/>
               </svg>
-              <span>Удалить все</span>
+              <span>{{ $t('Remove all') }}</span>
             </div>
           </more-icon>
         </div>
@@ -395,6 +395,7 @@ export default {
         margin-left: auto;
 
         &-item {
+          padding: 12px 16px;
           display: flex;
           align-items: center;
 

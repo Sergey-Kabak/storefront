@@ -3,9 +3,11 @@
     <div class="more-point"></div>
     <div class="more-point"></div>
     <div class="more-point"></div>
-    <div class="content" v-if="isActive">
-      <slot />
-    </div>
+    <transition name="slide">
+      <div class="content" v-if="isActive">
+        <slot />
+      </div>
+    </transition>
   </div>
 </template>
 
@@ -45,7 +47,6 @@ export default {
 .content {
   box-sizing: border-box;
   min-width: 242px;
-  padding: 12px 16px;
   white-space: nowrap;
   z-index: 4;
   background: #fff;
@@ -59,5 +60,18 @@ export default {
   font-size: 14px;
   line-height: 24px;
   color: #5F5E5E;
+}
+
+.slide-enter-active,
+.slide-leave-active {
+  transition: all 0.1s ease-in;
+  transform: translateY(0);
+}
+
+.slide-enter {
+  transform: translateY(-15px);
+}
+.slide-leave-to {
+  opacity: 0;
 }
 </style>
