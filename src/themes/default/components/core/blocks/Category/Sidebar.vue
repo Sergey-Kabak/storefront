@@ -138,7 +138,23 @@ export default {
       this.$store.dispatch('category-next/resetSearchFilters')
     },
     sortById (filters) {
-      return [...filters].sort((a, b) => { return a.id - b.id })
+      let hasGB = JSON.stringify(filters).toLowerCase().indexOf('гб'),
+          hasMB = JSON.stringify(filters).toLowerCase().indexOf('мб');
+
+          if (hasGB > -1 && hasMB > -1) {
+            let mbArr = [],
+                gbArr = [];
+
+                filters.forEach(el => el.label.toLowerCase().indexOf('мб') > -1 ? mbArr.push(el) : gbArr.push(el))
+                mbArr.sort((a, b) => { return parseInt(a.label) - parseInt(b.label) })
+                gbArr.sort((a, b) => { return parseInt(a.label) - parseInt(b.label) })
+                console.log(mbArr , gbArr)
+                return [...mbArr , ...gbArr]
+          }
+          else {
+            return [...filters].sort((a, b) => { return parseInt(a.label) - parseInt(b.label) })
+          }
+      
     },
     // should be received from config
     isCheckboxFilter (filterName) {

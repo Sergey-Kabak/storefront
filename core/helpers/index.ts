@@ -168,8 +168,8 @@ export function buildFilterProductsQuery (currentCategory, chosenFilters = {}, d
       const rangeqr = {}
       const filterValues = Array.isArray(filter) ? filter : [filter]
       filterValues.forEach(singleFilter => {
-        if (singleFilter.from) rangeqr['gte'] = singleFilter.from
-        if (singleFilter.to) rangeqr['lte'] = singleFilter.to
+        if (singleFilter.from || typeof singleFilter.from === 'number') rangeqr['gte'] = singleFilter.from
+        if (singleFilter.to || typeof singleFilter.from === 'number') rangeqr['lte'] = singleFilter.to
       })
       filterQr = filterQr.applyFilter({ key: attributeCode, value: rangeqr, scope: 'catalog' })
     }
