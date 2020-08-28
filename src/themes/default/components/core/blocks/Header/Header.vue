@@ -62,8 +62,24 @@
               <logo width="auto" class="logo"/>
             </div>
             <div class="header-right">
+              <div class="phone-wrap">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M6.54 5C6.6 5.89 6.75 6.76 6.99 7.59L5.79 8.79C5.38 7.59 5.12 6.32 5.03 5H6.54ZM16.4 17.02C17.25 17.26 18.12 17.41 19 17.47V18.96C17.68 18.87 16.41 18.61 15.2 18.21L16.4 17.02ZM7.5 3H4C3.45 3 3 3.45 3 4C3 13.39 10.61 21 20 21C20.55 21 21 20.55 21 20V16.51C21 15.96 20.55 15.51 20 15.51C18.76 15.51 17.55 15.31 16.43 14.94C16.33 14.9 16.22 14.89 16.12 14.89C15.86 14.89 15.61 14.99 15.41 15.18L13.21 17.38C10.38 15.93 8.06 13.62 6.62 10.79L8.82 8.59C9.1 8.31 9.18 7.92 9.07 7.57C8.7 6.45 8.5 5.25 8.5 4C8.5 3.45 8.05 3 7.5 3Z" fill="#828282"/>
+                </svg>
+                <div class="phone">
+                  <div class="phone-tooltip" v-show="navVisible">
+                    <span class="phone-tooltip-title">{{ $t('Consultation by telephone') }}</span>
+                    <a class="phone-tooltip-number" href="tel:+380674666111">+38 067 466 61 11</a>
+                    <span class="phone-tooltip-date">Пн-Пт: 9:00-18:00; Сб-Вс: {{ $t('Weekend') }}</span>
+                    <span class="phone-tooltip-description">{{ $t('Free of charge from landlines and mobile phones in Ukraine') }}</span>
+                  </div>
+                </div>
+                <svg width="8" height="6" viewBox="0 0 8 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M0.94 0.726667L4 3.78L7.06 0.726667L8 1.66667L4 5.66667L0 1.66667L0.94 0.726667Z"/>
+                </svg>
+              </div>
               <search-icon class="icon pointer icon-search" />
-              <compare-icon class="icon pointer icon-compare" />
+              <compare-icon class="icon pointer icon-compare xs-hide" />
               <microcart-icon class="icon pointer icon-microcart" />
               <wishlist-icon class="icon pointer icon-wishlist" />
               <account-icon class="icon pointer icon-account" />
@@ -263,6 +279,9 @@ header {
   align-items: center;
   height: 67px;
   justify-content: center;
+  @media (max-width : 575px){
+    padding-right: 6px !important;
+  }
 }
 
 .header {
@@ -579,7 +598,7 @@ header {
 
 @media (max-width: 768px) {
   header {
-    overflow: auto;
+    //overflow: auto;
   }
 
   .header-top {
@@ -678,6 +697,24 @@ a.underline:after, a:not(.no-underline):hover:after {
   to {
     opacity: 1;
     transform: translateY(0) translateX(-50%);
+  }
+}
+.xs-hide{
+  @media (max-width : 575px){
+    display: none !important;
+  }
+}
+.header-top{
+  .phone-wrap{
+    @media (min-width : 576px){
+      display: none;
+    }
+    padding: 8px;
+    border-radius: 4px;
+    box-sizing: border-box;
+    height: 40px;
+    width: 40px;
+    position: relative;
   }
 }
 </style>
