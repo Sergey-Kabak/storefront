@@ -1,9 +1,9 @@
 <template>
   <div class="phone-tooltip">
-    <span class="phone-tooltip-title">{{ $t('Consultation by telephone') }}</span>
-    <a class="phone-tooltip-number" href="tel:+380674666111">+38 067 466 61 11</a>
-    <span class="phone-tooltip-date">Пн-Пт: 9:00-18:00; Сб-Вс: {{ $t('Weekend') }}</span>
-    <span class="phone-tooltip-description">{{ $t('Free of charge from landlines and mobile phones in Ukraine') }}</span>
+		<span class="phone-tooltip-title">{{ $t('Consultation by telephone') }}</span>
+		<a class="phone-tooltip-number" href="tel:+380674666111">+38 067 466 61 11</a>
+		<span class="phone-tooltip-date">Пн-Пт: 9:00-18:00; Сб-Вс: {{ $t('Weekend') }}</span>
+		<span class="phone-tooltip-description">{{ $t('Free of charge from landlines and mobile phones in Ukraine') }}</span>
 	</div>
 </template>
 
@@ -26,6 +26,7 @@ export default {}
 		font-size: 15px;
 		margin-bottom: 16px;
 		text-decoration: none;
+		font-weight: 600;
 
 		&:after {
 			content: none;
@@ -39,6 +40,9 @@ export default {}
 	}
 
 	&-description {
+		font-family: DIN Pro;
+		font-size: 14px;
+		line-height: 16px;
 		color: rgba(95, 94, 94, 0.6);
 	}
 }

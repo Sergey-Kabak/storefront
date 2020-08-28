@@ -73,15 +73,13 @@
           </div>
         </div>
       </div>
-      <div class="header-container-wrap border">
-        <div class="header-container checkout" v-if="isCheckoutPage && !isThankYouPage">
+      <div class="header-container-wrap border" v-if="isCheckoutPage && !isThankYouPage">
+        <div class="header-container checkout">
           <router-link
             :to="localizedRoute('/')"
             class="return-to-shopping__link"
           >
-            <svg class="return-to-shopping__icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M13.293 17.707L7.58603 12L13.293 6.293L14.707 7.707L10.414 12L14.707 16.293L13.293 17.707Z" fill="#BDBDBD"/>
-            </svg>
+            <img src="/assets/custom/Back.svg" alt="back" class="return-to-shopping__icon">
             <span class="return-to-shopping__text">{{ $t('Return to shopping') }}</span>
           </router-link>
           <logo width="auto" height="41px" />
@@ -92,6 +90,10 @@
               </svg>
               <span class="header-help-text">{{ $t('Need help?') }}</span>
               <phone-info v-show="navVisible"></phone-info>
+            </div>
+            <div class="header-help-mobile">
+              <microcart-icon class="icon pointer icon-microcart" />
+              <consultation-icon class="icon icon-consultation" />
             </div>
           </div>
         </div>
@@ -114,6 +116,7 @@ import WishlistIcon from 'theme/components/core/blocks/Header/WishlistIcon';
 import HeaderSearch from 'theme/components/core/blocks/Header/HeaderSearch';
 import MobileHamburgerIcon from 'theme/components/core/blocks/Header/MobileHamburgerIcon';
 import PhoneInfo from 'theme/components/core/PhoneInfo';
+import ConsultationIcon from 'theme/components/core/blocks/Header/ConsultationIcon';
 
 export default {
   name: 'Header',
@@ -127,7 +130,8 @@ export default {
     WishlistIcon,
     HeaderSearch,
     MobileHamburgerIcon,
-    PhoneInfo
+    PhoneInfo,
+    ConsultationIcon
   },
   mixins: [CurrentPage],
   data () {
@@ -507,9 +511,14 @@ header {
     font-family: DIN Pro;
     font-style: normal;
     font-size: 15px;
-    line-height: 24px;
+    line-height: 25px;
     display: block;
     color: #5F5E5E;
+    transition: .2s ease-in-out;
+
+    &:hover {
+      color: #1A1919;
+    }
   }
 
   &__link {
@@ -521,6 +530,7 @@ header {
 
   &__icon {
     margin-right: 12px;
+    width: 10px;
   }
 }
 .account {
@@ -538,11 +548,11 @@ header {
 
 .header-container {
   &.checkout {
-    height: 67px;
+    height: 56px;
     display: grid;
     align-items: center;
     grid-template-columns: 1fr 1fr 1fr;
-    width: 100%;
+    width: 95%;
     max-width: 1324px;
     margin: auto;
   }
@@ -583,6 +593,10 @@ header {
       }
     }
   }
+}
+
+.header-help-mobile {
+  display: none;
 }
 
 a.underline:after, a:not(.no-underline):hover:after {
@@ -647,9 +661,39 @@ a.underline:after, a:not(.no-underline):hover:after {
     &.border {
       border-bottom: 1px solid #e0e0e0;
       box-shadow: none;
+    }
+  }
+}
 
-      &:last-child {
-        border-bottom: none;
+@media (max-width: 600px) {
+  .header-help-desktop {
+    display: none;
+  }
+
+  .header-help-mobile {
+    display: flex;
+    align-items: center;
+
+    .icon-consultation {
+      cursor: pointer;
+    }
+
+    .icon-microcart {
+      margin-right: 16px;
+    }
+  }
+
+  .return-to-shopping {
+    &__text {
+      line-height: 16px;
+      font-size: 13px;
+    }
+  }
+
+  .header-container {
+    &.checkout {
+      .custom-logo {
+        margin: 10px auto 0px auto;
       }
     }
   }
