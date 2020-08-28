@@ -15,7 +15,7 @@
       class="h2 cl-mine-shaft weight-700"
       v-if="!initialPrice.special && price.default"
     >
-      {{ price.default | price(storeView) }}
+      {{ final_price | price(storeView) }}
     </div>
   </div>
 </template>
@@ -59,6 +59,9 @@ export default {
       )
 
       return priceDelta
+    },
+    final_price() {
+      return this.product.final_price;
     },
     price () {
       const customOptionPrice = this.customOptionsPriceDelta.priceInclTax
