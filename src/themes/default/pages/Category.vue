@@ -451,7 +451,7 @@ $mobile_screen : 768px;
   .category-sort {
     display: flex;
     align-items: center;
-    margin-bottom: 6px;
+    margin: 0px 0px 28px 0;
   }
 
   @media (max-width: 768px) {
