@@ -148,7 +148,6 @@ export default {
                 filters.forEach(el => el.label.toLowerCase().indexOf('мб') > -1 ? mbArr.push(el) : gbArr.push(el))
                 mbArr.sort((a, b) => { return parseInt(a.label) - parseInt(b.label) })
                 gbArr.sort((a, b) => { return parseInt(a.label) - parseInt(b.label) })
-                console.log(mbArr , gbArr)
                 return [...mbArr , ...gbArr]
           }
           else {
