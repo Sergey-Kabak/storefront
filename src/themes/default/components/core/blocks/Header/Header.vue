@@ -604,6 +604,10 @@ a.underline:after, a:not(.no-underline):hover:after {
 }
 
 @media (max-width: 768px) {
+  header {
+    overflow: auto;
+  }
+
   .header-top {
     padding: 0 18px;
   }
@@ -663,9 +667,6 @@ a.underline:after, a:not(.no-underline):hover:after {
       box-shadow: none;
     }
   }
-}
-
-@media (max-width: 600px) {
   .header-help-desktop {
     display: none;
   }
