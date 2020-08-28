@@ -51,7 +51,7 @@
         </ul>
       </div>
       <div class="header-container-wrap border" v-if="!isCheckoutPage || isThankYouPage">
-        <div class="header-container header-top-container">
+        <div class="v-container header-top-container">
           <div class="header-top">
             <div class="header-left">
               <hamburger-icon class="icon menu" />
@@ -211,7 +211,7 @@ export default {
       this.lastScrollTop = this.scrollTop
     },
     onResize() {
-      if (window.innerWidth >= 767 && this.mobileSearch) {
+      if (window.innerWidth >= 768 && this.mobileSearch) {
         this.$store.commit('ui/setOverlay', false)
         this.$store.commit('ui/setMobileSearch', false)
       }
@@ -249,13 +249,7 @@ header {
   display: block;
 }
 
-.header-container {
-  max-width: 1324px;
-  width: 95%;
-  height: 100%;
-  margin: auto;
-  box-sizing: border-box;
-
+.v-container {
   &.minimal {
     display: flex;
     align-items: center;
@@ -583,7 +577,7 @@ header {
   display: none;
 }
 
-@media (max-width: 767px) {
+@media (max-width: 768px) {
   header {
     overflow: auto;
   }
@@ -635,6 +629,10 @@ header {
 
   .header-top {
     height: 56px;
+  }
+  
+  .header-wrap {
+    margin-bottom: 15px;
   }
 
   .header-container-wrap {
