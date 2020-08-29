@@ -19,7 +19,7 @@
         </i>
       </button>
       <div class="microcart-top">
-        
+
         <div class="microcart-left">
           <h2 class="microcart-top-title cl-accent" v-if="productsInCart.length">
             {{ $t('Your cart') }}
@@ -86,7 +86,7 @@ import {
   mapGetters,
   mapActions
 } from 'vuex';
-import { 
+import {
   isModuleRegistered,
   registerModule
 } from '@vue-storefront/core/lib/modules';
@@ -211,7 +211,7 @@ export default {
 <style lang="scss" scoped>
   @import "~theme/css/animations/transitions";
   .microcart {
-    height: 100%;
+    height: auto;
 
     .summary {
       margin-top: auto;
@@ -324,6 +324,7 @@ export default {
   .actions-button {
     justify-content: space-between;
     display: flex;
+    min-height: 40px;
 
     .button {
       box-sizing: border-box;
@@ -409,6 +410,7 @@ export default {
 
       &-right {
         margin-bottom: 25px;
+        margin-right: 25px;
       }
 
       .close {
