@@ -259,7 +259,7 @@ header {
 }
 
 .header-wrap {
-  margin-bottom: 18px;
+  margin-bottom: 16px;
 }
 
 .minimal {

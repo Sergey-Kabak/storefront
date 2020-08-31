@@ -4,7 +4,7 @@
         class="main-carousel home-carousel"
         ref="carousel1"
         :per-page="1"
-        :per-page-custom="[[320, 1], [420, 2], [787, 3], [1180, 4], [1200, 5]]"
+        :per-page-custom="[[320, 1], [420, 2], [787, 3], [1180, 4], [1200, 4]]"
         :center-mode="true"
         :mouse-drag="true"
         :autoplay="true"
@@ -98,12 +98,33 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
+  /deep/ .VueCarousel-pagination{
+    position: absolute;
+    bottom: -44px;
+    .VueCarousel-dot{
+      outline: none !important;
+      padding: 4px !important;
+    }
+    .VueCarousel-dot--active{
+      background-color: #23BE20 !important;
+    }
+
+  }
+  .home-carousel-wrapper{
+    max-width: 1054px;
+    margin: 0 auto;
+    border-radius: 8px;
+    padding-bottom: 66px;
+  }
   .home-carousel {
     img {
       width: 100% !important;
-      height: auto !important;
       margin: 0 auto;
+      max-width: 260px;
+      max-height: 434px;
+      height: 100%;
+      object-fit: cover;
     }
   }
 </style>
