@@ -17,7 +17,7 @@
         @blur="$emit('blur', $event.target.value)"
       />
     </div>
-    <div class="mpbtn plus" v-on:click="mpplus()" :class="{'active': isPlusActive}">
+    <div class="mpbtn plus" v-on:click="mpplus()" :class="{'active': isPlusActive, 'disabled': !isPlusActive}">
       <svg width="12" height="12" viewBox="0 0 12 12" xmlns="http://www.w3.org/2000/svg">
         <path d="M11.8337 6.83333H6.83366V11.8333H5.16699V6.83333H0.166992V5.16666H5.16699V0.166664H6.83366V5.16666H11.8337V6.83333Z" />
       </svg>
@@ -129,28 +129,28 @@ export default {
   background-color: #FFF;
   display: inline-flex;
   user-select: none;
-  height: 30px;
+  height: 32px;
   box-sizing: border-box;
 }
 
 .minusplusnumber div {
   display: inline-block;
-  height: 30px;
+  height: 32px;
 }
 
 #field_container {
-  border: 1px solid #E0E0E0;
-  border-right: 0;
+  border-top: 1px solid #E0E0E0;
+  border-bottom: 1px solid #E0E0E0;
   box-sizing: border-box;
   background-color: white;
 }
 
 .minusplusnumber #field_container input {
-  width: 38px;
+  width: 40px;
   text-align: center;
   padding: 3px;
   border: none;
-  height: 28px;
+  height: 30px;
   box-sizing: border-box;
   background: #ffffff;
   font-family: DIN Pro;
@@ -161,82 +161,19 @@ export default {
 
 .minusplusnumber .mpbtn {
   cursor: pointer;
-  height: 30px;
-  width: 30px;
+  height: 32px;
+  width: 32px;
   box-sizing: border-box;
   display: flex;
   justify-content: center;
   align-items: center;
-}
-
-.minus, .plus {
-  border: 1px solid #E0E0E0;
-  background: #F9F9F9;
-  svg {
-    fill: #E0E0E0;
-  }
-
-  &.active {
-    background: #23BE20;
-
-    svg {
-      fill: #fff;
-    }
-  }
-}
-
-.minusplusnumber #field_container input {
-  width: 38px;
-  text-align: center;
-  padding: 3px;
-  border: none;
-  height: 28px;
-  box-sizing: border-box;
-  background: #ffffff;
-  font-family: DIN Pro;
-  font-style: normal;
-  font-size: 12px;
-  line-height: 13px;
-}
-
-.minusplusnumber .mpbtn {
-  cursor: pointer;
-  height: 30px;
-  width: 30px;
-  box-sizing: border-box;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.minus, .plus {
-  border: 1px solid #E0E0E0;
-  background: #F9F9F9;
-  svg {
-    fill: #E0E0E0;
-  }
-
-  &.active {
-    background: #23BE20;
-
-    svg {
-      fill: #fff;
-    }
-  }
-}
-
-.minus {
-  border-radius: 4px 0 0 4px;
-  border-right: none;
-
-}
-
-.plus {
-  border-radius: 0 4px 4px 0;
 }
 
 .minus,
 .plus {
+  border: none;
+  border-radius: 4px 0 0 4px;
+  background: #F9F9F9;
   transition: .2s ease-in-out;
 
   &.disabled {
@@ -248,9 +185,45 @@ export default {
   }
 
   &:active {
+    border: none;
     background: #1da01b;
   }
+
+  svg {
+    fill: #E0E0E0;
+  }
+
+  &.active {
+    background: #23BE20;
+
+    svg {
+      fill: #fff;
+    }
+  }
+
 }
+
+.plus {
+  border-radius: 0 4px 4px 0;
+
+  &.disabled {
+    border: 1px solid #E0E0E0;
+  }
+}
+
+.minus {
+  border-radius: 4px 0 0 4px;
+
+  &.active {
+    border: none;
+  }
+
+  &.disabled {
+    border: 1px solid #E0E0E0; 
+  }
+}
+
+
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
   -webkit-appearance: none;

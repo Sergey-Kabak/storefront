@@ -17,7 +17,7 @@ export default {
       this.$store.commit('ui/setConsultation', false)
       this.$store.commit('ui/setHeaderIndex', 3)
       this.$store.dispatch('themeCart/closeEditMode')
-      document.documentElement.style.overflow = 'auto'
+      document.body.style.overflow = 'auto'
     }
   }
 }
