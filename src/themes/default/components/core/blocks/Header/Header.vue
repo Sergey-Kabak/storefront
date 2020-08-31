@@ -35,7 +35,7 @@
             </svg>
             <div class="phone">
               <a href="tel:+380674666111">
-                +38 067 466 61 11
+                +38 073 090 87 07
               </a>
               <phone-info v-show="navVisible"></phone-info>
             </div>
@@ -238,6 +238,24 @@ header {
 
 .header-wrap {
   margin-bottom: 18px;
+}
+
+.minimal {
+  height: 67px;
+}
+
+.return-to-shopping {
+  &__text {
+    font-family: DIN Pro;
+    font-style: normal;
+    font-size: 15px;
+    line-height: 24px;
+    display: block;
+    color: #5F5E5E;
+  }
+  &__icon {
+    margin-right: 20px;
+  }
 }
 
 .header-black-line {
@@ -547,6 +565,7 @@ header {
 }
 
 .header-container {
+  box-sizing: border-box;
   &.checkout {
     height: 56px;
     display: grid;
@@ -622,6 +641,10 @@ a.underline:after, a:not(.no-underline):hover:after {
 
   .header-container {
     width: 100%;
+
+    .checkout {
+      width: 100%;
+    }
   }
 
   .custom-menu__button {
@@ -656,7 +679,7 @@ a.underline:after, a:not(.no-underline):hover:after {
   .header-top {
     height: 56px;
   }
-  
+
   .header-wrap {
     margin-bottom: 15px;
   }
@@ -689,10 +712,16 @@ a.underline:after, a:not(.no-underline):hover:after {
       line-height: 16px;
       font-size: 13px;
     }
+
+    &__icon {
+      margin-right: 10px;
+    }
   }
 
   .header-container {
     &.checkout {
+      width: 100%;
+      padding: 0 16px;
       .custom-logo {
         margin: 10px auto 0px auto;
       }
