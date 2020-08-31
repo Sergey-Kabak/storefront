@@ -106,6 +106,11 @@ export default {
   -webkit-overflow-scrolling: touch;
 }
 
+.consultation-sidebar {
+  min-width: 288px;
+  width: calc(100% - 32px);
+}
+
 .left-sidebar{
   height: 100vh;
   width: 350px;
