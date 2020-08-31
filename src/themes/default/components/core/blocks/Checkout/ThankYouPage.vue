@@ -51,7 +51,7 @@
             <div class="product-right">
               <div class="prices">
                 <span class="price-special">
-                  {{ product.price | price(storeView) }}
+                  {{ product.original_price_incl_tax | price(storeView) }}
                 </span>
               </div>
             </div>
@@ -144,7 +144,7 @@ export default {
       return currentStoreView();
     },
     totalPrice () {
-      return this.products.reduce((acc, it) => acc + it.price * it.qty, 0)
+      return this.products.reduce((acc, it) => acc + it.original_price_incl_tax * it.qty, 0)
     }
   },
   methods: {
@@ -204,7 +204,7 @@ export default {
       margin-bottom: 16px;
       margin-top: 0;
     }
-    
+
     &-button {
       margin: auto;
       margin-bottom: 33px;
@@ -307,7 +307,7 @@ export default {
     font-style: normal;
     font-size: 13px;
     line-height: 16px;
-        
+
     .product-left {
       display: flex;
       grid-row-start: 1;
@@ -326,7 +326,7 @@ export default {
   }
 
   .product-price {
-    padding: 24px 16px 16px 16px;   
+    padding: 24px 16px 16px 16px;
   }
 
   .thank-you-improvment {

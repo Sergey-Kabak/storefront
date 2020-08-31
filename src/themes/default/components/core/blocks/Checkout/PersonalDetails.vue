@@ -31,6 +31,10 @@
             {
               condition: !$v.personalDetails.firstName.minLength,
               text: $t('Name must have at least 2 letters.')
+            },
+            {
+              condition: !$v.personalDetails.firstName.lettersOnly,
+              text: $t('Accepts only alphabet characters.')
             }
           ]"
         />
@@ -44,10 +48,20 @@
           @blur="$v.personalDetails.lastName.$touch()"
           autocomplete="family-name"
           :class="{ error: ($v.personalDetails.lastName.$error && !$v.personalDetails.lastName.required) }"
-          :validations="[{
-            condition: $v.personalDetails.lastName.$error && !$v.personalDetails.lastName.required,
-            text: $t('Field is required')
-          }]"
+          :validations="[
+            {
+              condition: $v.personalDetails.lastName.$error && !$v.personalDetails.lastName.required,
+              text: $t('Field is required')
+            },
+            {
+              condition: !$v.personalDetails.lastName.minLength,
+              text: $t('Last name must have at least 2 letters.')
+            },
+            {
+              condition: !$v.personalDetails.lastName.lettersOnly,
+              text: $t('Accepts only alphabet characters.')
+            }
+          ]"
         />
       </div>
       <div class="label">
@@ -68,6 +82,10 @@
             {
               condition: $v.personalDetails.phoneNumber.$error && !$v.personalDetails.phoneNumber.required,
               text: $t('Field is required')
+            },
+            {
+              condition: !$v.personalDetails.phoneNumber.isPhone && $v.personalDetails.phoneNumber.$error,
+              text: $t('Please provide valid phone number')
             }
           ]"
         />
@@ -114,7 +132,7 @@
 </template>
 
 <script>
-import { 
+import {
   required,
   minLength,
   email,
