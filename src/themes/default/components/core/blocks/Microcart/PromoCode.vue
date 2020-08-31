@@ -95,7 +95,7 @@ export default {
       this.couponCode = ''
     },
     togglePromoCode () {
-      this.$emit('onPromocodeToggle', !this.isActive)
+      this.$emit('update:isActive', !this.isActive)
     },
   }
 };

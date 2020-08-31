@@ -30,7 +30,7 @@ export default {
     columns: {
       type: Number | String,
       required: false,
-      default: 3
+      default: 4
     }
   }
 }

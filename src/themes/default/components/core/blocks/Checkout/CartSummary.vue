@@ -11,8 +11,7 @@
     />
     <promo-code 
       class="promo-code"
-      @onPromocodeToggle="isShowPromocode = $event"
-      :isActive="isShowPromocode"
+      :isActive.sync="isShowPromocode"
     />
     <total-price />
   </div>

@@ -55,8 +55,7 @@
           <product v-for="product in productsInCart" :key="product.server_item_id || product.id" :product="product" />
         </ul>
         <promo-code
-          @onPromocodeToggle="isShowPromocode = $event"
-          :isActive="isShowPromocode"
+          :isActive.sync="isShowPromocode"
           class="promo-code"
           v-if="OnlineOnly"
         />
