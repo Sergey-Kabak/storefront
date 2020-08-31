@@ -80,7 +80,7 @@
         </div>
       </div>
       <div class="header-container-wrap border">
-        <div class="v-container minimal" v-if="isCheckoutPage && !isThankYouPage">
+        <div class="header-container minimal" v-if="isCheckoutPage && !isThankYouPage">
           <router-link
             :to="localizedRoute('/')"
             class="links"
