@@ -90,7 +90,7 @@ import {
   mapGetters,
   mapActions
 } from 'vuex';
-import { 
+import {
   isModuleRegistered,
   registerModule
 } from '@vue-storefront/core/lib/modules';
@@ -205,7 +205,7 @@ export default {
 <style lang="scss" scoped>
   @import "~theme/css/animations/transitions";
   .microcart {
-    height: 100%;
+    height: auto;
 
     .summary {
       box-shadow: 0px -1px 4px rgba(0, 0, 0, 0.25);
@@ -326,6 +326,7 @@ export default {
   .actions-button {
     justify-content: space-between;
     display: flex;
+    min-height: 40px;
 
     .button {
       box-sizing: border-box;
