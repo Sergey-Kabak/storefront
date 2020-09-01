@@ -12,7 +12,7 @@
             type="text"
             :autofocus="true"
             name="number"
-            :placeholder="$t('Номер или адрес Новой Почты')"
+            :placeholder="$t('Number or address of New Post')"
             v-model.trim="np_number"
           />
           <custom-loader v-if="loading" />
@@ -80,10 +80,9 @@
             />
           </div>
           <button-full
-            :disabled="$v.currierAddress.$invalid"
-            @click.native="next"
+            @click.native="validateData()"
           >
-            Далее
+            {{ $t('next') }}
           </button-full>
         </div>
       </div>
@@ -129,6 +128,15 @@ export default {
         required
       }
     }
+  },
+  methods: {
+    validateData() {
+      if (this.$v.currierAddress.$invalid) {
+        this.$v.currierAddress.$touch()
+      } else {
+        this.next()
+      }
+    }
   }
 }
 </script>
@@ -151,7 +159,6 @@ export default {
 
 .google-map {
   width: 100%;
-  max-width: 596px;
 }
 
 .custom-shipping {
@@ -340,6 +347,9 @@ export default {
         }
       }
     }
+  }
+  .button-full  {
+    max-width: 100%;
   }
 }
 </style>

@@ -64,6 +64,7 @@
       </li>
     </ul>
     <custom-shipping :type="type" v-if="!loading" :city="city" />
+    <checkout-microcart />
   </div>
 </template>
 
@@ -78,6 +79,7 @@ import {
 } from '@vue-storefront/core/helpers/validators';
 import { Shipping } from '@vue-storefront/core/modules/checkout/components/Shipping';
 import CustomShipping from 'src/modules/custom-shipping/custom-shipping';
+import CheckoutMicrocart from 'theme/components/core/blocks/Checkout/CheckoutMicrocart';
 import NewPost from 'src/modules/nova-poshta/index';
 import { mapState } from 'vuex';
 import { debounce } from 'debounce';
@@ -85,6 +87,7 @@ import { debounce } from 'debounce';
 export default {
   components: {
     CustomShipping,
+    CheckoutMicrocart
   },
   mixins: [Shipping, NewPost],
   beforeMount () {

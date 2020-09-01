@@ -1,14 +1,24 @@
-.checkout-subtitle {
+.checkout-subtitle  {
+  margin-bottom: 24px;
   display: flex;
   align-items: center;
-	margin-bottom: 32px;
-	
-	&.disabled {
-		margin-bottom: 0;
-		opacity: .5;
-		background-color: #fff;
-	}
+
+  &.disabled {
+    opacity: .5;
+    .number-block {
+      background-color: #ffffff;
+    }
+  }
 }
+
+.checkout-subtitle-text {
+  font-family: 'DIN Pro';
+  font-size: 14px;
+  line-height: 16px;
+  color: #1A1919;
+  font-weight: 700;
+}
+
 .checkout-number-block {
   display: flex;
   box-sizing: border-box;
@@ -89,8 +99,8 @@
 
 .ellipsis {
   margin-right: 8px;
-  width: 5px;
-  height: 5px;
+  min-width: 5px;
+  min-height: 5px;
   background-color: #000;
   border-radius: 50%;
 }

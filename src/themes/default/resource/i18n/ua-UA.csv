@@ -670,5 +670,6 @@ next,"Далі"
 "Details","Детальніше"
 "Ringoo","Ringoo"
 "Department","Відділення"
-"schedule","Пн-Пт: {mon}; Сб: {sat}; Нед: {sun}",
+"schedule","Пн-Пт: {mon}; Сб: {sat}; Нед: {sun}"
 "weekend","Вихідний"
+"Number or address of New Post","Номер або адреса Нової Пошти"

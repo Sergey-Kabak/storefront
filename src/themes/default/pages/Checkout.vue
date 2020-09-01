@@ -18,7 +18,6 @@
         </ol>
       </nav>
       <shipping
-        class="line relative"
         :class="{hidden: !activeSection.shipping}"
         :is-active="activeSection.shipping"
       />
@@ -30,12 +29,12 @@
             </h1>
           </div>
           <div class="shipping-details__edit" v-if="activeSection.personalDetails || activeSection.payment || activeSection.orderReview">
-            <div class="subtitle">
+            <div class="checkout-subtitle">
               <div class="number-block" :class="{'checked': !activeSection.shipping}">
                 <div class="number align-center" v-if="activeSection.shipping">1</div>
                 <img src='/assets/custom/Check.svg' v-else alt="correct">
               </div>
-              <div class="subtitle-text">{{ $t('Delivery') }}:</div>
+              <div class="checkout-subtitle-text">{{ $t('Delivery') }}:</div>
               <div class="lh30 flex end-lg ml-auto">
                 <span class="edit" @click.prevent="$bus.$emit('checkout-before-edit', 'shipping')">{{ $t('Edit') }}</span>
               </div>
@@ -48,12 +47,12 @@
             </div>
           </div>
           <div class="shipping-details__edit" v-if="activeSection.payment || activeSection.orderReview">
-            <div class="subtitle">
+            <div class="checkout-subtitle">
               <div class="number-block" :class="{'checked': !activeSection.personalDetails}">
                 <div class="number" v-if="activeSection.shipping">3</div>
                 <img src='/assets/custom/Check.svg' v-else alt="correct">
               </div>
-              <div class="subtitle-text">{{ $t('Contact details') }}:</div>
+              <div class="checkout-subtitle-text">{{ $t('Contact details') }}:</div>
               <div class="lh30 flex end-lg ml-auto">
                 <span class="edit" @click.prevent="$bus.$emit('checkout-before-edit', 'personalDetails')">{{ $t('Edit') }}</span>
               </div>
@@ -90,6 +89,7 @@ import Shipping from 'theme/components/core/blocks/Checkout/NewShipping';
 import Payment from 'theme/components/core/blocks/Checkout/Payment';
 import CartSummary from 'theme/components/core/blocks/Checkout/CartSummary';
 import ThankYouPage from 'theme/components/core/blocks/Checkout/ThankYouPage';
+import CheckoutMicrocart from 'theme/components/core/blocks/Checkout/CheckoutMicrocart';
 import { registerModule } from '@vue-storefront/core/lib/modules';
 import { OrderModule } from '@vue-storefront/core/modules/order';
 
@@ -99,7 +99,8 @@ export default {
     Shipping,
     Payment,
     CartSummary,
-    ThankYouPage
+    ThankYouPage,
+    CheckoutMicrocart
   },
   mixins: [Checkout],
   beforeCreate () {
@@ -149,6 +150,7 @@ export default {
   .v-container
     width: 95%
   #checkout
+    position: relative
     padding-bottom: 65px
     .action
       font-family: 'DIN Pro'
@@ -203,22 +205,6 @@ export default {
 
     &.checked
       background-color: #23BE20
-  .subtitle
-    margin-bottom: 24px
-    display: flex
-    align-items: center
-
-    &.disabled
-      opacity: .5
-      .number-block
-        background-color: #ffffff
-  
-  .subtitle-text
-    font-family: 'DIN Pro'
-    font-size: 14px
-    line-height: 16px
-    color: #1A1919
-    font-weight: 700
 </style>
 
 <style lang="scss" scoped>

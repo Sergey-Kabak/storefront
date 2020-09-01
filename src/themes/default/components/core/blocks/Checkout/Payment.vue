@@ -5,7 +5,7 @@
         <div class="number align-center" v-if="activeSection.payment || activeSection.personalDetails">3</div>
         <img src='/assets/custom/Check.svg' v-else alt="correct">
       </div>
-      <div class="subtitle-text">{{ $t('the Payment') }}:</div>
+      <div class="checkout-subtitle-text">{{ $t('the Payment') }}:</div>
       <div class="lh30 flex end-lg ml-auto" v-if="activeSection.orderReview">
         <span class="edit" @click.prevent="$bus.$emit('checkout-before-edit', 'payment')">{{ $t('Edit') }}</span>
       </div>
@@ -14,7 +14,7 @@
       <div class="checkout-number-block">
         <div class="number align-center">3</div>
       </div>
-      <div class="subtitle-text">{{ $t('the Payment') }}:</div>
+      <div class="checkout-subtitle-text">{{ $t('the Payment') }}:</div>
     </div>
     <div v-if="isActive && activeSection.payment" class="payment-body">
       <div class="label">
