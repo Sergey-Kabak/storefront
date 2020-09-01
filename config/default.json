@@ -794,11 +794,11 @@
     ],
     "defaultLocale": "ua-UA",
     "currencyCode": "UAH",
-    "currencySign": "грн",
+    "currencySign": "₴",
     "currencyDecimal": "",
     "currencyGroup": "",
-    "fractionDigits": 2,
-    "priceFormat": "{amount}{sign}",
+    "fractionDigits": 0,
+    "priceFormat": "{amount} {sign}",
     "dateFormat": "HH:mm D/M/YYYY",
     "fullCountryName": "Ukraine",
     "fullLanguageName": "Ukraine",
@@ -1030,7 +1030,7 @@
       "type_id": "configurable"
     },
     {
-      "url_path": "bezdrotovi-navushniki-xiaomi-airdots-black.html",
+      "url_path": "fotoaparat-ditjachij-xoko-rabbit.html?childSku=т30134",
       "type_id": "configurable"
     },
     {

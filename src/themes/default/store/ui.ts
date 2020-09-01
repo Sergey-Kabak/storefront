@@ -7,6 +7,7 @@ export const uiStore = {
     microcart: false,
     wishlist: false,
     searchpanel: false,
+    consultation: false,
     newsletterPopup: false,
     overlay: false,
     loader: false,
@@ -40,6 +41,10 @@ export const uiStore = {
     setSidebar (state, action) {
       state.headerIndex = 3
       state.sidebar = action === true
+      state.overlay = action === true
+    },
+    setConsultation (state, action) {
+      state.consultation = action === true
       state.overlay = action === true
     },
     setSubmenu (state, { id, depth }) {
@@ -84,6 +89,9 @@ export const uiStore = {
     },
     toggleWishlist ({ commit, state }) {
       commit('setWishlist', !state.wishlist)
+    },
+    toggleConsultation ({ commit, state }) {
+      commit('setConsultation', !state.consultation)
     },
     closeMicrocart ({ commit, state }) {
       if (state.microcart) commit('setMicrocart', false)

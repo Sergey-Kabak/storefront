@@ -125,7 +125,7 @@ const applyCoupon = async (couponCode: string): Promise<Task> => {
       headers: { 'Content-Type': 'application/json' },
       mode: 'cors'
     },
-    silent: false
+    silent: true
   });
 }
 

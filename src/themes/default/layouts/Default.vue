@@ -20,6 +20,12 @@
           @close="$store.commit('ui/setSidebar')"
           direction="left"
       />
+      <async-sidebar
+          :async-component="Consultation"
+          :is-open="isConsultationOpen"
+          @close="$store.commit('ui/setConsultation')"
+          class="consultation-sidebar"
+      />
 
       <sidebar-categories v-if="isSidebarCategoriesOpen"/>
 
@@ -81,6 +87,7 @@ const CustomCityPickerModal = () => import(/* webpackChunkName: "vsf-custom-city
 const CustomSellerProduct = () => import(/* webpackChunkName: "vsf-custom-city-picker-modal" */ 'theme/components/core/blocks/CustomSellerProduct/CustomSellerProduct.vue');
 const TermsOfActionModal = () => import('theme/components/core/blocks/TermsOfActionModal.vue');
 const CreditModal = () => import('theme/components/core/blocks/CreditModal.vue')
+const Consultation = () => import(/* webpackChunkName: "vsf-custom-city-picker-modal" */ 'theme/components/core/blocks/Consultation/Consultation.vue');
 
 export default {
   data() {
@@ -91,6 +98,7 @@ export default {
       Wishlist,
       SearchPanel,
       SidebarMenu,
+      Consultation
     };
   },
   computed: {
@@ -100,7 +108,8 @@ export default {
       isSidebarOpen: state => state.ui.sidebar,
       isSidebarCategoriesOpen: state => state.ui.sidebar_categories,
       isMicrocartOpen: state => state.ui.microcart,
-      isWishlistOpen: state => state.ui.wishlist
+      isWishlistOpen: state => state.ui.wishlist,
+      isConsultationOpen: state => state.ui.consultation
     })
   },
   created(){
