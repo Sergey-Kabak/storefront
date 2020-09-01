@@ -38,11 +38,11 @@
       <span class="validation-error" v-if="!$v.payment.paymentMethod.required">{{ $t('Field is required') }}</span>
     </div>
     <div class="mobile-data" v-show="isActive">
-      <promo-code class="promo-code"/>
-      <div class="summary-price">
-        <span>{{ $t('Grand total') }}:</span>
-        {{ totalPrice | price(storeView) }}
-      </div>
+      <promo-code
+        class="promo-code"
+        :isActive.sync="isShowPromocode"
+      />
+      <total-price />
     </div>
     <div v-show="isActive">
       <LiqPay class="button-pay" v-if="payment.paymentMethod === 'liqpaymagento_liqpay'" />
@@ -78,6 +78,7 @@ import BaseSelect from 'theme/components/core/blocks/Form/BaseSelect';
 import ButtonFull from 'theme/components/theme/ButtonFull';
 import Tooltip from 'theme/components/core/Tooltip';
 import LiqPay from 'src/modules/payment-liqpay/components/Liqpay';
+import TotalPrice from 'theme/components/core/TotalPrice';
 
 export default {
   props: {
@@ -94,9 +95,13 @@ export default {
     ButtonFull,
     Tooltip,
     LiqPay,
-    PromoCode
+    PromoCode,
+    TotalPrice
   },
   mixins: [Payment],
+  data: () => ({
+    isShowPromocode: false
+  }),
   watch: {
     'payment.paymentMethods': {
       handler: function (after, before) {
@@ -328,12 +333,6 @@ export default {
           margin-bottom: 0;
           margin-right: 20px;
         }
-      }
-    }
-
-    .promo-code ::v-deep {
-      .promo-code-button {
-        max-width: 100px;
       }
     }
 

@@ -11,7 +11,7 @@ import {
   currentStoreView,
   localizedRoute
 } from '@vue-storefront/core/lib/multistore';
-import { isServer } from '@vue-storefront/core/helpers';
+import { isServer, onlineHelper } from '@vue-storefront/core/helpers';
 import { Logger } from '@vue-storefront/core/lib/logger';
 
 export default {
@@ -168,12 +168,14 @@ export default {
       this.cartSummary = receivedData
     },
     onDoPlaceOrder (additionalPayload) {
-      if (this.$store.state.cart.cartItems.length === 0) {
-        this.notifyEmptyCart()
-        this.$router.push(this.localizedRoute('/'))
-      } else {
-        this.payment.paymentMethodAdditional = additionalPayload
-        this.placeOrder()
+      if (onlineHelper.isOnline) {
+        if (this.$store.state.cart.cartItems.length === 0) {
+          this.notifyEmptyCart()
+          this.$router.push(this.localizedRoute('/'))
+        } else {
+          this.payment.paymentMethodAdditional = additionalPayload
+          this.placeOrder()
+        }
       }
     },
     onAfterPaymentDetails (receivedData, validationResult) {
