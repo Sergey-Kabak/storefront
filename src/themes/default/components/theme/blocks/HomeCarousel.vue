@@ -4,7 +4,7 @@
         class="main-carousel home-carousel"
         ref="carousel1"
         :per-page="1"
-        :per-page-custom="[[320, 1], [420, 2], [787, 3], [1180, 4], [1200, 4]]"
+        :per-page-custom="slidesPerPage"
         :center-mode="true"
         :mouse-drag="true"
         :autoplay="true"
@@ -84,6 +84,13 @@ import { formatProductLink } from '@vue-storefront/core/modules/url/helpers'
 import config from 'config'
 
 export default {
+  props: {
+    slidesPerPage: {
+      type: Array,
+      default: () => [[320, 1], [420, 2], [787, 3], [1180, 4], [1200, 5]],
+      required: false
+    }
+  },
   components: {
     'Carousel': () => import('vue-carousel').then(Slider => Slider.Carousel),
     'Slide': () => import('vue-carousel').then(Slider => Slider.Slide)
@@ -112,9 +119,7 @@ export default {
 
   }
   .home-carousel-wrapper{
-    max-width: 1054px;
-    margin: 0 auto;
-    border-radius: 8px;
+    margin: 0 -6px;
     padding-bottom: 66px;
   }
   .home-carousel {

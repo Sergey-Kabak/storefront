@@ -133,7 +133,6 @@ import HeaderSearch from 'theme/components/core/blocks/Header/HeaderSearch';
 import MobileHamburgerIcon from 'theme/components/core/blocks/Header/MobileHamburgerIcon';
 import PhoneInfo from 'theme/components/core/PhoneInfo';
 import ConsultationIcon from 'theme/components/core/blocks/Header/ConsultationIcon';
-
 export default {
   name: 'Header',
   components: {
@@ -147,7 +146,7 @@ export default {
     HeaderSearch,
     MobileHamburgerIcon,
     PhoneInfo,
-    ConsultationIcon
+    ConsultationIcon,
   },
   mixins: [CurrentPage],
   data () {

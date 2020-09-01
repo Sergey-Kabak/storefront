@@ -12,7 +12,7 @@ export default {
   },
   methods: {
     watchResolution () {
-      window.innerWidth <= 576 ? this.isMobile = true : this.isMobile = false;
+      window.innerWidth < 576 ? this.isMobile = true : this.isMobile = false;
     }
   }
 }
