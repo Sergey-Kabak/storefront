@@ -20,6 +20,12 @@
           @close="$store.commit('ui/setSidebar')"
           direction="left"
       />
+      <async-sidebar
+          :async-component="Consultation"
+          :is-open="isConsultationOpen"
+          @close="$store.commit('ui/setConsultation')"
+          class="consultation-sidebar"
+      />
 
       <sidebar-categories v-if="isSidebarCategoriesOpen"/>
 
@@ -75,6 +81,7 @@ const SearchPanel = () => import(/* webpackChunkName: "vsf-search-panel" */ 'the
 const OrderConfirmation = () => import(/* webpackChunkName: "vsf-order-confirmation" */ 'theme/components/core/blocks/Checkout/OrderConfirmation.vue');
 const CustomCityPickerModal = () => import(/* webpackChunkName: "vsf-custom-city-picker-modal" */ 'theme/components/core/blocks/CustomCityPickerModal/CustomCityPickerModal.vue');
 const CustomSellerProduct = () => import(/* webpackChunkName: "vsf-custom-city-picker-modal" */ 'theme/components/core/blocks/CustomSellerProduct/CustomSellerProduct.vue');
+const Consultation = () => import(/* webpackChunkName: "vsf-custom-city-picker-modal" */ 'theme/components/core/blocks/Consultation/Consultation.vue');
 
 export default {
   data() {
@@ -85,6 +92,7 @@ export default {
       Wishlist,
       SearchPanel,
       SidebarMenu,
+      Consultation
     };
   },
   computed: {
@@ -94,7 +102,8 @@ export default {
       isSidebarOpen: state => state.ui.sidebar,
       isSidebarCategoriesOpen: state => state.ui.sidebar_categories,
       isMicrocartOpen: state => state.ui.microcart,
-      isWishlistOpen: state => state.ui.wishlist
+      isWishlistOpen: state => state.ui.wishlist,
+      isConsultationOpen: state => state.ui.consultation
     })
   },
   methods: {
