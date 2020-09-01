@@ -7,10 +7,10 @@
 
     <div class="tooltip">
       <div class="tooltip-title">
-          Нет товаров для сравнения
+        {{$t('There are no products to compare.')}}
       </div>
       <p class="tooltip-text">
-        Добавляйте товары для сравнения характеристик и выбирайте самый подходящий товар.
+         {{$t('Add products to compare characteristics and choose the most suitable product.')}}
       </p>
     </div>
 

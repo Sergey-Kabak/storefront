@@ -105,6 +105,7 @@ import i18n from '@vue-storefront/i18n';
 import { htmlDecode } from '@vue-storefront/core/lib/store/filters';
 import AddToCart from 'theme/components/core/AddToCart';
 import AddToCompare from 'theme/components/core/blocks/Compare/AddToCompare';
+import mobileResolution from 'theme/mixins/mobileResolution'
 
 export default {
   components: {
@@ -113,16 +114,11 @@ export default {
     AddToCart,
     AddToCompare
   },
-  mixins: [Product],
+  mixins: [Product , mobileResolution],
   props: {
     showAddToCart: {
       type: Boolean,
       default: true
-    }
-  },
-  data(){
-    return{
-      isMobile : false,
     }
   },
   computed: {
@@ -138,9 +134,6 @@ export default {
     storeView () {
       return currentStoreView()
     }
-  },
-  mounted(){
-    window.innerWidth <= 575  ? this.isMobile = true : this.isMobile = false
   },
   methods: {
     removeProductFromWhishList (product) {
