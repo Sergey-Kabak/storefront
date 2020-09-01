@@ -91,6 +91,89 @@ export default {
             cursor: pointer;
             &.active{
                 border-color: #23BE20;
+                &:after{
+                    border-width: 0 4px 4px 4px;
+                    border-color: transparent transparent #bdbdbd transparent;
+                }
+            }
+            &:after{
+                position: absolute;
+                content: '';
+                width: 0;
+                height: 0;
+                border-style: solid;
+                border-width: 4px 4px 0 4px;
+                border-color: #bdbdbd transparent transparent transparent;
+                right: 17px;
+                top: 50%;
+                transform: translateY(-50%);
+            }
+        }
+    }
+    .options-wrap{
+        position: absolute;
+        left: 0;
+        top: calc(100% + 3px);
+        padding: 8px 0;
+        background: #FFFFFF;
+        border: 1px solid #E0E0E0;
+        box-sizing: border-box;
+        border-radius: 4px;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        z-index: 3;
+        max-height: 235px;
+        overflow: auto;
+        &::-webkit-scrollbar {
+            width: 4px;
+        }
+        &::-webkit-scrollbar-thumb {
+            border-radius: 4px;
+            background-color: #E0E0E0;;
+        }
+        .select-options{
+            width: 100%;
+            padding: 8px 15px;
+            font-family: 'DIN Pro';
+            font-size: 14px;
+            line-height: 16px;
+            color: #1A1919;
+            box-sizing: border-box;
+            cursor: pointer;
+            &:not(.active):hover{
+                background-color: #F9F9F9;
+            }
+            &.active{
+                background-color: #E4F9E4;
+            }
+        }
+    }
+</style>
+    .icon-checked{
+        margin: auto 0 auto auto;
+    }
+    .custom-select{
+        display: flex;
+        flex-direction: column;
+        position: relative;
+        width: 100%;
+        &__value{
+            background: #FFFFFF;
+            border: 1px solid #E0E0E0;
+            box-sizing: border-box;
+            border-radius: 4px;
+            font-family: 'DIN Pro';
+            font-size: 14px;
+            line-height: 16px;
+            color: #1A1919;
+            padding: 12px 16px;
+            width: 100%;
+            min-width: 132px;
+            position: relative;
+            cursor: pointer;
+            &.active{
+                border-color: #23BE20;
             }
             &:after{
                 position: absolute;

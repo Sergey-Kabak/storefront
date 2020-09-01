@@ -125,8 +125,21 @@ export default {
 <style lang="scss" scoped>
 @import '~theme/css/base/global_vars';
 $z-index-modal: map-get($z-index, modal);
-
+.modal-close{
+  @media (max-width : 600px){
+    background: #F9F9F9;
+    width: 56px;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 0;
+    right: 0;
+  }
+}
 .modal {
+  padding-left: 24px;
   position: fixed;
   top: 0;
   right: 0;
@@ -150,10 +163,13 @@ $z-index-modal: map-get($z-index, modal);
       min-height: 100%;
       min-width: 100%;
       margin: 0;
+      display: flex;
+      flex-direction: column;
     }
   }
 
   .modal-header {
+    border-radius : 4px 4px 0 0;
     position: relative;
 
     > * {
@@ -161,13 +177,24 @@ $z-index-modal: map-get($z-index, modal);
     }
 
     @media (max-width: 600px) {
-      padding: 25px 20px;
+      border-radius : 0 0 0 0;
+      padding: 51px 16px 0 16px;
+      border: none;
+      h3{
+        margin: 0;
+      }
     }
   }
 
   .modal-content {
+    border-radius: 0 0 4px 4px;
     @media (max-width: 600px) {
-      padding: 30px 20px;
+      position: relative;
+      top: -1px;
+      border-radius : 0 0 0 0;
+      padding: 14px 16px 16px 16px;
+      flex : 1;
+      border: none;
     }
   }
 
@@ -179,6 +206,16 @@ $z-index-modal: map-get($z-index, modal);
   .modal-close{
     cursor: pointer;
     margin-right: 24px;
+    color: #BDBDBD;
+    &:hover{
+      color: #aeaeae;
+    }
+    &:active{
+      color: #9f9f9f;
+    }
+    @media (max-width : 600px){
+      margin-right: 0;
+    }
   }
   .modal-backdrop{
     position: absolute;
