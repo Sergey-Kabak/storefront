@@ -11,20 +11,28 @@ export const changeFilterQuery = ({ currentQuery = {}, filterVariant }: {current
   const newQuery = JSON.parse(JSON.stringify(currentQuery))
   if (!filterVariant) return newQuery
   if (getSystemFilterNames.includes(filterVariant.type)) {
-    if (newQuery[filterVariant.type] && newQuery[filterVariant.type] === filterVariant.id) {
+    if (filterVariant.type === 'sort' || filterVariant.type === 'price'){
+      newQuery[filterVariant.type] = filterVariant.id
+    } else if (newQuery[filterVariant.type] && newQuery[filterVariant.type] === filterVariant.label) {
       delete newQuery[filterVariant.type]
     } else {
-      newQuery[filterVariant.type] = filterVariant.id
+      newQuery[filterVariant.type] = filterVariant.label
     }
   } else {
     let queryFilter = newQuery[filterVariant.type] || []
     if (!Array.isArray(queryFilter)) queryFilter = [queryFilter]
-    if (queryFilter.includes(filterVariant.id)) {
+    if (queryFilter.includes(filterVariant.id) && filterVariant.type === 'price') {
       queryFilter = queryFilter.filter(value => value !== filterVariant.id)
+    }
+    else if (queryFilter.includes(filterVariant.label)) {
+      queryFilter = queryFilter.filter(value => value !== filterVariant.label)
     } else if (filterVariant.single) {
-      queryFilter = [filterVariant.id]
+      if (filterVariant.type === 'price'){
+        queryFilter = [filterVariant.id]
+      }
+      else queryFilter = [filterVariant.label]
     } else {
-      queryFilter.push(filterVariant.id)
+      queryFilter.push(filterVariant.label)
     }
     // delete or add filter variant to query
     if (!queryFilter.length) delete newQuery[filterVariant.type]
@@ -47,7 +55,14 @@ export const getFiltersFromQuery = ({ filtersQuery = {}, availableFilters = {} }
     } else {
       queryValue = [].concat(filtersQuery[filterKey])
       queryValue.map(singleValue => {
-        const variant = filter.find(filterVariant => filterVariant.id === singleValue)
+        const variant = filter.find(filterVariant => {
+          if (filterVariant.type === 'price'){
+            return filterVariant.id === singleValue
+          }
+          else {
+            return filterVariant.label === singleValue
+          }
+        })
         if (!variant) return
         if (!Array.isArray(searchQuery.filters[filterKey])) searchQuery.filters[filterKey] = []
         searchQuery.filters[filterKey].push({ ...variant, attribute_code: filterKey })
