@@ -1,7 +1,7 @@
 <template>
   <div class="payment">
-    <div class="subtitle" v-if="!activeSection.personalDetails" >
-      <div class="number-block" :class="{ 'checked': !activeSection.payment }">
+    <div class="checkout-subtitle" v-if="!activeSection.personalDetails" >
+      <div class="checkout-number-block" :class="{ 'checked': !activeSection.payment }">
         <div class="number align-center" v-if="activeSection.payment || activeSection.personalDetails">3</div>
         <img src='/assets/custom/Check.svg' v-else alt="correct">
       </div>
@@ -10,8 +10,8 @@
         <span class="edit" @click.prevent="$bus.$emit('checkout-before-edit', 'payment')">{{ $t('Edit') }}</span>
       </div>
     </div>
-    <div class="subtitle disabled" v-else>
-      <div class="number-block">
+    <div class="checkout-subtitle disabled" v-else>
+      <div class="checkout-number-block">
         <div class="number align-center">3</div>
       </div>
       <div class="subtitle-text">{{ $t('the Payment') }}:</div>
@@ -241,14 +241,6 @@ export default {
     font-size: 24px;
     line-height: 30px;
     color: #1a1919;
-  }
-
-  .number-block {
-    &.disabled {
-      margin-bottom: 0;
-      opacity: .5;
-      background-color: #ffffff;
-    }
   }
 
   .payment-methods {

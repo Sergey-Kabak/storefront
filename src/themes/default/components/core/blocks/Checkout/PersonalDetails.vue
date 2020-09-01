@@ -1,7 +1,7 @@
 <template>
   <div class="personal-details">
-    <div class="subtitle">
-      <div class="number-block" :class="{'checked': !isActive}">
+    <div class="checkout-subtitle">
+      <div class="checkout-number-block" :class="{'checked': !isActive}">
         <div class="number align-center" v-if="isActive">2</div>
         <img src='/assets/custom/Check.svg' v-else alt="correct">
       </div>
@@ -220,7 +220,6 @@ export default {
         line-height: 16px
         color: #5F5E5E
         opacity: .6
-        margin: 5px 0 0 16px;
       input:focus ~ label,
       input:not(.empty) ~ label
         padding: 0 10px

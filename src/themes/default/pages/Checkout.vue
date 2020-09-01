@@ -1,6 +1,6 @@
 <template>
   <div id="checkout">
-    <div class="checkout-container" v-show="!isThankYouPage">
+    <div class="v-container" v-show="!isThankYouPage">
       <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
           <li class="breadcrumb-item" :class="{'active': activeSection.shipping}" aria-current="page">
@@ -145,13 +145,11 @@ export default {
 }
 </script>
 
-<style lang="sass">
+<style lang="sass" scoped>
+  .v-container
+    width: 95%
   #checkout
-    .checkout-container
-      box-sizing: border-box
-      max-width: 1324px
-      width: 95%
-      margin: auto
+    padding-bottom: 65px
     .action
       font-family: 'DIN Pro'
       font-size: 13px
@@ -223,7 +221,7 @@ export default {
     font-weight: 700
 </style>
 
-<style lang="scss">
+<style lang="scss" scoped>
   @import '~theme/css/base/text';
   @import '~theme/css/variables/colors';
   @import '~theme/css/helpers/functions/color';
@@ -266,62 +264,6 @@ export default {
         line-height: 25px;
       }
     }
-    .radioStyled {
-      display: flex;
-      width: 100%;
-      flex-direction: column-reverse;
-      align-items: center;
-      position: relative;
-      cursor: pointer;
-      font-size: 13px;
-      line-height: 16px;
-      -webkit-user-select: none;
-      -moz-user-select: none;
-      -ms-user-select: none;
-      user-select: none;
-      background: #FFFFFF;
-      border: 1px solid #23BE20;
-      box-sizing: border-box;
-      margin-bottom: 0;
-      border-radius: 4px;
-      text-align: center;
-      padding: 13px 0;
-      font-family: 'DIN Pro';
-      color: #1A1919;
-
-      input {
-        position: absolute;
-        opacity: 0;
-        cursor: pointer;
-      }
-
-      .checkmark {
-        position: relative;
-        margin-bottom: 18px;
-        height: 20px;
-        width: 20px;
-        border-radius: 50%;
-        border: 2px solid #23be20;
-        padding: 3px;
-
-        &:after {
-          content: "";
-          position: absolute;
-          top: 50%;
-          left: 50%;
-          transform: translate(-50%, -50%);
-          display: none;
-          width: 10px;
-          height: 10px;
-          border-radius: 50%;
-          background: #23be20;
-        }
-      }
-
-      input:checked ~ .checkmark:after {
-        display: block;
-      }
-    }
   }
 
   .line {
@@ -346,11 +288,11 @@ export default {
 
     h1 {
       font-family: 'DIN Pro';
-      margin-bottom: 0!important;
+      margin: 0;
       font-style: normal;
-      font-size: 24px!important;
-      font-weight: 600!important;
-      line-height: 30px!important;
+      font-size: 24px;
+      font-weight: 600;
+      line-height: 30px;
       color: #1A1919;
     }
     @media (max-width: 767px) {
@@ -397,10 +339,6 @@ export default {
 
   @media (max-width: 460px) {
     #checkout {
-      .checkout-container {
-        width: 92%;
-      }
-
       .breadcrumb {
         justify-content: center;
         align-items: center;

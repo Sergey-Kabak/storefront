@@ -50,7 +50,10 @@ export default {
         'city_id': loc.CityRef,
         'work_mode': '',
         'round_the_clock': false,
-        'active': true
+        'active': true,
+        'weightLimit': +loc.PlaceMaxWeightAllowed,
+        'phone': loc.Phone,
+        'schedule': loc.Schedule
       }
     }
   }
