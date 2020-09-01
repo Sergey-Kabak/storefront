@@ -57,7 +57,7 @@
               <logo width="auto" class="logo"/>
             </div>
             <div class="header-right">
-              <consultation-icon class="icon icon-consultation" />
+              <consultation-icon class="icon icon-consultation xs-show" />
               <search-icon class="icon pointer icon-search" />
               <compare-icon class="icon pointer icon-compare xs-hide" />
               <microcart-icon class="icon pointer icon-microcart" />
@@ -769,6 +769,11 @@ a.underline:after, a:not(.no-underline):hover:after {
   to {
     opacity: 1;
     transform: translateY(0) translateX(-50%);
+  }
+}
+.xs-show{
+  @media (min-width : 576px){
+    display: none !important;
   }
 }
 .xs-hide{
