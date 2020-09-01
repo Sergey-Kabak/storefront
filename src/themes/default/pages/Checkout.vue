@@ -283,10 +283,6 @@ export default {
     }
     @media (max-width: 767px) {
       margin-bottom: 25px;
-
-      h1 {
-        font-size: 36px;
-      }
     }
   }
 
