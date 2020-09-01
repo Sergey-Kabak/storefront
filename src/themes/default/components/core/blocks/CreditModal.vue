@@ -3,8 +3,8 @@
     <h3 slot="header" class="modal-credits_header align-center">
         Кредит
     </h3>
-    <div slot="content" class="modal-credits_content">  
-      
+    <div slot="content" class="modal-credits_content">
+
       <div class="credit-card-block__row desctop_header head flex">
           <div>Предложение</div>
           <div>Первый взнос, ₴</div>
@@ -27,21 +27,21 @@
             </div>
             <div v-else class="l20">
               <div class="mob_header">Первый взнос, ₴</div>
-              
+
               {{bank.first_installment}}
             </div>
             <div>
               <div class="mob_header">Кол-во платежей</div>
-              
+
               <custom-select :options="bank.range" v-model="bank.currentMonth" />
             </div>
-            <div> 
+            <div>
               <div class="mob_header">Ежемесячный платеж</div>
-              
+
               <b>{{(bank.monthly_payment / bank.currentMonth).toFixed(2)}} ₴</b>
             </div>
         </div>
-        
+
       </div>
 
       <p class="description">
@@ -55,7 +55,7 @@ Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit 
           Оформить заказ
         </button-active>
       </div>
-        
+
     </div>
   </modal>
 </template>
@@ -398,7 +398,7 @@ export default {
       border-color: #23BE20;
     }
   }
- 
+
   $col1 : 200px;
   $col2 : 206px;
   $col3 : 206px;
@@ -407,7 +407,7 @@ export default {
     min-width: 138px;
     box-sizing: border-box;
     border-radius: 4px;
-    select{ 
+    select{
       border: 1px solid #E0E0E0 !important ;
       box-sizing: border-box;
       border-radius: 4px !important;
@@ -498,7 +498,7 @@ export default {
         h3{
             margin: 13px 0;
         }
-      } 
+      }
       .modal-content{
           padding: 24px;
       }
