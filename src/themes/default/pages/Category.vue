@@ -112,7 +112,7 @@
           <!--<pre>{{ getCurrentCategory }}</pre>-->
           <!--<pre>{{ getCategoryProducts }}</pre>-->
           <lazy-hydrate :trigger-hydration="!loading" v-if="isLazyHydrateEnabled">
-            <product-listing :columns="4" :products="getCategoryProducts" />
+            <product-listing :products="getCategoryProducts" />
           </lazy-hydrate>
           <product-listing v-else :products="getCategoryProducts" />
         </div>
@@ -581,10 +581,6 @@ $mobile_screen : 768px;
   }
 </style>
 <style lang="scss">
-.product-image {
-  max-height: unset !important;
-}
-
 .banner-description {
   margin-top: 25px;
   display: flex;
