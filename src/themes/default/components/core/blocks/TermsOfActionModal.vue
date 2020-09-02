@@ -1,7 +1,7 @@
 <template>
   <modal name="modal-terms-of-action" class="modal-terms-of-action" :width="550">
     <h3 slot="header" class="modal-terms-of-action_header align-center">
-      Условия акции
+      {{$t('Terms of action')}}
     </h3>
     <div slot="content" class="modal-terms-of-action_content">  
         <promo />
@@ -35,23 +35,25 @@ export default {
   /deep/ .promo-block{
     padding: 0;
     border: none;
+    margin-bottom: 24px;
   }
   /deep/ button.details{
     display : none !important;
   }
   /deep/ .promo-block-gift{
-    display: block;
-    &>img{
-      max-width:50px;
-    }
-    .promo-block-gift-icon{
-      width: 32px;
-      height: 32px;
-      img{
-        width : 20px;
-        max-height: 20px;
+    @media (max-width: 575px){
+      display: block;
+      &>img{
+        max-width : 50px;
+      }
+      .promo-block-gift-icon{
+        width: 32px;
+        height: 32px;
       }
     }
+  }
+  /deep/ .timer{
+    margin-left: -8px;
   }
 </style>
 <style lang="scss">
@@ -89,6 +91,8 @@ export default {
       }
       p{
           margin-bottom: 16px;
+          font-size: 14px;
+          color: #5F5E5E;
       }
   }
 </style>

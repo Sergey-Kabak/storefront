@@ -2,21 +2,20 @@
     <div ref="countdown" class="countdown flex">
         <div class="countdown-number flex v-center relative">
             <span class="days countdown-time cl-main-red">{{days}}</span>
-            <span class="countdown-text">дн.</span>
+            <span class="countdown-text">{{$t('d')}}</span>
         </div>
         <div class="countdown-number flex v-center relative">
             <span class="hours countdown-time cl-main-red">{{hour}}</span>
-            <span class="countdown-text">ч.</span>
+            <span class="countdown-text">{{$t('h')}}</span>
         </div>
         <div class="countdown-number flex v-center relative">
             <span class="minutes countdown-time cl-main-red">{{min}}</span>
-            <span class="countdown-text">мин.</span>
+            <span class="countdown-text">{{$t('m')}}</span>
         </div>
         <div class="countdown-number flex v-center relative">
             <span class="seconds countdown-time cl-main-red">{{sec}}</span>
-            <span class="countdown-text">сек.</span>
+            <span class="countdown-text">{{$t('s')}}</span>
         </div>
-          
     </div>
 </template>
 
