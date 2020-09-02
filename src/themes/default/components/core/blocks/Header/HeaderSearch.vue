@@ -111,6 +111,7 @@ export default {
 			this.$store.commit('ui/setMobileSearch', false)
 			this.search = ''
 			this.makeSearch(this.search)
+			this.$store.commit('ui/setHeaderIndex', 3)
 			this.$store.commit('ui/setOverlay', false)
 			document.body.style.overflow = 'auto'
 		}
@@ -119,6 +120,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+	.header-search {
+		overflow: auto;
+		max-height: 100vh;
+	}
+
 	.search-input-group {
 		position: relative;
 		height: 100%;

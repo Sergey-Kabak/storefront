@@ -50,6 +50,7 @@ export default {
     position: relative;
     &:hover{
       .tooltip{
+        z-index: 999;
         display: block;
       }
     }
