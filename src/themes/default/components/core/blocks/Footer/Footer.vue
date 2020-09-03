@@ -50,36 +50,7 @@
         </div>
       </div>
     </div>
-    <!-- <div class="container">
-      <div class="row middle-xs px15 bottom-links">
-        <div class="col-xs-5 col-sm-3 cl-tertiary">
-          <language-switcher v-if="multistoreEnabled" />
-        </div>
-        <div class="col-xs col-sm-9 end-xs">
-          <ul class="pl0 links" data-testid="bottomLinks">
-            <li class="inline-flex">
-              <router-link
-                class="cl-tertiary mr10 underline"
-                to="/legal"
-                exact
-              >
-                {{ $t('Legal notice') }}
-              </router-link>
-            </li>
-            <li class="inline-flex">
-              <router-link
-                class="cl-tertiary underline"
-                to="/privacy"
-                exact
-              >
-                {{ $t('Privacy policy') }}
-              </router-link>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </div> -->
-    <back-to-top bottom="20px" right="20px" visibleoffset="200">
+    <back-to-top bottom="60px" right="20px" visibleoffset="200">
       <button type="button" class="btn-top button no-outline brdr-none cl-white bg-cl-mine-shaft :bg-cl-th-secondary py10 px10">
         <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg" fill-rule="evenodd" clip-rule="evenodd">
           <path d="M23.245 20l-11.245-14.374-11.219 14.374-.781-.619 12-15.381 12 15.391-.755.609z" fill="white" />
@@ -92,8 +63,6 @@
 <script>
 import { localizedRoute } from '@vue-storefront/core/lib/multistore';
 import CurrentPage from 'theme/mixins/currentPage';
-import LanguageSwitcher from '../../LanguageSwitcher.vue';
-import Newsletter from 'theme/components/core/blocks/Footer/Newsletter';
 import BackToTop from 'theme/components/core/BackToTop';
 import { getPathForStaticPage } from 'theme/helpers';
 import config from 'config';
@@ -105,8 +74,6 @@ export default {
   mixins: [CurrentPage],
   components: {
     Logo,
-    Newsletter,
-    LanguageSwitcher,
     BackToTop,
     Social
   },
@@ -114,13 +81,9 @@ export default {
   methods: {
     goToAccount () {
       this.$bus.$emit('modal-toggle', 'modal-signup')
-    },
-    getLinkFor (path) {
-      return localizedRoute(getPathForStaticPage(path))
     }
   },
   computed: {
-    // ...mapGetters('category', ['getCategories']),
     ...mapGetters('category-next', ['getMenuCategories']),
     ...mapGetters({
       isLogged: 'user/isLoggedIn'
@@ -128,9 +91,6 @@ export default {
     multistoreEnabled () {
       return config.storeViews.multistore
     },
-    // getVersionInfo () {
-    //   return `v${process.env.__APPVERSION__} ${process.env.__BUILDTIME__}`
-    // },
     getCategories () {
       return this.getMenuCategories
     },
@@ -151,45 +111,45 @@ export default {
       }, {
         title: 'To customers',
         routes: [{
-            name: 'Payment and delivery',
-            url_path: 'delivery'
-          }, {
-            name: 'Payments and loans',
-            url_path: 'payments-and-loans'
-          }, {
-            name: 'Warranty, Exchange, Return',
-            url_path: 'warranty-exchange-return'
-          }, {
-            name: 'Service centres',
-            url_path: 'service-centers'
-          }, {
-            name: 'Use promotional code',
-            url_path: 'using-a-promo-code'
-          }, {
-            name: 'Public offer',
-            url_path: 'public-offer'
-          }, {
-            name: 'Promotions',
-            url_path: 'promotional-offers'
-          }]
+          name: 'Payment and delivery',
+          url_path: 'delivery'
+        }, {
+          name: 'Payments and loans',
+          url_path: 'payments-and-loans'
+        }, {
+          name: 'Warranty, Exchange, Return',
+          url_path: 'warranty-exchange-return'
+        }, {
+          name: 'Service centres',
+          url_path: 'service-centers'
+        }, {
+          name: 'Use promotional code',
+          url_path: 'using-a-promo-code'
+        }, {
+          name: 'Public offer',
+          url_path: 'public-offer'
+        }, {
+          name: 'Promotions',
+          url_path: 'promotional-offers'
+        }]
       }, {
         title: 'About Us',
         routes: [{
-            name: 'The shops',
-            url_path: 'shops'
-          }, {
-            name: 'Company',
-            url_path: 'about-the-company'
-          }, {
-            name: 'Vacancies',
-            url_path: 'work-in-the-company'
-          }, {
-            name: 'Own account',
-            url_path: 'own-account'
-          }, {
-            name: 'To landlords',
-            url_path: 'landlords'
-          }]
+          name: 'The shops',
+          url_path: 'shops'
+        }, {
+          name: 'Company',
+          url_path: 'about-the-company'
+        }, {
+          name: 'Vacancies',
+          url_path: 'work-in-the-company'
+        }, {
+          name: 'Own account',
+          url_path: 'own-account'
+        }, {
+          name: 'To landlords',
+          url_path: 'landlords'
+        }]
       }]
     }
   },

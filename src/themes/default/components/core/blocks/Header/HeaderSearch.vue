@@ -102,22 +102,22 @@ export default {
       this.selectedCategoryIds = []
     }
   },
-	methods: {
-		setOverlay() {
-			this.$store.commit('ui/setMobileSearch', true)
-			document.body.style.overflow = 'hidden'
-			this.$store.commit('ui/setOverlay', true)
-			this.$store.commit('ui/setHeaderIndex', 4)
-		},
-		closeSearchPanel() {
-			this.$store.commit('ui/setMobileSearch', false)
-			this.search = ''
-			this.makeSearch(this.search)
-			this.$store.commit('ui/setHeaderIndex', 3)
-			this.$store.commit('ui/setOverlay', false)
-			document.body.style.overflow = 'auto'
-		}
-	}
+  methods: {
+    setOverlay() {
+      this.$store.commit('ui/setMobileSearch', true)
+      document.body.style.overflow = 'hidden'
+      this.$store.commit('ui/setOverlay', true)
+      this.$store.commit('ui/setHeaderIndex', 4)
+    },
+    closeSearchPanel() {
+      this.$store.commit('ui/setMobileSearch', false)
+      this.search = ''
+      this.makeSearch(this.search)
+      this.$store.commit('ui/setHeaderIndex', 3)
+      this.$store.commit('ui/setOverlay', false)
+      document.body.style.overflow = 'auto'
+    }
+  }
 }
 </script>
 
