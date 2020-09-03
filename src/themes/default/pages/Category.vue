@@ -79,15 +79,15 @@
 
               <div class="buttons-group">
                 <button-full
-                    class="buttons-group"
-                    @click.native="resetAllFilters"
-                  >
+                  class="buttons-group"
+                  @click.native="resetAllFilters"
+                >
                   {{$t('Clear all')}}
                 </button-full>
                 <button-full
-                    class="buttons-group"
-                    @click.native="closeFilters"
-                  >
+                  class="buttons-group"
+                  @click.native="closeFilters"
+                >
                   {{$t('show')}}
                 </button-full>
               </div>
@@ -109,8 +109,6 @@
             </h4>
             <p>{{ $t('Please change Your search criteria and try again. If still not finding anything relevant, please visit the Home page and try out some of our bestsellers!') }}</p>
           </div>
-          <!--<pre>{{ getCurrentCategory }}</pre>-->
-          <!--<pre>{{ getCategoryProducts }}</pre>-->
           <lazy-hydrate :trigger-hydration="!loading" v-if="isLazyHydrateEnabled">
             <product-listing :products="getCategoryProducts" />
           </lazy-hydrate>
@@ -384,6 +382,7 @@ $mobile_screen : 768px;
     font-size: 14px;
     line-height: 16px;
     color: #1A1919;
+    margin-right: 12px;
   }
 
   .mobile-filters {
@@ -467,7 +466,7 @@ $mobile_screen : 768px;
   .category-sort {
     display: flex;
     align-items: center;
-    margin: 0 0 25px 0;
+    margin: 0px 0px 28px 0;
   }
 
   @media (max-width: 768px) {
@@ -517,10 +516,10 @@ $mobile_screen : 768px;
     .mobile-filters {
       .filter-overlay{
         &.hasFilters{
-          padding-bottom: 123px;
+          padding-bottom: 130px;
         }
         min-height: 100vh;
-        padding: 17px 16px 16px;
+        padding: 16px;
         display: flex;
         flex-direction: column;
         background-color: #fff;

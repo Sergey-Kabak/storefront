@@ -1,17 +1,17 @@
 <template>
   <div class="sort-by">
     <div
-        class="label"
-        :class="{active: variant.id === sortby.id}"
-        v-for="variant in sortingVariants"
-        :key="variant.id"
+      class="label"
+      :class="{active: variant.id === sortby.id}"
+      v-for="variant in sortingVariants"
+      :key="variant.id"
     >
       <input
-          type="radio"
-          name="sortby"
-          :value="variant"
-          v-model="sortby"
-          @change="changeOrder"
+        type="radio"
+        name="sortby"
+        :value="variant"
+        v-model="sortby"
+        @change="changeOrder"
       />
       {{ $t(variant.label) }}
     </div>
@@ -63,16 +63,25 @@ export default {
       line-height: 16px;
       color: #AFB3B9;
       position: relative;
-      margin: 0 10px;
+      margin-right: 20px;
       border-bottom: 1px solid transparent;
-      cursor: pointer;
+      transition: .2s ease-in;
+
+      &:last-child {
+        margin-right: 0;
+      }
 
       &.active {
         color: #1A1A1A;
         border-bottom-color: #1a1a1a;
       }
 
+      &:hover {
+        color: #1A1A1A;
+      }
+
       input {
+        cursor: pointer;
         margin: 0;
         padding: 0;
         opacity: 0;
