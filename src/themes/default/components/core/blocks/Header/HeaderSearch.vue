@@ -113,6 +113,7 @@ export default {
       this.$store.commit('ui/setMobileSearch', false)
       this.search = ''
       this.makeSearch(this.search)
+      this.$store.commit('ui/setHeaderIndex', 3)
       this.$store.commit('ui/setOverlay', false)
       document.body.style.overflow = 'auto'
     }

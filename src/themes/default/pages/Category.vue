@@ -276,6 +276,10 @@ $mobile_screen : 768px;
     width: 95%;
   }
 
+  .product-listing {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
   .active-filters-mobile{
     position: fixed;
     bottom: 0;
