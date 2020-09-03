@@ -14,6 +14,7 @@
         <div class="country country-available" v-for="(storeView, storeCode) in storeViews" :key="storeCode">
           <h3>{{ $t(storeView.i18n.fullCountryName) }}</h3>
           <ul>
+            {{storeView.url}}
             <li><a :href="storeView.url">{{ $t(storeView.i18n.fullLanguageName) }}</a></li>
           </ul>
         </div>

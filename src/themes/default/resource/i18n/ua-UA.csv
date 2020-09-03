@@ -246,7 +246,7 @@ Delivery,Доставка
 Departments,Відділення
 Discount code,Купон на знижку
 Discount,Знижка
-Don't hesitate and,Не вагайтесь і
+Don't hesitate and,Не вагайтесь
 E-mail address *,Електронна адреса *
 Edit newsletter preferences,Змінити вподобання з тематики новин
 Edit payment,Змінити платіж
@@ -358,7 +358,7 @@ Repeat password *,Повторіть пароль *
 Reset password,Оновити пароль
 Resetting the password ... ,Оновлення паролю ...
 Return policy,Політика повернення
-Return to shopping,Повернутися до покупок
+Return to shopping,Назад до покупок
 Returns,Повернення
 Review order,Переглянути замовлення
 SKU,Ідентифікаційний номер товару
@@ -642,7 +642,7 @@ supermarkets,"Супермаркети"
 team,"Команда."
 term,"Строк"
 to find product you were looking for.,"Знайти товар, який ви дивилися"
-to find something beautiful for You!,Знайти щось гарне для Вас!
+to find something beautiful for You!,Щоб знайти щось гарне для Вас!
 to main,На головну
 transport interchanges,"Транспортні розв`язки"
 tripods,"Штативы"
@@ -657,3 +657,24 @@ warranty transportation," Транспортування габаритного 
 warranty,"Гарантія"
 why justin,"Чому Justin?"
 work time,"Час роботи"
+<<<<<<< HEAD
+=======
+"Description of the action","Опис акції"
+"Until the end of the promotion","До кінця акції"
+"d":"дн."
+"h":"г."
+"m":"хв."
+"s":"сек."
+Clear filters,"Очистити фильтр"
+Coral,"Кораловий"
+Gold,"Золотий"
+Chocolate,"Бронзовий"
+next,"Далі"
+"Promocode is not valid","Промокод недійсний"
+"grand_total","Всього"
+"discount","Знижка за промокодом"
+"Details","Детальніше"
+"There are no products to compare.",Немає товарів для порівняння
+"Add products to compare characteristics and choose the most suitable product.",Додавайте товари для порівняння характеристик і вибирайте найбільш підходящий товар.
+"work_time",Пн-Пт: 9:00-18:00; Сб-Нд: Вихідні
+>>>>>>> dev

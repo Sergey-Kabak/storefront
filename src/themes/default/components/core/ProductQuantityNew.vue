@@ -116,7 +116,7 @@ export default {
   display: flex;
   justify-content: center;
   background: rgba(255,255,255,.5);
-  height: 30px;
+  height: 32px;
   align-items: center;
   bottom: auto!important;
 }
