@@ -82,13 +82,13 @@
                     class="buttons-group"
                     @click.native="resetAllFilters"
                   >
-                  Очистить все
+                  {{$t('Clear all')}}
                 </button-full>
                 <button-full
                     class="buttons-group"
                     @click.native="closeFilters"
                   >
-                  Показать
+                  {{$t('show')}}
                 </button-full>
               </div>
             </div>
@@ -500,10 +500,10 @@ $mobile_screen : 768px;
     .mobile-filters {
       .filter-overlay{
         &.hasFilters{
-          padding-bottom: 130px;
+          padding-bottom: 110px;
         }
         min-height: 100vh;
-        padding: 16px;
+        padding: 17px 16px 16px;
         display: flex;
         flex-direction: column;
         background-color: #fff;

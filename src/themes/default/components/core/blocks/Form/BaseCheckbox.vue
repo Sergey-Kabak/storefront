@@ -63,7 +63,6 @@ export default {
   $color-silver: color(silver);
   $color-active: color(secondary);
   $color-white: color(white);
-
   label {
     user-select: none;
     &:before {

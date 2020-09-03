@@ -172,8 +172,11 @@ $mobile_screen : 767px;
   margin-top: 45px;
 }
 .clear-filters{
+  &:hover{
+    border-color: transparent !important;
+  }
   @media (max-width : 767px){
-    display: none;
+    display: none !important;
   }
 }
 /deep/ .color {
@@ -198,9 +201,19 @@ $mobile_screen : 767px;
 }
 .sidebar {
   @media (max-width : $mobile_screen){
-    padding-top: 14px;
+    padding-top: 15px;
     display: flex;
     flex-direction: column;
+    .sidebar__header {
+        padding: 0;
+        min-height: 48px;
+    }
+    /deep/ .filter-header{
+      padding: 16px 0;
+    }
+    /deep/ .filter-body{
+      border-bottom: 13px solid transparent;
+    }
   }
   &__header {
     @media (max-width : $mobile_screen){

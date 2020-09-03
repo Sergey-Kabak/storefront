@@ -31,6 +31,16 @@ export default {
   border-radius: 4px;
   box-sizing: border-box;
   cursor: pointer;
+  transition : ease-in 0.2s;
+  &:hover{
+    background: rgba(255, 202, 65, 0.08);
+  }
+  &:focus{
+    background: rgba(255, 202, 65, 0.12);
+  }
+  &:active{
+    background: rgba(255, 202, 65, 0.16);
+  }
 
   &__title {
     display: block;
