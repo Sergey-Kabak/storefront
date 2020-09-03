@@ -30,13 +30,18 @@ export default {
 }
 </script>
 
-<style lang="sass" scoped>
-  .custom-logo
-    font-size: 40px
-    margin: auto
-    color: #23BE20
-    font-family: 'DIN Pro'
-    font-style: normal
-    font-weight: 500
-    line-height: .5
+<style lang="scss" scoped>
+  .custom-logo {
+    font-size: 40px;
+    margin: auto;
+    color: #23BE20;
+    font-family: 'DIN Pro';
+    font-style: normal;
+    font-weight: 500;
+    line-height: .5;
+
+    img {
+      width: 100%;
+    }
+  }
 </style>

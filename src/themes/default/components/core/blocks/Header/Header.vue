@@ -343,6 +343,10 @@ header {
   .logo {
     height: 41px;
     margin-top: 7px;
+
+    img {
+      width: 100%;
+    }
   }
 }
 
@@ -624,7 +628,7 @@ a.underline:after, a:not(.no-underline):hover:after {
   }
 
   .header-top {
-    padding: 0 18px;
+    padding: 0 16px;
   }
 
   .header-black-line {
@@ -668,7 +672,8 @@ a.underline:after, a:not(.no-underline):hover:after {
 
   .header-middle {
     .logo {
-      height: 35px;
+      height: 36px;
+      width: 80px;
     }
   }
 
