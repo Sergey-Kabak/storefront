@@ -44,6 +44,7 @@ export const uiStore = {
       state.overlay = action === true
     },
     setConsultation (state, action) {
+      state.headerIndex = 3
       state.consultation = action === true
       state.overlay = action === true
     },

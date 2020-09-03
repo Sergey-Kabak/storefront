@@ -1,5 +1,5 @@
 <template>
-  <div class="header-wrap" :style="{ height: headerHeight + 'px' }">
+  <div class="header-wrap">
     <header
       ref="header"
       class="w-100"
@@ -140,14 +140,7 @@ export default {
       isScrolling: false,
       scrollTop: 0,
       lastScrollTop: 0,
-      headerHeight: null
-    }
-  },
-  watch:{
-    $route (){
-      this.$nextTick(() => {
-        this.headerHeight = this.$refs.header.clientHeight
-      })
+      headerHeight: 104
     }
   },
   computed: {
@@ -183,7 +176,6 @@ export default {
     }, 250)
   },
   mounted: function() {
-    this.headerHeight = this.$refs.header.clientHeight
     window.addEventListener('resize', this.onResize)
   },
   beforeDestroy() {
@@ -237,6 +229,7 @@ header {
 }
 
 .header-wrap {
+  height: 97px;
   margin-bottom: 16px;
 }
 
@@ -350,6 +343,10 @@ header {
   .logo {
     height: 41px;
     margin-top: 7px;
+
+    img {
+      width: 100%;
+    }
   }
 }
 
@@ -626,12 +623,12 @@ a.underline:after, a:not(.no-underline):hover:after {
 }
 
 @media (max-width: 768px) {
-  header {
-    //overflow: auto;
+  .header-wrap {
+    height: 104px;
   }
 
   .header-top {
-    padding: 0 18px;
+    padding: 0 16px;
   }
 
   .header-black-line {
@@ -675,7 +672,8 @@ a.underline:after, a:not(.no-underline):hover:after {
 
   .header-middle {
     .logo {
-      height: 35px;
+      height: 36px;
+      width: 80px;
     }
   }
 
