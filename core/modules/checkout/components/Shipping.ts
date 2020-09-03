@@ -106,17 +106,20 @@ export const Shipping = {
       }
     },
     sendDataToCheckout(location) {
+      let type = `${this.$t(this.type)}, ${location.name ? location.name : location.streetname + ' ' + location.streetname2}`
+
       this.shipping = {
         ...this.shipping,
         country: location.country,
-        streetAddress: location.streetname,
+        streetAddress: type,
         apartmentNumber: location.number ? `Нова Пошта ${location.name}` : location.streetname2,
         city: location.city,
         state: '',
         region_id: 0,
         zipCode: location.zipcode || '69068',
         phoneNumber: '',
-        shopName: `Нова Пошта ${location.name}`,
+        deliveryType: this.type,
+        shopName: location.number ? `Нова Пошта ${location.name}` : location.name,
         isNewPost: !!location.number,
         location
       }

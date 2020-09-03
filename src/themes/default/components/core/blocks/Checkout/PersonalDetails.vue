@@ -1,11 +1,11 @@
 <template>
   <div class="personal-details">
-    <div class="subtitle">
-      <div class="number-block" :class="{'checked': !isActive}">
+    <div class="checkout-subtitle">
+      <div class="checkout-number-block" :class="{'checked': !isActive}">
         <div class="number align-center" v-if="isActive">2</div>
         <img src='/assets/custom/Check.svg' v-else alt="correct">
       </div>
-      <div class="subtitle-text">{{ $t('Contact details') }}:</div>
+      <div class="checkout-subtitle-text">{{ $t('Contact details') }}:</div>
     </div>
     <div class="personal-details-body">
       <div class="label">
@@ -15,7 +15,7 @@
       <div class="personal-details-row">
         <base-input
           class="custom-input"
-          :class="{ error: ($v.personalDetails.firstName.$error && !$v.personalDetails.firstName.required) || !$v.personalDetails.firstName.minLength }"
+          :class="{ error: $v.personalDetails.firstName.$error && $v.personalDetails.firstName.$dirty }"
           type="text"
           :autofocus="true"
           name="first-name"
@@ -25,15 +25,15 @@
           autocomplete="given-name"
           :validations="[
             {
-              condition: $v.personalDetails.firstName.$error && !$v.personalDetails.firstName.required,
+              condition: $v.personalDetails.firstName.$error && !$v.personalDetails.firstName.required && $v.personalDetails.firstName.$dirty,
               text: $t('Field is required')
             },
             {
-              condition: !$v.personalDetails.firstName.minLength,
+              condition: !$v.personalDetails.firstName.minLength && $v.personalDetails.firstName.$dirty,
               text: $t('Name must have at least 2 letters.')
             },
             {
-              condition: !$v.personalDetails.firstName.lettersOnly,
+              condition: !$v.personalDetails.firstName.lettersOnly && $v.personalDetails.firstName.$dirty,
               text: $t('Accepts only alphabet characters.')
             }
           ]"
@@ -47,18 +47,18 @@
           v-model.trim="personalDetails.lastName"
           @blur="$v.personalDetails.lastName.$touch()"
           autocomplete="family-name"
-          :class="{ error: ($v.personalDetails.lastName.$error && !$v.personalDetails.lastName.required) }"
+          :class="{ error: $v.personalDetails.lastName.$error && $v.personalDetails.lastName.$dirty }"
           :validations="[
             {
-              condition: $v.personalDetails.lastName.$error && !$v.personalDetails.lastName.required,
+              condition: $v.personalDetails.lastName.$error && !$v.personalDetails.lastName.required && $v.personalDetails.lastName.$dirty,
               text: $t('Field is required')
             },
             {
-              condition: !$v.personalDetails.lastName.minLength,
+              condition: !$v.personalDetails.lastName.minLength && $v.personalDetails.lastName.$dirty,
               text: $t('Last name must have at least 2 letters.')
             },
             {
-              condition: !$v.personalDetails.lastName.lettersOnly,
+              condition: !$v.personalDetails.lastName.lettersOnly && $v.personalDetails.lastName.$dirty,
               text: $t('Accepts only alphabet characters.')
             }
           ]"
@@ -77,14 +77,14 @@
           :placeholder="$t('Phone Number')"
           v-model.trim="personalDetails.phoneNumber"
           autocomplete="tel"
-          :class="{ error: ($v.personalDetails.phoneNumber.$error && !$v.personalDetails.phoneNumber.required) }"
+          :class="{ error: $v.personalDetails.phoneNumber.$error && $v.personalDetails.phoneNumber.$dirty }"
           :validations="[
             {
-              condition: $v.personalDetails.phoneNumber.$error && !$v.personalDetails.phoneNumber.required,
+              condition: $v.personalDetails.phoneNumber.$error && !$v.personalDetails.phoneNumber.required && $v.personalDetails.phoneNumber.$dirty,
               text: $t('Field is required')
             },
             {
-              condition: !$v.personalDetails.phoneNumber.isPhone && $v.personalDetails.phoneNumber.$error,
+              condition: !$v.personalDetails.phoneNumber.isPhone && $v.personalDetails.phoneNumber.$error && $v.personalDetails.phoneNumber.$dirty,
               text: $t('Please provide valid phone number')
             }
           ]"
@@ -98,14 +98,14 @@
           @blur="$v.personalDetails.emailAddress.$touch()"
           autocomplete="email"
           @keyup.enter="sendDataToCheckout"
-          :class="{ error: ($v.personalDetails.emailAddress.$error && !$v.personalDetails.emailAddress.required) || !$v.personalDetails.emailAddress.email }"
+          :class="{ error: $v.personalDetails.emailAddress.$error && $v.personalDetails.emailAddress.$dirty }"
           :validations="[
             {
-              condition: $v.personalDetails.emailAddress.$error && !$v.personalDetails.emailAddress.required,
+              condition: $v.personalDetails.emailAddress.$error && !$v.personalDetails.emailAddress.required && $v.personalDetails.emailAddress.$dirty,
               text: $t('Field is required')
             },
             {
-              condition: !$v.personalDetails.emailAddress.email && $v.personalDetails.emailAddress.$error,
+              condition: !$v.personalDetails.emailAddress.email && $v.personalDetails.emailAddress.$error && $v.personalDetails.emailAddress.$dirty,
               text: $t('Please provide valid e-mail address.')
             }
           ]"
@@ -119,8 +119,7 @@
             <button-small
               class="custom-action-button"
               data-testid="personalDetailsSubmit"
-              @click.native="sendDataToCheckout()"
-              :disabled="createAccount ? $v.$invalid : $v.personalDetails.$invalid"
+              @click.native="validateData()"
             >
               {{ $t((isVirtualCart ? 'next' : 'next')) }}
             </button-small>
@@ -196,6 +195,15 @@ export default {
     acceptConditions: {
       sameAs: sameAs(() => true)
     }
+  },
+  methods: {
+    validateData() {
+      if (this.$v.personalDetails.$invalid) {
+        this.$v.personalDetails.$touch()
+      } else {
+        this.sendDataToCheckout()
+      }
+    }
   }
 }
 </script>
@@ -220,7 +228,6 @@ export default {
         line-height: 16px
         color: #5F5E5E
         opacity: .6
-        margin: 5px 0 0 16px;
       input:focus ~ label,
       input:not(.empty) ~ label
         padding: 0 10px

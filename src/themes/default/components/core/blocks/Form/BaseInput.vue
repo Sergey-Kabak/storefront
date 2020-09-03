@@ -150,11 +150,23 @@ export default {
 
   .base-input {
     min-height: 4.5rem;
+
+    &.error {
+      input:focus ~ label,
+      input:not(.empty) ~ label,
+      label {
+        color: #EE2C39;
+      }
+      input:focus, input {
+        border-color: #EE2C39;
+      }
+    }
   }
 
   input {
     background: inherit;
-    height: 40px;;
+    height: 40px;
+    padding-left: 15px;
 
     &:hover,
     &:focus {
@@ -176,14 +188,16 @@ export default {
     line-height: 16px;
     color:#999;
     position:absolute;
-    left: 0;
-    top: 10px;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
     transition:0.2s ease all;
     -moz-transition:0.2s ease all;
     -webkit-transition:0.2s ease all;
+    pointer-events: none;
   }
   input:focus ~ label, input:not(.empty) ~ label{
-    top: -10px;
+    top: 0;
     font-size:14px;
     color:$color-puerto-rico;
   }
