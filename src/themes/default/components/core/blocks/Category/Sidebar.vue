@@ -5,7 +5,7 @@
         v-for="(activeFilter, index) in getActiveFilters"
         :filter="activeFilter"
         :key="index"
-        @remove="$emit('changeFilter', $event)" 
+        @remove="$emit('changeFilter', $event)"
       />
     </div>
     <span
@@ -90,6 +90,7 @@ import CheckboxSelector from 'theme/components/core/CheckboxSelector';
 import CategoryFilter from 'theme/components/core/blocks/Category/CategoryFilter';
 import ActiveFilter from 'theme/components/core/blocks/Category/ActiveFilter';
 import pickBy from 'lodash-es/pickBy';
+import edgeFlat from 'theme/mixins/edgeFlat'
 
 export default {
   components: {
@@ -100,6 +101,7 @@ export default {
     CheckboxSelector,
     ActiveFilter
   },
+  mixins: [edgeFlat],
   props: {
     filters: {
       type: Object,
@@ -114,10 +116,9 @@ export default {
       return this.$store.getters['category-next/getCurrentFilters']
     },
     getActiveFilters () {
-      let sequence = Object.keys(this.availableFilters),
-          filters  = Object.values(this.getCurrentFilters).reduce((acc, val) => acc.concat(val), []),
-          res = [];
-
+      let sequence = Object.keys(this.availableFilters);
+      let filters  = Object.values(this.getCurrentFilters).reduce((acc, val) => acc.concat(val), []);
+      let res = [];
 
       sequence.forEach(el => {
         let condition = filters.filter(filter => filter.type === el)
@@ -127,7 +128,7 @@ export default {
 
       })
 
-      return res.flat(2)
+      return this.isEdge ? this.flattenDeep(res) : res.flat(2)
     },
     availableFilters () {
       return pickBy(this.filters, (filter, filterType) => { return (filter.length && !this.$store.getters['category-next/getSystemFilterNames'].includes(filterType)) })
@@ -138,22 +139,20 @@ export default {
       this.$store.dispatch('category-next/resetSearchFilters')
     },
     sortById (filters) {
-      let hasGB = JSON.stringify(filters).toLowerCase().indexOf('гб'),
-          hasMB = JSON.stringify(filters).toLowerCase().indexOf('мб');
+      let hasGB = JSON.stringify(filters).toLowerCase().indexOf('гб');
+      let hasMB = JSON.stringify(filters).toLowerCase().indexOf('мб');
 
-          if (hasGB > -1 && hasMB > -1) {
-            let mbArr = [],
-                gbArr = [];
-
-                filters.forEach(el => el.label.toLowerCase().indexOf('мб') > -1 ? mbArr.push(el) : gbArr.push(el))
-                mbArr.sort((a, b) => { return parseInt(a.label) - parseInt(b.label) })
-                gbArr.sort((a, b) => { return parseInt(a.label) - parseInt(b.label) })
-                return [...mbArr , ...gbArr]
-          }
-          else {
-            return [...filters].sort((a, b) => { return parseInt(a.label) - parseInt(b.label) })
-          }
-      
+      if (hasGB > -1 && hasMB > -1) {
+        let mbArr = [];
+        let gbArr = [];
+        filters.forEach(el => el.label.toLowerCase().indexOf('мб') > -1 ? mbArr.push(el) : gbArr.push(el))
+        mbArr.sort((a, b) => { return parseInt(a.label) - parseInt(b.label) })
+        gbArr.sort((a, b) => { return parseInt(a.label) - parseInt(b.label) })
+        return [...mbArr , ...gbArr]
+      }
+      else {
+        return [...filters].sort((a, b) => { return parseInt(a.label) - parseInt(b.label) })
+      }
     },
     // should be received from config
     isCheckboxFilter (filterName) {
