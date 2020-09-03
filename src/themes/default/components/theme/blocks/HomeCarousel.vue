@@ -10,68 +10,12 @@
         :autoplay="true"
         :loop="true"
     >
-      <slide>
+      <slide v-for="(product, index) in products" :key="index">
         <router-link
-            :to="productLink(0)"
+            :to="formatLink(product)"
             data-testid="productLink"
         >
-          <img src="https://info.ringoo.ua/images/slider/1.jpg" alt="1">
-        </router-link>
-      </slide>
-      <slide>
-        <router-link
-            :to="productLink(1)"
-            data-testid="productLink"
-        >
-          <img src="https://info.ringoo.ua/images/slider/2.jpg" alt="2">
-        </router-link>
-      </slide>
-      <slide>
-        <router-link
-            :to="productLink(2)"
-            data-testid="productLink"
-        >
-          <img src="https://info.ringoo.ua/images/slider/3.jpg" alt="3">
-        </router-link>
-      </slide>
-      <slide>
-        <router-link
-            :to="productLink(3)"
-            data-testid="productLink"
-        >
-          <img src="https://info.ringoo.ua/images/slider/4.jpg" alt="4">
-        </router-link>
-      </slide>
-      <slide>
-        <router-link
-            :to="productLink(4)"
-            data-testid="productLink"
-        >
-          <img src="https://info.ringoo.ua/images/slider/5.jpg" alt="5">
-        </router-link>
-      </slide>
-      <slide>
-        <router-link
-            :to="productLink(5)"
-            data-testid="productLink"
-        >
-          <img src="https://info.ringoo.ua/images/slider/6.jpg" alt="6">
-        </router-link>
-      </slide>
-      <slide>
-        <router-link
-            :to="productLink(6)"
-            data-testid="productLink"
-        >
-          <img src="https://info.ringoo.ua/images/slider/7.jpg" alt="7">
-        </router-link>
-      </slide>
-      <slide>
-        <router-link
-            :to="productLink(7)"
-            data-testid="productLink"
-        >
-          <img src="https://info.ringoo.ua/images/slider/8.jpg" alt="8">
+          <img :src="product.img" :alt="index">
         </router-link>
       </slide>
     </carousel>
@@ -84,52 +28,78 @@ import { formatProductLink } from '@vue-storefront/core/modules/url/helpers'
 import config from 'config'
 
 export default {
-  props: {
-    slidesPerPage: {
-      type: Array,
-      default: () => [[320, 1], [420, 2], [787, 3], [1180, 4], [1200, 5]],
-      required: false
-    }
-  },
+  data: () => ({
+    slidesPerPage: [[320, 1], [350, 2], [600, 3], [900, 4], [1200, 5]]
+  }),
   components: {
     'Carousel': () => import('vue-carousel').then(Slider => Slider.Carousel),
     'Slide': () => import('vue-carousel').then(Slider => Slider.Slide)
   },
+  computed: {
+    products() {
+      return config && config.sliderProduct
+    },
+  },
   methods: {
-    productLink (pid) {
-      let product = config && config.sliderProduct && config.sliderProduct[pid]
-      let isProduct = !!(product && product.url_path)
-      return formatProductLink(isProduct && product, currentStoreView().storeCode)
+    formatLink(product) {
+      if (product.url_path) {
+        return formatProductLink(product, currentStoreView().storeCode)
+      }
     }
   }
 };
 </script>
 
 <style lang="scss" scoped>
-  /deep/ .VueCarousel-pagination{
-    position: absolute;
-    bottom: -44px;
+  ::v-deep .VueCarousel-pagination {
+
     .VueCarousel-dot{
       outline: none !important;
       padding: 4px !important;
+      margin: 0!important;
+    }
+
+    .VueCarousel-dot-container {
+      margin-top: 24px!important;
     }
     .VueCarousel-dot--active{
       background-color: #23BE20 !important;
     }
 
   }
-  .home-carousel-wrapper{
-    margin: 0 -6px;
-    padding-bottom: 66px;
+
+  .home-carousel-wrapper {
+    margin: 0 -3px;
   }
-  .home-carousel {
+
+  .VueCarousel-slide {
+    display: flex;
+    justify-content: center;
+  }
+
+  .home-carousel ::v-deep {
+
     img {
       width: 100% !important;
       margin: 0 auto;
-      max-width: 260px;
       max-height: 434px;
-      height: 100%;
-      object-fit: cover;
+      height: auto!important;
+    }
+  }
+
+  @media (max-width: 768px) {
+    ::v-deep .home-carousel {
+      .VueCarousel-dot-container {
+        margin-top: 16px!important;
+      }
+    }
+  }
+
+  @media (max-width: 419px) {
+    ::v-deep .home-carousel {
+      img {
+        border-radius: 4px;
+      }
     }
   }
 </style>

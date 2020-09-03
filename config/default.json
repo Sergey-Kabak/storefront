@@ -1011,35 +1011,43 @@
   "sliderProduct": [
     {
       "url_path": "iphone-11-64gb.html?childSku=т29793",
-      "type_id": "configurable"
+      "type_id": "configurable",
+      "img": "https://info.ringoo.ua/images/slider/1.jpg"
     },
     {
       "url_path": "back-to-school",
-      "type_id": "configurable"
+      "type_id": "configurable",
+      "img": "https://info.ringoo.ua/images/slider/2.jpg"
     },
     {
       "url_path": "back-to-school",
-      "type_id": "configurable"
+      "type_id": "configurable",
+      "img": "https://info.ringoo.ua/images/slider/3.jpg"
     },
     {
       "url_path": "ditjachij-smart-godinnik-canyon-cne-kw51.html",
-      "type_id": "configurable"
+      "type_id": "configurable",
+      "img": "https://info.ringoo.ua/images/slider/4.jpg"
     },
     {
       "url_path": "samsung-a31-4-64gb-a315.html",
-      "type_id": "configurable"
+      "type_id": "configurable",
+      "img": "https://info.ringoo.ua/images/slider/5.jpg"
     },
     {
       "url_path": "fotoaparat-ditjachij-xoko-rabbit.html?childSku=т30134",
-      "type_id": "configurable"
+      "type_id": "configurable",
+      "img": "https://info.ringoo.ua/images/slider/6.jpg"
     },
     {
       "url_path": "smart-godinnik-apple-watch-5-40mm.html",
-      "type_id": "configurable"
+      "type_id": "configurable",
+      "img": "https://info.ringoo.ua/images/slider/7.jpg"
     },
     {
       "url_path": "fitnes-braslet-mi-smart-band-5-black.html",
-      "type_id": "configurable"
+      "type_id": "configurable",
+      "img": "https://info.ringoo.ua/images/slider/8.jpg"
     }
   ],
   "customSeller": {
