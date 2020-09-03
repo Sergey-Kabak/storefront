@@ -8,7 +8,7 @@
       target="__blank"
       :aria-label="$t(social.label)"
     >
-      <img :src="social.path" :alt="label">
+      <img :src="social.path" :alt="$t(social.label)">
     </a>
   </div>
 </template>
