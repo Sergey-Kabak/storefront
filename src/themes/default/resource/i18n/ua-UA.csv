@@ -242,7 +242,7 @@ Delivery,Доставка
 Departments,Відділення
 Discount code,Купон на знижку
 Discount,Знижка
-Don't hesitate and,Не вагайтесь і
+Don't hesitate and,Не вагайтесь
 E-mail address *,Електронна адреса *
 Edit newsletter preferences,Змінити вподобання з тематики новин
 Edit payment,Змінити платіж
@@ -638,7 +638,7 @@ supermarkets,"Супермаркети"
 team,"Команда."
 term,"Строк"
 to find product you were looking for.,"Знайти товар, який ви дивилися"
-to find something beautiful for You!,Знайти щось гарне для Вас!
+to find something beautiful for You!,Щоб знайти щось гарне для Вас!
 to main,На головну
 transport interchanges,"Транспортні розв`язки"
 tripods,"Штативы"
@@ -673,3 +673,6 @@ next,"Далі"
 "schedule","Пн-Пт: {mon}; Сб: {sat}; Нед: {sun}"
 "weekend","Вихідний"
 "Number or address of New Post","Номер або адреса Нової Пошти"
+"There are no products to compare.",Немає товарів для порівняння
+"Add products to compare characteristics and choose the most suitable product.",Додавайте товари для порівняння характеристик і вибирайте найбільш підходящий товар.
+"work_time","Пн-Пт: 9:00-18:00; Сб-Нд: Вихідні"

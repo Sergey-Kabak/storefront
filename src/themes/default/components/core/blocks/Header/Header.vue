@@ -57,8 +57,9 @@
               <logo width="auto" class="logo"/>
             </div>
             <div class="header-right">
+              <consultation-icon class="icon icon-consultation xs-show" />
               <search-icon class="icon pointer icon-search" />
-              <compare-icon class="icon pointer icon-compare" />
+              <compare-icon class="icon pointer icon-compare xs-hide" />
               <microcart-icon class="icon pointer icon-microcart" />
               <wishlist-icon class="icon pointer icon-wishlist" />
               <account-icon class="icon pointer icon-account" />
@@ -117,7 +118,6 @@ import HeaderSearch from 'theme/components/core/blocks/Header/HeaderSearch';
 import MobileHamburgerIcon from 'theme/components/core/blocks/Header/MobileHamburgerIcon';
 import PhoneInfo from 'theme/components/core/PhoneInfo';
 import ConsultationIcon from 'theme/components/core/blocks/Header/ConsultationIcon';
-
 export default {
   name: 'Header',
   components: {
@@ -131,7 +131,7 @@ export default {
     HeaderSearch,
     MobileHamburgerIcon,
     PhoneInfo,
-    ConsultationIcon
+    ConsultationIcon,
   },
   mixins: [CurrentPage],
   data () {
@@ -237,7 +237,7 @@ header {
 }
 
 .header-wrap {
-  margin-bottom: 18px;
+  margin-bottom: 16px;
 }
 
 .minimal {
@@ -268,6 +268,9 @@ header {
   align-items: center;
   height: 67px;
   justify-content: center;
+  @media (max-width : 575px){
+    padding-right: 6px !important;
+  }
 }
 
 .header {
@@ -624,7 +627,7 @@ a.underline:after, a:not(.no-underline):hover:after {
 
 @media (max-width: 768px) {
   header {
-    overflow: auto;
+    //overflow: auto;
   }
 
   .header-top {
@@ -766,6 +769,29 @@ a.underline:after, a:not(.no-underline):hover:after {
   to {
     opacity: 1;
     transform: translateY(0) translateX(-50%);
+  }
+}
+.xs-show{
+  @media (min-width : 576px){
+    display: none !important;
+  }
+}
+.xs-hide{
+  @media (max-width : 575px){
+    display: none !important;
+  }
+}
+.header-top{
+  .phone-wrap{
+    @media (min-width : 576px){
+      display: none;
+    }
+    padding: 8px;
+    border-radius: 4px;
+    box-sizing: border-box;
+    height: 40px;
+    width: 40px;
+    position: relative;
   }
 }
 </style>

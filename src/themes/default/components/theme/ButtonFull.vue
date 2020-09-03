@@ -51,7 +51,11 @@ export default {
 </script>
 
 <style lang='scss' scoped>
+$hover : #20af1d;
+$focus : #1fa71c;
+$active : #1d9f1b;
 .button-full {
+  transition: ease-in 0.2s;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -60,7 +64,7 @@ export default {
   padding: 0 5px;
   width: 100%;
   border-style: none;
-  background: #23be20;
+  background-color: #23be20;
   color: #ffffff;
   max-width: 260px;
   font-family: DIN Pro;
@@ -68,20 +72,16 @@ export default {
   font-weight: 600;
   line-height: 16px;
   border-radius: 4px;
-  transition: .2s ease-in-out;
-
-  &:hover {
-    background-color: #20af1d;
+  &:hover{
+      background-color : $hover;
   }
-
-  &:focus {
-    outline: none;
+  &:focus{
+      background-color : $focus;
+      outline: none;
   }
-
-  &:active {
-    background-color: #1da01b;
+  &:active{
+      background-color : $active;
   }
-
   &:disabled {
     background-color: #abe6aa;
     color: #828282;
