@@ -20,6 +20,19 @@ export default {
       ordersData: []
     }
   },
+  created(){
+    function isEdge () {
+      return window.navigator.userAgent.indexOf('Edge') > -1 
+    }
+
+    if (isEdge) {
+      Array.prototype.flat = function () {
+        return this.reduce(function (flat, toFlatten) {
+          return flat.concat(Array.isArray(toFlatten) ? toFlatten.flat() : toFlatten);
+        }, []);
+      }
+    }
+  },
   computed: {
     ...mapState({
       overlayActive: state => state.ui.overlay
