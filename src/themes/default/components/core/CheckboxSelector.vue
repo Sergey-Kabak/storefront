@@ -27,7 +27,10 @@ export default {
         opacity: 1;
       }
       span.checkbox{
-        border-color : #5F5E5E;
+        border-color : #cecece;
+      }
+      span.checkbox.active{
+        background-color: #20af1d;
       }
     }
     cursor: pointer;
