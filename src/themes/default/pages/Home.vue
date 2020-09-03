@@ -1,18 +1,18 @@
 <template>
   <div id="home">
-    <section class="container px15">
+    <section class="container p0">
       <no-ssr>
         <home-carousel />
       </no-ssr>
     </section>
     <!--<head-image />-->
 
-    <section class="container px15 offer-gallery">
+    <section class="container offer-gallery content-box">
       <div class="gallery-title">
         {{ $t('Popular categories') }}
       </div>
-      <div class="banner-group">
-        <div class="col-md-4 col-xs-6 mt15">
+      <div class="banner-group row">
+        <div class="col-md-4 col-xs-6 mt20">
           <div class="banner">
             <div class="text">
               <div class="title">{{getCategoryData(0) && $t(getCategoryData(0).title)}}</div>
@@ -24,7 +24,7 @@
             <router-link class="custom-category-link" :to="categoryLink(0)" />
           </div>
         </div>
-        <div class="col-md-4 col-xs-6 mt15">
+        <div class="col-md-4 col-xs-6 mt20">
           <div class="banner">
             <div class="text">
               <div class="title">{{getCategoryData(1) && $t(getCategoryData(1).title)}}</div>
@@ -36,7 +36,7 @@
             <router-link class="custom-category-link" :to="categoryLink(1)" />
           </div>
         </div>
-        <div class="col-md-4 col-xs-6 mt15">
+        <div class="col-md-4 col-xs-6 mt20">
           <div class="banner">
             <div class="text">
               <div class="title">{{getCategoryData(2) && $t(getCategoryData(2).title)}}</div>
@@ -48,7 +48,7 @@
             <router-link class="custom-category-link" :to="categoryLink(2)" />
           </div>
         </div>
-        <div class="col-md-6 col-xs-6 mt15">
+        <div class="col-md-6 col-xs-6 mt20">
           <div class="banner">
             <div class="text">
               <div class="title">{{getCategoryData(3) && $t(getCategoryData(3).title)}}</div>
@@ -60,7 +60,7 @@
             <router-link class="custom-category-link" :to="categoryLink(3)" />
           </div>
         </div>
-        <div class="col-md-6 col-xs-12 mt15">
+        <div class="col-md-6 col-xs-12 mt20">
           <div class="banner">
             <div class="text">
               <div class="title">{{getCategoryData(4) && $t(getCategoryData(4).title)}}</div>
@@ -77,7 +77,7 @@
     <!--<head-image />-->
     <!--<promoted-offers />-->
 
-    <section class="container px15">
+    <section class="container ">
       <div>
         <header class="col-md-12">
           <h2 class="cl-accent">
@@ -101,7 +101,7 @@
       </div>
     </section>
 
-    <section class="container px15">
+    <section class="container ">
       <div>
         <header class="col-md-12">
           <h2 class="cl-accent">
@@ -126,13 +126,13 @@
       </div>
     </section>
 
-    <section class="container px15 pb60">
+    <section class="container  pb60">
       <div class="banner">
         <img src="https://info.ringoo.ua/images/mag/main_baner.png" alt="banner">
       </div>
     </section>
 
-    <section v-if="isOnline" class="container pb60 px15">
+    <section v-if="isOnline" class="container pb60 ">
       <div class="row">
         <header class="col-md-12">
           <h2 class="cl-accent">
@@ -140,14 +140,14 @@
           </h2>
         </header>
       </div>
-      <section class="container px15">
+      <section class="container ">
         <no-ssr>
           <home-carousel />
         </no-ssr>
       </section>
     </section>
 
-    <section class="container px15">
+    <section class="container ">
       <div>
         <header class="col-md-12">
           <h2 class="cl-accent">
@@ -171,7 +171,7 @@
       </div>
     </section>
 
-    <section class="container px15">
+    <section class="container ">
       <div>
         <header class="col-md-12">
           <h2 class="cl-accent">
@@ -358,6 +358,11 @@ export default {
 </script>
 
 <style lang="sass">
+  .offer-gallery
+    .row
+      margin: -20px -10px 0
+      [class*="col-"]
+        padding: 0 10px
   .mr75
     margin-right: 75px
   #home
@@ -367,6 +372,7 @@ export default {
       line-height: 30px
       color: #1A1919
     .show-all
+      min-width: 233px
       margin: 32px 0 68px
       width: auto
       background-color: transparent
@@ -406,7 +412,7 @@ export default {
       flex-wrap: wrap
       & > div
         &:nth-child(even) .banner
-          background: #ecf4dd
+          background: #E4F9E4
         &:last-child .banner
           @media (max-width: 767px)
             height: 135px
