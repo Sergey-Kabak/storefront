@@ -82,7 +82,6 @@ export default {
     img {
       width: 100% !important;
       margin: 0 auto;
-      max-width: 260px;
       max-height: 434px;
       height: auto!important;
     }
@@ -90,10 +89,6 @@ export default {
 
   @media (max-width: 768px) {
     ::v-deep .home-carousel {
-      img {
-        max-width: 288px;
-      }
-  
       .VueCarousel-dot-container {
         margin-top: 16px!important;
       }

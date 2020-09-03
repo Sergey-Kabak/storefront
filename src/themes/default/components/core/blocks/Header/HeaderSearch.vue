@@ -120,11 +120,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-	.header-search {
-		overflow: auto;
-		max-height: 100vh;
-	}
-
 	.search-input-group {
 		position: relative;
 		height: 100%;

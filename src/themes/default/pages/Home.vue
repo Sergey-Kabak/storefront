@@ -24,7 +24,7 @@
     <!--<head-image />-->
     <!--<promoted-offers />-->
 
-    <section class="container ">
+    <section class="v-container ">
       <div>
         <header class="col-md-12">
           <h2 class="cl-accent">
@@ -32,7 +32,7 @@
           </h2>
         </header>
       </div>
-      <div class="row center-xs">
+      <div class="center-xs">
         <lazy-hydrate :trigger-hydration="!loading" v-if="isLazyHydrateEnabled">
           <product-listing columns="4" :products="getStockGoods" />
         </lazy-hydrate>
@@ -48,15 +48,13 @@
       </div>
     </section>
 
-    <section class="container ">
-      <div>
-        <header class="col-md-12">
-          <h2 class="cl-accent">
-            {{ $t('Sales leaders') }}
-          </h2>
-        </header>
-      </div>
-      <div class="row center-xs">
+    <section class="v-container ">
+      <header class="col-md-12">
+        <h2 class="cl-accent">
+          {{ $t('Sales leaders') }}
+        </h2>
+      </header>
+      <div class="center-xs">
         <lazy-hydrate :trigger-hydration="!loading" v-if="isLazyHydrateEnabled">
           <product-listing columns="4" :products="getSalesLeaders" />
           <!--<product-listing columns="4" :products="products" />-->
@@ -73,28 +71,26 @@
       </div>
     </section>
 
-    <section class="container  pb60">
+    <section class="v-container  pb60">
       <div class="banner">
         <img src="https://info.ringoo.ua/images/mag/main_baner.png" alt="banner">
       </div>
     </section>
 
-    <section v-if="isOnline" class="container pb60 ">
-      <div class="row">
-        <header class="col-md-12">
-          <h2 class="cl-accent">
-            {{ $t('Our shares') }}
-          </h2>
-        </header>
-      </div>
-      <section class="container ">
+    <section v-if="isOnline" class="v-container pb60 ">
+      <header class="col-md-12">
+        <h2 class="cl-accent">
+          {{ $t('Our shares') }}
+        </h2>
+      </header>
+      <section>
         <no-ssr>
           <home-carousel />
         </no-ssr>
       </section>
     </section>
 
-    <section class="container ">
+    <section class="v-container ">
       <div>
         <header class="col-md-12">
           <h2 class="cl-accent">
@@ -102,7 +98,7 @@
           </h2>
         </header>
       </div>
-      <div class="row center-xs">
+      <div class="center-xs">
         <lazy-hydrate :trigger-hydration="!loading" v-if="isLazyHydrateEnabled">
           <product-listing columns="4" :products="getNew" />
         </lazy-hydrate>
@@ -118,7 +114,7 @@
       </div>
     </section>
 
-    <section class="container ">
+    <section class="v-container ">
       <div>
         <header class="col-md-12">
           <h2 class="cl-accent">
@@ -126,7 +122,7 @@
           </h2>
         </header>
       </div>
-      <div class="row center-xs">
+      <div class="center-xs">
         <lazy-hydrate :trigger-hydration="!loading" v-if="isLazyHydrateEnabled">
           <!--<product-listing columns="4" :products="getBestsellers" />-->
           <product-listing columns="4" :products="getRecommends" />
@@ -311,7 +307,7 @@ export default {
       color: #1A1919
     .show-all
       min-width: 233px
-      margin: 32px 0 68px
+      margin: 32px auto 68px auto
       width: auto
       background-color: transparent
       border: 1px solid #23BE20
@@ -354,8 +350,8 @@ export default {
 </style>
 
 <style lang="scss" scoped>
-  ::v-deep .product-listing {
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr))!important;
+  .v-container {
+    width: 90%;
   }
 
   .banner-group {
@@ -445,11 +441,6 @@ export default {
   }
 
   @media (max-width: 768px) {
-    .offer-gallery {
-      &.v-container {
-        width: 90%;
-      }
-    }
     .gallery-title {
       margin: 48px 0px 24px 0px;
     }
@@ -498,6 +489,13 @@ export default {
           .image {
             max-width: 120px;
           }
+        }
+      }
+
+      #home {
+        .show-all {
+          max-width: 100%;
+          width: 100%;
         }
       }
     }
