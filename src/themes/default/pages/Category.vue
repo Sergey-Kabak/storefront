@@ -386,6 +386,19 @@ $mobile_screen : 768px;
     display: none;
     overflow: auto;
     padding: 0;
+    /deep/ .filter{
+      &:last-child{
+        .filter-body{
+          border:none;
+          .price-selector{
+            margin-bottom: 0;
+            .inputs{
+              margin-bottom: 0;
+            }
+          }
+        }
+      }
+    }
   }
 
   .mobile-filters-button {
@@ -500,7 +513,7 @@ $mobile_screen : 768px;
     .mobile-filters {
       .filter-overlay{
         &.hasFilters{
-          padding-bottom: 110px;
+          padding-bottom: 123px;
         }
         min-height: 100vh;
         padding: 17px 16px 16px;

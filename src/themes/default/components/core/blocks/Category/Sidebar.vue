@@ -293,8 +293,8 @@ $mobile_screen : 767px;
     flex-wrap: wrap;
     margin-bottom: 11px;
     @media (max-width : $mobile_screen){
-      margin-top: 25px;
-      margin-bottom: -15px;
+      margin-top: 16px;
+      margin-bottom: -7px;
     }
   }
 
