@@ -41,8 +41,7 @@
             </div>
             <div class="shipping-data">
               <div class="text">
-                {{ `${shippingDetails.city}, ${shippingDetails.shopName ? shippingDetails.shopName : ''},
-                ${$t('st.')} ${shippingDetails.streetAddress}, ${shippingDetails.apartmentNumber}` }}
+                {{ shippingDetails.streetAddress }}
               </div>
             </div>
           </div>

@@ -10,7 +10,7 @@
         <div class="number align-center">1</div>
       </div>
       <div class="text d-flex align-items-center w-100">
-        <span class="shipping-title">Доставка в</span>
+        <span class="shipping-title">{{ $t('Delivery to') }}</span>
         <div class="picked-city" @click="onShowModal">
           <span>{{ city }}</span>
           <svg width="8" height="5" viewBox="0 0 8 5" xmlns="http://www.w3.org/2000/svg">
@@ -235,7 +235,7 @@ export default {
         margin-right: 16px
         .material-icons
           color: #23BE20
-        svg 
+        svg
           fill: #BDBDBD
       .text
         p

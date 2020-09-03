@@ -1,8 +1,8 @@
 <template>
   <div class="custom-shipping">
     <div class="shipping-show-types" v-if="['shop'].includes(type)">
-      <div class="btn" :class="{active: trigger}" @click="trigger = true">Списком</div>
-      <div class="btn" :class="{active: !trigger}" @click="trigger = false">На карте</div>
+      <div class="btn" :class="{active: trigger}" @click="trigger = true">{{ $t('List') }}</div>
+      <div class="btn" :class="{active: !trigger}" @click="trigger = false">{{ $t('On map') }}</div>
     </div>
     <no-ssr>
       <div class="shipping-types">
@@ -28,7 +28,7 @@
           </template>
         </div>
         <div class="currier-form" v-if="type === 'currier'">
-          <div class="label">Адрес доставки<i>*</i></div>
+          <div class="label">{{ $t('Delivery address') }}<i>*</i></div>
           <div class="currier-form__wrapper">
             <base-input
               class="custom-input custom-input-street"
@@ -93,7 +93,6 @@
 <script>
 import CustomLoader from 'theme/components/core/CustomLoader.vue'
 import LocationList from 'src/modules/locations/locations-list'
-import MobileLocationList from 'src/modules/locations/mobile-location-list'
 import GoogleMap from 'src/modules/google-map/google-map'
 import NoSSR from 'vue-no-ssr'
 import CustomShippingMixin from 'src/modules/custom-shipping/mixin'
@@ -109,7 +108,6 @@ export default {
   mixins: [CustomShippingMixin],
   components: {
     LocationList,
-    MobileLocationList,
     GoogleMap,
     'no-ssr': NoSSR,
     BaseInput,
