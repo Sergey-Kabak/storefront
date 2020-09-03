@@ -1,5 +1,5 @@
 <template>
-  <div class="product-listing" :style="{'grid-template-columns': `repeat(${columns}, 1fr)`}">
+  <div class="product-listing">
     <product-tile
       v-for="(product, key) in products"
       :key="key"

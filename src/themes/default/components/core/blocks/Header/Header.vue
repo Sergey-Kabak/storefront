@@ -139,7 +139,8 @@ export default {
       navVisible: true,
       isScrolling: false,
       scrollTop: 0,
-      lastScrollTop: 0
+      lastScrollTop: 0,
+      headerHeight: 104
     }
   },
   computed: {
@@ -187,7 +188,8 @@ export default {
     hasScrolled () {
       this.scrollTop = window.scrollY
       if (
-        this.scrollTop > this.lastScrollTop
+        this.scrollTop > this.lastScrollTop &&
+        this.scrollTop > this.headerHeight
       ) {
         this.navVisible = false
       } else {

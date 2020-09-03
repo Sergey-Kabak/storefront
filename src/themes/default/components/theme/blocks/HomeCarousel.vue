@@ -29,7 +29,7 @@ import config from 'config'
 
 export default {
   data: () => ({
-    slidesPerPage: [[320, 1], [420, 2], [600, 3], [900, 4], [1200, 5]]
+    slidesPerPage: [[320, 1], [350, 2], [600, 3], [900, 4], [1200, 5]]
   }),
   components: {
     'Carousel': () => import('vue-carousel').then(Slider => Slider.Carousel),
