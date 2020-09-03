@@ -143,9 +143,7 @@ export default {
 
 <style lang="scss" scoped>
 .shop {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-gap: 77px;
+  display: flex;
 }
 
 .button-full {
@@ -154,10 +152,11 @@ export default {
 
 .listing {
   width: 100%;
-  margin-right: 77px;
+  margin-right: 76px;
 }
 
 .google-map {
+  max-width: 596px;
   width: 100%;
 }
 

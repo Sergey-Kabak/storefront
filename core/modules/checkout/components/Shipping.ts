@@ -116,7 +116,7 @@ export const Shipping = {
         region_id: 0,
         zipCode: location.zipcode || '69068',
         phoneNumber: '',
-        shopName: `Нова Пошта ${location.name}`,
+        shopName: location.number ? `Нова Пошта ${location.name}` : location.name,
         isNewPost: !!location.number,
         location
       }
