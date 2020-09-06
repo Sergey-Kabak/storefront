@@ -287,7 +287,7 @@ import {
 } from '@vue-storefront/core/helpers';
 import { catalogHooksExecutors } from '@vue-storefront/core/modules/catalog-next/hooks';
 import ProductPrice from 'theme/components/core/ProductPrice.vue';
-import Promo from "../components/core/blocks/Product/Promo";
+// import Promo from "../components/core/blocks/Product/Promo";
 
 import Promo from 'theme/components/core/blocks/Product/Promo.vue'
 import ButtonWhite from 'theme/components/core/blocks/Product/ButtonWhite.vue'
