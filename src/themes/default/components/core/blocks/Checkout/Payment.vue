@@ -1,20 +1,20 @@
 <template>
   <div class="payment">
-    <div class="subtitle" v-if="!activeSection.personalDetails" >
-      <div class="number-block" :class="{ 'checked': !activeSection.payment }">
+    <div class="checkout-subtitle" v-if="!activeSection.personalDetails" >
+      <div class="checkout-number-block" :class="{ 'checked': !activeSection.payment }">
         <div class="number align-center" v-if="activeSection.payment || activeSection.personalDetails">3</div>
         <img src='/assets/custom/Check.svg' v-else alt="correct">
       </div>
-      <div class="subtitle-text">{{ $t('the Payment') }}:</div>
+      <div class="checkout-subtitle-text">{{ $t('the Payment') }}:</div>
       <div class="lh30 flex end-lg ml-auto" v-if="activeSection.orderReview">
         <span class="edit" @click.prevent="$bus.$emit('checkout-before-edit', 'payment')">{{ $t('Edit') }}</span>
       </div>
     </div>
-    <div class="subtitle disabled" v-else>
-      <div class="number-block">
+    <div class="checkout-subtitle disabled" v-else>
+      <div class="checkout-number-block">
         <div class="number align-center">3</div>
       </div>
-      <div class="subtitle-text">{{ $t('the Payment') }}:</div>
+      <div class="checkout-subtitle-text">{{ $t('the Payment') }}:</div>
     </div>
     <div v-if="isActive && activeSection.payment" class="payment-body">
       <div class="label">
@@ -167,11 +167,11 @@
       <span class="validation-error" v-if="!$v.payment.paymentMethod.required">{{ $t('Field is required') }}</span>
     </div>
     <div class="mobile-data" v-show="isActive">
-      <promo-code class="promo-code"/>
-      <div class="summary-price">
-        <span>{{ $t('Grand total') }}:</span>
-        {{ totalPrice | price(storeView) }}
-      </div>
+      <promo-code
+        class="promo-code"
+        :isActive.sync="isShowPromocode"
+      />
+      <total-price />
     </div>
     <div class="bottom-block" v-show="isActive">
       <LiqPay class="button-pay" v-if="payment.paymentMethod === 'liqpaymagento_liqpay'" />
@@ -207,6 +207,7 @@ import BaseSelect from 'theme/components/core/blocks/Form/BaseSelect';
 import ButtonFull from 'theme/components/theme/ButtonFull';
 import Tooltip from 'theme/components/core/Tooltip';
 import LiqPay from 'src/modules/payment-liqpay/components/Liqpay';
+import TotalPrice from 'theme/components/core/TotalPrice';
 
 export default {
   props: {
@@ -223,20 +224,20 @@ export default {
     ButtonFull,
     Tooltip,
     LiqPay,
-    PromoCode
+    PromoCode,
+    TotalPrice
   },
   mixins: [Payment],
+  data: () => ({
+    isShowPromocode: false,
+    payment_system: 'cashondelivery',
+  }),
   watch: {
     'payment.paymentMethods': {
       handler: function (after, before) {
         this.sendDataToCheckout()
       },
       deep: true
-    }
-  },
-  data () {
-    return {
-      'payment_system': 'cashondelivery'
     }
   },
   mounted() {},
@@ -391,14 +392,6 @@ export default {
     font-size: 24px;
     line-height: 30px;
     color: #1a1919;
-  }
-
-  .number-block {
-    &.disabled {
-      margin-bottom: 0;
-      opacity: .5;
-      background-color: #ffffff;
-    }
   }
 
   .payment-methods {

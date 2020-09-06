@@ -36,7 +36,7 @@
           </div>
           <div class="col-xs-12 col-md-5 data">
 
-            <promo/>
+            <Promo v-if="isProductRma" :label-value="getLabelValue()" />
 
             <div
               class="product-in-stock hidden-xs block"
@@ -287,6 +287,7 @@ import {
 } from '@vue-storefront/core/helpers';
 import { catalogHooksExecutors } from '@vue-storefront/core/modules/catalog-next/hooks';
 import ProductPrice from 'theme/components/core/ProductPrice.vue';
+import Promo from "../components/core/blocks/Product/Promo";
 
 import Promo from 'theme/components/core/blocks/Product/Promo.vue'
 import ButtonWhite from 'theme/components/core/blocks/Product/ButtonWhite.vue'
@@ -346,6 +347,9 @@ export default {
       attributesByCode: 'attribute/attributeListByCode',
       getCurrentCustomOptions: 'product/getCurrentCustomOptions'
     }),
+    isProductRma() {
+      return this.getCurrentProduct.hasOwnProperty("rma")
+    },
     getOptionLabel () {
       return (option) => {
         const configName = option.attribute_code ? option.attribute_code : option.label.toLowerCase()
@@ -431,6 +435,19 @@ export default {
     }
   },
   methods: {
+    getLabelValue() {
+
+      let attributes = this.getCurrentProduct.attributes_metadata;
+      let attribute = attributes.find((attr) => {
+        return attr.attribute_code === "rma"
+      });
+
+      if (!attribute.options.length > 0) {
+        return false;
+      }
+
+      return attribute.options[0].label;
+    },
     async showModalCredits() {
       try {
         this.show_modal_credits_loading = true;

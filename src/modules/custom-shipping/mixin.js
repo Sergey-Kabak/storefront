@@ -50,7 +50,10 @@ export default {
       return !!(this.currierAddress.house && this.currierAddress.address && this.currierAddress.apartmentNumber && this.city);
     },
     cDroppoints () {
-      return this.np_number ? this.droppoints.filter(dp => dp.number === this.np_number) : this.droppoints;
+      if (parseInt(this.np_number)) {
+        return this.droppoints.filter(dp => dp.number === this.np_number)
+      }
+      return this.droppoints.filter(dp => dp.streetname.toLowerCase().match(this.np_number.toLowerCase()))
     }
   },
   beforeDestroy () {

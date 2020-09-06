@@ -29,7 +29,7 @@
     ],
     "invalidateCacheKey": "aeSu7aip",
     "invalidateCacheForwarding": false,
-    "invalidateCacheForwardUrl": "https://front.ringoo.ua/invalidate?key=aeSu7aip&tag=",
+    "invalidateCacheForwardUrl": "https://ringoo.ua/invalidate?key=aeSu7aip&tag=",
     "dynamicConfigReload": true,
     "dynamicConfigContinueOnError": false,
     "dynamicConfigExclude": [
@@ -124,7 +124,7 @@
     "port": 8080
   },
   "api": {
-    "url": "https://front.ringoo.ua"
+    "url": "https://ringoo.ua"
   },
   "liqpay": {
     "public_key": "sandbox_i33827525821",
@@ -135,7 +135,7 @@
   },
   "elasticsearch": {
     "httpAuth": "",
-    "host": "https://front.ringoo.ua/api/catalog",
+    "host": "https://ringoo.ua/api/catalog",
     "index": "vue_storefront_catalog",
     "min_score": 0.02,
     "csrTimeout": 5000,
@@ -334,6 +334,7 @@
     "productList": {
       "sort": "updated_at:desc",
       "includeFields": [
+        "rma",
         "activity",
         "configurable_children.attributes",
         "configurable_children.id",
@@ -403,6 +404,7 @@
     },
     "productListWithChildren": {
       "includeFields": [
+        "rma",
         "activity",
         "configurable_children.attributes",
         "configurable_children.image",
@@ -510,6 +512,7 @@
       "includeFields": null,
       "useDynamicAttributeLoader": true,
       "standardSystemFields": [
+        "rma",
         "category",
         "category_ids",
         "color_options",
@@ -646,8 +649,6 @@
     "setupVariantByAttributeCode": true,
     "endpoint": "/api/product",
     "defaultFilters": [
-      "color",
-      "price",
       "manufacturer",
       "dyagonal_ekrana",
       "obem_vstroennoj_pamyaty",
@@ -661,7 +662,9 @@
       "material_korpusu",
       "operatsyonnaya_systema",
       "price",
-      "brand"
+      "brand",
+      "color",
+      "price"
     ],
     "systemFilterNames": [
       "sort"
@@ -767,7 +770,7 @@
   },
   "images": {
     "useExactUrlsNoProxy": false,
-    "baseUrl": "https://front.ringoo.ua/img/",
+    "baseUrl": "https://ringoo.ua/img/",
     "useSpecificImagePaths": false,
     "paths": {
       "product": "/catalog/product"
@@ -813,11 +816,11 @@
     ],
     "defaultLocale": "ua-UA",
     "currencyCode": "UAH",
-    "currencySign": "грн",
+    "currencySign": "₴",
     "currencyDecimal": "",
     "currencyGroup": "",
-    "fractionDigits": 2,
-    "priceFormat": "{amount}{sign}",
+    "fractionDigits": 0,
+    "priceFormat": "{amount} {sign}",
     "dateFormat": "HH:mm D/M/YYYY",
     "fullCountryName": "Ukraine",
     "fullLanguageName": "Ukraine",
@@ -1054,35 +1057,43 @@
   "sliderProduct": [
     {
       "url_path": "iphone-11-64gb.html?childSku=т29793",
-      "type_id": "configurable"
+      "type_id": "configurable",
+      "img": "https://info.ringoo.ua/images/slider/1.jpg"
     },
     {
       "url_path": "back-to-school",
-      "type_id": "configurable"
+      "type_id": "configurable",
+      "img": "https://info.ringoo.ua/images/slider/2.jpg"
     },
     {
       "url_path": "back-to-school",
-      "type_id": "configurable"
+      "type_id": "configurable",
+      "img": "https://info.ringoo.ua/images/slider/3.jpg"
     },
     {
       "url_path": "ditjachij-smart-godinnik-canyon-cne-kw51.html",
-      "type_id": "configurable"
+      "type_id": "configurable",
+      "img": "https://info.ringoo.ua/images/slider/4.jpg"
     },
     {
       "url_path": "samsung-a31-4-64gb-a315.html",
-      "type_id": "configurable"
+      "type_id": "configurable",
+      "img": "https://info.ringoo.ua/images/slider/5.jpg"
     },
     {
-      "url_path": "bezdrotovi-navushniki-xiaomi-airdots-black.html",
-      "type_id": "configurable"
+      "url_path": "fotoaparat-ditjachij-xoko-rabbit.html?childSku=т30134",
+      "type_id": "configurable",
+      "img": "https://info.ringoo.ua/images/slider/6.jpg"
     },
     {
       "url_path": "smart-godinnik-apple-watch-5-40mm.html",
-      "type_id": "configurable"
+      "type_id": "configurable",
+      "img": "https://info.ringoo.ua/images/slider/7.jpg"
     },
     {
       "url_path": "fitnes-braslet-mi-smart-band-5-black.html",
-      "type_id": "configurable"
+      "type_id": "configurable",
+      "img": "https://info.ringoo.ua/images/slider/8.jpg"
     }
   ],
   "customSeller": {
@@ -1103,6 +1114,14 @@
       "Вс: 11:00-17:00"
     ],
     "link": "/smartfoni-i-telefoni"
+  },
+  "rma": {
+    "1": {
+      "title": "Покупайте любой мобильный телефон Apple iPhone и получайте повербанк в подарок!",
+      "image_url": "https://ringoo.ua/img/600/744/resize/6/5/6571351_0_1.jpg",
+      "time": "2020-09-14 00:00:00",
+      "category_link": "/back-to-school"
+    }
   },
   "credit": {
     "bank_standart": {

@@ -15,9 +15,11 @@ import { customShipping } from 'theme/store/custom-shipping';
 import { promotedStore } from 'theme/store/promoted-offers';
 import { paymentStore } from 'theme/store/payment';
 import { StorageManager } from '@vue-storefront/core/lib/storage-manager';
+import vClickOutside from 'v-click-outside'
 
 once('__VUE_EXTEND_DROPPOINT_VPB__', () => {
   Vue.use(VueProgressBar)
+  Vue.use(vClickOutside)
 })
 
 const themeEntry = App

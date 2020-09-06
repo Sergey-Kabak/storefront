@@ -1,5 +1,5 @@
 <template>
-  <div class="header-wrap" :style="{ height: headerHeight + 'px' }">
+  <div class="header-wrap">
     <header
       ref="header"
       class="w-100"
@@ -35,14 +35,9 @@
             </svg>
             <div class="phone">
               <a href="tel:+380674666111">
-                +38 067 466 61 11
+                +38 073 090 87 07
               </a>
-              <div class="phone-tooltip" v-show="navVisible">
-                <span class="phone-tooltip-title">{{ $t('Consultation by telephone') }}</span>
-                <a class="phone-tooltip-number" href="tel:+380674666111">+38 067 466 61 11</a>
-                <span class="phone-tooltip-date">Пн-Пт: 9:00-18:00; Сб-Вс: {{ $t('Weekend') }}</span>
-                <span class="phone-tooltip-description">{{ $t('Free of charge from landlines and mobile phones in Ukraine') }}</span>
-              </div>
+              <phone-info v-show="navVisible"></phone-info>
             </div>
             <svg width="8" height="6" viewBox="0 0 8 6" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M0.94 0.726667L4 3.78L7.06 0.726667L8 1.66667L4 5.66667L0 1.66667L0.94 0.726667Z"/>
@@ -51,7 +46,7 @@
         </ul>
       </div>
       <div class="header-container-wrap border" v-if="!isCheckoutPage || isThankYouPage">
-        <div class="header-container header-top-container">
+        <div class="v-container header-top-container">
           <div class="header-top">
             <div class="header-left">
               <hamburger-icon class="icon menu" />
@@ -62,8 +57,9 @@
               <logo width="auto" class="logo"/>
             </div>
             <div class="header-right">
+              <consultation-icon class="icon icon-consultation xs-show" />
               <search-icon class="icon pointer icon-search" />
-              <compare-icon class="icon pointer icon-compare" />
+              <compare-icon class="icon pointer icon-compare xs-hide" />
               <microcart-icon class="icon pointer icon-microcart" />
               <wishlist-icon class="icon pointer icon-wishlist" />
               <account-icon class="icon pointer icon-account" />
@@ -78,32 +74,28 @@
           </div>
         </div>
       </div>
-      <div class="header-container-wrap border">
-        <div class="header-container minimal" v-if="isCheckoutPage && !isThankYouPage">
+      <div class="header-container-wrap border" v-if="isCheckoutPage && !isThankYouPage">
+        <div class="header-container checkout">
           <router-link
             :to="localizedRoute('/')"
-            class="cl-tertiary links"
+            class="return-to-shopping__link"
           >
+            <img src="/assets/custom/Back.svg" alt="back" class="return-to-shopping__icon">
             <span class="return-to-shopping__text">{{ $t('Return to shopping') }}</span>
-            <svg class="return-to-shopping__icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M13.293 17.707L7.58603 12L13.293 6.293L14.707 7.707L10.414 12L14.707 16.293L13.293 17.707Z" fill="#BDBDBD"/>
-            </svg>
           </router-link>
           <logo width="auto" height="41px" />
-          <div class="header-account">
-            <a
-              v-if="!currentUser"
-              href="#"
-              @click.prevent="gotoAccount"
-              class="cl-tertiary links"
-            >
-              <span class="account__text">{{ $t('Login to your account') }}</span>
-              <svg class="account__icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M12 2C6.579 2 2 6.579 2 12C2 15.189 3.592 18.078 6 19.924V20H6.102C7.77 21.245 9.813 22 12 22C14.187 22 16.23 21.245 17.898 20H18V19.924C20.408 18.078 22 15.19 22 12C22 6.579 17.421 2 12 2ZM8.074 18.927C8.22136 18.2604 8.59154 17.6639 9.12347 17.236C9.6554 16.808 10.3173 16.5742 11 16.573H13C13.6827 16.5744 14.3445 16.8083 14.8764 17.2362C15.4082 17.6641 15.7785 18.2605 15.926 18.927C14.758 19.604 13.416 20 12 20C10.584 20 9.242 19.604 8.074 18.927ZM17.61 17.641C17.2286 16.7329 16.5877 15.9574 15.7677 15.4117C14.9477 14.866 13.985 14.5742 13 14.573H11C10.015 14.5742 9.05227 14.866 8.23227 15.4117C7.41227 15.9574 6.77144 16.7329 6.39 17.641C4.923 16.182 4 14.176 4 12C4 7.663 7.663 4 12 4C16.337 4 20 7.663 20 12C20 14.176 19.077 16.182 17.61 17.641Z" fill="#828282"/>
-                <path d="M12 6C9.72 6 8 7.72 8 10C8 12.28 9.72 14 12 14C14.28 14 16 12.28 16 10C16 7.72 14.28 6 12 6ZM12 12C10.822 12 10 11.178 10 10C10 8.822 10.822 8 12 8C13.178 8 14 8.822 14 10C14 11.178 13.178 12 12 12Z" fill="#828282"/>
+          <div class="header-help">
+            <div class="header-help-desktop">
+              <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M3.54 2C3.6 2.89 3.75 3.76 3.99 4.59L2.79 5.79C2.38 4.59 2.12 3.32 2.03 2H3.54ZM13.4 14.02C14.25 14.26 15.12 14.41 16 14.47V15.96C14.68 15.87 13.41 15.61 12.2 15.21L13.4 14.02ZM4.5 0H1C0.45 0 0 0.45 0 1C0 10.39 7.61 18 17 18C17.55 18 18 17.55 18 17V13.51C18 12.96 17.55 12.51 17 12.51C15.76 12.51 14.55 12.31 13.43 11.94C13.33 11.9 13.22 11.89 13.12 11.89C12.86 11.89 12.61 11.99 12.41 12.18L10.21 14.38C7.38 12.93 5.06 10.62 3.62 7.79L5.82 5.59C6.1 5.31 6.18 4.92 6.07 4.57C5.7 3.45 5.5 2.25 5.5 1C5.5 0.45 5.05 0 4.5 0Z" fill="#787878" />
               </svg>
-            </a>
-            <span v-else>{{ $t('You are logged in as {firstname}', currentUser) }}</span>
+              <span class="header-help-text">{{ $t('Need help?') }}</span>
+              <phone-info v-show="navVisible"></phone-info>
+            </div>
+            <div class="header-help-mobile">
+              <microcart-icon class="icon pointer icon-microcart" />
+              <consultation-icon class="icon icon-consultation" />
+            </div>
           </div>
         </div>
       </div>
@@ -124,7 +116,8 @@ import SearchIcon from 'theme/components/core/blocks/Header/SearchIcon';
 import WishlistIcon from 'theme/components/core/blocks/Header/WishlistIcon';
 import HeaderSearch from 'theme/components/core/blocks/Header/HeaderSearch';
 import MobileHamburgerIcon from 'theme/components/core/blocks/Header/MobileHamburgerIcon';
-
+import PhoneInfo from 'theme/components/core/PhoneInfo';
+import ConsultationIcon from 'theme/components/core/blocks/Header/ConsultationIcon';
 export default {
   name: 'Header',
   components: {
@@ -136,7 +129,9 @@ export default {
     SearchIcon,
     WishlistIcon,
     HeaderSearch,
-    MobileHamburgerIcon
+    MobileHamburgerIcon,
+    PhoneInfo,
+    ConsultationIcon,
   },
   mixins: [CurrentPage],
   data () {
@@ -145,14 +140,7 @@ export default {
       isScrolling: false,
       scrollTop: 0,
       lastScrollTop: 0,
-      headerHeight: null
-    }
-  },
-  watch:{
-    $route (){
-      this.$nextTick(() => {
-        this.headerHeight = this.$refs.header.clientHeight
-      })
+      headerHeight: 104
     }
   },
   computed: {
@@ -188,7 +176,6 @@ export default {
     }, 250)
   },
   mounted: function() {
-    this.headerHeight = this.$refs.header.clientHeight
     window.addEventListener('resize', this.onResize)
   },
   beforeDestroy() {
@@ -211,7 +198,7 @@ export default {
       this.lastScrollTop = this.scrollTop
     },
     onResize() {
-      if (window.innerWidth >= 767 && this.mobileSearch) {
+      if (window.innerWidth >= 768 && this.mobileSearch) {
         this.$store.commit('ui/setOverlay', false)
         this.$store.commit('ui/setMobileSearch', false)
       }
@@ -242,25 +229,30 @@ header {
 }
 
 .header-wrap {
-  margin-bottom: 18px;
+  height: 97px;
+  margin-bottom: 16px;
+}
+
+.minimal {
+  height: 67px;
+}
+
+.return-to-shopping {
+  &__text {
+    font-family: DIN Pro;
+    font-style: normal;
+    font-size: 15px;
+    line-height: 24px;
+    display: block;
+    color: #5F5E5E;
+  }
+  &__icon {
+    margin-right: 20px;
+  }
 }
 
 .header-black-line {
   display: block;
-}
-
-.header-container {
-  max-width: 1324px;
-  width: 95%;
-  height: 100%;
-  margin: auto;
-  box-sizing: border-box;
-
-  &.minimal {
-    display: flex;
-    align-items: center;
-    height: 67px;
-  }
 }
 
 .header-top {
@@ -269,6 +261,9 @@ header {
   align-items: center;
   height: 67px;
   justify-content: center;
+  @media (max-width : 575px){
+    padding-right: 6px !important;
+  }
 }
 
 .header {
@@ -348,6 +343,10 @@ header {
   .logo {
     height: 41px;
     margin-top: 7px;
+
+    img {
+      width: 100%;
+    }
   }
 }
 
@@ -476,6 +475,10 @@ header {
       animation: slideDown .2s ease-in-out;
     }
   }
+
+  .phone-tooltip {
+    transform: translateX(-50%);
+  }
 }
 
 .phone {
@@ -496,7 +499,6 @@ header {
   flex-direction: column;
   top: calc(100% + 10px);
   left: 50%;
-  transform: translateX(-50%);
   background: #fff;
   border-radius: 4px;
   box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.3);
@@ -507,35 +509,6 @@ header {
     height: 10px;
     position: absolute;
     width: 100%;
-  }
-
-  &-title {
-    font-size: 18px;
-    line-height: 20px;
-    color: #1A1919;
-    margin-bottom: 16px;
-  }
-
-  &-number {
-    width: fit-content;
-    color: #23BE20!important;
-    font-size: 15px;
-    margin-bottom: 16px;
-    text-decoration: none;
-
-    &:after {
-      content: none;
-    }
-  }
-
-  &-date {
-    font-size: 14px;
-    color: #5F5E5E;
-    margin-bottom: 12px;
-  }
-
-  &-description {
-    color: rgba(95, 94, 94, 0.6);
   }
 }
 
@@ -550,20 +523,32 @@ header {
 .header-placeholder {
   height: 54px;
 }
-.links {
-  text-decoration: underline;
-}
+
 .return-to-shopping {
   &__text {
     font-family: DIN Pro;
     font-style: normal;
     font-size: 15px;
-    line-height: 24px;
+    line-height: 25px;
     display: block;
     color: #5F5E5E;
+    transition: .2s ease-in-out;
+
+    &:hover {
+      color: #1A1919;
+    }
   }
+
+  &__link {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    width: fit-content;
+  }
+
   &__icon {
-    display: none;
+    margin-right: 12px;
+    width: 10px;
   }
 }
 .account {
@@ -575,21 +560,75 @@ header {
   }
 }
 
-.header-account {
-  text-align: right;
-}
-
 .header-bottom {
   display: none;
 }
 
-@media (max-width: 767px) {
-  header {
-    overflow: auto;
+.header-container {
+  box-sizing: border-box;
+  &.checkout {
+    height: 56px;
+    display: grid;
+    align-items: center;
+    grid-template-columns: 1fr 1fr 1fr;
+    width: 95%;
+    max-width: 1324px;
+    margin: auto;
+  }
+}
+
+.header-help {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  height: 100%;
+
+  svg {
+    margin-right: 15px;
+  }
+
+  &-text {
+    font-family: DIN Pro;
+    font-style: normal;
+    font-size: 15px;
+    line-height: 24px;
+    color: #1A1919;
+  }
+
+  &-desktop {
+    position: relative;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+
+    &:hover {
+      .phone-tooltip {
+        display: flex;
+        animation: slide .2s ease-in-out;
+        left: auto;
+        right: 0;
+        transform: none;
+      }
+    }
+  }
+}
+
+.header-help-mobile {
+  display: none;
+}
+
+a.underline:after, a:not(.no-underline):hover:after {
+  content: none;
+}
+
+@media (max-width: 768px) {
+  .header-wrap {
+    height: 104px;
   }
 
   .header-top {
-    padding: 0 18px;
+    padding: 0 16px;
   }
 
   .header-black-line {
@@ -602,6 +641,10 @@ header {
 
   .header-container {
     width: 100%;
+
+    .checkout {
+      width: 100%;
+    }
   }
 
   .custom-menu__button {
@@ -629,7 +672,8 @@ header {
 
   .header-middle {
     .logo {
-      height: 35px;
+      height: 36px;
+      width: 80px;
     }
   }
 
@@ -637,13 +681,50 @@ header {
     height: 56px;
   }
 
+  .header-wrap {
+    margin-bottom: 15px;
+  }
+
   .header-container-wrap {
     &.border {
       border-bottom: 1px solid #e0e0e0;
       box-shadow: none;
+    }
+  }
+  .header-help-desktop {
+    display: none;
+  }
 
-      &:last-child {
-        border-bottom: none;
+  .header-help-mobile {
+    display: flex;
+    align-items: center;
+
+    .icon-consultation {
+      cursor: pointer;
+    }
+
+    .icon-microcart {
+      margin-right: 16px;
+    }
+  }
+
+  .return-to-shopping {
+    &__text {
+      line-height: 16px;
+      font-size: 13px;
+    }
+
+    &__icon {
+      margin-right: 10px;
+    }
+  }
+
+  .header-container {
+    &.checkout {
+      width: 100%;
+      padding: 0 16px;
+      .custom-logo {
+        margin: 10px auto 0px auto;
       }
     }
   }
@@ -667,9 +748,15 @@ header {
     }
   }
 }
-
-a.underline:after, a:not(.no-underline):hover:after {
-  content: none;
+@keyframes slide {
+  from {
+    opacity: .7;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 @keyframes slideDown {
@@ -680,6 +767,29 @@ a.underline:after, a:not(.no-underline):hover:after {
   to {
     opacity: 1;
     transform: translateY(0) translateX(-50%);
+  }
+}
+.xs-show{
+  @media (min-width : 576px){
+    display: none !important;
+  }
+}
+.xs-hide{
+  @media (max-width : 575px){
+    display: none !important;
+  }
+}
+.header-top{
+  .phone-wrap{
+    @media (min-width : 576px){
+      display: none;
+    }
+    padding: 8px;
+    border-radius: 4px;
+    box-sizing: border-box;
+    height: 40px;
+    width: 40px;
+    position: relative;
   }
 }
 </style>

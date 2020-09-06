@@ -50,44 +50,52 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-    @import '~theme/css/base/text';
-    @import '~theme/css/variables/colors';
-    @import '~theme/css/helpers/functions/color';
-    $color-tertiary: color(tertiary);
-    .sort-by {
-        display: inline-flex;
-        position: relative;
-        background: #FFFFFF;
-        border: 1px solid #E0E0E0;
-        box-sizing: border-box;
-        border-radius: 4px;
-        padding: 0 6px;
-        select {
-            @extend .h4;
-            font-size: 14px;
-            border: none;
-            width: 100%;
-            border-radius: 0;
-            background-color: transparent;
-            margin-right: 0;
-            font-family: DIN Pro;
-            line-height: 16px;
-            color: #1A1919;
-            &:focus {
-                outline: none;
-            }
-        }
-        &__icon {
-            position: absolute;
-            right: 0;
-            top: 50%;
-            transform: translateY(-50%);
-            cursor: pointer;
-        }
-    }
-    @media (max-width: 770px) {
-      .sort-by {
-        width: 100%;
+  @import '~theme/css/base/text';
+  @import '~theme/css/variables/colors';
+  @import '~theme/css/helpers/functions/color';
+  $color-tertiary: color(tertiary);
+  .sort-by {
+    display: flex;
+    align-items: baseline;
+    position: relative;
+    background: #FFFFFF;
+    border: 1px solid #E0E0E0;
+    box-sizing: border-box;
+    border-radius: 4px;
+    padding: 0 17px;
+    height: 40px;
+    select {
+      height: 100%;
+      @extend .h4;
+      font-size: 14px;
+      border: none;
+      width: 100%;
+      border-radius: 0;
+      background-color: transparent;
+      margin-right: 0;
+      font-family: DIN Pro;
+      line-height: 16px;
+      color: #1A1919;
+      appearance:none;
+      background-image: url('/assets/custom/ArrowLeft.svg');
+      background-repeat: no-repeat;
+      background-position: 100% center;
+    
+      &:focus {
+          outline: none;
       }
     }
+    &__icon {
+        position: absolute;
+        right: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        cursor: pointer;
+    }
+  }
+  @media (max-width: 770px) {
+    .sort-by {
+      width: 100%;
+    }
+  }
 </style>
