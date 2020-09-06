@@ -29,7 +29,7 @@
     ],
     "invalidateCacheKey": "aeSu7aip",
     "invalidateCacheForwarding": false,
-    "invalidateCacheForwardUrl": "https://ringoo.ua/invalidate?key=aeSu7aip&tag=",
+    "invalidateCacheForwardUrl": "https://front.ringoo.ua/invalidate?key=aeSu7aip&tag=",
     "dynamicConfigReload": true,
     "dynamicConfigContinueOnError": false,
     "dynamicConfigExclude": [
@@ -70,13 +70,32 @@
   },
   "initialResources": [
     {
-      "filters": ["vsf-newsletter-modal", "vsf-languages-modal", "vsf-layout-empty", "vsf-layout-minimal", "vsf-order-confirmation", "vsf-search-panel"],
+      "filters": [
+        "vsf-newsletter-modal",
+        "vsf-languages-modal",
+        "vsf-layout-empty",
+        "vsf-layout-minimal",
+        "vsf-order-confirmation",
+        "vsf-search-panel"
+      ],
       "type": "script",
       "onload": true,
       "rel": "prefetch"
     },
     {
-      "filters": ["vsf-category", "vsf-home", "vsf-not-found", "vsf-error", "vsf-product", "vsf-cms", "vsf-checkout", "vsf-compare", "vsf-my-account", "vsf-static", "vsf-reset-password"],
+      "filters": [
+        "vsf-category",
+        "vsf-home",
+        "vsf-not-found",
+        "vsf-error",
+        "vsf-product",
+        "vsf-cms",
+        "vsf-checkout",
+        "vsf-compare",
+        "vsf-my-account",
+        "vsf-static",
+        "vsf-reset-password"
+      ],
       "type": "script",
       "onload": true,
       "rel": "prefetch"
@@ -105,7 +124,7 @@
     "port": 8080
   },
   "api": {
-    "url": "https://ringoo.ua"
+    "url": "https://front.ringoo.ua"
   },
   "liqpay": {
     "public_key": "sandbox_i33827525821",
@@ -116,7 +135,7 @@
   },
   "elasticsearch": {
     "httpAuth": "",
-    "host": "https://ringoo.ua/api/catalog",
+    "host": "https://front.ringoo.ua/api/catalog",
     "index": "vue_storefront_catalog",
     "min_score": 0.02,
     "csrTimeout": 5000,
@@ -686,7 +705,10 @@
     "priceFilterKey": "final_price",
     "priceFilters": {
       "ranges": [
-        { "from": null, "to": null }
+        {
+          "from": null,
+          "to": null
+        }
       ]
     }
   },
@@ -745,7 +767,7 @@
   },
   "images": {
     "useExactUrlsNoProxy": false,
-    "baseUrl": "https://ringoo.ua/img/",
+    "baseUrl": "https://front.ringoo.ua/img/",
     "useSpecificImagePaths": false,
     "paths": {
       "product": "/catalog/product"
@@ -859,7 +881,9 @@
       "filter": [
         {
           "key": "category.name",
-          "value": { "eq": "Аксесуари" }
+          "value": {
+            "eq": "Аксесуари"
+          }
         }
       ]
     },
@@ -867,7 +891,9 @@
       "filter": [
         {
           "key": "new",
-          "value": { "eq": 1 }
+          "value": {
+            "eq": 1
+          }
         }
       ]
     },
@@ -875,7 +901,11 @@
       "filter": [
         {
           "key": "category_ids",
-          "value": { "eq": [3] }
+          "value": {
+            "eq": [
+              3
+            ]
+          }
         }
       ]
     },
@@ -883,7 +913,11 @@
       "filter": [
         {
           "key": "category_ids",
-          "value": { "eq": [46] }
+          "value": {
+            "eq": [
+              46
+            ]
+          }
         }
       ]
     },
@@ -891,7 +925,11 @@
       "filter": [
         {
           "key": "category_ids",
-          "value": { "eq": [47] }
+          "value": {
+            "eq": [
+              47
+            ]
+          }
         }
       ]
     },
@@ -899,7 +937,11 @@
       "filter": [
         {
           "key": "category_ids",
-          "value": { "eq": [48] }
+          "value": {
+            "eq": [
+              48
+            ]
+          }
         }
       ]
     },
@@ -907,7 +949,11 @@
       "filter": [
         {
           "key": "category_ids",
-          "value": { "eq": [49] }
+          "value": {
+            "eq": [
+              49
+            ]
+          }
         }
       ]
     }
@@ -932,13 +978,13 @@
     "map_endpoint": "/api/url/map"
   },
   "fastly": {
-    "enabled":false
+    "enabled": false
   },
   "nginx": {
-    "enabled":false
+    "enabled": false
   },
   "varnish": {
-    "enabled":false
+    "enabled": false
   },
   "purgeConfig": [
     "server.invalidateCacheKey",
@@ -1046,8 +1092,507 @@
     "logo": "https://i1.rozetka.ua/sellers/1635/1635253.jpg",
     "description": "Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit. Exercitation veniam consequat sunt nostrud amet.",
     "email": "custom@email.com",
-    "phones": ["+380 44 000 00 00", "+380 63 000 00 00", "+380 97 000 00 00"],
-    "workTimes": ["Пн-Пт: 08:00-20:00;", "Сб: 10:00-18:00;", "Вс: 11:00-17:00"],
+    "phones": [
+      "+380 44 000 00 00",
+      "+380 63 000 00 00",
+      "+380 97 000 00 00"
+    ],
+    "workTimes": [
+      "Пн-Пт: 08:00-20:00;",
+      "Сб: 10:00-18:00;",
+      "Вс: 11:00-17:00"
+    ],
     "link": "/smartfoni-i-telefoni"
+  },
+  "credit": {
+    "bank_standart": {
+      "icon": "standard.png",
+      "name": "Стандарт",
+      "first_installment": 0,
+      "monthly_payment": 0,
+      "number_of_payments": 1,
+      "range": [
+        {
+          "value": 1,
+          "label": "1 платеж"
+        },
+        {
+          "value": 2,
+          "label": "2 платежa"
+        },
+        {
+          "value": 3,
+          "label": "3 платежa"
+        },
+        {
+          "value": 4,
+          "label": "4 платежa"
+        },
+        {
+          "value": 5,
+          "label": "5 платежa"
+        },
+        {
+          "value": 6,
+          "label": "6 платежей"
+        },
+        {
+          "value": 7,
+          "label": "7 платежей"
+        },
+        {
+          "value": 8,
+          "label": "8 платежей"
+        },
+        {
+          "value": 9,
+          "label": "9 платежей"
+        },
+        {
+          "value": 10,
+          "label": "10 платежей"
+        },
+        {
+          "value": 11,
+          "label": "11 платежей"
+        }
+      ],
+      "currentMonth": 1,
+      "default": true
+    },
+    "banks": [
+      {
+        "icon": "otp_bank.png",
+        "name": "ОТП Банк",
+        "first_installment": 0,
+        "monthly_payment": 0,
+        "number_of_payments": 1,
+        "range": [
+          {
+            "value": 1,
+            "label": "1 платеж"
+          },
+          {
+            "value": 2,
+            "label": "2 платежa"
+          },
+          {
+            "value": 3,
+            "label": "3 платежa"
+          },
+          {
+            "value": 4,
+            "label": "4 платежa"
+          },
+          {
+            "value": 5,
+            "label": "5 платежa"
+          },
+          {
+            "value": 6,
+            "label": "6 платежей"
+          },
+          {
+            "value": 7,
+            "label": "7 платежей"
+          },
+          {
+            "value": 8,
+            "label": "8 платежей"
+          },
+          {
+            "value": 9,
+            "label": "9 платежей"
+          },
+          {
+            "value": 10,
+            "label": "10 платежей"
+          },
+          {
+            "value": 11,
+            "label": "11 платежей"
+          }
+        ],
+        "currentMonth": 1
+      },
+      {
+        "icon": "alpha_bank.png",
+        "name": "Альфа Банк",
+        "first_installment": 0,
+        "monthly_payment": 0,
+        "number_of_payments": 1,
+        "range": [
+          {
+            "value": 1,
+            "label": "1 платеж"
+          },
+          {
+            "value": 2,
+            "label": "2 платежa"
+          },
+          {
+            "value": 3,
+            "label": "3 платежa"
+          },
+          {
+            "value": 4,
+            "label": "4 платежa"
+          },
+          {
+            "value": 5,
+            "label": "5 платежa"
+          },
+          {
+            "value": 6,
+            "label": "6 платежей"
+          },
+          {
+            "value": 7,
+            "label": "7 платежей"
+          },
+          {
+            "value": 8,
+            "label": "8 платежей"
+          },
+          {
+            "value": 9,
+            "label": "9 платежей"
+          },
+          {
+            "value": 10,
+            "label": "10 платежей"
+          },
+          {
+            "value": 11,
+            "label": "11 платежей"
+          }
+        ],
+        "currentMonth": 1
+      },
+      {
+        "icon": "globus_bank.png",
+        "name": "Глобус Банк",
+        "first_installment": 0,
+        "monthly_payment": 0,
+        "number_of_payments": 1,
+        "range": [
+          {
+            "value": 1,
+            "label": "1 платеж"
+          },
+          {
+            "value": 2,
+            "label": "2 платежa"
+          },
+          {
+            "value": 3,
+            "label": "3 платежa"
+          },
+          {
+            "value": 4,
+            "label": "4 платежa"
+          },
+          {
+            "value": 5,
+            "label": "5 платежa"
+          },
+          {
+            "value": 6,
+            "label": "6 платежей"
+          },
+          {
+            "value": 7,
+            "label": "7 платежей"
+          },
+          {
+            "value": 8,
+            "label": "8 платежей"
+          },
+          {
+            "value": 9,
+            "label": "9 платежей"
+          },
+          {
+            "value": 10,
+            "label": "10 платежей"
+          },
+          {
+            "value": 11,
+            "label": "11 платежей"
+          }
+        ],
+        "currentMonth": 1
+      },
+      {
+        "icon": "slon_credit.png",
+        "name": "Слон Кредит",
+        "first_installment": 0,
+        "monthly_payment": 0,
+        "number_of_payments": 1,
+        "range": [
+          {
+            "value": 1,
+            "label": "1 платеж"
+          },
+          {
+            "value": 2,
+            "label": "2 платежa"
+          },
+          {
+            "value": 3,
+            "label": "3 платежa"
+          },
+          {
+            "value": 4,
+            "label": "4 платежa"
+          },
+          {
+            "value": 5,
+            "label": "5 платежa"
+          },
+          {
+            "value": 6,
+            "label": "6 платежей"
+          },
+          {
+            "value": 7,
+            "label": "7 платежей"
+          },
+          {
+            "value": 8,
+            "label": "8 платежей"
+          },
+          {
+            "value": 9,
+            "label": "9 платежей"
+          },
+          {
+            "value": 10,
+            "label": "10 платежей"
+          },
+          {
+            "value": 11,
+            "label": "11 платежей"
+          }
+        ],
+        "currentMonth": 1
+      },
+      {
+        "icon": "card_sevice.png",
+        "name": "Кардсерсис",
+        "first_installment": 0,
+        "monthly_payment": 0,
+        "number_of_payments": 1,
+        "range": [
+          {
+            "value": 1,
+            "label": "1 платеж"
+          },
+          {
+            "value": 2,
+            "label": "2 платежa"
+          },
+          {
+            "value": 3,
+            "label": "3 платежa"
+          },
+          {
+            "value": 4,
+            "label": "4 платежa"
+          },
+          {
+            "value": 5,
+            "label": "5 платежa"
+          },
+          {
+            "value": 6,
+            "label": "6 платежей"
+          },
+          {
+            "value": 7,
+            "label": "7 платежей"
+          },
+          {
+            "value": 8,
+            "label": "8 платежей"
+          },
+          {
+            "value": 9,
+            "label": "9 платежей"
+          },
+          {
+            "value": 10,
+            "label": "10 платежей"
+          },
+          {
+            "value": 11,
+            "label": "11 платежей"
+          }
+        ],
+        "currentMonth": 1
+      },
+      {
+        "icon": "pumb_bank.png",
+        "name": "ПУМБ",
+        "first_installment": 0,
+        "monthly_payment": 0,
+        "number_of_payments": 1,
+        "range": [
+          {
+            "value": 1,
+            "label": "1 платеж"
+          },
+          {
+            "value": 2,
+            "label": "2 платежa"
+          },
+          {
+            "value": 3,
+            "label": "3 платежa"
+          },
+          {
+            "value": 4,
+            "label": "4 платежa"
+          },
+          {
+            "value": 5,
+            "label": "5 платежa"
+          },
+          {
+            "value": 6,
+            "label": "6 платежей"
+          },
+          {
+            "value": 7,
+            "label": "7 платежей"
+          },
+          {
+            "value": 8,
+            "label": "8 платежей"
+          },
+          {
+            "value": 9,
+            "label": "9 платежей"
+          },
+          {
+            "value": 10,
+            "label": "10 платежей"
+          },
+          {
+            "value": 11,
+            "label": "11 платежей"
+          }
+        ],
+        "currentMonth": 1
+      },
+      {
+        "icon": "monobank.png",
+        "name": "Монобанк",
+        "first_installment": 0,
+        "monthly_payment": 0,
+        "number_of_payments": 1,
+        "range": [
+          {
+            "value": 1,
+            "label": "1 платеж"
+          },
+          {
+            "value": 2,
+            "label": "2 платежa"
+          },
+          {
+            "value": 3,
+            "label": "3 платежa"
+          },
+          {
+            "value": 4,
+            "label": "4 платежa"
+          },
+          {
+            "value": 5,
+            "label": "5 платежa"
+          },
+          {
+            "value": 6,
+            "label": "6 платежей"
+          },
+          {
+            "value": 7,
+            "label": "7 платежей"
+          },
+          {
+            "value": 8,
+            "label": "8 платежей"
+          },
+          {
+            "value": 9,
+            "label": "9 платежей"
+          },
+          {
+            "value": 10,
+            "label": "10 платежей"
+          },
+          {
+            "value": 11,
+            "label": "11 платежей"
+          }
+        ],
+        "currentMonth": 1
+      },
+      {
+        "icon": "ligth.png",
+        "name": "Рассрочка под 0.01%",
+        "first_installment": 0,
+        "monthly_payment": 0,
+        "number_of_payments": 1,
+        "range": [
+          {
+            "value": 1,
+            "label": "1 платеж"
+          },
+          {
+            "value": 2,
+            "label": "2 платежa"
+          },
+          {
+            "value": 3,
+            "label": "3 платежa"
+          },
+          {
+            "value": 4,
+            "label": "4 платежa"
+          },
+          {
+            "value": 5,
+            "label": "5 платежa"
+          },
+          {
+            "value": 6,
+            "label": "6 платежей"
+          },
+          {
+            "value": 7,
+            "label": "7 платежей"
+          },
+          {
+            "value": 8,
+            "label": "8 платежей"
+          },
+          {
+            "value": 9,
+            "label": "9 платежей"
+          },
+          {
+            "value": 10,
+            "label": "10 платежей"
+          },
+          {
+            "value": 11,
+            "label": "11 платежей"
+          }
+        ],
+        "currentMonth": 1
+      }
+    ]
   }
 }

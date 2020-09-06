@@ -163,8 +163,9 @@
                 :disabled="isAddToCartDisabled"
                 class="col-xs-12 col-sm-4 col-md-6"
               />
-              <button-white @click.native="$bus.$emit('modal-show', 'modal-credits')" class="buy_in_credit h40 flex1">
-                В кредит 1050 ₴ / мес
+              <button-white @click.native="showModalCredits" class="buy_in_credit h40 flex1">
+                <span v-if="!show_modal_credits_loading">В кредит 1050 ₴ / мес</span>
+                <spinner v-if="show_modal_credits_loading" containerClass="quantity-spinner" />
               </button-white>
             </div>
             <div class="row py40 add-to-buttons">
@@ -289,6 +290,8 @@ import ProductPrice from 'theme/components/core/ProductPrice.vue';
 
 import Promo from 'theme/components/core/blocks/Product/Promo.vue'
 import ButtonWhite from 'theme/components/core/blocks/Product/ButtonWhite.vue'
+import {notifications} from "@vue-storefront/core/modules/cart/helpers";
+import Spinner from "../components/core/Spinner";
 
 export default {
   components: {
@@ -313,7 +316,8 @@ export default {
     ProductQuantityNew,
     ProductPrice,
     Promo,
-    ButtonWhite
+    ButtonWhite,
+    Spinner
   },
   mixins: [ProductOption],
   directives: { focusClean },
@@ -328,7 +332,8 @@ export default {
       quantityError: false,
       isStockInfoLoading: false,
       hasAttributesLoaded: false,
-      manageQuantity: true
+      manageQuantity: true,
+      show_modal_credits_loading: false,
     }
   },
   computed: {
@@ -399,7 +404,6 @@ export default {
   },
   async mounted () {
     await this.$store.dispatch('recently-viewed/addItem', this.getCurrentProduct)
-    console.log('==========================================================================================>', this.getCurrentProduct)
   },
   async asyncData ({ store, route, context }) {
     if (context) context.output.cacheTags.add('product')
@@ -427,6 +431,27 @@ export default {
     }
   },
   methods: {
+    async showModalCredits() {
+      try {
+        this.show_modal_credits_loading = true;
+        const diffLog = await this.$store.dispatch('cart/addItem', { productToAdd: this.getCurrentProduct })
+        diffLog.clientNotifications.forEach(notificationData => {
+
+          // Notify user that product is added
+          this.notifyUser(notificationData)
+
+          // Do open modal credits
+          this.$bus.$emit('modal-show', 'modal-credits')
+        })
+      } catch (message) {
+        this.notifyUser(notifications.createNotification({ type: 'error', message }))
+      } finally {
+        this.show_modal_credits_loading = false;
+      }
+    },
+    notifyUser (notificationData) {
+      this.$store.dispatch('notification/spawnNotification', notificationData, { root: true })
+    },
     showDetails (event) {
       this.detailsOpen = true
       event.target.classList.add('hidden')
@@ -516,6 +541,20 @@ export default {
 </style>
 
 <style lang="scss">
+
+  .buy_in_credit {
+    padding: 0 5px !important;
+  }
+
+  .quantity-spinner {
+    display: flex;
+    justify-content: center;
+    background-color: transparent !important;
+    height: 30px;
+    align-items: center;
+    bottom: auto!important;
+  }
+
   #product {
     .add-to-cart {
       /*width: 25px;*/

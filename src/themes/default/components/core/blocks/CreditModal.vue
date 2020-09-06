@@ -1,73 +1,76 @@
 <template>
   <modal name="modal-credits" class="modal-credits" :width="900">
     <h3 slot="header" class="modal-credits_header align-center">
-        Кредит
+      {{ $t('Credit') }}
     </h3>
-    <div slot="content" class="modal-credits_content">  
-      
+    <div slot="content" class="modal-credits_content">
+
       <div class="credit-card-block__row desctop_header head flex">
-          <div>Предложение</div>
-          <div>Первый взнос, ₴</div>
-          <div>Кол-во платежей</div>
-          <div>Ежемесячный платеж</div>
+          <div>{{ $t('Suggestion') }}</div>
+          <div>{{ $t('The first installment') }}, ₴</div>
+          <div>{{ $t('Number of payments') }}</div>
+          <div>{{ $t('Monthly payment') }}</div>
       </div>
 
       <div class="credit-card-block__wrap">
          <div v-for="(bank , index) in banks" :key="index" class="credit-card-block__row flex h-center" :class="{'active' : selectedBank === index}">
             <div class="credit-card-block__radio-wrap flex v-center">
-              <div class="mob_header">Предложение</div>
               <div class="flex v-center">
-                <base-radiobutton :id="'bank' + index" name="bank" @change="selectedBank = index" :checked="selectedBank === index">{{bank.name}}</base-radiobutton>
+                <base-radiobutton :id="'bank' + index" name="bank" @change="setSelectedBank(index)" :checked="selectedBank === index">{{bank.name}}</base-radiobutton>
                 <img :src="'assets/banks/' + bank.icon" alt="">
               </div>
             </div>
-            <div v-if="bank.hasOwnProperty('default')">
-              <div class="mob_header">Первый взнос, ₴</div>
-              <input type="number">
-            </div>
-            <div v-else class="l20">
-              <div class="mob_header">Первый взнос, ₴</div>
-              
-              {{bank.first_installment}}
+            <div>
+              <input
+                type="number"
+                v-if="index === selectedBank"
+                :value="bank.first_installment"
+                @input="changeFirstInstallment($event, index)"
+                @blur="checkFirstInstallment($event, index)"
+              >
+              <span v-if="index !== selectedBank">
+                {{ bank.first_installment }}
+              </span>
             </div>
             <div>
-              <div class="mob_header">Кол-во платежей</div>
-              
-              <custom-select :options="bank.range" v-model="bank.currentMonth" />
+              <custom-select :options="bank.range" v-on:input="selectedPaymentCount($event, bank.icon)"/>
             </div>
-            <div> 
-              <div class="mob_header">Ежемесячный платеж</div>
-              
-              <b>{{(bank.monthly_payment / bank.currentMonth).toFixed(2)}} ₴</b>
+            <div>
+              <b>{{ bank.monthly_payment }} ₴</b>
             </div>
         </div>
-        
+
       </div>
 
       <p class="description">
         Здесь будет текст про флоу оформления кредита:
-Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit. Exercitation veniam consequat sunt nostrud amet.
+        Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim
+        velit mollit. Exercitation veniam consequat sunt nostrud amet.
       </p>
 
       <div class="credits-to-order flex">
-        <span class="underline">Продолжить покупки</span>
-        <button-active class="ml30 ">
-          Оформить заказ
-        </button-active>
+        <span class="underline" @click="close()">{{ $t('Continue shopping') }}</span>
+        <span @click="close()">
+          <button-active class="ml30">
+            {{ $t('Go to checkout') }}
+          </button-active>
+        </span>
       </div>
-        
+
     </div>
   </modal>
 </template>
 
 <script>
 import BaseRadiobutton     from 'theme/components/core/blocks/Form/BaseRadiobutton'
-import BaseInputNumber        from 'theme/components/core/blocks/Form/BaseInputNumber'
+import BaseInputNumber     from 'theme/components/core/blocks/Form/BaseInputNumber'
 import CustomSelect        from 'theme/components/core/blocks/Form/CustomSelect'
 import ButtonActive        from 'theme/components/core/blocks/Product/ButtonActive'
 import Modal               from 'theme/components/core/Modal.vue'
 import { mapGetters }      from 'vuex'
-import i18n                from '@vue-storefront/i18n'
+import config              from 'config'
+import {localizedRoute} from "@vue-storefront/core/lib/multistore";
+import {CREDIT_SET_BANKS, CREDIT_SET_SELECTED_BANK} from "../../../store/credit/mutation-types";
 
 export default {
   components: {
@@ -80,195 +83,110 @@ export default {
   data () {
     return {
       loading: false,
-      selectedBank : 0,
-      installment : 0,
-      banks : [
-        {
-          icon : 'otp_bank.png',
-          name : 'ОТП Банк',
-          first_installment : 2273,
-          monthly_payment : 2273,
-          range : [
-            {value : 1 , label : '1 платеж'},
-            {value : 2 , label : '2 платежa'},
-            {value : 3 , label : '3 платежa'},
-            {value : 4 , label : '4 платежa'},
-            {value : 5 , label : '5 платежa'},
-            {value : 6 , label : '6 платежей'},
-            {value : 7 , label : '7 платежей'},
-            {value : 8 , label : '8 платежей'},
-            {value : 9 , label : '9 платежей'},
-            {value : 10 , label : '10 платежей'},
-            {value : 11 , label : '11 платежей'},
-            ],
-          currentMonth : 1
-        },
-        {
-          icon : 'alpha_bank.png',
-          name : 'Альфа Банк',
-          first_installment : 2273,
-          monthly_payment : 2273,
-          range : [
-            {value : 1 , label : '1 платеж'},
-            {value : 2 , label : '2 платежa'},
-            {value : 3 , label : '3 платежa'},
-            {value : 4 , label : '4 платежa'},
-            {value : 5 , label : '5 платежa'},
-            {value : 6 , label : '6 платежей'},
-            {value : 7 , label : '7 платежей'},
-            {value : 8 , label : '8 платежей'},
-            {value : 9 , label : '9 платежей'},
-            {value : 10 , label : '10 платежей'},
-            {value : 11 , label : '11 платежей'},
-            ],
-          currentMonth : 1
-        },
-        {
-          icon : 'globus_bank.png',
-          name : 'Глобус Банк',
-          first_installment : 2273,
-          monthly_payment : 2273,
-          range : [
-            {value : 1 , label : '1 платеж'},
-            {value : 2 , label : '2 платежa'},
-            {value : 3 , label : '3 платежa'},
-            {value : 4 , label : '4 платежa'},
-            {value : 5 , label : '5 платежa'},
-            {value : 6 , label : '6 платежей'},
-            {value : 7 , label : '7 платежей'},
-            {value : 8 , label : '8 платежей'},
-            {value : 9 , label : '9 платежей'},
-            {value : 10 , label : '10 платежей'},
-            {value : 11 , label : '11 платежей'},
-            ],
-          currentMonth : 1
-        },
-        {
-          icon : 'slon_credit.png',
-          name : 'Слон Кредит',
-          first_installment : 2273,
-          monthly_payment : 2273,
-          range : [
-            {value : 1 , label : '1 платеж'},
-            {value : 2 , label : '2 платежa'},
-            {value : 3 , label : '3 платежa'},
-            {value : 4 , label : '4 платежa'},
-            {value : 5 , label : '5 платежa'},
-            {value : 6 , label : '6 платежей'},
-            {value : 7 , label : '7 платежей'},
-            {value : 8 , label : '8 платежей'},
-            {value : 9 , label : '9 платежей'},
-            {value : 10 , label : '10 платежей'},
-            {value : 11 , label : '11 платежей'},
-            ],
-          currentMonth : 1
-        },
-        {
-          icon : 'card_sevice.png',
-          name : 'Кардсерсис',
-          first_installment : 2273,
-          monthly_payment : 2273,
-          range : [
-            {value : 1 , label : '1 платеж'},
-            {value : 2 , label : '2 платежa'},
-            {value : 3 , label : '3 платежa'},
-            {value : 4 , label : '4 платежa'},
-            {value : 5 , label : '5 платежa'},
-            {value : 6 , label : '6 платежей'},
-            {value : 7 , label : '7 платежей'},
-            {value : 8 , label : '8 платежей'},
-            {value : 9 , label : '9 платежей'},
-            {value : 10 , label : '10 платежей'},
-            {value : 11 , label : '11 платежей'},
-            ],
-          currentMonth : 1
-        },
-        {
-          icon : 'pumb_bank.png',
-          name : 'ПУМБ',
-          first_installment : 2273,
-          monthly_payment : 2273,
-          range : [
-            {value : 1 , label : '1 платеж'},
-            {value : 2 , label : '2 платежa'},
-            {value : 3 , label : '3 платежa'},
-            {value : 4 , label : '4 платежa'},
-            {value : 5 , label : '5 платежa'},
-            {value : 6 , label : '6 платежей'},
-            {value : 7 , label : '7 платежей'},
-            {value : 8 , label : '8 платежей'},
-            {value : 9 , label : '9 платежей'},
-            {value : 10 , label : '10 платежей'},
-            {value : 11 , label : '11 платежей'},
-            ],
-          currentMonth : 1
-        },
-        {
-          icon : 'monobank.png',
-          name : 'Монобанк',
-          first_installment : 2273,
-          monthly_payment : 2273,
-          range : [
-            {value : 1 , label : '1 платеж'},
-            {value : 2 , label : '2 платежa'},
-            {value : 3 , label : '3 платежa'},
-            {value : 4 , label : '4 платежa'},
-            {value : 5 , label : '5 платежa'},
-            {value : 6 , label : '6 платежей'},
-            {value : 7 , label : '7 платежей'},
-            {value : 8 , label : '8 платежей'},
-            {value : 9 , label : '9 платежей'},
-            {value : 10 , label : '10 платежей'},
-            {value : 11 , label : '11 платежей'},
-            ],
-          currentMonth : 1
-        },
-        {
-          icon : 'ligth.png',
-          name : 'Рассрочка под 0.01%',
-          first_installment : 2273,
-          monthly_payment : 2273,
-          range : [
-            {value : 1 , label : '1 платеж'},
-            {value : 2 , label : '2 платежa'},
-            {value : 3 , label : '3 платежa'},
-            {value : 4 , label : '4 платежa'},
-            {value : 5 , label : '5 платежa'},
-            {value : 6 , label : '6 платежей'},
-            {value : 7 , label : '7 платежей'},
-            {value : 8 , label : '8 платежей'},
-            {value : 9 , label : '9 платежей'},
-            {value : 10 , label : '10 платежей'},
-            {value : 11 , label : '11 платежей'},
-            ],
-          currentMonth : 1
-        },
-      ]
+      selectedBank: 0,
+      installment: 0,
+      banks: []
     }
   },
+  mounted() {
+    this.initBanks()
+  },
+  computed: {
+    ...mapGetters({
+      totals: 'cart/getTotals'
+    }),
+    totalPrice () {
+      return this.totals.find(it => it.code === 'grand_total').value
+    },
+  },
+  methods: {
+    setSelectedBank(index) {
+      console.log('setSelectedBank', index);
+      this.selectedBank = index;
+      this.saveBanks();
+    },
+    close() {
+      this.saveBanks();
+      this.$bus.$emit('modal-close', 'modal-credits');
+      this.$router.push(localizedRoute('/checkout'));
+    },
+    initBanks() {
 
-  mounted(){
-    this.banks.unshift({
-      icon : 'standard.png',
-      name : 'Стандарт',
-      first_installment : 2273,
-      monthly_payment : 2273,
-      range : [
-        {value : 1 , label : '1 платеж'},
-        {value : 2 , label : '2 платежa'},
-        {value : 3 , label : '3 платежa'},
-        {value : 4 , label : '4 платежa'},
-        {value : 5 , label : '5 платежa'},
-        {value : 6 , label : '6 платежей'},
-        {value : 7 , label : '7 платежей'},
-        {value : 8 , label : '8 платежей'},
-        {value : 9 , label : '9 платежей'},
-        {value : 10 , label : '10 платежей'},
-        {value : 11 , label : '11 платежей'},
-        ],
-      currentMonth : 1,
-      default : true
-    })
+      let banks = config.credit.banks;
+
+      if (!banks.find(it => it.icon === config.credit.bank_standart.icon)) {
+        banks.unshift(config.credit.bank_standart);
+      }
+
+      this.banks = banks;
+
+      this.calculateBanks();
+      this.saveBanks();
+    },
+    saveBanks() {
+      // Save banks to store
+      this.$store.dispatch('themeCredit/creditSetBanks', { banks: this.banks });
+      this.$store.dispatch('themeCredit/creditSetSelectedBank', { bank_index: this.selectedBank });
+    },
+    calculateBanks() {
+
+      this.banks = this.banks.map((bank) => {
+
+        bank.monthly_payment = this.monthlyPayment(bank);
+
+        if (bank.first_installment === 0) {
+          bank.first_installment = this.monthlyPayment(bank);
+        }
+
+        return bank;
+
+      });
+    },
+    changeFirstInstallment(event, bank_index) {
+      this.banks[bank_index].first_installment = Number(event.target.value);
+      this.saveBanks();
+    },
+    checkFirstInstallment(event, bank_index) {
+
+      if (Number(event.target.value) < this.banks[bank_index].monthly_payment) {
+        this.banks[bank_index].first_installment = this.banks[bank_index].monthly_payment;
+      }
+
+      // Do calculate new monthly payment
+      let new_monthly_payment = 0;
+      let total_minus_installment = this.totalPrice - this.banks[bank_index].first_installment;
+
+      if (total_minus_installment > 0) {
+        new_monthly_payment = total_minus_installment / (this.banks[bank_index].number_of_payments - 1);
+      }
+
+      this.banks[bank_index].monthly_payment = Math.ceil(new_monthly_payment);
+    },
+    monthlyPayment(bank) {
+      return Math.ceil(this.totalPrice / bank.number_of_payments)
+    },
+    selectedPaymentCount(value, icon) {
+      this.banks = this.banks.map((bank) => {
+
+        if (bank.icon === icon) {
+          bank.number_of_payments = value;
+          bank.monthly_payment = this.monthlyPayment(bank);
+          bank.first_installment = this.monthlyPayment(bank);
+        }
+
+        return bank;
+      });
+      this.saveBanks();
+    }
+  },
+  beforeDestroy(){
+    this.banks = [];
+  },
+  watch: {
+    totalPrice: function() {
+      this.calculateBanks();
+      this.saveBanks();
+    }
   }
 }
 </script>
@@ -310,7 +228,7 @@ export default {
     display: block;
     font-family: 'DIN Pro';
     font-style: normal;
-    font-weight: 0;
+    font-weight: 400;
     font-size: 13px;
     line-height: 16px;
     color: rgba(95, 94, 94, 0.6);
@@ -324,7 +242,7 @@ export default {
   .description{
     font-family: 'DIN Pro';
     font-style: normal;
-    font-weight: 0;
+    font-weight: 400;
     font-size: 14px;
     line-height: 16px;
     color: #5F5E5E;
@@ -398,7 +316,7 @@ export default {
       border-color: #23BE20;
     }
   }
- 
+
   $col1 : 200px;
   $col2 : 206px;
   $col3 : 206px;
@@ -407,8 +325,8 @@ export default {
     min-width: 138px;
     box-sizing: border-box;
     border-radius: 4px;
-    select{ 
-      border: 1px solid #E0E0E0 !important ;
+    select{
+      border: 1px solid #E0E0E0 !important;
       box-sizing: border-box;
       border-radius: 4px !important;
       padding: 0 16px;
@@ -498,7 +416,7 @@ export default {
         h3{
             margin: 13px 0;
         }
-      } 
+      }
       .modal-content{
           padding: 24px;
       }

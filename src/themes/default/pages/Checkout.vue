@@ -214,7 +214,7 @@ export default {
       opacity: .5
       .number-block
         background-color: #ffffff
-  
+
   .subtitle-text
     font-family: 'DIN Pro'
     font-size: 14px
@@ -280,7 +280,7 @@ export default {
       -ms-user-select: none;
       user-select: none;
       background: #FFFFFF;
-      border: 1px solid #23BE20;
+      /*border: 1px solid #23BE20;*/
       box-sizing: border-box;
       margin-bottom: 0;
       border-radius: 4px;
@@ -301,7 +301,8 @@ export default {
         height: 20px;
         width: 20px;
         border-radius: 50%;
-        border: 2px solid #23be20;
+        /*border: 2px solid #23be20;*/
+        /*border: 2px solid #E0E0E0;*/
         padding: 3px;
 
         &:after {

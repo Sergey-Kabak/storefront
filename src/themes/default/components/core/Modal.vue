@@ -88,11 +88,13 @@ export default {
     this.$bus.$on('modal-toggle', this.onToggle)
     this.$bus.$on('modal-show', this.onShow)
     this.$bus.$on('modal-hide', this.onHide)
+    this.$bus.$on('modal-close', this.close)
   },
   beforeDestroy () {
     this.$bus.$off('modal-toggle', this.onToggle)
     this.$bus.$off('modal-show', this.onShow)
     this.$bus.$off('modal-hide', this.onHide)
+    this.$bus.$off('modal-close', this.close)
   },
   mixins: [onEscapePress],
   props: {

@@ -4,8 +4,8 @@
             {{selected.label}}
         </div>
         <div v-if="open" class="options-wrap">
-            <div class="select-options" 
-                v-for="option in options" 
+            <div class="select-options"
+                v-for="option in options"
                 :key="option.value"
                 @click="handleValue(option)"
                 :class="{'active' : selected.value === option.value}"
@@ -49,7 +49,6 @@ export default {
         },
         clickOutOfBlock(){
             let _this = this
-            console.log(this.$refs)
             document.addEventListener('click', function(e) {
                 let isBlock = false
                 for ( let k in e.path){
