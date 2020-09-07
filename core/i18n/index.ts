@@ -14,7 +14,7 @@ const loadedLanguages = [defaultLocale]
 const i18n = new VueI18n({
   locale: defaultLocale, // set locale
   pluralizationRules: {
-    'ua-UK': pluralization,
+    'uk-UA': pluralization,
     'ru-RU': pluralization
   },
   fallbackLocale: defaultLocale,
