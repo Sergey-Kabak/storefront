@@ -790,9 +790,10 @@
     "defaultCountry": "UA",
     "defaultLanguage": "UA",
     "availableLocale": [
-      "ua-UA"
+      "uk-UA",
+      "ru-RU"
     ],
-    "defaultLocale": "ua-UA",
+    "defaultLocale": "uk-UA",
     "currencyCode": "UAH",
     "currencySign": "₴",
     "currencyDecimal": "",
