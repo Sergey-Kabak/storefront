@@ -20,7 +20,7 @@ export default {
     liqpayKey: 1,
     liqpayStatus: null,
     languages: {
-      'ua-UA': 'uk',
+      'uk-UA': 'uk',
       'ru-RU': 'ru',
       'en-US': 'en'
     }
