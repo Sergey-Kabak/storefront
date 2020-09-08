@@ -7,7 +7,7 @@
         :class="direction === 'left' ? 'left-sidebar' : direction === 'right' ? 'right-sidebar' : null "
         data-testid="sidebar"
         ref="sidebar"
-        v-show="isOpen"
+        v-if="isOpen"
       >
         <component :is="component" @close="$emit('close')" @reload="getComponent" />
       </div>
