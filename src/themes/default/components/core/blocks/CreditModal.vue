@@ -15,12 +15,14 @@
       <div class="credit-card-block__wrap">
          <div v-for="(bank , index) in banks" :key="index" class="credit-card-block__row flex h-center" :class="{'active' : selectedBank === index}">
             <div class="credit-card-block__radio-wrap flex v-center">
+              <div class="mob_header">{{ $t("Suggestion") }}</div>
               <div class="flex v-center">
                 <base-radiobutton :id="'bank' + index" name="bank" @change="setSelectedBank(index)" :checked="selectedBank === index">{{bank.name}}</base-radiobutton>
                 <img :src="'assets/banks/' + bank.icon" alt="">
               </div>
             </div>
             <div>
+              <div class="mob_header"> {{ $t("The first installment") }}, ₴</div>
               <input
                 type="number"
                 v-if="index === selectedBank"
@@ -33,9 +35,11 @@
               </span>
             </div>
             <div>
+              <div class="mob_header">{{ $t("Number of payments") }}</div>
               <custom-select :options="bank.range" v-on:input="selectedPaymentCount($event, bank.icon)"/>
             </div>
             <div>
+              <div class="mob_header">{{ $t("Monthly payment") }}</div>
               <b class="h3">{{ bank.monthly_payment }} ₴</b>
             </div>
         </div>
