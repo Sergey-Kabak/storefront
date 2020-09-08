@@ -27,6 +27,10 @@ export default {
         options : {
             type : Array,
             default : []
+        },
+        selectedIndex: {
+          type : Number,
+          default: 0
         }
     },
     data(){
@@ -36,7 +40,7 @@ export default {
         }
     },
     created(){
-        this.selected = this.options[0];
+        this.selected = this.options[this.selectedIndex];
     },
     mounted(){
         this.clickOutOfBlock()

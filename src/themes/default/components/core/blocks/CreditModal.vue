@@ -25,15 +25,15 @@
                 type="number"
                 v-if="index === selectedBank"
                 :value="bank.first_installment"
-                @input="changeFirstInstallment($event, index)"
-                @blur="checkFirstInstallment($event, index)"
+                @blur="changeFirstInstallment($event, index)"
               >
               <span v-if="index !== selectedBank">
                 {{ bank.first_installment }}
               </span>
             </div>
             <div>
-              <custom-select :options="bank.range" v-on:input="selectedPaymentCount($event, bank.icon)"/>
+              <custom-select :selected-index="1"
+                             :options="bank.range" v-on:input="selectedPaymentCount($event, bank.icon)"/>
             </div>
             <div>
               <b>{{ bank.monthly_payment }} ₴</b>
@@ -101,7 +101,6 @@ export default {
   },
   methods: {
     setSelectedBank(index) {
-      console.log('setSelectedBank', index);
       this.selectedBank = index;
       this.saveBanks();
     },
@@ -121,62 +120,63 @@ export default {
       this.banks = banks;
 
       this.calculateBanks();
-      this.saveBanks();
     },
     saveBanks() {
       // Save banks to store
       this.$store.dispatch('themeCredit/creditSetBanks', { banks: this.banks });
       this.$store.dispatch('themeCredit/creditSetSelectedBank', { bank_index: this.selectedBank });
     },
-    calculateBanks() {
+    calculateBanks(installment = true) {
 
-      this.banks = this.banks.map((bank) => {
+      this.banks.map((bank) => {
 
-        bank.monthly_payment = this.monthlyPayment(bank);
-
-        if (bank.first_installment === 0) {
+        if (installment) {
           bank.first_installment = this.monthlyPayment(bank);
         }
+
+        // Do calculate new monthly payment
+        let new_monthly_payment = 0;
+        let total_minus_installment = this.totalPrice - bank.first_installment;
+
+        if (total_minus_installment > 0) {
+          new_monthly_payment = total_minus_installment / (bank.number_of_payments - 1);
+        }
+
+        bank.monthly_payment = Math.ceil(new_monthly_payment);
 
         return bank;
 
       });
-    },
-    changeFirstInstallment(event, bank_index) {
-      this.banks[bank_index].first_installment = Number(event.target.value);
+
       this.saveBanks();
     },
-    checkFirstInstallment(event, bank_index) {
+    changeFirstInstallment(event, bank_index) {
 
-      if (Number(event.target.value) < this.banks[bank_index].monthly_payment) {
-        this.banks[bank_index].first_installment = this.banks[bank_index].monthly_payment;
+      let installment = false;
+      let value = Number(event.target.value);
+
+      if (value > this.totalPrice || value < this.banks[bank_index].monthly_payment || this.banks[bank_index].number_of_payments === 1) {
+        installment = true;
       }
 
-      // Do calculate new monthly payment
-      let new_monthly_payment = 0;
-      let total_minus_installment = this.totalPrice - this.banks[bank_index].first_installment;
-
-      if (total_minus_installment > 0) {
-        new_monthly_payment = total_minus_installment / (this.banks[bank_index].number_of_payments - 1);
-      }
-
-      this.banks[bank_index].monthly_payment = Math.ceil(new_monthly_payment);
+      this.banks[bank_index].first_installment = value;
+      this.calculateBanks(installment);
     },
     monthlyPayment(bank) {
       return Math.ceil(this.totalPrice / bank.number_of_payments)
     },
     selectedPaymentCount(value, icon) {
+
       this.banks = this.banks.map((bank) => {
 
         if (bank.icon === icon) {
           bank.number_of_payments = value;
-          bank.monthly_payment = this.monthlyPayment(bank);
-          bank.first_installment = this.monthlyPayment(bank);
         }
 
         return bank;
       });
-      this.saveBanks();
+
+      this.calculateBanks();
     }
   },
   beforeDestroy(){
@@ -185,7 +185,6 @@ export default {
   watch: {
     totalPrice: function() {
       this.calculateBanks();
-      this.saveBanks();
     }
   }
 }
