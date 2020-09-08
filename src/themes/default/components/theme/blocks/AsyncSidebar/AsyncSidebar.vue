@@ -112,7 +112,7 @@ export default {
 }
 
 .left-sidebar{
-  height: 100vh;
+  height: 100%;
   width: 350px;
   top: 0;
   left: 0;
