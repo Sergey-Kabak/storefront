@@ -75,6 +75,13 @@ export default {
   $color-silver: #E0E0E0;
   $color-active: #23BE20;
   $color-white: color(white);
+  $hover : #cecece;
+  $focus : #c5c5c5;
+  $active : #bcbcbc;
+
+  $hover_checked : #20af1d;
+  $focus_checked : #1fa71c;
+  $active_checked : #1d9f1b;;
 
   label {
     &:before {
@@ -91,13 +98,36 @@ export default {
       cursor: pointer;
     }
   }
-
   input {
     display: none;
     position: absolute;
     top: 3px;
     left: 0;
     &:checked + label {
+      &:hover{
+        &:before{
+          border-color: $hover_checked;
+        }
+        &:after{
+          background-color: $hover_checked;
+        }
+      }
+      &:focus{
+        &:before{
+          border-color: $focus_checked;
+        }
+        &:after{
+          background-color: $focus_checked;
+        }
+      }
+      &:active{
+        &:before{
+          border-color: $active_checked;
+        }
+        &:after{
+          background-color: $active_checked;
+        }
+      }
       &:before {
         background-color: $color-silver;
         border-color: $color-active;
@@ -116,23 +146,30 @@ export default {
         box-sizing: border-box;
       }
     }
-    &:hover,
+    &:hover {
+      + label {
+        &:before {
+          border-color: $hover;
+        }
+      }
+    }
     &:focus {
       + label {
         &:before {
-          border-color: $color-active;
+          border-color: $focus;
+        }
+      }
+    }
+    &:active {
+      + label {
+        &:before {
+          border-color: $active;
         }
       }
     }
     &:disabled + label {
       cursor: not-allowed;
-      &:hover,
-      &:focus {
-        &:before {
-          border-color: $color-silver;
-          cursor: not-allowed;
-        }
-      }
+      opacity: 0.38;
     }
   }
 </style>

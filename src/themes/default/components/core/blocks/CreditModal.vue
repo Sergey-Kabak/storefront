@@ -5,7 +5,7 @@
     </h3>
     <div slot="content" class="modal-credits_content">
 
-      <div class="credit-card-block__row desctop_header head flex">
+      <div class="credit-card-block__row desktop_header head flex">
           <div>{{ $t('Suggestion') }}</div>
           <div>{{ $t('The first installment') }}, ₴</div>
           <div>{{ $t('Number of payments') }}</div>
@@ -28,7 +28,7 @@
                 @input="changeFirstInstallment($event, index)"
                 @blur="checkFirstInstallment($event, index)"
               >
-              <span v-if="index !== selectedBank">
+              <span v-if="index !== selectedBank" class="l20">
                 {{ bank.first_installment }}
               </span>
             </div>
@@ -36,7 +36,7 @@
               <custom-select :options="bank.range" v-on:input="selectedPaymentCount($event, bank.icon)"/>
             </div>
             <div>
-              <b>{{ bank.monthly_payment }} ₴</b>
+              <b class="h3">{{ bank.monthly_payment }} ₴</b>
             </div>
         </div>
 
@@ -51,7 +51,7 @@
       <div class="credits-to-order flex">
         <span class="underline" @click="close()">{{ $t('Continue shopping') }}</span>
         <span @click="close()">
-          <button-active class="ml30">
+          <button-active class="ml30 weight-700">
             {{ $t('Go to checkout') }}
           </button-active>
         </span>
@@ -192,6 +192,20 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+  .underline{
+    padding-bottom: 3px;
+    border-bottom: 1px dashed #1A1919;
+    &:hover{
+      border-bottom-color: transparent;
+    }
+  }
+  @media (max-width: 600px){
+    /deep/ .modal-credits_header{
+      margin: 0 !important;
+      line-height: 48px;
+      vertical-align: middle;
+    }
+  }
   /deep/ .modal-container{
     display: flex;
     flex-direction: column;
@@ -216,7 +230,7 @@ export default {
   }
 </style>
 <style lang="scss">
-  .desctop_header{
+  .desktop_header{
     @media (max-width : 840px){
       display: none !important;
     }
@@ -345,6 +359,9 @@ export default {
       }
     }
     &__row{
+      @media (max-width : 600px){
+        padding: 15px;
+      }
       @media (max-width : 840px){
         flex-direction: column;
         &>div:not(:last-child){
