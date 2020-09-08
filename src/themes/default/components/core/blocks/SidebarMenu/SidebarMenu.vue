@@ -285,7 +285,7 @@ $color-matterhorn: color(matterhorn);
 $color-mine-shaft: color(mine-shaft);
 
 .sidebar-menu {
-  height: 100vh;
+  height: 100%;
   width: 350px;
   overflow: hidden;
 

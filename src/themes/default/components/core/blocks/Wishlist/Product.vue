@@ -79,8 +79,8 @@
 
         <div class="flex py5 w-100 product-wrapper-body-bottom" v-if="product.stock && product.stock.is_in_stock">
 
-          <button v-if="product.stock && product.stock.is_in_stock" class="to_credit xs-hide weight-700">Купити в кредит</button>
-          <button v-if="product.stock && product.stock.is_in_stock" class="to_credit weight-700">В кредит</button>
+          <!-- <button v-if="product.stock && product.stock.is_in_stock" class="to_credit xs-hide weight-700">Купити в кредит</button> -->
+          <!-- <button v-if="product.stock && product.stock.is_in_stock" class="to_credit weight-700">В кредит</button> -->
           <add-to-cart class="btn btn-successful" v-if="(product.stock && product.stock.is_in_stock)" :product="product"
                        :showIcon="isMobile"/>
         </div>

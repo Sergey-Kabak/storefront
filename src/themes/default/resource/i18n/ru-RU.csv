@@ -39,8 +39,6 @@
 "Cyan","Голубой"
 "Description of the action","Описание акции"
 "Details","Детальнее"
-"Description of the action","Описание акции"
-"Details","Детальнее"
 "Discount on accessories","Скидка на аксессуары"
 "Enter promotional code","Применить промокод"
 "First","Сначала"
@@ -696,3 +694,8 @@ next,"Далее"
 "Add products to compare characteristics and choose the most suitable product.",Добавляйте товары для сравнения характеристик и выбирайте самый подходящий товар.
 "work_time",Пн-Пт: 9:00-18:00; Сб-Вс: Выходные
 "Terms of action",Условия акции
+The requested qty is not available,"Желаемое количество товара недоступна"
+"Department","Отделение"
+"Number or address of New Post","Номер или адрес Новой Почты"
+"schedule","Пн-Пт: {mon}; Сб: {sat}; Вс: {sun}"
+"weekend","Выходной"
