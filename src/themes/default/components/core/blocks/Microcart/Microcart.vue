@@ -66,12 +66,12 @@
           class="actions-button"
           v-if="productsInCart.length && !isCheckoutMode"
         >
-          <button-outline
+          <!-- <button-outline
             class="button"
             disabled
           >
             {{ $t('Buy in credit') }}
-          </button-outline>
+          </button-outline> -->
           <button-full
             :link="{ name: 'checkout' }"
             class="button"
@@ -331,11 +331,11 @@ export default {
 
     .button {
       box-sizing: border-box;
-      max-width: 232px;
+      max-width: 100%;
 
-      &:first-child {
-        margin-right: 2%;
-      }
+      // &:first-child {
+      //   margin-right: 2%;
+      // }
     }
   }
 
