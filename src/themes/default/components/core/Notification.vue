@@ -25,6 +25,7 @@
           <button-full
             id="notificationAction1"
             data-testid="notificationAction1"
+            v-if="notification.action2"
             @click.native="execAction(notification.action2, index)"
             class="notification-action"
           >{{ notification.action2.label }}</button-full>
@@ -123,9 +124,14 @@ $color-action: color(black);
 
   .notification-action {
     padding: 4px 0;
-    width: calc(50% - 6px);
+    width: 100%;
     min-height: 40px;
     height: auto;
+    margin-right: 12px;
+
+    &:last-child {
+      margin-right: 0;
+    }
   }
 }
 .success {

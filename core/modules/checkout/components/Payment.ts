@@ -21,7 +21,7 @@ export const Payment = {
       sendToShippingAddress: true,
       sendToBillingAddress: true,
       assoc: {
-        'currier': ['liqpaymagento_liqpay', 'banktransfer'],
+        'currier': ['liqpaymagento_liqpay', 'banktransfer', 'cashondelivery'],
         'new_post': ['cashondelivery', 'liqpaymagento_liqpay'],
         'shop': ['cashondelivery', 'banktransfer', 'checkmo']
       }

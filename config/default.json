@@ -108,11 +108,18 @@
     "url": "https://ringoo.ua"
   },
   "liqpay": {
+    "public_key": "i32012277522",
+    "private_key": "yn1ZNgkzlC3rw0F15BdiE8hzkYqzJvCrpckDtnJQ",
+    "version": "3",
+    "currency": "UAH",
+    "server_url": "https://ringoo.ua/api/payment/liqpay/callback"
+  },
+  "liqpay_dev": {
     "public_key": "sandbox_i33827525821",
     "private_key": "sandbox_ZoeELbqo1BBTi3LQnEsHF93wu425TzSvpZpYH11N",
     "version": "3",
     "currency": "UAH",
-    "server_url": "https://vue.ringoo.ua/api/payment/liqpay/callback"
+    "server_url": "https://ringoo.ua/api/payment/liqpay/callback"
   },
   "elasticsearch": {
     "httpAuth": "",
@@ -315,6 +322,7 @@
     "productList": {
       "sort": "updated_at:desc",
       "includeFields": [
+        "marketplace",
         "rma",
         "activity",
         "configurable_children.attributes",
@@ -353,7 +361,8 @@
         "url_key",
         "*image",
         "*sku",
-        "*small_image"
+        "*small_image",
+        "stock"
       ],
       "excludeFields": [
         "attribute_set_id",
@@ -364,27 +373,12 @@
         "msrp_display_actual_price_type",
         "*.msrp_display_actual_price_type",
         "required_options",
-        "media_gallery",
-        "stock.use_config_min_qty",
-        "stock.use_config_notify_stock_qty",
-        "stock.stock_id",
-        "stock.use_config_backorders",
-        "stock.use_config_enable_qty_inc",
-        "stock.enable_qty_increments",
-        "stock.use_config_manage_stock",
-        "stock.use_config_min_sale_qty",
-        "stock.notify_stock_qty",
-        "stock.use_config_max_sale_qty",
-        "stock.use_config_max_sale_qty",
-        "stock.qty_increments",
-        "stock.stock_status_changed_auto",
-        "stock.show_default_notification_message",
-        "stock.use_config_qty_increments",
-        "stock.is_decimal_divided"
+        "media_gallery"
       ]
     },
     "productListWithChildren": {
       "includeFields": [
+        "marketplace",
         "rma",
         "activity",
         "configurable_children.attributes",
@@ -493,6 +487,7 @@
       "includeFields": null,
       "useDynamicAttributeLoader": true,
       "standardSystemFields": [
+        "marketplace",
         "rma",
         "category",
         "category_ids",
