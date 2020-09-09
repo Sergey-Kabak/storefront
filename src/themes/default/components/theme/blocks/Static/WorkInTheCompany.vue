@@ -10,7 +10,7 @@
       <li>{{ $t('benefits loyalty') }}</li>
       <li>{{ $t('benefits employment') }}</li>
     </ul>
-    <p>{{ $t('vacancies more information') }}<a target="__blank" href="https://info.ringoo.ua/ua/jobs.html"> {{ $t('here') }}</a></p>
+    <p>{{ $t('vacancies more information') }}<a target="__blank" rel="nofollow" href="https://info.ringoo.ua/ua/jobs.html"> {{ $t('here') }}</a></p>
   </div>
 </template>
 

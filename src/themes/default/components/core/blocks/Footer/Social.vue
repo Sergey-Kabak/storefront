@@ -5,6 +5,7 @@
       :key="index"
       class="social-icon brdr-circle no-underline"
       :href="social.link"
+      rel="nofollow"
       target="__blank"
       :aria-label="$t(social.label)"
     >
