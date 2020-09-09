@@ -7,7 +7,7 @@
         :class="direction === 'left' ? 'left-sidebar' : direction === 'right' ? 'right-sidebar' : null "
         data-testid="sidebar"
         ref="sidebar"
-        v-show="isOpen"
+        v-if="isOpen"
       >
         <component :is="component" @close="$emit('close')" @reload="getComponent" />
       </div>
@@ -106,8 +106,13 @@ export default {
   -webkit-overflow-scrolling: touch;
 }
 
+.consultation-sidebar {
+  min-width: 288px;
+  width: calc(100% - 32px);
+}
+
 .left-sidebar{
-  height: 100vh;
+  height: 100%;
   width: 350px;
   top: 0;
   left: 0;

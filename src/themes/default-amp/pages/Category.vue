@@ -22,7 +22,7 @@
             </h4>
             <p>{{ $t('Please change Your search criteria and try again. If still not finding anything relevant, please visit the Home page and try out some of our bestsellers!') }}</p>
           </div>
-          <product-listing columns="4" :products="products" />
+          <product-listing :products="products" />
         </div>
       </div>
     </div>

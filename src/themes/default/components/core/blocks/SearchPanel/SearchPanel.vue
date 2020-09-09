@@ -97,13 +97,14 @@ import {
   clearAllBodyScrollLocks,
   disableBodyScroll
 } from 'body-scroll-lock';
+import edgeFlat from 'theme/mixins/edgeFlat'
 
 export default {
   components: {
     ProductTile,
     CategoryPanel
   },
-  mixins: [SearchPanel, VueOfflineMixin],
+  mixins: [SearchPanel, VueOfflineMixin, edgeFlat],
   validations: {
     search: {
       minLength: minLength(3)
@@ -126,16 +127,17 @@ export default {
       return productList
     },
     categories () {
-      const categories = this.products
-        .filter(p => p.category)
-        .map(p => p.category)
-        .flat()
+      let categories = this.products.filter(p => p.category).map(p => p.category)
 
-      const discinctCategories = Array.from(
+      if (this.isEdge) {
+        categories = this.flattenDeep(categories)
+      } else {
+        categories = categories.flat()
+      }
+
+      return Array.from(
         new Set(categories.map(c => c.category_id))
       ).map(catId => categories.find(c => c.category_id === catId))
-
-      return discinctCategories
     },
     getNoResultsMessage () {
       let msg = ''

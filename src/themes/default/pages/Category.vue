@@ -79,16 +79,16 @@
 
               <div class="buttons-group">
                 <button-full
-                    class="buttons-group"
-                    @click.native="resetAllFilters"
-                  >
-                  Очистить все
+                  class="buttons-group"
+                  @click.native="resetAllFilters"
+                >
+                  {{$t('Clear all')}}
                 </button-full>
                 <button-full
-                    class="buttons-group"
-                    @click.native="closeFilters"
-                  >
-                  Показать
+                  class="buttons-group"
+                  @click.native="closeFilters"
+                >
+                  {{$t('show')}}
                 </button-full>
               </div>
             </div>
@@ -109,10 +109,8 @@
             </h4>
             <p>{{ $t('Please change Your search criteria and try again. If still not finding anything relevant, please visit the Home page and try out some of our bestsellers!') }}</p>
           </div>
-          <!--<pre>{{ getCurrentCategory }}</pre>-->
-          <!--<pre>{{ getCategoryProducts }}</pre>-->
           <lazy-hydrate :trigger-hydration="!loading" v-if="isLazyHydrateEnabled">
-            <product-listing :columns="4" :products="getCategoryProducts" />
+            <product-listing :products="getCategoryProducts" />
           </lazy-hydrate>
           <product-listing v-else :products="getCategoryProducts" />
         </div>
@@ -276,6 +274,10 @@ $mobile_screen : 768px;
     width: 95%;
   }
 
+  .product-listing {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
   .active-filters-mobile{
     position: fixed;
     bottom: 0;
@@ -380,12 +382,26 @@ $mobile_screen : 768px;
     font-size: 14px;
     line-height: 16px;
     color: #1A1919;
+    margin-right: 12px;
   }
 
   .mobile-filters {
     display: none;
     overflow: auto;
     padding: 0;
+    /deep/ .filter{
+      &:last-child{
+        .filter-body{
+          border:none;
+          .price-selector{
+            margin-bottom: 0;
+            .inputs{
+              margin-bottom: 0;
+            }
+          }
+        }
+      }
+    }
   }
 
   .mobile-filters-button {
@@ -450,7 +466,7 @@ $mobile_screen : 768px;
   .category-sort {
     display: flex;
     align-items: center;
-    margin: 0 0 25px 0;
+    margin: 0px 0px 28px 0;
   }
 
   @media (max-width: 768px) {
@@ -502,7 +518,7 @@ $mobile_screen : 768px;
         &.hasFilters{
           padding-bottom: 130px;
         }
-        min-height: 100vh;
+        min-height: 100%;
         padding: 16px;
         display: flex;
         flex-direction: column;
@@ -532,7 +548,7 @@ $mobile_screen : 768px;
       z-index: 5;
       left: 0;
       width: 100%;
-      height: 100vh;
+      height: 100%;
       top: 0;
       box-sizing: border-box;
     }
@@ -581,10 +597,6 @@ $mobile_screen : 768px;
   }
 </style>
 <style lang="scss">
-.product-image {
-  max-height: unset !important;
-}
-
 .banner-description {
   margin-top: 25px;
   display: flex;

@@ -9,30 +9,25 @@
       >
         <div
           @click="execAction(notification.action1, index)"
-          class="message p20"
+          class="message"
           data-testid="notificationMessage"
         >
           {{ notification.message }}
         </div>
         <div class="actions">
-          <div
-            class="py10 px20 pointer weight-400 action-border notification-action uppercase"
-            :class="`border-${notification.type}`"
-            id="notificationAction1"
-            data-testid="notificationAction1"
-            @click="execAction(notification.action1, index)"
-          >
-            {{ notification.action1.label }}
-          </div>
-          <div
-            class="py10 px20 pointer weight-400 notification-action uppercase"
+          <button-outline
+            class="notification-action"
             id="notificationAction2"
             data-testid="notificationAction2"
-            @click="execAction(notification.action2, index)"
-            v-if="notification.action2"
-          >
-            {{ notification.action2.label }}
-          </div>
+            @click.native="execAction(notification.action1, index)"
+            v-if="notification.action1"
+          >{{ notification.action1.label }}</button-outline>
+          <button-full
+            id="notificationAction1"
+            data-testid="notificationAction1"
+            @click.native="execAction(notification.action2, index)"
+            class="notification-action"
+          >{{ notification.action2.label }}</button-full>
         </div>
       </div>
     </transition-group>
@@ -41,9 +36,15 @@
 
 <script>
 import { Notification } from '@vue-storefront/core/modules/notification/components/Notification';
+import ButtonFull from 'theme/components/theme/ButtonFull';
+import ButtonOutline from 'theme/components/theme/ButtonOutline';
 
 export default {
   mixins: [Notification],
+  components: {
+    ButtonFull,
+    ButtonOutline
+  },
   methods: {
     execAction (action, index) {
       if (action.action) {
@@ -74,10 +75,11 @@ $color-action: color(black);
 .notifications {
   top: 100px;
   right: 5%;
-  width: 320px;
+  max-width: 280px;
   z-index: $z-index-notification;
 
   @media (max-width: 64em) {
+    max-width: 100%;
     width: auto;
     top: auto;
     left: 0;
@@ -91,12 +93,11 @@ $color-action: color(black);
   }
 }
 .notification {
-  box-shadow: 0px 0px 35px -5px rgba($color-action, .7);
+  box-shadow: 0px 1px 8px 0px rgba(0, 0, 0, 0.3);
   background: #FFFFFF !important;
-  border: 1px solid #23BE20;
   box-sizing: border-box;
   border-radius: 4px;
-  padding: 24px;
+  padding: 16px;
   color: #1A1919;
 
   &:first-child  {
@@ -104,44 +105,27 @@ $color-action: color(black);
   }
 }
 
+.button-full {
+  background: #23BE20;
+}
+
+.message {
+  margin-bottom: 24px;
+  font-family: DIN Pro;
+  font-size: 14px;
+  line-height: 20px;
+  color: #1A1919;
+}
+
 .actions {
   display: flex;
   justify-content: space-between;
 
   .notification-action {
-    background: rgba($color-action, .2);
-    text-align: center;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  #notificationAction1 {
-    background: #FFFFFF;
-    border: 1px solid #23BE20;
-    box-sizing: border-box;
-    border-radius: 4px;
-    font-family: DIN Pro;
-    font-style: normal;
-    font-weight: bold;
-    font-size: 15px;
-    line-height: 16px;
-    color: #1A1919;
-    margin: 0 5px;
-    width: calc(50% - 5px);
-  }
-
-  #notificationAction2 {
-    background: #23BE20;
-    border-radius: 4px;
-    font-family: DIN Pro;
-    font-style: normal;
-    font-weight: bold;
-    font-size: 15px;
-    line-height: 16px;
-    color: #FFFFFF;
-    margin: 0 5px;
-    width: calc(50% - 5px);
+    padding: 4px 0;
+    width: calc(50% - 6px);
+    min-height: 40px;
+    height: auto;
   }
 }
 .success {

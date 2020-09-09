@@ -52,7 +52,7 @@ export default {
 
 </style>
 
-<style lang="sass">
+<style lang="sass" scoped>
   .location
     border-bottom: 1px solid #e0e0e0
     .item-center
@@ -81,7 +81,6 @@ export default {
       color: #5F5E5E
       font-weight: 600
     .working-time
-      margin-top: 16px
       font-family: 'DIN Pro'
       font-size: 13px
       line-height: 16px

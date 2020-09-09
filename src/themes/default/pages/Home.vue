@@ -1,83 +1,30 @@
 <template>
   <div id="home">
-    <section class="container px15">
+    <section class="v-container">
       <no-ssr>
         <home-carousel />
       </no-ssr>
     </section>
     <!--<head-image />-->
 
-    <section class="container px15 offer-gallery">
+    <section class="v-container offer-gallery">
       <div class="gallery-title">
         {{ $t('Popular categories') }}
       </div>
       <div class="banner-group">
-        <div class="col-md-4 col-xs-6 mt15">
-          <div class="banner">
-            <div class="text">
-              <div class="title">{{getCategoryData(0) && $t(getCategoryData(0).title)}}</div>
-              <div class="description">{{getCategoryData(0) && $t(getCategoryData(0).description)}}</div>
-            </div>
-            <div class="image">
-              <img :src="getCategoryData(0) && getCategoryData(0).image" alt="">
-            </div>
-            <router-link class="custom-category-link" :to="categoryLink(0)" />
+        <router-link class="banner" :to="formatCategoryLink(category)"  v-for="(category, index) in categoriesData" :key="index">
+          <div class="text">
+            <div class="title">{{ $t(category.title) }}</div>
+            <div class="description">{{ $t(category.description) }}</div>
           </div>
-        </div>
-        <div class="col-md-4 col-xs-6 mt15">
-          <div class="banner">
-            <div class="text">
-              <div class="title">{{getCategoryData(1) && $t(getCategoryData(1).title)}}</div>
-              <div class="description">{{getCategoryData(1) && $t(getCategoryData(1).description)}}</div>
-            </div>
-            <div class="image">
-              <img :src="getCategoryData(1) && getCategoryData(1).image" alt="">
-            </div>
-            <router-link class="custom-category-link" :to="categoryLink(1)" />
-          </div>
-        </div>
-        <div class="col-md-4 col-xs-6 mt15">
-          <div class="banner">
-            <div class="text">
-              <div class="title">{{getCategoryData(2) && $t(getCategoryData(2).title)}}</div>
-              <div class="description">{{getCategoryData(2) && $t(getCategoryData(2).description)}}</div>
-            </div>
-            <div class="image">
-              <img :src="getCategoryData(2) && getCategoryData(2).image" alt="">
-            </div>
-            <router-link class="custom-category-link" :to="categoryLink(2)" />
-          </div>
-        </div>
-        <div class="col-md-6 col-xs-6 mt15">
-          <div class="banner">
-            <div class="text">
-              <div class="title">{{getCategoryData(3) && $t(getCategoryData(3).title)}}</div>
-              <div class="description">{{getCategoryData(3) && $t(getCategoryData(3).description)}}</div>
-            </div>
-            <div class="image mr75">
-              <img :src="getCategoryData(3) && getCategoryData(3).image" alt="">
-            </div>
-            <router-link class="custom-category-link" :to="categoryLink(3)" />
-          </div>
-        </div>
-        <div class="col-md-6 col-xs-12 mt15">
-          <div class="banner">
-            <div class="text">
-              <div class="title">{{getCategoryData(4) && $t(getCategoryData(4).title)}}</div>
-              <div class="description">{{getCategoryData(4) && $t(getCategoryData(4).description)}}</div>
-            </div>
-            <div class="image mr75">
-              <img :src="getCategoryData(4) && getCategoryData(4).image" alt="">
-            </div>
-            <router-link class="custom-category-link" :to="categoryLink(4)" />
-          </div>
-        </div>
+          <img :src="category.image" alt="index" class="image">
+        </router-link>
       </div>
     </section>
     <!--<head-image />-->
     <!--<promoted-offers />-->
 
-    <section class="container px15">
+    <section class="v-container ">
       <div>
         <header class="col-md-12">
           <h2 class="cl-accent">
@@ -85,7 +32,7 @@
           </h2>
         </header>
       </div>
-      <div class="row center-xs">
+      <div class="center-xs">
         <lazy-hydrate :trigger-hydration="!loading" v-if="isLazyHydrateEnabled">
           <product-listing columns="4" :products="getStockGoods" />
         </lazy-hydrate>
@@ -101,15 +48,13 @@
       </div>
     </section>
 
-    <section class="container px15">
-      <div>
-        <header class="col-md-12">
-          <h2 class="cl-accent">
-            {{ $t('Sales leaders') }}
-          </h2>
-        </header>
-      </div>
-      <div class="row center-xs">
+    <section class="v-container ">
+      <header class="col-md-12">
+        <h2 class="cl-accent">
+          {{ $t('Sales leaders') }}
+        </h2>
+      </header>
+      <div class="center-xs">
         <lazy-hydrate :trigger-hydration="!loading" v-if="isLazyHydrateEnabled">
           <product-listing columns="4" :products="getSalesLeaders" />
           <!--<product-listing columns="4" :products="products" />-->
@@ -126,28 +71,26 @@
       </div>
     </section>
 
-    <section class="container px15 pb60">
+    <section class="v-container  pb60">
       <div class="banner">
         <img src="https://info.ringoo.ua/images/mag/main_baner.png" alt="banner">
       </div>
     </section>
 
-    <section v-if="isOnline" class="container pb60 px15">
-      <div class="row">
-        <header class="col-md-12">
-          <h2 class="cl-accent">
-            {{ $t('Our shares') }}
-          </h2>
-        </header>
-      </div>
-      <section class="container px15">
+    <section v-if="isOnline" class="v-container pb60 ">
+      <header class="col-md-12">
+        <h2 class="cl-accent">
+          {{ $t('Our shares') }}
+        </h2>
+      </header>
+      <section>
         <no-ssr>
           <home-carousel />
         </no-ssr>
       </section>
     </section>
 
-    <section class="container px15">
+    <section class="v-container ">
       <div>
         <header class="col-md-12">
           <h2 class="cl-accent">
@@ -155,7 +98,7 @@
           </h2>
         </header>
       </div>
-      <div class="row center-xs">
+      <div class="center-xs">
         <lazy-hydrate :trigger-hydration="!loading" v-if="isLazyHydrateEnabled">
           <product-listing columns="4" :products="getNew" />
         </lazy-hydrate>
@@ -171,7 +114,7 @@
       </div>
     </section>
 
-    <section class="container px15">
+    <section class="v-container ">
       <div>
         <header class="col-md-12">
           <h2 class="cl-accent">
@@ -179,7 +122,7 @@
           </h2>
         </header>
       </div>
-      <div class="row center-xs">
+      <div class="center-xs">
         <lazy-hydrate :trigger-hydration="!loading" v-if="isLazyHydrateEnabled">
           <!--<product-listing columns="4" :products="getBestsellers" />-->
           <product-listing columns="4" :products="getRecommends" />
@@ -244,7 +187,8 @@ export default {
       stockGoodsProduct: [],
       salesLeadersProduct: [],
       newProduct: [],
-      recommendsProduct: []
+      recommendsProduct: [],
+      formatCategoryLink
     }
   },
   mixins: [Home, ProductOption],
@@ -270,6 +214,9 @@ export default {
       return config.ssr.lazyHydrateFor.some(
         field => ['homepage', 'homepage.stock_goods', 'homepage.sales_leaders', 'homepage.new_products', 'homepage.recommends'].includes(field)
       )
+    },
+    categoriesData() {
+      return config && config.actualCategory
     }
   },
   beforeCreate () {
@@ -299,15 +246,9 @@ export default {
     onVideoStarted (index) {
       this.hideImageAtIndex = index
     },
-    categoryLink (category) {
-      return formatCategoryLink(config && config.actualCategory && config.actualCategory[category])
-    },
     goToCategory (cat) {
       let link = formatCategoryLink(config && config.catLinks[cat])
       return this.$router.push(link)
-    },
-    getCategoryData (category) {
-      return config && config.actualCategory && config.actualCategory[category]
     }
   },
   mounted () {
@@ -358,8 +299,6 @@ export default {
 </script>
 
 <style lang="sass">
-  .mr75
-    margin-right: 75px
   #home
     h2
       font-family: 'DIN Pro'
@@ -367,7 +306,8 @@ export default {
       line-height: 30px
       color: #1A1919
     .show-all
-      margin: 32px 0 68px
+      min-width: 233px
+      margin: 32px auto 68px auto
       width: auto
       background-color: transparent
       border: 1px solid #23BE20
@@ -397,116 +337,167 @@ export default {
           .VueCarousel-dot-button
             background: #23BE20 !important
   .offer-gallery
-    img
-      display: block
-      height: 320px
-      width: 100%
-    .banner-group
-      display: flex
-      flex-wrap: wrap
-      & > div
-        &:nth-child(even) .banner
-          background: #ecf4dd
-        &:last-child .banner
-          @media (max-width: 767px)
-            height: 135px
-            .text
-              width: 200px
-              margin-top: 0
-            .image
-              top: 17px
-              position: absolute
-        .banner
-          box-sizing: border-box
-          background: #F6F7FA
-          border-radius: 4px
-          padding: 40px
-          position: relative
-          height: 320px
-          display: flex
-          overflow: hidden
-          .custom-category-link
-            position: absolute
-            width: 100%
-            height: 100%
-            left: 0
-            top: 0
-            z-index: 1
-          @media (max-width: 767px)
-            flex-direction: column
-            padding: 16px
-            height: 265px
-          .text
-            width: 200px
-            overflow: hidden
-            @media (max-width: 767px)
-              width: 100%
-              order: 1
-              margin-top: 35px
-          .title
-            font-family: DIN Pro
-            font-style: normal
-            font-weight: bold
-            font-size: 24px
-            line-height: 30px
-            color: #1A1919
-            @media (max-width: 767px)
-              font-size: 14px
-              line-height: 18px
-          .description
-            font-family: DIN Pro
-            font-style: normal
-            font-weight: normal
-            font-size: 16px
-            line-height: 24px
-            color: #5F5E5E
-            margin-top: 16px
-            @media (max-width: 767px)
-              font-size: 14px
-              line-height: 18px
-          .image
-            position: absolute
-            right: 0
-            top: 50px
-            width: 200px
-            img
-              width: 100%
-              height: auto
-            svg
-              position: absolute
-              right: 0
-              @media (max-width: 767px)
-                width: 100px
-                height: 100px
-            @media (max-width: 767px)
-              width: 100px
-              height: 100px
-              position: relative
-              top: 0
-              display: block
-              margin: 0 auto
+    &.v-container
+      width: 95%
   .gallery-title
-    margin: 32px 0
+    margin: 68px 0px 32px 0px
     font-family: 'DIN Pro'
     font-style: normal
     font-weight: bold
     font-size: 24px
     line-height: 30px
     color: #1A1919
-  .banner
-    img
-      width: 100%
-      display: block
 </style>
 
 <style lang="scss" scoped>
-  ::v-deep .product-listing {
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr))!important;
+  .v-container {
+    width: 90%;
   }
+
+  .banner-group {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    grid-gap: 20px;
+
+    .banner {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap-reverse;
+      align-items: flex-end;
+      grid-column: span 2;
+      box-sizing: border-box;
+      background: #F6F7FA;
+      border-radius: 4px;
+      padding: 32px;
+      position: relative;
+      height: 320px;
+
+      &:nth-child(3n + 2) {
+        background: #E4F9E4;
+      }
+      
+      &:nth-child(n + 4) {
+        grid-column: span 3;
+      }
+
+      .image {
+        display: block;
+        width: 40%;
+        height: auto;
+      }
+
+      .title {
+        font-family: DIN Pro;
+        font-style: normal;
+        font-weight: bold;
+        font-size: 18px;
+        line-height: 23px;
+        color: #1A1919;
+      }
+
+      .description {
+        font-family: DIN Pro;
+        font-style: normal;
+        font-weight: normal;
+        font-size: 16px;
+        line-height: 24px;
+        color: #5F5E5E;
+        margin-top: 16px;
+      }
+
+      .text {
+        width: 50%;
+      }
+    }
+  }
+
 
   .new-collection {
     @media (max-width: 767px) {
       padding-top: 0;
+    }
+  }
+
+  @media (max-width: 1024px) {
+    .banner-group {
+      .banner {
+        padding: 16px;
+        flex-direction: column-reverse;
+        align-items: center;
+        justify-content: flex-end;
+        height: 100%;
+
+        .text {
+          width: 100%;
+        }
+
+        .image {
+          width: 100%;
+          max-width: 180px;
+          margin-bottom: 16px;
+        }
+      }
+    }
+  }
+
+  @media (max-width: 768px) {
+    .gallery-title {
+      margin: 48px 0px 24px 0px;
+    }
+
+    .banner-group {
+      grid-gap: 16px;
+      .banner {
+        grid-column: span 3;
+
+        &:last-child {
+          grid-column: span 6;
+          flex-direction: row;
+          align-items: center;
+          justify-content: space-between;
+          flex-wrap: nowrap;
+
+          .text {
+            width: auto;
+            margin-right: 6px;
+          }
+        }
+
+        .title {
+          font-size: 15px;
+          line-height: 19px;
+        }
+
+        .description {
+          font-size: 13px;
+          line-height: 16px;
+        }
+
+        .image {
+          min-width: 100px;
+
+          &:last-child {
+            margin-bottom: 0;
+          }
+        }
+      }
+    }
+
+    @media (max-width: 540px) {
+      .banner-group {
+        .banner {
+          .image {
+            max-width: 120px;
+          }
+        }
+      }
+
+      #home {
+        .show-all {
+          max-width: 100%;
+          width: 100%;
+        }
+      }
     }
   }
 </style>
