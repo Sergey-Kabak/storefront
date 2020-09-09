@@ -460,3 +460,19 @@
 "the payments","payments"
 
 "The requested qty is not available","The requested qty is not available"
+
+"standard","Standard"
+"otp_bank","OTP Bank"
+"alpha_bank","Alpha Bank"
+"globus_bank","Globus Bank"
+"slon_credit","Slon Credit"
+"card_sevice","Card Service"
+"pumb_bank","PUMB"
+"monobank","Monobank"
+"ligth_payment","Installment at 0.01%"
+"by month","в месяц"
+
+"Middle name *","Middle name *"
+"Date of Birth","Date of Birth"
+"DD/MM/YYYY *","DD/MM/YYYY *"
+"ITN","ІПН"

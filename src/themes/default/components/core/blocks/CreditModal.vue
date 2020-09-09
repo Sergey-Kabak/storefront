@@ -16,8 +16,10 @@
          <div v-for="(bank , index) in banks" :key="index" class="credit-card-block__row flex h-center" :class="{'active' : selectedBank === index}">
             <div class="credit-card-block__radio-wrap flex v-center">
               <div class="flex v-center">
-                <base-radiobutton :id="'bank' + index" name="bank" @change="setSelectedBank(index)" :checked="selectedBank === index">{{bank.name}}</base-radiobutton>
-                <img :src="'assets/banks/' + bank.icon" alt="">
+                <base-radiobutton :id="'bank' + index" name="bank" @change="setSelectedBank(index)" :checked="selectedBank === index">
+                  {{ $t(bank.name) }}
+                </base-radiobutton>
+                <img :src="'assets/banks/' + bank.icon" :alt="bank.name">
               </div>
             </div>
             <div>
@@ -33,7 +35,7 @@
             </div>
             <div>
               <custom-select :selected-index="1"
-                             :options="bank.range" v-on:input="selectedPaymentCount($event, bank.icon)"/>
+                             :options="transRange(bank.range)" v-on:input="selectedPaymentCount($event, bank.icon)"/>
             </div>
             <div>
               <b>{{ bank.monthly_payment }} ₴</b>
@@ -71,6 +73,7 @@ import { mapGetters }      from 'vuex'
 import config              from 'config'
 import {localizedRoute} from "@vue-storefront/core/lib/multistore";
 import {CREDIT_SET_BANKS, CREDIT_SET_SELECTED_BANK} from "../../../store/credit/mutation-types";
+import i18n from '@vue-storefront/i18n';
 
 export default {
   components: {
@@ -100,6 +103,14 @@ export default {
     },
   },
   methods: {
+    transRange(range) {
+      return range.map((item) => {
+        return {
+          value: item.value,
+          label: item.value  + ' ' + i18n.t(item.label)
+        }
+      });
+    },
     setSelectedBank(index) {
       this.selectedBank = index;
       this.saveBanks();
@@ -107,6 +118,7 @@ export default {
     close() {
       this.saveBanks();
       this.$bus.$emit('modal-close', 'modal-credits');
+      this.$bus.$emit('change-payment-selected-method', { method: 'crerdit' })
       this.$router.push(localizedRoute('/checkout'));
     },
     initBanks() {

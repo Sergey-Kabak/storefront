@@ -90,7 +90,7 @@
                       <span @click="setPaymentSystemIsActive('credit')" v-if="payment_system === 'credit'" class="checkmark-active" />
                     </span>
 
-                    <span>{{ getCurrentCreditBank.name }}</span>
+                    <span>{{ $t(getCurrentCreditBank.name) }}</span>
 
                     <svg v-if="getCurrentCreditBank.icon === 'standard.png'" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <path d="M14.5301 15.152C14.2921 15.0736 14.0272 15.1549 13.8761 15.3574C13.7897 15.473 13.7125 15.5955 13.6478 15.7185C12.6219 15.0879 11.3288 15.0965 10.3601 15.7167C10.292 15.5874 10.2119 15.4575 10.1084 15.3328C9.94984 15.144 9.69068 15.0736 9.45834 15.1572C9.2266 15.2413 9.07211 15.4616 9.07211 15.7081V21.4138C9.07211 21.6169 9.17738 21.8052 9.35018 21.9121C9.52127 22.0191 9.73696 22.0271 9.92008 21.9379L12.0017 20.8971L14.0832 21.9379C14.2687 22.0299 14.484 22.0173 14.6531 21.9121C14.8259 21.8052 14.9312 21.6169 14.9312 21.4138V15.7081C14.9312 15.4558 14.7699 15.2321 14.5301 15.152ZM12.0017 4.32983C9.09391 4.32983 6.72852 6.69523 6.72852 9.60301C6.72852 12.5108 9.09391 14.8762 12.0017 14.8762C14.9095 14.8762 17.2749 12.5108 17.2749 9.60301C17.2749 6.69523 14.9095 4.32983 12.0017 4.32983ZM13.384 11.4964L12.0017 10.7834L10.6222 11.5067L10.8842 9.97495L9.76903 8.88207L11.3133 8.64861L12.004 7.2611L12.69 8.64861L14.2269 8.88149L13.1191 9.97491L13.384 11.4964Z" fill="url(#paint0_linear)"/>
@@ -124,7 +124,7 @@
                     {{ getCurrentCreditBank.number_of_payments - 1 === 1 ? $t('payment') : '' }}
                     {{ getCurrentCreditBank.number_of_payments - 1 === 0 && getCurrentCreditBank.number_of_payments > 4 ? $t('the payments') : '' }}
                     {{ getCurrentCreditBank.number_of_payments - 1 > 1 && getCurrentCreditBank.number_of_payments < 5 ? $t('a payment') : '' }} </span>
-                  <span class="radioStyled-body-credit-info-body-black-text">по <span>{{ getCurrentCreditBank.monthly_payment }} ₴</span> / мес</span>
+                  <span class="radioStyled-body-credit-info-body-black-text"> <span>{{ getCurrentCreditBank.monthly_payment }} ₴</span> / {{ $t('by month') }}</span>
                 </div>
               </div>
               <div class="radioStyled-body-label">
@@ -133,30 +133,30 @@
 
               <div class="credit-field-section">
                 <div class="credit-field">
-                  <span class="credit-field-label">Имя</span>
+                  <span class="credit-field-label">{{ $t('First name') }}</span>
                 </div>
                 <div class="credit-field">
-                  <input type="text" class="credit-field-input" placeholder="Имя*">
-                  <input type="text" class="credit-field-input" placeholder="Фамилия*">
-                  <input type="text" class="credit-field-input" placeholder="Отчество*">
-                </div>
-              </div>
-
-              <div class="credit-field-section">
-                <div class="credit-field">
-                  <span class="credit-field-label">Дата рождения</span>
-                </div>
-                <div class="credit-field">
-                  <input type="date" class="credit-field-input" placeholder="ДД/ММ/ГГГГ*">
+                  <input type="text" class="credit-field-input" :placeholder="$t('First name *')">
+                  <input type="text" class="credit-field-input" :placeholder="$t('Last name *')">
+                  <input type="text" class="credit-field-input" :placeholder="$t('Middle name *')">
                 </div>
               </div>
 
               <div class="credit-field-section">
                 <div class="credit-field">
-                  <span class="credit-field-label">ИНН</span>
+                  <span class="credit-field-label">{{ $t('Date of Birth') }}</span>
                 </div>
                 <div class="credit-field">
-                  <input type="text" class="credit-field-input" placeholder="XX XX XX XX XX*">
+                  <input type="date" class="credit-field-input" :placeholder="$t('DD/MM/YYYY *')">
+                </div>
+              </div>
+
+              <div class="credit-field-section">
+                <div class="credit-field">
+                  <span class="credit-field-label">{{ $t('ITN') }}</span>
+                </div>
+                <div class="credit-field">
+                  <input type="text" class="credit-field-input" placeholder="XX XX XX XX XX *">
                 </div>
               </div>
 
@@ -240,7 +240,17 @@ export default {
       deep: true
     }
   },
-  mounted() {},
+  beforeMount () {
+    console.log('BEFORE MOUNT PAYMENT');
+    this.$bus.$on('change-payment-selected-method', this.changeSelectedPaymentMethod)
+  },
+  beforeDestroy() {
+    console.log('BEFORE DESCTROY PAYMENT');
+    this.$bus.$off('change-payment-selected-method')
+  },
+  mounted() {
+
+  },
   computed: {
     ...mapGetters({
       totals: 'cart/getTotals',
@@ -354,6 +364,11 @@ export default {
     }
   },
   methods: {
+    changeSelectedPaymentMethod(payload) {
+      console.log('changeSelectedPaymentMethod', payload);
+      console.log('changeSelectedPaymentMethod', payload);
+      console.log('changeSelectedPaymentMethod', payload);
+    },
     setPaymentSystemIsActive(code) {
       this.payment_system = code;
     },
