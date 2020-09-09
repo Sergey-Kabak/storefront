@@ -518,7 +518,7 @@ $mobile_screen : 768px;
         &.hasFilters{
           padding-bottom: 130px;
         }
-        min-height: 100vh;
+        min-height: 100%;
         padding: 16px;
         display: flex;
         flex-direction: column;
@@ -548,7 +548,7 @@ $mobile_screen : 768px;
       z-index: 5;
       left: 0;
       width: 100%;
-      height: 100vh;
+      height: 100%;
       top: 0;
       box-sizing: border-box;
     }
