@@ -108,11 +108,18 @@
     "url": "https://ringoo.ua"
   },
   "liqpay": {
+    "public_key": "i32012277522",
+    "private_key": "yn1ZNgkzlC3rw0F15BdiE8hzkYqzJvCrpckDtnJQ",
+    "version": "3",
+    "currency": "UAH",
+    "server_url": "https://ringoo.ua/api/payment/liqpay/callback"
+  },
+  "liqpay_dev": {
     "public_key": "sandbox_i33827525821",
     "private_key": "sandbox_ZoeELbqo1BBTi3LQnEsHF93wu425TzSvpZpYH11N",
     "version": "3",
     "currency": "UAH",
-    "server_url": "https://vue.ringoo.ua/api/payment/liqpay/callback"
+    "server_url": "https://ringoo.ua/api/payment/liqpay/callback"
   },
   "elasticsearch": {
     "httpAuth": "",
@@ -315,6 +322,7 @@
     "productList": {
       "sort": "updated_at:desc",
       "includeFields": [
+        "marketplace",
         "rma",
         "activity",
         "configurable_children.attributes",
@@ -385,6 +393,7 @@
     },
     "productListWithChildren": {
       "includeFields": [
+        "marketplace",
         "rma",
         "activity",
         "configurable_children.attributes",
@@ -493,6 +502,7 @@
       "includeFields": null,
       "useDynamicAttributeLoader": true,
       "standardSystemFields": [
+        "marketplace",
         "rma",
         "category",
         "category_ids",

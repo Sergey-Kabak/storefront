@@ -106,7 +106,7 @@ export const Shipping = {
       }
     },
     sendDataToCheckout(location) {
-      let type = `${this.$t(this.type)}, ${location.name ? location.name : location.streetname + ' ' + location.streetname2}`
+      let type = `${this.$t(this.type)}, ${location.name ? location.name : location.streetname + ' ' + location.streetname2}`;
 
       this.shipping = {
         ...this.shipping,
@@ -121,7 +121,9 @@ export const Shipping = {
         deliveryType: this.type,
         shopName: location.number ? `Нова Пошта ${location.name}` : location.name,
         isNewPost: !!location.number,
-        location
+        location,
+        // shippingMethod: this.type,
+        // shippingCarrier: this.type,
       }
       this.$bus.$emit('checkout-after-shippingDetails', this.shipping, this.$v)
       this.isFilled = true
