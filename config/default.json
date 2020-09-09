@@ -361,7 +361,8 @@
         "url_key",
         "*image",
         "*sku",
-        "*small_image"
+        "*small_image",
+        "stock"
       ],
       "excludeFields": [
         "attribute_set_id",
@@ -372,23 +373,7 @@
         "msrp_display_actual_price_type",
         "*.msrp_display_actual_price_type",
         "required_options",
-        "media_gallery",
-        "stock.use_config_min_qty",
-        "stock.use_config_notify_stock_qty",
-        "stock.stock_id",
-        "stock.use_config_backorders",
-        "stock.use_config_enable_qty_inc",
-        "stock.enable_qty_increments",
-        "stock.use_config_manage_stock",
-        "stock.use_config_min_sale_qty",
-        "stock.notify_stock_qty",
-        "stock.use_config_max_sale_qty",
-        "stock.use_config_max_sale_qty",
-        "stock.qty_increments",
-        "stock.stock_status_changed_auto",
-        "stock.show_default_notification_message",
-        "stock.use_config_qty_increments",
-        "stock.is_decimal_divided"
+        "media_gallery"
       ]
     },
     "productListWithChildren": {
