@@ -136,9 +136,9 @@
                   <span class="credit-field-label">{{ $t('First name') }}</span>
                 </div>
                 <div class="credit-field">
-                  <input type="text" class="credit-field-input" :placeholder="$t('First name *')">
-                  <input type="text" class="credit-field-input" :placeholder="$t('Last name *')">
-                  <input type="text" class="credit-field-input" :placeholder="$t('Middle name *')">
+                  <input type="text" v-model="creditFields.first_name" class="credit-field-input" :placeholder="$t('First name *')">
+                  <input type="text" v-model="creditFields.last_name" class="credit-field-input" :placeholder="$t('Last name *')">
+                  <input type="text" v-model="creditFields.mid_name" class="credit-field-input" :placeholder="$t('Middle name *')">
                 </div>
               </div>
 
@@ -147,7 +147,7 @@
                   <span class="credit-field-label">{{ $t('Date of Birth') }}</span>
                 </div>
                 <div class="credit-field">
-                  <input type="date" class="credit-field-input" :placeholder="$t('DD/MM/YYYY *')">
+                  <input type="date" v-model="creditFields.birthday" class="credit-field-input" :placeholder="$t('DD/MM/YYYY *')">
                 </div>
               </div>
 
@@ -156,7 +156,7 @@
                   <span class="credit-field-label">{{ $t('ITN') }}</span>
                 </div>
                 <div class="credit-field">
-                  <input type="text" class="credit-field-input" placeholder="XX XX XX XX XX *">
+                  <input type="text" v-model="creditFields.itn" class="credit-field-input" placeholder="XX XX XX XX XX *">
                 </div>
               </div>
 
@@ -230,6 +230,13 @@ export default {
   mixins: [Payment],
   data: () => ({
     isShowPromocode: false,
+    creditFields: {
+      first_name: null,
+      last_name: null,
+      mid_name: null,
+      birthday: null,
+      itn: null,
+    }
   }),
   watch: {
     'payment.paymentMethods': {
