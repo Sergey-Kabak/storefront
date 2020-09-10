@@ -14,7 +14,7 @@ export const homepageStore = {
     async fetchNewCollection({commit, dispatch}) {
       const newProductsQuery = prepareQuery({queryConfig: 'newProducts'})
 
-      const newProductsResult = await dispatch('product/list', {
+      const newProductsResult = await dispatch('product/findProducts', {
         query: newProductsQuery,
         size: 8,
         sort: 'created_at:desc'
@@ -27,7 +27,7 @@ export const homepageStore = {
       commit('SET_NEW_COLLECTION', configuredProducts)
     },
     async loadBestsellers({commit, dispatch}) {
-      const response = await dispatch('product/list', {
+      const response = await dispatch('product/findProducts', {
         query: prepareQuery({queryConfig: 'bestSellers'}),
         size: 8,
         sort: 'created_at:desc'
@@ -36,7 +36,7 @@ export const homepageStore = {
       commit('SET_BESTSELLERS', response.items)
     },
     async loadStockGoods({commit, dispatch}) {
-      const response = await dispatch('product/list', {
+      const response = await dispatch('product/findProducts', {
         query: prepareQuery({queryConfig: 'stockGoods'}),
         size: 4,
         sort: 'created_at:desc'
@@ -45,7 +45,7 @@ export const homepageStore = {
       commit('SET_STOCK_GOODS', response.items)
     },
     async loadSalesLeaders({commit, dispatch}) {
-      const response = await dispatch('product/list', {
+      const response = await dispatch('product/findProducts', {
         query: prepareQuery({queryConfig: 'salesLeaders'}),
         size: 4,
         sort: 'created_at:desc'
@@ -54,7 +54,7 @@ export const homepageStore = {
     commit('SET_SALES_LEADERS', response.items)
     },
     async loadNew({commit, dispatch}) {
-      const response = await dispatch('product/list', {
+      const response = await dispatch('product/findProducts', {
         query: prepareQuery({queryConfig: 'new'}),
         size: 4,
         sort: 'created_at:desc'
@@ -63,7 +63,7 @@ export const homepageStore = {
       commit('SET_NEW', response.items)
     },
     async loadRecommends({commit, dispatch}) {
-      const response = await dispatch('product/list', {
+      const response = await dispatch('product/findProducts', {
         query: prepareQuery({queryConfig: 'recommends'}),
         size: 4,
         sort: 'created_at:desc'
