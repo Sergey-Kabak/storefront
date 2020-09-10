@@ -293,7 +293,7 @@ import { catalogHooksExecutors } from '@vue-storefront/core/modules/catalog-next
 import ProductPrice from 'theme/components/core/ProductPrice.vue';
 import Promo from 'theme/components/core/blocks/Product/Promo.vue'
 import ButtonWhite from 'theme/components/core/blocks/Product/ButtonWhite.vue'
-import {notifications} from "@vue-storefront/core/modules/cart/helpers";
+import {notifications, productsEquals} from "@vue-storefront/core/modules/cart/helpers";
 import Spinner from "../components/core/Spinner";
 
 export default {
@@ -347,7 +347,8 @@ export default {
       getCurrentProductConfiguration: 'product/getCurrentProductConfiguration',
       getOriginalProduct: 'product/getOriginalProduct',
       attributesByCode: 'attribute/attributeListByCode',
-      getCurrentCustomOptions: 'product/getCurrentCustomOptions'
+      getCurrentCustomOptions: 'product/getCurrentCustomOptions',
+      getCartItems: 'cart/getCartItems',
     }),
     isProductRma() {
       return this.getCurrentProduct.hasOwnProperty("rma")
@@ -453,15 +454,19 @@ export default {
     async showModalCredits() {
       try {
         this.show_modal_credits_loading = true;
-        const diffLog = await this.$store.dispatch('cart/addItem', { productToAdd: this.getCurrentProduct })
-        diffLog.clientNotifications.forEach(notificationData => {
-
-          // Notify user that product is added
-          this.notifyUser(notificationData)
-
+        let getProductFromCartIfExist = this.getCartItems.find(p => p.slug, this.getCurrentProduct.slug);
+        if (getProductFromCartIfExist === undefined) {
+          const diffLog = await this.$store.dispatch('cart/addItem', { productToAdd: this.getCurrentProduct })
+          diffLog.clientNotifications.forEach(notificationData => {
+            // Notify user that product is added
+            this.notifyUser(notificationData)
+            // Do open modal credits
+            this.$bus.$emit('modal-show', 'modal-credits')
+          })
+        } else {
           // Do open modal credits
           this.$bus.$emit('modal-show', 'modal-credits')
-        })
+        }
       } catch (message) {
         this.notifyUser(notifications.createNotification({ type: 'error', message }))
       } finally {
