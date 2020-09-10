@@ -165,7 +165,11 @@
                 :disabled="isAddToCartDisabled"
                 class="col-xs-12 col-sm-4 col-md-6"
               />
-              <button-white @click.native="showModalCredits" class="buy_in_credit h40 flex1">
+              <button-white
+                @click.native="showModalCredits"
+                :disabled="isAddToCartDisabled"
+                class="buy_in_credit h40 flex1"
+              >
                 <span v-if="!show_modal_credits_loading">
                   {{ $t('In credit') }} {{ getCurrentProduct.original_price_incl_tax / 2 }} ₴ / {{ $t('month') }}
                 </span>
