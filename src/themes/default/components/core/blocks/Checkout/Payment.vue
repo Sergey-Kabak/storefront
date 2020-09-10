@@ -23,7 +23,7 @@
       </div>
       <div class="payment-methods">
         <div class="payment-card" v-for="(method, index) in paymentMethods" :key="index" v-if="isShowPaymentMethod(method)">
-          <label class="radioStyled" :class="{'active': payment_system === method.code}">
+          <label class="radioStyled" :class="{'active': getActivePaymentSystem === method.code}">
             <div class="radioStyled-header">
               <div class="radioStyled-header-title" @click="setPaymentSystemIsActive(method.code)">
                 <span
@@ -49,7 +49,7 @@
           </label>
         </div>
         <div class="payment-credit">
-          <label class="radioStyled" :class="{'active': payment_system === 'credit'}">
+          <label class="radioStyled" :class="{'active': getActivePaymentSystem === 'credit'}">
             <div class="radioStyled-header">
               <div class="radioStyled-header-title" @click="setPaymentSystemIsActive('credit')">
 
@@ -230,7 +230,6 @@ export default {
   mixins: [Payment],
   data: () => ({
     isShowPromocode: false,
-    payment_system: 'cashondelivery',
   }),
   watch: {
     'payment.paymentMethods': {
@@ -240,22 +239,12 @@ export default {
       deep: true
     }
   },
-  beforeMount () {
-    console.log('BEFORE MOUNT PAYMENT');
-    this.$bus.$on('change-payment-selected-method', this.changeSelectedPaymentMethod)
-  },
-  beforeDestroy() {
-    console.log('BEFORE DESCTROY PAYMENT');
-    this.$bus.$off('change-payment-selected-method')
-  },
-  mounted() {
-
-  },
   computed: {
     ...mapGetters({
       totals: 'cart/getTotals',
       credit_banks: 'themeCredit/getBanks',
       credit_selected_bank: 'themeCredit/getSelectedBank',
+      payment_system: 'themePayment/getActivePaymentMethod',
     }),
     getCurrentCreditBank() {
       if (this.credit_banks !== undefined && this.credit_banks.length > 0) {
@@ -276,6 +265,9 @@ export default {
     },
     totalPrice () {
       return this.totals.find(it => it.code === 'grand_total').value
+    },
+    getActivePaymentSystem() {
+      return this.payment_system;
     },
   },
   validations () {
@@ -364,13 +356,8 @@ export default {
     }
   },
   methods: {
-    changeSelectedPaymentMethod(payload) {
-      console.log('changeSelectedPaymentMethod', payload);
-      console.log('changeSelectedPaymentMethod', payload);
-      console.log('changeSelectedPaymentMethod', payload);
-    },
     setPaymentSystemIsActive(code) {
-      this.payment_system = code;
+      this.$store.commit('themePayment/SET_NEW_ACTIVE_PAYMENT_METHOD', code);
     },
     isShowPaymentMethod (method) {
       return this.assoc[this.type].includes(method.code)

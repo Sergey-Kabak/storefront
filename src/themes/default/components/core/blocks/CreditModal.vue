@@ -118,7 +118,7 @@ export default {
     close() {
       this.saveBanks();
       this.$bus.$emit('modal-close', 'modal-credits');
-      this.$bus.$emit('change-payment-selected-method', { method: 'crerdit' })
+      this.$store.commit('themePayment/SET_NEW_ACTIVE_PAYMENT_METHOD', 'credit');
       this.$router.push(localizedRoute('/checkout'));
     },
     initBanks() {

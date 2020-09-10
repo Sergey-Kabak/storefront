@@ -42,7 +42,7 @@ function initTheme (app, router, store, config, ssrContext) {
   store.registerModule('ui', uiStore);
   store.registerModule('promoted', promotedStore);
   store.registerModule('customShipping', customShipping);
-  // store.registerModule('payment', paymentStore);
+  store.registerModule('themePayment', paymentStore);
 }
 
 export {
