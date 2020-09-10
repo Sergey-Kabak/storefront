@@ -6,6 +6,7 @@ import VueProgressBar from 'vue-progressbar';
 import '@vue-storefront/core/lib/passive-listeners';
 import { once } from '@vue-storefront/core/helpers';
 import { module as cartModule } from './store/cart';
+import { module as creditModule } from './store/credit';
 
 import { claimsStore } from 'theme/store/claims';
 import { homepageStore } from 'theme/store/homepage';
@@ -24,6 +25,7 @@ once('__VUE_EXTEND_DROPPOINT_VPB__', () => {
 const themeEntry = App
 function initTheme (app, router, store, config, ssrContext) {
   store.registerModule('themeCart', cartModule)
+  store.registerModule('themeCredit', creditModule)
   // Register theme routes for the current store. In a single store setup this will add routes exactly as they are in the router definition file '[theme]/router/index.js'
   // In a multistore setup, it depends on the config setting 'appendStoreCode' for the current store
   // - true = the store code will be added to the front of all routes, e.g. name: 'de-checkout', path: '/de/checkout'
@@ -40,7 +42,7 @@ function initTheme (app, router, store, config, ssrContext) {
   store.registerModule('ui', uiStore);
   store.registerModule('promoted', promotedStore);
   store.registerModule('customShipping', customShipping);
-  // store.registerModule('payment', paymentStore);
+  store.registerModule('themePayment', paymentStore);
 }
 
 export {

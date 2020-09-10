@@ -72,9 +72,16 @@ export default {
 <style lang="scss" scoped>
   @import '~theme/css/variables/colors';
   @import '~theme/css/helpers/functions/color';
-  $color-silver: color(silver);
-  $color-active: color(secondary);
+  $color-silver: #E0E0E0;
+  $color-active: #23BE20;
   $color-white: color(white);
+  $hover : #cecece;
+  $focus : #c5c5c5;
+  $active : #bcbcbc;
+
+  $hover_checked : #20af1d;
+  $focus_checked : #1fa71c;
+  $active_checked : #1d9f1b;;
 
   label {
     &:before {
@@ -82,56 +89,87 @@ export default {
       position: absolute;
       top: 3px;
       left: 0;
-      width: 22px;
-      height: 22px;
+      width: 20px;
+      height: 20px;
       background-color: $color-white;
-      border: 1px solid $color-silver;
+      border: 2px solid $color-silver;
+      border-radius: 50%;
+      box-sizing: border-box;
       cursor: pointer;
     }
   }
-
   input {
     display: none;
     position: absolute;
     top: 3px;
     left: 0;
     &:checked + label {
+      &:hover{
+        &:before{
+          border-color: $hover_checked;
+        }
+        &:after{
+          background-color: $hover_checked;
+        }
+      }
+      &:focus{
+        &:before{
+          border-color: $focus_checked;
+        }
+        &:after{
+          background-color: $focus_checked;
+        }
+      }
+      &:active{
+        &:before{
+          border-color: $active_checked;
+        }
+        &:after{
+          background-color: $active_checked;
+        }
+      }
       &:before {
         background-color: $color-silver;
-        border-color: $color-silver;
+        border-color: $color-active;
         cursor: pointer;
       }
       &:after {
         content: '';
         position: absolute;
-        top: 9px;
-        left: 5px;
-        width: 11px;
-        height: 5px;
-        border: 3px solid $color-white;
-        border-top: none;
-        border-right: none;
-        background-color: $color-silver;
-        transform: rotate(-45deg);
+        top: 5px;
+        left: 2px;
+        width: 16px;
+        height: 16px; 
+        border: 3px solid #fff;
+        border-radius: 50%;
+        background-color: $color-active;
+        box-sizing: border-box;
       }
     }
-    &:hover,
+    &:hover {
+      + label {
+        &:before {
+          border-color: $hover;
+        }
+      }
+    }
     &:focus {
       + label {
         &:before {
-          border-color: $color-active;
+          border-color: $focus;
+        }
+      }
+    }
+    &:active {
+      + label {
+        &:before {
+          border-color: $active;
         }
       }
     }
     &:disabled + label {
       cursor: not-allowed;
-      &:hover,
-      &:focus {
-        &:before {
-          border-color: $color-silver;
-          cursor: not-allowed;
-        }
-      }
+      opacity: 0.38;
     }
   }
 </style>

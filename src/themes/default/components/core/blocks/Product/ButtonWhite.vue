@@ -1,29 +1,43 @@
 <template>
-    <button>
+    <button :disabled='isDisabled'>
         <slot/>
     </button>
 </template>
 
 <script>
 export default {
-
+    props: {
+      disabled: {
+        type: Boolean,
+        required: false,
+        default: true
+      }
+    },
+  computed: {
+    isDisabled() {
+      return this.disabled;
+    }
+  }
 }
 </script>
 
 <style lang="scss" scoped>
-    $hover : #F9F9F9;
-    $focus : rgba(0, 0, 0, 0.08);
-    $active : rgba(0, 0, 0, 0.12);
+    $hover : #23BE20;
+    $focus : #20af1d;
+    $active : #1d9f1b;
     button{
         &:not(:disabled){
             &:hover{
                 background-color : $hover;
+                color: #fff;
             }
             &:focus{
                 background-color : $focus;
+                color: #fff;
             }
             &:active{
                 background-color : $active;
+                color: #fff;
             }
         }
         &:disabled{

@@ -50,6 +50,10 @@
 
       <custom-seller-product />
 
+      <terms-of-action-modal />
+
+      <credit-modal />
+
       <cookie-notification/>
       <offline-badge/>
       <order-confirmation :orders-data="ordersData" v-if="loadOrderConfirmation"/>
@@ -82,6 +86,8 @@ const OrderConfirmation = () => import(/* webpackChunkName: "vsf-order-confirmat
 const CustomCityPickerModal = () => import(/* webpackChunkName: "vsf-custom-city-picker-modal" */ 'theme/components/core/blocks/CustomCityPickerModal/CustomCityPickerModal.vue');
 const CustomSellerProduct = () => import(/* webpackChunkName: "vsf-custom-city-picker-modal" */ 'theme/components/core/blocks/CustomSellerProduct/CustomSellerProduct.vue');
 const Consultation = () => import(/* webpackChunkName: "vsf-custom-city-picker-modal" */ 'theme/components/core/blocks/Consultation/Consultation.vue');
+const TermsOfActionModal = () => import('theme/components/core/blocks/TermsOfActionModal.vue');
+const CreditModal = () => import('theme/components/core/blocks/CreditModal.vue')
 
 export default {
   data() {
@@ -105,6 +111,11 @@ export default {
       isWishlistOpen: state => state.ui.wishlist,
       isConsultationOpen: state => state.ui.consultation
     })
+  },
+  created(){
+    setInterval( () => {
+      this.$store.commit('homepage/SET_NEW_DATE' , new Date())
+    }, 1000)
   },
   methods: {
     onOrderConfirmation(payload) {
@@ -159,7 +170,9 @@ export default {
     OrderConfirmation,
     AsyncSidebar,
     CustomCityPickerModal,
-    CustomSellerProduct
+    CustomSellerProduct,
+    TermsOfActionModal,
+    CreditModal
   }
 };
 </script>
