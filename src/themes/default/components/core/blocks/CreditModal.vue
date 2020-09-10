@@ -167,7 +167,7 @@ export default {
       let installment = false;
       let value = Number(event.target.value);
 
-      if (value > this.totalPrice || value < this.banks[bank_index].monthly_payment || this.banks[bank_index].number_of_payments === 1) {
+      if (value > this.totalPrice || value < (this.totalPrice / this.banks[bank_index].number_of_payments) || this.banks[bank_index].number_of_payments === 1) {
         installment = true;
       }
 

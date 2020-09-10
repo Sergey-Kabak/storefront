@@ -136,9 +136,9 @@
                   <span class="credit-field-label">{{ $t('First name') }}</span>
                 </div>
                 <div class="credit-field">
-                  <input type="text" v-model="creditFields.first_name" class="credit-field-input" :placeholder="$t('First name *')">
-                  <input type="text" v-model="creditFields.last_name" class="credit-field-input" :placeholder="$t('Last name *')">
-                  <input type="text" v-model="creditFields.mid_name" class="credit-field-input" :placeholder="$t('Middle name *')">
+                  <input type="text" v-model="creditFields.firstName" class="credit-field-input" :placeholder="$t('First name *')">
+                  <input type="text" v-model="creditFields.lastName" class="credit-field-input" :placeholder="$t('Last name *')">
+                  <input type="text" v-model="creditFields.midName" class="credit-field-input" :placeholder="$t('Middle name *')">
                 </div>
               </div>
 
@@ -231,9 +231,9 @@ export default {
   data: () => ({
     isShowPromocode: false,
     creditFields: {
-      first_name: null,
-      last_name: null,
-      mid_name: null,
+      firstName: null,
+      lastName: null,
+      midName: null,
       birthday: null,
       itn: null,
     }

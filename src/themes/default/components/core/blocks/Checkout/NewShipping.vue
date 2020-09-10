@@ -33,7 +33,8 @@
           </div>
         </div>
       </li>
-      <li class="nav-item" @click="changeType('new_post')">
+
+      <li class="nav-item" v-if="getActivePaymentSystem !== 'credit'" @click="changeType('new_post')">
         <div class="nav-link" :class="{active: type === 'new_post'}">
           <div class="icon">
             <svg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
@@ -49,7 +50,7 @@
           </div>
         </div>
       </li>
-      <li class="nav-item" @click="changeType('currier')">
+      <li class="nav-item" v-if="getActivePaymentSystem !== 'credit'" @click="changeType('currier')">
         <div class="nav-link" :class="{active: type === 'currier'}">
           <div class="icon">
             <svg width="22" height="17" viewBox="0 0 22 17" xmlns="http://www.w3.org/2000/svg">
@@ -62,6 +63,7 @@
           </div>
         </div>
       </li>
+
     </ul>
     <custom-shipping :type="type" v-if="!loading" :city="city" />
     <checkout-microcart />
@@ -81,7 +83,7 @@ import { Shipping } from '@vue-storefront/core/modules/checkout/components/Shipp
 import CustomShipping from 'src/modules/custom-shipping/custom-shipping';
 import CheckoutMicrocart from 'theme/components/core/blocks/Checkout/CheckoutMicrocart';
 import NewPost from 'src/modules/nova-poshta/index';
-import { mapState } from 'vuex';
+import { mapState, mapGetters } from 'vuex';
 import { debounce } from 'debounce';
 
 export default {
@@ -110,8 +112,14 @@ export default {
   },
   computed: {
     ...mapState({
-      type: state => state.customShipping.type
+      type: state => state.customShipping.type,
     }),
+    ...mapGetters({
+      payment_system: 'themePayment/getActivePaymentMethod',
+    }),
+    getActivePaymentSystem() {
+      return this.payment_system;
+    },
     countryOptions() {
       return this.countries.map((item) => {
         return {
