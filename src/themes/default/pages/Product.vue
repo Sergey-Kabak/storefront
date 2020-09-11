@@ -164,16 +164,16 @@
                 :disabled="isAddToCartDisabled"
                 class="col-xs-12 col-sm-4 col-md-6"
               />
-              <button-white
-                @click.native="showModalCredits"
-                :disabled="isAddToCartDisabled"
-                class="buy_in_credit h40 flex1"
-              >
-                <span v-if="!show_modal_credits_loading">
-                  {{ $t('In credit') }} {{ getCurrentProduct.original_price_incl_tax / 2 }} ₴ / {{ $t('month') }}
-                </span>
-                <spinner v-if="show_modal_credits_loading" containerClass="quantity-spinner" />
-              </button-white>
+              <!--<button-white-->
+                <!--@click.native="showModalCredits"-->
+                <!--:disabled="isAddToCartDisabled"-->
+                <!--class="buy_in_credit h40 flex1"-->
+              <!--&gt;-->
+                <!--<span v-if="!show_modal_credits_loading">-->
+                  <!--{{ $t('In credit') }} {{ getCurrentProduct.original_price_incl_tax / 2 }} ₴ / {{ $t('month') }}-->
+                <!--</span>-->
+                <!--<spinner v-if="show_modal_credits_loading" containerClass="quantity-spinner" />-->
+              <!--</button-white>-->
             </div>
             <div class="row py40 add-to-buttons">
               <div class="col-xs-6 col-sm-3 col-md-6">
