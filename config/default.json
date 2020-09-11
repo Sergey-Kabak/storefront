@@ -1082,5 +1082,496 @@
       "time": "2020-09-14 00:00:00",
       "category_link": "/back-to-school"
     }
+  },
+  "credit": {
+    "bank_standart": {
+      "icon": "standard.png",
+      "name": "standard",
+      "first_installment": 0,
+      "monthly_payment": 0,
+      "number_of_payments": 2,
+      "range": [
+        {
+          "value": 1,
+          "label": "payment"
+        },
+        {
+          "value": 2,
+          "label": "a payment"
+        },
+        {
+          "value": 3,
+          "label": "a payment"
+        },
+        {
+          "value": 4,
+          "label": "a payment"
+        },
+        {
+          "value": 5,
+          "label": "the payments"
+        },
+        {
+          "value": 6,
+          "label": "the payments"
+        },
+        {
+          "value": 7,
+          "label": "the payments"
+        },
+        {
+          "value": 8,
+          "label": "the payments"
+        },
+        {
+          "value": 9,
+          "label": "the payments"
+        },
+        {
+          "value": 10,
+          "label": "the payments"
+        },
+        {
+          "value": 11,
+          "label": "the payments"
+        }
+      ],
+      "currentMonth": 1,
+      "default": true
+    },
+    "banks": [
+      {
+        "icon": "otp_bank.png",
+        "name": "otp_bank",
+        "first_installment": 0,
+        "monthly_payment": 0,
+        "number_of_payments": 2,
+        "range": [
+          {
+            "value": 1,
+            "label": "payment"
+          },
+          {
+            "value": 2,
+            "label": "a payment"
+          },
+          {
+            "value": 3,
+            "label": "a payment"
+          },
+          {
+            "value": 4,
+            "label": "a payment"
+          },
+          {
+            "value": 5,
+            "label": "the payments"
+          },
+          {
+            "value": 6,
+            "label": "the payments"
+          },
+          {
+            "value": 7,
+            "label": "the payments"
+          },
+          {
+            "value": 8,
+            "label": "the payments"
+          },
+          {
+            "value": 9,
+            "label": "the payments"
+          },
+          {
+            "value": 10,
+            "label": "the payments"
+          },
+          {
+            "value": 11,
+            "label": "the payments"
+          }
+        ],
+        "currentMonth": 1
+      },
+      {
+        "icon": "alpha_bank.png",
+        "name": "alpha_bank",
+        "first_installment": 0,
+        "monthly_payment": 0,
+        "number_of_payments": 2,
+        "range": [
+          {
+            "value": 1,
+            "label": "payment"
+          },
+          {
+            "value": 2,
+            "label": "a payment"
+          },
+          {
+            "value": 3,
+            "label": "a payment"
+          },
+          {
+            "value": 4,
+            "label": "a payment"
+          },
+          {
+            "value": 5,
+            "label": "the payments"
+          },
+          {
+            "value": 6,
+            "label": "the payments"
+          },
+          {
+            "value": 7,
+            "label": "the payments"
+          },
+          {
+            "value": 8,
+            "label": "the payments"
+          },
+          {
+            "value": 9,
+            "label": "the payments"
+          },
+          {
+            "value": 10,
+            "label": "the payments"
+          },
+          {
+            "value": 11,
+            "label": "the payments"
+          }
+        ],
+        "currentMonth": 1
+      },
+      {
+        "icon": "globus_bank.png",
+        "name": "globus_bank",
+        "first_installment": 0,
+        "monthly_payment": 0,
+        "number_of_payments": 2,
+        "range": [
+          {
+            "value": 1,
+            "label": "payment"
+          },
+          {
+            "value": 2,
+            "label": "a payment"
+          },
+          {
+            "value": 3,
+            "label": "a payment"
+          },
+          {
+            "value": 4,
+            "label": "a payment"
+          },
+          {
+            "value": 5,
+            "label": "the payments"
+          },
+          {
+            "value": 6,
+            "label": "the payments"
+          },
+          {
+            "value": 7,
+            "label": "the payments"
+          },
+          {
+            "value": 8,
+            "label": "the payments"
+          },
+          {
+            "value": 9,
+            "label": "the payments"
+          },
+          {
+            "value": 10,
+            "label": "the payments"
+          },
+          {
+            "value": 11,
+            "label": "the payments"
+          }
+        ],
+        "currentMonth": 1
+      },
+      {
+        "icon": "slon_credit.png",
+        "name": "slon_credit",
+        "first_installment": 0,
+        "monthly_payment": 0,
+        "number_of_payments": 2,
+        "range": [
+          {
+            "value": 1,
+            "label": "payment"
+          },
+          {
+            "value": 2,
+            "label": "a payment"
+          },
+          {
+            "value": 3,
+            "label": "a payment"
+          },
+          {
+            "value": 4,
+            "label": "a payment"
+          },
+          {
+            "value": 5,
+            "label": "the payments"
+          },
+          {
+            "value": 6,
+            "label": "the payments"
+          },
+          {
+            "value": 7,
+            "label": "the payments"
+          },
+          {
+            "value": 8,
+            "label": "the payments"
+          },
+          {
+            "value": 9,
+            "label": "the payments"
+          },
+          {
+            "value": 10,
+            "label": "the payments"
+          },
+          {
+            "value": 11,
+            "label": "the payments"
+          }
+        ],
+        "currentMonth": 1
+      },
+      {
+        "icon": "card_sevice.png",
+        "name": "card_sevice",
+        "first_installment": 0,
+        "monthly_payment": 0,
+        "number_of_payments": 2,
+        "range": [
+          {
+            "value": 1,
+            "label": "payment"
+          },
+          {
+            "value": 2,
+            "label": "a payment"
+          },
+          {
+            "value": 3,
+            "label": "a payment"
+          },
+          {
+            "value": 4,
+            "label": "a payment"
+          },
+          {
+            "value": 5,
+            "label": "the payments"
+          },
+          {
+            "value": 6,
+            "label": "the payments"
+          },
+          {
+            "value": 7,
+            "label": "the payments"
+          },
+          {
+            "value": 8,
+            "label": "the payments"
+          },
+          {
+            "value": 9,
+            "label": "the payments"
+          },
+          {
+            "value": 10,
+            "label": "the payments"
+          },
+          {
+            "value": 11,
+            "label": "the payments"
+          }
+        ],
+        "currentMonth": 1
+      },
+      {
+        "icon": "pumb_bank.png",
+        "name": "pumb_bank",
+        "first_installment": 0,
+        "monthly_payment": 0,
+        "number_of_payments": 2,
+        "range": [
+          {
+            "value": 1,
+            "label": "payment"
+          },
+          {
+            "value": 2,
+            "label": "a payment"
+          },
+          {
+            "value": 3,
+            "label": "a payment"
+          },
+          {
+            "value": 4,
+            "label": "a payment"
+          },
+          {
+            "value": 5,
+            "label": "the payments"
+          },
+          {
+            "value": 6,
+            "label": "the payments"
+          },
+          {
+            "value": 7,
+            "label": "the payments"
+          },
+          {
+            "value": 8,
+            "label": "the payments"
+          },
+          {
+            "value": 9,
+            "label": "the payments"
+          },
+          {
+            "value": 10,
+            "label": "the payments"
+          },
+          {
+            "value": 11,
+            "label": "the payments"
+          }
+        ],
+        "currentMonth": 1
+      },
+      {
+        "icon": "monobank.png",
+        "name": "monobank",
+        "first_installment": 0,
+        "monthly_payment": 0,
+        "number_of_payments": 2,
+        "range": [
+          {
+            "value": 1,
+            "label": "payment"
+          },
+          {
+            "value": 2,
+            "label": "a payment"
+          },
+          {
+            "value": 3,
+            "label": "a payment"
+          },
+          {
+            "value": 4,
+            "label": "a payment"
+          },
+          {
+            "value": 5,
+            "label": "the payments"
+          },
+          {
+            "value": 6,
+            "label": "the payments"
+          },
+          {
+            "value": 7,
+            "label": "the payments"
+          },
+          {
+            "value": 8,
+            "label": "the payments"
+          },
+          {
+            "value": 9,
+            "label": "the payments"
+          },
+          {
+            "value": 10,
+            "label": "the payments"
+          },
+          {
+            "value": 11,
+            "label": "the payments"
+          }
+        ],
+        "currentMonth": 1
+      },
+      {
+        "icon": "ligth.png",
+        "name": "ligth_payment",
+        "first_installment": 0,
+        "monthly_payment": 0,
+        "number_of_payments": 2,
+        "range": [
+          {
+            "value": 1,
+            "label": "payment"
+          },
+          {
+            "value": 2,
+            "label": "a payment"
+          },
+          {
+            "value": 3,
+            "label": "a payment"
+          },
+          {
+            "value": 4,
+            "label": "a payment"
+          },
+          {
+            "value": 5,
+            "label": "the payments"
+          },
+          {
+            "value": 6,
+            "label": "the payments"
+          },
+          {
+            "value": 7,
+            "label": "the payments"
+          },
+          {
+            "value": 8,
+            "label": "the payments"
+          },
+          {
+            "value": 9,
+            "label": "the payments"
+          },
+          {
+            "value": 10,
+            "label": "the payments"
+          },
+          {
+            "value": 11,
+            "label": "the payments"
+          }
+        ],
+        "currentMonth": 1
+      }
+    ]
   }
 }
