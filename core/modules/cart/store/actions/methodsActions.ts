@@ -9,6 +9,7 @@ import {
   preparePaymentMethodsToSync
 } from '@vue-storefront/core/modules/cart/helpers'
 import PaymentMethod from '../../types/PaymentMethod'
+import config from 'config'
 
 const methodsActions = {
   async pullMethods ({ getters, dispatch }, { forceServerSync }) {
@@ -87,7 +88,7 @@ const methodsActions = {
       } : { country_id: storeView.tax.defaultCountry }
 
       const { result } = await CartService.getShippingMethods(address)
-      await dispatch('updateShippingMethods', { shippingMethods: result })
+      await dispatch('updateShippingMethods', { shippingMethods: config.shipping.methods })
     } else {
       Logger.debug('Shipping methods does not need to be updated', 'cart')()
     }
