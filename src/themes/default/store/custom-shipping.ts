@@ -1,7 +1,7 @@
 export const customShipping = {
     namespaced: true,
     state: {
-      type: 'shop'
+      type: 'flatrate'
     },
     mutations: {
       changeShippingType (state, action) {
@@ -9,4 +9,3 @@ export const customShipping = {
       },
     },
   }
-  

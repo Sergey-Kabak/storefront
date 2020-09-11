@@ -11,7 +11,7 @@ export default {
       mob: false,
       error: '',
       extraFields: {},
-      shop: shop,
+      flatrate: shop,
       currier: [],
       loading: false,
       showList: true,
@@ -114,19 +114,19 @@ export default {
     }
   },
   mounted () {
-    if (this.type === 'new_post') {
+    if (this.type === 'tablerates') {
       this.loading = true;
       this.getListByAddress(this.city);
     }
-    if (this.type === 'shop') this.fetchDps();
+    if (this.type === 'flatrate') this.fetchDps();
   },
   watch: {
     city (val, old) {
-      if (this.type === 'new_post') {
+      if (this.type === 'tablerates') {
         this.loading = true;
         this.getListByAddress(val);
       }
-      if (this.type === 'shop') this.fetchDps();
+      if (this.type === 'flatrate') this.fetchDps();
     }
   }
 };
