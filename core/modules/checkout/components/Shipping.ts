@@ -124,8 +124,8 @@ export const Shipping = {
         shopName: location.number ? `Нова Пошта ${location.name}` : location.name,
         isNewPost: !!location.number,
         location,
-        // shippingMethod: this.type,
-        // shippingCarrier: this.type,
+        shippingMethod: this.type,
+        shippingCarrier: this.type,
       }
       this.$bus.$emit('checkout-after-shippingDetails', this.shipping, this.$v)
       this.isFilled = true
