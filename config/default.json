@@ -787,6 +787,12 @@
     "deprecatedPriceFieldsSupport": true,
     "finalPriceIncludesTax": false
   },
+  "shippingType": ["flatrate", "tablerate", "freeshipping"],
+  "paymentType": {
+    "flatrate": ["cashondelivery", "liqpaymagento_liqpay", "banktransfer"],
+    "tablerate": ["cashondelivery", "liqpaymagento_liqpay"],
+    "freeshipping": ["cashondelivery", "banktransfer", "checkmo"]
+  },
   "shipping": {
     "methods": [
       {
@@ -800,8 +806,8 @@
       },
       {
         "method_title": "Nova Poshta",
-        "method_code": "tablerates",
-        "carrier_code": "tablerates",
+        "method_code": "tablerate",
+        "carrier_code": "tablerate",
         "amount": 0,
         "price_incl_tax": 0,
         "default": true,

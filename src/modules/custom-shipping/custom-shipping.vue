@@ -1,12 +1,12 @@
 <template>
   <div class="custom-shipping">
-    <div class="shipping-show-types" v-if="['flatrate'].includes(type)">
+    <div class="shipping-show-types" v-if="shippingType[0].includes(type)">
       <div class="btn" :class="{active: trigger}" @click="trigger = true">{{ $t('List') }}</div>
       <div class="btn" :class="{active: !trigger}" @click="trigger = false">{{ $t('On map') }}</div>
     </div>
     <no-ssr>
       <div class="shipping-types">
-        <div class="new-post" v-if="(type === 'tablerates')">
+        <div class="new-post" v-if="(type === shippingType[1])">
           <base-input
             class="custom-input new-post-input"
             type="text"
@@ -18,7 +18,7 @@
           <custom-loader v-if="loading" />
           <location-list v-else :locations="cDroppoints" />
         </div>
-        <div class="shop" v-if="type === 'flatrate'">
+        <div class="shop" v-if="type === shippingType[0]">
           <div class="listing" :class="{active: trigger}">
             <custom-loader v-if="loading" />
             <location-list v-else :locations="cDroppoints" />
@@ -27,7 +27,7 @@
             <google-map :center="center" :droppoints="droppoints" :stock-id="stockId"  :class="{active: !trigger}"/>
           </template>
         </div>
-        <div class="currier-form" v-if="type === 'freeshipping'">
+        <div class="currier-form" v-if="type === shippingType[2]">
           <div class="label">{{ $t('Delivery address') }}<i>*</i></div>
           <div class="currier-form__wrapper">
             <base-input
