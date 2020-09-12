@@ -1,6 +1,7 @@
 import {mapState, mapGetters} from 'vuex'
 import RootState from '@vue-storefront/core/types/RootState'
 import toString from 'lodash-es/toString'
+import config from 'config'
 
 const Countries = require('@vue-storefront/i18n/resource/countries.json')
 
@@ -106,7 +107,8 @@ export const Shipping = {
       }
     },
     sendDataToCheckout(location) {
-      let type = `${this.$t(this.type)}, ${location.name ? location.name : location.streetname + ' ' + location.streetname2}`;
+      let typeData = config.shipping.methods.find(m => m.method_code === this.type)
+      let type = `${this.$t(typeData.method_title)}, ${location.name ? location.name : location.streetname + ' ' + location.streetname2}`;
 
       this.shipping = {
         ...this.shipping,

@@ -36,33 +36,33 @@
 </template>
 
 <script>
-  import {
-    minLength,
-    required
-  } from 'vuelidate/lib/validators';
-  import {
-    unicodeAlpha,
-    unicodeAlphaNum
-  } from '@vue-storefront/core/helpers/validators';
-  import {Shipping} from '@vue-storefront/core/modules/checkout/components/Shipping';
-  import CustomShipping from 'src/modules/custom-shipping/custom-shipping';
-  import CheckoutMicrocart from 'theme/components/core/blocks/Checkout/CheckoutMicrocart';
-  import NewPost from 'src/modules/nova-poshta/index';
-  import {mapState, mapGetters} from 'vuex';
-  import {debounce} from 'debounce';
+import {
+  minLength,
+  required
+} from 'vuelidate/lib/validators';
+import {
+  unicodeAlpha,
+  unicodeAlphaNum
+} from '@vue-storefront/core/helpers/validators';
+import {Shipping} from '@vue-storefront/core/modules/checkout/components/Shipping';
+import CustomShipping from 'src/modules/custom-shipping/custom-shipping';
+import CheckoutMicrocart from 'theme/components/core/blocks/Checkout/CheckoutMicrocart';
+import NewPost from 'src/modules/nova-poshta/index';
+import {mapState, mapGetters} from 'vuex';
+import {debounce} from 'debounce';
 
-  export default {
-    props: {
-      type: {
-        type: Boolean | String,
-        required: true
-      },
-      method: {
-        type: Object,
-        required: true
-      }
+export default {
+  props: {
+    type: {
+      type: Boolean | String,
+      required: true
+    },
+    method: {
+      type: Object,
+      required: true
     }
-  };
+  }
+};
 </script>
 
 <style lang="sass" scoped>

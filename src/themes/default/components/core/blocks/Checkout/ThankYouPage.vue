@@ -26,12 +26,12 @@
         </div>
         <div class="thank-you-row" v-if="addressInformation">
           <span class="left">{{ $t('Shipping method') }}: </span>
-          <span class="middle">{{ $t(shippingType) }}</span>
+          <span class="middle">{{ $t(cShippingMethod.method_title) }}</span>
           <span class="right label-free"> {{ $t('free') }} </span>
         </div>
         <div class="thank-you-row" v-if="billingAddress">
           <span class="left">{{ $t('Shipping address') }}: </span>
-          <span class="middle">{{ $t('st.') }} {{ billingAddress.street && billingAddress.street[0] }}, {{ billingAddress.street && billingAddress.street[1] }}</span>
+          <span class="middle">{{ billingAddress.street && billingAddress.street[0] }}</span>
         </div>
       </div>
       <div class="thank-you-body" v-if="products.length">
@@ -125,6 +125,9 @@ export default {
     },
     addressInformation () {
       return this.$store.state.order.last_order_confirmation && this.$store.state.order.last_order_confirmation.order && this.$store.state.order.last_order_confirmation.order.addressInformation
+    },
+    cShippingMethod () {
+      return config.shipping.methods.find(m => m.method_code === this.shippingType)
     },
     isNotificationSupported () {
       if (isServer || !('Notification' in window)) return false
