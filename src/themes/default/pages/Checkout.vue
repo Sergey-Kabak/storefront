@@ -204,22 +204,6 @@ export default {
 
     &.checked
       background-color: #23BE20
-  .subtitle
-    margin-bottom: 24px
-    display: flex
-    align-items: center
-
-    &.disabled
-      opacity: .5
-      .number-block
-        background-color: #ffffff
-
-  .subtitle-text
-    font-family: 'DIN Pro'
-    font-size: 14px
-    line-height: 16px
-    color: #1A1919
-    font-weight: 700
 </style>
 
 <style lang="scss" scoped>
@@ -263,63 +247,6 @@ export default {
         width: 25px;
         height: 25px;
         line-height: 25px;
-      }
-    }
-    .radioStyled {
-      display: flex;
-      width: 100%;
-      flex-direction: column-reverse;
-      align-items: center;
-      position: relative;
-      cursor: pointer;
-      font-size: 13px;
-      line-height: 16px;
-      -webkit-user-select: none;
-      -moz-user-select: none;
-      -ms-user-select: none;
-      user-select: none;
-      background: #FFFFFF;
-      /*border: 1px solid #23BE20;*/
-      box-sizing: border-box;
-      margin-bottom: 0;
-      border-radius: 4px;
-      text-align: center;
-      padding: 13px 0;
-      font-family: 'DIN Pro';
-      color: #1A1919;
-
-      input {
-        position: absolute;
-        opacity: 0;
-        cursor: pointer;
-      }
-
-      .checkmark {
-        position: relative;
-        margin-bottom: 18px;
-        height: 20px;
-        width: 20px;
-        border-radius: 50%;
-        /*border: 2px solid #23be20;*/
-        /*border: 2px solid #E0E0E0;*/
-        padding: 3px;
-
-        &:after {
-          content: "";
-          position: absolute;
-          top: 50%;
-          left: 50%;
-          transform: translate(-50%, -50%);
-          display: none;
-          width: 10px;
-          height: 10px;
-          border-radius: 50%;
-          background: #23be20;
-        }
-      }
-
-      input:checked ~ .checkmark:after {
-        display: block;
       }
     }
   }

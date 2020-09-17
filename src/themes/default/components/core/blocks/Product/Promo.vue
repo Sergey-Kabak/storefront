@@ -63,7 +63,7 @@ export default {
       return config.rma[this.labelValue].title;
     },
     getEndDate() {
-      return new Date(config.rma[this.labelValue].time.replace(' ', 'T')).getTime();
+      return new Date(config.rma[this.labelValue].time).getTime();
     },
     getCatLink() {
       return config.rma[this.labelValue].category_link;
@@ -73,64 +73,68 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.promo-block{
+  .promo-block{
     padding: 16px;
     margin-bottom: 14px;
     background: #FFFFFF;
     border: 1px solid #E0E0E0;
     box-sizing: border-box;
     border-radius: 4px;
+    .super-link {
+      display: flex;
+      max-width: 131px;
+    }
     &-gift{
-        @media (max-width : 575px){
-            display: none;
-        }
-        margin-right: 16px;
+      @media (max-width : 575px){
+        display: none;
+      }
+      margin-right: 16px;
+      max-height: 88px;
+      img{
+        max-width: 88px;
         max-height: 88px;
-        img{
-            max-width: 88px;
-            max-height: 88px;
-            object-fit: contain;
-            object-position: center;
-        }
-        &-icon{
-            width: 40px;
-            height: 40px;
-            top: -11px;
-            right: -11px;
-            background-color: #fff;
-            border-radius: 50%;
-        }
+        object-fit: contain;
+        object-position: center;
+      }
+      &-icon{
+        width: 40px;
+        height: 40px;
+        top: -11px;
+        right: -11px;
+        background-color: #fff;
+        border-radius: 50%;
+      }
     }
     &-description{
-        &-text{
-            font-family: DIN Pro;
-            font-size: 14px;
-            line-height: 20px;
-            font-weight: 700;
-            color: #1A1919;
-            margin-bottom: 16px;
-        }
+      &-text{
+        font-family: DIN Pro;
+        font-size: 14px;
+        line-height: 20px;
+        font-weight: 700;
+        color: #1A1919;
+        margin-bottom: 16px;
+      }
     }
     &-actions{
-        button.details{
-            @media (max-width : 575px){
-                width: 100%;
-                display: flex;
-                justify-content: center;
-            }
+      button.details{
+        @media (max-width : 575px){
+          width: 100%;
+          display: flex;
+          justify-content: center;
+        }
+      }
+      @media (max-width : 1199px){
+        flex-direction: column-reverse;
+      }
+      .timer{
+        @media (min-width : 1200px){
+          margin-left: 8px;
         }
         @media (max-width : 1199px){
-            flex-direction: column-reverse;
+          margin-bottom: 16px;
+          margin-left: -8px;
         }
-        .timer{
-            @media (min-width : 1200px){
-                margin-left: 8px;
-            }
-            @media (max-width : 1199px){
-                margin-bottom: 16px;
-                margin-left: -8px;
-            }
-        }
+      }
     }
-}
+  }
 </style>

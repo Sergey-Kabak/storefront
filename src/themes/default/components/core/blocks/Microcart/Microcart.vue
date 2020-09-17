@@ -178,7 +178,6 @@ export default {
     closeMicrocartExtend () {
       this.toggleMicrocart()
       this.$store.commit('ui/setSidebar', false)
-      this.$store.commit('themePayment/SET_NEW_ACTIVE_PAYMENT_METHOD', 'cashondelivery');
       this.addCouponPressed = false
     },
     onEscapePress () {
@@ -432,7 +431,7 @@ export default {
       .summary {
         padding: 16px;
       }
-
+      
       &-empty {
         padding: 0 16px;
       }
@@ -447,7 +446,7 @@ export default {
       &-left {
         margin-right: 16px;
       }
-
+      
       &-input {
         min-width: 174px;
       }

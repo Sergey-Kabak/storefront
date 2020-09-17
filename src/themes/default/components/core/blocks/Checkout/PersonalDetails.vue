@@ -177,6 +177,7 @@ export default {
       phoneNumber: {
         required,
         isPhone: (value) => {
+          console.log("value", value);
           return (
             /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/.test(value) ||
             /^\+?3?8?(0\d{9})$/.test(value)
