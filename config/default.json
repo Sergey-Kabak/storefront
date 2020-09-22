@@ -131,14 +131,14 @@
     "private_key": "yn1ZNgkzlC3rw0F15BdiE8hzkYqzJvCrpckDtnJQ",
     "version": "3",
     "currency": "UAH",
-    "server_url": "https://ringoo.ua/api/payment/liqpay/callback"
+    "server_url": "https://magento.ringoo.ua/rest/V1/liqpay/callback"
   },
   "liqpay_dev": {
     "public_key": "sandbox_i33827525821",
     "private_key": "sandbox_ZoeELbqo1BBTi3LQnEsHF93wu425TzSvpZpYH11N",
     "version": "3",
     "currency": "UAH",
-    "server_url": "https://ringoo.ua/api/payment/liqpay/callback"
+    "server_url": "https://magento.ringoo.ua/rest/V1/liqpay/callback"
   },
   "elasticsearch": {
     "httpAuth": "",
