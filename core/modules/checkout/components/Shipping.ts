@@ -118,14 +118,14 @@ export const Shipping = {
         city: location.city,
         state: '',
         region_id: 0,
-        zipCode: location.zipcode || '69068',
+        zipCode: location.id,
         phoneNumber: '',
         deliveryType: this.type,
         shopName: location.number ? `Нова Пошта ${location.name}` : location.name,
         isNewPost: !!location.number,
         location,
-        shippingMethod: this.type,
-        shippingCarrier: this.type,
+        shippingMethod: this.type === 'flatrate' ? 'freeshipping' : this.type,
+        shippingCarrier: this.type === 'flatrate' ? 'freeshipping' : this.type,
       }
       this.$bus.$emit('checkout-after-shippingDetails', this.shipping, this.$v)
       this.isFilled = true
