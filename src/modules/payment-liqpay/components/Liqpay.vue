@@ -55,7 +55,7 @@ export default {
 						action: 'pay',
 						currency: config.liqpay.currency,
 						amount: this.totalPrice,
-            order_id: this.incrementId,
+            order_id: this.orderId,
             incrementId: this.incrementId,
             server_url: config.liqpay.server_url
           })
