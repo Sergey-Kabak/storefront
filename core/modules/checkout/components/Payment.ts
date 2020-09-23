@@ -21,7 +21,7 @@ export const Payment = {
       sendToShippingAddress: true,
       sendToBillingAddress: true,
       assoc: {
-        'flatrate': ['cashondelivery', 'liqpaymagento_liqpay', 'banktransfer'],
+        'flatrate': ['liqpaymagento_liqpay', 'banktransfer', 'cashondelivery'],
         'tablerates': ['cashondelivery', 'liqpaymagento_liqpay'],
         'freeshipping': ['cashondelivery', 'banktransfer', 'checkmo']
       }

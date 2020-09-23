@@ -48,33 +48,33 @@
             </div>
           </label>
         </div>
-        <!-- TODO: раскоментировать когда понадобятся кредиты-->
-        <!--<div class="payment-credit">-->
-          <!--<label class="radioStyled" :class="{'active': getActivePaymentSystem === 'credit'}">-->
-            <!--<div class="radioStyled-header">-->
-              <!--<div class="radioStyled-header-title" @click="setPaymentSystemIsActive('credit')">-->
+        <div class="payment-credit">
+          <label class="radioStyled" :class="{'active': getActivePaymentSystem === 'credit'}">
+            <div class="radioStyled-header">
+              <div class="radioStyled-header-title" @click="setPaymentSystemIsActive('credit')">
 
-                <!--<span-->
-                  <!--@click="setPaymentSystemIsActive('credit')"-->
-                  <!--class="checkmark"-->
-                  <!--:class="{'is-active': payment_system === 'credit'}"-->
-                <!--&gt;-->
-                  <!--<span @click="setPaymentSystemIsActive('credit')" v-if="payment_system === 'credit'" class="checkmark-active" />-->
-                <!--</span>-->
+                <span
+                  @click="setPaymentSystemIsActive('credit')"
+                  class="checkmark"
+                  :class="{'is-active': payment_system === 'credit'}"
+                >
+                  <span @click="setPaymentSystemIsActive('credit')" v-if="payment_system === 'credit'" class="checkmark-active" />
+                </span>
 
-                <!--<input-->
-                  <!--type="radio"-->
-                  <!--name="payment-method"-->
-                <!--&gt;-->
-                <!--{{ $t('Credit or installments') }}-->
-              <!--</div>-->
-              <!--<div class="radioStyled-header-optional">-->
-                <!--<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">-->
-                  <!--<path d="M1 21H23L12 2L1 21ZM13 18H11V16H13V18ZM13 14H11V10H13V14Z" fill="#EE2C39"/>-->
-                <!--</svg>-->
-                <!--<span>{{ $t('only for pickup') }}</span>-->
-              <!--</div>-->
-            <!--</div>-->
+                <input
+                  type="radio"
+                  name="payment-method"
+                >
+                {{ $t('Credit or installments') }}
+              </div>
+              <div class="radioStyled-header-optional">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M1 21H23L12 2L1 21ZM13 18H11V16H13V18ZM13 14H11V10H13V14Z" fill="#EE2C39"/>
+                </svg>
+                <span>{{ $t('only for pickup') }}</span>
+              </div>
+            </div>
+            <!-- TODO: раскоментировать когда понадобятся кредиты-->
             <!--<div class="radioStyled-body" v-if="payment_system === 'credit'">-->
               <!--<div class="radioStyled-body-label">-->
                 <!--{{ $t('Credit offer') }}-->
@@ -162,8 +162,8 @@
               <!--</div>-->
 
             <!--</div>-->
-          <!--</label>-->
-        <!--</div>-->
+          </label>
+        </div>
       </div>
       <span class="validation-error" v-if="!$v.payment.paymentMethod.required">{{ $t('Field is required') }}</span>
     </div>
