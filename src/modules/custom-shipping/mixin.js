@@ -1,7 +1,6 @@
 import { shop } from 'src/modules/locations/droppoints';
 import { mapGetters } from 'vuex';
 import NewPost from 'src/modules/nova-poshta/index';
-import config from 'config'
 
 export default {
   mixins: [NewPost],
@@ -55,9 +54,6 @@ export default {
         return this.droppoints.filter(dp => dp.number === this.np_number)
       }
       return this.droppoints.filter(dp => dp.streetname.toLowerCase().match(this.np_number.toLowerCase()))
-    },
-    shippingType () {
-      return config.shippingType
     }
   },
   beforeDestroy () {
@@ -118,19 +114,19 @@ export default {
     }
   },
   mounted () {
-    if (this.type === config.shippingType[1]) {
+    if (this.type === 'tablerates') {
       this.loading = true;
       this.getListByAddress(this.city);
     }
-    if (this.type === config.shippingType[0]) this.fetchDps();
+    if (this.type === 'flatrate') this.fetchDps();
   },
   watch: {
     city (val, old) {
-      if (this.type === config.shippingType[1]) {
+      if (this.type === 'tablerates') {
         this.loading = true;
         this.getListByAddress(val);
       }
-      if (this.type === config.shippingType[0]) this.fetchDps();
+      if (this.type === 'flatrate') this.fetchDps();
     }
   }
 };

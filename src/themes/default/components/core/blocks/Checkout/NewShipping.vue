@@ -27,8 +27,8 @@
             v-for="(method, index) in shippingMethods"
             :key="index" >
           <!--<new-shipping-item-body :method="method" :type="type" />-->
-          <template v-if="method.method_code === shippingType[0]">
-            <div class="nav-link" :class="{active: type === shippingType[0]}">
+          <template v-if="method.method_code === 'flatrate'">
+            <div class="nav-link" :class="{active: type === 'flatrate'}">
               <div class="icon">
                 <svg width="20" height="18" viewBox="0 0 20 18" xmlns="http://www.w3.org/2000/svg">
                   <path d="M19 10V17C19 17.2652 18.8946 17.5196 18.7071 17.7071C18.5196 17.8946 18.2652 18 18 18H2C1.73478 18 1.48043 17.8946 1.29289 17.7071C1.10536 17.5196 1 17.2652 1 17V10H0V8L1 3H19L20 8V10H19ZM3 10V16H17V10H3ZM2.04 8H17.96L17.36 5H2.64L2.04 8ZM4 11H12V14H4V11ZM1 0H19V2H1V0Z"/>
@@ -40,8 +40,8 @@
               </div>
             </div>
           </template>
-          <template v-if="method.method_code === shippingType[1]">
-            <div class="nav-link" :class="{active: type === shippingType[1]}">
+          <template v-if="method.method_code === 'tablerates'">
+            <div class="nav-link" :class="{active: type === 'tablerates'}">
               <div class="icon">
                 <svg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                   <path fill-rule="evenodd" clip-rule="evenodd" d="M16.0254 5.92128C16.0859 5.902 16.1655 5.94056 16.2451 6.04658C16.2451 6.04658 16.2451 6.04658 19.8421 9.6C20.0522 9.81204 20.0522 10.1333 19.8421 10.2908C19.8421 10.2908 19.8421 10.2908 16.2451 13.8988C16.1655 14.0048 16.0859 14.0305 16.0254 13.9984C15.965 13.9663 15.9268 13.8731 15.9268 13.7381V6.15261C15.9268 6.02088 15.965 5.94056 16.0254 5.92128Z" />
@@ -56,8 +56,8 @@
               </div>
             </div>
           </template>
-          <template v-if="method.method_code === shippingType[2]">
-            <div class="nav-link" :class="{active: type === shippingType[2]}">
+          <template v-if="method.method_code === 'freeshipping'">
+            <div class="nav-link" :class="{active: type === 'freeshipping'}">
               <div class="icon">
                 <svg width="22" height="17" viewBox="0 0 22 17" xmlns="http://www.w3.org/2000/svg">
                   <path d="M7.965 13C7.84612 13.8343 7.43021 14.5977 6.79368 15.1499C6.15714 15.7022 5.34272 16.0063 4.5 16.0063C3.65728 16.0063 2.84286 15.7022 2.20632 15.1499C1.56979 14.5977 1.15388 13.8343 1.035 13H0V1C0 0.734784 0.105357 0.48043 0.292893 0.292893C0.48043 0.105357 0.734784 0 1 0H15C15.2652 0 15.5196 0.105357 15.7071 0.292893C15.8946 0.48043 16 0.734784 16 1V3H19L22 7.056V13H19.965C19.8461 13.8343 19.4302 14.5977 18.7937 15.1499C18.1571 15.7022 17.3427 16.0063 16.5 16.0063C15.6573 16.0063 14.8429 15.7022 14.2063 15.1499C13.5698 14.5977 13.1539 13.8343 13.035 13H7.965ZM14 2H2V10.05C2.39456 9.6472 2.8806 9.34568 3.41675 9.17112C3.9529 8.99655 4.52329 8.95411 5.07938 9.04739C5.63546 9.14068 6.16077 9.36693 6.61061 9.7069C7.06044 10.0469 7.42148 10.4905 7.663 11H13.337C13.505 10.647 13.73 10.326 14 10.05V2ZM16 8H20V7.715L17.992 5H16V8ZM16.5 14C16.898 14 17.2796 13.8419 17.561 13.5605C17.8424 13.2791 18.0005 12.8975 18.0005 12.4995C18.0005 12.1015 17.8424 11.7199 17.561 11.4385C17.2796 11.1571 16.898 10.999 16.5 10.999C16.102 10.999 15.7204 11.1571 15.439 11.4385C15.1576 11.7199 14.9995 12.1015 14.9995 12.4995C14.9995 12.8975 15.1576 13.2791 15.439 13.5605C15.7204 13.8419 16.102 14 16.5 14ZM6 12.5C6 12.303 5.9612 12.108 5.88582 11.926C5.81044 11.744 5.69995 11.5786 5.56066 11.4393C5.42137 11.3001 5.25601 11.1896 5.07403 11.1142C4.89204 11.0388 4.69698 11 4.5 11C4.30302 11 4.10796 11.0388 3.92597 11.1142C3.74399 11.1896 3.57863 11.3001 3.43934 11.4393C3.30005 11.5786 3.18956 11.744 3.11418 11.926C3.0388 12.108 3 12.303 3 12.5C3 12.8978 3.15804 13.2794 3.43934 13.5607C3.72064 13.842 4.10218 14 4.5 14C4.89782 14 5.27936 13.842 5.56066 13.5607C5.84196 13.2794 6 12.8978 6 12.5Z" />
@@ -145,7 +145,6 @@ import NewPost from 'src/modules/nova-poshta/index';
 import { mapState, mapGetters } from 'vuex';
 import { debounce } from 'debounce';
 import NewShippingItemBody from "./NewShippingItemBody";
-import config from 'config';
 
 export default {
   components: {
@@ -199,13 +198,9 @@ export default {
         }
       })
     },
-    shippingType () {
-      return config.shippingType
-    }
   },
   methods: {
     changeType (type) {
-      console.log(type)
       this.loading = true
       this.$store.commit('customShipping/changeShippingType', type)
       setTimeout(() => {this.loading = false})

@@ -2,8 +2,7 @@ import { mapState, mapGetters } from 'vuex'
 import RootState from '@vue-storefront/core/types/RootState'
 import toString from 'lodash-es/toString'
 import debounce from 'lodash-es/debounce'
-const Countries = require('@vue-storefront/i18n/resource/countries.json');
-import config from 'config';
+const Countries = require('@vue-storefront/i18n/resource/countries.json')
 
 export const Payment = {
   name: 'Payment',
@@ -21,7 +20,11 @@ export const Payment = {
       generateInvoice: false,
       sendToShippingAddress: true,
       sendToBillingAddress: true,
-      assoc: null
+      assoc: {
+        'flatrate': ['cashondelivery', 'liqpaymagento_liqpay', 'banktransfer'],
+        'tablerates': ['cashondelivery', 'liqpaymagento_liqpay'],
+        'freeshipping': ['cashondelivery', 'banktransfer', 'checkmo']
+      }
     }
   },
   computed: {
@@ -40,7 +43,6 @@ export const Payment = {
     this.$bus.$on('checkout-after-load', this.onCheckoutLoad)
   },
   mounted () {
-    this.assoc = config.paymentType;
     if (this.payment.firstName) {
       this.initializeBillingAddress()
     } else {
