@@ -108,7 +108,6 @@ $color-action: color(black);
 
 .button-full {
   background: #23BE20;
-  color: #ffffff;
 }
 
 .message {

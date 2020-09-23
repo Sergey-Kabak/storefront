@@ -21,12 +21,10 @@
             </h1>
             <div
               class="product-in-stock"
-              :class="{ 'not-available': isAddToCartDisabled }"
+              :class="{ 'not-available': !(getCurrentProduct.stock && getCurrentProduct.stock.is_in_stock) }"
             >
-              {{ isAddToCartDisabled ? $t('Not available') : $t('In stock') }}
+              {{(getCurrentProduct.stock && getCurrentProduct.stock.is_in_stock) ? $t('In stock') : $t('Not available')}}
             </div>
-
-            <pre>{{ getCurrentProduct.stock.is_in_stock }}</pre>
           </div>
           <div class="col-xs-12 col-md-6 center-xs middle-xs image">
             <product-gallery
@@ -40,9 +38,9 @@
             <Promo v-if="isProductRma" :label-value="getLabelValue()" />
             <div
               class="product-in-stock hidden-xs block"
-              :class="{ 'not-available': isAddToCartDisabled }"
+              :class="{ 'not-available': !(getCurrentProduct.stock && getCurrentProduct.stock.is_in_stock) }"
             >
-              {{ isAddToCartDisabled ? $t('Not available') : $t('In stock') }}
+              {{(getCurrentProduct.stock && getCurrentProduct.stock.is_in_stock) ? $t('In stock') : $t('Not available')}}
             </div>
             <h1
               class="mb20 mt0 cl-mine-shaft product-name hidden-xs block"
