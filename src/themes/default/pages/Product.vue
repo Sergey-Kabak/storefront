@@ -36,9 +36,7 @@
             />
           </div>
           <div class="col-xs-12 col-md-5 data">
-
             <Promo v-if="isProductRma" :label-value="getLabelValue()" />
-
             <div
               class="product-in-stock hidden-xs block"
               :class="{ 'not-available': isAddToCartDisabled }"
@@ -164,16 +162,6 @@
                 :disabled="isAddToCartDisabled"
                 class="col-xs-12 col-sm-4 col-md-6"
               />
-              <button-white
-                @click.native="showModalCredits"
-                :disabled="isAddToCartDisabled"
-                class="buy_in_credit h40 flex1"
-              >
-                <span v-if="!show_modal_credits_loading">
-                  {{ $t('In credit') }} {{ getCurrentProduct.original_price_incl_tax / 2 }} ₴ / {{ $t('month') }}
-                </span>
-                <spinner v-if="show_modal_credits_loading" containerClass="quantity-spinner" />
-              </button-white>
             </div>
             <div class="row py40 add-to-buttons">
               <div class="col-xs-6 col-sm-3 col-md-6">
@@ -294,10 +282,7 @@ import {
 } from '@vue-storefront/core/helpers';
 import { catalogHooksExecutors } from '@vue-storefront/core/modules/catalog-next/hooks';
 import ProductPrice from 'theme/components/core/ProductPrice.vue';
-import Promo from 'theme/components/core/blocks/Product/Promo.vue'
-import ButtonWhite from 'theme/components/core/blocks/Product/ButtonWhite.vue'
-import {notifications, productsEquals} from "@vue-storefront/core/modules/cart/helpers";
-import Spinner from "../components/core/Spinner";
+import Promo from "../components/core/blocks/Product/Promo";
 
 export default {
   components: {
@@ -321,9 +306,7 @@ export default {
     LazyHydrate,
     ProductQuantityNew,
     ProductPrice,
-    Promo,
-    ButtonWhite,
-    Spinner
+    Promo
   },
   mixins: [ProductOption],
   directives: { focusClean },
@@ -338,8 +321,7 @@ export default {
       quantityError: false,
       isStockInfoLoading: false,
       hasAttributesLoaded: false,
-      manageQuantity: true,
-      show_modal_credits_loading: false,
+      manageQuantity: true
     }
   },
   computed: {
@@ -350,8 +332,7 @@ export default {
       getCurrentProductConfiguration: 'product/getCurrentProductConfiguration',
       getOriginalProduct: 'product/getOriginalProduct',
       attributesByCode: 'attribute/attributeListByCode',
-      getCurrentCustomOptions: 'product/getCurrentCustomOptions',
-      getCartItems: 'cart/getCartItems',
+      getCurrentCustomOptions: 'product/getCurrentCustomOptions'
     }),
     isProductRma() {
       return this.getCurrentProduct.hasOwnProperty("rma")
@@ -454,31 +435,6 @@ export default {
 
       return attribute.options[0].label;
     },
-    async showModalCredits() {
-      try {
-        this.show_modal_credits_loading = true;
-        let getProductFromCartIfExist = this.getCartItems.find(p => p.slug, this.getCurrentProduct.slug);
-        if (getProductFromCartIfExist === undefined) {
-          const diffLog = await this.$store.dispatch('cart/addItem', { productToAdd: this.getCurrentProduct })
-          diffLog.clientNotifications.forEach(notificationData => {
-            // Notify user that product is added
-            this.notifyUser(notificationData)
-            // Do open modal credits
-            this.$bus.$emit('modal-show', 'modal-credits')
-          })
-        } else {
-          // Do open modal credits
-          this.$bus.$emit('modal-show', 'modal-credits')
-        }
-      } catch (message) {
-        this.notifyUser(notifications.createNotification({ type: 'error', message }))
-      } finally {
-        this.show_modal_credits_loading = false;
-      }
-    },
-    notifyUser (notificationData) {
-      this.$store.dispatch('notification/spawnNotification', notificationData, { root: true })
-    },
     showDetails (event) {
       this.detailsOpen = true
       event.target.classList.add('hidden')
@@ -564,24 +520,6 @@ export default {
 </script>
 
 <style lang="scss">
-@import '~theme/css/pages/product';
-</style>
-
-<style lang="scss">
-
-  .buy_in_credit {
-    padding: 0 5px !important;
-  }
-
-  .quantity-spinner {
-    display: flex;
-    justify-content: center;
-    background-color: transparent !important;
-    height: 30px;
-    align-items: center;
-    bottom: auto!important;
-  }
-
   #product {
     .add-to-cart {
       /*width: 25px;*/
