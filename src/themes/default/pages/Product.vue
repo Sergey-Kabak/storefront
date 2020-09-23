@@ -26,6 +26,7 @@
               {{ isAddToCartDisabled ? $t('Not available') : $t('In stock') }}
             </div>
 
+            <pre>{{ getCurrentProduct.stock.is_in_stock }}</pre>
           </div>
           <div class="col-xs-12 col-md-6 center-xs middle-xs image">
             <product-gallery
