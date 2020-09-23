@@ -394,6 +394,7 @@ export default {
   },
   async mounted () {
     await this.$store.dispatch('recently-viewed/addItem', this.getCurrentProduct)
+    this.setDataLayer()
   },
   async asyncData ({ store, route, context }) {
     if (context) context.output.cacheTags.add('product')
@@ -421,6 +422,38 @@ export default {
     }
   },
   methods: {
+    setDataLayer () {
+      if (typeof window !== 'undefined' && this.getCurrentProduct) {
+        let { options } = this.getCustomAttributes.find(a => a.attribute_code === 'manufacturer');
+        window.dataLayer = window.dataLayer || [];
+        window.dataLayer.push({
+          'ecommerce': {
+            'currencyCode': 'UAH',
+            'detail': {
+              'products': [{
+                'name': this.getCurrentProduct.name,
+                'id': this.getCurrentProduct.id,
+                'price': this.getCurrentProduct.original_price_incl_tax,
+                'brand': options.find(o => parseInt(o.value) === parseInt(this.getCurrentProduct.manufacturer)),
+                'category': this.getCurrentProduct.category && this.getCurrentProduct.category[0].name
+              }]
+            },
+            'impressions': [
+              {
+                'name': this.getCurrentProduct.name,
+                'id': this.getCurrentProduct.id,
+                'price': this.getCurrentProduct.original_price_incl_tax,
+                'brand': options.find(o => parseInt(o.value) === parseInt(this.getCurrentProduct.manufacturer)),
+                'category': this.getCurrentProduct.category && this.getCurrentProduct.category[0].name
+              }]
+          },
+          'event': 'gtm-ee-event',
+          'gtm-ee-event-category': 'Enhanced Ecommerce',
+          'gtm-ee-event-action': 'Product Details',
+          'gtm-ee-event-non-interaction': 'True',
+        });
+      }
+    },
     getLabelValue() {
 
       let attributes = this.getCurrentProduct.attributes_metadata;
