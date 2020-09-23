@@ -444,8 +444,7 @@ export default {
   methods: {
     setDataLayer () {
       if (typeof window !== 'undefined' && this.getCurrentProduct) {
-        let isManufactorOptions = this.getCustomAttributes.find(a => a.attribute_code === 'manufacturer')
-        let options = isManufactorOptions && isManufactorOptions.options;
+        let { options } = this.getCustomAttributes.find(a => a.attribute_code === 'manufacturer');
         window.dataLayer = window.dataLayer || [];
         window.dataLayer.push({
           'ecommerce': {
@@ -455,7 +454,7 @@ export default {
                 'name': this.getCurrentProduct.name,
                 'id': this.getCurrentProduct.id,
                 'price': this.getCurrentProduct.original_price_incl_tax,
-                'brand': options && options.find(o => parseInt(o.value) === parseInt(this.getCurrentProduct.manufacturer)),
+                'brand': options.find(o => parseInt(o.value) === parseInt(this.getCurrentProduct.manufacturer)),
                 'category': this.getCurrentProduct.category && this.getCurrentProduct.category[0].name
               }]
             },
@@ -464,7 +463,7 @@ export default {
                 'name': this.getCurrentProduct.name,
                 'id': this.getCurrentProduct.id,
                 'price': this.getCurrentProduct.original_price_incl_tax,
-                'brand': options && options.find(o => parseInt(o.value) === parseInt(this.getCurrentProduct.manufacturer)),
+                'brand': options.find(o => parseInt(o.value) === parseInt(this.getCurrentProduct.manufacturer)),
                 'category': this.getCurrentProduct.category && this.getCurrentProduct.category[0].name
               }]
           },
