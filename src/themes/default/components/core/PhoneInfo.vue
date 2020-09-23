@@ -4,7 +4,7 @@
 		<a class="phone-tooltip-number" href="tel:+380674666111">+38 073 090 87 07</a>
 		<a class="phone-tooltip-number" href="tel:+380970908707">+38 097 090 87 07</a>
 		<span class="phone-tooltip-date">Пн-Пт: 9:00-18:00; Сб-Вс: {{ $t('Weekend') }}</span>
-		<!--<span class="phone-tooltip-description">{{ $t('Free of charge from landlines and mobile phones in Ukraine') }}</span>-->
+		<span class="phone-tooltip-description">{{ $t('Free of charge from landlines and mobile phones in Ukraine') }}</span>
 	</div>
 </template>
 
