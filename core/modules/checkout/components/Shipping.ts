@@ -43,7 +43,8 @@ export const Shipping = {
   },
   computed: {
     ...mapState({
-      currentUser: (state: RootState) => state.user.current
+      currentUser: (state: RootState) => state.user.current,
+      shippingType: (state: RootState) => state.customShipping.type
     }),
     ...mapGetters({
       shippingMethods: 'checkout/getShippingMethods'
@@ -116,7 +117,7 @@ export const Shipping = {
         city: location.city,
         state: '',
         region_id: 0,
-        zipCode: location.zipcode || '69068',
+        zipCode: this.shippingType === 'shop' ? location.id : null,
         phoneNumber: '',
         deliveryType: this.type,
         shopName: location.number ? `Нова Пошта ${location.name}` : location.name,
