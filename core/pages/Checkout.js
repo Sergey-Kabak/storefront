@@ -50,7 +50,8 @@ export default {
     }),
     ...mapState({
       shippingDetails: state => state.checkout.shippingDetails,
-      cPersonalDetails: state => state.checkout.personalDetails
+      cPersonalDetails: state => state.checkout.personalDetails,
+      shippingType: state => state.customShipping.type
     })
   },
   async beforeMount () {
@@ -275,6 +276,11 @@ export default {
       return paymentMethod
     },
     prepareOrder () {
+      const shippingMethods = {
+        new_post: 'flatrate',
+        shop: 'freeshipping',
+        currier: 'flatrate'
+      }
       this.order = {
         user_id: this.$store.state.user.current ? this.$store.state.user.current.id.toString() : '',
         cart_id: this.$store.state.cart.cartServerToken ? this.$store.state.cart.cartServerToken.toString() : '',
@@ -295,8 +301,8 @@ export default {
             region_code: this.payment.region_code ? this.payment.region_code : '',
             vat_id: this.payment.taxId
           },
-          shipping_method_code: 'flatrate', // this.shippingMethod.method_code ? this.shippingMethod.method_code : this.shipping.shippingMethod,
-          shipping_carrier_code: 'flatrate', // this.shippingMethod.carrier_code ? this.shippingMethod.carrier_code : this.shipping.shippingCarrier,
+          shipping_method_code: shippingMethods[this.shippingType], // this.shippingMethod.method_code ? this.shippingMethod.method_code : this.shipping.shippingMethod,
+          shipping_carrier_code: shippingMethods[this.shippingType], // this.shippingMethod.carrier_code ? this.shippingMethod.carrier_code : this.shipping.shippingCarrier,
           payment_method_code: this.getPaymentMethod(),
           payment_method_additional: this.payment.paymentMethodAdditional,
           shippingExtraFields: this.shipping.extraFields
