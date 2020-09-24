@@ -38,9 +38,9 @@
             <Promo v-if="isProductRma" :label-value="getLabelValue()" />
             <div
               class="product-in-stock hidden-xs block"
-              :class="{ 'not-available': !(getCurrentProduct.stock && getCurrentProduct.stock.is_in_stock) }"
+              :class="{ 'not-available': isAddToCartDisabled }"
             >
-              {{(getCurrentProduct.stock && getCurrentProduct.stock.is_in_stock) ? $t('In stock') : $t('Not available')}}
+              {{ isAddToCartDisabled ? $t('Not available') : $t('In stock') }}
             </div>
             <h1
               class="mb20 mt0 cl-mine-shaft product-name hidden-xs block"
