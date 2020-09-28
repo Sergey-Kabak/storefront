@@ -392,6 +392,11 @@ export default {
       return config && config.customSeller
     }
   },
+  beforeMount () {
+    this.$bus.$on('product-after-configure', (data) => {
+      this.getQuantity()
+    });
+  },
   async mounted () {
     await this.$store.dispatch('recently-viewed/addItem', this.getCurrentProduct)
     this.setDataLayer()
@@ -450,15 +455,14 @@ export default {
           'event': 'gtm-ee-event',
           'gtm-ee-event-category': 'Enhanced Ecommerce',
           'gtm-ee-event-action': 'Product Details',
-          'gtm-ee-event-non-interaction': 'True',
+          'gtm-ee-event-non-interaction': 'True'
         });
       }
     },
-    getLabelValue() {
-
+    getLabelValue () {
       let attributes = this.getCurrentProduct.attributes_metadata;
       let attribute = attributes.find((attr) => {
-        return attr.attribute_code === "rma"
+        return attr.attribute_code === 'rma';
       });
 
       if (!attribute.options.length > 0) {
@@ -494,7 +498,7 @@ export default {
         'filter-changed-product',
         Object.assign({ attribute_code: variant.type }, variant)
       )
-      this.getQuantity()
+      //this.getQuantity();
     },
     openSizeGuide () {
       this.$bus.$emit('modal-show', 'modal-sizeguide')
@@ -511,7 +515,7 @@ export default {
         const res = await this.$store.dispatch('stock/check', {
           product: this.getCurrentProduct,
           qty: this.getCurrentProduct.qty
-        })
+        });
 
         this.manageQuantity = res.isManageStock
         this.maxQuantity = res.isManageStock ? res.qty : null
