@@ -21,9 +21,9 @@
             </h1>
             <div
               class="product-in-stock"
-              :class="{ 'not-available': !(getCurrentProduct.stock && getCurrentProduct.stock.is_in_stock) }"
+              :class="{ 'not-available': isAddToCartDisabled }"
             >
-              {{(getCurrentProduct.stock && getCurrentProduct.stock.is_in_stock) ? $t('In stock') : $t('Not available')}}
+              {{ isAddToCartDisabled ? $t('Not available') : $t('In stock') }}
             </div>
           </div>
           <div class="col-xs-12 col-md-6 center-xs middle-xs image">
