@@ -69,7 +69,7 @@ export default {
       }
       let relatedProductsQuery = prepareRelatedQuery(key, sku)
 
-      const response = await this.$store.dispatch('product/findProducts', {
+      const response = await this.$store.dispatch('product/list', {
         query: relatedProductsQuery,
         size: 8,
         prefetchGroupProducts: false,

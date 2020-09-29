@@ -18,7 +18,7 @@ export default {
 
   beforeMount () {
     let inspirationsQuery = prepareQuery({ queryConfig: 'inspirations' })
-    this.$store.dispatch('product/findProducts', {
+    this.$store.dispatch('product/list', {
       query: inspirationsQuery,
       size: 3,
       sort: 'created_at:desc'

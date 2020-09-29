@@ -73,21 +73,21 @@ $active : #1d9f1b;
   line-height: 16px;
   border-radius: 4px;
   &:hover{
-      background-color : $hover;
-      color: #ffffff;
+    background-color : $hover;
+    color: #ffffff;
   }
   &:focus{
-      background-color : $focus;
-      outline: none;
-      color: #ffffff;
+    background-color : $focus;
+    outline: none;
+    color: #ffffff;
   }
   &:active{
-      background-color : $active;
-      color: #ffffff;
+    background-color : $active;
+    color: #ffffff;
   }
   &:disabled {
     background-color: #abe6aa;
-    color: #ffffff;
+    color: #fff;
   }
 }
 </style>

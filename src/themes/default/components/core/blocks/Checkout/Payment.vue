@@ -153,11 +153,6 @@ export default {
             required,
             unicodeAlphaNum
           },
-          zipCode: {
-            required,
-            minLength: minLength(3),
-            unicodeAlphaNum
-          },
           city: {
             required,
             unicodeAlpha

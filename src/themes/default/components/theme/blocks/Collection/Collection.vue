@@ -48,7 +48,7 @@ export default {
   async beforeMount () {
     let inspirationsQuery = prepareQuery({queryConfig: 'all'})
 
-    const res = await this.$store.dispatch('product/findProducts', {
+    const res = await this.$store.dispatch('product/list', {
       query: inspirationsQuery,
       size: 12,
       sort: 'created_at:desc'

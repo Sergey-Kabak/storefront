@@ -27,16 +27,16 @@
       <a href="mailto:program@silpo.com.ua">program@silpo.com.ua</a>
     </p>
     <p>
-      {{ $t('own account more information') }}
+      {{ $t('own account more information') }} 
       <a href="https://silpo.ua" target="__blanck">https://silpo.ua</a>
       {{ $t('own account hotline') }}
     </p>
     <p>
       {{ $t('own account rules') }}
-      <a href="https://silpo.ua/about/personal-account/rules" rel="nofollow" target="__blank">silpo.ua/about/personal-account/rules</a>
+      <a href="https://silpo.ua/about/personal-account/rules" target="__blank">silpo.ua/about/personal-account/rules</a>
     </p>
-    <a href="https://silpo.ua/uploads/2020/02/12/5e43c6f71ac03.pdf" rel="nofollow" target="__blank">{{ $t('official rules') }}</a>
-    <p>{{ $t('go to personal page') }} <a href="https://my.silpo.ua/login" rel="nofollow" target="__blank">my.silpo.ua</a></p>
+    <a href="https://silpo.ua/uploads/2020/02/12/5e43c6f71ac03.pdf" target="__blank">{{ $t('official rules') }}</a>
+    <p>{{ $t('go to personal page') }} <a href="https://my.silpo.ua/login" target="__blank">my.silpo.ua</a></p>
   </div>
 </template>
 

@@ -112,14 +112,14 @@
     "private_key": "yn1ZNgkzlC3rw0F15BdiE8hzkYqzJvCrpckDtnJQ",
     "version": "3",
     "currency": "UAH",
-    "server_url": "https://ringoo.ua/api/payment/liqpay/callback"
+    "server_url": "https://magento.ringoo.ua/rest/V1/liqpay/callback"
   },
   "liqpay_dev": {
     "public_key": "sandbox_i33827525821",
     "private_key": "sandbox_ZoeELbqo1BBTi3LQnEsHF93wu425TzSvpZpYH11N",
     "version": "3",
     "currency": "UAH",
-    "server_url": "https://ringoo.ua/api/payment/liqpay/callback"
+    "server_url": "https://magento.ringoo.ua/rest/V1/liqpay/callback"
   },
   "elasticsearch": {
     "httpAuth": "",
@@ -1006,44 +1006,44 @@
   },
   "sliderProduct": [
     {
-      "url_path": "iphone-11-64gb.html?childSku=т29793",
+      "url_path": "samsung-galaxy-m51-6-128.html",
+      "type_id": "configurable",
+      "img": "https://info.ringoo.ua/images/slider/0.jpg"
+    },
+    {
+      "url_path": "iphone-11-64gb.html",
       "type_id": "configurable",
       "img": "https://info.ringoo.ua/images/slider/1.jpg"
     },
     {
-      "url_path": "back-to-school",
+      "url_path": "bezdrotovi-navushniki-redmi-airdots-s-black.html",
       "type_id": "configurable",
       "img": "https://info.ringoo.ua/images/slider/2.jpg"
     },
     {
-      "url_path": "back-to-school",
+      "url_path": "xiaomi-redmi-note-9-pro-6-64gb.html",
       "type_id": "configurable",
       "img": "https://info.ringoo.ua/images/slider/3.jpg"
     },
     {
-      "url_path": "ditjachij-smart-godinnik-canyon-cne-kw51.html",
+      "url_path": "samsung-43-led-smart-tv-silver-ue43tu7100uxua.html",
       "type_id": "configurable",
       "img": "https://info.ringoo.ua/images/slider/4.jpg"
     },
     {
-      "url_path": "samsung-a31-4-64gb-a315.html",
+      "url_path": "samsung-galaxy-a01-core-1-16gb-sm-a013fzkdsek.html",
       "type_id": "configurable",
       "img": "https://info.ringoo.ua/images/slider/5.jpg"
     },
     {
-      "url_path": "fotoaparat-ditjachij-xoko-rabbit.html?childSku=т30134",
+      "url_path": "fitnes-braslet-mi-smart-band-5-black.html",
       "type_id": "configurable",
       "img": "https://info.ringoo.ua/images/slider/6.jpg"
     },
     {
-      "url_path": "smart-godinnik-apple-watch-5-40mm.html",
+      "url_path": "huawei-p40-lite-6-128gb.html",
       "type_id": "configurable",
       "img": "https://info.ringoo.ua/images/slider/7.jpg"
-    },
-    {
-      "url_path": "fitnes-braslet-mi-smart-band-5-black.html",
-      "type_id": "configurable",
-      "img": "https://info.ringoo.ua/images/slider/8.jpg"
     }
   ],
   "customSeller": {
