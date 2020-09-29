@@ -1,6 +1,6 @@
 {
     "port": 8080,
-    "objHashSecret": "__SECRET_CHANGE_ME__",
+    "objHashSecret": "VHVlIFNlcCAyOSAyMDIwIDE0OjAyOjM4IEdNVCswMzAwIChNb3Njb3cgU3RhbmRhcmQgVGltZSk",
     "bodyLimit": "100kb",
     "corsHeaders": [
         "Link"
