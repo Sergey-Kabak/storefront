@@ -60,7 +60,7 @@
           v-if="OnlineOnly"
         />
       </div>
-      <div v-if="productsInCart.length" class="summary cl-accent serif">
+      <div v-if="productsInCart.length" class="summary cl-accent serif microcart-footer">
         <total-price />
         <div
           class="actions-button"
@@ -207,7 +207,16 @@ export default {
   .microcart {
     min-height: 100vh;
     height: 100%;
-
+    &-footer{
+      @media (max-width: 550px){
+        position: fixed;
+        bottom: 0;
+        right: 0;
+        width: 100%;
+        box-sizing: border-box;
+        background: #fff;
+      }
+    }
     .summary {
       box-shadow: 0px -1px 4px rgba(0, 0, 0, 0.25);
       margin-top: auto;
@@ -431,7 +440,7 @@ export default {
       .summary {
         padding: 16px;
       }
-      
+
       &-empty {
         padding: 0 16px;
       }
@@ -446,7 +455,7 @@ export default {
       &-left {
         margin-right: 16px;
       }
-      
+
       &-input {
         min-width: 174px;
       }
