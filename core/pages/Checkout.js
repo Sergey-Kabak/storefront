@@ -301,6 +301,7 @@ export default {
             region_code: this.payment.region_code ? this.payment.region_code : '',
             vat_id: this.payment.taxId
           },
+
           shipping_method_code: shippingMethods[this.shippingType], // this.shippingMethod.method_code ? this.shippingMethod.method_code : this.shipping.shippingMethod,
           shipping_carrier_code: shippingMethods[this.shippingType], // this.shippingMethod.carrier_code ? this.shippingMethod.carrier_code : this.shipping.shippingCarrier,
           payment_method_code: this.getPaymentMethod(),
