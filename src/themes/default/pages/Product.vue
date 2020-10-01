@@ -164,10 +164,10 @@
             </div>
             <div class="row py40 add-to-buttons">
               <div class="col-xs-6 col-sm-3 col-md-6">
-                <AddToCompare :product="getCurrentProduct" />
+                <AddToCompare :product="getCurrentProduct" showDescription />
               </div>
               <div class="col-xs-6 col-sm-3 col-md-6">
-                <AddToWishlist :product="getCurrentProduct" />
+                <AddToWishlist :product="getCurrentProduct" showDescription />
               </div>
             </div>
 

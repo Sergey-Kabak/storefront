@@ -368,7 +368,7 @@ Register,Реєстрація
 Remake order,Повторити замовлення
 Remember me,Запам'ятати мене
 Remove all,Видалити все
-Remove from compare,Видалити зі сторінки порівняння
+Remove from compare,Видалити з порівняння
 Remove,Видалити
 Repeat new password *,Повторіть новий пароль *
 Repeat password *,Повторіть пароль *
@@ -675,3 +675,15 @@ warranty transportation," Транспортування габаритного 
 warranty,"Гарантія"
 why justin,"Чому Justin?"
 work time,"Час роботи"
+The requested qty is not available,"Бажана кількість товару недоступна"
+"Department","Відділення"
+"Number or address of New Post","Номер або адреса Нової Пошти"
+"schedule","Пн-Пт: {mon}; Сб: {sat}; Нд: {sun}"
+"weekend","Вихідний"
+"Remove from favorite","Видалити з обраного"
+"Add to favorite","Додати в обране"
+"Load more","Завантажити ще"
+"find product or brand","Знайти продукт або бренд"
+"at your request","За вашим запитом"
+"nothing found","нічого не знайдено"
+"may suit you","Вам може підійти"

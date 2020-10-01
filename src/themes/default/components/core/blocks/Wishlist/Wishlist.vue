@@ -321,15 +321,16 @@ export default {
     .more {
       display: block;
 
-      .more-item {
-        svg {
-          margin-right: 20px;
-        }
-      }
-
       .add-to-compare {
         width: 100%;
-        padding: 12px 16px;
+        padding: 8px 16px;
+      }
+    }
+
+    .product-right-data {
+      display: none;
+      &.mobile {
+        display: block;
       }
     }
   }
@@ -369,7 +370,7 @@ export default {
       display: block;
 
       .more-item {
-        padding: 12px 16px;
+        padding: 8px 16px;
         display: flex;
         align-items: center;
 

@@ -1,17 +1,15 @@
-import { SearchQuery } from 'storefront-query-builder'
 import config from 'config'
+import bodybuilder from 'bodybuilder'
 
 export function prepareQuickSearchQuery (queryText) {
-  let searchQuery = new SearchQuery()
-
-  searchQuery = searchQuery
-    .setSearchText(queryText)
-    .applyFilter({ key: 'visibility', value: { 'in': [3, 4] } })
-    .applyFilter({ key: 'status', value: { 'in': [0, 1] } })/* 2 = disabled, 3 = out of stock */
+  let searchQuery = bodybuilder()
+    .query('query_string', { 'default_field': 'name', 'query': `*${queryText.trim()}*`, default_operator: 'AND' })
+    .filter('terms', 'visibility', [4])
+    .filter('terms', 'status', [1, 2])
 
   if (config.products.listOutOfStockProducts === false) {
-    searchQuery = searchQuery.applyFilter({ key: 'stock.is_in_stock', value: { 'eq': true } })
+    searchQuery.filter('terms', 'stock.is_in_stock', { 'eq': true })
   }
 
-  return searchQuery
+  return searchQuery.build()
 }

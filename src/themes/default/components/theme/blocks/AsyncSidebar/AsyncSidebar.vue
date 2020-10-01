@@ -101,6 +101,7 @@ export default {
   width: 100%;
   max-width: 550px;
   min-width: 320px;
+  overflow-anchor: none;
   overflow-y: auto;
   overflow-x: hidden;
   -webkit-overflow-scrolling: touch;

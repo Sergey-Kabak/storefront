@@ -15,7 +15,7 @@ export const uiStore = {
     checkoutMode: false,
     openMyAccount: false,
     headerIndex: 3,
-    mobileSearch: false,
+    isSearchActive: false,
     submenu: {
       depth: false,
       path: []
@@ -26,7 +26,7 @@ export const uiStore = {
       state.checkoutMode = action === true
     },
     setMicrocart (state, action) {
-      state.headerIndex = 3
+      state.isSearchActive = false
       state.microcart = action === true
       state.overlay = action === true
     },
@@ -39,12 +39,12 @@ export const uiStore = {
       state.sidebar_category_active = id
     },
     setSidebar (state, action) {
-      state.headerIndex = 3
+      state.isSearchActive = false
       state.sidebar = action === true
       state.overlay = action === true
     },
     setConsultation (state, action) {
-      state.headerIndex = 3
+      state.isSearchActive = false
       state.consultation = action === true
       state.overlay = action === true
     },
@@ -59,12 +59,11 @@ export const uiStore = {
       state.submenu.depth = state.submenu.depth > 0 && depth
     },
     setSearchpanel (state, action) {
-      state.headerIndex = 3
       state.searchpanel = action === true
       state.overlay = action === true
     },
     setWishlist (state, action) {
-      state.headerIndex = 3
+      state.isSearchActive = false
       state.wishlist = action === true
       state.overlay = action === true
     },
@@ -75,13 +74,12 @@ export const uiStore = {
       state.loader = action === true
     },
     setAuthElem (state, action) {
+      state.isSearchActive = false
       state.authElem = action
     },
-    setHeaderIndex (state, action) {
-      state.headerIndex = action
-    },
-    setMobileSearch (state, action) {
-      state.mobileSearch = action
+    setSearch (state, action) {
+      state.isSearchActive = action === true
+      state.overlay = action === true
     }
   },
   actions: {

@@ -13,6 +13,7 @@ import { uiStore } from 'theme/store/ui';
 import { customShipping } from 'theme/store/custom-shipping';
 import { promotedStore } from 'theme/store/promoted-offers';
 import { paymentStore } from 'theme/store/payment';
+import { searchStore } from 'theme/store/search'
 import { StorageManager } from '@vue-storefront/core/lib/storage-manager';
 import vClickOutside from 'v-click-outside'
 
@@ -40,7 +41,8 @@ function initTheme (app, router, store, config, ssrContext) {
   store.registerModule('ui', uiStore);
   store.registerModule('promoted', promotedStore);
   store.registerModule('customShipping', customShipping);
-  store.registerModule('payment', paymentStore);
+  store.registerModule('search', searchStore);
+  // store.registerModule('payment', paymentStore);
 }
 
 export {
