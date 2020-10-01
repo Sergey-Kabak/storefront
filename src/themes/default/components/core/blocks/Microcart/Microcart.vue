@@ -215,6 +215,7 @@ export default {
         width: 100%;
         box-sizing: border-box;
         background: #fff;
+        margin-top: 0;
       }
     }
     .summary {
@@ -327,6 +328,7 @@ export default {
   }
 
   .scroll-bar {
+    height: 100%;
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
