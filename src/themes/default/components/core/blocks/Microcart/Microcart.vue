@@ -311,7 +311,6 @@ export default {
     &-left {
       display: flex;
       align-items: center;
-      padding: 9px 0px;
     }
   }
 
@@ -392,6 +391,7 @@ export default {
       width: 100%;
 
       &-left {
+        padding: 9px 0px;
         width: 100%;
       }
 
@@ -399,7 +399,7 @@ export default {
         padding: 56px 16px 0px 16px;
         flex-direction: column-reverse;
         align-items: flex-start;
-        margin-bottom: 29px;
+        margin-bottom: 16px;
       }
 
       .more {

@@ -555,7 +555,7 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
   #product {
     .add-to-cart {
       /*width: 25px;*/
