@@ -364,6 +364,12 @@ export default {
     font-weight: 600;
   }
 
+  .product-item-row ::v-deep {
+    .product-image__thumb {
+      height: auto!important
+    }
+  }
+
   @media (max-width: 700px) {
     .thank-you-row {
       padding: 15px;

@@ -6,7 +6,7 @@ import { processURLAddress } from '@vue-storefront/core/helpers';
 import getApiEndpointUrl from '@vue-storefront/core/helpers/getApiEndpointUrl';
 
 const queueCheck = (sku: string, actionName: string): Promise<any> =>
-  TaskQueue.queue({
+  TaskQueue.execute({
     url: processURLAddress(`${getApiEndpointUrl(config.stock, 'endpoint')}/check?sku=${encodeURIComponent(sku)}`),
     payload: {
       method: 'GET',

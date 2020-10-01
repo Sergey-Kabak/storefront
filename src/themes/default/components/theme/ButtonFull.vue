@@ -55,7 +55,7 @@ $hover : #20af1d;
 $focus : #1fa71c;
 $active : #1d9f1b;
 .button-full {
-  transition: ease-in 0.2s;
+  transition: background-color ease-in 0.2s;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -72,18 +72,19 @@ $active : #1d9f1b;
   font-weight: 600;
   line-height: 16px;
   border-radius: 4px;
-  &:hover{
-    background-color : $hover;
-    color: #ffffff;
+
+  &:hover {
+      background-color : $hover;
+      color: #ffffff;
   }
-  &:focus{
-    background-color : $focus;
-    outline: none;
-    color: #ffffff;
+  &:focus {
+      background-color : $focus;
+      outline: none;
+      color: #ffffff;
   }
-  &:active{
-    background-color : $active;
-    color: #ffffff;
+  &:active {
+      background-color : $active;
+      color: #ffffff;
   }
   &:disabled {
     background-color: #abe6aa;

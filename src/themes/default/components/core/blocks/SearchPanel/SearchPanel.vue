@@ -1,121 +1,124 @@
 <template>
   <div
-    class="searchpanel fixed mw-100 bg-cl-primary cl-accent"
+    class="searchpanel"
     data-testid="searchPanel"
+    ref="search-panel"
   >
-    <div class="close-icon-row">
-      <i
-        class="material-icons pointer cl-accent close-icon"
-        @click="closeSearchpanel"
-        data-testid="closeSearchPanel"
-      >
+    <div @click="closeSearchpanel()" class="close-searchpanel" v-if="!mobile">
+      <i class="material-icons close-icon" data-testid="closeSearchPanel"> 
         close
       </i>
     </div>
-    <div class="container">
-
-      <span class="search-title">
-        {{ $t('Type what you are looking for...') }}
-        <svg width="19" height="19" viewBox="0 0 19 19" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M8 16C9.77498 15.9996 11.4988 15.4054 12.897 14.312L17.293 18.708L18.707 17.294L14.311 12.898C15.405 11.4997 15.9996 9.77544 16 8C16 3.589 12.411 0 8 0C3.589 0 0 3.589 0 8C0 12.411 3.589 16 8 16ZM8 2C11.309 2 14 4.691 14 8C14 11.309 11.309 14 8 14C4.691 14 2 11.309 2 8C2 4.691 4.691 2 8 2Z" fill="#23BE20"/>
+    <div class="search-panel-wrapper">
+      <div class="searh-header" v-if="!mobile">
+        <span class="search-title">
+          {{ $t('Type what you are looking for...') }}
+        </span>
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M10 18C11.775 17.9996 13.4988 17.4054 14.897 16.312L19.293 20.708L20.707 19.294L16.311 14.898C17.405 13.4997 17.9996 11.7754 18 10C18 5.589 14.411 2 10 2C5.589 2 2 5.589 2 10C2 14.411 5.589 18 10 18ZM10 4C13.309 4 16 6.691 16 10C16 13.309 13.309 16 10 16C6.691 16 4 13.309 4 10C4 6.691 6.691 4 10 4Z" fill="#23BE20"/>
         </svg>
-      </span>
-
-      <div class="row">
-        <div class="col-md-12 end-xs">
-
-<!--          <label for="search" class="visually-hidden">-->
-<!--            {{ $t('Search') }}-->
-<!--          </label>-->
-
-          <div class="search-input-group">
-<!--            <i class="material-icons search-icon">search</i>-->
-            <input
-              ref="search"
-              id="search"
-              v-model="search"
-              @input="makeSearch"
-              @blur="$v.search.$touch()"
-              class="search-panel-input"
-              :placeholder="$t('Type what you are looking for...')"
-              type="search"
-              autofocus="true"
-            >
-          </div>
+      </div>
+      <div class="search-input">
+        <input
+          ref="search"
+          name="search-input"
+          :class="{ 'active': this.search }"
+          id="search"
+          v-model="search"
+          @blur="cancelSearch()"
+          @focus="setOverlay()"
+          @input="makeSearch"
+          class="search-panel-input"
+          :placeholder="$t('find product or brand')"
+          autofocus="true"
+          autocomplete="chrome-off"
+        >
+        <svg v-if="search" @click="resetSearch()" class="reset-icon" fill="#BDBDBD" width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path d="M19 6.41L17.59 5L12 10.59L6.41 5L5 6.41L10.59 12L5 17.59L6.41 19L12 13.41L17.59 19L19 17.59L13.41 12L19 6.41Z" />
+        </svg>
+        <svg class="search-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M10 18C11.775 17.9996 13.4988 17.4054 14.897 16.312L19.293 20.708L20.707 19.294L16.311 14.898C17.405 13.4997 17.9996 11.7754 18 10C18 5.589 14.411 2 10 2C5.589 2 2 5.589 2 10C2 14.411 5.589 18 10 18ZM10 4C13.309 4 16 6.691 16 10C16 13.309 13.309 16 10 16C6.691 16 4 13.309 4 10C4 6.691 6.691 4 10 4Z" fill="#23BE20"/>
+        </svg>
+      </div>
+      <div class="search-content" v-if="isShowSearchContent">
+        <category-panel
+          :categories="categories"
+          v-model="selectedCategoryIds"
+          class="categories"
+        />
+        <div class="product-listing">
+          <product
+            v-for="(product, index) in visibleProducts"
+            :key="index"
+            :isShowButtons="false"
+            :product="product"
+          />
         </div>
       </div>
-      <div v-if="visibleProducts.length && categories.length > 1" class="categories">
-        <category-panel :categories="categories" v-model="selectedCategoryIds" />
-      </div>
-      <div class="product-listing row">
-        <product-tile
-          v-for="product in visibleProducts"
-          :key="product.id"
-          :product="product"
-          @click.native="closeSearchpanel"
-        />
-        <transition name="fade">
-          <div
-            v-if="getNoResultsMessage"
-            class="no-results relative center-xs h4 col-md-12"
-          >
-            {{ $t(getNoResultsMessage) }}
+      <div class="empty-content" v-if="isShowEmptyContent">
+        <div class="empty-header">
+          <span>{{ $t('at your request') }} <span class="empty-header-highlight">“{{ search }}”</span>  {{ $t('nothing found') }} :(</span>
+        </div>
+        <div class="best-sellers" v-if="recommend.products.length">
+          <div class="best-sellers-title">{{ $t('may suit you') }}</div>
+          <div class="product-listing">
+            <product
+              v-for="(product, index) in recommend.products"
+              :key="index"
+              isShowButtons
+              :product="product"
+            />
           </div>
-        </transition>
-      </div>
-      <div
-        v-show="OnlineOnly"
-        v-if="visibleProducts.length >= 18"
-        class="buttons-set align-center py35 mt20 px40"
-      >
-        <button
-          @click="seeMore" v-if="readMore"
-          class="no-outline brdr-none py15 px20 bg-cl-mine-shaft :bg-cl-th-secondary cl-white fs-medium-small"
-          type="button"
-        >
-          {{ $t('Load more') }}
-        </button>
-        <button
-          @click="closeSearchpanel"
-          class="no-outline brdr-none p15 fs-medium-small close-button"
-          type="button"
-        >
-          {{ $t('Close') }}
-        </button>
+          <button-outline
+            v-if="recommend.isFilled" 
+            @click.native="loadMoreRecommends()"
+            class="load-more"
+          >{{ $t('Load more') }}</button-outline>
+        </div>
       </div>
     </div>
-  </div>
+</div>
 </template>
 
 <script>
 import SearchPanel from '@vue-storefront/core/compatibility/components/blocks/SearchPanel/SearchPanel';
-import ProductTile from 'theme/components/core/ProductTile';
+import Product from 'theme/components/core/blocks/SearchPanel/Product';
+import CategoryPanel from 'theme/components/core/blocks/SearchPanel/CategoryPanel';
+
 import VueOfflineMixin from 'vue-offline/mixin';
-import CategoryPanel from 'theme/components/core/blocks/Category/CategoryPanel';
 import { minLength } from 'vuelidate/lib/validators';
+import uniqBy from 'lodash-es/uniqBy'
+import { mapState, mapGetters } from 'vuex';
+import ButtonOutline from 'theme/components/theme/ButtonOutline';
 import {
   clearAllBodyScrollLocks,
   disableBodyScroll
 } from 'body-scroll-lock';
-import edgeFlat from 'theme/mixins/edgeFlat'
 
 export default {
-  components: {
-    ProductTile,
-    CategoryPanel
-  },
-  mixins: [SearchPanel, VueOfflineMixin, edgeFlat],
-  validations: {
-    search: {
-      minLength: minLength(3)
+  props: {
+    mobile: {
+      type: Boolean,
+      required: false,
+      default: false
     }
   },
+  components: {
+    CategoryPanel,
+    Product,
+    ButtonOutline
+  },
+  mixins: [SearchPanel, VueOfflineMixin],
   data () {
     return {
       selectedCategoryIds: []
     }
   },
   computed: {
+    ...mapState({
+      overlay: (state) => state.ui.overlay,
+      isSearchActive: (state) => state.ui.isSearchActive
+    }),
     visibleProducts () {
       const productList = this.products || []
       if (this.selectedCategoryIds.length) {
@@ -127,17 +130,8 @@ export default {
       return productList
     },
     categories () {
-      let categories = this.products.filter(p => p.category).map(p => p.category)
-
-      if (this.isEdge) {
-        categories = this.flattenDeep(categories)
-      } else {
-        categories = categories.flat()
-      }
-
-      return Array.from(
-        new Set(categories.map(c => c.category_id))
-      ).map(catId => categories.find(c => c.category_id === catId))
+      const categories = this.products.reduce((acc, it) => acc.concat(it.category || []), [])
+      return uniqBy(categories, 'category_id');
     },
     getNoResultsMessage () {
       let msg = ''
@@ -147,184 +141,360 @@ export default {
         msg = 'No results were found.'
       }
       return msg
+    },
+    isShowEmptyContent() {
+      return this.emptyResults && this.search && (this.isSearchActive || !this.mobile)
+    },
+    isShowSearchContent() {
+      return this.categories.length > 1 && (this.isSearchActive || !this.mobile)
     }
   },
   watch: {
     categories () {
       this.selectedCategoryIds = []
+    },
+    '$route': function() {
+      this.closeSearchpanel()
+    },
+    overlay(val) {
+      if (!val) {
+        this.cancelSearch()
+      }
+    },
+    isSearchActive(val) {
+      if (!val) {
+        this.search = ''
+      }
     }
   },
-  mounted () {
-    // add autofocus to search input field
-    this.$refs.search.focus()
-    disableBodyScroll(this.$el)
-  },
-  destroyed () {
-    clearAllBodyScrollLocks()
+  methods: {
+    loadMoreRecommends() {
+      this.loadRecommends(this.recommend.products.length)
+    },
+    setOverlay() {
+      if (this.mobile) {
+        disableBodyScroll(this.$refs.searchPanel)
+        this.$store.commit('ui/setSearch', true)
+      }
+    },
+    resetSearch() {
+      this.search = ''
+      this.cancelSearch()
+      this.makeSearch()
+    },
+    cancelSearch() {
+      if (!this.search && this.mobile) {
+        this.$store.commit('ui/setSearch', false)
+        clearAllBodyScrollLocks()
+      }
+    }
   }
 }
 </script>
 
 <style lang="scss" scoped>
-@import "~theme/css/animations/transitions";
-@import "~theme/css/variables/grid";
-@import "~theme/css/variables/typography";
+* {
+  box-sizing: border-box;
+}
 
 .searchpanel {
-  height: 100vh;
-  max-width: 549px;
   width: 100%;
-  top: 0;
-  right: 0;
-  z-index: 3;
   overflow-y: auto;
-  overflow-x: hidden;
   -webkit-overflow-scrolling: touch;
+}
 
-  .search-title {
-    font-family: DIN Pro;
-    font-style: normal;
-    font-weight: 600;
-    font-size: 24px;
-    line-height: 30px;
-    color: #1A1919;
+.search-panel-wrapper {
+  padding: 0 32px;
+}
 
-    svg {
-      margin-left: 18px;
-    }
-  }
+.close-searchpanel {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 50px;
+  height: 50px;
+  background-color: #F9F9F9;
+  margin-left: auto;
+  cursor: pointer;
 
-  .close-icon-row {
-    display: flex;
-    justify-content: flex-end;
-
+  &:hover {
     .close-icon {
-      width: 50px;
-      height: 50px;
-      margin: 0;
-      padding: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background-color: #F9F9F9;
-      opacity: 0.6;
-      &:hover {
-        opacity: 1;
-      }
+      color: #aeaeae;
     }
   }
 
-  .container {
-    padding-left: 40px;
-    padding-right: 40px;
-
-    @media #{$media-xs} {
-      padding-left: 30px;
-      padding-right: 30px;
-    }
-  }
-
-  .row {
-    margin-left: - map-get($grid-gutter-widths, lg) / 2;
-    margin-right: - map-get($grid-gutter-widths, lg) / 2;
-
-    @media #{$media-xs} {
-      margin-right: - map-get($grid-gutter-widths, xs) / 2;
-      margin-left: - map-get($grid-gutter-widths, xs) / 2;
-    }
-  }
-
-  .col-md-12 {
-    padding-left: map-get($grid-gutter-widths, lg) / 2;
-    padding-right: map-get($grid-gutter-widths, lg) / 2;
-
-    @media #{$media-xs} {
-      padding-left: map-get($grid-gutter-widths, xs) / 2;
-      padding-right: map-get($grid-gutter-widths, xs) / 2;
-    }
-  }
-
-  .product-listing {
-    padding-top: 30px;
-  }
-
-  .product {
-    box-sizing: border-box;
-    width: 33.33%;
-    padding-left: map-get($grid-gutter-widths, lg) / 2;
-    padding-right: map-get($grid-gutter-widths, lg) / 2;
-
-    @media #{$media-xs} {
-      width: 50%;
-      padding-left: map-get($grid-gutter-widths, xs) / 2;
-      padding-right: map-get($grid-gutter-widths, xs) / 2;
+  &:active {
+    .close-icon {
+      color: #9f9f9f;
     }
   }
 
   .close-icon {
-    padding: 18px 8px;
+    transition: .2s ease-in-out;
+    color: #bdbdbd;
   }
+}
 
-  .search-input-group {
-    display: flex;
-    background: #FFFFFF;
-    border: 1px solid #E0E0E0;
-    box-sizing: border-box;
-    border-radius: 4px;
-    margin-top: 32px;
+.searh-header {
+  display: flex;
+  align-items: center;
+  font-family: DIN Pro;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 24px;
+  line-height: 30px;
+  color: #1A1919;
+  margin-bottom: 32px;
+
+  .search-title {
+    margin-right: 18px;
   }
+}
 
-  .search-icon {
-    width: 60px;
-    height: 60px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
+.search-input {
+  position: relative;
 
-  .search-panel-input {
-    width: 100%;
-    height: 40px;
-    min-height: 40px;
-    padding: 0 16px;
-    border: none;
-    border-radius: 4px;
-    outline: 0;
+  .reset-icon {
+    cursor: pointer;
+    position: absolute;
+    top: 50%;
+    right: 12px;
+    transform: translateY(-50%);
 
-    font-family: DIN Pro;
-    font-style: normal;
-    font-weight: 400;
-    font-size: 13px;
-    line-height: 16px;
-    color: #BDBDBD;
+    &:hover {
+      fill: #aeaeae;
+    }
 
-    @media #{$media-xs} {
-      font-size: 14px;
+    &:active {
+      fill: #9f9f9f;
     }
   }
 
-  .no-results {
-    top: 80px;
-    width: 100%;
+  ::-webkit-input-placeholder {
+    color: #a1a0a0;
+  }
+  ::-moz-placeholder {
+    color: #a1a0a0;
+  }
+  :-ms-input-placeholder {
+    color: #a1a0a0;
+  }
+  :-moz-placeholder {
+    color: #a1a0a0;
   }
 
-  i {
-    opacity: 0.6;
-  }
+}
 
-  i:hover {
-    opacity: 1;
-  }
+.search-panel-input {
+  border-radius: 4px;
+  border: 1px solid #E0E0E0;
+  width: 100%;
+  height: 40px;
+  padding: 0 16px;
+  border-radius: 4px;
+  outline: 0;
+  font-family: DIN Pro;
+  font-size: 14px;
+  line-height: 16px;
+  color: #1A1919;
+  
 
-  .close-button {
-    background: #fff;
+  &.active,
+  &:focus {
+    border-color: #23BE20;
   }
+}
 
-  button {
-    @media #{$media-xs} {
-      width: 100%;
-      margin-bottom: 15px;
+.search-content {
+  border: 1px solid #E0E0E0;
+  border-radius: 4px;
+  margin-top: 3px;
+}
+
+.categories {
+  padding: 20px 15px 0 15px;
+  margin-bottom: 24px;
+}
+
+//TODO rewrite product listing styles
+
+.product-listing {
+  .product {
+    border-radius: 0;
+    padding: 16px 15px;
+    border: none;
+    border-bottom: 1px solid #E0E0E0;
+
+    &:first-child {
+      padding-top: 0;
+    }
+
+    &:last-child {
+      border-bottom: none;
     }
   }
 }
+
+.empty-content {
+  .product-listing {
+    .product {
+      padding: 16px 0;
+
+      &:first-child {
+      padding-top: 0;
+      }
+
+      &:last-child {
+        border-bottom: none;
+        padding-bottom: 0;
+      }
+    }
+  }
+}
+
+.empty-header {
+  margin-top: 3px;
+  padding: 20px 16px;
+  border: 1px solid #E0E0E0;
+  border-radius: 4px;
+  font-family: DIN Pro;
+  font-size: 15px;
+  line-height: 16px;
+  color: #1A1919;
+
+  &-highlight {
+    font-weight: 600;
+    word-break: break-all;
+  }
+}
+
+.best-sellers {
+  padding-bottom: 28px;
+  margin-top: 68px;
+}
+
+.best-sellers-title {
+  font-family: DIN Pro;
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 24px;
+  color: #1A1919;
+  margin-bottom: 32px;
+}
+
+.load-more {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  max-width: 233px;
+  margin: 32px auto 0 auto;
+  height: 40px;
+}
+
+.mobile {
+  position: relative;
+  overflow-y: unset;
+  height: 100%;
+  padding: 0;
+
+  .best-sellers {
+    padding: 0 16px 48px;
+  }
+
+  .search-content {
+    border-radius: 0;
+    border: none;
+  }
+
+  .empty-header {
+    border: none;
+  }
+
+  .search-input {
+    border-bottom: 1px solid #E0E0E0;
+  }
+
+  .search-panel-input {
+    height: 47px;
+    border: none;
+    border-radius: 0;
+  }
+
+  .search-panel-wrapper {
+    padding: 0;
+  }
+}
+
+.product ::v-deep {
+  .add-to-cart {
+    max-width: 131px;
+
+    svg {
+      display: none;
+    }
+  }
+}
+
+.search-icon {
+  display: none;
+  position: absolute;
+  left: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+@media (max-width: 768px) {
+  .search-icon {
+    display: block;
+  }
+
+  .search-panel-input {
+    font-size: 15px;
+    padding-left: 56px;
+  }
+}
+
+@media (max-width: 500px) {
+  .empty-content {
+    .product ::v-deep {
+      .product-right-data {
+        display: none;
+
+        &.mobile {
+          display: flex
+        }
+      }
+
+      .add-to-cart {
+        max-width: 38px;
+  
+        .add-to-cart-text {
+          display: none;
+        }
+  
+        svg {
+          display: block;
+          margin-right: 0;
+        }
+      }
+    }
+  }
+
+  .empty-header {
+    margin-top: 0;
+  }
+
+  .search-content {
+    margin-top: 0;
+  }
+
+  .best-sellers {
+    margin-top: 48px;
+  }
+
+  .best-sellers-title {
+    margin-bottom: 24px;
+  }
+}
+
 </style>

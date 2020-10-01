@@ -15,9 +15,8 @@ export default {
       this.$store.commit('ui/setSearchpanel', false)
       this.$store.commit('ui/setSidebar', false)
       this.$store.commit('ui/setConsultation', false)
-      this.$store.commit('ui/setHeaderIndex', 3)
+      this.$store.commit('ui/setSearch', false)
       this.$store.dispatch('themeCart/closeEditMode')
-      document.body.style.overflow = 'auto'
     }
   }
 }

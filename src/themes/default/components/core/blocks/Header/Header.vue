@@ -3,8 +3,7 @@
     <header
       ref="header"
       class="w-100"
-      :class="{ 'is-visible': navVisible }"
-      :style="{ 'z-index': headerIndex }"
+      :class="{ 'is-visible': navVisible, 'search-active': isSearchActive }"
     >
       <div class="header-black-line" v-if="isShowHeader">
         <ul>
@@ -57,9 +56,9 @@
               <logo width="auto" class="logo"/>
             </div>
             <div class="header-right">
-              <consultation-icon class="icon icon-consultation xs-show" />
+              <consultation-icon class="icon icon-consultation" />
               <search-icon class="icon pointer icon-search" />
-              <compare-icon class="icon pointer icon-compare xs-hide" />
+              <compare-icon class="icon pointer icon-compare" />
               <microcart-icon class="icon pointer icon-microcart" />
               <wishlist-icon class="icon pointer icon-wishlist" />
               <account-icon class="icon pointer icon-account" />
@@ -67,10 +66,10 @@
           </div>
         </div>
       </div>
-      <div class="header-container-wrap border" v-if="!isCheckoutPage || isThankYouPage">
+      <div class="header-container-wrap" v-if="!isCheckoutPage || isThankYouPage">
         <div class="header-container">
           <div class="header-bottom" v-if="isShowHeader">
-            <header-search />
+            <search-panel mobile class="mobile"/>
           </div>
         </div>
       </div>
@@ -114,7 +113,7 @@ import Logo from 'theme/components/core/Logo';
 import MicrocartIcon from 'theme/components/core/blocks/Header/MicrocartIcon';
 import SearchIcon from 'theme/components/core/blocks/Header/SearchIcon';
 import WishlistIcon from 'theme/components/core/blocks/Header/WishlistIcon';
-import HeaderSearch from 'theme/components/core/blocks/Header/HeaderSearch';
+import SearchPanel from 'theme/components/core/blocks/SearchPanel/SearchPanel';
 import MobileHamburgerIcon from 'theme/components/core/blocks/Header/MobileHamburgerIcon';
 import PhoneInfo from 'theme/components/core/PhoneInfo';
 import ConsultationIcon from 'theme/components/core/blocks/Header/ConsultationIcon';
@@ -128,7 +127,7 @@ export default {
     MicrocartIcon,
     SearchIcon,
     WishlistIcon,
-    HeaderSearch,
+    SearchPanel,
     MobileHamburgerIcon,
     PhoneInfo,
     ConsultationIcon,
@@ -147,8 +146,7 @@ export default {
     ...mapState({
       isOpenLogin: state => state.ui.signUp,
       currentUser: state => state.user.current,
-      headerIndex: state => state.ui.headerIndex,
-      mobileSearch: state => state.ui.mobileSearch
+      isSearchActive: state => state.ui.isSearchActive
     }),
     isThankYouPage () {
       return this.$store.state.checkout.isThankYouPage
@@ -198,9 +196,9 @@ export default {
       this.lastScrollTop = this.scrollTop
     },
     onResize() {
-      if (window.innerWidth >= 768 && this.mobileSearch) {
+      if (window.innerWidth >= 768 && this.isSearchActive) {
         this.$store.commit('ui/setOverlay', false)
-        this.$store.commit('ui/setMobileSearch', false)
+        this.$store.commit('ui/setSearch', false)
       }
     }
   }
@@ -226,6 +224,12 @@ $color-icon-hover: color(secondary, $colors-background);
 
 header {
   background: #fff;
+  overflow-anchor: none;
+
+  &.search-active {
+    z-index: 4;
+    overflow: auto;
+  }
 }
 
 .header-wrap {
@@ -371,6 +375,10 @@ header {
     &:last-child {
       margin-right: 0;
     }
+  }
+
+  .icon-consultation {
+    display: none;
   }
 }
 
@@ -652,8 +660,14 @@ a.underline:after, a:not(.no-underline):hover:after {
   }
 
   .header-right {
-    .icon-search {
+    .icon-search,
+    .icon-compare {
       display: none;
+    }
+
+    .icon-consultation {
+      display: block;
+      cursor: pointer;
     }
   }
 
@@ -769,18 +783,9 @@ a.underline:after, a:not(.no-underline):hover:after {
     transform: translateY(0) translateX(-50%);
   }
 }
-.xs-show{
-  @media (min-width : 576px){
-    display: none !important;
-  }
-}
-.xs-hide{
-  @media (max-width : 575px){
-    display: none !important;
-  }
-}
-.header-top{
-  .phone-wrap{
+
+.header-top {
+  .phone-wrap {
     @media (min-width : 576px){
       display: none;
     }

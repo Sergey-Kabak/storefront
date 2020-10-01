@@ -4,9 +4,11 @@ import onEscapePress from '@vue-storefront/core/mixins/onEscapePress'
 import { prepareQuickSearchQuery } from '@vue-storefront/core/modules/catalog/queries/searchPanel'
 import RootState from '@vue-storefront/core/types/RootState'
 import { Logger } from '@vue-storefront/core/lib/logger'
+import { debounce } from 'debounce';
 
 export const Search = {
   name: 'SearchPanel',
+  mixins: [onEscapePress],
   data () {
     return {
       products: [],
@@ -19,15 +21,18 @@ export const Search = {
       componentLoaded: false
     }
   },
-  mounted () {
-    this.search = localStorage.getItem(`shop/user/searchQuery`) || ''
-
-    if (this.search) {
-      this.makeSearch();
+  computed: {
+    ...mapState({
+      isOpen: (state: RootState) => state.ui.searchpanel,
+      recommend: (state: RootState) => state.search.recommend
+    }),
+    items () {
+      return this.$store.state.search
     }
   },
-  beforeDestroy () {
-    localStorage.setItem(`shop/user/searchQuery`, this.search ? this.search : '');
+  mounted () {
+    this.search = localStorage.getItem(`shop/user/searchQuery`) || ''
+    this.makeSearch()
   },
   methods: {
     onEscapePress () {
@@ -39,10 +44,10 @@ export const Search = {
       this.$store.commit('ui/setSearchpanel', false)
     },
     buildSearchQuery (queryText) {
-      let searchQuery = prepareQuickSearchQuery(queryText)
-      return searchQuery
+      return prepareQuickSearchQuery(queryText)
     },
-    async makeSearch () {
+    makeSearch: debounce(async function () {
+      localStorage.setItem(`shop/user/searchQuery`, this.search ? this.search : '');
       if (this.search !== '' && this.search !== undefined) {
         let query = this.buildSearchQuery(this.search)
         let startValue = 0;
@@ -61,6 +66,9 @@ export const Search = {
           this.products = items
           this.start = startValue + this.size
           this.emptyResults = items.length < 1
+          if (this.emptyResults && !this.recommend.products.length) {
+            this.loadRecommends()
+          }
         } catch (err) {
           Logger.error(err, 'components-search')()
         }
@@ -68,6 +76,9 @@ export const Search = {
         this.products = []
         this.emptyResults = 0
       }
+    }, 300),
+    loadRecommends(start = 0) {
+      this.$store.dispatch('search/getRecommends', start)
     },
     async seeMore () {
       if (this.search !== '' && this.search !== undefined) {
@@ -99,14 +110,5 @@ export const Search = {
         this.emptyResults = 0
       }
     }
-  },
-  computed: {
-    items () {
-      return this.$store.state.search
-    },
-    ...mapState({
-      isOpen: (state: RootState) => state.ui.searchpanel
-    })
-  },
-  mixins: [onEscapePress]
+  }
 }

@@ -12,21 +12,23 @@ export default {};
 
 <style lang="scss" scoped>
 .button-text {
+  border-bottom: 1px dashed #1a1919;
+  transition: 0.1s ease-in-out;
+
+  &:hover {
+    border-color: transparent;
+  }
+
   span {
-    cursor: pointer;
+    display: block;
     user-select: none;
     font-family: DIN Pro;
     font-style: normal;
     font-size: 13px;
     line-height: 16px;
     color: #1a1919;
-    border-bottom: 1px dashed #1a1919;
     padding-bottom: 4px;
-    transition: 0.1s ease-in-out;
-
-    &:hover {
-      border-color: transparent;
-    }
+    cursor: pointer;
   }
 }
 </style>
