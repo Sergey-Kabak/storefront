@@ -25,7 +25,6 @@
           :class="{ 'active': this.search }"
           id="search"
           v-model="search"
-          @blur="cancelSearch()"
           @focus="setOverlay()"
           @input="makeSearch"
           class="search-panel-input"
@@ -160,11 +159,6 @@ export default {
       if (!val) {
         this.cancelSearch()
       }
-    },
-    isSearchActive(val) {
-      if (!val) {
-        this.search = ''
-      }
     }
   },
   methods: {
@@ -183,7 +177,7 @@ export default {
       this.makeSearch()
     },
     cancelSearch() {
-      if (!this.search && this.mobile) {
+      if (this.mobile) {
         this.$store.commit('ui/setSearch', false)
         clearAllBodyScrollLocks()
       }
@@ -204,7 +198,7 @@ export default {
 }
 
 .search-panel-wrapper {
-  padding: 0 32px;
+  padding: 0 32px 32px;
 }
 
 .close-searchpanel {
@@ -369,7 +363,6 @@ export default {
 }
 
 .best-sellers {
-  padding-bottom: 28px;
   margin-top: 68px;
 }
 
