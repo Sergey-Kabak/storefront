@@ -59,7 +59,10 @@ export default {
 .category-buttons {
   display: flex;
   flex-wrap: wrap;
-  grid-gap: 12px;
+  margin-bottom: -12px;
+  button{
+    margin: 0 12px 12px 0;
+  }
 }
 
 .category {
@@ -78,7 +81,7 @@ export default {
   &.active {
     border-color: #23BE20;
     background-color: #fff;
-    
+
     &:hover {
       border-color: #20af1d;
     }
