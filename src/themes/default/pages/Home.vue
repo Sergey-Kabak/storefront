@@ -172,7 +172,8 @@ import HomeCarousel from 'theme/components/theme/blocks/HomeCarousel';
 import { formatCategoryLink } from '@vue-storefront/core/modules/url/helpers';
 
 import { ProductOption } from '@vue-storefront/core/modules/catalog/components/ProductOption.ts';
-
+import { CategoryService } from '@vue-storefront/core/data-resolver';
+import { CreditService } from '@vue-storefront/core/data-resolver'
 export default {
   data () {
     return {
@@ -223,6 +224,11 @@ export default {
     registerModule(RecentlyViewedModule)
   },
   async beforeMount () {
+    console.log(CreditService)
+    await CreditService.getCredits()
+      .then(res => {
+        console.log(res)
+      })
     if (this.$store.state.__DEMO_MODE__) {
       const onboardingClaim = await this.$store.dispatch('claims/check', { claimCode: 'onboardingAccepted' })
       if (!onboardingClaim) { // show onboarding info
@@ -375,7 +381,7 @@ export default {
       &:nth-child(3n + 2) {
         background: #E4F9E4;
       }
-      
+
       &:nth-child(n + 4) {
         grid-column: span 3;
       }

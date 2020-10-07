@@ -6,6 +6,7 @@ import { StockService } from './StockService'
 import { ReviewsService } from './ReviewsService'
 import { NewsletterService } from './NewsletterService'
 import { PaymentService } from './PaymentService'
+import { CreditService } from './CreditService'
 
 export {
   CategoryService,
@@ -15,5 +16,6 @@ export {
   StockService,
   ReviewsService,
   NewsletterService,
-  PaymentService
+  PaymentService,
+  CreditService
 }
