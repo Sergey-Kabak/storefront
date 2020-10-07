@@ -145,7 +145,7 @@ export default {
       return this.emptyResults && this.search && (this.isSearchActive || !this.mobile)
     },
     isShowSearchContent() {
-      return this.categories.length > 1 && (this.isSearchActive || !this.mobile)
+      return this.categories.length >= 1 && (this.isSearchActive || !this.mobile)
     }
   },
   watch: {
