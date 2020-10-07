@@ -2,13 +2,14 @@
   <li class="product" :class="{'out-of-stock': !inStock}">
     <div class="product-left">
       <div class="product-img">
-        <router-link :to="productLink" >
+        <router-link @click.native="closeSearchPanel()" :to="productLink">
           <img :src="image.src" :alt="product.name" class="product-image">
         </router-link>
       </div>
     </div>
-    <div class="product-middle">
+    <div class="product-middle" >
       <router-link
+        @click.native="closeSearchPanel()"
         :to="productLink"
         class="product-name"
       >
@@ -102,6 +103,13 @@ export default {
     },
     inStock () {
       return this.product.stock && this.product.stock.is_in_stock
+    }
+  },
+  methods: {
+    closeSearchPanel (){
+      this.$store.commit('ui/setSidebar', false)
+      this.$store.commit('ui/setMicrocart', false)
+      this.$store.commit('ui/setSearchpanel', false)
     }
   }
 }

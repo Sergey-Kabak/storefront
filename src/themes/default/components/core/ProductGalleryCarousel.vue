@@ -114,7 +114,7 @@ export default {
       await this.$nextTick()
       if (config.products.gallery.mergeConfigurableChildren) {
         const option = reduce(map((configData), 'attribute_code'), (result, attribute) => {
-          result[attribute] = configData[attribute].id
+          result[attribute] = configData[attribute] && configData[attribute].id
           return result
         }, {})
         if (option) {
