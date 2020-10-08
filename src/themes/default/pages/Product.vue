@@ -161,6 +161,10 @@
                 :disabled="isAddToCartDisabled"
                 class="col-xs-12 col-sm-4 col-md-6"
               />
+              <button-white @click.native="showModalCredits" class="buy_in_credit h40 flex1">
+                <span v-if="!show_modal_credits_loading">В кредит 1050 ₴ / мес</span>
+                <spinner v-if="show_modal_credits_loading" containerClass="quantity-spinner" />
+              </button-white>
             </div>
             <div class="row py40 add-to-buttons">
               <div class="col-xs-6 col-sm-3 col-md-6">
@@ -259,6 +263,7 @@ import WebShare from 'theme/components/theme/WebShare';
 import SizeGuide from 'theme/components/core/blocks/Product/SizeGuide';
 import AddToWishlist from 'theme/components/core/blocks/Wishlist/AddToWishlist';
 import AddToCompare from 'theme/components/core/blocks/Compare/AddToCompare';
+import ButtonWhite from 'theme/components/core/blocks/Product/ButtonWhite';
 import { mapGetters } from 'vuex';
 import LazyHydrate from 'vue-lazy-hydration';
 import { ProductOption } from '@vue-storefront/core/modules/catalog/components/ProductOption.ts';
@@ -282,6 +287,7 @@ import {
 import { catalogHooksExecutors } from '@vue-storefront/core/modules/catalog-next/hooks';
 import ProductPrice from 'theme/components/core/ProductPrice.vue';
 import Promo from "../components/core/blocks/Product/Promo";
+import Spinner from "../components/core/Spinner";
 
 export default {
   components: {
@@ -305,7 +311,9 @@ export default {
     LazyHydrate,
     ProductQuantityNew,
     ProductPrice,
-    Promo
+    Promo,
+    ButtonWhite,
+    Spinner
   },
   mixins: [ProductOption],
   directives: { focusClean },
@@ -320,7 +328,8 @@ export default {
       quantityError: false,
       isStockInfoLoading: false,
       hasAttributesLoaded: false,
-      manageQuantity: true
+      manageQuantity: true,
+      show_modal_credits_loading: false
     }
   },
   computed: {
@@ -427,6 +436,25 @@ export default {
     }
   },
   methods: {
+    async showModalCredits() {
+      this.$bus.$emit('modal-show', 'modal-credits')
+      try {
+        this.show_modal_credits_loading = true;
+        const diffLog = await this.$store.dispatch('cart/addItem', { productToAdd: this.getCurrentProduct })
+        diffLog.clientNotifications.forEach(notificationData => {
+
+          // Notify user that product is added
+          this.notifyUser(notificationData)
+
+          // Do open modal credits
+          this.$bus.$emit('modal-show', 'modal-credits')
+        })
+      } catch (message) {
+        this.notifyUser(notifications.createNotification({ type: 'error', message }))
+      } finally {
+        this.show_modal_credits_loading = false;
+      }
+    },
     setDataLayer () {
       if (typeof window !== 'undefined' && this.getCurrentProduct) {
         let { options } = this.getCustomAttributes.find(a => a.attribute_code === 'manufacturer');
