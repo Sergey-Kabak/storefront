@@ -13,7 +13,7 @@ const Static = () => import(/* webpackChunkName: "vsf-static" */ 'theme/pages/St
 // const ThankYouPage = () => import(/* webpackChunkName: "vsf-static" */ 'src/themes/default/components/core/blocks/Checkout/ThankYouPage.vue')
 
 let routes = [
-  { name: 'home', path: '/', component: Home, alias: '/pwa.html' },
+  { name: 'home', path: '/', component: Home, alias: '/pwa.html', meta: { title: i18n.t('home page meta title'), description: i18n.t('home page meta discription') } },
   // { name: 'ThankYouPage', path: '/thank-you-page', component: ThankYouPage },
   { name: 'checkout', path: '/checkout', component: Checkout },
 
