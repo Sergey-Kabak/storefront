@@ -4,12 +4,17 @@ import { TaskQueue } from '@vue-storefront/core/lib/sync'
 import Task from '@vue-storefront/core/lib/sync/types/Task'
 import getApiEndpointUrl from '@vue-storefront/core/helpers/getApiEndpointUrl';
 
-const getCredits = (): Promise<Task> => {
+const headers = {
+  'Accept': 'application/json, text/plain, */*',
+  'Content-Type': 'application/json'
+}
+
+const getCredits = async (sku: any): Promise<Task> => {
   return TaskQueue.execute({
-    url: `${getApiEndpointUrl({endpoint: "/api/ext/credits"}, 'endpoint')}/`,
+    url: `${getApiEndpointUrl({endpoint: "/api/ext/credits?sku=" + sku}, 'endpoint')}`,
     payload: {
       method: 'GET',
-      headers: { 'Content-Type': 'application/json' },
+      headers,
       mode: 'cors',
     }
   })

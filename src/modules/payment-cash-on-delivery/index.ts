@@ -22,7 +22,17 @@ export const PaymentCashOnDeliveryModule: StorefrontModule = function ({ store }
     'offline': true,
     'is_server_method': false
   }
+  let creditMethodConfig = {
+    'title': 'Credit on delivery',
+    'code': 'creditondelivery',
+    'cost': 0,
+    'costInclTax': 0,
+    'default': true,
+    'offline': true,
+    'is_server_method': false
+  }
   store.dispatch('checkout/addPaymentMethod', paymentMethodConfig)
+  store.dispatch('checkout/addPaymentMethod', creditMethodConfig)
   if (!isServer) {
     // Update the methods
     let paymentMethodConfig = {

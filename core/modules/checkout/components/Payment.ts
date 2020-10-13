@@ -2,6 +2,7 @@ import { mapState, mapGetters } from 'vuex'
 import RootState from '@vue-storefront/core/types/RootState'
 import toString from 'lodash-es/toString'
 import debounce from 'lodash-es/debounce'
+import Product from "core/modules/catalog/types/Product";
 const Countries = require('@vue-storefront/i18n/resource/countries.json')
 
 export const Payment = {
@@ -20,10 +21,11 @@ export const Payment = {
       generateInvoice: false,
       sendToShippingAddress: true,
       sendToBillingAddress: true,
+      creditDetails: this.$store.state.themeCredit.creditDetails,
       assoc: {
         'currier': ['cashondelivery', 'liqpaymagento_liqpay'],
         'new_post': ['cashondelivery', 'liqpaymagento_liqpay'],
-        'shop': ['cashondelivery']
+        'shop': ['cashondelivery', 'creditondelivery']
       }
     }
   },
@@ -31,13 +33,18 @@ export const Payment = {
     ...mapState({
       currentUser: (state: RootState) => state.user.current,
       shippingDetails: (state: RootState) => state.checkout.shippingDetails,
-      type: (state: RootState) => state.customShipping.type
+      type: (state: RootState) => state.customShipping.type,
     }),
     ...mapGetters({
       paymentMethods: 'checkout/getPaymentMethods',
       paymentDetails: 'checkout/getPaymentDetails',
-      isVirtualCart: 'cart/isVirtualCart'
-    })
+      isVirtualCart: 'cart/isVirtualCart',
+      totals: 'cart/getTotals',
+      getBanks: 'themeCredit/getBanks'
+    }),
+    productsInCart () {
+      return this.$store.state.cart.cartItems
+    },
   },
   beforeMount () {
     this.$bus.$on('checkout-after-load', this.onCheckoutLoad)

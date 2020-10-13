@@ -23,15 +23,177 @@
       </div>
       <div class="payment-methods">
         <div class="payment-card" v-for="(method, index) in paymentMethods" :key="index" v-if="isShowPaymentMethod(method)">
-          <label class="radioStyled"> {{ method.title ? $t(method.title) : $t(method.name) }}
-            <input
-              type="radio"
-              :value="method.code"
-              name="payment-method"
-              v-model="payment.paymentMethod"
-              @change="onPaymentMethodChange()"
-            >
-            <span class="checkmark" />
+          <label class="radioStyled">
+            <div class="radio-input-row">
+              <input
+                type="radio"
+                :value="method.code"
+                name="payment-method"
+                v-model="payment.paymentMethod"
+                @change="onPaymentMethodChange()"
+              >
+              <span class="checkmark" />
+              <div>
+                {{ method.title ? $t(method.title) : $t(method.name) }}
+              </div>
+              <div v-if="method.code === 'creditondelivery'" class="note-right">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M1 21H23L12 2L1 21ZM13 18H11V16H13V18ZM13 14H11V10H13V14Z" fill="#EE2C39"/>
+                </svg>
+                только при самовывозе
+              </div>
+            </div>
+
+            <div v-if="method.code === 'creditondelivery' && payment.paymentMethod === 'creditondelivery'" class="credit-block-wrapper">
+              <div class="credit-block">
+                <div class="block-title">Кредитное предложение</div>
+                <credit-products :banks="getBanks" :totalPrice="totals.find(code => code.code === 'grand_total').value" />
+                <form>
+                  <div class="block-title">
+                    Оформление кредита
+                  </div>
+                  <div class="form-row">
+                    <div class="form-column">
+                      <div class="form-label">
+                        ФИО
+                      </div>
+                    </div>
+                    <div class="form-column">
+                      <div class="form-field">
+                        <base-input
+                          class="custom-input"
+                          :class="{ error: $v.creditDetails.surname.$error && $v.creditDetails.surname.$dirty }"
+                          type="text"
+                          :autofocus="true"
+                          name="surname"
+                          :placeholder="$t('surname')"
+                          v-model.trim="creditDetails.surname"
+                          @blur="$v.creditDetails.surname.$touch()"
+                          autocomplete="given-name"
+                          :validations="[
+                          {
+                            condition: $v.creditDetails.surname.$error && !$v.creditDetails.surname.required && $v.creditDetails.surname.$dirty,
+                            text: $t('Field is required')
+                          },
+                          {
+                            condition: !$v.creditDetails.surname.minLength && $v.creditDetails.surname.$dirty,
+                            text: $t('Name must have at least 2 letters.')
+                          },
+                          {
+                            condition: !$v.creditDetails.surname.lettersOnly && $v.creditDetails.surname.$dirty,
+                            text: $t('Accepts only alphabet characters.')
+                          }
+                        ]"
+                        />
+                      </div>
+                      <div class="form-field">
+                        <base-input
+                          class="custom-input"
+                          :class="{ error: $v.creditDetails.name.$error && $v.creditDetails.name.$dirty }"
+                          type="text"
+                          :autofocus="true"
+                          name="name"
+                          :placeholder="$t('name')"
+                          v-model.trim="creditDetails.name"
+                          @blur="$v.creditDetails.name.$touch()"
+                          autocomplete="given-name"
+                          :validations="[
+                          {
+                            condition: $v.creditDetails.name.$error && !$v.creditDetails.name.required && $v.creditDetails.name.$dirty,
+                            text: $t('Field is required')
+                          },
+                          {
+                            condition: !$v.creditDetails.name.minLength && $v.creditDetails.name.$dirty,
+                            text: $t('Name must have at least 2 letters.')
+                          },
+                          {
+                            condition: !$v.creditDetails.name.lettersOnly && $v.creditDetails.name.$dirty,
+                            text: $t('Accepts only alphabet characters.')
+                          }
+                        ]"
+                        />
+                      </div>
+                      <div class="form-field">
+                        <base-input
+                          class="custom-input"
+                          :class="{ error: $v.creditDetails.last_name.$error && $v.creditDetails.last_name.$dirty }"
+                          type="text"
+                          :autofocus="true"
+                          name="last_name"
+                          :placeholder="$t('last_name')"
+                          v-model.trim="creditDetails.last_name"
+                          @blur="$v.creditDetails.last_name.$touch()"
+                          autocomplete="given-name"
+                          :validations="[
+                          {
+                            condition: $v.creditDetails.last_name.$error && !$v.creditDetails.last_name.required && $v.creditDetails.last_name.$dirty,
+                            text: $t('Field is required')
+                          },
+                          {
+                            condition: !$v.creditDetails.last_name.minLength && $v.creditDetails.last_name.$dirty,
+                            text: $t('Name must have at least 2 letters.')
+                          },
+                          {
+                            condition: !$v.creditDetails.last_name.lettersOnly && $v.creditDetails.last_name.$dirty,
+                            text: $t('Accepts only alphabet characters.')
+                          }
+                        ]"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-row">
+                    <div class="form-column">
+                      <div class="form-label">
+                        Дата рождения
+                      </div>
+                    </div>
+                    <div class="form-column">
+                      <div class="form-label">
+                        <base-datepicker-checkout
+                          v-model="creditDetails.date_of_birth" />
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-row">
+                    <div class="form-column">
+                      <div class="form-label">
+                        ИНН
+                      </div>
+                    </div>
+                    <div class="form-column">
+                      <div class="form-label">
+                        <base-input
+                          class="custom-input"
+                          :class="{ error: $v.creditDetails.identification_code.$error && $v.creditDetails.identification_code.$dirty }"
+                          type="number"
+                          :autofocus="true"
+                          name="last_name"
+                          :placeholder="$t('identification_code')"
+                          v-model.trim="creditDetails.identification_code"
+                          @blur="$v.creditDetails.identification_code.$touch()"
+                          autocomplete="given-name"
+                          :validations="[
+                          {
+                            condition: $v.creditDetails.identification_code.$error && !$v.creditDetails.identification_code.required && $v.creditDetails.identification_code.$dirty,
+                            text: $t('Field is required')
+                          },
+                          {
+                            condition: !$v.creditDetails.identification_code.minLength && $v.creditDetails.identification_code.$dirty,
+                            text: $t('Name must have at least 2 letters.')
+                          },
+                          {
+                            condition: !$v.creditDetails.identification_code.lettersOnly && $v.creditDetails.identification_code.$dirty,
+                            text: $t('Accepts only alphabet characters.')
+                          }
+                        ]"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
           </label>
         </div>
       </div>
@@ -56,15 +218,16 @@
         {{ $t('To pay') }}
       </button-full>
     </div>
+    {{getCartToken}}
   </div>
 </template>
 
 <script>
-import { 
+import {
   required,
   minLength
 } from 'vuelidate/lib/validators';
-import { 
+import {
   unicodeAlpha,
   unicodeAlphaNum
 } from '@vue-storefront/core/helpers/validators';
@@ -79,6 +242,13 @@ import ButtonFull from 'theme/components/theme/ButtonFull';
 import Tooltip from 'theme/components/core/Tooltip';
 import LiqPay from 'src/modules/payment-liqpay/components/Liqpay';
 import TotalPrice from 'theme/components/core/TotalPrice';
+import CreditProducts from './CreditProducts';
+import BaseDatepickerCheckout from '../Form/BaseDatepickerCheckout';
+const lettersOnly = value => (
+  /^[\u0400-\u04FF]+$/.test(value) ||
+  /^[a-zA-Z]+$/.test(value) ||
+  value === ""
+);
 
 export default {
   props: {
@@ -96,12 +266,17 @@ export default {
     Tooltip,
     LiqPay,
     PromoCode,
-    TotalPrice
+    TotalPrice,
+    CreditProducts,
+    BaseDatepickerCheckout
   },
   mixins: [Payment],
   data: () => ({
     isShowPromocode: false
   }),
+  created () {
+    this.$store.dispatch('themeCredit/fetchBanks', this.productsInCart[0].sku)
+  },
   watch: {
     'payment.paymentMethods': {
       handler: function (after, before) {
@@ -113,6 +288,7 @@ export default {
   computed: {
     ...mapGetters({
       totals: 'cart/getTotals',
+      getCartToken: 'cart/getCartToken'
     }),
     countryOptions () {
       return this.countries.map((item) => {
@@ -132,6 +308,31 @@ export default {
   validations () {
     if (!this.generateInvoice) {
       return {
+        creditDetails: {
+          surname: {
+            required,
+            minLength: minLength(2),
+            lettersOnly
+          },
+          name: {
+            required,
+            minLength: minLength(2),
+            lettersOnly
+          },
+          last_name: {
+            required,
+            minLength: minLength(2),
+            lettersOnly
+          },
+          date_of_birth: {
+            required,
+            minLength: minLength(2)
+          },
+          identification_code: {
+            required,
+            minLength: minLength(2)
+          }
+        },
         payment: {
           firstName: {
             required,
@@ -227,11 +428,90 @@ export default {
 
 <style lang="scss" scoped>
   @import '~bootstrap';
-
+  /deep/ .base-input{
+    input{
+      border-style: solid;
+      border-width: 1px;
+      border-radius: 4px;
+    }
+    label{
+      background: #fff;
+      padding: 0 5px;
+      margin-left: -5px;
+    }
+  }
+  .note-right{
+    svg{
+      margin-right: 12px;
+    }
+    margin-left: auto;
+    font-family: DIN Pro;
+    font-style: normal;
+    font-weight: 700;
+    font-size: 12px;
+    line-height: 13px;
+    display: flex;
+    align-items: center;
+    text-align: right;
+    text-transform: uppercase;
+    color: #5F5E5E;
+  }
   .mobile-data {
     display: none;
   }
-
+  .payment-card{
+    .radioStyled {
+      flex-direction: column !important;
+    }
+  }
+  .radio-input-row{
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding: 0 16px;
+    input[type=radio]{
+      height: 20px;
+    }
+    .checkmark{
+      margin-bottom: 0;
+      margin-right: 16px;
+    }
+  }
+  .credit-block{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+    &-wrapper{
+      width: 100%;
+      padding: 16px 16px 0;
+    }
+    .block-title{
+      font-family: DIN Pro;
+      font-style: normal;
+      font-weight: 700;
+      font-size: 14px;
+      line-height: 16px;
+      color: #1A1919;
+      display: block;
+      margin-bottom: 16px;
+      text-align: left;
+    }
+    .form-label{
+      text-align: left;
+    }
+    form{
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      .form-row{
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-gap: 20px;
+        margin: 0;
+      }
+    }
+  }
   .summary-price {
     display: flex;
     justify-content: space-between;
@@ -245,7 +525,7 @@ export default {
 
   .payment-methods {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: 1fr;
     grid-gap: 20px;
     margin-bottom: 30px;
   }
@@ -320,10 +600,9 @@ export default {
 
     #checkout {
       .radioStyled {
-        flex-direction: row-reverse;
+        flex-direction: column !important;
         justify-content: center;
         padding: 12px 20px;
-
         .checkmark {
           margin-bottom: 0;
           margin-right: 20px;

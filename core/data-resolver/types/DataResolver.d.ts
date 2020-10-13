@@ -137,6 +137,6 @@ declare namespace DataResolver {
   }
 
   interface CreditService {
-    getCredits: () => Promise<Task>
+    getCredits: (sku: string) => Promise<Task>
   }
 }

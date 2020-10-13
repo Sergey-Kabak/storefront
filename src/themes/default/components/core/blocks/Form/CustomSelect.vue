@@ -1,18 +1,18 @@
 <template>
     <div class="custom-select" ref="select">
         <div @click="open = !open" class="custom-select__value" :class="{'active' : open}">
-            {{selected.label}}
+            {{selected.terms}}
         </div>
         <div v-if="open" class="options-wrap">
             <div class="select-options"
                 v-for="option in options"
-                :key="option.value"
+                :key="option.credit_id"
                 @click="handleValue(option)"
-                :class="{'active' : selected.value === option.value}"
+                :class="{'active' : selected.terms === option.terms}"
             >
-                {{option.label}}
+                {{option.terms}}
 
-                <svg v-if="selected.value === option.value" class="icon-checked" width="16" height="12" viewBox="0 0 16 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <svg v-if="selected.terms === option.terms" class="icon-checked" width="16" height="12" viewBox="0 0 16 12" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M5.50016 9.50033L2.00016 6.00033L0.833496 7.16699L5.50016 11.8337L15.5002 1.83366L14.3335 0.666992L5.50016 9.50033Z" fill="#23BE20"/>
                 </svg>
             </div>
@@ -22,50 +22,50 @@
 
 <script>
 export default {
-    model : ['value'],
-    props : {
-        options : {
-            type : Array,
-            default : []
-        },
-        selectedIndex: {
-          type : Number,
-          default: 0
-        }
+  model: ['value'],
+  props: {
+    options: {
+      type: Array,
+      default: []
     },
-    data(){
-        return{
-            selected : null,
-            open : false
-        }
-    },
-    created(){
-        this.selected = this.options[this.selectedIndex];
-    },
-    mounted(){
-        this.clickOutOfBlock()
-    },
-    methods : {
-        handleValue(option){
-            this.selected = option;
-            this.open = false;
-            this.$emit('input' , option.value )
-        },
-        clickOutOfBlock(){
-            let _this = this
-            document.addEventListener('click', function(e) {
-                let isBlock = false
-                for ( let k in e.path){
-                    if (e.path[k] == _this.$refs.select){
-                        isBlock = true
-                    }
-                }
-                if(!isBlock){
-                    _this.open = false
-                }
-            });
-        }
+    selectedIndex: {
+      type: Number,
+      default: 0
     }
+  },
+  data () {
+    return {
+      selected: null,
+      open: false
+    }
+  },
+  created () {
+    this.selected = this.options[this.selectedIndex];
+  },
+  mounted () {
+    this.clickOutOfBlock()
+  },
+  methods: {
+    handleValue (option) {
+      this.selected = option;
+      this.open = false;
+      this.$emit('input', +option.terms )
+    },
+    clickOutOfBlock(){
+      let _this = this
+      document.addEventListener('click', function(e) {
+        let isBlock = false
+        for (let k in e.path) {
+          if (e.path[k] == _this.$refs.select){
+            isBlock = true
+          }
+        }
+        if (!isBlock) {
+          _this.open = false
+        }
+      });
+    }
+  }
 }
 </script>
 

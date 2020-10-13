@@ -288,6 +288,7 @@ import { catalogHooksExecutors } from '@vue-storefront/core/modules/catalog-next
 import ProductPrice from 'theme/components/core/ProductPrice.vue';
 import Promo from "../components/core/blocks/Product/Promo";
 import Spinner from "../components/core/Spinner";
+import { CreditService } from '@vue-storefront/core/data-resolver';
 
 export default {
   components: {
@@ -401,10 +402,11 @@ export default {
       return config && config.customSeller
     }
   },
-  beforeMount () {
+  async beforeMount () {
     this.$bus.$on('product-after-configure', (data) => {
       this.getQuantity()
     });
+    await this.$store.dispatch('themeCredit/fetchBanks', this.getCurrentProduct.sku)
   },
   async mounted () {
     await this.$store.dispatch('recently-viewed/addItem', this.getCurrentProduct)

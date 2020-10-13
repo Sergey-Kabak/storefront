@@ -9,7 +9,7 @@
       :key="product.server_item_id || product.id"
       :product="product"
     />
-    <promo-code 
+    <promo-code
       class="promo-code"
       :isActive.sync="isShowPromocode"
     />
