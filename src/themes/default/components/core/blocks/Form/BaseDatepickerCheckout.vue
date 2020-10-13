@@ -15,7 +15,7 @@
 <script>
 
 import DatePicker from 'vue2-datepicker';
-import 'vue2-datepicker/index.css';
+//import 'vue2-datepicker/index.css';
 import 'vue2-datepicker/locale/ru';
 import 'vue2-datepicker/locale/uk';
 
@@ -46,5 +46,9 @@ export default {
 </script>
 
 <style lang="scss">
-
+  $primary-color: #23be20;
+  @import "~vue2-datepicker/scss/index";
+  .cell div{
+    font-family: "DIN Pro" !important;
+  }
 </style>

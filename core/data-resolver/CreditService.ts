@@ -20,6 +20,18 @@ const getCredits = async (sku: any): Promise<Task> => {
   })
 }
 
+const getCreditsCheckout = async (cart_id: any): Promise<Task> => {
+  return TaskQueue.execute({
+    url: `${getApiEndpointUrl({endpoint: "/api/ext/credits/" + cart_id}, 'endpoint')}`,
+    payload: {
+      method: 'GET',
+      headers,
+      mode: 'cors',
+    }
+  })
+}
+
 export const CreditService: DataResolver.CreditService = {
-  getCredits
+  getCredits,
+  getCreditsCheckout
 }

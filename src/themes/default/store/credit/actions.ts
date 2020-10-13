@@ -15,6 +15,11 @@ const actions = {
     CreditService.getCredits(sku)
       .then(res => commit(types.CREDIT_SET_BANKS, { banks: res.result }))
       .catch(error => commit(types.CREDIT_SET_BANKS, { banks: [] }))
+  },
+  fetchBanksCheckout ({ commit }, cartId) {
+    CreditService.getCreditsCheckout(cartId)
+      .then(res => commit(types.CREDIT_SET_BANKS, { banks: res.result }))
+      .catch(error => commit(types.CREDIT_SET_BANKS, { banks: [] }))
   }
 }
 

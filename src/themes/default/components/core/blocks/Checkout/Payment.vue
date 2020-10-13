@@ -36,7 +36,7 @@
               <div>
                 {{ method.title ? $t(method.title) : $t(method.name) }}
               </div>
-              <div v-if="method.code === 'creditondelivery'" class="note-right">
+              <div v-if="method.code === 'credit'" class="note-right">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M1 21H23L12 2L1 21ZM13 18H11V16H13V18ZM13 14H11V10H13V14Z" fill="#EE2C39"/>
                 </svg>
@@ -44,7 +44,7 @@
               </div>
             </div>
 
-            <div v-if="method.code === 'creditondelivery' && payment.paymentMethod === 'creditondelivery'" class="credit-block-wrapper">
+            <div v-if="method.code === 'credit' && payment.paymentMethod === 'credit'" class="credit-block-wrapper">
               <div class="credit-block">
                 <div class="block-title">Кредитное предложение</div>
                 <credit-products :banks="getBanks" :totalPrice="totals.find(code => code.code === 'grand_total').value" />
@@ -164,7 +164,7 @@
                     <div class="form-column">
                       <div class="form-label">
                         <base-input
-                          class="custom-input"
+                          class="custom-input inn-input"
                           :class="{ error: $v.creditDetails.identification_code.$error && $v.creditDetails.identification_code.$dirty }"
                           type="number"
                           :autofocus="true"
@@ -218,7 +218,6 @@
         {{ $t('To pay') }}
       </button-full>
     </div>
-    {{getCartToken}}
   </div>
 </template>
 
@@ -274,9 +273,6 @@ export default {
   data: () => ({
     isShowPromocode: false
   }),
-  created () {
-    this.$store.dispatch('themeCredit/fetchBanks', this.productsInCart[0].sku)
-  },
   watch: {
     'payment.paymentMethods': {
       handler: function (after, before) {
@@ -428,11 +424,36 @@ export default {
 
 <style lang="scss" scoped>
   @import '~bootstrap';
+  .inn-input{
+    width: 100%;
+    /deep/ input[type=number]{
+      width: 100%;
+    }
+  }
+  /deep/ .date-picker.mx-datepicker{
+    width: 100%;
+    height: 4.5rem;
+    input{
+      height: 40px;
+      box-shadow: none;
+      border-color: #bdbdbd;
+      padding-left: 15px;
+      font-size: 13px;
+      color: #1A1919;
+      &::placeholder{
+        color: #999;
+        font-size: 13px;
+      }
+    }
+  }
   /deep/ .base-input{
     input{
       border-style: solid;
       border-width: 1px;
       border-radius: 4px;
+      font-size: 13px;
+      color: #1A1919;
+      line-height: 16px;
     }
     label{
       background: #fff;
@@ -461,6 +482,7 @@ export default {
   }
   .payment-card{
     .radioStyled {
+      padding: 16px 0;
       flex-direction: column !important;
     }
   }
@@ -485,6 +507,7 @@ export default {
     &-wrapper{
       width: 100%;
       padding: 16px 16px 0;
+      cursor: default;
     }
     .block-title{
       font-family: DIN Pro;

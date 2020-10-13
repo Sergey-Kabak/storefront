@@ -116,6 +116,7 @@ export default {
     if (!country) country = storeView.i18n.defaultCountry
     this.$bus.$emit('checkout-before-shippingMethods', country)
     this.personalDetails = this.cPersonalDetails
+    await this.$store.dispatch('themeCredit/fetchBanksCheckout', this.$store.state.cart.cartServerToken);
   },
   beforeDestroy () {
     this.$store.dispatch('checkout/setModifiedAt', 0) // exit checkout
@@ -301,7 +302,6 @@ export default {
             region_code: this.payment.region_code ? this.payment.region_code : '',
             vat_id: this.payment.taxId
           },
-
           shipping_method_code: shippingMethods[this.shippingType], // this.shippingMethod.method_code ? this.shippingMethod.method_code : this.shipping.shippingMethod,
           shipping_carrier_code: shippingMethods[this.shippingType], // this.shippingMethod.carrier_code ? this.shippingMethod.carrier_code : this.shipping.shippingCarrier,
           payment_method_code: this.getPaymentMethod(),
@@ -324,6 +324,12 @@ export default {
           email: this.personalDetails.emailAddress,
           region_code: this.payment.region_code ? this.payment.region_code : ''
         }
+      }
+      if (this.order.addressInformation.payment_method_code === 'credit') {
+        this.order.addressInformation.billingAddress['surname'] = this.$store.state.themeCredit.creditDetails.surname
+        this.order.addressInformation.billingAddress['date_of_birth'] = this.$store.state.themeCredit.creditDetails.date_of_birth
+        this.order.addressInformation.billingAddress['identification_code'] = this.$store.state.themeCredit.creditDetails.identification_code
+        this.order.addressInformation.payment_method_additional['credit_id'] = 'cr_001'
       }
       return this.order
     },

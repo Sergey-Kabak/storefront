@@ -24,7 +24,7 @@ export const PaymentCashOnDeliveryModule: StorefrontModule = function ({ store }
   }
   let creditMethodConfig = {
     'title': 'Credit on delivery',
-    'code': 'creditondelivery',
+    'code': 'credit',
     'cost': 0,
     'costInclTax': 0,
     'default': true,
@@ -45,6 +45,7 @@ export const PaymentCashOnDeliveryModule: StorefrontModule = function ({ store }
       'is_server_method': false
     }
     store.dispatch('checkout/addPaymentMethod', paymentMethodConfig)
+    store.dispatch('checkout/addPaymentMethod', creditMethodConfig)
 
     EventBus.$on('checkout-before-placeOrder', placeOrder)
 
@@ -53,7 +54,7 @@ export const PaymentCashOnDeliveryModule: StorefrontModule = function ({ store }
       let methods = store.state['payment-backend-methods'].methods
       if (methods) {
         let method = methods.find(item => (item.code === paymentMethodCode))
-        if (paymentMethodCode === 'cashondelivery' && ((typeof method !== 'undefined' && !method.is_server_method) || typeof method === 'undefined') /* otherwise it could be a `payment-backend-methods` module */) {
+        if ((paymentMethodCode === 'cashondelivery' || paymentMethodCode === 'credit') && ((typeof method !== 'undefined' && !method.is_server_method) || typeof method === 'undefined') /* otherwise it could be a `payment-backend-methods` module */) {
           correctPaymentMethod = true
 
           // Dynamically inject a component into the order review section (optional)

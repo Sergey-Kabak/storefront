@@ -25,7 +25,7 @@ export const Payment = {
       assoc: {
         'currier': ['cashondelivery', 'liqpaymagento_liqpay'],
         'new_post': ['cashondelivery', 'liqpaymagento_liqpay'],
-        'shop': ['cashondelivery', 'creditondelivery']
+        'shop': ['cashondelivery', 'credit']
       }
     }
   },
