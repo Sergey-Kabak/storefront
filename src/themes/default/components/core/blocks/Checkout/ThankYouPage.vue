@@ -51,7 +51,7 @@
             <div class="product-right">
               <div class="prices">
                 <span class="price-special">
-                  {{ product.original_price_incl_tax | price(storeView) }}
+                  {{ finalPrice(product) | price(storeView) }}
                 </span>
               </div>
             </div>
@@ -144,10 +144,13 @@ export default {
       return currentStoreView();
     },
     totalPrice () {
-      return this.products.reduce((acc, it) => acc + it.original_price_incl_tax * it.qty, 0)
+      return this.products.reduce((acc, it) => acc + this.finalPrice(it) * it.qty, 0)
     }
   },
   methods: {
+    finalPrice (product) {
+      return product.original_special_price || product.original_price_incl_tax
+    },
     onSuccess (message) {
       this.$store.dispatch('notification/spawnNotification', {
         type: 'success',
