@@ -55,7 +55,7 @@
         />
       </div>
       <div class="product-price">
-        <span> {{ product.original_price_incl_tax * product.qty | price(storeView) }} </span>
+        <span> {{ finalPrice * product.qty | price(storeView) }} </span>
       </div>
     </div>
   </div>
@@ -85,6 +85,9 @@ export default {
     manageQuantity: true
   }),
   computed: {
+    finalPrice () {
+      return this.product.original_special_price || this.product.original_price_incl_tax
+    },
     image () {
       return {
         loading: this.thumbnail,
@@ -286,7 +289,7 @@ img {
   display: flex;
   align-items: center;
   padding: 12px 16px;
-  
+
   svg {
     margin-right: 20px;
   }

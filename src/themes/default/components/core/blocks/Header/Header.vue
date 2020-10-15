@@ -16,7 +16,7 @@
           </li>
           <li>
             <a href="#">
-              <router-link class="cl-secondary" :to="localizedRoute('/payments-and-loans')" exact>
+              <router-link class="cl-secondary" :to="localizedRoute('/payment')" exact>
                 {{ $t('the Payment') }}
               </router-link>
             </a>

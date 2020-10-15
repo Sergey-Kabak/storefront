@@ -33,9 +33,10 @@ const actions: ActionTree<CategoryState, RootState> = {
     }
     const searchQuery = getters.getCurrentFiltersFrom(route[products.routerFiltersSource], categoryMappedFilters)
     let filterQr = buildFilterProductsQuery(searchCategory, searchQuery.filters)
+    const sort = `stock.is_in_stock:desc,${searchQuery.sort || products.defaultSortBy.attribute + ':' + products.defaultSortBy.order}`
     const { items, perPage, start, total, aggregations, attributeMetadata } = await dispatch('product/findProducts', {
       query: filterQr,
-      sort: searchQuery.sort || `${products.defaultSortBy.attribute}:${products.defaultSortBy.order}`,
+      sort,
       includeFields: entities.productList.includeFields,
       excludeFields: entities.productList.excludeFields,
       size: pageSize,
@@ -67,9 +68,10 @@ const actions: ActionTree<CategoryState, RootState> = {
 
     const searchQuery = getters.getCurrentSearchQuery
     let filterQr = buildFilterProductsQuery(getters.getCurrentCategory, searchQuery.filters)
+    const sort = `stock.is_in_stock:desc,${searchQuery.sort || products.defaultSortBy.attribute + ':' + products.defaultSortBy.order}`
     const searchResult = await dispatch('product/findProducts', {
       query: filterQr,
-      sort: searchQuery.sort || `${products.defaultSortBy.attribute}:${products.defaultSortBy.order}`,
+      sort,
       start: start + perPage,
       size: perPage,
       includeFields: entities.productList.includeFields,

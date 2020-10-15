@@ -63,7 +63,7 @@ export default {
       return config.rma[this.labelValue].title;
     },
     getEndDate() {
-      return new Date(config.rma[this.labelValue].time).getTime();
+      return new Date((config.rma[this.labelValue].time).replace(/-/g,'/')).getTime();
     },
     getCatLink() {
       return config.rma[this.labelValue].category_link;
