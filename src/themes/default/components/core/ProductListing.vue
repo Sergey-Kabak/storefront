@@ -43,7 +43,7 @@ export default {
     grid-gap: 20px;
     grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
   }
-  
+
   ::v-deep .product-image__thumb {
     max-height: 200px!important;
   }
