@@ -8,25 +8,19 @@
       <div class="header-black-line" v-if="isShowHeader">
         <ul>
           <li>
-            <a href="#">
-              <router-link class="cl-secondary" :to="localizedRoute('/shops')" exact>
-                {{ $t('The shops') }}
-              </router-link>
-            </a>
+            <router-link class="cl-secondary" :to="localizedRoute('/shops')" exact>
+              {{ $t('The shops') }}
+            </router-link>
           </li>
           <li>
-            <a href="#">
-              <router-link class="cl-secondary" :to="localizedRoute('/payment')" exact>
-                {{ $t('the Payment') }}
-              </router-link>
-            </a>
+            <router-link class="cl-secondary" :to="localizedRoute('/payment')" exact>
+              {{ $t('the Payment') }}
+            </router-link>
           </li>
           <li>
-            <a href="#">
-              <router-link class="cl-secondary" :to="localizedRoute('/delivery')" exact>
-                {{ $t('Delivery') }}
-              </router-link>
-            </a>
+            <router-link class="cl-secondary" :to="localizedRoute('/delivery')" exact>
+              {{ $t('Delivery') }}
+            </router-link>
           </li>
           <li class="phone-wrap">
             <svg width="12" height="12" viewBox="0 0 12 12" xmlns="http://www.w3.org/2000/svg">
