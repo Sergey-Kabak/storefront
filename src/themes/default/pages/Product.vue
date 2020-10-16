@@ -333,8 +333,8 @@ export default {
       attributesByCode: 'attribute/attributeListByCode',
       getCurrentCustomOptions: 'product/getCurrentCustomOptions'
     }),
-    isProductRma() {
-      return this.getCurrentProduct.hasOwnProperty("rma")
+    isProductRma () {
+      return this.getCurrentProduct.hasOwnProperty("rma") && config.rma[this.getLabelValue()]
     },
     getOptionLabel () {
       return (option) => {
