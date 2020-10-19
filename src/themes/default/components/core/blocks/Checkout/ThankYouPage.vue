@@ -4,7 +4,7 @@
       <h3 v-if="OnlineOnly" class="thank-you-title">
         {{ $t('Thank!') }}
         {{ $t('Your order') }} <span v-if="OnlineOnly && lastOrderConfirmation.orderNumber">№{{ lastOrderConfirmation.orderNumber }}</span>
-        {{ $t('already going )') }}
+        {{ productsHasPreorder ? '' : $t('already going )') }}
       </h3>
       <p class="thank-you-description">{{ $t('In the near future we will call you back to clarify the details. Have a nice day!)') }}</p>
       <button-filled-small
@@ -114,6 +114,9 @@ export default {
     ...mapState({
       shippingType: state => state.customShipping.type
     }),
+    productsHasPreorder () {
+      return this.products.some(it => !!it.preorder);
+    },
     lastOrderConfirmation () {
       return this.$store.state.order.last_order_confirmation ? this.$store.state.order.last_order_confirmation.confirmation : {}
     },
