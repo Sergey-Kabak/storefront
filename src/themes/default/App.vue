@@ -9,6 +9,7 @@
 <script>
 import { mapState } from 'vuex';
 import 'src/themes/default/assets/fonts/stylesheet.css';
+import version from 'theme/helpers/Version';
 
 const DefaultLayout = () => import(/* webpackChunkName: "vsf-layout-default" */ './layouts/Default')
 const EmptyLayout = () => import(/* webpackChunkName: "vsf-layout-empty" */ './layouts/Empty')
@@ -32,6 +33,11 @@ export default {
     DefaultLayout,
     EmptyLayout,
     MinimalLayout
+  },
+  beforeMount () {
+    if (window) {
+      version()
+    }
   }
 }
 </script>
