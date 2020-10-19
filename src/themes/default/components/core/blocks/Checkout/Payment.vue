@@ -23,7 +23,7 @@
       </div>
       <div class="payment-methods">
         <div class="payment-card" v-for="(method, index) in paymentMethods" :key="index" v-if="isShowPaymentMethod(method)">
-          <label class="radioStyled"> {{ method.title ? $t(method.title) : $t(method.name) }}
+          <label class="radioStyled"> {{ $t(method.title || method.name) }}
             <input
               type="radio"
               :value="method.code"
@@ -60,11 +60,11 @@
 </template>
 
 <script>
-import { 
+import {
   required,
   minLength
 } from 'vuelidate/lib/validators';
-import { 
+import {
   unicodeAlpha,
   unicodeAlphaNum
 } from '@vue-storefront/core/helpers/validators';
@@ -211,7 +211,7 @@ export default {
   },
   methods: {
     isShowPaymentMethod (method) {
-      return this.assoc[this.type].includes(method.code)
+      return this.assoc[this.type].includes(method.code) && !this.productsHasPreorder(method)
     },
     onPaymentMethodChange () {
       this.$v.payment.paymentMethod.$touch()
@@ -220,6 +220,9 @@ export default {
     },
     placeOrder () {
       this.$bus.$emit('checkout-before-placeOrder')
+    },
+    productsHasPreorder (method) {
+      return this.productsInCart.some(it => !!it.preorder) && method.code === 'liqpaymagento_liqpay'
     }
   }
 }
@@ -231,7 +234,9 @@ export default {
   .mobile-data {
     display: none;
   }
-
+  .radioStyled.disabled{
+    opacity: 0.55;
+  }
   .summary-price {
     display: flex;
     justify-content: space-between;

@@ -158,9 +158,10 @@
             >
               <add-to-cart
                 :product="getCurrentProduct"
-                :disabled="isAddToCartDisabled"
-                class="col-xs-12 col-sm-4 col-md-6"
-              />
+                :disabled="isAddToCartDisabled && !preorder"
+                class="col-xs-12 col-sm-4 col-md-6">
+                <template v-if="preorder" v-slot:text>{{$t('pre order')}}</template>
+              </add-to-cart>
             </div>
             <div class="row py40 add-to-buttons">
               <div class="col-xs-6 col-sm-3 col-md-6">
@@ -333,8 +334,11 @@ export default {
       attributesByCode: 'attribute/attributeListByCode',
       getCurrentCustomOptions: 'product/getCurrentCustomOptions'
     }),
-    isProductRma() {
-      return this.getCurrentProduct.hasOwnProperty("rma")
+    preorder () {
+      return !!this.getCurrentProduct.preorder
+    },
+    isProductRma () {
+      return this.getCurrentProduct.hasOwnProperty("rma") && config.rma[this.getLabelValue()]
     },
     getOptionLabel () {
       return (option) => {
@@ -398,8 +402,8 @@ export default {
     });
   },
   async mounted () {
-    await this.$store.dispatch('recently-viewed/addItem', this.getCurrentProduct)
-    this.setDataLayer()
+    await this.$store.dispatch('recently-viewed/addItem', this.getCurrentProduct);
+    this.setDataLayer();
   },
   async asyncData ({ store, route, context }) {
     if (context) context.output.cacheTags.add('product')

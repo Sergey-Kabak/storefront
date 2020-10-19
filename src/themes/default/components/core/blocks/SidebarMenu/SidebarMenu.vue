@@ -132,6 +132,11 @@
               {{ $t('My account') }}
             </a>
           </li>
+          <li class="brdr-bottom-1 brdr-cl-secondary bg-cl-secondary flex">
+            <router-link :to="{name : 'compare'}" class="block w-100 px25 py20 cl-accent no-underline fs-medium-small">
+              {{$t('compare')}}
+            </router-link>
+          </li>
         </ul>
       </div>
     </div>

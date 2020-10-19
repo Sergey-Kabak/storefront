@@ -326,6 +326,7 @@ export default {
       color: #1A1919;
       height: 48px;
       overflow: hidden;
+      word-break: break-all;
       @media (max-width: 991px) {
         margin-bottom: 10px;
       }

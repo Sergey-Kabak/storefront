@@ -33,11 +33,11 @@
         </div>
       </div>
       <div class="location-item-right">
-        <!-- <div class="status" v-if="type === 'shop'">
+        <div class="status" v-if="type === 'shop'">
           <div class="ellipsis"></div>
-          <span>{{ source.status || $t('All products are in stock') }}</span>
-        </div> -->
-        <div class="weight-limit" v-if="type === new_post">
+          <span>{{ $t('partial availability') }}</span>
+        </div>
+        <div class="weight-limit" v-if="type === 'new_post'">
           <div class="ellipsis"></div>
           Ограничение веса: до {{source.weightLimit}} кг
         </div>
@@ -190,11 +190,11 @@ export default {
     font-family: 'DIN Pro';
     font-size: 13px;
     line-height: 16px;
-    color: #23BE20;
+    color: #EE8128;
     margin-bottom: 16px;
 
     .ellipsis {
-      background-color: #23BE20;
+      background-color: #EE8128;
     }
   }
 }
@@ -214,7 +214,8 @@ export default {
 
 .location-item-right {
   display: flex;
-  min-width: 131px;
+  flex-direction: column;
+  max-width: 131px;
 }
 
 .location-item-middle {
@@ -225,7 +226,6 @@ export default {
 
 .action {
   width: 100%;
-  margin-top: auto;
 }
 
 .weight-limit {

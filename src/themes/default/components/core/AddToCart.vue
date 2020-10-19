@@ -5,7 +5,9 @@
       <path d="M10.5 21C11.3284 21 12 20.3284 12 19.5C12 18.6716 11.3284 18 10.5 18C9.67157 18 9 18.6716 9 19.5C9 20.3284 9.67157 21 10.5 21Z" fill="#ffffff"/>
       <path d="M16.5 21C17.3284 21 18 20.3284 18 19.5C18 18.6716 17.3284 18 16.5 18C15.6716 18 15 18.6716 15 19.5C15 20.3284 15.6716 21 16.5 21Z" fill="#ffffff"/>
     </svg>
-    <span class="add-to-cart-text">{{ $t('Buy') }}</span>
+    <slot name="text">
+      <span class="add-to-cart-text">{{ $t('Buy') }}</span>
+    </slot>
   </button-full>
 </template>
 
