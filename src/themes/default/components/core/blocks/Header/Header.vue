@@ -686,7 +686,7 @@ a.underline:after, a:not(.no-underline):hover:after {
   }
 
   .header-top {
-    height: 56px;
+    height: 55px;
   }
 
   .header-wrap {

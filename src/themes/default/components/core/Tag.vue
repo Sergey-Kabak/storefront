@@ -52,6 +52,7 @@
     -ms-flex-align: center;
     align-items: center;
     color: #1A1919;
+    margin-right: 4px;
 
     &.danger {
       background-color: #FDE6E7;
@@ -63,11 +64,12 @@
 
     span.product-chip {
       text-align: center;
-      margin-left: 13px;
-
+      display: flex;
+      align-items: center;
       svg {
-        position: absolute;
-        left: 5px;
+        position: relative;
+        top: -1px;
+        margin-right: 8px;
       }
     }
 

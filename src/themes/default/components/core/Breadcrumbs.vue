@@ -7,7 +7,7 @@
       <span class="divider">/</span>
     </span>
     <span class="cl-mine-shaft">
-      {{ current | htmlDecode }}
+      {{ $t(current) }}
     </span>
   </div>
 </template>

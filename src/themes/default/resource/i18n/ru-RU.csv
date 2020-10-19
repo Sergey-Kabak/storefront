@@ -76,7 +76,6 @@
 "Not available","Нет в наличии"
 "Nothing to show","магазинов не найдено"
 "Novaya Pochta(Branch)","Новая Почта(Отделение)"
-"Number or address of New Post","Номер или адрес Новой Почты"
 "Olive","Оливковый"
 "On map":"На карте"
 "Orange","Оранжевый"
@@ -228,9 +227,6 @@
 "work_time",Пн-Пт: 9:00-18:00; Сб-Вс: Выходные
 "{count} items","Товары не найдены | {count} товар | {count} товара | {count} товаров"
 "{count} products worth","Товары не найдены | {count} товар на сумму | {count} товара на сумму | {count} товаров на сумму"
-<<<<<<< HEAD
-=======
->>>>>>> dev
 About us,О нас
 Accepts only alphabet characters.,Используйте только буквы алфавита
 Add a discount code,Код купона
@@ -679,6 +675,16 @@ warranty,"Гарантия"
 why justin,"Почему Justin?"
 work time,"Время работы"
 The requested qty is not available,"Желаемое количество товара недоступна"
+added {count} items,Товары не найдены | Добавлен {count} товар | Добавлено {count} товара | Добавлено {count} товаров
+add more to comapre,Добавить еще товар к сравнению
+indicate,Показывать
+All parameters,Все параметры
+Differences,Различия
+Compare Products,Сравнение товаров
+Products to comapre,Товары к сравнению
+compare,Сравнить
+Compare,Сравнение товаров
+No differences,Различий нет
 "Department","Отделение"
 "Number or address of New Post","Номер или адрес Новой Почты"
 "schedule","Пн-Пт: {mon}; Сб: {sat}; Вс: {sun}"
