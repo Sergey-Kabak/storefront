@@ -2,7 +2,7 @@
   <div class="promo-block flex w-100">
     <div class="promo-block-gift relative flex v-center">
       <img :src="getImageUrl()" alt="">
-      <div class="promo-block-gift-icon absolute flex h-center v-center">
+      <div v-if="!noGiftImage" class="promo-block-gift-icon absolute flex h-center v-center">
         <GiftSvg />
       </div>
     </div>
@@ -50,7 +50,10 @@ export default {
   computed: {
     ...mapGetters({
       getCurrentProduct: 'product/getCurrentProduct',
-    })
+    }),
+    noGiftImage () {
+      return this.labelValue === '6'
+    }
   },
   methods: {
     showDetails(){
