@@ -57,14 +57,7 @@
             </div>
           </li>
           <li class="product-price">
-            <div class="price-left">
-              <span class="price-title">
-                {{ $t('Grand total') }}:
-              </span>
-            </div>
-            <div class="price-right">
-              <span class="price-total"> {{ totalPrice | price(storeView) }} </span>
-            </div>
+           <total-price />
           </li>
         </ul>
       </div>
@@ -81,12 +74,13 @@ import GoogleMap from 'src/modules/google-map/google-map';
 import VueOfflineMixin from 'vue-offline/mixin';
 import { EmailForm } from '@vue-storefront/core/modules/mailer/components/EmailForm';
 import config from 'config';
-import { mapState } from 'vuex';
+import { mapState, mapGetters } from 'vuex';
 import { registerModule } from '@vue-storefront/core/lib/modules';
 import { MailerModule } from '@vue-storefront/core/modules/mailer';
 import { getThumbnailForProduct } from '@vue-storefront/core/modules/cart/helpers';
 import ProductImage from 'theme/components/core/ProductImage';
 import { currentStoreView } from '@vue-storefront/core/lib/multistore';
+import TotalPrice from 'theme/components/core/TotalPrice';
 
 export default {
   name: 'ThankYouPage',
@@ -95,7 +89,8 @@ export default {
     Breadcrumbs,
     GoogleMap,
     ProductImage,
-    ButtonFilledSmall
+    ButtonFilledSmall,
+    TotalPrice
   },
   mixins: [Composite, VueOfflineMixin, EmailForm],
   beforeCreate () {
@@ -145,9 +140,6 @@ export default {
     },
     storeView () {
       return currentStoreView();
-    },
-    totalPrice () {
-      return this.products.reduce((acc, it) => acc + this.finalPrice(it) * it.qty, 0)
     }
   },
   methods: {
@@ -373,6 +365,21 @@ export default {
   .product-item-row ::v-deep {
     .product-image__thumb {
       height: auto!important
+    }
+  }
+
+  .total-prices {
+    width: 100%;
+  }
+
+  ::v-deep {
+    .total-price {
+      display: flex;
+      justify-content: space-between;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
     }
   }
 

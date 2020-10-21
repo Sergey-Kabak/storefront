@@ -90,12 +90,16 @@ export default {
           if (this.liqpayStatus === 'success') {
             this.$bus.$emit('order-after-placed', payload)
           } else {
-            this.$store.dispatch('payment/cancelPayment', this.orderId)
+            this.cancelOrder()
           }
           this.liqpayUpdate()
           this.liqpayStatus = null
         })
       })
+    },
+    cancelOrder() {
+      this.$router.push('/')
+      this.$store.dispatch('cart/clear', { sync: false })
     }
   },
   beforeDestroy (){

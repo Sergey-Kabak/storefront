@@ -260,9 +260,6 @@ export default {
       title: htmlDecode(meta_title || name),
       meta
     }
-  },
-  beforeDestroy () {
-    clearInterval(this.interval)
   }
 }
 </script>
