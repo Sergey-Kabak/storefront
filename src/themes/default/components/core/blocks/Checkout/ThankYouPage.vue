@@ -142,6 +142,9 @@ export default {
       return currentStoreView();
     }
   },
+  mounted: function() {
+    this.initAdmitad()
+  },
   methods: {
     finalPrice (product) {
       return product.original_special_price || product.original_price_incl_tax
@@ -180,6 +183,33 @@ export default {
     thumbnail (product) {
       return getThumbnailForProduct(product)
     },
+    initAdmitad() {
+      ADMITAD = window.ADMITAD || {};
+      ADMITAD.Invoice = ADMITAD.Invoice || {};
+      ADMITAD.Invoice.broker = 'adm';
+      ADMITAD.Invoice.category = '1';
+
+      const orderedItem = [];
+      this.products.map(it => {
+        orderedItem.push({
+          Product: {
+            productID: it.id,
+            category: '1',
+            price: it.original_special_price || it.original_price,
+            priceCurrency: 'UAH',
+          },
+          orderQuantity: it.qty,
+          additionalType: 'sale'
+        });
+      })
+      ADMITAD.Invoice.referencesOrder = ADMITAD.Invoice.referencesOrder || [];
+
+      ADMITAD.Invoice.referencesOrder.push({
+        orderNumber: this.lastOrderConfirmation.orderNumber,
+        orderedItem: orderedItem
+      });
+      ADMITAD.Tracking.processPositions();
+    }
   },
   destroyed () {
     this.$store.dispatch('checkout/setThankYouPage', false)
