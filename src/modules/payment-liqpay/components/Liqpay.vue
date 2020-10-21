@@ -50,14 +50,14 @@ export default {
 			return Base64.stringify(
 				Utf8.parse(
 					JSON.stringify({
-						public_key: config.liqpay.public_key,
-						version: config.liqpay.version,
+						public_key: this.liqpayData.public_key,
+						version: '3',
 						action: 'pay',
-						currency: config.liqpay.currency,
+						currency: 'UAH',
 						amount: this.totalPrice,
             order_id: this.incrementId,
             incrementId: this.incrementId,
-            server_url: config.liqpay.server_url
+            server_url: this.liqpayData.server_url
           })
         )
       )
@@ -66,10 +66,13 @@ export default {
       return this.totals.find(it => it.code === 'grand_total').value
     },
 		signature () {
-			return Base64.stringify(sha1(config.liqpay.private_key + this.data + config.liqpay.private_key))
+			return Base64.stringify(sha1(this.liqpayData.private_key + this.data + this.liqpayData.private_key))
     },
     liqpayUpdate () {
       this.liqpayKey += 1
+    },
+    liqpayData () {
+      return this.cartItems.some(it => +it.marketplace) ? config.liqpay_marketplace : config.liqpay
     }
   },
   methods: {
@@ -90,12 +93,16 @@ export default {
           if (this.liqpayStatus === 'success') {
             this.$bus.$emit('order-after-placed', payload)
           } else {
-            this.$store.dispatch('payment/cancelPayment', this.orderId)
+            this.cancelOrder()
           }
           this.liqpayUpdate()
           this.liqpayStatus = null
         })
       })
+    },
+    cancelOrder() {
+      this.$router.push('/')
+      this.$store.dispatch('cart/clear', { sync: false })
     }
   },
   beforeDestroy (){

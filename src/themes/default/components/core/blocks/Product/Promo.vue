@@ -16,7 +16,7 @@
           :to="localizedRoute(getCatLink())"
           exact
         >
-          <button-grey class="details">
+          <button-grey v-if="!!!getCurrentProduct.preorder" class="details">
             <span>{{ $t('Details') }}</span>
           </button-grey>
         </router-link>

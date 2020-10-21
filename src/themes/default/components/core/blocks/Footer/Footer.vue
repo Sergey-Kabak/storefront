@@ -34,8 +34,7 @@
             {{$t('work_time')}}
           </div>
           <div class="info">
-            <span>{{ $t('Free from landlines and') }}</span>
-            <span>{{ $t('mobile phones in Ukraine') }}</span>
+            <span>{{ $t('Calls according to the tariffs of your operator') }}</span>
           </div>
           <h4 class="footer-title">
             {{ $t('We accept') }}

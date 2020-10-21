@@ -30,7 +30,9 @@
             v-if="product.original_price_incl_tax && product.original_special_price"
             class="lh30 cl-secondary price-sale"
           >
-            -{{ (product.original_price_incl_tax - product.original_special_price) | price(storeView) }}
+            -{{
+              parseInt(((product.original_price_incl_tax - product.original_special_price) / (product.original_price_incl_tax / 100)))
+            }} %
           </span>
         </div>
       </div>
@@ -213,6 +215,8 @@ export default {
 }
 
 .product-info-price {
+  display: flex;
+  flex-wrap: wrap;
   font-family: DIN Pro;
   font-style: normal;
   font-size: 15px;

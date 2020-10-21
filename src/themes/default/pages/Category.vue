@@ -250,6 +250,9 @@ export default {
       return new Date(this.getCurrentCategory && this.getCurrentCategory.custom_design_to && this.getCurrentCategory.custom_design_to.replace(' ', 'T')).getTime();
     }
   },
+  beforeDestroy () {
+    this.closeFilters()
+  },
   metaInfo () {
     const storeView = currentStoreView()
     const { meta_title, meta_description, name, slug } = this.getCurrentCategory
@@ -260,9 +263,6 @@ export default {
       title: htmlDecode(meta_title || name),
       meta
     }
-  },
-  beforeDestroy () {
-    clearInterval(this.interval)
   }
 }
 </script>

@@ -25,6 +25,7 @@
     },
     data () {
       return {
+        interval: null,
         timerData: {
           days: 0,
           hours: 0,
@@ -61,6 +62,9 @@
           seconds: this.timerData.seconds
         };
       }
+    },
+    beforeDestroy() {
+      clearInterval(this.interval)
     }
   }
 </script>

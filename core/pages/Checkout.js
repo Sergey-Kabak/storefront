@@ -56,6 +56,7 @@ export default {
     })
   },
   async beforeMount () {
+    await this.$store.dispatch('cart/pullMethods', { forceServerSync: true, syncShipping: false })
     await this.$store.dispatch('checkout/load')
     this.$bus.$emit('checkout-after-load')
     this.$store.dispatch('checkout/setModifiedAt', Date.now())

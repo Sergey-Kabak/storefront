@@ -327,10 +327,11 @@ export default {
   }
 
   .scroll-bar {
-    height: 100%;
-    box-sizing: border-box;
     display: flex;
     flex-direction: column;
+    height: 100%;
+    box-sizing: border-box;
+    transform: translateZ(0);
   }
 
   .actions-button {
