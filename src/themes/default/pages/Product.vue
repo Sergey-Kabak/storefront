@@ -38,9 +38,9 @@
             <Promo v-if="isProductRma" :label-value="getLabelValue()" />
             <div
               class="product-in-stock hidden-xs block"
-              :class="{ 'not-available': isAddToCartDisabled }"
+              :class="productStatus.replace(/\s+/g , '')"
             >
-              {{ isAddToCartDisabled ? $t('Not available') : $t('In stock') }}
+              {{ $t(productStatus) }}
             </div>
             <h1
               class="mb20 mt0 cl-mine-shaft product-name hidden-xs block"
@@ -311,6 +311,15 @@ export default {
       attributesByCode: 'attribute/attributeListByCode',
       getCurrentCustomOptions: 'product/getCurrentCustomOptions'
     }),
+    productStatus () {
+      if (this.getCurrentProduct.stock.is_in_stock && !!this.getCurrentProduct.preorder) {
+        return 'pending delivery'
+      } else if (this.getCurrentProduct.stock.is_in_stock && !this.getCurrentProduct.preorder) {
+        return 'In stock'
+      } else {
+        return 'Not available'
+      }
+    },
     preorder () {
       return !!this.getCurrentProduct.preorder
     },
@@ -601,8 +610,11 @@ $bg-secondary: color(secondary, $colors-background);
   }
 }
 
-.not-available {
+.Notavailable {
   color: #ee2c39 !important;
+}
+.pendingdelivery {
+  color: orange !important;
 }
 
 .product {

@@ -64,86 +64,16 @@
           data-testid="productImage"
         />
       </div>
-      <div class="flex flex-column product-price-block">
-        <span v-if="product.original_price_incl_tax && product.original_special_price"
-              class="price-sale only-mobile">
-          -{{
-            parseInt(((product.original_price_incl_tax - product.original_special_price) / (product.original_price_incl_tax / 100)))
-          }} %
-        </span>
-        <div class="mb0 name mt0 relative w-100" v-if="!onlyImage">
-          {{ product.name | htmlDecode }}
-        </div>
-        <div class="product-price-wrapper">
-          <span
-            class="price-original mr5 lh30 cl-secondary"
-            v-if="product.special_price && parseFloat(product.original_price_incl_tax) > 0 && !onlyImage"
-          >
-            {{ product.original_price_incl_tax | price(storeView) }}
-          </span>
-          <span
-            class="price-special lh30 cl-accent weight-700"
-            v-if="product.special_price && parseFloat(product.special_price) > 0 && !onlyImage"
-          >
-          {{ product.price_incl_tax | price(storeView) }}
-          </span>
-          <span
-            class="lh30 cl-secondary price-special"
-            v-if="!product.special_price && parseFloat(product.price_incl_tax) > 0 && !onlyImage"
-          >
-            {{ product.price_incl_tax | price(storeView) }}
-          </span>
-          <span
-            v-if="product.original_price_incl_tax && product.original_special_price"
-            class="price-sale not-mobile"
-          >
-            -{{
-              parseInt(((product.original_price_incl_tax - product.original_special_price) / (product.original_price_incl_tax / 100)))
-            }} %
-          </span>
-        </div>
-        <!--      <span class="product-on-credit">{{ $t('In credit') }}</span>-->
-      </div>
+      <product-cart-price :product="product" />
     </router-link>
-
-    <template v-if="product.stock">
-      <span
-        class="product-is-not-available product-card-bottom-options"
-        v-if="isAvailible"
-      >
+    <product-cart-controls
+      v-if="product.stock"
+      :product="product"
+      class="product-cart-controls">
+      <template v-slot:wishlist>
         <AddToWishlist class="not-mobile product__icon" :product="product"></AddToWishlist>
-        {{ $t('Not available') }}
-      </span>
-      <div
-        class="d-flex btw product-card-bottom-options"
-        v-if="!isAvailible"
-      >
-        <AddToWishlist class="not-mobile product__icon" :product="product"></AddToWishlist>
-        <router-link :to="productLink" class="ml-auto">
-          <button-full
-            :disabled="ButtonDisabled"
-            data-testid="addToCart" class="add-to-cart"
-          >
-            <template>
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path
-                  d="M10.5 22C11.3284 22 12 21.3284 12 20.5C12 19.6716 11.3284 19 10.5 19C9.67157 19 9 19.6716 9 20.5C9 21.3284 9.67157 22 10.5 22Z"
-                  fill="white"/>
-                <path
-                  d="M16.5 22C17.3284 22 18 21.3284 18 20.5C18 19.6716 17.3284 19 16.5 19C15.6716 19 15 19.6716 15 20.5C15 21.3284 15.6716 22 16.5 22Z"
-                  fill="white"/>
-                <path fill-rule="evenodd" clip-rule="evenodd"
-                      d="M14 5H2V7H4.3L7.582 16.025C7.79362 16.6029 8.1773 17.1021 8.68134 17.4552C9.18539 17.8083 9.78556 17.9985 10.401 18H19V16H10.401C9.982 16 9.604 15.735 9.461 15.342L8.973 14H18.246C19.136 14 19.926 13.402 20.169 12.549L21.0187 9.57574C20.4013 9.84851 19.7184 10 19 10C16.2386 10 14 7.76142 14 5Z"
-                      fill="white"/>
-                <path d="M18.25 8.16L15.5 5.16L16.66 4L18.25 5.59L21.84 2L23 3.41L18.25 8.16Z" fill="white"/>
-              </svg>
-            </template>
-            <span class="add-to-cart-text">{{ $t('Buy') }}</span>
-          </button-full>
-        </router-link>
-
-      </div>
-    </template>
+      </template>
+    </product-cart-controls>
   </div>
 </template>
 
@@ -162,7 +92,8 @@ import ButtonFull from 'theme/components/theme/ButtonFull.vue';
 import Tag from 'theme/components/core/Tag';
 import { mapGetters } from 'vuex';
 import ProductCartMixin from '../../../../mixins/ProductCartMixin';
-
+import ProductCartControls from '../Product/ProductCartControls';
+import ProductCartPrice from '../Product/ProductCartPrice';
 export default {
   mixins: [ProductTile, IsOnWishlist, IsOnCompare, AddToCompare, ProductCartMixin],
   components: {
@@ -171,7 +102,9 @@ export default {
     AddToWishlist,
     AddToCompare,
     AddToCart,
-    Tag
+    Tag,
+    ProductCartControls,
+    ProductCartPrice
   },
   props: {
     isShowCompareAndFavorite: {
@@ -244,37 +177,32 @@ export default {
   }
 }
 </script>
-
 <style lang="scss" scoped>
+@import '~theme/css/animations/transitions';
+@import '~theme/css/variables/colors';
+@import '~theme/css/helpers/functions/color';
+
+$bg-secondary: color(secondary, $colors-background);
+$border-secondary: color(secondary, $colors-border);
+$color-white: color(white);
+.product-cart-controls{
+  @media (min-width: 768px) {
+    padding-left: 104px;
+    width: calc(100% + 22px);
+  }
+  box-sizing: border-box;
+  position: relative;
+  margin-top: 20px;
+  ::v-deep .product__icon{
+    padding-top: 0;
+  }
+  ::v-deep .add-to-cart{
+    height: 32px;
+  }
+}
 .ml-auto{
   margin-left: auto;
 }
-.price-sale.only-mobile {
-  position: absolute;
-  top: 25px;
-  left: 0;
-}
-
-.price-sale {
-  margin-left: 8px;
-  background: #EE2C39;
-  border-radius: 30px;
-  width: 40px;
-  height: 16px;
-  font-family: DIN Pro;
-  font-style: normal;
-  font-weight: 0;
-  font-size: 11px;
-  line-height: 16px;
-  text-transform: uppercase;
-  color: #FFFFFF;
-}
-
-.product-price-wrapper {
-  display: flex;
-  align-items: center !important;
-}
-
 .isOnWishlist-component {
   @media(max-width: 767px) {
     background: rgba(255, 255, 255, 0.95);
@@ -293,7 +221,6 @@ export default {
     display: block;
   }
 }
-
 .isOnCompare-component {
   @media (max-width: 767px) {
     background: rgba(255, 255, 255, 0.95);
@@ -312,50 +239,11 @@ export default {
     display: block;
   }
 }
-
 .accessories {
   @media (max-width: 767px) {
     display: none !important;
   }
 }
-
-.product {
-  .add-to-cart {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 0;
-
-    svg {
-      display: none;
-    }
-  }
-
-  @media (max-width: 767px) {
-    .add-to-cart svg {
-      display: block !important;
-    }
-    .add-to-cart {
-      padding: 8px 0 !important;
-    }
-    .add-to-cart-text {
-      display: none !important;
-    }
-    .add-to-cart-ico {
-      margin: 0 !important;
-    }
-  }
-}
-</style>
-
-<style lang="scss" scoped>
-@import '~theme/css/animations/transitions';
-@import '~theme/css/variables/colors';
-@import '~theme/css/helpers/functions/color';
-
-$bg-secondary: color(secondary, $colors-background);
-$border-secondary: color(secondary, $colors-border);
-$color-white: color(white);
 .not-mobile {
   @media (max-width: 767px) {
     display: none !important;
@@ -365,12 +253,6 @@ $color-white: color(white);
 .only-mobile {
   @media (min-width: 768px) {
     display: none;
-  }
-}
-
-.product-is-not-available {
-  @media (min-width: 768px) {
-    width: calc(100% + 22px);
   }
 }
 
@@ -443,27 +325,8 @@ $color-white: color(white);
       margin-bottom: auto;
     }
     align-items: flex-start;
-    //margin-bottom: 20px;
     .mt-auto {
       margin-top: auto;
-    }
-  }
-
-  .name {
-    font-family: DIN Pro;
-    font-style: normal;
-    font-weight: 0;
-    font-size: 15px;
-    line-height: 18px;
-    color: #1A1919;
-    display: block;
-    text-align: left;
-    margin-bottom: 8px;
-    @media(max-width: 767px) {
-      height: 34px;
-      overflow: hidden;
-      font-size: 13px;
-      line-height: 16px;
     }
   }
 
@@ -506,166 +369,6 @@ $color-white: color(white);
     justify-content: space-between;
     text-align: right;
     margin-top: 20px;
-  }
-
-  .add-to-cart {
-    padding: 8px 10px;
-    border-radius: 4px;
-    width: 50%;
-    display: inline-flex;
-    margin-top: auto;
-    margin-left: auto;
-    min-width: auto;
-    font-weight: bold;
-  }
-
-  .product-price-block {
-    display: flex;
-    align-items: flex-start;
-    justify-content: flex-start;
-    width: 100%;
-    @media (max-width: 767px) {
-      flex-direction: column;
-      .price-sale {
-        margin-left: 0;
-        margin-top: 5px;
-      }
-    }
-  }
-
-  &-is-not-available {
-    width: 100%;
-    font-family: DIN Pro;
-    font-style: normal;
-    font-weight: 600;
-    font-size: 14px;
-    line-height: 16px;
-    color: #000000;
-    cursor: pointer;
-    padding: 12px 0;
-    text-align: center;
-    margin-top: auto;
-  }
-
-  &-on-credit {
-    font-family: DIN Pro;
-    font-style: normal;
-    font-weight: bold;
-    font-size: 14px;
-    line-height: 15px;
-    display: flex;
-    align-items: center;
-    color: #1A1919;
-    border-bottom: 1px dashed #1A1919;
-    box-sizing: border-box;
-    padding-bottom: 3px;
-    cursor: pointer;
-  }
-
-  .add-to-cart {
-    font-family: DIN Pro;
-    font-style: normal;
-    font-weight: 600;
-    font-size: 15px;
-    line-height: 16px;
-    display: flex;
-    align-items: center;
-    color: #FFFFFF;
-    flex: none;
-    order: 0;
-    align-self: center;
-
-    &-text {
-      display: block;
-    }
-  }
-
-  &-card-bottom-options {
-    @media (max-width: 767px) {
-      width: auto;
-    }
-    @media (min-width: 768px) {
-      padding-left: 104px;
-      width: calc(100% + 22px);
-    }
-
-    box-sizing: border-box;
-    justify-content: space-between;
-    text-align: right;
-    margin-top: auto;
-    display: flex;
-    align-items: center;
-    position: relative;
-
-    .add-to-cart {
-      min-width: 111px;
-      height: 32px;
-      @media (max-width: 767px) {
-        min-width: 50px;
-        max-width: 50px;
-      }
-    }
-
-    .add-to-wishlist {
-      position: absolute;
-      left: 28px;
-
-      & > div {
-        padding-top: 0;
-      }
-    }
-  }
-}
-
-.price {
-  &-discount {
-    font-family: DIN Pro;
-    font-style: normal;
-    font-weight: 400;
-    font-size: 11px;
-    line-height: 16px;
-    text-transform: uppercase;
-    color: #FFFFFF;
-    background: #EE2C39;
-    border-radius: 30px;
-    padding: 0 3px;
-    @media (max-width: 991px) {
-      margin-left: -10px;
-      margin-top: -22px;
-    }
-  }
-
-  &-original {
-    font-family: DIN Pro;
-    font-style: normal;
-    font-weight: 400;
-    font-size: 13px;
-    line-height: 16px;
-    text-decoration-line: line-through;
-    color: #5F5E5E;
-    margin-right: 4px;
-  }
-  &-special {
-    font-weight: 700;
-    font-family: DIN Pro;
-    font-style: normal;
-    font-size: 18px;
-    line-height: 20px;
-    color: #1A1919;
-  }
-  &-by-promo-code {
-    font-family: DIN Pro;
-    font-style: normal;
-    font-weight: 400;
-    font-size: 13px;
-    line-height: 13px;
-    display: flex;
-    align-items: center;
-    color: #1A1919;
-    border-bottom: 1px dashed #1A1919;
-    box-sizing: border-box;
-    padding-bottom: 3px;
-    margin-bottom: -8px;
   }
 }
 

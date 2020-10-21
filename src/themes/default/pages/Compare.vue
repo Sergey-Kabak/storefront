@@ -663,14 +663,18 @@ $screen-l: 1170px;
 .collection-product {
   @media (max-width: 767px) {
     padding-top: 16px;
-    //min-height: 305px;
   }
   min-height: 205px;
-  //border-radius: none;
   flex: 1;
 }
 
 .collection-product.small {
+  ::v-deep .name{
+    height: 34px;
+    overflow: hidden;
+    font-size: 13px;
+    line-height: 16px;
+  }
   @media (max-width: 767px) {
     background-color: #fff;
     .product-price-block {
