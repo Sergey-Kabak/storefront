@@ -48,6 +48,10 @@ export default {
     product: {
       type: Object,
       required: true
+    },
+    onlyImage: {
+      type: Boolean,
+      default: false
     }
   },
   computed: {

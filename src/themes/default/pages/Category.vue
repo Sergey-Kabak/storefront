@@ -110,9 +110,9 @@
             <p>{{ $t('Please change Your search criteria and try again. If still not finding anything relevant, please visit the Home page and try out some of our bestsellers!') }}</p>
           </div>
           <lazy-hydrate :trigger-hydration="!loading" v-if="isLazyHydrateEnabled">
-            <product-listing :products="getCategoryProducts" />
+            <product-listing :isShowCompareAndFavorite="false" :products="getCategoryProducts" />
           </lazy-hydrate>
-          <product-listing v-else :products="getCategoryProducts" />
+          <product-listing :isShowCompareAndFavorite="false" v-else :products="getCategoryProducts" />
         </div>
       </div>
     </div>
@@ -138,7 +138,7 @@ import { currentStoreView } from '@vue-storefront/core/lib/multistore';
 import { htmlDecode } from '@vue-storefront/core/filters';
 import CountDown from "../components/core/CountDown";
 
-const THEME_PAGE_SIZE = 50
+const THEME_PAGE_SIZE = 32
 const composeInitialPageState = async (store, route, forceLoad = false) => {
   try {
     const filters = getSearchOptionsFromRouteParams(route.params)

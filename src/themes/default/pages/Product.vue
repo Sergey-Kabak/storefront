@@ -97,16 +97,6 @@
                         @change="changeFilter"
                       />
                     </div>
-                    <div :class="option.attribute_code" v-else>
-                      <generic-selector
-                        class="mr10 mb10"
-                        v-for="filter in getAvailableFilters[option.attribute_code]"
-                        :key="filter.id"
-                        :variant="filter"
-                        :selected-filters="getSelectedFilters"
-                        @change="changeFilter"
-                      />
-                    </div>
                   </div>
                 </div>
               </div>
@@ -135,12 +125,11 @@
                 @error="handleQuantityError"
             />
             <div
-                v-if="getCurrentProduct && ((getCurrentProduct.stock && getCurrentProduct.stock.is_in_stock) && (getCurrentProduct.price_incl_tax || getCurrentProduct.original_price_incl_tax))"
+                v-if="getCurrentProduct.stock.is_in_stock"
                 class="row m0"
             >
               <add-to-cart
                 :product="getCurrentProduct"
-                :disabled="isAddToCartDisabled && !preorder"
                 class="col-xs-12 col-sm-4 col-md-6">
                 <template v-if="preorder" v-slot:text>{{$t('pre order')}}</template>
               </add-to-cart>
@@ -262,6 +251,7 @@ import {
 import { catalogHooksExecutors } from '@vue-storefront/core/modules/catalog-next/hooks';
 import ProductPrice from 'theme/components/core/ProductPrice.vue';
 import Promo from "../components/core/blocks/Product/Promo";
+import { filterChangedProduct } from '@vue-storefront/core/modules/catalog/events'
 
 export default {
   components: {
@@ -382,11 +372,6 @@ export default {
       return config && config.customSeller
     }
   },
-  beforeMount () {
-    this.$bus.$on('product-after-configure', (data) => {
-      this.getQuantity()
-    });
-  },
   async mounted () {
     await this.$store.dispatch('recently-viewed/addItem', this.getCurrentProduct);
     this.setDataLayer();
@@ -483,12 +468,11 @@ export default {
         action1: { label: this.$t('OK') }
       })
     },
-    changeFilter (variant) {
-      this.$bus.$emit(
-        'filter-changed-product',
-        Object.assign({ attribute_code: variant.type }, variant)
-      )
-      //this.getQuantity();
+    async changeFilter (variant) {
+      const selectedConfiguration = Object.assign({ attribute_code: variant.type }, variant)
+      await filterChangedProduct(selectedConfiguration, this.$store, this.$router)
+      this.$bus.$emit( 'filter-changed-product', Object.assign({ attribute_code: variant.type }, variant))
+      this.getQuantity();
     },
     isOptionAvailable (option) { // check if the option is available
       const currentConfig = Object.assign({}, this.getCurrentProductConfiguration)
