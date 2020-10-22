@@ -106,7 +106,8 @@
     "port": 8080
   },
   "api": {
-    "url": "https://ringoo.ua"
+    "url": "https://ringoo.ua",
+    "saveBandwidthOverCache": true
   },
   "liqpay": {
     "public_key": "i32012277522",
@@ -319,15 +320,60 @@
     },
     "productList": {
       "sort": "updated_at:desc",
-      "includeFields": null,
+      "includeFields": [
+        "marketplace",
+        "rma",
+        "configurable_children.attributes",
+        "configurable_children.id",
+        "configurable_children.color",
+        "configurable_children.original_price",
+        "configurable_children.price",
+        "configurable_children.price_incl_tax",
+        "configurable_children.sku",
+        "configurable_children.special_price",
+        "id",
+        "name",
+        "original_price",
+        "price",
+        "product_links",
+        "stock.is_in_stock",
+        "special_price",
+        "special_to_date",
+        "special_from_date",
+        "status",
+        "type_id",
+        "url_path",
+        "url_key",
+        "*image",
+        "*sku",
+        "*small_image"
+      ],
       "excludeFields": [
         "attribute_set_id",
+        "configurable_options",
         "description",
         "sgn",
         "*.sgn",
         "msrp_display_actual_price_type",
         "*.msrp_display_actual_price_type",
-        "media_gallery"
+        "required_options",
+        "media_gallery",
+        "stock.use_config_min_qty",
+        "stock.use_config_notify_stock_qty",
+        "stock.stock_id",
+        "stock.use_config_backorders",
+        "stock.use_config_enable_qty_inc",
+        "stock.enable_qty_increments",
+        "stock.use_config_manage_stock",
+        "stock.use_config_min_sale_qty",
+        "stock.notify_stock_qty",
+        "stock.use_config_max_sale_qty",
+        "stock.use_config_max_sale_qty",
+        "stock.qty_increments",
+        "stock.stock_status_changed_auto",
+        "stock.show_default_notification_message",
+        "stock.use_config_qty_increments",
+        "stock.is_decimal_divided"
       ]
     },
     "productListWithChildren": {
@@ -631,9 +677,7 @@
       "height": 300
     },
     "filterAggregationSize": {
-      "default": 10,
-      "size": 10,
-      "color": 10
+      "default": 100
     },
     "priceFilterKey": "final_price",
     "priceFilters": {
@@ -672,7 +716,11 @@
       "syncTasks": "LOCALSTORAGE",
       "ordersHistory": "LOCALSTORAGE",
       "checkout": "LOCALSTORAGE"
-    }
+    },
+    "preserveCollections": [
+      "cart",
+      "user"
+    ]
   },
   "reviews": {
     "create_endpoint": "/api/review/create"
@@ -688,7 +736,9 @@
     "login_endpoint": "/api/user/login",
     "create_endpoint": "/api/user/create",
     "me_endpoint": "/api/user/me?token={{token}}",
-    "refresh_endpoint": "/api/user/refresh"
+    "refresh_endpoint": "/api/user/refresh",
+    "allowModification": ["firstname", "lastname", "email", "addresses"],
+    "tokenInHeader": false
   },
   "stock": {
     "synchronize": true,
@@ -931,7 +981,7 @@
       "slug": "men-11",
       "url_path": "apple",
       "title": "Apple",
-      "description": "iPhone Xs, iPhone 11, iPhone SE",
+      "description": "MacBook, iPhone 12, Apple Watch 6, iPhone SE 2020, iPad",
       "image": "https://info.ringoo.ua/images/mag/apple.png"
     },
     {
