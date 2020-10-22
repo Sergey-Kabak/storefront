@@ -42,7 +42,7 @@ export const Payment = {
       totals: 'cart/getTotals',
       getBanks: 'themeCredit/getBanks'
     }),
-    productsInCart () {
+    productsInCart (): Product[] {
       return this.$store.state.cart.cartItems
     },
   },

@@ -23,6 +23,7 @@
       </div>
       <div class="payment-methods">
         <div class="payment-card" v-for="(method, index) in paymentMethods" :key="index" v-if="isShowPaymentMethod(method)">
+
           <label class="radioStyled">
             <div class="radio-input-row">
               <input
@@ -43,7 +44,6 @@
                 только при самовывозе
               </div>
             </div>
-
             <div v-if="method.code === 'credit' && payment.paymentMethod === 'credit'" class="credit-block-wrapper">
               <div class="credit-block">
                 <div class="block-title">Кредитное предложение</div>
@@ -408,7 +408,7 @@ export default {
   },
   methods: {
     isShowPaymentMethod (method) {
-      return this.assoc[this.type].includes(method.code)
+      return this.assoc[this.type].includes(method.code) && !this.productsHasPreorder(method)
     },
     onPaymentMethodChange () {
       this.$v.payment.paymentMethod.$touch()
@@ -417,6 +417,9 @@ export default {
     },
     placeOrder () {
       this.$bus.$emit('checkout-before-placeOrder')
+    },
+    productsHasPreorder (method) {
+      return this.productsInCart.some(it => !!it.preorder) && method.code === 'liqpaymagento_liqpay'
     }
   }
 }
@@ -499,17 +502,19 @@ export default {
       margin-right: 16px;
     }
   }
-  .credit-block{
+  .credit-block {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     width: 100%;
-    &-wrapper{
+
+    &-wrapper {
       width: 100%;
       padding: 16px 16px 0;
       cursor: default;
     }
-    .block-title{
+
+    .block-title {
       font-family: DIN Pro;
       font-style: normal;
       font-weight: 700;
@@ -520,123 +525,133 @@ export default {
       margin-bottom: 16px;
       text-align: left;
     }
-    .form-label{
+
+    .form-label {
       text-align: left;
     }
-    form{
+
+    form {
       width: 100%;
       display: flex;
       flex-direction: column;
-      .form-row{
+
+      .form-row {
         display: grid;
         grid-template-columns: 1fr 1fr;
         grid-gap: 20px;
         margin: 0;
       }
     }
-  }
-  .summary-price {
-    display: flex;
-    justify-content: space-between;
-    font-family: DIN Pro;
-    font-style: normal;
-    font-weight: 600;
-    font-size: 24px;
-    line-height: 30px;
-    color: #1a1919;
-  }
 
-  .payment-methods {
-    display: grid;
-    grid-template-columns: 1fr;
-    grid-gap: 20px;
-    margin-bottom: 30px;
-  }
-
-  .payment-card {
-    box-sizing: border-box;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-
-  .button-pay {
-    max-width: 131px;
-  }
-
-  .label {
-    display: flex;
-    align-items: center;
-    color: #5F5E5E;
-    font-family: DIN Pro;
-    font-style: normal;
-    font-size: 13px;
-    line-height: 16px;
-    margin-bottom: 12px;
-
-    &--highlighted {
-      color: #23BE20;
-    }
-  }
-
-  @media (max-width: 960px) {
-    .subtitle {
-      &.disabled {
-        display: none;
-      }
+    .radioStyled.disabled {
+      opacity: 0.55;
     }
 
     .summary-price {
-      margin-bottom: 24px;
-    }
-
-    .promo-code {
-      margin-bottom: 24px;
+      display: flex;
+      justify-content: space-between;
+      font-family: DIN Pro;
+      font-style: normal;
+      font-weight: 600;
+      font-size: 24px;
+      line-height: 30px;
+      color: #1a1919;
     }
 
     .payment-methods {
-      grid-template-columns: 1fr 1fr;
-      margin-bottom: 0;
+      display: grid;
+      grid-template-columns: 1fr;
+      grid-gap: 20px;
+      margin-bottom: 30px;
     }
 
-    .mobile-data {
-      display: block;
-    }
-
-    .payment-body {
-      padding-bottom: 16px;
-      border-bottom: 1px solid #E0E0E0;
-      margin-bottom: 16px;
+    .payment-card {
+      box-sizing: border-box;
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
 
     .button-pay {
       max-width: 131px;
-      margin-bottom: 16px;
-    }
-  }
-
-  @media (max-width: 460px) {
-
-    .payment-methods {
-      grid-template-columns: 1fr;
     }
 
-    #checkout {
-      .radioStyled {
-        flex-direction: column !important;
-        justify-content: center;
-        padding: 12px 20px;
-        .checkmark {
-          margin-bottom: 0;
-          margin-right: 20px;
-        }
+    .label {
+      display: flex;
+      align-items: center;
+      color: #5F5E5E;
+      font-family: DIN Pro;
+      font-style: normal;
+      font-size: 13px;
+      line-height: 16px;
+      margin-bottom: 12px;
+
+      &--highlighted {
+        color: #23BE20;
       }
     }
 
-    .button-pay ::v-deep {
-      max-width: 100%;
-      button {
+    @media (max-width: 960px) {
+      .subtitle {
+        &.disabled {
+          display: none;
+        }
+      }
+
+      .summary-price {
+        margin-bottom: 24px;
+      }
+
+      .promo-code {
+        margin-bottom: 24px;
+      }
+
+      .payment-methods {
+        grid-template-columns: 1fr 1fr;
+        margin-bottom: 0;
+      }
+
+      .mobile-data {
+        display: block;
+      }
+
+      .payment-body {
+        padding-bottom: 16px;
+        border-bottom: 1px solid #E0E0E0;
+        margin-bottom: 16px;
+      }
+
+      .button-pay {
+        max-width: 131px;
+        margin-bottom: 16px;
+      }
+    }
+
+    @media (max-width: 460px) {
+
+      .payment-methods {
+        grid-template-columns: 1fr;
+      }
+
+      #checkout {
+        .radioStyled {
+          flex-direction: column !important;
+          justify-content: center;
+          padding: 12px 20px;
+
+          .checkmark {
+            margin-bottom: 0;
+            margin-right: 20px;
+          }
+        }
+      }
+
+      .button-pay ::v-deep {
         max-width: 100%;
+
+        button {
+          max-width: 100%;
+        }
       }
     }
   }

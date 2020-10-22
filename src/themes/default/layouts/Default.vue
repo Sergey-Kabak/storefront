@@ -41,6 +41,12 @@
           :is-open="isWishlistOpen"
           @close="$store.commit('ui/setWishlist')"
       />
+      <async-sidebar
+        :async-component="CompareSidebar"
+        :is-open="isCompareOpen"
+        @close="isCompareOpen = false"
+      />
+
       <slot/>
       <main-footer/>
       <notification/>
@@ -85,6 +91,7 @@ const CustomCityPickerModal = () => import(/* webpackChunkName: "vsf-custom-city
 const CustomSellerProduct = () => import(/* webpackChunkName: "vsf-custom-city-picker-modal" */ 'theme/components/core/blocks/CustomSellerProduct/CustomSellerProduct.vue');
 const Consultation = () => import(/* webpackChunkName: "vsf-custom-city-picker-modal" */ 'theme/components/core/blocks/Consultation/Consultation.vue');
 const CreditModal = () => import('theme/components/core/blocks/CreditModal.vue')
+const CompareSidebar = () => import(/* webpackChunkName: "vsf-sidebar-menu" */ 'theme/components/core/blocks/Compare/CompareSidebar.vue');
 
 export default {
   data() {
@@ -95,7 +102,8 @@ export default {
       Wishlist,
       SearchPanel,
       SidebarMenu,
-      Consultation
+      Consultation,
+      CompareSidebar
     };
   },
   computed: {
@@ -106,7 +114,8 @@ export default {
       isSidebarCategoriesOpen: state => state.ui.sidebar_categories,
       isMicrocartOpen: state => state.ui.microcart,
       isWishlistOpen: state => state.ui.wishlist,
-      isConsultationOpen: state => state.ui.consultation
+      isConsultationOpen: state => state.ui.consultation,
+      isCompareOpen: state => state.ui.compare_sidebar
     })
   },
   methods: {

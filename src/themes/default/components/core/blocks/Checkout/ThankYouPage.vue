@@ -4,7 +4,7 @@
       <h3 v-if="OnlineOnly" class="thank-you-title">
         {{ $t('Thank!') }}
         {{ $t('Your order') }} <span v-if="OnlineOnly && lastOrderConfirmation.orderNumber">№{{ lastOrderConfirmation.orderNumber }}</span>
-        {{ $t('already going )') }}
+        {{ productsHasPreorder ? '' : $t('already going )') }}
       </h3>
       <p class="thank-you-description">{{ $t('In the near future we will call you back to clarify the details. Have a nice day!)') }}</p>
       <button-filled-small
@@ -51,20 +51,13 @@
             <div class="product-right">
               <div class="prices">
                 <span class="price-special">
-                  {{ product.original_price_incl_tax | price(storeView) }}
+                  {{ finalPrice(product) | price(storeView) }}
                 </span>
               </div>
             </div>
           </li>
           <li class="product-price">
-            <div class="price-left">
-              <span class="price-title">
-                {{ $t('Grand total') }}:
-              </span>
-            </div>
-            <div class="price-right">
-              <span class="price-total"> {{ totalPrice | price(storeView) }} </span>
-            </div>
+           <total-price />
           </li>
         </ul>
       </div>
@@ -81,12 +74,13 @@ import GoogleMap from 'src/modules/google-map/google-map';
 import VueOfflineMixin from 'vue-offline/mixin';
 import { EmailForm } from '@vue-storefront/core/modules/mailer/components/EmailForm';
 import config from 'config';
-import { mapState } from 'vuex';
+import { mapState, mapGetters } from 'vuex';
 import { registerModule } from '@vue-storefront/core/lib/modules';
 import { MailerModule } from '@vue-storefront/core/modules/mailer';
 import { getThumbnailForProduct } from '@vue-storefront/core/modules/cart/helpers';
 import ProductImage from 'theme/components/core/ProductImage';
 import { currentStoreView } from '@vue-storefront/core/lib/multistore';
+import TotalPrice from 'theme/components/core/TotalPrice';
 
 export default {
   name: 'ThankYouPage',
@@ -95,7 +89,8 @@ export default {
     Breadcrumbs,
     GoogleMap,
     ProductImage,
-    ButtonFilledSmall
+    ButtonFilledSmall,
+    TotalPrice
   },
   mixins: [Composite, VueOfflineMixin, EmailForm],
   beforeCreate () {
@@ -114,6 +109,9 @@ export default {
     ...mapState({
       shippingType: state => state.customShipping.type
     }),
+    productsHasPreorder () {
+      return this.products.some(it => !!it.preorder);
+    },
     lastOrderConfirmation () {
       return this.$store.state.order.last_order_confirmation ? this.$store.state.order.last_order_confirmation.confirmation : {}
     },
@@ -142,12 +140,15 @@ export default {
     },
     storeView () {
       return currentStoreView();
-    },
-    totalPrice () {
-      return this.products.reduce((acc, it) => acc + it.original_price_incl_tax * it.qty, 0)
     }
   },
+  mounted: function() {
+    this.initAdmitad()
+  },
   methods: {
+    finalPrice (product) {
+      return product.original_special_price || product.original_price_incl_tax
+    },
     onSuccess (message) {
       this.$store.dispatch('notification/spawnNotification', {
         type: 'success',
@@ -182,6 +183,33 @@ export default {
     thumbnail (product) {
       return getThumbnailForProduct(product)
     },
+    initAdmitad() {
+      ADMITAD = window.ADMITAD || {};
+      ADMITAD.Invoice = ADMITAD.Invoice || {};
+      ADMITAD.Invoice.broker = 'adm';
+      ADMITAD.Invoice.category = '1';
+
+      const orderedItem = [];
+      this.products.map(it => {
+        orderedItem.push({
+          Product: {
+            productID: it.id,
+            category: '1',
+            price: it.original_special_price || it.original_price,
+            priceCurrency: 'UAH',
+          },
+          orderQuantity: it.qty,
+          additionalType: 'sale'
+        });
+      })
+      ADMITAD.Invoice.referencesOrder = ADMITAD.Invoice.referencesOrder || [];
+
+      ADMITAD.Invoice.referencesOrder.push({
+        orderNumber: this.lastOrderConfirmation.orderNumber,
+        orderedItem: orderedItem
+      });
+      ADMITAD.Tracking.processPositions();
+    }
   },
   destroyed () {
     this.$store.dispatch('checkout/setThankYouPage', false)
@@ -367,6 +395,21 @@ export default {
   .product-item-row ::v-deep {
     .product-image__thumb {
       height: auto!important
+    }
+  }
+
+  .total-prices {
+    width: 100%;
+  }
+
+  ::v-deep {
+    .total-price {
+      display: flex;
+      justify-content: space-between;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
     }
   }
 

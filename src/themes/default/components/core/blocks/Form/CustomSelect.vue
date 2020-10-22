@@ -49,9 +49,9 @@ export default {
     handleValue (option) {
       this.selected = option;
       this.open = false;
-      this.$emit('input', +option.terms )
+      this.$emit('bankProduct', option)
     },
-    clickOutOfBlock(){
+    clickOutOfBlock () {
       let _this = this
       document.addEventListener('click', function(e) {
         let isBlock = false

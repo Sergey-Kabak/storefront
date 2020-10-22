@@ -6,6 +6,7 @@ export const uiStore = {
     sidebar_category_active: null,
     microcart: false,
     wishlist: false,
+    compare_sidebar: false,
     searchpanel: false,
     consultation: false,
     newsletterPopup: false,
@@ -60,6 +61,10 @@ export const uiStore = {
     },
     setSearchpanel (state, action) {
       state.searchpanel = action === true
+      state.overlay = action === true
+    },
+    setCompareSidebar (state, action) {
+      state.compare_sidebar = action === true
       state.overlay = action === true
     },
     setWishlist (state, action) {

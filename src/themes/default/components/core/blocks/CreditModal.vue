@@ -6,38 +6,44 @@
     <div slot="content" class="modal-credits_content">
 
       <div class="credit-card-block__row desctop_header head flex">
-          <div>{{ $t('Suggestion') }}</div>
-          <div>{{ $t('The first installment') }}, ₴</div>
-          <div>{{ $t('Number of payments') }}</div>
-          <div>{{ $t('Monthly payment') }}</div>
+        <div>{{ $t('Suggestion') }}</div>
+        <div>{{ $t('The first installment') }}, ₴</div>
+        <div>{{ $t('Number of payments') }}</div>
+        <div>{{ $t('Monthly payment') }}</div>
       </div>
-
       <div class="credit-card-block__wrap">
-         <div v-for="(bank , index) in banks" :key="index" class="credit-card-block__row flex h-center" :class="{'active' : selectedBank === index}">
-            <div class="credit-card-block__radio-wrap flex v-center">
-              <div class="flex v-center">
-                <base-radiobutton :id="'bank' + index" name="bank" @change="setSelectedBank(index)" :checked="selectedBank === index">{{bank.name}}</base-radiobutton>
-                <img :src="'assets/banks/' + bank.icon" alt="">
-              </div>
+        <div v-for="(bank , index) in banks" :key="index" class="credit-card-block__row flex h-center"
+             :class="{'active' : selectedBank === index}">
+          <div class="credit-card-block__radio-wrap flex v-center">
+            <div class="flex v-center">
+              <base-radiobutton
+                :id="'bank' + index" name="bank" @change="setSelectedBank(index)"
+                :checked="selectedBank === index">{{ bank.name }}
+              </base-radiobutton>
+              <img :src="'assets/banks/' + bank.icon" alt="">
             </div>
-            <div v-show="bank.first_installment">
-              <input
-                type="number"
-                v-if="index === selectedBank"
-                :value="bank.first_installment"
-                @blur="changeFirstInstallment($event, index)"
-              >
-              <span v-show="index !== selectedBank">
-                {{ bank.first_installment }}
-              </span>
-            </div>
-            <div>
-              <custom-select :selected-index="1"
-                             :options="bank.credits" v-on:input="selectedPaymentCount($event, bank.icon)"/>
-            </div>
-            <div>
-              <b>{{ bank.monthly_payment }} ₴</b>
-            </div>
+          </div>
+          <div v-show="bank.first_installment">
+<!--            <input-->
+<!--              type="number"-->
+<!--              v-if="index === selectedBank"-->
+<!--              :value="bank.first_installment"-->
+<!--              @blur="changeFirstInstallment($event, index)"-->
+<!--            >-->
+            <span v-show="index !== selectedBank">
+<!--              {{ bank.first_installment }}-->
+              {{ MounthlyPayment(selectedPositions[index], bank.credits.find(it => it.terms == selectedPositions[index])) }} ₴
+            </span>
+          </div>
+          <div>
+            <custom-select
+              :selected-index="0"
+              :options="bank.credits"
+              @bankProduct="selectedPaymentCount($event, index, bank)"/>
+          </div>
+          <div>
+            <b>{{ MounthlyPayment(selectedPositions[index], bank.credits.find(it => it.terms == selectedPositions[index])) }} ₴</b>
+          </div>
         </div>
 
       </div>
@@ -62,15 +68,15 @@
 </template>
 
 <script>
-import BaseRadiobutton     from 'theme/components/core/blocks/Form/BaseRadiobutton'
-import BaseInputNumber     from 'theme/components/core/blocks/Form/BaseInputNumber'
-import CustomSelect        from 'theme/components/core/blocks/Form/CustomSelect'
-import ButtonActive        from 'theme/components/core/blocks/Product/ButtonActive'
-import Modal               from 'theme/components/core/Modal.vue'
-import { mapGetters }      from 'vuex'
-import config              from 'config'
-import {localizedRoute} from "@vue-storefront/core/lib/multistore";
-import {CREDIT_SET_BANKS, CREDIT_SET_SELECTED_BANK} from "../../../store/credit/mutation-types";
+import BaseRadiobutton from 'theme/components/core/blocks/Form/BaseRadiobutton'
+import BaseInputNumber from 'theme/components/core/blocks/Form/BaseInputNumber'
+import CustomSelect from 'theme/components/core/blocks/Form/CustomSelect'
+import ButtonActive from 'theme/components/core/blocks/Product/ButtonActive'
+import Modal from 'theme/components/core/Modal.vue'
+import { mapGetters } from 'vuex'
+import config from 'config'
+import { localizedRoute } from '@vue-storefront/core/lib/multistore'
+import { CREDIT_SET_BANKS, CREDIT_SET_SELECTED_BANK } from '../../../store/credit/mutation-types'
 
 export default {
   components: {
@@ -84,114 +90,92 @@ export default {
     return {
       loading: false,
       selectedBank: 0,
-      installment: 0,
-      banks: []
+      banks: [],
+      selectedPositions: {}
     }
-  },
-  mounted () {
-    this.initBanks()
   },
   computed: {
     ...mapGetters({
-      totals: 'cart/getTotals',
-      getBanks: 'themeCredit/getBanks'
-    }),
-    totalPrice () {
-      return this.totals.find(it => it.code === 'grand_total').value
-    }
+      getBanks: 'themeCredit/getBanks',
+      getCurrentProduct: 'product/getCurrentProduct'
+    })
+  },
+  created () {
+    this.getBanks.forEach(el => this.banks.push(el))
+    this.banks.map(el => { el['monthly_payment'] = parseInt(this.getCurrentProduct.price / +el.credits[0].terms) })
   },
   methods: {
-    setSelectedBank(index) {
-      this.selectedBank = index;
-      this.saveBanks();
-    },
-    close() {
-      this.saveBanks();
+    close () {
       this.$bus.$emit('modal-close', 'modal-credits');
-      this.$router.push(localizedRoute('/checkout'));
+      this.$router.push(localizedRoute('/categories'));
     },
-    initBanks() {
-
-      let banks = config.credit.banks;
-
-      if (!banks.find(it => it.icon === config.credit.bank_standart.icon)) {
-        banks.unshift(config.credit.bank_standart);
+    // saveBanks () {
+    //   // Save banks to store
+    //   //this.$store.dispatch('themeCredit/creditSetBanks', { banks: this.banks });
+    //   this.$store.dispatch('themeCredit/creditSetSelectedBank', { bank_index: this.selectedBank });
+    // },
+    // calculateBanks (installment = true) {
+    //   this.banks.map((bank) => {
+    //     if (installment) {
+    //       bank.first_installment = this.monthlyPayment(bank);
+    //     }
+    //     // Do calculate new monthly payment
+    //     let new_monthly_payment = 0;
+    //     let total_minus_installment = this.totalPrice - bank.first_installment;
+    //     if (total_minus_installment > 0) {
+    //       new_monthly_payment = total_minus_installment / (+bank.terms - 1);
+    //     }
+    //     bank.monthly_payment = Math.ceil(new_monthly_payment);
+    //     return bank;
+    //   });
+    //   this.saveBanks();
+    // },
+  //   changeFirstInstallment (event, bank_index) {
+  //     let installment = false;
+  //     let value = Number(event.target.value);
+  //     if (value > this.totalPrice || value < this.banks[bank_index].monthly_payment || this.banks[bank_index].number_of_payments === 1) {
+  //       installment = true;
+  //     }
+  //     this.banks[bank_index].first_installment = value;
+  //     this.calculateBanks(installment);
+  //   },
+  //   monthlyPayment (bank) {
+  //     return Math.ceil(this.totalPrice / +bank.terms)
+  //   },
+    MounthlyPayment (terms , options) {
+      console.log(options)
+      if (options && options.percentage){
+        let priceWithoutTax = this.getCurrentProduct.price / +terms
+        return parseInt(priceWithoutTax + (priceWithoutTax * (+options.percentage / 100) ));
+      } else {
+        return 0
       }
-
-      this.banks = this.getBanks;
-      console.log(this.banks);
-
-      this.calculateBanks();
     },
-    saveBanks() {
-      // Save banks to store
-      //this.$store.dispatch('themeCredit/creditSetBanks', { banks: this.banks });
-      this.$store.dispatch('themeCredit/creditSetSelectedBank', { bank_index: this.selectedBank });
+    selectedPaymentCount (value, index, bank) {
+      console.log(value, bank)
+      console.log(value);
+      this.$set(this.selectedPositions , index , value.terms)
+      // this.banks = this.banks.map((bank) => {
+      //   if (bank.icon === icon) {
+      //     bank.number_of_payments = value;
+      //   }
+      //   return bank;
+      // });
+      // this.calculateBanks();
     },
-    calculateBanks(installment = true) {
-
-      this.banks.map((bank) => {
-
-        if (installment) {
-          bank.first_installment = this.monthlyPayment(bank);
-        }
-
-        // Do calculate new monthly payment
-        let new_monthly_payment = 0;
-        let total_minus_installment = this.totalPrice - bank.first_installment;
-
-        if (total_minus_installment > 0) {
-          new_monthly_payment = total_minus_installment / (+bank.terms - 1);
-        }
-
-        bank.monthly_payment = Math.ceil(new_monthly_payment);
-
-        return bank;
-
-      });
-
-      this.saveBanks();
-    },
-    changeFirstInstallment(event, bank_index) {
-
-      let installment = false;
-      let value = Number(event.target.value);
-
-      if (value > this.totalPrice || value < this.banks[bank_index].monthly_payment || this.banks[bank_index].number_of_payments === 1) {
-        installment = true;
-      }
-
-      this.banks[bank_index].first_installment = value;
-      this.calculateBanks(installment);
-    },
-    monthlyPayment(bank) {
-      return Math.ceil(this.totalPrice / +bank.terms)
-    },
-    selectedPaymentCount(value, icon) {
-
-      this.banks = this.banks.map((bank) => {
-        if (bank.icon === icon) {
-          bank.number_of_payments = value;
-        }
-
-        return bank;
-      });
-
-      this.calculateBanks();
+    setSelectedBank (index) {
+      this.selectedBank = index
     }
-  },
-  beforeDestroy(){
-    this.banks = [];
   },
   watch: {
-    totalPrice: function() {
-      this.calculateBanks();
-    },
-    getBanks: function (val) {
-      console.log(val)
-      this.banks = val
+    getBanks: function (banks) {
+      banks.map((bank, index) => { this.selectedPositions[index] = bank.credits[0].terms });
+      console.log(banks)
     }
   }
+  // beforeDestroy () {
+  //   this.banks = [];
+  // },
 }
 </script>
 

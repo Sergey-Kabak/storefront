@@ -28,7 +28,6 @@ const actions: ActionTree<OrderState, RootState> = {
     const isAlreadyProcessed = getters.getSessionOrderHashes.includes(currentOrderHash)
 
     if (isAlreadyProcessed) return
-    dispatch('cart/connect', { guestCart: true }, { root: true })
     commit(types.ORDER_ADD_SESSION_STAMPS, newOrder)
     commit(types.ORDER_ADD_SESSION_ORDER_HASH, currentOrderHash)
     const preparedOrder = prepareOrder(optimizedOrder)

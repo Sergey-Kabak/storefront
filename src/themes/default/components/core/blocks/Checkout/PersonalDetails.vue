@@ -71,8 +71,9 @@
       <div class="personal-details-row">
         <base-input
           class="custom-input"
-          type="text"
+          type="tel"
           name="phone-number"
+          v-mask="'+38(###)###-##-##'"
           @blur="$v.personalDetails.phoneNumber.$touch()"
           :placeholder="$t('Phone Number')"
           v-model.trim="personalDetails.phoneNumber"
@@ -143,6 +144,7 @@ import ButtonSmall from 'theme/components/theme/ButtonFilledSmall';
 import BaseCheckbox from 'theme/components/core/blocks/Form/BaseCheckbox';
 import BaseInput from 'theme/components/core/blocks/Form/BaseInput';
 import Tooltip from 'theme/components/core/Tooltip';
+import { mask } from 'vue-the-mask'
 
 const lettersOnly = value => (
   /^[\u0400-\u04FF]+$/.test(value) ||
@@ -150,12 +152,19 @@ const lettersOnly = value => (
     value === ""
 );
 
+const isPhone = value => (
+  /\+38\(\d{3}\)\d{3}\-\d{2}\-\d{2}$/.test(value)
+)
+
 export default {
   components: {
     Tooltip,
     BaseCheckbox,
     BaseInput,
     ButtonSmall
+  },
+  directives: {
+    mask
   },
   mixins: [PersonalDetails],
   validations: {
@@ -176,13 +185,7 @@ export default {
       },
       phoneNumber: {
         required,
-        isPhone: (value) => {
-          console.log("value", value);
-          return (
-            /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/.test(value) ||
-            /^\+?3?8?(0\d{9})$/.test(value)
-          );
-        }
+        isPhone
       }
     },
     password: {

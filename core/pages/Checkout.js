@@ -13,6 +13,7 @@ import {
 } from '@vue-storefront/core/lib/multistore';
 import { isServer, onlineHelper } from '@vue-storefront/core/helpers';
 import { Logger } from '@vue-storefront/core/lib/logger';
+import { unmask } from 'theme/helpers';
 
 export default {
   name: 'Checkout',
@@ -55,6 +56,7 @@ export default {
     })
   },
   async beforeMount () {
+    await this.$store.dispatch('cart/pullMethods', { forceServerSync: true, syncShipping: false })
     await this.$store.dispatch('checkout/load')
     this.$bus.$emit('checkout-after-load')
     this.$store.dispatch('checkout/setModifiedAt', Date.now())
@@ -293,7 +295,7 @@ export default {
             country_id: this.payment.country,
             street: [this.payment.streetAddress, this.payment.apartmentNumber],
             company: this.payment.company,
-            telephone: this.payment.phoneNumber,
+            telephone: unmask(this.payment.phoneNumber, '+38(###)###-##-##'),
             postcode: this.payment.zipCode || '69068',
             city: this.payment.city,
             firstname: this.payment.firstName,

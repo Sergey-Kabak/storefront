@@ -15,7 +15,7 @@
         </div>
         <div class="location-left-data">
           <span class="name"> {{ locationName }} №{{ source.number || index  + 1}} </span>
-          <span class="phone">{{ source.phone || '044 234 44 54' }}</span>
+          <span class="phone">{{ source.phone || '(097) 090-87-07' }}</span>
         </div>
       </div>
       <div class="location-item-middle">
@@ -35,9 +35,9 @@
       <div class="location-item-right">
         <div class="status" v-if="type === 'shop'">
           <div class="ellipsis"></div>
-          <span>{{ source.status || $t('All products are in stock') }}</span>
+          <span>{{ $t('partial availability') }}</span>
         </div>
-        <div class="weight-limit" v-else>
+        <div class="weight-limit" v-if="type === 'new_post'">
           <div class="ellipsis"></div>
           Ограничение веса: до {{source.weightLimit}} кг
         </div>
@@ -190,11 +190,11 @@ export default {
     font-family: 'DIN Pro';
     font-size: 13px;
     line-height: 16px;
-    color: #23BE20;
+    color: #EE8128;
     margin-bottom: 16px;
 
     .ellipsis {
-      background-color: #23BE20;
+      background-color: #EE8128;
     }
   }
 }
@@ -213,6 +213,8 @@ export default {
 }
 
 .location-item-right {
+  display: flex;
+  flex-direction: column;
   max-width: 131px;
 }
 
@@ -220,6 +222,10 @@ export default {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+}
+
+.action {
+  width: 100%;
 }
 
 .weight-limit {

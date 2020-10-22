@@ -2,7 +2,7 @@
   <div class="promo-block flex w-100">
     <div class="promo-block-gift relative flex v-center">
       <img :src="getImageUrl()" alt="">
-      <div class="promo-block-gift-icon absolute flex h-center v-center">
+      <div v-if="!noGiftImage" class="promo-block-gift-icon absolute flex h-center v-center">
         <GiftSvg />
       </div>
     </div>
@@ -16,7 +16,7 @@
           :to="localizedRoute(getCatLink())"
           exact
         >
-          <button-grey class="details">
+          <button-grey v-if="!!!getCurrentProduct.preorder" class="details">
             <span>{{ $t('Details') }}</span>
           </button-grey>
         </router-link>
@@ -50,7 +50,10 @@ export default {
   computed: {
     ...mapGetters({
       getCurrentProduct: 'product/getCurrentProduct',
-    })
+    }),
+    noGiftImage () {
+      return this.labelValue === '6'
+    }
   },
   methods: {
     showDetails(){
@@ -63,7 +66,7 @@ export default {
       return config.rma[this.labelValue].title;
     },
     getEndDate() {
-      return new Date(config.rma[this.labelValue].time).getTime();
+      return new Date((config.rma[this.labelValue].time).replace(/-/g,'/')).getTime();
     },
     getCatLink() {
       return config.rma[this.labelValue].category_link;

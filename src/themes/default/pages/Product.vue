@@ -38,9 +38,9 @@
             <Promo v-if="isProductRma" :label-value="getLabelValue()" />
             <div
               class="product-in-stock hidden-xs block"
-              :class="{ 'not-available': isAddToCartDisabled }"
+              :class="productStatus.replace(/\s+/g , '')"
             >
-              {{ isAddToCartDisabled ? $t('Not available') : $t('In stock') }}
+              {{ $t(productStatus) }}
             </div>
             <h1
               class="mb20 mt0 cl-mine-shaft product-name hidden-xs block"
@@ -97,16 +97,6 @@
                         @change="changeFilter"
                       />
                     </div>
-                    <div class="sizes" v-else-if="option.label == 'Size'">
-                      <size-selector
-                        class="mr10 mb10"
-                        v-for="filter in getAvailableFilters[option.attribute_code]"
-                        :key="filter.id"
-                        :variant="filter"
-                        :selected-filters="getSelectedFilters"
-                        @change="changeFilter"
-                      />
-                    </div>
                     <div :class="option.attribute_code" v-else>
                       <generic-selector
                         class="mr10 mb10"
@@ -117,14 +107,6 @@
                         @change="changeFilter"
                       />
                     </div>
-                    <span
-                      v-if="option.label == 'Size'"
-                      @click="openSizeGuide"
-                      class="p0 ml30 inline-flex middle-xs no-underline h5 action size-guide pointer cl-secondary"
-                    >
-                      <i class="pr5 material-icons">accessibility</i>
-                      <span>{{ $t('Size guide') }}</span>
-                    </span>
                   </div>
                 </div>
               </div>
@@ -158,9 +140,11 @@
             >
               <add-to-cart
                 :product="getCurrentProduct"
-                :disabled="isAddToCartDisabled"
-                class="col-xs-12 col-sm-4 col-md-6"
-              />
+                :disabled="isAddToCartDisabled && !preorder"
+                class="col-xs-12 col-sm-4 col-md-6">
+              >
+                <template v-if="preorder" v-slot:text>{{$t('pre order')}}</template>
+              </add-to-cart>
               <button-white @click.native="showModalCredits" class="buy_in_credit h40 flex1">
                 <span v-if="!show_modal_credits_loading">В кредит 1050 ₴ / мес</span>
                 <spinner v-if="show_modal_credits_loading" containerClass="quantity-spinner" />
@@ -238,7 +222,6 @@
     <lazy-hydrate when-idle>
       <related-products type="related" />
     </lazy-hydrate>
-    <SizeGuide />
   </div>
 </template>
 
@@ -249,7 +232,6 @@ import Reviews from 'theme/components/core/blocks/Reviews/Reviews.vue';
 import AddToCart from 'theme/components/core/AddToCart.vue';
 import GenericSelector from 'theme/components/core/GenericSelector';
 import ColorSelector from 'theme/components/core/ColorSelector.vue';
-import SizeSelector from 'theme/components/core/SizeSelector.vue';
 import Breadcrumbs from 'theme/components/core/Breadcrumbs.vue';
 import ProductAttribute from 'theme/components/core/ProductAttribute.vue';
 import ProductQuantityNew from 'theme/components/core/ProductQuantityNew.vue';
@@ -260,7 +242,6 @@ import ProductGallery from 'theme/components/core/ProductGallery';
 import PromotedOffers from 'theme/components/theme/blocks/PromotedOffers/PromotedOffers';
 import focusClean from 'theme/components/theme/directives/focusClean';
 import WebShare from 'theme/components/theme/WebShare';
-import SizeGuide from 'theme/components/core/blocks/Product/SizeGuide';
 import AddToWishlist from 'theme/components/core/blocks/Wishlist/AddToWishlist';
 import AddToCompare from 'theme/components/core/blocks/Compare/AddToCompare';
 import ButtonWhite from 'theme/components/core/blocks/Product/ButtonWhite';
@@ -306,9 +287,7 @@ export default {
     PromotedOffers,
     RelatedProducts,
     Reviews,
-    SizeSelector,
     WebShare,
-    SizeGuide,
     LazyHydrate,
     ProductQuantityNew,
     ProductPrice,
@@ -343,8 +322,20 @@ export default {
       attributesByCode: 'attribute/attributeListByCode',
       getCurrentCustomOptions: 'product/getCurrentCustomOptions'
     }),
-    isProductRma() {
-      return this.getCurrentProduct.hasOwnProperty("rma")
+    productStatus () {
+      if (this.getCurrentProduct.stock.is_in_stock && !!this.getCurrentProduct.preorder) {
+        return 'pending delivery'
+      } else if (this.getCurrentProduct.stock.is_in_stock && !this.getCurrentProduct.preorder) {
+        return 'In stock'
+      } else {
+        return 'Not available'
+      }
+    },
+    preorder () {
+      return !!this.getCurrentProduct.preorder
+    },
+    isProductRma () {
+      return this.getCurrentProduct.hasOwnProperty("rma") && config.rma[this.getLabelValue()]
     },
     getOptionLabel () {
       return (option) => {
@@ -409,8 +400,8 @@ export default {
     await this.$store.dispatch('themeCredit/fetchBanks', this.getCurrentProduct.sku)
   },
   async mounted () {
-    await this.$store.dispatch('recently-viewed/addItem', this.getCurrentProduct)
-    this.setDataLayer()
+    await this.$store.dispatch('recently-viewed/addItem', this.getCurrentProduct);
+    this.setDataLayer();
   },
   async asyncData ({ store, route, context }) {
     if (context) context.output.cacheTags.add('product')
@@ -440,22 +431,22 @@ export default {
   methods: {
     async showModalCredits() {
       this.$bus.$emit('modal-show', 'modal-credits')
-      try {
-        this.show_modal_credits_loading = true;
-        const diffLog = await this.$store.dispatch('cart/addItem', { productToAdd: this.getCurrentProduct })
-        diffLog.clientNotifications.forEach(notificationData => {
-
-          // Notify user that product is added
-          this.notifyUser(notificationData)
-
-          // Do open modal credits
-          this.$bus.$emit('modal-show', 'modal-credits')
-        })
-      } catch (message) {
-        this.notifyUser(notifications.createNotification({ type: 'error', message }))
-      } finally {
-        this.show_modal_credits_loading = false;
-      }
+      // try {
+      //   this.show_modal_credits_loading = true;
+      //   const diffLog = await this.$store.dispatch('cart/addItem', { productToAdd: this.getCurrentProduct })
+      //   diffLog.clientNotifications.forEach(notificationData => {
+      //
+      //     // Notify user that product is added
+      //     this.notifyUser(notificationData)
+      //
+      //     // Do open modal credits
+      //     this.$bus.$emit('modal-show', 'modal-credits')
+      //   })
+      // } catch (message) {
+      //   this.notifyUser(notifications.createNotification({ type: 'error', message }))
+      // } finally {
+      //   this.show_modal_credits_loading = false;
+      // }
     },
     setDataLayer () {
       if (typeof window !== 'undefined' && this.getCurrentProduct) {
@@ -529,9 +520,6 @@ export default {
         Object.assign({ attribute_code: variant.type }, variant)
       )
       //this.getQuantity();
-    },
-    openSizeGuide () {
-      this.$bus.$emit('modal-show', 'modal-sizeguide')
     },
     isOptionAvailable (option) { // check if the option is available
       const currentConfig = Object.assign({}, this.getCurrentProductConfiguration)
@@ -653,8 +641,11 @@ $bg-secondary: color(secondary, $colors-background);
   }
 }
 
-.not-available {
+.Notavailable {
   color: #ee2c39 !important;
+}
+.pendingdelivery {
+  color: orange !important;
 }
 
 .product {

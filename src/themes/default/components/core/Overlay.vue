@@ -16,6 +16,7 @@ export default {
       this.$store.commit('ui/setSidebar', false)
       this.$store.commit('ui/setConsultation', false)
       this.$store.commit('ui/setSearch', false)
+      this.$store.commit('ui/setCompareSidebar', false)
       this.$store.dispatch('themeCart/closeEditMode')
     }
   }

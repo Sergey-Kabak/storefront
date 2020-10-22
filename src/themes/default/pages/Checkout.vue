@@ -77,7 +77,7 @@
         <cart-summary class="checkout-right" />
       </div>
     </div>
-    <thank-you-page v-show="isThankYouPage" />
+    <thank-you-page v-if="isThankYouPage" />
   </div>
 </template>
 
