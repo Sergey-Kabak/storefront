@@ -8,7 +8,6 @@ const rootPath = require('app-root-path').path
 const resolve = file => path.resolve(rootPath, file)
 const serverExtensions = glob.sync('src/modules/*/server.{ts,js}')
 const configProviders: Function[] = []
-
 serverExtensions.map(serverModule => {
   const module = require(resolve(serverModule))
   if (module.configProvider && typeof module.configProvider === 'function') {

@@ -5,8 +5,9 @@ const actions = {
   creditSetBanks ({ commit }, { banks }) {
     commit(types.CREDIT_SET_BANKS, { banks })
   },
-  creditSetSelectedBank ({ commit }, { bank_index }) {
-    commit(types.CREDIT_SET_SELECTED_BANK, { bank_index })
+  creditSetSelectedCredit ({ commit }, { credit }) {
+    console.log(credit);
+    commit(types.CREDIT_SET_SELECTED_CREDIT, { credit })
   },
   creditSetFields ({ commit }, { fields }) {
     commit(types.CREDIT_SET_FIELDS, { fields })

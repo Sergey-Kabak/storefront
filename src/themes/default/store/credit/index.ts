@@ -9,6 +9,7 @@ export const module: Module<CreditState, any> = {
   state: {
     banks: [],
     selectedBank: null,
+    selectedCredit: null,
     fields: null,
     creditDetails: {
       surname: '',

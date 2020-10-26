@@ -2,6 +2,7 @@
 export default interface CreditState {
   banks: [],
   selectedBank: null,
+  selectedCredit: null,
   fields: null,
   creditDetails: {
     surname: '',

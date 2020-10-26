@@ -22,8 +22,8 @@
         <span class="label--highlighted">*</span>
       </div>
       <div class="payment-methods">
-        <div class="payment-card" v-for="(method, index) in paymentMethods" :key="index" v-if="isShowPaymentMethod(method)">
-
+        <div class="payment-card" v-for="(method, index) in paymentMethods" :key="index" >
+<!--          v-if="isShowPaymentMethod(method)"-->
           <label class="radioStyled">
             <div class="radio-input-row">
               <input
@@ -182,10 +182,6 @@
                             condition: !$v.creditDetails.identification_code.minLength && $v.creditDetails.identification_code.$dirty,
                             text: $t('Name must have at least 2 letters.')
                           },
-                          {
-                            condition: !$v.creditDetails.identification_code.lettersOnly && $v.creditDetails.identification_code.$dirty,
-                            text: $t('Accepts only alphabet characters.')
-                          }
                         ]"
                         />
                       </div>
@@ -408,6 +404,7 @@ export default {
   },
   methods: {
     isShowPaymentMethod (method) {
+      console.log(this.assoc[this.type].includes(method.code) && !this.productsHasPreorder(method))
       return this.assoc[this.type].includes(method.code) && !this.productsHasPreorder(method)
     },
     onPaymentMethodChange () {
@@ -416,6 +413,7 @@ export default {
       this.sendDataToCheckout()
     },
     placeOrder () {
+      this.$v.$touch()
       this.$bus.$emit('checkout-before-placeOrder')
     },
     productsHasPreorder (method) {

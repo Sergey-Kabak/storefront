@@ -1,5 +1,5 @@
 <template>
-  <div class="credit-product-wrapper">
+  <div v-if="isCreditAvailable" class="credit-product-wrapper">
     <div class="credit-product">
       <div class="credit-product-name">
         Стандарт
@@ -10,25 +10,55 @@
       </div>
     </div>
     <div class="credit-info">
-      <span>Первый взнос 0 ₴, 24 платежа</span> <b>по</b> <strong>1 050 ₴</strong> <b>/ мес</b>
+      <span>Первый взнос {{ isSingleCreditProduct.monthly_payment | price(storeView) }}, {{isSingleCreditProduct.number_of_payments}} платежа</span>
+      <b>по</b> <strong>{{ isSingleCreditProduct.monthly_payment | price(storeView) }}</strong> <b>/ мес</b>
     </div>
-    {{banks}}
-<!--    {{ Math.abs(totalPrice) | price(storeView) }}-->
+<!--    {{banks}}-->
   </div>
 </template>
 
 <script>
 import { currentStoreView } from '@vue-storefront/core/lib/multistore';
+import { mapGetters, mapMutations } from 'vuex'
 export default {
   props: ['banks', 'totalPrice'],
+  data () {
+    return {
+      isCreditAvailable: true,
+      terms: 0
+    }
+  },
   computed: {
+    ...mapGetters({
+      productsInCart: 'cart/getCartItems',
+      selectedCredit: 'themeCredit/getSelectedCredit'
+    }),
     storeView () {
       return currentStoreView()
+    },
+    isSingleCreditProduct () {
+      if (this.isCreditAvailable) {
+        return {
+          number_of_payments: this.productsInCart.reduce((acc, it) => acc += this.terms, 0),
+          monthly_payment: this.productsInCart.reduce((acc, it) => acc += (it.price_incl_tax / this.terms) * it.qty, 0)
+        }
+      }
+    }
+  },
+  created () {
+    if (this.productsInCart.length === 1 && this.productsInCart[0].credit) {
+      this.terms = +this.productsInCart[0].credit.terms
+      this.$store.dispatch('themeCredit/creditSetSelectedCredit', { credit: this.productsInCart[0].credit })
     }
   },
   methods: {
     showCreditPopup () {
       this.$bus.$emit('modal-show', 'modal-credits')
+    }
+  },
+  watch: {
+    selectedCredit: function (val) {
+      this.terms = +val.terms
     }
   }
 }
@@ -36,6 +66,10 @@ export default {
 
 <style lang="scss" scoped>
   .credit-product{
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    margin-bottom: 11px;
     &-wrapper{
       background: #E4F9E4;
       border-radius: 4px;
@@ -52,10 +86,6 @@ export default {
       line-height: 24px;
       color: #1A1919;
     }
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    margin-bottom: 20px;
     .align-right{
       margin-left: auto;
       font-family: DIN Pro;

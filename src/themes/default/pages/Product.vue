@@ -136,7 +136,7 @@
             />
             <div
                 v-if="getCurrentProduct && ((getCurrentProduct.stock && getCurrentProduct.stock.is_in_stock) && (getCurrentProduct.price_incl_tax || getCurrentProduct.original_price_incl_tax))"
-                class="row m0"
+                class="row m0 action-buttons"
             >
               <add-to-cart
                 :product="getCurrentProduct"
@@ -145,9 +145,9 @@
               >
                 <template v-if="preorder" v-slot:text>{{$t('pre order')}}</template>
               </add-to-cart>
-              <button-white @click.native="showModalCredits" class="buy_in_credit h40 flex1">
-                <span v-if="!show_modal_credits_loading">В кредит 1050 ₴ / мес</span>
-                <spinner v-if="show_modal_credits_loading" containerClass="quantity-spinner" />
+              <button-white v-if="getBanks.length" @click.native="showModalCredits" class="buy_in_credit h40 flex1">
+                <span>В кредит</span>
+<!--                <spinner v-if="!getBanks.length" containerClass="quantity-spinner" />-->
               </button-white>
             </div>
             <div class="row py40 add-to-buttons">
@@ -320,7 +320,8 @@ export default {
       getCurrentProductConfiguration: 'product/getCurrentProductConfiguration',
       getOriginalProduct: 'product/getOriginalProduct',
       attributesByCode: 'attribute/attributeListByCode',
-      getCurrentCustomOptions: 'product/getCurrentCustomOptions'
+      getCurrentCustomOptions: 'product/getCurrentCustomOptions',
+      getBanks: 'themeCredit/getBanks'
     }),
     productStatus () {
       if (this.getCurrentProduct.stock.is_in_stock && !!this.getCurrentProduct.preorder) {
@@ -397,7 +398,6 @@ export default {
     this.$bus.$on('product-after-configure', (data) => {
       this.getQuantity()
     });
-    await this.$store.dispatch('themeCredit/fetchBanks', this.getCurrentProduct.sku)
   },
   async mounted () {
     await this.$store.dispatch('recently-viewed/addItem', this.getCurrentProduct);
@@ -429,7 +429,7 @@ export default {
     }
   },
   methods: {
-    async showModalCredits() {
+    async showModalCredits () {
       this.$bus.$emit('modal-show', 'modal-credits')
       // try {
       //   this.show_modal_credits_loading = true;
@@ -539,6 +539,7 @@ export default {
         this.maxQuantity = res.isManageStock ? res.qty : null
       } finally {
         this.isStockInfoLoading = false
+        await this.$store.dispatch('themeCredit/fetchBanks', this.getCurrentProduct.sku)
       }
     },
     handleQuantityError (error) {
@@ -603,7 +604,17 @@ $color-tertiary: color(tertiary);
 $color-secondary: color(secondary);
 $color-white: color(white);
 $bg-secondary: color(secondary, $colors-background);
-
+.action-buttons{
+  display: grid;
+  grid-gap: 20px;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  .buy_in_credit{
+    width: auto;
+    justify-content: center;
+    height: auto;
+    border-color: #20af1d;
+  }
+}
 .seller-name-row {
   cursor: pointer;
   border: 1px solid #E0E0E0;
