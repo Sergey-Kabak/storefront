@@ -609,9 +609,10 @@ $bg-secondary: color(secondary, $colors-background);
   grid-gap: 20px;
   grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
   .buy_in_credit{
+    max-width: 260px;
+    height: 40px;
     width: auto;
     justify-content: center;
-    height: auto;
     border-color: #20af1d;
   }
 }

@@ -15,6 +15,7 @@
                 <div class="banner-description__text" v-html="getCurrentCategory.description"></div>
                 <div class="banner-description__timer">
                   <h3>{{ $t('Until the end of the promotion') }}</h3>
+                  {{getCurrentCategory}}
                   <CountDown :end-time="getEndTime()" />
                 </div>
               </div>

@@ -9,7 +9,7 @@
         <div>{{ $t('Suggestion') }}</div>
         <div>{{ $t('Monthly payment') }}, ₴</div>
         <div>{{ $t('Number of payments') }}</div>
-        <div>{{ $t('Total') }}</div>
+        <div>{{ $t('grand_total') }}</div>
       </div>
       <div class="credit-card-block__wrap">
         <div v-for="(bank , index) in banks" :key="index" class="credit-card-block__row flex h-center"
@@ -162,7 +162,9 @@ export default {
   },
   watch: {
     getBanks: function (banks) {
-      this.initBanks(banks)
+      if (banks.length) {
+        this.initBanks(banks)
+      }
     }
   }
 }

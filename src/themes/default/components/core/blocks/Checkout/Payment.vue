@@ -22,8 +22,7 @@
         <span class="label--highlighted">*</span>
       </div>
       <div class="payment-methods">
-        <div class="payment-card" v-for="(method, index) in paymentMethods" :key="index" >
-<!--          v-if="isShowPaymentMethod(method)"-->
+        <div class="payment-card" v-for="(method, index) in paymentMethods" :key="index" v-if="isShowPaymentMethod(method)">
           <label class="radioStyled">
             <div class="radio-input-row">
               <input
@@ -41,21 +40,21 @@
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M1 21H23L12 2L1 21ZM13 18H11V16H13V18ZM13 14H11V10H13V14Z" fill="#EE2C39"/>
                 </svg>
-                только при самовывозе
+                {{ $t('only for pickup') }}
               </div>
             </div>
             <div v-if="method.code === 'credit' && payment.paymentMethod === 'credit'" class="credit-block-wrapper">
               <div class="credit-block">
-                <div class="block-title">Кредитное предложение</div>
+                <div class="block-title">{{ $t('Credit offer') }}</div>
                 <credit-products :banks="getBanks" :totalPrice="totals.find(code => code.code === 'grand_total').value" />
                 <form>
                   <div class="block-title">
-                    Оформление кредита
+                    {{ $t('Loan processing')}}
                   </div>
                   <div class="form-row">
                     <div class="form-column">
                       <div class="form-label">
-                        ФИО
+                        {{ $t('FIO') }}
                       </div>
                     </div>
                     <div class="form-column">
@@ -145,7 +144,7 @@
                   <div class="form-row">
                     <div class="form-column">
                       <div class="form-label">
-                        Дата рождения
+                        {{ $t('date of birth') }}
                       </div>
                     </div>
                     <div class="form-column">
@@ -158,7 +157,7 @@
                   <div class="form-row">
                     <div class="form-column">
                       <div class="form-label">
-                        ИНН
+                        {{ $t('INN') }}
                       </div>
                     </div>
                     <div class="form-column">
@@ -169,7 +168,7 @@
                           type="number"
                           :autofocus="true"
                           name="last_name"
-                          :placeholder="$t('identification_code')"
+                          :placeholder="$t('INN')"
                           v-model.trim="creditDetails.identification_code"
                           @blur="$v.creditDetails.identification_code.$touch()"
                           autocomplete="given-name"
@@ -275,12 +274,16 @@ export default {
         this.sendDataToCheckout()
       },
       deep: true
+    },
+    productsInCart: function (products) {
+      this.$store.dispatch('themeCredit/fetchBanksCheckout', this.$store.state.cart.cartServerToken)
     }
   },
   computed: {
     ...mapGetters({
       totals: 'cart/getTotals',
-      getCartToken: 'cart/getCartToken'
+      getCartToken: 'cart/getCartToken',
+      getBanks: 'themeCredit/getBanks'
     }),
     countryOptions () {
       return this.countries.map((item) => {
@@ -404,8 +407,13 @@ export default {
   },
   methods: {
     isShowPaymentMethod (method) {
-      console.log(this.assoc[this.type].includes(method.code) && !this.productsHasPreorder(method))
-      return this.assoc[this.type].includes(method.code) && !this.productsHasPreorder(method)
+      return this.assoc[this.type].includes(method.code) && !this.productsHasPreorder(method) && this.creditsIsAvailable(method)
+    },
+    creditsIsAvailable (method) {
+      if (method.code === 'credit') {
+        return !!this.getBanks.length
+      }
+      return true
     },
     onPaymentMethodChange () {
       this.$v.payment.paymentMethod.$touch()
