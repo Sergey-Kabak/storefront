@@ -118,7 +118,6 @@ export default {
     if (!country) country = storeView.i18n.defaultCountry
     this.$bus.$emit('checkout-before-shippingMethods', country)
     this.personalDetails = this.cPersonalDetails
-    console.log('HERE')
     await this.$store.dispatch('themeCredit/fetchBanksCheckout', this.$store.state.cart.cartServerToken);
   },
   beforeDestroy () {
@@ -329,10 +328,9 @@ export default {
         }
       }
       if (this.order.addressInformation.payment_method_code === 'credit') {
-        console.log(this.$store.state.themeCredit.selectedCredit);
-        this.order.addressInformation.billingAddress['surname'] = this.$store.state.themeCredit.creditDetails.surname
-        this.order.addressInformation.billingAddress['date_of_birth'] = this.$store.state.themeCredit.creditDetails.date_of_birth
-        this.order.addressInformation.billingAddress['identification_code'] = this.$store.state.themeCredit.creditDetails.identification_code
+        this.order.addressInformation.payment_method_additional['surname'] = this.$store.state.themeCredit.creditDetails.surname
+        this.order.addressInformation.payment_method_additional['date_of_birth'] = this.$store.state.themeCredit.creditDetails.date_of_birth
+        this.order.addressInformation.payment_method_additional['identification_code'] = this.$store.state.themeCredit.creditDetails.identification_code
         this.order.addressInformation.payment_method_additional['credit_id'] = this.$store.state.themeCredit.selectedCredit.credit_id
       }
       return this.order
