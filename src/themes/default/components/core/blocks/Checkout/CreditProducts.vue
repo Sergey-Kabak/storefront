@@ -6,11 +6,11 @@
       </div>
 
       <div @click="showCreditPopup()" class="align-right underline cursor">
-        Изменить
+        {{ $t('Edit') }}
       </div>
     </div>
     <div class="credit-info">
-      <span>Первый взнос {{ isSingleCreditProduct.monthly_payment | price(storeView) }}, {{isSingleCreditProduct.number_of_payments}} платежа</span>
+      <span>{{ $t('First installment') }} {{ isSingleCreditProduct.monthly_payment | price(storeView) }}, {{isSingleCreditProduct.number_of_payments}} платежа</span>
       <b>по</b> <strong>{{ isSingleCreditProduct.monthly_payment | price(storeView) }}</strong> <b>/ мес</b>
     </div>
   </div>
@@ -39,8 +39,8 @@ export default {
     isSingleCreditProduct () {
       if (this.isCreditAvailable) {
         return {
-          number_of_payments: this.productsInCart.reduce((acc, it) => acc += this.terms, 0),
-          monthly_payment: this.productsInCart.reduce((acc, it) => acc += (it.price_incl_tax / this.terms) * it.qty, 0)
+          number_of_payments: this.productsInCart.reduce((acc, it) => acc += +this.terms, 0),
+          monthly_payment: this.productsInCart.reduce((acc, it) => acc += (it.price_incl_tax / +this.terms) * it.qty, 0)
         }
       }
     }
@@ -49,6 +49,9 @@ export default {
     if (this.productsInCart.length === 1 && this.productsInCart[0].credit) {
       this.terms = +this.productsInCart[0].credit.terms
       this.$store.dispatch('themeCredit/creditSetSelectedCredit', { credit: this.productsInCart[0].credit })
+    } else {
+      this.terms = +this.getSelectedBank.credits[0].terms
+      this.$store.dispatch('themeCredit/creditSetSelectedCredit', { credit: this.getSelectedBank.credits[0] })
     }
   },
   methods: {

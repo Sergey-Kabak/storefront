@@ -6,7 +6,6 @@ const actions = {
     commit(types.CREDIT_SET_BANKS, { banks })
   },
   creditSetSelectedBank ({ commit }, { bank }) {
-    console.log(bank);
     commit(types.CREDIT_SET_SELECTED_BANK, { bank })
   },
   creditSetSelectedCredit ({ commit }, { credit }) {
@@ -24,7 +23,6 @@ const actions = {
   fetchBanksCheckout ({ commit }, cartId) {
     CreditService.getCreditsCheckout(cartId)
       .then(res => {
-        console.log(res.result);
         commit(types.CREDIT_SET_BANKS, { banks: res.result })
         commit(types.CREDIT_SET_SELECTED_BANK, { bank: res.result[0] })
       })

@@ -66,7 +66,7 @@
                           :autofocus="true"
                           name="surname"
                           :placeholder="$t('Last name')"
-                          v-model.trim="creditDetails.surname"
+                          v-model.trim="$v.creditDetails.surname.$model"
                           @blur="$v.creditDetails.surname.$touch()"
                           autocomplete="given-name"
                           :validations="[
@@ -93,7 +93,7 @@
                           :autofocus="true"
                           name="name"
                           :placeholder="$t('First name')"
-                          v-model.trim="creditDetails.name"
+                          v-model.trim="$v.creditDetails.name.$model"
                           @blur="$v.creditDetails.name.$touch()"
                           autocomplete="given-name"
                           :validations="[
@@ -120,7 +120,7 @@
                           :autofocus="true"
                           name="last_name"
                           :placeholder="$t('surname')"
-                          v-model.trim="creditDetails.last_name"
+                          v-model.trim="$v.creditDetails.last_name.$model"
                           @blur="$v.creditDetails.last_name.$touch()"
                           autocomplete="given-name"
                           :validations="[
@@ -150,7 +150,7 @@
                     <div class="form-column">
                       <div class="form-label">
                         <base-datepicker-checkout
-                          v-model="creditDetails.date_of_birth" />
+                          v-model="$v.creditDetails.date_of_birth.$model" />
                       </div>
                     </div>
                   </div>
@@ -169,7 +169,7 @@
                           :autofocus="true"
                           name="last_name"
                           :placeholder="$t('INN')"
-                          v-model.trim="creditDetails.identification_code"
+                          v-model.trim="$v.creditDetails.identification_code.$model"
                           @blur="$v.creditDetails.identification_code.$touch()"
                           autocomplete="given-name"
                           :validations="[
@@ -320,12 +320,11 @@ export default {
             lettersOnly
           },
           date_of_birth: {
-            required,
-            minLength: minLength(2)
+            required
           },
           identification_code: {
             required,
-            minLength: minLength(2)
+            minLength: minLength(10)
           }
         },
         payment: {
@@ -421,7 +420,13 @@ export default {
       this.sendDataToCheckout()
     },
     placeOrder () {
-      this.$v.$touch()
+      console.log(this.payment.paymentMethod);
+      this.$v.creditDetails.$touch()
+      if (this.payment.paymentMethod === 'credit') {
+        this.$v.creditDetails.$touch();
+        console.log(this.$v.creditDetails.$error);
+        if (this.$v.creditDetails.$error) return false
+      }
       this.$bus.$emit('checkout-before-placeOrder')
     },
     productsHasPreorder (method) {
