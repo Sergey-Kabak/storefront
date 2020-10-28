@@ -2,7 +2,7 @@
   <div v-if="isCreditAvailable" class="credit-product-wrapper">
     <div class="credit-product">
       <div class="credit-product-name">
-        Стандарт
+        {{getSelectedBank.name}}
       </div>
 
       <div @click="showCreditPopup()" class="align-right underline cursor">
@@ -13,7 +13,6 @@
       <span>Первый взнос {{ isSingleCreditProduct.monthly_payment | price(storeView) }}, {{isSingleCreditProduct.number_of_payments}} платежа</span>
       <b>по</b> <strong>{{ isSingleCreditProduct.monthly_payment | price(storeView) }}</strong> <b>/ мес</b>
     </div>
-<!--    {{banks}}-->
   </div>
 </template>
 
@@ -31,7 +30,8 @@ export default {
   computed: {
     ...mapGetters({
       productsInCart: 'cart/getCartItems',
-      selectedCredit: 'themeCredit/getSelectedCredit'
+      selectedCredit: 'themeCredit/getSelectedCredit',
+      getSelectedBank: 'themeCredit/getSelectedBank'
     }),
     storeView () {
       return currentStoreView()

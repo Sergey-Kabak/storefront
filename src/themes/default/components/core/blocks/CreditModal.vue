@@ -145,6 +145,7 @@ export default {
         }
       } else {
         await this.$store.dispatch('themeCredit/creditSetSelectedCredit', { credit: this.getCreditProduct })
+        await this.$store.dispatch('themeCredit/creditSetSelectedBank', { bank: this.getBankProduct })
         this.$bus.$emit('modal-hide', 'modal-credits');
       }
     },

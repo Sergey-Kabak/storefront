@@ -6,8 +6,8 @@ const mutations: MutationTree<CreditState> = {
   [types.CREDIT_SET_BANKS] (state, { banks }) {
     state.banks = banks;
   },
-  [types.CREDIT_SET_SELECTED_BANK] (state, { bank_index }) {
-    state.selectedBank = bank_index;
+  [types.CREDIT_SET_SELECTED_BANK] (state, { bank }) {
+    state.selectedBank = bank;
   },
   [types.CREDIT_SET_SELECTED_CREDIT] (state, { credit }) {
     state.selectedCredit = credit;

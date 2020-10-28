@@ -1,4 +1,4 @@
-import {GetterTree} from 'vuex'
+import { GetterTree } from 'vuex'
 import RootState from '@vue-storefront/core/types/RootState'
 import CreditState from './types/CreditState'
 
