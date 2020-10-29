@@ -171,7 +171,7 @@ export default {
   .sidebar-submenu {
     left: 0;
     top: 0;
-    min-height: 100%;
+    min-height: fit-content;
     transform: translateX(-100%);
   }
 
