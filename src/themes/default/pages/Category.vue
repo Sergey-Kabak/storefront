@@ -113,6 +113,7 @@
             <product-listing :isShowCompareAndFavorite="false" :products="getCategoryProducts" />
           </lazy-hydrate>
           <product-listing :isShowCompareAndFavorite="false" v-else :products="getCategoryProducts" />
+          <spinner v-if="loadingProducts && !allProductsLoaded" />
         </div>
       </div>
     </div>
@@ -137,6 +138,7 @@ import { catalogHooksExecutors } from '@vue-storefront/core/modules/catalog-next
 import { currentStoreView } from '@vue-storefront/core/lib/multistore';
 import { htmlDecode } from '@vue-storefront/core/filters';
 import CountDown from "../components/core/CountDown";
+import Spinner from "../components/core/Spinner";
 
 const THEME_PAGE_SIZE = 32
 const composeInitialPageState = async (store, route, forceLoad = false) => {
@@ -164,6 +166,7 @@ export default {
     Sidebar,
     SortBy,
     NewSortBy,
+    Spinner
   },
   mixins: [onBottomScroll],
   data () {
@@ -187,8 +190,12 @@ export default {
       getCategoryProducts: 'category-next/getCategoryProducts',
       getCurrentCategory: 'category-next/getCurrentCategory',
       getCategoryProductsTotal: 'category-next/getCategoryProductsTotal',
-      getAvailableFilters: 'category-next/getAvailableFilters'
+      getAvailableFilters: 'category-next/getAvailableFilters',
+      getCategorySearchProductsStats: 'category-next/getCategorySearchProductsStats'
     }),
+    allProductsLoaded () {
+      return this.getCategorySearchProductsStats.perPage + this.getCategorySearchProductsStats.start >= this.getCategorySearchProductsStats.total
+    },
     isLazyHydrateEnabled () {
       return config.ssr.lazyHydrateFor.includes('category-next.products')
     },
@@ -269,7 +276,12 @@ export default {
 
 <style lang="scss" scoped>
 $mobile_screen : 768px;
-
+  ::v-deep .spinner{
+    display: flex;
+    justify-content: center;
+    position: relative;
+    top: 30px;
+  }
   .v-container {
     width: 95%;
   }
