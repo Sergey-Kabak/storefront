@@ -76,6 +76,7 @@
                 data-testid="orderReviewSubmit"
                 class="place-order-btn custom-action-button"
                 :disabled="$v.orderReview.$invalid"
+                :aria-label="$t('Place the order')"
               >
                 {{ $t('Place the order') }}
               </button-full>

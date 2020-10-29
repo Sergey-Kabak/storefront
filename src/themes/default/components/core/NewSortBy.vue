@@ -1,6 +1,6 @@
 <template>
   <div class="sort-by">
-    <div
+    <label
       class="label"
       :class="{active: variant.id === sortby.id}"
       v-for="variant in sortingVariants"
@@ -14,7 +14,7 @@
         @change="changeOrder"
       />
       {{ $t(variant.label) }}
-    </div>
+    </label>
   </div>
 </template>
 

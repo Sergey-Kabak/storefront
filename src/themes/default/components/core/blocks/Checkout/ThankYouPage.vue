@@ -258,7 +258,7 @@ export default {
     text-align: left;
 
     .left {
-      color: #5F5E5E;
+      color: #595858;
       margin-right: 80px;
       font-weight: 600;
     }
@@ -320,7 +320,7 @@ export default {
       font-family: 'DIN Pro';
       font-size: 16px;
       line-height: 24px;
-      color: #5F5E5E;
+      color: #595858;
     }
   }
 

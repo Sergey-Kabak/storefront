@@ -36,7 +36,7 @@
               ]"
             />
           </div>
-          <button-full class="mb35" type="submit">
+          <button-full class="mb35" type="submit" :aria-label="$t('Reset password')">
             {{ $t('Reset password') }}
           </button-full>
           <div class="center-xs">
@@ -52,7 +52,7 @@
           <p class="py30 mb80">
             {{ $t("We've sent password reset instructions to your email. Check your inbox and follow the link.") }}
           </p>
-          <button-full class="mb35" type="link" @click.native="switchElem">
+          <button-full class="mb35" type="link" @click.native="switchElem" :aria-label="$t('Back to login')">
             {{ $t('Back to login') }}
           </button-full>
         </form>

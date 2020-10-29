@@ -8,10 +8,11 @@
       :placeholder="placeholder"
       @focus="clearValue()"
       @blur="setPreviousValue()"
+      :aria-labelledby="id"
     >
-    <div v-if="label" class="label">
+    <label v-if="label" class="label" :id="id">
       {{ label }}
-    </div>
+    </label>
   </div>
 </template>
 
@@ -33,6 +34,10 @@ export default {
     placeholder : {
       type: String,
       default: ''
+    },
+    id: {
+      type: String,
+      required: true
     }
   },
   watch: {

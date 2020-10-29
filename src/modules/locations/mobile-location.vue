@@ -78,18 +78,18 @@ export default {
       font-family: 'DIN Pro'
       font-size: 13px
       line-height: 16px
-      color: #5F5E5E
+      color: #595858
       font-weight: 600
     .working-time
       font-family: 'DIN Pro'
       font-size: 13px
       line-height: 16px
-      color: #5F5E5E
+      color: #595858
     .phone
       font-family: 'DIN Pro'
       font-size: 13px
       line-height: 16px
-      color: #5F5E5E
+      color: #595858
     .time
       font-family: 'DIN Pro'
       font-size: 13px

@@ -36,7 +36,7 @@ export default {}
 
 	&-date {
 		font-size: 14px;
-		color: #5F5E5E;
+		color: #595858;
 		margin-bottom: 12px;
 	}
 

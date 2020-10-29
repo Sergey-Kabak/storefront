@@ -248,7 +248,7 @@ img {
 .original-price {
   &.disabled {
     text-decoration: line-through;
-    color: #5F5E5E;
+    color: #595858;
   }
 }
 
@@ -303,7 +303,7 @@ img {
     font-style: normal;
     font-size: 14px;
     line-height: 24px;
-    color: #5F5E5E;
+    color: #595858;
   }
 }
 </style>

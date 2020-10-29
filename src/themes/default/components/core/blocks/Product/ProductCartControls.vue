@@ -16,6 +16,7 @@
         <button-full
           data-testid="addToCart" class="add-to-cart"
           :class="productStatus"
+          :aria-label="$t('Buy')"
         >
           <template v-if="productStatus === 'available'">
             <svg class="basket--icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">

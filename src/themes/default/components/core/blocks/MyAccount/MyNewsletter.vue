@@ -27,7 +27,7 @@
       </base-checkbox>
 
       <div class="col-xs-12 col-sm-6">
-        <button-full @click.native="updateNewsletter">
+        <button-full @click.native="updateNewsletter" :aria-label="$t('Update my preferences')">
           {{ $t('Update my preferences') }}
         </button-full>
       </div>

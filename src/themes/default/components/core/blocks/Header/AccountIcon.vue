@@ -13,6 +13,7 @@
     <button
       type="button"
       class="bg-cl-transparent brdr-none p0 main-green-color acc-link"
+      aria-label="account"
     >
       <!--<i class="material-icons block">account_circle</i>-->
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">

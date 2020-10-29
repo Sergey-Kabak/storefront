@@ -229,7 +229,7 @@ export default {
         font-family: 'DIN Pro'
         font-size: 13px
         line-height: 16px
-        color: #5F5E5E
+        color: #595858
         opacity: .6
       input:focus ~ label,
       input:not(.empty) ~ label
@@ -297,7 +297,7 @@ export default {
 .label {
   display: flex;
   align-items: center;
-  color: #5F5E5E;
+  color: #595858;
   font-family: DIN Pro;
   font-style: normal;
   font-size: 13px;

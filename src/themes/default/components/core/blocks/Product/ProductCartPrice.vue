@@ -152,7 +152,7 @@ export default {
     font-size: 13px;
     line-height: 16px;
     text-decoration-line: line-through;
-    color: #5F5E5E;
+    color: #595858;
     margin-right: 4px;
   }
   &-special {

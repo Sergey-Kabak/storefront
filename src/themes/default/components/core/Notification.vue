@@ -16,11 +16,12 @@
         </div>
         <div class="actions">
           <button-outline
+            v-if="notification.action1"
             class="notification-action"
             id="notificationAction2"
             data-testid="notificationAction2"
             @click.native="execAction(notification.action1, index)"
-            v-if="notification.action1"
+            :aria-label="notification.action1.label"
           >{{ notification.action1.label }}</button-outline>
           <button-full
             id="notificationAction1"
@@ -28,6 +29,7 @@
             v-if="notification.action2"
             @click.native="execAction(notification.action2, index)"
             class="notification-action"
+            :aria-label="notification.action2.label"
           >{{ notification.action2.label }}</button-full>
         </div>
       </div>

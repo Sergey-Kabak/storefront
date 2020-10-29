@@ -49,10 +49,10 @@
                     <div class="compare-nav__buttons">
                       <span>{{ $t('indicate') }}</span>
                       <div class="buttons-group">
-                        <button :class="{'active' : !isDifference}" type="button" @click="isDifference = false">
+                        <button :class="{'active' : !isDifference}" type="button" @click="isDifference = false" :aria-label="$t('All parameters')">
                           {{ $t('All parameters') }}
                         </button>
-                        <button :class="{'active' : isDifference}" type="button" @click="isDifference = true">
+                        <button :class="{'active' : isDifference}" type="button" @click="isDifference = true" :aria-label="$t('Differences')">
                           {{ $t('Differences') }}
                         </button>
                       </div>
@@ -95,10 +95,10 @@
             <div class="compare-nav__buttons mobile">
               <span>{{ $t('indicate') }}</span>
               <div class="buttons-group">
-                <button :class="{'active' : !isDifference}" type="button" @click="isDifference = false">
+                <button :class="{'active' : !isDifference}" type="button" @click="isDifference = false" :aria-label="$t('All parameters')">
                   {{ $t('All parameters') }}
                 </button>
-                <button :class="{'active' : isDifference}" type="button" @click="isDifference = true">
+                <button :class="{'active' : isDifference}" type="button" @click="isDifference = true" :aria-label="$t('Differences')">
                   {{ $t('Differences') }}
                 </button>
               </div>
@@ -332,7 +332,7 @@ $screen-l: 1170px;
     //font-weight: 400 !important;
     font-size: 15px;
     line-height: 24px;
-    color: #5F5E5E;
+    color: #595858;
   }
   .compare__features-item.specification {
     ::v-deep span {
@@ -418,7 +418,7 @@ $screen-l: 1170px;
 
 .attributes-list {
   li {
-    color: #5F5E5E;
+    color: #595858;
   }
 }
 

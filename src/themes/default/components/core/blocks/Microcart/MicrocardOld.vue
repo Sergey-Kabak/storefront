@@ -58,7 +58,7 @@
       <div v-for="(segment, index) in totals" :key="index" class="row py20" v-if="segment.code !== 'grand_total'">
         <div class="col-xs">
           {{ segment.title }}
-          <button v-if="appliedCoupon && segment.code === 'discount'" type="button" class="p0 brdr-none bg-cl-transparent close delete-button ml10" @click="clearCoupon">
+          <button v-if="appliedCoupon && segment.code === 'discount'" type="button" class="p0 brdr-none bg-cl-transparent close delete-button ml10" @click="clearCoupon" aria-label="close">
             <i class="material-icons cl-accent">
               close
             </i>
@@ -114,6 +114,7 @@
         <button-full
           :link="{ name: 'checkout' }"
           @click.native="closeMicrocartExtend"
+          :aria-label="$t('Go to checkout')"
         >
           {{ $t('Go to checkout') }}
         </button-full>

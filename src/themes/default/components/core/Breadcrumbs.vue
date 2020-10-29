@@ -35,7 +35,7 @@ export default {
 
     span {
       a {
-        color: #5f5e5e;
+        color: #595858;
         transition: .2s ease-in-out;
         &:hover {
           color: #1a1919;

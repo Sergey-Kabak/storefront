@@ -258,8 +258,6 @@ const actions = {
       { root: true }
     )
 
-    await context.dispatch('tax/calculateTaxes', { products: configuredProducts }, { root: true })
-
     for (let product of configuredProducts) { // we store each product separately in cache to have offline access to products/single method
       if (isCacheable) { // store cache only for full loads
         storeProductToCache(product, cacheByKey)

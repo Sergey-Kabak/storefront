@@ -210,6 +210,7 @@
               data-testid="shippingSubmit"
               @click.native="sendDataToCheckout"
               :disabled="$v.shipping.$invalid || shippingMethods.length <= 0"
+              :aria-label="$t('Continue to payment')"
             >
               {{ $t('Continue to payment') }}
             </button-full>

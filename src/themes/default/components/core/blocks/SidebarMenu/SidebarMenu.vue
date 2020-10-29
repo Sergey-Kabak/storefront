@@ -306,7 +306,7 @@ export default {
       font-weight: 700;
       font-size: 14px;
       line-height: 16px;
-      color: #5F5E5E;
+      color: #595858;
       display: flex;
       align-items: center;
 
@@ -340,7 +340,7 @@ $color-mine-shaft: color(mine-shaft);
     font-weight: 700;
     font-size: 14px;
     line-height: 16px;
-    color: #5F5E5E;
+    color: #595858;
     display: flex;
     align-items: center;
 

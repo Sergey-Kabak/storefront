@@ -1,4 +1,5 @@
 import {prepareQuery} from '@vue-storefront/core/modules/catalog/queries/common'
+import config from 'config'
 
 export const homepageStore = {
   namespaced: true,
@@ -17,7 +18,9 @@ export const homepageStore = {
       const newProductsResult = await dispatch('product/list', {
         query: newProductsQuery,
         size: 8,
-        sort: 'created_at:desc'
+        sort: 'created_at:desc',
+        includeFields: config.entities.productList.includeFields,
+        excludeFields: config.entities.productList.excludeFields
       }, {root: true})
       const configuredProducts = await dispatch(
           'category-next/configureProducts',
@@ -30,7 +33,9 @@ export const homepageStore = {
       const response = await dispatch('product/list', {
         query: prepareQuery({queryConfig: 'bestSellers'}),
         size: 8,
-        sort: 'created_at:desc'
+        sort: 'created_at:desc',
+        includeFields: config.entities.productList.includeFields,
+        excludeFields: config.entities.productList.excludeFields
       }, {root: true})
 
       commit('SET_BESTSELLERS', response.items)
@@ -39,7 +44,9 @@ export const homepageStore = {
       const response = await dispatch('product/list', {
         query: prepareQuery({queryConfig: 'stockGoods'}),
         size: 4,
-        sort: 'created_at:desc'
+        sort: 'created_at:desc',
+        includeFields: config.entities.productList.includeFields,
+        excludeFields: config.entities.productList.excludeFields
       }, {root: true})
 
       commit('SET_STOCK_GOODS', response.items)
@@ -48,7 +55,9 @@ export const homepageStore = {
       const response = await dispatch('product/list', {
         query: prepareQuery({queryConfig: 'salesLeaders'}),
         size: 4,
-        sort: 'created_at:desc'
+        sort: 'created_at:desc',
+        includeFields: config.entities.productList.includeFields,
+        excludeFields: config.entities.productList.excludeFields
       }, {root: true})
 
     commit('SET_SALES_LEADERS', response.items)
@@ -57,7 +66,9 @@ export const homepageStore = {
       const response = await dispatch('product/list', {
         query: prepareQuery({queryConfig: 'new'}),
         size: 4,
-        sort: 'created_at:desc'
+        sort: 'created_at:desc',
+        includeFields: config.entities.productList.includeFields,
+        excludeFields: config.entities.productList.excludeFields
       }, {root: true})
 
       commit('SET_NEW', response.items)
@@ -66,7 +77,9 @@ export const homepageStore = {
       const response = await dispatch('product/list', {
         query: prepareQuery({queryConfig: 'recommends'}),
         size: 4,
-        sort: 'created_at:desc'
+        sort: 'created_at:desc',
+        includeFields: config.entities.productList.includeFields,
+        excludeFields: config.entities.productList.excludeFields
       }, {root: true})
 
       commit('SET_RECOMMENDS', response.items)

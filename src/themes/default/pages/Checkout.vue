@@ -168,7 +168,7 @@ export default {
           padding-bottom: 24px
           font-size: 13px
           line-height: 16px
-          color: #5F5E5E
+          color: #595858
           opacity: 0.6
           background: #ffffff
   .edit
@@ -228,7 +228,7 @@ export default {
         line-height: 16px;
         color: #BDBDBD;
         &.active {
-          color: #5f5e5e;
+          color: #595858;
         }
         & + .breadcrumb-item::before {
           display: none;

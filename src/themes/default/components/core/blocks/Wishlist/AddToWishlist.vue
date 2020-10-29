@@ -1,5 +1,5 @@
 <template>
-  <button @click="isOnWishlist ? removeProductFromWhishList(product) : addProductToWhishlist(product)" class="add-to-wishlist p0 inline-flex middle-xs bg-cl-transparent brdr-none action h5 pointer cl-secondary" type="button" data-testid="addToWishlist">
+  <button @click="isOnWishlist ? removeProductFromWhishList(product) : addProductToWhishlist(product)" class="add-to-wishlist p0 inline-flex middle-xs bg-cl-transparent brdr-none action h5 pointer cl-secondary" type="button" data-testid="addToWishlist" aria-label="wishlist">
     <slot>
       <div class="item" v-if="!isOnWishlist">
         <svg class="icon-wishlist" width="24" height="24" viewBox="0 0 24 24" fill="#BDBDBD" xmlns="http://www.w3.org/2000/svg">
@@ -39,13 +39,16 @@ export default {
       }
     },
     methods: {
-      addProductToWhishlist (product) {
+      async addProductToWhishlist (product) {
+        const childSku = product.configurable_children && product.configurable_children[0] && product.configurable_children[0].sku || null
+        const wishlistProduct = await this.$store.dispatch('product/loadProduct', { parentSku: product.parentSku, childSku})
+
+        this.addToWishlist(wishlistProduct)
         this.$store.dispatch('notification/spawnNotification', {
           type: 'success',
           message: i18n.t('Product {productName} has been added to wishlist!', { productName: htmlDecode(product.name) }),
           action1: { label: i18n.t('OK') }
         }, { root: true })
-        this.addToWishlist(product)
       },
       removeProductFromWhishList (product) {
         this.$store.dispatch('notification/spawnNotification', {
@@ -67,7 +70,7 @@ export default {
   line-height: 13px;
   display: flex;
   align-items: center;
-  color: #5F5E5E;
+  color: #595858;
 }
 
 .icon-wishlist {
@@ -92,7 +95,7 @@ export default {
     font-family: DIN Pro;
     font-size: 14px;
     line-height: 24px;
-    color: #5F5E5E;
+    color: #595858;
   }
 }
 </style>

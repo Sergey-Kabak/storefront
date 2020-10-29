@@ -81,7 +81,7 @@ button {
   font-weight: 700;
   font-size: 14px;
   line-height: 16px;
-  color: #5F5E5E;
+  color: #595858;
   span {
     margin-right: 10px;
     display: block;

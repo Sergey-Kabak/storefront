@@ -18,7 +18,7 @@
       </div>
       <div class="sidebar-footer">
         <div class="compare-nav__text">{{  $tc(`added {count} items` , addedProducts[currentCategory]) }}</div>
-        <button @click="toggleSidebar(false)" class="btn-show weight-700">{{ $t('show')}}</button>
+        <button @click="toggleSidebar(false)" class="btn-show weight-700" :aria-label="$t('show')">{{ $t('show')}}</button>
       </div>
     </div>
   </div>
@@ -52,7 +52,7 @@ export default {
       font-weight: 0;
       font-size: 15px;
       line-height: 24px;
-      color: #5F5E5E;
+      color: #595858;
       small{
         font-family: DIN Pro;
         font-style: normal;

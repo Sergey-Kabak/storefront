@@ -1,5 +1,5 @@
 <template>
-  <button class="brdr-none bg-cl-transparent p0 middle-xs inline-flex cl-secondary weight-400 h4 sans-serif fs-medium">
+  <button class="brdr-none bg-cl-transparent p0 middle-xs inline-flex cl-secondary weight-400 h4 sans-serif fs-medium" :aria-label="$t('Clear cart')">
     <span class="clearcart-btn cl-accent">
       {{ $t('Clear cart') }}
     </span>
