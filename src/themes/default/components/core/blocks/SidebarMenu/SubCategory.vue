@@ -119,13 +119,13 @@ export default {
   },
   computed: {
     ...mapGetters({
-        menuGategories: 'category-next/getMenuCategories'
+        menuCategories: 'category-next/getMenuCategories'
     }),
     children () {
       if (!config.entities.category.categoriesDynamicPrefetch && (this.categoryLinks && this.categoryLinks.length > 0 && this.categoryLinks[0].name)) { // we're using dynamic prefetching and getting just category.children_data.id from 1.7
         return this.categoryLinks
       } else {
-        return this.menuGategories.filter(c => { return c.parent_id === this.id && c.include_in_menu}) // return my child categories
+        return this.menuCategories.filter(c => { return c.parent_id === this.id && c.include_in_menu}) // return my child categories
       }
     },
     hasChildren () {
