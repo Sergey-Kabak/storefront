@@ -44,7 +44,7 @@
               class="subcategory-item"
             >
               <sub-btn
-                v-if="category.children_data && category.children_data.length"
+                v-if="isShowChildrenCategories(category)"
                 class="bg-cl-transparent brdr-none fs-medium"
                 :id="category.id"
                 :ico="ico[category.id]"
@@ -265,7 +265,7 @@ export default {
     },
     visibleCategories () {
       return this.categories.filter(category => {
-        return category.product_count > 0 || category.children_count > 0
+        return (category.product_count > 0 || category.children_count > 0) && category.include_in_menu
       })
     },
     isCurrentMenuShowed () {
@@ -293,6 +293,9 @@ export default {
     },
     categoryLink (category) {
       return formatCategoryLink(category)
+    },
+    isShowChildrenCategories(category) {
+      return category.children_data && category.children_data.length && category.children_data.some(it => it.include_in_menu)
     }
   }
 }

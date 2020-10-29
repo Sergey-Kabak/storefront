@@ -272,6 +272,7 @@
         "children_count",
         "id",
         "is_active",
+        "include_in_menu",
         "level",
         "name",
         "parent_id",
@@ -281,7 +282,8 @@
         "sku",
         "url_key",
         "url_path",
-        "*.children_data.id",
+        "children_data.id",
+        "children_data.include_in_menu",
         "*.id"
       ],
       "excludeFields": [
