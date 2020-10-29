@@ -42,6 +42,7 @@
           <button-text  @click.native="addAllProductsToCart">{{ $t('Add all products to cart') }}</button-text>
           <button-full
             @click.native="createOrder()"
+            :aria-label="$t('Go to checkout')"
           >
             {{ $t('Go to checkout') }}
           </button-full>
@@ -240,7 +241,7 @@ export default {
     font-family: DIN Pro;
     font-size: 14px;
     line-height: 16px;
-    color: #5F5E5E;
+    color: #595858;
   }
 
   .wishlist-footer-amount {

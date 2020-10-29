@@ -26,11 +26,6 @@ export default {
     products: {
       type: null,
       required: true
-    },
-    columns: {
-      type: Number | String,
-      required: false,
-      default: 4
     }
   }
 }

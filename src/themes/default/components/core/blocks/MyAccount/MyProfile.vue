@@ -288,6 +288,7 @@
         <button-full
           @click.native="updateProfile"
           :disabled="checkValidation()"
+          :aria-label="$t('Update my profile')"
         >
           {{ $t('Update my profile') }}
         </button-full>

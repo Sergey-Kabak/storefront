@@ -2,7 +2,7 @@
   <li class="row py10 bg-cl-white product-item-row" :class="{ 'relative': editMode }">
     <div class="mx10 w-100 py10 mb15 edit-mode flex between-xs middle-xs" v-if="editMode">
       Edit mode
-      <button class="brdr-none bg-cl-transparent" @click="closeEditMode">
+      <button class="brdr-none bg-cl-transparent" @click="closeEditMode" aria-label="close">
         <span class="cl-accent">
           <i class="material-icons cl-accent mr5">
             close
@@ -118,6 +118,7 @@
           class="update-button mb10 mr10"
           @click.native="updateProductVariant"
           :disabled="isUpdateCartDisabled"
+          :aria-label="$t('Update item')"
         >
           {{ $t('Update item') }}
         </button-full>
@@ -383,7 +384,7 @@ export default {
       font-size: 11px;
       line-height: 11px;
       text-decoration-line: line-through;
-      color: #5F5E5E;
+      color: #595858;
       margin-right: 5px;
     }
     &-old-price {

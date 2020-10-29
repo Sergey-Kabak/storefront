@@ -158,7 +158,7 @@
           </li>
         </ul>
 
-        <button-full :disabled="$v.$invalid" class="mb20 auth-button" type="submit">
+        <button-full :disabled="$v.$invalid" class="mb20 auth-button" type="submit" :aria-label="$t('Registrate')">
           {{ $t('Registrate') }}
         </button-full>
         <div class="auth-terms">

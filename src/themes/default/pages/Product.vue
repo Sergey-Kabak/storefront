@@ -8,15 +8,15 @@
           </div>
           <div class="mobile-header hidden-md mt10">
             <h1
-                class="mb20 mt0 cl-mine-shaft product-name"
-                data-testid="productName"
-                itemprop="name"
+              class="mb20 mt0 cl-mine-shaft product-name"
+              data-testid="productName"
+              itemprop="name"
             >
               {{ getCurrentProduct.name | htmlDecode }}
               <web-share
-                  :title="getCurrentProduct.name | htmlDecode"
-                  text="Check this product!"
-                  class="web-share"
+                :title="getCurrentProduct.name | htmlDecode"
+                text="Check this product!"
+                class="web-share"
               />
             </h1>
             <div
@@ -114,19 +114,19 @@
               :product="getCurrentProduct"
             />
             <product-quantity-new
-                class="row m0 mb35"
-                v-if="getCurrentProduct.type_id !== 'grouped' && getCurrentProduct.type_id !== 'bundle'"
-                v-model="getCurrentProduct.qty"
-                :max-quantity="maxQuantity"
-                :loading="isStockInfoLoading"
-                :is-simple-or-configurable="isSimpleOrConfigurable"
-                :show-quantity="manageQuantity"
-                :check-max-quantity="manageQuantity"
-                @error="handleQuantityError"
+              class="row m0 mb35"
+              v-if="getCurrentProduct.type_id !== 'grouped' && getCurrentProduct.type_id !== 'bundle'"
+              v-model="getCurrentProduct.qty"
+              :max-quantity="maxQuantity"
+              :loading="isStockInfoLoading"
+              :is-simple-or-configurable="isSimpleOrConfigurable"
+              :show-quantity="manageQuantity"
+              :check-max-quantity="manageQuantity"
+              @error="handleQuantityError"
             />
             <div
-                v-if="getCurrentProduct.stock.is_in_stock"
-                class="row m0"
+              v-if="getCurrentProduct.stock.is_in_stock"
+              class="row m0"
             >
               <add-to-cart
                 :product="getCurrentProduct"
@@ -440,7 +440,7 @@ export default {
         return attr.attribute_code === 'rma';
       });
 
-      if (!attribute.options.length > 0) {
+      if (!(attribute.options && attribute.options.length)) {
         return false;
       }
 
@@ -804,7 +804,7 @@ $bg-secondary: color(secondary, $colors-background);
       font-size: 13px;
       line-height: 16px;
       text-align: right;
-      color: #5F5E5E;
+      color: #595858;
     }
     .product-price {
       margin-bottom: 16px;

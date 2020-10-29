@@ -81,12 +81,14 @@
                 <button-full
                   class="buttons-group"
                   @click.native="resetAllFilters"
+                  :aria-label="$t('Clear all')"
                 >
                   {{$t('Clear all')}}
                 </button-full>
                 <button-full
                   class="buttons-group"
                   @click.native="closeFilters"
+                  :aria-label="$t('show')"
                 >
                   {{$t('show')}}
                 </button-full>
@@ -95,14 +97,14 @@
           </div>
         </div>
         <div class="products-list">
-          <p class="category-sort">
+          <div class="category-sort">
             <span class="product-sorting">{{ $t('First') }}: </span>
             <new-sort-by
               :has-label="true"
               @change="changeFilter"
               :value="getCurrentSearchQuery.sort"
             />
-          </p>
+          </div>
           <div v-if="isCategoryEmpty" class="hidden-xs">
             <h4 data-testid="noProductsInfo">
               {{ $t('No products found!') }}
@@ -110,9 +112,10 @@
             <p>{{ $t('Please change Your search criteria and try again. If still not finding anything relevant, please visit the Home page and try out some of our bestsellers!') }}</p>
           </div>
           <lazy-hydrate :trigger-hydration="!loading" v-if="isLazyHydrateEnabled">
-            <product-listing :isShowCompareAndFavorite="false" :products="getCategoryProducts" />
+            <product-listing :products="getCategoryProducts" />
           </lazy-hydrate>
-          <product-listing :isShowCompareAndFavorite="false" v-else :products="getCategoryProducts" />
+          <product-listing v-else :products="getCategoryProducts" />
+          <spinner v-if="loadingProducts && !allProductsLoaded" />
         </div>
       </div>
     </div>
@@ -137,6 +140,7 @@ import { catalogHooksExecutors } from '@vue-storefront/core/modules/catalog-next
 import { currentStoreView } from '@vue-storefront/core/lib/multistore';
 import { htmlDecode } from '@vue-storefront/core/filters';
 import CountDown from "../components/core/CountDown";
+import Spinner from "../components/core/Spinner";
 
 const THEME_PAGE_SIZE = 32
 const composeInitialPageState = async (store, route, forceLoad = false) => {
@@ -164,6 +168,7 @@ export default {
     Sidebar,
     SortBy,
     NewSortBy,
+    Spinner
   },
   mixins: [onBottomScroll],
   data () {
@@ -187,8 +192,12 @@ export default {
       getCategoryProducts: 'category-next/getCategoryProducts',
       getCurrentCategory: 'category-next/getCurrentCategory',
       getCategoryProductsTotal: 'category-next/getCategoryProductsTotal',
-      getAvailableFilters: 'category-next/getAvailableFilters'
+      getAvailableFilters: 'category-next/getAvailableFilters',
+      getCategorySearchProductsStats: 'category-next/getCategorySearchProductsStats'
     }),
+    allProductsLoaded () {
+      return this.getCategorySearchProductsStats.perPage + this.getCategorySearchProductsStats.start >= this.getCategorySearchProductsStats.total
+    },
     isLazyHydrateEnabled () {
       return config.ssr.lazyHydrateFor.includes('category-next.products')
     },
@@ -269,7 +278,12 @@ export default {
 
 <style lang="scss" scoped>
 $mobile_screen : 768px;
-
+  ::v-deep .spinner{
+    display: flex;
+    justify-content: center;
+    position: relative;
+    top: 30px;
+  }
   .v-container {
     width: 95%;
   }
@@ -648,7 +662,7 @@ $mobile_screen : 768px;
     font-family: DIN Pro;
     font-size: 15px;
     line-height: 24px;
-    color: #5F5E5E;
+    color: #595858;
     overflow: auto;
   }
   &__timer {

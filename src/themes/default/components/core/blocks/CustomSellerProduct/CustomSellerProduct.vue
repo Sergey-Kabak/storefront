@@ -206,8 +206,8 @@ export default {
     font-family: "DIN Pro";
     font-size: 13px;
     line-height: 16px;
-    color: #5F5E5E;
-    border-bottom: 1px dashed #5F5E5E;
+    color: #595858;
+    border-bottom: 1px dashed #595858;
     padding-bottom: 4px;
     margin-left: 15px;
     text-decoration: none!important;

@@ -3,6 +3,7 @@
     @click="isOnCompare ? removeProduct(product) : addProduct(product)"
     class="add-to-compare p0 inline-flex middle-xs bg-cl-transparent brdr-none action h5 pointer cl-secondary"
     type="button"
+    aria-label="addToCompare"
     data-testid="addToCompare"
   >
     <div class="item" v-if="!isOnCompare">
@@ -31,6 +32,7 @@ import { AddToCompare } from '@vue-storefront/core/modules/compare/components/Ad
 import { RemoveFromCompare } from '@vue-storefront/core/modules/compare/components/RemoveFromCompare';
 import i18n from '@vue-storefront/i18n';
 import { htmlDecode } from '@vue-storefront/core/lib/store/filters';
+import { mapActions } from 'vuex';
 
 export default {
   mixins: [IsOnCompare, AddToCompare, RemoveFromCompare],
@@ -46,8 +48,14 @@ export default {
     }
   },
   methods: {
-    addProduct (product) {
-      this.addToCompare(product)
+    ...mapActions({
+      getProduct: 'product/single'
+    }),
+    async addProduct (product) {
+      const childSku = product.configurable_children && product.configurable_children[0] && product.configurable_children[0].sku || null
+      const compareProduct = await this.$store.dispatch('product/loadProduct', { parentSku: product.parentSku, childSku})
+
+      this.addToCompare(compareProduct)
       this.$store.dispatch('notification/spawnNotification', {
         type: 'success',
         message: i18n.t('Product {productName} has been added to the compare!', { productName: htmlDecode(product.name) }),
@@ -73,7 +81,7 @@ export default {
   line-height: 13px;
   display: flex;
   align-items: center;
-  color: #5F5E5E;
+  color: #595858;
 }
 
 svg {
@@ -98,7 +106,7 @@ svg {
     font-family: DIN Pro;
     font-size: 14px;
     line-height: 24px;
-    color: #5F5E5E;
+    color: #595858;
     align-items: center;
     border-style: none;
     background: none;

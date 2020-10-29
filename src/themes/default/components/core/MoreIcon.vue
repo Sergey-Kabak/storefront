@@ -61,7 +61,7 @@ export default {
   font-style: normal;
   font-size: 14px;
   line-height: 24px;
-  color: #5F5E5E;
+  color: #595858;
 }
 
 .slide-enter-active,

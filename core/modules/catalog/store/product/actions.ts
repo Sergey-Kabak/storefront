@@ -134,8 +134,6 @@ const actions: ActionTree<ProductState, RootState> = {
       setRequestCacheTags({ products: items })
     }
 
-    await context.dispatch('tax/calculateTaxes', { products: items }, { root: true })
-
     return { ...restResponseData, items }
   },
   async findConfigurableParent (context, { product, configuration }) {
@@ -165,8 +163,6 @@ const actions: ActionTree<ProductState, RootState> = {
       key,
       skipCache
     })
-
-    await context.dispatch('tax/calculateTaxes', { products: [product] }, { root: true })
 
     if (setCurrentProduct) await context.dispatch('setCurrent', product)
     EventBus.$emitFilter('product-after-single', { key, options, product })

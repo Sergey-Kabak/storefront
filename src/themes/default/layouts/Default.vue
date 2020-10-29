@@ -29,13 +29,6 @@
 
       <sidebar-categories v-if="isSidebarCategoriesOpen"/>
 
-      <!--      <async-sidebar-->
-      <!--        :async-component="SidebarCategories"-->
-      <!--        :is-open="isSidebarCategoriesOpen"-->
-      <!--        @close="$store.commit('ui/setSidebarCategories')"-->
-      <!--        direction="left"-->
-      <!--      />-->
-
       <async-sidebar
           :async-component="Wishlist"
           :is-open="isWishlistOpen"
@@ -80,7 +73,6 @@ import Head from 'theme/head';
 import config from 'config';
 
 const SidebarMenu = () => import(/* webpackChunkName: "vsf-sidebar-menu" */ 'theme/components/core/blocks/SidebarMenu/SidebarMenu.vue');
-const SidebarCategories = () => import(/* webpackChunkName: "vsf-sidebar-menu" */ 'theme/components/core/blocks/SidebarMenu/SidebarCategories.vue');
 const Microcart = () => import(/* webpackChunkName: "vsf-microcart" */ 'theme/components/core/blocks/Microcart/Microcart.vue');
 const Wishlist = () => import(/* webpackChunkName: "vsf-wishlist" */ 'theme/components/core/blocks/Wishlist/Wishlist.vue');
 const SearchPanel = () => import(/* webpackChunkName: "vsf-search-panel" */ 'theme/components/core/blocks/SearchPanel/SearchPanel.vue');
@@ -157,8 +149,7 @@ export default {
   components: {
     MainHeader,
     MainFooter,
-    SidebarMenu, // eslint-disable-line vue/no-unused-components
-    SidebarCategories,
+    SidebarMenu,
     Overlay,
     Loader,
     Notification,

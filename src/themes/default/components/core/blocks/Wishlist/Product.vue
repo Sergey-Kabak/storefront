@@ -245,7 +245,7 @@ export default {
     font-size: 12px;
     line-height: 12px;
     text-decoration-line: line-through;
-    color: #5F5E5E;
+    color: #595858;
     margin-right: 4px;
   }
 

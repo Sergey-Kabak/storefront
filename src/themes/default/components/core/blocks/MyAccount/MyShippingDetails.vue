@@ -175,6 +175,7 @@
           <button-full
             @click.native="updateDetails"
             :disabled="$v.$invalid"
+            :aria-label="$t('Update my shipping details')"
           >
             {{ $t('Update my shipping details') }}
           </button-full>

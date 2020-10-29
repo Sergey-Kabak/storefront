@@ -1,24 +1,15 @@
 <template>
   <div class="home-carousel-wrapper">
-    <carousel
-        class="main-carousel home-carousel"
-        ref="carousel1"
-        :per-page="1"
-        :per-page-custom="slidesPerPage"
-        :center-mode="true"
-        :mouse-drag="true"
-        :autoplay="true"
-        :loop="true"
-    >
-      <slide v-for="(product, index) in products" :key="index">
-        <router-link
-            :to="formatLink(product)"
-            data-testid="productLink"
-        >
-          <img :src="product.img" :alt="index">
-        </router-link>
-      </slide>
-    </carousel>
+    <VueSlickCarousel v-bind="settings" class="carousel" :responsive="isClient ? responsive : null">
+      <router-link
+        v-for="(product, index) in products" :key="index"
+        data-testid="productLink"
+        class="slide-link"
+        :to="formatLink(product)"
+      >
+        <img :src="product.img" :alt="index">
+      </router-link>
+    </VueSlickCarousel>
   </div>
 </template>
 
@@ -26,19 +17,61 @@
 import { currentStoreView } from '@vue-storefront/core/lib/multistore'
 import { formatProductLink } from '@vue-storefront/core/modules/url/helpers'
 import config from 'config'
-
+import VueSlickCarousel from 'vue-slick-carousel'
+import 'vue-slick-carousel/dist/vue-slick-carousel.css'
+import 'vue-slick-carousel/dist/vue-slick-carousel-theme.css'
 export default {
-  data: () => ({
-    slidesPerPage: [[320, 1], [350, 2], [600, 3], [900, 4], [1200, 5]]
-  }),
-  components: {
-    'Carousel': () => import('vue-carousel').then(Slider => Slider.Carousel),
-    'Slide': () => import('vue-carousel').then(Slider => Slider.Slide)
+  components: { 
+    VueSlickCarousel
   },
+  data: () => ({
+    isClient: false,
+    responsive: [
+      {
+        breakpoint: 1024,
+        settings: {
+          slidesToShow: 4,
+          slidesToScroll: 4
+        }
+      },
+      {
+        breakpoint: 768,
+        settings: {
+          slidesToShow: 3,
+          slidesToScroll: 3
+        }
+      },
+      {
+        breakpoint: 460,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 2
+        }
+      },
+      {
+        breakpoint: 340,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1
+        }
+      }
+    ],
+    settings: {
+      dots: true,
+      infinite: true,
+      speed: 500,
+      autoplay: true,
+      slidesToShow: 5,
+      slidesToScroll: 5,
+    }
+  }),
   computed: {
     products() {
       return config && config.sliderProduct
     },
+  },
+  mounted: function() {
+    this.isClient = true
   },
   methods: {
     formatLink(product) {
@@ -51,55 +84,68 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  ::v-deep .VueCarousel-pagination {
 
-    .VueCarousel-dot{
-      outline: none !important;
-      padding: 4px !important;
-      margin: 0!important;
-    }
-
-    .VueCarousel-dot-container {
-      margin-top: 24px!important;
-    }
-    .VueCarousel-dot--active{
-      background-color: #23BE20 !important;
-    }
-
+::v-deep {
+  .slick-list {
+    margin: 0 -3px 24px -3px;
   }
 
-  .home-carousel-wrapper {
-    margin: 0 -3px;
+  .slick-slide {
+    & > div {
+      margin: 0 3px;
+    }
   }
 
-  .VueCarousel-slide {
-    display: flex;
+  .slick-dots {
+    display: flex!important;
     justify-content: center;
-  }
+    align-items: center;
+    position: static;
 
-  .home-carousel ::v-deep {
+    & > li {
+      width: 10px;
+      border-radius: 50%;
+      background-color: #efefef;
+      height: 10px;
+      margin: 0 4px;
 
-    img {
-      width: 100% !important;
-      margin: 0 auto;
-      max-height: 434px;
-      height: auto!important;
-    }
-  }
+      button {
+        padding: 0;
+        width: auto;
+        height: auto;
+      }
 
-  @media (max-width: 768px) {
-    ::v-deep .home-carousel {
-      .VueCarousel-dot-container {
-        margin-top: 16px!important;
+      &.slick-active {
+        background-color: #23BE20;
+      }
+
+      button {
+        &:before {
+          content: none;
+        }
       }
     }
   }
+}
 
-  @media (max-width: 419px) {
-    ::v-deep .home-carousel {
-      img {
-        border-radius: 4px;
-      }
-    }
+.slide-link {
+  display: flex!important;
+
+  &:focus,
+  &:active {
+    outline: none!important;
   }
+}
+
+img {
+  width: 100%;
+  max-width: 260px;
+  height: 100%;
+  max-height: 434px;
+
+  &:focus,
+  &:active {
+    outline: none!important;
+  }
+}
 </style>

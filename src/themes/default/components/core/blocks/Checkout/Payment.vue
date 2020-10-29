@@ -52,6 +52,7 @@
         data-testid="paymentSubmit"
         :disabled="$v.payment.$invalid"
         class="button-pay"
+        :aria-label="$t('To pay')"
       >
         {{ $t('To pay') }}
       </button-full>
@@ -269,7 +270,7 @@ export default {
   .label {
     display: flex;
     align-items: center;
-    color: #5F5E5E;
+    color: #595858;
     font-family: DIN Pro;
     font-style: normal;
     font-size: 13px;

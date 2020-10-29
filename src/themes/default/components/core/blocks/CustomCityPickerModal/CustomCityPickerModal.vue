@@ -26,7 +26,7 @@
         />
       </div>
       <div class="action-block">
-        <button @click="onSubmit" class="action">{{ $t('To apply') }}</button>
+        <button @click="onSubmit" class="action" :aria-label="$t('To apply')">{{ $t('To apply') }}</button>
       </div>
     </div>
   </modal>

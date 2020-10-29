@@ -272,6 +272,7 @@
         "children_count",
         "id",
         "is_active",
+        "include_in_menu",
         "level",
         "name",
         "parent_id",
@@ -281,7 +282,8 @@
         "sku",
         "url_key",
         "url_path",
-        "*.children_data.id",
+        "children_data.id",
+        "children_data.include_in_menu",
         "*.id"
       ],
       "excludeFields": [
@@ -323,6 +325,7 @@
       "includeFields": [
         "marketplace",
         "rma",
+        "preorder",
         "configurable_children.attributes",
         "configurable_children.id",
         "configurable_children.color",
@@ -1010,44 +1013,89 @@
   },
   "sliderProduct": [
     {
-      "url_path": "samsung-galaxy-m51-6-128.html",
+      "url_path": "kupuj-pershim",
       "type_id": "configurable",
-      "img": "https://info.ringoo.ua/images/slider/0.jpg"
+      "img": "https://info.ringoo.ua/images/slider_2/Artboard-0.jpg"
     },
     {
-      "url_path": "iphone-11-64gb.html",
+      "url_path": "halloween",
       "type_id": "configurable",
-      "img": "https://info.ringoo.ua/images/slider/1.jpg"
+      "img": "https://info.ringoo.ua/images/slider_2/Artboard-1.jpg"
     },
     {
-      "url_path": "bezdrotovi-navushniki-redmi-airdots-s-black.html",
+      "url_path": "xiaomi-redmi-note-9-pro-6-128gb.html?childSku=т30122",
       "type_id": "configurable",
-      "img": "https://info.ringoo.ua/images/slider/2.jpg"
+      "img": "https://info.ringoo.ua/images/slider_2/Artboard-2.jpg"
     },
     {
-      "url_path": "xiaomi-redmi-note-9-pro-6-64gb.html",
+      "url_path": "p/т30385/jbl-t500bt-black-jblt500btblk",
       "type_id": "configurable",
-      "img": "https://info.ringoo.ua/images/slider/3.jpg"
+      "img": "https://info.ringoo.ua/images/slider_2/Artboard-3.jpg"
     },
     {
-      "url_path": "samsung-43-led-smart-tv-silver-ue43tu7100uxua.html",
+      "url_path": "samsung-a31-4-64gb-a315.html?childSku=т27150",
       "type_id": "configurable",
-      "img": "https://info.ringoo.ua/images/slider/4.jpg"
+      "img": "https://info.ringoo.ua/images/slider_2/Artboard-4.jpg"
     },
     {
-      "url_path": "samsung-galaxy-a01-core-1-16gb-sm-a013fzkdsek.html",
+      "url_path": "chohol-wave-fancy-halloween-case-tpu-iphone-x-xs.html?childSku=т33555",
       "type_id": "configurable",
-      "img": "https://info.ringoo.ua/images/slider/5.jpg"
+      "img": "https://info.ringoo.ua/images/slider_2/Artboard-5.jpg"
     },
     {
-      "url_path": "fitnes-braslet-mi-smart-band-5-black.html",
+      "url_path": "fitnes-braslet-mi-smart-band-4-z-nfc-black.html",
       "type_id": "configurable",
-      "img": "https://info.ringoo.ua/images/slider/6.jpg"
+      "img": "https://info.ringoo.ua/images/slider_2/Artboard-6.jpg"
     },
     {
-      "url_path": "huawei-p40-lite-6-128gb.html",
+      "url_path": "samsung-a11-sm-a115f-2-32gb.html?childSku=т28223",
       "type_id": "configurable",
-      "img": "https://info.ringoo.ua/images/slider/7.jpg"
+      "img": "https://info.ringoo.ua/images/slider_2/Artboard-7.jpg"
+    },
+    {
+      "url_path": "xiaomi-mi-tv-uhd-4s-43-silver.html",
+      "type_id": "configurable",
+      "img": "https://info.ringoo.ua/images/slider_2/Artboard-8.jpg"
+    },
+    {
+      "url_path": "elektronika/noutbuki",
+      "type_id": "configurable",
+      "img": "https://info.ringoo.ua/images/slider_2/Artboard-9.jpg"
+    },
+    {
+      "url_path": "navushniki-redmi-airdots-s-chornij.html",
+      "type_id": "configurable",
+      "img": "https://info.ringoo.ua/images/slider_2/Artboard-10.jpg"
+    },
+    {
+      "url_path": "xiaomi-redmi-9c-2-32gb.html?childSku=т32315",
+      "type_id": "configurable",
+      "img": "https://info.ringoo.ua/images/slider_2/Artboard-11.jpg"
+    },
+    {
+      "url_path": "akustichna-sistema-jbl-charge-4-chorna.html",
+      "type_id": "configurable",
+      "img": "https://info.ringoo.ua/images/slider_2/Artboard-12.jpg"
+    },
+    {
+      "url_path": "zte-blade-a3-2020-1-32gb-nfc.html?childSku=т32124",
+      "type_id": "configurable",
+      "img": "https://info.ringoo.ua/images/slider_2/Artboard-13.jpg"
+    },
+    {
+      "url_path": "iphone-11-64gb.html?childSku=т29792",
+      "type_id": "configurable",
+      "img": "https://info.ringoo.ua/images/slider_2/Artboard-14.jpg"
+    },
+    {
+      "url_path": "planshet-huawei-t3-10-lte-16gb-gold.html",
+      "type_id": "configurable",
+      "img": "https://info.ringoo.ua/images/slider_2/Artboard-15.jpg"
+    },
+    {
+      "url_path": "konsol-ps4-1tb-cuh-2208b-dg-gow-tlou-psplus-3m.html",
+      "type_id": "configurable",
+      "img": "https://info.ringoo.ua/images/slider_2/Artboard-16.jpg"
     }
   ],
   "customSeller": {
@@ -1063,10 +1111,16 @@
   },
   "rma": {
     "1": {
-      "title": "Покупайте любой мобильный телефон Apple iPhone и получайте повербанк в подарок!",
-      "image_url": "https://ringoo.ua/img/600/744/resize/6/5/6571351_0_1.jpg",
-      "time": "2020-09-14 00:00:00",
-      "category_link": "/back-to-school"
+      "title": "Купуй фітнес-браслет Xiaomi Mi Smart Band 4 з NFC та отримай -50% знижки на змінний ремінець!",
+      "image_url": "https://ringoo.ua/img/600/744/resize/_/2/_29725.jpg",
+      "time": "2020-11-01 23:59:59",
+      "category_link": "/halloween/t32040-fitnes-braslet-mi-smart-band-4-z-nfc-black/reminci-do-mi-band-4"
+    },
+    "2": {
+      "title": "Купуй Навушники Redmi AirDots S та отримай -50% знижки на чохол Silicone Case!",
+      "image_url": "https://ringoo.ua/img/600/744/resize/_/2/_29032.jpg",
+      "time": "2020-11-01 23:59:59",
+      "category_link": "/halloween/t30002-navushniki-redmi-airdots-s/podarunok-chohol-silicone-case-for-xiaomi-redmi-airdots"
     }
   }
 }

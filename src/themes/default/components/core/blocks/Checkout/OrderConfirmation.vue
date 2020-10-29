@@ -51,7 +51,7 @@
           <a href="#" @click.prevent="cancelOrders()">{{ $t('Cancel') }}</a>
         </div>
         <div class="col-xs-12 col-sm-6">
-          <button-full @click.native="confirmOrders()">
+          <button-full @click.native="confirmOrders()" :aria-label="$t('Confirm your order')">
             {{ $t('Confirm your order') }}
           </button-full>
         </div>

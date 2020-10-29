@@ -62,7 +62,7 @@
       <div class="flex-item">
         <div class="flex-column">
           <div class="item">
-            <button-full type="submit">
+            <button-full type="submit" :aria-label="$t('Get here')">
               {{ $t('Get here') }}
             </button-full>
             <!--<droppoint-action-button-->
