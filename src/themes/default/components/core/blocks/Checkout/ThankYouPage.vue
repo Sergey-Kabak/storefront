@@ -186,7 +186,6 @@ export default {
     initAdmitad() {
       ADMITAD = window.ADMITAD || {};
       ADMITAD.Invoice = ADMITAD.Invoice || {};
-      ADMITAD.Invoice.broker = 'adm';
       ADMITAD.Invoice.category = '1';
 
       const orderedItem = [];
