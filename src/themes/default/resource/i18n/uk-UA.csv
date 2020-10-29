@@ -724,3 +724,5 @@ No differences,Відмінностей немає
 "date of birth","Дата народження"
 "INN","ІНН"
 "surname",По батькові
+"{count} payment","{count} платежів | {count} платіж | {count} платежа | {count} платежів"
+"short month","міс"

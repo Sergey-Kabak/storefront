@@ -10,8 +10,9 @@
       </div>
     </div>
     <div class="credit-info">
-      <span>{{ $t('First installment') }} {{ isSingleCreditProduct.monthly_payment | price(storeView) }}, {{isSingleCreditProduct.number_of_payments}} платежа</span>
-      <b>по</b> <strong>{{ isSingleCreditProduct.monthly_payment | price(storeView) }}</strong> <b>/ мес</b>
+      <span>{{ $t('First installment') }} {{ isSingleCreditProduct.monthly_payment | price(storeView) }},
+        {{$tc(`{count} payment` , isSingleCreditProduct.number_of_payments)}}</span>
+      <b>по</b> <strong>{{ isSingleCreditProduct.monthly_payment | price(storeView) }}</strong> <b>/ {{$t('short month')}}</b>
     </div>
   </div>
 </template>

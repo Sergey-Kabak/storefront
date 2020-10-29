@@ -712,3 +712,6 @@ No differences,Различий нет
 "FIO","ФИО"
 "date of birth","Дата рождения"
 "INN","ИНН"
+"surname","Отчество"
+"{count} payment","{count} платежей | {count} платеж | {count} платежа | {count} платежей"
+"short month","мес"
