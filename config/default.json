@@ -272,6 +272,7 @@
         "children_count",
         "id",
         "is_active",
+        "include_in_menu",
         "level",
         "name",
         "parent_id",

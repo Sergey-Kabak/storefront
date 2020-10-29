@@ -226,7 +226,7 @@ export default {
     },
     visibleCategories () {
       return this.categories.filter(category => {
-        return category.product_count > 0 || category.children_count > 0
+        return (category.product_count > 0 || category.children_count > 0) && category.include_in_menu
       })
     },
     isCurrentMenuShowed () {
