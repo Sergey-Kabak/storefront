@@ -74,14 +74,6 @@
                             condition: $v.creditDetails.surname.$error && !$v.creditDetails.surname.required && $v.creditDetails.surname.$dirty,
                             text: $t('Field is required')
                           },
-                          {
-                            condition: !$v.creditDetails.surname.minLength && $v.creditDetails.surname.$dirty,
-                            text: $t('Name must have at least 2 letters.')
-                          },
-                          {
-                            condition: !$v.creditDetails.surname.lettersOnly && $v.creditDetails.surname.$dirty,
-                            text: $t('Accepts only alphabet characters.')
-                          }
                         ]"
                         />
                       </div>
@@ -101,14 +93,6 @@
                             condition: $v.creditDetails.name.$error && !$v.creditDetails.name.required && $v.creditDetails.name.$dirty,
                             text: $t('Field is required')
                           },
-                          {
-                            condition: !$v.creditDetails.name.minLength && $v.creditDetails.name.$dirty,
-                            text: $t('Name must have at least 2 letters.')
-                          },
-                          {
-                            condition: !$v.creditDetails.name.lettersOnly && $v.creditDetails.name.$dirty,
-                            text: $t('Accepts only alphabet characters.')
-                          }
                         ]"
                         />
                       </div>
@@ -128,14 +112,6 @@
                             condition: $v.creditDetails.last_name.$error && !$v.creditDetails.last_name.required && $v.creditDetails.last_name.$dirty,
                             text: $t('Field is required')
                           },
-                          {
-                            condition: !$v.creditDetails.last_name.minLength && $v.creditDetails.last_name.$dirty,
-                            text: $t('Name must have at least 2 letters.')
-                          },
-                          {
-                            condition: !$v.creditDetails.last_name.lettersOnly && $v.creditDetails.last_name.$dirty,
-                            text: $t('Accepts only alphabet characters.')
-                          }
                         ]"
                         />
                       </div>
@@ -149,6 +125,7 @@
                     </div>
                     <div class="form-column">
                       <div class="form-label">
+                        {{$v.creditDetails.date_of_birth.$model}}
                         <base-datepicker-checkout
                           v-model="$v.creditDetails.date_of_birth.$model" />
                       </div>
@@ -176,10 +153,6 @@
                           {
                             condition: $v.creditDetails.identification_code.$error && !$v.creditDetails.identification_code.required && $v.creditDetails.identification_code.$dirty,
                             text: $t('Field is required')
-                          },
-                          {
-                            condition: !$v.creditDetails.identification_code.minLength && $v.creditDetails.identification_code.$dirty,
-                            text: $t('Name must have at least 2 letters.')
                           },
                         ]"
                         />
@@ -240,7 +213,7 @@ import CreditProducts from './CreditProducts';
 import BaseDatepickerCheckout from '../Form/BaseDatepickerCheckout';
 const lettersOnly = value => (
   /^[\u0400-\u04FF]+$/.test(value) ||
-  /^[a-zA-Z]+$/.test(value) ||
+  /^[a-zA-Zа-яА-Я]+$/.test(value) ||
   value === ""
 );
 

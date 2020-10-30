@@ -5,7 +5,7 @@
         </div>
         <div v-if="open" class="options-wrap">
             <div class="select-options"
-                v-for="option in options"
+                v-for="option in sortOptions"
                 :key="option.credit_id"
                 @click="handleValue(option)"
                 :class="{'active' : selected.terms === option.terms}"
@@ -41,6 +41,12 @@ export default {
   },
   created () {
     this.selected = this.options[this.selectedIndex];
+    this.$emit('bankProduct', this.selected)
+  },
+  computed: {
+    sortOptions () {
+      return this.options.sort((a, b) => +a.terms - +b.terms)
+    }
   },
   mounted () {
     this.clickOutOfBlock()

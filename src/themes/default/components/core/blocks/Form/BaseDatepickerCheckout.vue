@@ -4,6 +4,7 @@
     :clearable="false"
     :editable="false"
     format="DD/MM/YYYY"
+    type="datetime"
     placeholder='ДД/ММ/ГГГГ'
     :lang="currentLang"
     @change="$emit('input', $event)"
@@ -15,7 +16,6 @@
 <script>
 
 import DatePicker from 'vue2-datepicker';
-//import 'vue2-datepicker/index.css';
 import 'vue2-datepicker/locale/ru';
 import 'vue2-datepicker/locale/uk';
 
@@ -30,7 +30,7 @@ export default {
     }
   },
   computed: {
-    currentLang() {
+    currentLang () {
       return {
         'uk-UA': {
           monthFormat: 'MMMM'
