@@ -1,10 +1,8 @@
 <template>
   <div class="flex flex-column product-price-block">
-        <span v-if="product.original_price_incl_tax && product.original_special_price"
+        <span v-if="isDiscount"
               class="price-sale only-mobile">
-          -{{
-            parseInt(((product.original_price_incl_tax - product.original_special_price) / (product.original_price_incl_tax / 100)))
-          }} %
+          -{{discount}} %
         </span>
     <div class="mb0 name mt0 relative w-100" v-if="!onlyImage">
       {{ product.name | htmlDecode }}
@@ -29,13 +27,11 @@
             {{ product.price_incl_tax | price(storeView) }}
           </span>
       <span
-        v-if="product.original_price_incl_tax && product.original_special_price"
+        v-if="isDiscount"
         class="price-sale not-mobile"
       >
-            -{{
-          parseInt(((product.original_price_incl_tax - product.original_special_price) / (product.original_price_incl_tax / 100)))
-        }} %
-          </span>
+        -{{discount}}
+      </span>
     </div>
   </div>
 </template>
@@ -57,6 +53,12 @@ export default {
   computed: {
     storeView () {
       return currentStoreView()
+    },
+    discount () {
+      return parseInt(((this.product.original_price_incl_tax - this.product.special_price) / (this.product.original_price_incl_tax / 100)))
+    },
+    isDiscount () {
+      return this.product.original_price_incl_tax && this.product.special_price && this.discount > 0
     }
   }
 }
@@ -68,16 +70,19 @@ export default {
     display: none;
   }
 }
+
 .not-mobile {
   @media (max-width: 767px) {
     display: none !important;
   }
 }
+
 .price-sale.only-mobile {
   position: absolute;
   top: 25px;
   left: 0;
 }
+
 .price-sale {
   text-align: center;
   margin-left: 8px;
@@ -93,10 +98,12 @@ export default {
   text-transform: uppercase;
   color: #FFFFFF;
 }
+
 .product-price-wrapper {
   display: flex;
   align-items: center !important;
 }
+
 .name {
   font-family: DIN Pro;
   font-style: normal;
@@ -114,6 +121,7 @@ export default {
     line-height: 16px;
   }
 }
+
 .product-price-block {
   display: flex;
   align-items: flex-start;
@@ -127,6 +135,7 @@ export default {
     }
   }
 }
+
 .price {
   &-discount {
     font-family: DIN Pro;
@@ -155,6 +164,7 @@ export default {
     color: #595858;
     margin-right: 4px;
   }
+
   &-special {
     font-weight: 700;
     font-family: DIN Pro;
@@ -163,6 +173,7 @@ export default {
     line-height: 20px;
     color: #1A1919;
   }
+
   &-by-promo-code {
     font-family: DIN Pro;
     font-style: normal;
