@@ -10,12 +10,14 @@
 import { mapState } from 'vuex';
 import 'src/themes/default/assets/fonts/stylesheet.css';
 import version from 'theme/helpers/Version';
+import admitad from 'theme/mixins/admitad';
 
 const DefaultLayout = () => import(/* webpackChunkName: "vsf-layout-default" */ './layouts/Default')
 const EmptyLayout = () => import(/* webpackChunkName: "vsf-layout-empty" */ './layouts/Empty')
 const MinimalLayout = () => import(/* webpackChunkName: "vsf-layout-minimal" */ './layouts/Minimal')
 
 export default {
+  mixins: [admitad],
   data () {
     return {
       ordersData: []

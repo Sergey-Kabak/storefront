@@ -244,7 +244,7 @@ export default {
           line-height: 16px
           margin: 0
         .main
-          color: #5F5E5E
+          color: #595858
         .desc
           color: #BDBDBD
       &.active

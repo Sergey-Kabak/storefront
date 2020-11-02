@@ -6,10 +6,10 @@
       </div>
       <div class="row microcart-buttom-body-row">
         <div class="col-sm-6 microcart-buttom-body-row-left">
-          <button class="btn w-100">{{ $t('Continue shopping') }}</button>
+          <button class="btn w-100" :aria-label="$t('Continue shopping')">{{ $t('Continue shopping') }}</button>
         </div>
         <div class="col-sm-6 microcart-buttom-body-row-right">
-          <button class="btn w-100">{{ $t('Go to checkout') }}</button>
+          <button class="btn w-100" :aria-label="$t('Go to checkout')">{{ $t('Go to checkout') }}</button>
         </div>
       </div>
     </div>

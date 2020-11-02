@@ -8,15 +8,15 @@
           </div>
           <div class="mobile-header hidden-md mt10">
             <h1
-                class="mb20 mt0 cl-mine-shaft product-name"
-                data-testid="productName"
-                itemprop="name"
+              class="mb20 mt0 cl-mine-shaft product-name"
+              data-testid="productName"
+              itemprop="name"
             >
               {{ getCurrentProduct.name | htmlDecode }}
               <web-share
-                  :title="getCurrentProduct.name | htmlDecode"
-                  text="Check this product!"
-                  class="web-share"
+                :title="getCurrentProduct.name | htmlDecode"
+                text="Check this product!"
+                class="web-share"
               />
             </h1>
             <div
@@ -97,16 +97,6 @@
                         @change="changeFilter"
                       />
                     </div>
-                    <div :class="option.attribute_code" v-else>
-                      <generic-selector
-                        class="mr10 mb10"
-                        v-for="filter in getAvailableFilters[option.attribute_code]"
-                        :key="filter.id"
-                        :variant="filter"
-                        :selected-filters="getSelectedFilters"
-                        @change="changeFilter"
-                      />
-                    </div>
                   </div>
                 </div>
               </div>
@@ -124,23 +114,22 @@
               :product="getCurrentProduct"
             />
             <product-quantity-new
-                class="row m0 mb35"
-                v-if="getCurrentProduct.type_id !== 'grouped' && getCurrentProduct.type_id !== 'bundle'"
-                v-model="getCurrentProduct.qty"
-                :max-quantity="maxQuantity"
-                :loading="isStockInfoLoading"
-                :is-simple-or-configurable="isSimpleOrConfigurable"
-                :show-quantity="manageQuantity"
-                :check-max-quantity="manageQuantity"
-                @error="handleQuantityError"
+              class="row m0 mb35"
+              v-if="getCurrentProduct.type_id !== 'grouped' && getCurrentProduct.type_id !== 'bundle'"
+              v-model="getCurrentProduct.qty"
+              :max-quantity="maxQuantity"
+              :loading="isStockInfoLoading"
+              :is-simple-or-configurable="isSimpleOrConfigurable"
+              :show-quantity="manageQuantity"
+              :check-max-quantity="manageQuantity"
+              @error="handleQuantityError"
             />
             <div
-                v-if="getCurrentProduct && ((getCurrentProduct.stock && getCurrentProduct.stock.is_in_stock) && (getCurrentProduct.price_incl_tax || getCurrentProduct.original_price_incl_tax))"
-                class="row m0 action-buttons"
+              v-if="getCurrentProduct.stock.is_in_stock"
+              class="row m0"
             >
               <add-to-cart
                 :product="getCurrentProduct"
-                :disabled="isAddToCartDisabled && !preorder"
                 class="col-xs-12 col-sm-4 col-md-6">
               >
                 <template v-if="preorder" v-slot:text>{{$t('pre order')}}</template>
@@ -270,7 +259,7 @@ import ProductPrice from 'theme/components/core/ProductPrice.vue';
 import Promo from "../components/core/blocks/Product/Promo";
 import Spinner from "../components/core/Spinner";
 import { CreditService } from '@vue-storefront/core/data-resolver';
-
+import { filterChangedProduct } from '@vue-storefront/core/modules/catalog/events'
 export default {
   components: {
     AddToCart,
@@ -486,7 +475,7 @@ export default {
         return attr.attribute_code === 'rma';
       });
 
-      if (!attribute.options.length > 0) {
+      if (!(attribute.options && attribute.options.length)) {
         return false;
       }
 
@@ -514,12 +503,11 @@ export default {
         action1: { label: this.$t('OK') }
       })
     },
-    changeFilter (variant) {
-      this.$bus.$emit(
-        'filter-changed-product',
-        Object.assign({ attribute_code: variant.type }, variant)
-      )
-      //this.getQuantity();
+    async changeFilter (variant) {
+      const selectedConfiguration = Object.assign({ attribute_code: variant.type }, variant)
+      await filterChangedProduct(selectedConfiguration, this.$store, this.$router)
+      this.$bus.$emit( 'filter-changed-product', Object.assign({ attribute_code: variant.type }, variant))
+      this.getQuantity();
     },
     isOptionAvailable (option) { // check if the option is available
       const currentConfig = Object.assign({}, this.getCurrentProductConfiguration)
@@ -863,7 +851,7 @@ $bg-secondary: color(secondary, $colors-background);
       font-size: 13px;
       line-height: 16px;
       text-align: right;
-      color: #5F5E5E;
+      color: #595858;
     }
     .product-price {
       margin-bottom: 16px;

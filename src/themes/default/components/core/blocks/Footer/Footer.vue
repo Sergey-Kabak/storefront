@@ -11,9 +11,9 @@
           <div class="copyright">{{ $t('All rights reserved.') }} <br> “Ringoo” Copyright 2020</div>
         </div>
         <div class="start-md" v-for="(footerColumn, index) in footerColumns" :key="index">
-          <h3 class="footer-title">
+          <h1 class="footer-title">
             {{ $t(footerColumn.title) }}
-          </h3>
+          </h1>
           <div class="footer-routes">
             <div :key="index" v-for="(cat, index) in footerColumn.routes" class="route">
               <router-link class="cl-secondary" :to="localizedRoute(`/${cat.url_path}`)" exact>
@@ -23,9 +23,9 @@
           </div>
         </div>
         <div class="start-md">
-          <h3 class="footer-title">
+          <h1 class="footer-title">
             {{ $t('Contact') }}
-          </h3>
+          </h1>
           <div class="phone">
             <a href="tel:380970908707">+38 097 090 87 07</a>
             <a href="tel:380730908707">+38 073 090 87 07</a>
@@ -36,9 +36,9 @@
           <div class="info">
             <span>{{ $t('Calls according to the tariffs of your operator') }}</span>
           </div>
-          <h4 class="footer-title">
+          <h1 class="footer-title">
             {{ $t('We accept') }}
-          </h4>
+          </h1>
           <div>
             <div class="payment">
               <img src="/assets/payments/mastercard.svg" alt="mastercard" class="payment-icon">
@@ -50,7 +50,7 @@
       </div>
     </div>
     <back-to-top bottom="60px" right="20px" visibleoffset="200">
-      <button type="button" class="btn-top button no-outline brdr-none cl-white bg-cl-mine-shaft :bg-cl-th-secondary py10 px10">
+      <button type="button" class="btn-top button no-outline brdr-none cl-white bg-cl-mine-shaft :bg-cl-th-secondary py10 px10" aria-label="back-to-top">
         <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg" fill-rule="evenodd" clip-rule="evenodd">
           <path d="M23.245 20l-11.245-14.374-11.219 14.374-.781-.619 12-15.381 12 15.391-.755.609z" fill="white" />
         </svg>

@@ -182,6 +182,7 @@
         data-testid="paymentSubmit"
         :disabled="$v.payment.$invalid"
         class="button-pay"
+        :aria-label="$t('To pay')"
       >
         {{ $t('To pay') }}
       </button-full>
@@ -510,131 +511,142 @@ export default {
       text-align: left;
     }
 
-    .form-label {
-      text-align: left;
-    }
-
-    form {
-      width: 100%;
-      display: flex;
-      flex-direction: column;
-
-      .form-row {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        grid-gap: 20px;
-        margin: 0;
-      }
-    }
-
-    .radioStyled.disabled {
-      opacity: 0.55;
-    }
-
-    .summary-price {
-      display: flex;
-      justify-content: space-between;
-      font-family: DIN Pro;
-      font-style: normal;
-      font-weight: 600;
-      font-size: 24px;
-      line-height: 30px;
-      color: #1a1919;
-    }
-
-    .payment-methods {
-      display: grid;
-      grid-template-columns: 1fr;
-      grid-gap: 20px;
-      margin-bottom: 30px;
-    }
-
-    .payment-card {
-      box-sizing: border-box;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-
-    .button-pay {
-      max-width: 131px;
-    }
-
     .label {
       display: flex;
       align-items: center;
-      color: #5F5E5E;
+      color: #595858;
       font-family: DIN Pro;
       font-style: normal;
       font-size: 13px;
       line-height: 16px;
       margin-bottom: 12px;
 
-      &--highlighted {
-        color: #23BE20;
+      .form-label {
+        text-align: left;
       }
-    }
 
-    @media (max-width: 960px) {
-      .subtitle {
-        &.disabled {
-          display: none;
+      form {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+
+        .form-row {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          grid-gap: 20px;
+          margin: 0;
         }
       }
 
-      .summary-price {
-        margin-bottom: 24px;
+      .radioStyled.disabled {
+        opacity: 0.55;
       }
 
-      .promo-code {
-        margin-bottom: 24px;
+      .summary-price {
+        display: flex;
+        justify-content: space-between;
+        font-family: DIN Pro;
+        font-style: normal;
+        font-weight: 600;
+        font-size: 24px;
+        line-height: 30px;
+        color: #1a1919;
       }
 
       .payment-methods {
-        grid-template-columns: 1fr 1fr;
-        margin-bottom: 0;
+        display: grid;
+        grid-template-columns: 1fr;
+        grid-gap: 20px;
+        margin-bottom: 30px;
       }
 
-      .mobile-data {
-        display: block;
-      }
-
-      .payment-body {
-        padding-bottom: 16px;
-        border-bottom: 1px solid #E0E0E0;
-        margin-bottom: 16px;
+      .payment-card {
+        box-sizing: border-box;
+        display: flex;
+        justify-content: center;
+        align-items: center;
       }
 
       .button-pay {
         max-width: 131px;
-        margin-bottom: 16px;
-      }
-    }
-
-    @media (max-width: 460px) {
-
-      .payment-methods {
-        grid-template-columns: 1fr;
       }
 
-      #checkout {
-        .radioStyled {
-          flex-direction: column !important;
-          justify-content: center;
-          padding: 12px 20px;
+      .label {
+        display: flex;
+        align-items: center;
+        color: #5F5E5E;
+        font-family: DIN Pro;
+        font-style: normal;
+        font-size: 13px;
+        line-height: 16px;
+        margin-bottom: 12px;
 
-          .checkmark {
-            margin-bottom: 0;
-            margin-right: 20px;
-          }
+        &--highlighted {
+          color: #23BE20;
         }
       }
 
-      .button-pay ::v-deep {
-        max-width: 100%;
+      @media (max-width: 960px) {
+        .subtitle {
+          &.disabled {
+            display: none;
+          }
+        }
 
-        button {
+        .summary-price {
+          margin-bottom: 24px;
+        }
+
+        .promo-code {
+          margin-bottom: 24px;
+        }
+
+        .payment-methods {
+          grid-template-columns: 1fr 1fr;
+          margin-bottom: 0;
+        }
+
+        .mobile-data {
+          display: block;
+        }
+
+        .payment-body {
+          padding-bottom: 16px;
+          border-bottom: 1px solid #E0E0E0;
+          margin-bottom: 16px;
+        }
+
+        .button-pay {
+          max-width: 131px;
+          margin-bottom: 16px;
+        }
+      }
+
+      @media (max-width: 460px) {
+
+        .payment-methods {
+          grid-template-columns: 1fr;
+        }
+
+        #checkout {
+          .radioStyled {
+            flex-direction: column !important;
+            justify-content: center;
+            padding: 12px 20px;
+
+            .checkmark {
+              margin-bottom: 0;
+              margin-right: 20px;
+            }
+          }
+        }
+
+        .button-pay ::v-deep {
           max-width: 100%;
+
+          button {
+            max-width: 100%;
+          }
         }
       }
     }

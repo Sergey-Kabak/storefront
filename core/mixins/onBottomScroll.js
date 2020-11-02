@@ -5,7 +5,7 @@ const isBottomVisible = () => {
     return false
   }
   const SAFETY_MARGIN = 20
-  const scrollY = window.scrollY
+  const scrollY = window.scrollY + document.querySelector('footer .footer-links').clientHeight
   const visible = window.innerHeight
   const pageHeight = document.documentElement.scrollHeight
   const bottomOfPage = scrollY + SAFETY_MARGIN >= pageHeight - visible

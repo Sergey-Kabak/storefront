@@ -85,6 +85,7 @@
               <button-full
                 @click.native="validate()"
                 :class="{ 'w-auto': !currentUser }"
+                :aria-label="$t('Add review')"
               >
                 {{ $t('Add review') }}
               </button-full>

@@ -1,9 +1,9 @@
 <template>
   <div>
     <div class="filter-header" @click="toggleFitler()">
-      <h5 class="filter-header__title">
+      <h1 class="filter-header__title">
         {{ $t(label) }}
-      </h5>
+      </h1>
       <div class="filter-button" :class="{ active: !isActive }">
         <span class="line-horizontal line" />
         <span class="line-vertical line" />

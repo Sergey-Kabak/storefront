@@ -141,7 +141,7 @@ export default {
       font-weight: 600;
       font-size: 13px;
       line-height: 16px;
-      color: #5F5E5E;
+      color: #595858;
       padding-right: 20px;
       svg {
         margin-right: 12px;
@@ -159,7 +159,7 @@ export default {
       font-style: normal;
       font-size: 13px;
       line-height: 16px;
-      color: #5F5E5E;
+      color: #595858;
       svg {
         margin-right: 12px;
         width: 16px;

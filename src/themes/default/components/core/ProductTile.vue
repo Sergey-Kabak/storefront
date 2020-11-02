@@ -1,6 +1,6 @@
 <template>
   <div class="product w-100 pb20 d-flex-column btw" v-observe-visibility="visibilityChanged">
-    <div class="product__icons">
+    <div class="product__icons" v-if="isShowCompareAndFavorite">
       <AddToWishlist :product="product" class="product-icon" :class="{'active': isOnWishlist }" />
       <AddToCompare :product="product" class="product-icon" :class="{'active': isOnCompare }" />
     </div>
@@ -63,7 +63,7 @@ export default {
     isShowCompareAndFavorite: {
       type: Boolean,
       required: false,
-      default: false
+      default: true
     },
     labelsActive: {
       type: Boolean,

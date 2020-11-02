@@ -42,7 +42,7 @@
           Ограничение веса: до {{source.weightLimit}} кг
         </div>
         <div class="action">
-          <button-full @click.native="$bus.$emit('checked-location', source)" type="button">{{ $t('Pick up here') }} </button-full>
+          <button-full @click.native="$bus.$emit('checked-location', source)" type="button" :aria-label="$t('Pick up here')">{{ $t('Pick up here') }} </button-full>
         </div>
       </div>
     </div>
@@ -142,7 +142,7 @@ export default {
     font-family: 'DIN Pro';
     font-size: 13px;
     line-height: 16px;
-    color: #5F5E5E;
+    color: #595858;
     font-weight: 600;
     margin-bottom: 16px;
 
@@ -158,7 +158,7 @@ export default {
     font-family: 'DIN Pro';
     font-size: 13px;
     line-height: 16px;
-    color: #5F5E5E;
+    color: #595858;
 
     svg {
       margin-right: 12px;
@@ -175,7 +175,7 @@ export default {
     font-family: 'DIN Pro';
     font-size: 13px;
     line-height: 16px;
-    color: #5F5E5E;
+    color: #595858;
   }
   .time {
     font-family: 'DIN Pro';

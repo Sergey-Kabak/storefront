@@ -58,13 +58,12 @@ export default {
   }
 
   .checkbox-title {
-    color: #5F5E5E;
+    color: #595858;
     margin-right: 5px;
   }
 
   .checkbox-amount {
-    color: #5F5E5E;;
-    opacity: 0.6;
+    color: #595858;;
   }
 
   .checkbox {

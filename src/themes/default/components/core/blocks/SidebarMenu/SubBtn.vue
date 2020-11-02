@@ -7,7 +7,7 @@
     :aria-label="$t('Show subcategories')"
     data-testid="categoryButton"
   >
-    <span v-html="ico"></span>
+    <span class="back" v-html="ico"></span>
     {{ name }}
     <i class="material-icons mla">keyboard_arrow_right</i>
   </button>
@@ -18,7 +18,7 @@
     @click.stop="back()"
     :aria-label="$t('Back')"
   >
-    <span v-html="ico"></span>
+    <span v-html="ico" class="back"></span>
     {{ name }}
     <i class="material-icons mla">keyboard_arrow_left</i>
   </button>
@@ -81,7 +81,7 @@ button {
   font-weight: 700;
   font-size: 14px;
   line-height: 16px;
-  color: #5F5E5E;
+  color: #595858;
   span {
     margin-right: 10px;
     display: block;
@@ -101,5 +101,9 @@ button {
       color: $color-black;
     }
   }
+}
+
+.back {
+  width: auto;
 }
 </style>

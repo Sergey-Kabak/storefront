@@ -1,9 +1,7 @@
 <template>
   <div id="home">
     <section class="v-container">
-      <no-ssr>
-        <home-carousel />
-      </no-ssr>
+      <home-carousel />
     </section>
     <!--<head-image />-->
 
@@ -42,6 +40,7 @@
             class="mt35 show-all"
             type="submit"
             @click.native="goToCategory('stockGoods')"
+            :aria-label="$t('See all')"
         >
           {{ $t('See all') }}
         </button-full>
@@ -65,6 +64,7 @@
             class="mt35 show-all"
             type="submit"
             @click.native="goToCategory('salesLeaders')"
+            :aria-label="$t('See all')"
         >
           {{ $t('See all') }}
         </button-full>
@@ -84,9 +84,7 @@
         </h2>
       </header>
       <section>
-        <no-ssr>
-          <home-carousel />
-        </no-ssr>
+        <home-carousel />
       </section>
     </section>
 
@@ -108,6 +106,7 @@
             class="mt35 show-all"
             type="submit"
             @click.native="goToCategory('new')"
+            :aria-label="$t('See all')"
         >
           {{ $t('See all') }}
         </button-full>
@@ -133,6 +132,7 @@
             class="mt35 show-all"
             type="submit"
             @click.native="goToCategory('recommends')"
+            :aria-label="$t('See all')"
         >
           {{ $t('See all') }}
         </button-full>
@@ -402,7 +402,7 @@ export default {
         font-weight: normal;
         font-size: 16px;
         line-height: 24px;
-        color: #5F5E5E;
+        color: #595858;
         margin-top: 16px;
       }
 

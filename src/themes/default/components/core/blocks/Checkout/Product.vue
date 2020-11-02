@@ -16,22 +16,22 @@
         <div class="product-info-price">
           <span
             class="mr5 original-price"
-            :class="{'disabled': product.original_special_price}"
+            :class="{'disabled': product.special_price}"
           >
             {{ product.original_price_incl_tax | price(storeView) }}
           </span>
           <span
             class="price-special cl-accent weight-700"
-            v-if="product.original_special_price"
+            v-if="product.special_price"
           >
-            {{ product.original_special_price | price(storeView) }}
+            {{ product.special_price | price(storeView) }}
           </span>
           <span
-            v-if="product.original_price_incl_tax && product.original_special_price"
+            v-if="product.original_price_incl_tax && product.special_price"
             class="lh30 cl-secondary price-sale"
           >
             -{{
-              parseInt(((product.original_price_incl_tax - product.original_special_price) / (product.original_price_incl_tax / 100)))
+              parseInt(((product.original_price_incl_tax - product.special_price) / (product.original_price_incl_tax / 100)))
             }} %
           </span>
         </div>
@@ -88,7 +88,7 @@ export default {
   }),
   computed: {
     finalPrice () {
-      return this.product.original_special_price || this.product.original_price_incl_tax
+      return this.product.special_price || this.product.original_price_incl_tax
     },
     image () {
       return {
@@ -248,7 +248,7 @@ img {
 .original-price {
   &.disabled {
     text-decoration: line-through;
-    color: #5F5E5E;
+    color: #595858;
   }
 }
 
@@ -303,7 +303,7 @@ img {
     font-style: normal;
     font-size: 14px;
     line-height: 24px;
-    color: #5F5E5E;
+    color: #595858;
   }
 }
 </style>

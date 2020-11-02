@@ -80,6 +80,7 @@
             />
           </div>
           <button-full
+            :aria-label="$t('next')"
             @click.native="validateData()"
           >
             {{ $t('next') }}
@@ -193,7 +194,7 @@ export default {
       font-family: DIN Pro;
       font-size: 13px;
       line-height: 16px;
-      color: #5F5E5E;
+      color: #595858;
       margin-bottom: 12px;
       i {
         color: #23BE20;

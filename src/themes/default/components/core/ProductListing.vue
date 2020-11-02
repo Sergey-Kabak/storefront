@@ -21,16 +21,11 @@ export default {
     isShowCompareAndFavorite: {
       type: Boolean,
       required: false,
-      default: false
+      default: true
     },
     products: {
       type: null,
       required: true
-    },
-    columns: {
-      type: Number | String,
-      required: false,
-      default: 4
     }
   }
 }

@@ -4,12 +4,12 @@ export default {
   title: 'ringoo.ua',
   titleTemplate: '%s - ringoo.ua',
   htmlAttrs: {
-    lang: 'ua'
+    lang: 'uk-UA'
   },
   meta: [
     { charset: 'utf-8' },
     { vmid: 'description', name: 'description', content: 'ringoo.ua — купити смартфони, гаджети та аксесуари з доставкою по Україні' },
-    { name: 'viewport', content: 'width=device-width, initial-scale=1, minimal-ui' },
+    { name: 'viewport', content: 'width=device-width, initial-scale=1, minimal-ui, maximum-scale=5' },
     { name: 'robots', content: 'index, follow' },
     { name: 'mobile-web-app-capable', content: 'yes' },
     { name: 'theme-color', content: '#ffffff' },

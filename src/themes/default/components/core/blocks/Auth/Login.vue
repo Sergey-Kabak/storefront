@@ -73,7 +73,7 @@
               </a>
             </div>
           </div>
-          <button-full class="mb20 auth-button" type="submit" data-testid="loginSubmit">
+          <button-full class="mb20 auth-button" type="submit" data-testid="loginSubmit" :aria-label="$t('Log in')">
             {{ $t('Log in') }}
           </button-full>
           <div class="center-xs register-link">
@@ -344,7 +344,7 @@ $white: color(white);
       font-family: "DIN Pro";
       font-size: 13px;
       line-height: 16px;
-      color: #5F5E5E;
+      color: #595858;
       text-align: center;
       margin-top: -5px;
       margin-bottom: 15px;

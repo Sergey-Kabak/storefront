@@ -32,6 +32,8 @@ export default {
       if (label.indexOf('/') >= 0) label = label.replace('/', ',') // to be honest - this is a hack for colors like "ink/white"
       if (label && label.toString().indexOf(',') >= 0) {
         return 'background: linear-gradient(' + label + ')'
+      } else if (label === 'Multi') {
+        return 'background: linear-gradient(180deg, #40E0D0 0%, #FF8C00 50%, #FF0080 100%)';
       } else {
         return 'background-color: ' + label
       }
@@ -59,7 +61,7 @@ export default {
     height: 30px;
     left: 50%;
     top: 50%;
-    border: 1px solid transparent;
+    border: 1px solid #fff;
     transform: translate(-50%,-50%)
   }
   @keyframes tooltip {

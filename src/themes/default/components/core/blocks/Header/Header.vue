@@ -242,7 +242,7 @@ header {
     font-size: 15px;
     line-height: 24px;
     display: block;
-    color: #5F5E5E;
+    color: #595858;
   }
   &__icon {
     margin-right: 20px;
@@ -417,7 +417,7 @@ header {
     font-weight: 0;
     font-size: 15px;
     line-height: 24px;
-    color: #5F5E5E;
+    color: #595858;
   }
 }
 
@@ -441,7 +441,7 @@ header {
     font-style: normal;
     font-size: 15px;
     line-height: 24px;
-    color: #5F5E5E;
+    color: #595858;
 
     &:hover {
       text-decoration: none;
@@ -533,7 +533,7 @@ header {
     font-size: 15px;
     line-height: 25px;
     display: block;
-    color: #5F5E5E;
+    color: #595858;
     transition: .2s ease-in-out;
 
     &:hover {
