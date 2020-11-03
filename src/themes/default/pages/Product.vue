@@ -258,7 +258,6 @@ import { catalogHooksExecutors } from '@vue-storefront/core/modules/catalog-next
 import ProductPrice from 'theme/components/core/ProductPrice.vue';
 import Promo from "../components/core/blocks/Product/Promo";
 import Spinner from "../components/core/Spinner";
-import { CreditService } from '@vue-storefront/core/data-resolver';
 import { filterChangedProduct } from '@vue-storefront/core/modules/catalog/events'
 export default {
   components: {

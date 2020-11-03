@@ -1,5 +1,5 @@
 import * as types from './mutation-types'
-import { CreditService } from '@vue-storefront/core/data-resolver/CreditService';
+import { CreditService } from '../../services/index';
 
 const actions = {
   creditSetBanks ({ commit }, { banks }) {
@@ -9,7 +9,6 @@ const actions = {
     commit(types.CREDIT_SET_SELECTED_BANK, { bank })
   },
   creditSetSelectedCredit ({ commit }, { credit }) {
-    console.log(credit);
     commit(types.CREDIT_SET_SELECTED_CREDIT, { credit })
   },
   creditSetFields ({ commit }, { fields }) {

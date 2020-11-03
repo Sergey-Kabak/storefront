@@ -1,5 +1,5 @@
 import config from 'config';
-import { DataResolver } from './types/DataResolver';
+import { DataResolver } from '../types/CreditResolver';
 import { TaskQueue } from '@vue-storefront/core/lib/sync'
 import Task from '@vue-storefront/core/lib/sync/types/Task'
 import getApiEndpointUrl from '@vue-storefront/core/helpers/getApiEndpointUrl';
@@ -11,22 +11,22 @@ const headers = {
 
 const getCredits = async (sku: any): Promise<Task> => {
   return TaskQueue.execute({
-    url: `${getApiEndpointUrl({endpoint: "/api/ext/credits?sku=" + sku}, 'endpoint')}`,
+    url: `${getApiEndpointUrl({ endpoint: '/api/ext/credits?sku=' + sku }, 'endpoint')}`,
     payload: {
       method: 'GET',
       headers,
-      mode: 'cors',
+      mode: 'cors'
     }
   })
 }
 
 const getCreditsCheckout = async (cart_id: any): Promise<Task> => {
   return TaskQueue.execute({
-    url: `${getApiEndpointUrl({endpoint: "/api/ext/credits/" + cart_id}, 'endpoint')}`,
+    url: `${getApiEndpointUrl({ endpoint: '/api/ext/credits/' + cart_id }, 'endpoint')}`,
     payload: {
       method: 'GET',
       headers,
-      mode: 'cors',
+      mode: 'cors'
     }
   })
 }

@@ -58,9 +58,9 @@ export const PaymentCashOnDeliveryModule: StorefrontModule = function ({ store }
           correctPaymentMethod = true
 
           // Dynamically inject a component into the order review section (optional)
-          // const Component = Vue.extend(InfoComponent)
-          // const componentInstance = (new Component())
-          // componentInstance.$mount('#checkout-order-review-additional')
+          const Component = Vue.extend(InfoComponent)
+          const componentInstance = (new Component())
+          componentInstance.$mount('#checkout-order-review-additional')
         } else {
           correctPaymentMethod = false
         }

@@ -47,7 +47,7 @@
               <div class="credit-block">
                 <div class="block-title">{{ $t('Credit offer') }}</div>
                 <credit-products :banks="getBanks" :totalPrice="totals.find(code => code.code === 'grand_total').value" />
-                <form>
+                <form class="w-100">
                   <div class="block-title">
                     {{ $t('Loan processing')}}
                   </div>
@@ -417,6 +417,13 @@ export default {
     /deep/ input[type=number]{
       width: 100%;
     }
+  }
+  .form-row{
+    justify-content: space-between;
+  }
+  .form-column:last-child{
+    max-width: 312px;
+    width: 100%;
   }
   /deep/ .date-picker.mx-datepicker{
     width: 100%;

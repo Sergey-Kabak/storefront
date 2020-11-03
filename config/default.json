@@ -106,7 +106,7 @@
     "port": 8080
   },
   "api": {
-    "url": "https://ringoo.ua",
+    "url": "http://localhost:8080",
     "saveBandwidthOverCache": true
   },
   "liqpay": {
