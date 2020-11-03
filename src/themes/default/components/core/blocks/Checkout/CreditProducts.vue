@@ -12,7 +12,7 @@
     <div class="credit-info">
       <span>{{ $t('First installment') }} {{ isSingleCreditProduct.monthly_payment | price(storeView) }},
         {{$tc(`{count} payment` , isSingleCreditProduct.number_of_payments)}}</span>
-      <b>по</b> <strong>{{ isSingleCreditProduct.monthly_payment | price(storeView) }}</strong> <b>/ {{$t('short month')}}</b>
+      <div class="inline"><b>по</b> <strong>{{ isSingleCreditProduct.monthly_payment | price(storeView) }}</strong> <b>/ {{$t('short month')}}</b></div>
     </div>
   </div>
 </template>
@@ -69,12 +69,19 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.inline{
+  display: inline-block;
+}
   .credit-product{
     display: flex;
     align-items: center;
     justify-content: flex-start;
     margin-bottom: 11px;
     &-wrapper{
+      @media (max-width: 575px){
+        width: calc(100% + 32px);
+        margin-left: -16px;
+      }
       background: #E4F9E4;
       border-radius: 4px;
       padding: 18px 16px;

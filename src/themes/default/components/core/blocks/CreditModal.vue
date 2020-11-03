@@ -24,16 +24,19 @@
             </div>
           </div>
           <div >
+            <div class="mobile-label">{{ $t('Monthly payment') }}, ₴</div>
             <span>{{getMonthlyPayment[index] | price(storeView)}}</span>
           </div>
           <div>
+            <div class="mobile-label">{{ $t('Number of payments') }}</div>
             <custom-select
               :selected-index="0"
               :options="bank.credits"
               @bankProduct="selectedPaymentCount($event, index, bank)"/>
           </div>
           <div>
-            <b>{{totalPrice | price(storeView)}}</b>
+            <div class="mobile-label">{{ $t('grand_total') }}</div>
+            <b class="grand-total">{{totalPrice | price(storeView)}}</b>
           </div>
         </div>
 
@@ -172,7 +175,23 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  /deep/ .modal-container{
+.mobile-label{
+  @media (min-width: 576px){
+    display: none;
+  }
+  font-size: 13px;
+  line-height: 16px;
+  color: rgba(95, 94, 94, 0.6);
+  display: block;
+  margin-bottom: 12px;
+}
+.grand-total{
+  @media (max-width: 575px){
+    font-size: 24px;
+    line-height: 30px;
+  }
+}
+  ::v-deep .modal-container{
     display: flex;
     flex-direction: column;
     height: calc(100% - 58px);
@@ -196,6 +215,29 @@ export default {
   }
 </style>
 <style lang="scss">
+.modal-header{
+  @media (max-width: 575px){
+    padding-top: 65px !important;
+    h3{
+      margin: 0;
+      line-height: 30px;
+    }
+    .modal-close{
+      position: absolute;
+      right: 0;
+      top: 0;
+      min-width: 56px;
+      min-height: 56px;
+      background-color: #F9F9F9;
+      color: #BDBDBD;
+      font-size: 24px;
+      margin: 0 !important;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+  }
+}
   .desctop_header{
     @media (max-width : 840px){
       display: none !important;
@@ -325,6 +367,10 @@ export default {
       }
     }
     &__row{
+      @media (max-width: 575px){
+        padding-left: 16px;
+        padding-right: 16px;
+      }
       @media (max-width : 840px){
         flex-direction: column;
         &>div:not(:last-child){

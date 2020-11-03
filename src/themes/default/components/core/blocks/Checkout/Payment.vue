@@ -17,7 +17,7 @@
       <div class="checkout-subtitle-text">{{ $t('the Payment') }}:</div>
     </div>
     <div v-if="isActive && activeSection.payment" class="payment-body">
-      <div class="label">
+      <div class="label mb10">
         {{ $t('Payment method') }}
         <span class="label--highlighted">*</span>
       </div>
@@ -125,7 +125,6 @@
                     </div>
                     <div class="form-column">
                       <div class="form-label">
-                        {{$v.creditDetails.date_of_birth.$model}}
                         <base-datepicker-checkout
                           v-model="$v.creditDetails.date_of_birth.$model" />
                       </div>
@@ -144,7 +143,7 @@
                           :class="{ error: $v.creditDetails.identification_code.$error && $v.creditDetails.identification_code.$dirty }"
                           type="number"
                           :autofocus="true"
-                          name="last_name"
+                          name="INN"
                           :placeholder="$t('INN')"
                           v-model.trim="$v.creditDetails.identification_code.$model"
                           @blur="$v.creditDetails.identification_code.$touch()"
@@ -414,14 +413,32 @@ export default {
   @import '~bootstrap';
   .inn-input{
     width: 100%;
-    /deep/ input[type=number]{
+    ::v-deep input[type=number]{
       width: 100%;
     }
   }
   .form-row{
+    @media (max-width: 575px){
+      flex-direction: column;
+      align-items: flex-start;
+      ::v-deep{
+        .base-input{
+          min-height: 3.5rem;
+        }
+      }
+    }
+    margin: 0;
     justify-content: space-between;
   }
+  .form-column:first-child .form-label{
+    @media (max-width: 575px){
+      margin-bottom: 16px;
+    }
+  }
   .form-column:last-child{
+    @media (max-width: 575px){
+      max-width: 100%;
+    }
     max-width: 312px;
     width: 100%;
   }
@@ -457,7 +474,15 @@ export default {
     }
   }
   .note-right{
+    @media (max-width: 575px){
+      min-width: 100%;
+      margin-top: 18px;
+      margin-left: -2px;
+    }
     svg{
+      @media (max-width: 575px){
+        margin-right: 14px;
+      }
       margin-right: 12px;
     }
     margin-left: auto;
@@ -482,6 +507,9 @@ export default {
     }
   }
   .radio-input-row{
+    @media (max-width : 575px){
+      flex-wrap: wrap;
+    }
     display: flex;
     align-items: center;
     width: 100%;

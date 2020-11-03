@@ -126,7 +126,7 @@
             />
             <div
               v-if="getCurrentProduct.stock.is_in_stock"
-              class="row m0"
+              class="row m0 action-block-buttons"
             >
               <add-to-cart
                 :product="getCurrentProduct"
@@ -135,8 +135,7 @@
                 <template v-if="preorder" v-slot:text>{{$t('pre order')}}</template>
               </add-to-cart>
               <button-white v-if="getBanks.length" @click.native="showModalCredits" class="buy_in_credit h40 flex1">
-                <span>В кредит</span>
-<!--                <spinner v-if="!getBanks.length" containerClass="quantity-spinner" />-->
+                <span>{{ $t('In credit') }}</span>
               </button-white>
             </div>
             <div class="row py40 add-to-buttons">
@@ -591,18 +590,6 @@ $color-tertiary: color(tertiary);
 $color-secondary: color(secondary);
 $color-white: color(white);
 $bg-secondary: color(secondary, $colors-background);
-.action-buttons{
-  display: grid;
-  grid-gap: 20px;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-  .buy_in_credit{
-    max-width: 260px;
-    height: 40px;
-    width: auto;
-    justify-content: center;
-    border-color: #20af1d;
-  }
-}
 .seller-name-row {
   cursor: pointer;
   border: 1px solid #E0E0E0;
@@ -858,6 +845,18 @@ $bg-secondary: color(secondary, $colors-background);
     .variants-wrapper {
       padding-bottom: 16px;
     }
+  }
+}
+.action-block-buttons{
+  display: grid;
+  grid-gap: 20px;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  .buy_in_credit{
+    max-width: 260px;
+    height: 40px;
+    width: auto;
+    justify-content: center;
+    border-color: #20af1d;
   }
 }
 </style>
