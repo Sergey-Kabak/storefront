@@ -265,6 +265,7 @@
     ],
     "category": {
       "includeFields": [
+        "filterable_attributes",
         "description",
         "image",
         "custom_design_from",
@@ -627,24 +628,6 @@
     "waitForPlatformSync": false,
     "setupVariantByAttributeCode": true,
     "endpoint": "/api/product",
-    "defaultFilters": [
-      "manufacturer",
-      "dyagonal_ekrana",
-      "obem_vstroennoj_pamyaty",
-      "obem_operatyvnoj_pamyaty",
-      "camerares",
-      "frontalnaya_kamera_mp",
-      "emkost_akkumulyatora_mach",
-      "sim",
-      "slot_dlya_karty_pamyaty",
-      "cores",
-      "material_korpusu",
-      "operatsyonnaya_systema",
-      "price",
-      "brand",
-      "color",
-      "price"
-    ],
     "systemFilterNames": [
       "sort"
     ],

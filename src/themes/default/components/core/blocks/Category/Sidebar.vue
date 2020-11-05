@@ -28,7 +28,7 @@
       :key="filterIndex"
       class="filter"
     >
-      <category-filter :label="filterIndex + '_filter'" v-if="isCheckboxFilter(filterIndex)">
+      <category-filter :label="filter[0].name" v-if="isCheckboxFilter(filterIndex)">
         <checkbox-selector
           context="category"
           :code="filterIndex"
@@ -50,18 +50,6 @@
           @change="$emit('changeFilter', $event)"
         />
       </category-filter>
-      <category-filter :label="filterIndex + '_filter'" v-else-if="isButtonFilter(filterIndex)">
-        <button-selector
-          context="category"
-          :code="filterIndex"
-          class="size-select mr10 mb10"
-          v-for="(item, index) in sortById(filter)"
-          :key="index"
-          :variant="item"
-          :selected-filters="getCurrentFilters"
-          @change="$emit('changeFilter', $event)"
-        />
-      </category-filter>
       <category-filter :label="filterIndex + '_filter'" v-else-if="filterIndex==='price'">
         <price-selector
           context="category"
@@ -74,6 +62,18 @@
           :to="price.to"
           :content="price.label"
           :variant="price"
+          :selected-filters="getCurrentFilters"
+          @change="$emit('changeFilter', $event)"
+        />
+      </category-filter>
+      <category-filter :label="filter[0].name" v-else>
+        <button-selector
+          context="category"
+          :code="filterIndex"
+          class="size-select mr10 mb10"
+          v-for="(item, index) in sortById(filter)"
+          :key="index"
+          :variant="item"
           :selected-filters="getCurrentFilters"
           @change="$emit('changeFilter', $event)"
         />
@@ -157,9 +157,6 @@ export default {
     // should be received from config
     isCheckboxFilter (filterName) {
       return ['manufacturer', 'dyagonal_ekrana', 'emkost_akkumulyatora_mach', 'sim', 'slot_dlya_karty_pamyaty', 'cores', 'material_korpusu', 'operatsyonnaya_systema'].includes(filterName)
-    },
-    isButtonFilter (filterName) {
-      return ['obem_vstroennoj_pamyaty', 'obem_operatyvnoj_pamyaty', 'camerares', 'frontalnaya_kamera_mp'].includes(filterName)
     }
   }
 }
