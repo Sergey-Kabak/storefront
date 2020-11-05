@@ -256,12 +256,7 @@ export default {
 
   .modal-custom-city-picker {
     .modal-container {
-      -webkit-border-radius: 5px;
-      -moz-border-radius: 5px;
       border-radius: 5px;
-      -webkit-box-shadow: 0 0 15px rgba(0,0,0,.3);
-      -moz-box-shadow: 0 0 15px rgba(0,0,0,.3);
-      box-shadow: 0 0 15px rgba(0,0,0,.3);
     }
     h3 {
       font-family: DIN Pro;
