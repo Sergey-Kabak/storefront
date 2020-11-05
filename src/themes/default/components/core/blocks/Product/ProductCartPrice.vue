@@ -30,7 +30,7 @@
         v-if="isDiscount"
         class="price-sale not-mobile"
       >
-        -{{discount}}
+        -{{discount}} %
       </span>
     </div>
   </div>

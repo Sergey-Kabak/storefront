@@ -97,6 +97,17 @@
                         @change="changeFilter"
                       />
                     </div>
+                    <div v-else>
+                      <button-selector
+                        context="product"
+                        :code="option.attribute_code"
+                        class="size-select mr10 mb10"
+                        v-for="filter in getAvailableFilters[option.attribute_code]"
+                        :key="filter.id"
+                        :variant="filter"
+                        :selected-filters="getSelectedFilters"
+                        @change="changeFilter"/>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -142,7 +153,6 @@
                 <AddToWishlist :product="getCurrentProduct" showDescription />
               </div>
             </div>
-
             <div class="seller-name-row" @click="showCustomSeller" v-if="parseInt(getCurrentProduct.marketplace)">
               <template v-if="customSeller">
                 <div class="seller-name-col">
@@ -161,7 +171,6 @@
                 </div>
               </template>
             </div>
-
           </div>
         </section>
       </div>
@@ -228,6 +237,7 @@ import focusClean from 'theme/components/theme/directives/focusClean';
 import WebShare from 'theme/components/theme/WebShare';
 import AddToWishlist from 'theme/components/core/blocks/Wishlist/AddToWishlist';
 import AddToCompare from 'theme/components/core/blocks/Compare/AddToCompare';
+import ButtonSelector from 'theme/components/core/ButtonSelector';
 import { mapGetters } from 'vuex';
 import LazyHydrate from 'vue-lazy-hydration';
 import { ProductOption } from '@vue-storefront/core/modules/catalog/components/ProductOption.ts';
@@ -273,7 +283,8 @@ export default {
     LazyHydrate,
     ProductQuantityNew,
     ProductPrice,
-    Promo
+    Promo,
+    ButtonSelector
   },
   mixins: [ProductOption],
   directives: { focusClean },
