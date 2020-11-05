@@ -327,6 +327,12 @@ export default {
           region_code: this.payment.region_code ? this.payment.region_code : ''
         }
       }
+      if (this.shipping.deliveryType === 'new_post') {
+        this.order.addressInformation['shippingExtraFields'] = {
+          warehouse_id: this.shipping.location.id,
+          carrier: 'nova-poshta'
+        };
+      }
       return this.order
     },
     placeOrder () {

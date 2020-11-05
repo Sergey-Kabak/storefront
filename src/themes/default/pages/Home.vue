@@ -203,7 +203,10 @@ export default {
   },
   computed: {
     ...mapGetters('user', ['isLoggedIn']),
-    ...mapGetters('homepage', ['getStockGoods', 'getSalesLeaders', 'getNew', 'getRecommends']),
+    ...mapGetters(
+      'homepage',
+      ['getStockGoods', 'getSalesLeaders', 'getNew', 'getRecommends'],
+    ),
     categories () {
       return this.getCategories
     },
@@ -271,7 +274,8 @@ export default {
       store.dispatch('homepage/loadStockGoods'),
       store.dispatch('homepage/loadSalesLeaders'),
       store.dispatch('homepage/loadNew'),
-      store.dispatch('homepage/loadRecommends')
+      store.dispatch('homepage/loadRecommends'),
+      store.dispatch('slider/getHomeCarousel')
     ])
   },
 
@@ -290,6 +294,7 @@ export default {
         vm.$store.dispatch('homepage/loadRecommends').then(res => {
           vm.loading = false
         })
+        vm.$store.dispatch('slider/getHomeCarousel')
       })
     } else {
       next()
@@ -375,7 +380,7 @@ export default {
       &:nth-child(3n + 2) {
         background: #E4F9E4;
       }
-      
+
       &:nth-child(n + 4) {
         grid-column: span 3;
       }

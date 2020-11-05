@@ -1,14 +1,14 @@
 <template>
   <div class="home-carousel-wrapper">
-    <VueSlickCarousel v-bind="settings" class="carousel" :responsive="isClient ? responsive : null">
-      <router-link
+    <VueSlickCarousel v-if="products && products.length" v-bind="settings" class="carousel" :responsive="isClient ? responsive : null">
+      <div
         v-for="(product, index) in products" :key="index"
         data-testid="productLink"
         class="slide-link"
-        :to="formatLink(product)"
+        @click="checkRoute(product)"
       >
-        <img :src="product.img" :alt="index">
-      </router-link>
+        <img :src="getThumbnail(product.image, 260, 434, 'slider')" :alt="index">
+      </div>
     </VueSlickCarousel>
   </div>
 </template>
@@ -20,8 +20,9 @@ import config from 'config'
 import VueSlickCarousel from 'vue-slick-carousel'
 import 'vue-slick-carousel/dist/vue-slick-carousel.css'
 import 'vue-slick-carousel/dist/vue-slick-carousel-theme.css'
+import {mapGetters} from "vuex";
 export default {
-  components: { 
+  components: {
     VueSlickCarousel
   },
   data: () => ({
@@ -62,18 +63,29 @@ export default {
       speed: 500,
       autoplay: true,
       slidesToShow: 5,
-      slidesToScroll: 5,
+      slidesToScroll: 5
     }
   }),
   computed: {
-    products() {
-      return config && config.sliderProduct
-    },
+    ...mapGetters({
+      getSlider: 'slider/getSlider'
+    }),
+    products () {
+      return this.getSlider && this.getSlider.banners.filter(it => +it.status === 1)
+    }
   },
   mounted: function() {
     this.isClient = true
   },
   methods: {
+    checkRoute (product) {
+      if (+product.new_tab) {
+        let routeData = this.$router.resolve({ path: product.url_banner });
+        window.open(product.url_banner, '_blank');
+      } else {
+        location.href = product.url_banner;
+      }
+    },
     formatLink(product) {
       if (product.url_path) {
         return formatProductLink(product, currentStoreView().storeCode)
@@ -84,7 +96,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
+.slide-link{
+  cursor: pointer;
+}
 ::v-deep {
   .slick-list {
     margin: 0 -3px 24px -3px;

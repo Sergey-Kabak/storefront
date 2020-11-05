@@ -9,18 +9,18 @@
       <!--        <div class="modal-center">-->
       <div class="modal-backdrop" @click="close" />
       <div class="modal-container" ref="modal-content" :style="style">
-        <header class="modal-header py25 px65 h1 serif weight-700 bg-cl-secondary" v-if="$slots.header">
+        <header class="modal-header" v-if="$slots.header">
           <slot name="header" />
           <i
             slot="close"
-            class="modal-close material-icons cl-bg-tertiary"
+            class="modal-close material-icons"
             @click="close"
             data-testid="closeModalButton"
           >
             close
           </i>
         </header>
-        <div class="modal-content bg-cl-primary pt30 pb60 px65" v-if="$slots.content">
+        <div class="modal-content bg-cl-primary" v-if="$slots.content">
           <slot name="content" />
         </div>
         <slot />
@@ -174,12 +174,27 @@ $z-index-modal: map-get($z-index, modal);
   .modal-header{
     display: flex;
     align-items: center;
+    padding: 0;
+    border-radius: 4px 4px 0 0;
+    background: #fff;
+    border-bottom: 1px solid #E0E0E0;
     justify-content: space-between;
   }
-  .modal-close{
+  .modal-close {
     cursor: pointer;
+    color: #BDBDBD;
+    transition: .2s ease-in-out;
     margin-right: 24px;
+
+    &:hover {
+      color: #3d3d3d;
+    }
   }
+
+  .modal-content {
+    border-radius: 0 0 4px 4px;
+  }
+
   .modal-backdrop{
     position: absolute;
     top: 0;

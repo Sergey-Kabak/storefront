@@ -151,8 +151,8 @@ export function baseFilterProductsQuery (parentCategory, filters = []) { // TODO
   return searchProductQuery
 }
 
-export function buildFilterProductsQuery (currentCategory, chosenFilters = {}, defaultFilters = null) {
-  let filterQr = baseFilterProductsQuery(currentCategory, defaultFilters == null ? config.products.defaultFilters : defaultFilters)
+export function buildFilterProductsQuery (currentCategory, chosenFilters = {}) {
+  let filterQr = baseFilterProductsQuery(currentCategory, currentCategory.filterable_attributes)
 
   // add choosedn filters
   for (let code of Object.keys(chosenFilters)) {

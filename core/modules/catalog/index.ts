@@ -28,12 +28,6 @@ export const CatalogModule: StorefrontModule = async function ({ store, router, 
   catalogHooks.afterSetBundleProducts(products => getAttributesFromMetadata(store, products))
   catalogHooks.afterSetGroupedProduct(products => getAttributesFromMetadata(store, products))
 
-  if (!config.entities.attribute.loadByAttributeMetadata) {
-    await store.dispatch('attribute/list', { // loading attributes for application use
-      filterValues: uniq([...config.products.defaultFilters, ...config.entities.productListWithChildren.includeFields])
-    })
-  }
-
   if (!isServer) {
     // Things moved from Product.js
     EventBus.$on('product-after-priceupdate', product => productAfterPriceupdate(product, store))
