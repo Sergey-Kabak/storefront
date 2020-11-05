@@ -15,6 +15,7 @@ export class SearchAdapter {
   public constructor () {
     this.entities = []
     this.initBaseTypes()
+    this.initCustomTypes()
   }
 
   public async search (Request) {
@@ -204,6 +205,18 @@ export class SearchAdapter {
       },
       resultProcessor: (resp, start, size) => {
         return this.handleResult(resp, 'cms_hierarchy', start, size)
+      }
+    })
+  }
+
+  public initCustomTypes() {
+    this.registerEntityType('slider', {
+      queryProcessor: (query) => {
+        // function that can modify the query each time before it's being executed
+        return query
+      },
+      resultProcessor: (resp, start, size) => {
+        return this.handleResult(resp, 'slider', start, size)
       }
     })
   }

@@ -753,7 +753,8 @@
     "baseUrl": "https://ringoo.ua/img/",
     "useSpecificImagePaths": false,
     "paths": {
-      "product": "/catalog/product"
+      "product": "/catalog/product",
+      "slider": "/bannerslider/upload/"
     },
     "productPlaceholder": "/assets/placeholder.jpg"
   },
