@@ -63,7 +63,8 @@ let routes = [
   { name: 'product', path: '/p/:parentSku/:slug/:childSku', component: Product }, // :sku param can be marked as optional with ":sku?" (https://github.com/vuejs/vue-router/blob/dev/examples/route-matching/app.js#L16), but it requires a lot of work to adjust the rest of the site
   { name: 'category', path: '/c/:slug', component: Category },
   { name: 'cms-page', path: '/i/:slug', component: CmsPage },
-  { name: 'page-not-found', path: '*', component: PageNotFound }
+  { name: 'page-not-found', path: '*', component: PageNotFound },
+  { path: '/ua/shops.html', redirect: '/' }
 ];
 
 export default routes;
