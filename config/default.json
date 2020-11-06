@@ -16,6 +16,7 @@
     "outputCacheDefaultTtl": 86400,
     "availableCacheTags": [
       "attribute",
+      "brand",
       "C",
       "category",
       "checkout",
@@ -552,6 +553,23 @@
         "url_path",
         "visibility"
       ]
+    },
+    "brand": {
+      "includeFields": [
+        "accessories",
+        "banner_desktop",
+        "banner_mobile",
+        "banner_tablet",
+        "banner_link",
+        "promo_banner_link",
+        "banner_promo",
+        "brand_name",
+        "categories",
+        "description",
+        "id",
+        "url_key"
+      ],
+      "excludeFields": null
     }
   },
   "cart": {
@@ -738,6 +756,8 @@
     "useSpecificImagePaths": true,
     "paths": {
       "product": "/catalog/product",
+      "category": "/catalog/category/",
+      "brand": "/temabit/brands/",
       "slider": "/bannerslider/upload/"
     },
     "productPlaceholder": "/assets/placeholder.jpg"
@@ -898,7 +918,7 @@
       "filter": [
         {
           "key": "category_ids",
-          "value": { "eq": [49] }
+          "value": { "eq": [44] }
         }
       ]
     }

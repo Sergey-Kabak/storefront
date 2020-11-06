@@ -1,0 +1,77 @@
+<template>
+  <div class="product-more">
+    <div class="product-more-count">
+      <span> Еще {{ activeCategory.products_count }} товаров </span>
+    </div>
+    <router-link :to="categoryLink">
+      <button-text class="product-more-button more">смотреть все</button-text>
+    </router-link>
+  </div>
+</template>
+
+<script>
+import { mapState } from 'vuex'
+import { formatCategoryLink } from '@vue-storefront/core/modules/url/helpers'
+import ButtonText from 'theme/components/theme/ButtonText'
+
+export default {
+  components: {
+    ButtonText
+  },
+  computed: {
+    ...mapState({
+      activeCategory: (state) => state.brand.activeCategory
+    }),
+    categoryLink() {
+      return formatCategoryLink(this.activeCategory)
+    }
+  }
+}
+</script>
+
+<style lang="scss" scoped>
+* {
+  box-sizing: border-box;;
+}
+.product-more {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-top: 1px solid #E0E0E0;
+  padding: 16px;
+  height: 100%;
+}
+
+.product-more-count {
+  font-family: DIN Pro;
+  font-style: normal;
+  font-size: 13px;
+  line-height: 16px;
+  color: #5F5E5E;
+}
+
+.product-more-button {
+  text-transform: uppercase;
+  font-family: DIN Pro;
+  font-weight: 600;
+  font-size: 12px;
+  line-height: 13px;
+  border-color:#23BE20!important;
+
+  &:hover {
+    border-color: transparent!important;
+  }
+
+  ::v-deep {
+    span {
+      color: #23BE20!important;
+    }
+  }
+}
+
+@media (max-width: 576px) {
+  .product-more {
+    justify-content: space-between;
+  }
+}
+</style>
