@@ -9,33 +9,7 @@
       <div class="product-image">
         <img :src="image.src" alt="product" />
       </div>
-      <div class="product-info">
-        <div class="product-info-name">
-          {{ product.name | htmlDecode }}
-        </div>
-        <div class="product-info-price">
-          <span
-            class="mr5 original-price"
-            :class="{'disabled': product.special_price}"
-          >
-            {{ product.original_price_incl_tax | price(storeView) }}
-          </span>
-          <span
-            class="price-special cl-accent weight-700"
-            v-if="product.special_price"
-          >
-            {{ product.special_price | price(storeView) }}
-          </span>
-          <span
-            v-if="product.original_price_incl_tax && product.special_price"
-            class="lh30 cl-secondary price-sale"
-          >
-            -{{
-              parseInt(((product.original_price_incl_tax - product.special_price) / (product.original_price_incl_tax / 100)))
-            }} %
-          </span>
-        </div>
-      </div>
+      <product-cart-price :product="product" class="product-info" />
       <more-icon>
         <div class="more-item" @click="removeFromCart()">
           <svg width="14" height="18" viewBox="0 0 14 18" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -70,12 +44,14 @@ import { currentStoreView } from '@vue-storefront/core/lib/multistore';
 import { Product } from '@vue-storefront/core/modules/checkout/components/Product';
 import i18n from '@vue-storefront/i18n';
 import MoreIcon from 'theme/components/core/MoreIcon';
+import ProductCartPrice from "../Product/ProductCartPrice";
 
 export default {
-  mixins: [Product],
+  mixins: [Product, ProductCartPrice],
   components: {
     ProductQuantityNew,
-    MoreIcon
+    MoreIcon,
+    ProductCartPrice
   },
   data: () => ({
     maxQuantity: 0,
@@ -88,6 +64,9 @@ export default {
   }),
   computed: {
     finalPrice () {
+      if (this.isBundleProduct) {
+        return this.isDiscount ? this.bundleFinalPrice : this.bundlePrice
+      }
       return this.product.special_price || this.product.original_price_incl_tax
     },
     image () {
@@ -203,6 +182,9 @@ export default {
 .product-info {
   margin-right: 20px;
   max-width: 280px;
+  ::v-deep .name{
+    font-size: 13px;
+  }
 }
 
 .product-info-name {

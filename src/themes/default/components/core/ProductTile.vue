@@ -267,7 +267,6 @@ export default {
 
     &__thumb {
       padding: 0;
-      opacity: 0.8;
       will-change: opacity, transform;
       transition: 0.3s opacity $motion-main, 0.3s transform $motion-main;
 
@@ -279,7 +278,6 @@ export default {
     @media screen and (min-width: 768px) {
       &:hover {
         .product-cover__thumb {
-          opacity: 1;
           transform: scale(1.1);
         }
         &.sale::after,

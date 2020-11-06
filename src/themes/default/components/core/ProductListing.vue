@@ -36,7 +36,7 @@ export default {
     width: 100%;
     display: grid;
     grid-gap: 20px;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(250px,1fr));
   }
 
   ::v-deep .product-image__thumb {

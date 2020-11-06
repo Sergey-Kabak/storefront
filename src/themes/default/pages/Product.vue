@@ -66,13 +66,11 @@
               <meta itemprop="price" :content="parseFloat(getCurrentProduct.price_incl_tax).toFixed(2)">
               <meta itemprop="availability" :content="structuredData.availability">
               <meta itemprop="url" :content="getCurrentProduct.url_path">
-              <product-price
-                class="mb40 product-price"
+              <product-cart-price
                 v-if="getCurrentProduct.type_id !== 'grouped'"
                 :product="getCurrentProduct"
-                :custom-options="getCurrentCustomOptions"
-              />
-
+                :nameVisibility="false"
+                class="product-item-price"/>
               <div class="cl-primary variants" v-if="getCurrentProduct.type_id =='configurable'">
                 <div
                   class="error"
@@ -260,6 +258,7 @@ import {
 } from '@vue-storefront/core/helpers';
 import { catalogHooksExecutors } from '@vue-storefront/core/modules/catalog-next/hooks';
 import ProductPrice from 'theme/components/core/ProductPrice.vue';
+import ProductCartPrice from "../components/core/blocks/Product/ProductCartPrice";
 import Promo from "../components/core/blocks/Product/Promo";
 import { filterChangedProduct } from '@vue-storefront/core/modules/catalog/events'
 
@@ -284,6 +283,7 @@ export default {
     ProductQuantityNew,
     ProductPrice,
     Promo,
+    ProductCartPrice,
     ButtonSelector
   },
   mixins: [ProductOption],

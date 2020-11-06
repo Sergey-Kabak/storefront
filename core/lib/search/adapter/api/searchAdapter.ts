@@ -219,5 +219,14 @@ export class SearchAdapter {
         return this.handleResult(resp, 'slider', start, size)
       }
     })
+    this.registerEntityType('brand', {
+      queryProcessor: (query) => {
+        // function that can modify the query each time before it's being executed
+        return query
+      },
+      resultProcessor: (resp, start, size) => {
+        return this.handleResult(resp, 'brand', start, size)
+      }
+    })
   }
 }
