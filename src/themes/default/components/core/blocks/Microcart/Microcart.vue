@@ -66,12 +66,6 @@
           class="actions-button"
           v-if="productsInCart.length && !isCheckoutMode"
         >
-          <!-- <button-outline
-            class="button"
-            disabled
-          >
-            {{ $t('Buy in credit') }}
-          </button-outline> -->
           <button-full
             :link="{ name: 'checkout' }"
             class="button"

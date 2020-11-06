@@ -21,20 +21,7 @@
         {{ product.name | htmlDecode }}
       </router-link>
 
-      <div class="product-prices">
-        <span
-          v-if="product.original_price_incl_tax"
-          class="price price-current"
-        >
-          {{ product.original_price_incl_tax | price(storeView) }}
-        </span>
-        <span
-          v-if="product.special_price"
-          class="price price-special"
-        >
-          {{ product.special_price | price(storeView) }}
-        </span>
-      </div>
+      <product-cart-price :product="product" :nameVisibility="false" class="product-prices" />
 
       <div class="product-actions" >
         <product-cart-controls :product="product" class="cart-wishlist" />
@@ -88,6 +75,7 @@ import ButtonText from 'theme/components/theme/ButtonText';
 import ButtonFull from 'theme/components/theme/ButtonFull';
 import MoreIcon from 'theme/components/core/MoreIcon';
 import ProductCartControls from '../Product/ProductCartControls';
+import ProductCartPrice from "../Product/ProductCartPrice";
 export default {
   components: {
     RemoveButton,
@@ -96,7 +84,8 @@ export default {
     ButtonText,
     ButtonFull,
     MoreIcon,
-    ProductCartControls
+    ProductCartControls,
+    ProductCartPrice
   },
   mixins: [Product , mobileResolution],
   props: {
@@ -238,6 +227,7 @@ export default {
 }
 
 .product-prices {
+  flex-direction: column;
   margin-bottom: 20px;
 
   .price-special {

@@ -3,20 +3,40 @@ import sumBy from 'lodash-es/sumBy'
 import ShippingMethod from '@vue-storefront/core/modules/cart/types/ShippingMethod'
 import PaymentMethod from '@vue-storefront/core/modules/cart/types/PaymentMethod'
 import CartItem from '@vue-storefront/core/modules/cart/types/CartItem'
+import {Logger} from "core/lib/logger";
+
+
 
 const calculateTotals = (shippingMethod: ShippingMethod, paymentMethod: PaymentMethod, cartItems: CartItem[]) => {
   const shippingTax = shippingMethod ? shippingMethod.price_incl_tax : 0
+  const getProductPrice = (product) => {
+    const productTypes = {
+      bundle: function () {
+        let bundlePrice = product.bundle_options.reduce((acc, it) => {
+          return acc += it.product_links.reduce((acc2, it2) => acc2 += it2.price, 0)
+        }, 0) + product.original_price_incl_tax;
+        if (!!product.special_price){
+          let baseDiscount = 100 - product.special_price,
+            onePercent = bundlePrice / 100;
+          return bundlePrice - (onePercent * baseDiscount)
+        }
+        return bundlePrice
+      }
+    }
+    return (productTypes[product.type_id] && productTypes[product.type_id]()) || product.price_incl_tax
+  }
+
 
   const totalsArray = [
     {
       code: 'subtotal_incl_tax',
       title: i18n.t('Subtotal incl. tax'),
-      value: sumBy(cartItems, (p) => p.qty * p.price_incl_tax)
+      value: sumBy(cartItems, (p) => p.qty * getProductPrice(p))
     },
     {
       code: 'grand_total',
       title: i18n.t('Grand total'),
-      value: sumBy(cartItems, (p) => p.qty * p.price_incl_tax + shippingTax)
+      value: sumBy(cartItems, (p) => p.qty * getProductPrice(p) + shippingTax)
     }
   ]
 
