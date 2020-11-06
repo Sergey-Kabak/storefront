@@ -146,8 +146,31 @@ export default {
     this.initAdmitad()
   },
   methods: {
+    bundleFinalPrice (product) {
+      if (product.special_price > 0) {
+        let baseDiscount = 100 - product.special_price,
+          onePercent = this.bundlePrice(product) / 100;
+        return (this.bundlePrice(product) - (onePercent * baseDiscount))
+      } else {
+        return this.bundlePrice(product)
+      }
+    },
+    isBundleProduct (product) {
+      return product.type_id === 'bundle'
+    },
+    bundlePrice (product) {
+      if (this.isBundleProduct(product)) {
+        let bundleProductsPrice = product.bundle_options.reduce((acc, it) => {
+          return acc += it.product_links.reduce((acc2, it2) => acc2 += it2.price, 0)
+        }, 0)
+        return bundleProductsPrice + product.original_price_incl_tax;
+      }
+    },
     finalPrice (product) {
-      return product.original_special_price || product.original_price_incl_tax
+      const productTypes = {
+        bundle: this.bundleFinalPrice(product)
+      }
+      return productTypes[product.type_id] || product.price_incl_tax
     },
     onSuccess (message) {
       this.$store.dispatch('notification/spawnNotification', {
