@@ -14,10 +14,11 @@ import {
 import { isServer, onlineHelper } from '@vue-storefront/core/helpers';
 import { Logger } from '@vue-storefront/core/lib/logger';
 import { unmask } from 'theme/helpers';
+import GTM from 'theme/mixins/GTM/dataLayer'
 
 export default {
   name: 'Checkout',
-  mixins: [Composite, VueOfflineMixin],
+  mixins: [Composite, VueOfflineMixin, GTM],
   data () {
     return {
       stockCheckCompleted: false,
@@ -47,7 +48,8 @@ export default {
   computed: {
     ...mapGetters({
       isVirtualCart: 'cart/isVirtualCart',
-      isThankYouPage: 'checkout/isThankYouPage'
+      isThankYouPage: 'checkout/isThankYouPage',
+      totals: 'cart/getTotals'
     }),
     ...mapState({
       shippingDetails: state => state.checkout.shippingDetails,
@@ -156,6 +158,7 @@ export default {
       this.$forceUpdate()
     },
     async onAfterPlaceOrder (payload) {
+      await this.GTM_TRANSACTION({ id: payload.confirmation.orderNumber, revenue: this.totals.find(it => it.code === 'grand_total').value, products: payload.order.products })
       this.confirmation = payload.confirmation
       this.$store.dispatch('checkout/setThankYouPage', true)
       this.$store.dispatch('cart/clear', { sync: false }, { root: true })
@@ -338,15 +341,18 @@ export default {
     placeOrder () {
       this.checkConnection({ online: typeof navigator !== 'undefined' ? navigator.onLine : true })
       if (this.checkStocks()) {
+        this.GTM_PAYMENT(this.$t(this.getPaymentMethod()))
         this.$store.dispatch('checkout/placeOrder', { order: this.prepareOrder() })
       } else {
         this.notifyNotAvailable()
       }
     },
     savePersonalDetails () {
+      this.GTM_CONTACT_DATA()
       this.$store.dispatch('checkout/savePersonalDetails', this.personalDetails)
     },
     saveShippingDetails () {
+      this.GTM_DELIVERY(this.$t(this.shipping.deliveryType) + ' - ' + this.shipping.streetAddress)
       this.$store.dispatch('checkout/saveShippingDetails', this.shipping)
     },
     savePaymentDetails () {

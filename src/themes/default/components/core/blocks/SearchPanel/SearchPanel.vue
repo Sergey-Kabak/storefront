@@ -5,7 +5,7 @@
     ref="search-panel"
   >
     <div @click="closeSearchpanel()" class="close-searchpanel" v-if="!mobile">
-      <i class="material-icons close-icon" data-testid="closeSearchPanel"> 
+      <i class="material-icons close-icon" data-testid="closeSearchPanel">
         close
       </i>
     </div>
@@ -68,7 +68,7 @@
             />
           </div>
           <button-outline
-            v-if="recommend.isFilled" 
+            v-if="recommend.isFilled"
             @click.native="loadMoreRecommends()"
             class="load-more"
           >{{ $t('Load more') }}</button-outline>
@@ -290,7 +290,7 @@ export default {
   font-size: 14px;
   line-height: 16px;
   color: #1A1919;
-  
+
 
   &.active,
   &:focus {
@@ -459,11 +459,11 @@ export default {
 
       .add-to-cart {
         max-width: 38px;
-  
+
         .add-to-cart-text {
           display: none;
         }
-  
+
         svg {
           display: block;
           margin-right: 0;

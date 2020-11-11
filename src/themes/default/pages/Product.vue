@@ -261,6 +261,7 @@ import ProductPrice from 'theme/components/core/ProductPrice.vue';
 import ProductCartPrice from "../components/core/blocks/Product/ProductCartPrice";
 import Promo from "../components/core/blocks/Product/Promo";
 import { filterChangedProduct } from '@vue-storefront/core/modules/catalog/events'
+import GTM from 'theme/mixins/GTM/dataLayer'
 
 export default {
   components: {
@@ -286,7 +287,7 @@ export default {
     ProductCartPrice,
     ButtonSelector
   },
-  mixins: [ProductOption],
+  mixins: [ProductOption, GTM],
   directives: { focusClean },
   beforeCreate () {
     registerModule(ReviewModule)
@@ -299,7 +300,8 @@ export default {
       quantityError: false,
       isStockInfoLoading: false,
       hasAttributesLoaded: false,
-      manageQuantity: true
+      manageQuantity: true,
+      prevRoute: null
     }
   },
   computed: {
@@ -395,15 +397,26 @@ export default {
     catalogHooksExecutors.productPageVisited(product)
   },
   beforeRouteEnter (to, from, next) {
+    console.log(from);
     if (isServer) {
-      next()
+      next((vm) => {
+        vm.prevRoute = from;
+      })
     } else {
       next((vm) => {
-        vm.getQuantity()
+        vm.getQuantity();
+        vm.prevRoute = from;
       })
     }
   },
   watch: {
+    prevRoute: function (val) {
+      let page = null
+      if (val.matched.length) {
+        page = this.variants.find(variant => variant.source === val.matched[0].components.default.__file).index
+      }
+      this.GTM_PRODUCT_VIEW([this.getCurrentProduct], page)
+    },
     isOnline: {
       handler (isOnline) {
         if (isOnline) {
@@ -425,7 +438,7 @@ export default {
                 'name': this.getCurrentProduct.name,
                 'id': this.getCurrentProduct.id,
                 'price': this.getCurrentProduct.original_price_incl_tax,
-                'brand': options.find(o => parseInt(o.value) === parseInt(this.getCurrentProduct.manufacturer)),
+                'brand': options.find(o => parseInt(o.value) === parseInt(this.getCurrentProduct.manufacturer)).label,
                 'category': this.getCurrentProduct.category && this.getCurrentProduct.category[0].name
               }]
             },
@@ -434,7 +447,7 @@ export default {
                 'name': this.getCurrentProduct.name,
                 'id': this.getCurrentProduct.id,
                 'price': this.getCurrentProduct.original_price_incl_tax,
-                'brand': options.find(o => parseInt(o.value) === parseInt(this.getCurrentProduct.manufacturer)),
+                'brand': options.find(o => parseInt(o.value) === parseInt(this.getCurrentProduct.manufacturer)).label,
                 'category': this.getCurrentProduct.category && this.getCurrentProduct.category[0].name
               }]
           },
