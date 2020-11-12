@@ -149,8 +149,10 @@ import { currentStoreView } from '@vue-storefront/core/lib/multistore';
 import { htmlDecode } from '@vue-storefront/core/filters';
 import CountDown from "../components/core/CountDown";
 import Spinner from "../components/core/Spinner";
+import GTM from '../mixins/GTM/dataLayer'
 import Description from "../components/core/blocks/Category/Description";
 import ButtonWhite from "../components/core/blocks/Product/ButtonWhite";
+
 const THEME_PAGE_SIZE = 32
 const composeInitialPageState = async (store, route, forceLoad = false) => {
   try {
@@ -185,7 +187,7 @@ export default {
     ButtonWhite,
     'no-ssr': NoSSR
   },
-  mixins: [onBottomScroll],
+  mixins: [onBottomScroll, GTM],
   data () {
     return {
       mobileFilters: false,
@@ -291,6 +293,11 @@ export default {
     return {
       title: htmlDecode(meta_title || name),
       meta
+    }
+  },
+  watch: {
+    getCategoryProducts: function (val) {
+      this.GTM_PRODUCT_IMPRESSION(val, 'category')
     }
   }
 }

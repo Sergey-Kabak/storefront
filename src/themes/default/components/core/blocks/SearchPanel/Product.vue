@@ -1,5 +1,5 @@
 <template>
-  <li class="product" :class="{'out-of-stock': !inStock}">
+  <li @click="gtm" class="product" :class="{'out-of-stock': !inStock}">
     <div class="product-left">
       <div class="product-img">
         <router-link @click.native="closeSearchPanel()" :to="productLink">
@@ -55,6 +55,7 @@ import ButtonFull from 'theme/components/theme/ButtonFull';
 import MoreIcon from 'theme/components/core/MoreIcon';
 import AddToWishlist from 'theme/components/core/blocks/Wishlist/AddToWishlist';
 import AddToCart from 'theme/components/core/AddToCart';
+import GTM from 'theme/mixins/GTM/dataLayer';
 import ProductCartPrice from '../Product/ProductCartPrice';
 
 export default {
@@ -65,7 +66,7 @@ export default {
       required: false
     }
   },
-  mixins: [Product],
+  mixins: [Product, GTM],
   components: {
     ProductImage,
     AddToCompare,
@@ -94,6 +95,9 @@ export default {
     }
   },
   methods: {
+    gtm () {
+      this.GTM_PRODUCT_CLICK([this.product], 'search results')
+    },
     closeSearchPanel (){
       this.$store.commit('ui/setSidebar', false)
       this.$store.commit('ui/setMicrocart', false)

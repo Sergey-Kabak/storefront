@@ -5,10 +5,11 @@ import { prepareQuickSearchQuery } from '@vue-storefront/core/modules/catalog/qu
 import RootState from '@vue-storefront/core/types/RootState'
 import { Logger } from '@vue-storefront/core/lib/logger'
 import { debounce } from 'debounce';
+import GTM from 'theme/mixins/GTM/dataLayer'
 
 export const Search = {
   name: 'SearchPanel',
-  mixins: [onEscapePress],
+  mixins: [onEscapePress, GTM],
   data () {
     return {
       products: [],
@@ -69,6 +70,7 @@ export const Search = {
           if (this.emptyResults && !this.recommend.products.length) {
             this.loadRecommends()
           }
+          await this.GTM_PRODUCT_IMPRESSION(this.products, 'search results', this.$store.getters['custom-attr/getFilter'])
         } catch (err) {
           Logger.error(err, 'components-search')()
         }

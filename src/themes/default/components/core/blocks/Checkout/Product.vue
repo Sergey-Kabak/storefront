@@ -45,9 +45,9 @@ import { Product } from '@vue-storefront/core/modules/checkout/components/Produc
 import i18n from '@vue-storefront/i18n';
 import MoreIcon from 'theme/components/core/MoreIcon';
 import ProductCartPrice from "../Product/ProductCartPrice";
-
+import GTM from 'theme/mixins/GTM/dataLayer'
 export default {
-  mixins: [Product, ProductCartPrice],
+  mixins: [Product, ProductCartPrice, GTM],
   components: {
     ProductQuantityNew,
     MoreIcon,
@@ -86,18 +86,23 @@ export default {
     }
   },
   methods: {
-    removeFromCart () {
-      this.$store.dispatch('notification/spawnNotification', {
-        type: 'warning',
-        message: i18n.t('Are you sure you would like to remove this item from the shopping cart?'),
-        action1: { label: i18n.t('Cancel'), action: 'close' },
-        action2: { label: i18n.t('OK'),
-          action: async () => {
-            this.$store.dispatch('cart/removeItem', { product: this.product })
-          }
-        },
-        hasNoTimeout: true
-      })
+    async removeFromCart () {
+      try {
+        await this.$store.dispatch('notification/spawnNotification', {
+          type: 'warning',
+          message: i18n.t('Are you sure you would like to remove this item from the shopping cart?'),
+          action1: { label: i18n.t('Cancel'), action: 'close' },
+          action2: { label: i18n.t('OK'),
+            action: async () => {
+              this.$store.dispatch('cart/removeItem', { product: this.product })
+            }
+          },
+          hasNoTimeout: true
+        })
+        this.GTM_REMOVE_FROM_CART([this.product], null, null, { color: this.product.color, quantity: this.product.qty })
+      } catch (e) {
+        console.log(e);
+      }
     },
     async udpateQty (qty) {
       this.isQtyUpdating = true
