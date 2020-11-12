@@ -325,6 +325,7 @@
     "productList": {
       "sort": "updated_at:desc",
       "includeFields": [
+        "manufacturer",
         "marketplace",
         "rma",
         "preorder",
