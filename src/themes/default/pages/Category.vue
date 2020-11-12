@@ -115,7 +115,15 @@
             <product-listing :products="getCategoryProducts" />
           </lazy-hydrate>
           <product-listing v-else :products="getCategoryProducts" />
-          <spinner v-if="loadingProducts && !allProductsLoaded" />
+          <button-white
+            v-if="!allProductsLoaded" @click.native="onBottomScroll"
+            class="load">
+            {{ $t('Load more') }}
+            <spinner class="spinner" v-if="loadingProducts && !allProductsLoaded" />
+          </button-white>
+          <no-ssr>
+            <description v-if="isDescription" />
+          </no-ssr>
         </div>
       </div>
     </div>
@@ -141,7 +149,8 @@ import { currentStoreView } from '@vue-storefront/core/lib/multistore';
 import { htmlDecode } from '@vue-storefront/core/filters';
 import CountDown from "../components/core/CountDown";
 import Spinner from "../components/core/Spinner";
-
+import Description from "../components/core/blocks/Category/Description";
+import ButtonWhite from "../components/core/blocks/Product/ButtonWhite";
 const THEME_PAGE_SIZE = 32
 const composeInitialPageState = async (store, route, forceLoad = false) => {
   try {
@@ -158,6 +167,8 @@ const composeInitialPageState = async (store, route, forceLoad = false) => {
     console.error('Problem with setting Category initial data!', e)
   }
 }
+import NoSSR from 'vue-no-ssr';
+
 export default {
   components: {
     CountDown,
@@ -169,7 +180,10 @@ export default {
     Sidebar,
     SortBy,
     NewSortBy,
-    Spinner
+    Spinner,
+    Description,
+    ButtonWhite,
+    'no-ssr': NoSSR
   },
   mixins: [onBottomScroll],
   data () {
@@ -196,6 +210,9 @@ export default {
       getAvailableFilters: 'category-next/getAvailableFilters',
       getCategorySearchProductsStats: 'category-next/getCategorySearchProductsStats'
     }),
+    isDescription () {
+      return !!this.getCurrentCategory
+    },
     allProductsLoaded () {
       return this.getCategorySearchProductsStats.perPage + this.getCategorySearchProductsStats.start >= this.getCategorySearchProductsStats.total
     },
@@ -246,6 +263,7 @@ export default {
       this.$store.dispatch('category-next/switchSearchFilters', [filterVariant])
     },
     async onBottomScroll () {
+      let scrollBarPosition = window.pageYOffset
       if (this.loadingProducts) return
       this.loadingProducts = true
       try {
@@ -253,6 +271,7 @@ export default {
       } catch (e) {
         console.error('Problem with fetching more products', e)
       } finally {
+        window.scrollTo(0, scrollBarPosition)
         this.loadingProducts = false
       }
     },
@@ -333,6 +352,9 @@ $mobile_screen : 768px;
   }
 
   .category {
+    @media (max-width: 767px) {
+      padding-bottom: 48px;
+    }
     display: flex;
     padding-bottom: 68px;
   }
@@ -607,6 +629,9 @@ $mobile_screen : 768px;
   }
 </style>
 <style lang="scss">
+.load{
+  margin: 32px auto 0;
+}
 .banner-description {
   margin-top: 25px;
   display: flex;

@@ -269,6 +269,8 @@
     ],
     "category": {
       "includeFields": [
+        "faq",
+        "description_bottom",
         "filterable_attributes",
         "description",
         "image",
