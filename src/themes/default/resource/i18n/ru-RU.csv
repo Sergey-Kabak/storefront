@@ -64,7 +64,7 @@
 "In the near future we will call you back to clarify the details. Have a nice day!)","В ближайшее время мы вам перезвоним для уточнения деталей. Прекрасного дня!)"
 "Instant Checkout","Моментальный заказ"
 "Last name must have at least 2 letters.","Фамилия должна состоять минимум из 2-х букв"
-"Latest","Новые"
+"Latest","Новинки"
 "Latin letters and numbers","Латинские буквы и цифры"
 "List":"Списком"
 "May suit you","Вам может подойти"
@@ -133,7 +133,7 @@
 "To apply","Применить"
 "To customers","Клиентам"
 "To landlords","Арендодателям"
-"To pay","Оплатить"
+"To pay","Оформить заказ"
 "Total","Всего"
 "Try again","Попробуйте снова"
 "Unexpected authorization error. Check your Network conection.","Неожиданная ошибка при авторизации. Проверьте ваше интернет соединение."
@@ -379,7 +379,7 @@ Return to shopping,Вернуться к покупкам
 Returns,Возвраты
 Review order,Просмотреть заказ
 SKU,Идентификационный номер товара
-SKU: {sku},Идентификационный номер товара: {sku}
+SKU: {sku},ID ТОВАРА: {sku}
 Safety,Безопасность
 Sale,Распродажа
 Search,Поиск

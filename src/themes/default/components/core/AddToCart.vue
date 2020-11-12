@@ -17,8 +17,10 @@ import { notifications } from '@vue-storefront/core/modules/cart/helpers';
 import focusClean from 'theme/components/theme/directives/focusClean';
 import ButtonFull from 'theme/components/theme/ButtonFull.vue';
 import { mapGetters } from 'vuex';
+import GTM from 'theme/mixins/GTM/dataLayer'
 
 export default {
+  mixins: [GTM],
   directives: { focusClean },
   components: { ButtonFull },
   props: {
@@ -42,6 +44,7 @@ export default {
     async addToCart (product) {
       try {
         const diffLog = await this.$store.dispatch('cart/addItem', { productToAdd: product })
+        this.GTM_ADD_TO_CART([product], 'product page')
         diffLog.clientNotifications.forEach(notificationData => {
           this.notifyUser(notificationData)
         })
@@ -55,7 +58,9 @@ export default {
   },
   computed: {
     ...mapGetters({
-      isAddingToCart: 'cart/getIsAdding'
+      isAddingToCart: 'cart/getIsAdding',
+      getCurrentCustomOptions: 'product/getCurrentCustomOptions',
+      getCurrentProductConfiguration: 'product/getCurrentProductConfiguration',
     }),
     isProductDisabled () {
       return this.disabled || formatProductMessages(this.product.errors) !== '' || this.isAddingToCart

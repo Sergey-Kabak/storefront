@@ -14,8 +14,9 @@ import { customShipping } from 'theme/store/custom-shipping';
 import { promotedStore } from 'theme/store/promoted-offers';
 import { paymentStore } from 'theme/store/payment';
 import { compareStore } from 'theme/store/compare';
-import { searchStore } from 'theme/store/search'
+import { searchStore } from 'theme/store/search';
 import { brandStore } from 'theme/store/brand';
+import { attributeStore } from 'theme/store/attributes';
 import { StorageManager } from '@vue-storefront/core/lib/storage-manager';
 import { module as carouselModule } from 'theme/store/carousel';
 import vClickOutside from 'v-click-outside';
@@ -48,6 +49,7 @@ function initTheme (app, router, store, config, ssrContext) {
   store.registerModule('search', searchStore);
   store.registerModule('brand', brandStore);
   store.registerModule('slider', carouselModule);
+  store.registerModule('custom-attr', attributeStore);
   // store.registerModule('payment', paymentStore);
 }
 

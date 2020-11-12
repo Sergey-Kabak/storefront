@@ -172,6 +172,7 @@ import HomeCarousel from 'theme/components/theme/blocks/HomeCarousel';
 import { formatCategoryLink } from '@vue-storefront/core/modules/url/helpers';
 
 import { ProductOption } from '@vue-storefront/core/modules/catalog/components/ProductOption.ts';
+import GTM from '../mixins/GTM/dataLayer'
 
 export default {
   data () {
@@ -191,7 +192,7 @@ export default {
       formatCategoryLink
     }
   },
-  mixins: [Home, ProductOption],
+  mixins: [Home, ProductOption, GTM],
   components: {
     'no-ssr': NoSSR,
     HomeCarousel,
@@ -206,6 +207,10 @@ export default {
     ...mapGetters(
       'homepage',
       ['getStockGoods', 'getSalesLeaders', 'getNew', 'getRecommends'],
+      {
+        getAvailableFilters: 'category-next/getAvailableFilters',
+        getFilter: 'custom-attr/getFilter'
+      }
     ),
     categories () {
       return this.getCategories
@@ -261,6 +266,18 @@ export default {
     clearAllBodyScrollLocks()
   },
   watch: {
+    getStockGoods: function (val) {
+      this.GTM_PRODUCT_IMPRESSION(val, 'homepage', this.$store.getters['custom-attr/getFilter'])
+    },
+    getSalesLeaders: function (val) {
+      this.GTM_PRODUCT_IMPRESSION(val, 'homepage', this.$store.getters['custom-attr/getFilter'])
+    },
+    getNew: function (val) {
+      this.GTM_PRODUCT_IMPRESSION(val, 'homepage', this.$store.getters['custom-attr/getFilter'])
+    },
+    getRecommends: function (val) {
+      this.GTM_PRODUCT_IMPRESSION(val, 'homepage', this.$store.getters['custom-attr/getFilter'])
+    },
     isLoggedIn () {
       const redirectObj = localStorage.getItem('redirect')
       if (redirectObj) this.$router.push(redirectObj)
@@ -294,7 +311,9 @@ export default {
         vm.$store.dispatch('homepage/loadRecommends').then(res => {
           vm.loading = false
         })
-        vm.$store.dispatch('slider/getHomeCarousel')
+        vm.$store.dispatch('slider/getHomeCarousel').then(res => {
+          vm.loading = false
+        })
       })
     } else {
       next()

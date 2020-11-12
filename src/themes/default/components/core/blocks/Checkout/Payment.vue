@@ -264,7 +264,7 @@ export default {
   }
 
   .button-pay {
-    max-width: 131px;
+    max-width: 204px;
   }
 
   .label {
@@ -313,7 +313,7 @@ export default {
     }
 
     .button-pay {
-      max-width: 131px;
+      max-width: 204px;
       margin-bottom: 16px;
     }
   }

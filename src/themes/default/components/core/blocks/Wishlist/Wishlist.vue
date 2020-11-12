@@ -73,9 +73,9 @@ import ButtonFull from 'theme/components/theme/ButtonFull';
 import ButtonText from 'theme/components/theme/ButtonText';
 import { notifications } from '@vue-storefront/core/modules/cart/helpers';
 import MoreIcon from 'theme/components/core/MoreIcon';
-
+import totalAmount from "../../../../mixins/cart/totalAmount";
 export default {
-  mixins: [Wishlist],
+  mixins: [Wishlist, totalAmount],
   components: {
     Product,
     ClearWishlistButton,
@@ -94,8 +94,8 @@ export default {
     storeView () {
       return currentStoreView()
     },
-    totalAmount() {
-      return this.productsInWishlist.reduce((acc, it) => acc + it.price_incl_tax, 0)
+    totalAmount () {
+      return this.productsInWishlist.reduce((acc, it) => acc + this.finalPrice(it), 0)
     }
   },
   methods: {
@@ -313,7 +313,7 @@ export default {
     }
   }
 
-  ::v-deep .remove-icon, 
+  ::v-deep .remove-icon,
   ::v-deep .product-right-compare .add-to-compare {
     display: none;
   }
