@@ -396,7 +396,6 @@ export default {
     catalogHooksExecutors.productPageVisited(product)
   },
   beforeRouteEnter (to, from, next) {
-    console.log(from);
     if (isServer) {
       next((vm) => {
         vm.prevRoute = from;
@@ -410,10 +409,7 @@ export default {
   },
   watch: {
     prevRoute: function (val) {
-      let page = null
-      if (val.matched.length) {
-        page = this.variants.find(variant => variant.source === val.matched[0].components.default.__file).index
-      }
+      let page = val.meta.name || 'product page';
       this.GTM_PRODUCT_VIEW([this.getCurrentProduct], page)
     },
     isOnline: {

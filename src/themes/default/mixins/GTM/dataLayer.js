@@ -1,31 +1,5 @@
 import { mapGetters } from 'vuex';
 export default {
-  data () {
-    return {
-      variants: [
-        {
-          source: 'src/themes/default/pages/Home.vue',
-          index: 'homepage'
-        },
-        {
-          source: 'src/themes/default/pages/Category.vue',
-          index: 'category'
-        },
-        {
-          source: 'src/themes/default/pages/Product.vue',
-          index: 'product page'
-        },
-        {
-          source: 'src/themes/default/pages/Checkout.vue',
-          index: 'checkout'
-        },
-        {
-          source: 'src/themes/default/pages/Compare.vue',
-          index: 'compare'
-        }
-      ]
-    };
-  },
   computed: {
     ...mapGetters({
       getAvailableFilters: 'category-next/getAvailableFilters',
@@ -36,11 +10,11 @@ export default {
   methods: {
     getPage (page) {
       if (!page) {
-        return this.variants.find(variant => variant.source === this.$route.matched[0].components.default.__file).index;
+        return this.$route.meta.name || null;
       }
       return page;
     },
-    async PrepareProducts (products, page, attr) {
+    async PrepareProducts (products, page = null, attr = null) {
       if (!this.$store.getters['custom-attr/getFilter']) {
         await this.$store.dispatch('custom-attr/getCustomAttribute', ['manufacturer', 'color']);
       }

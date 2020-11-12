@@ -44,7 +44,7 @@ export default {
     async addToCart (product) {
       try {
         const diffLog = await this.$store.dispatch('cart/addItem', { productToAdd: product })
-        this.GTM_ADD_TO_CART([product], null, null, { color: product.color, quantity: product.qty })
+        this.GTM_ADD_TO_CART([product], 'product page')
         diffLog.clientNotifications.forEach(notificationData => {
           this.notifyUser(notificationData)
         })
