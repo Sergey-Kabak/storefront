@@ -144,7 +144,9 @@ export default {
     }
   },
   mounted: function() {
-    this.initAdmitad()
+    if (config.admitad.enabled) {
+      this.initAdmitad()
+    }
   },
   methods: {
     onSuccess (message) {
