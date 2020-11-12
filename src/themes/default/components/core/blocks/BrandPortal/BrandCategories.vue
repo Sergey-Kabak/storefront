@@ -64,6 +64,7 @@ export default {
 .brand-categories-banner {
   display: block;
   max-width: 428px;
+  border-radius: 4px;
 }
 
 </style>

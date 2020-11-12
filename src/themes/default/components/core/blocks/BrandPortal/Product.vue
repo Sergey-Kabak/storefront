@@ -2,12 +2,12 @@
   <div class="product">
     <div class="product-body" v-if="!product.count">
       <div class="product-cover">
-        <router-link class="product-link" :to="formatLink(product)">
+        <router-link :to="formatLink(product)" class="product-link" >
           <product-image class="product-image" :image="productImage" />
         </router-link>
       </div>
       <div class="product-name">{{ product.name }}</div>
-      <div class="product-actions" v-if="product.url_path">
+      <div class="product-actions">
         <router-link :to="formatLink(product)" class="product-link">
           <button-full class="product-button buy">{{ $t('Buy') }}</button-full>
         </router-link>
@@ -52,7 +52,10 @@ export default {
   },
   methods: {
     formatLink(product) {
-      return formatProductLink(product, currentStoreView().storeCode)
+      if (product.url_path) {
+        return formatProductLink(product, currentStoreView().storeCode)
+      }
+      return {}
     }
   }
 }

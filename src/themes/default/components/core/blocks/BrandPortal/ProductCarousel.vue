@@ -1,5 +1,4 @@
 <template>
-  <!-- нужно переписать стили + переписать на сср слайдер -->
   <div class="carousel">
     <carousel
       class="main-carousel product-carousel"
@@ -15,7 +14,7 @@
       :loop="true"
     >
       <slide v-for="(product, index) in products" :key="index">
-        <div data-testid="productLink" class="product-link">
+        <div data-testid="productLink" class="product-image-link">
           <div class="product-cover">
             <product-image class="product-image" :image="productImage(product)" />
           </div>
@@ -23,7 +22,7 @@
             <pagination @paginationclick="goToPage($event, 'pagination')"/>
           </slot>
           <span class="product-name">{{product.name}}</span>
-          <router-link :to="formatLink(product)">
+          <router-link :to="formatLink(product)" class="product-link">
             <button-full>{{ $t('Buy') }}</button-full>
           </router-link>
         </div>
@@ -77,7 +76,7 @@ export default {
       if (product.url_path) {
         return formatProductLink(product, currentStoreView().storeCode)
       }
-      return '/'
+      return {}
     },
     goToPage(page) {
       this.$refs.carousel && this.$refs.carousel.goToPage(page)
@@ -94,45 +93,51 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-::v-deep .VueCarousel-pagination {
-  margin-bottom: 16px;
-
-  .VueCarousel-dot{
-    outline: none !important;
-    padding: 4px !important;
-    margin: 0!important;
-  }
-
-  .VueCarousel-dot-container {
-    margin-top: 0!important;
-  }
-
-  .VueCarousel-dot {
-    margin-top: 0px!important;
-  }
-  .VueCarousel-dot--active{
-    background-color: #23BE20 !important;
-  }
-
-}
-
 ::v-deep {
-  .VueCarousel-navigation-button {
-    background: #fff!important;
-    width: 40px!important;
-    height: 40px!important;
-    transform: translateY(-215%)!important;
-    border: 1px solid #E0E0E0!important;
-    outline: none!important;
-    border-radius: 50%!important;
+  .VueCarousel-pagination {
+    margin-bottom: 16px;
+
+    .VueCarousel-dot-container {
+      margin-top: 0!important;
+
+        .VueCarousel-dot {
+          outline: none;
+          padding: 4px!important;
+          margin: 0!important;
+        }
+
+        .VueCarousel-dot--active{
+          background-color: #23BE20!important;
+        }
+    }
   }
 
-  .VueCarousel-navigation-next {
-    right: 5px!important;
-  }
+  .VueCarousel-navigation {
+    .VueCarousel-navigation-button {
+      &:focus {
+        outline: none;
+      }
 
-  .VueCarousel-navigation-prev {
-    left: 5px!important;
+      &.VueCarousel-navigation-prev,
+      &.VueCarousel-navigation-next {
+        transform: translateY(-50%);
+      }
+      background: #fff;
+      width: 40px;
+      height: 40px;
+      top: 91px;
+      border: 1px solid #E0E0E0;
+      outline: none;
+      border-radius: 50%;
+
+      &.VueCarousel-navigation-prev {
+        left: 5px
+      }
+
+      &.VueCarousel-navigation-next {
+        right: 5px;
+      }
+    }
   }
 }
 
@@ -151,9 +156,15 @@ export default {
   max-width: 100%;
 }
 
-.product-link {
+.product-image-link {
+  display: flex;
+  flex-direction: column;
   width: 100%;
   padding: 16px;
+}
+
+.product-link {
+  margin-top: auto;
 }
 
 .product-image {

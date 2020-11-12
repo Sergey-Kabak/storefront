@@ -71,7 +71,9 @@ export default {
 
 .brand-image {
   display: flex;
+  width: auto;
   height: 50px;
+  max-width: 50px;
   margin: auto auto 16px auto;
 }
 

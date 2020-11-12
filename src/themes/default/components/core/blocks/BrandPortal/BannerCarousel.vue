@@ -54,7 +54,7 @@ export default {
         }, {
           type: 'banner_mobile',
           isShow: this.isMobile,
-          width: 768,
+          width: 576,
           height: 335
         }
       ]
@@ -98,9 +98,9 @@ export default {
   }
 }
 
-.carousel {
-  margin: 0 -3px;
-}
+// .carousel {
+//   margin: 0 -3px;
+// }
 
 .VueCarousel-slide {
   display: flex;
@@ -119,6 +119,7 @@ export default {
 
 .banner-image {
   width: 100%;
+  border-radius: 4px;
 }
 
 @media (max-width: 768px) {
