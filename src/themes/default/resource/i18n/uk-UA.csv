@@ -64,7 +64,7 @@
 "In the near future we will call you back to clarify the details. Have a nice day!)","Найближчим часом ми вам передзвонимо для уточнення деталей. Прекрасного дня!)"
 "Instant Checkout","Миттєве замовлення"
 "Last name must have at least 2 letters.","Прізвище має складатися не менш ніж с двох букв"
-"Latest","Нові"
+"Latest","Новинки"
 "Latin letters and numbers","Латинські літери та цифри"
 "List":"Листом"
 "Load more","Завантажити ще"
@@ -134,7 +134,7 @@
 "To apply","Застосувати"
 "To customers","Клієнтам"
 "To landlords","Орендодавцям"
-"To pay","Оплатити"
+"To pay","Оформити замовлення"
 "Total","Всього"
 "Try again","Спробуйте знову"
 "Unexpected authorization error. Check your Network conection.","Несподівана помилка при авторизації. Перевірте ваш інтернет зв'язок."
@@ -400,7 +400,7 @@ Return to shopping,Назад до покупок
 Returns,Повернення
 Review order,Переглянути замовлення
 SKU,Ідентифікаційний номер товару
-SKU: {sku},Ідентифікаційний номер товару: {sku}
+SKU: {sku},ID ТОВАРУ: {sku}
 Safety,Безпека
 Sale,Розпродаж
 Search,Пошук
