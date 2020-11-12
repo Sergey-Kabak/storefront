@@ -15,21 +15,7 @@
       >
         {{ product.name | htmlDecode }}
       </router-link>
-
-      <div class="product-prices">
-        <span
-          v-if="product.original_price_incl_tax"
-          class="price price-current"
-        >
-          {{ product.original_price_incl_tax | price(storeView) }}
-        </span>
-        <span
-          v-if="product.special_price"
-          class="price price-special"
-        >
-          {{ product.special_price | price(storeView) }}
-        </span>
-      </div>
+      <product-cart-price :product="product" :nameVisibility="false" />
       <div class="product-actions">
         <div class="actions" v-if="inStock && isShowButtons">
           <AddToCart :product="product" />
@@ -69,7 +55,8 @@ import ButtonFull from 'theme/components/theme/ButtonFull';
 import MoreIcon from 'theme/components/core/MoreIcon';
 import AddToWishlist from 'theme/components/core/blocks/Wishlist/AddToWishlist';
 import AddToCart from 'theme/components/core/AddToCart';
-import GTM from 'theme/mixins/GTM/dataLayer'
+import GTM from 'theme/mixins/GTM/dataLayer';
+import ProductCartPrice from '../Product/ProductCartPrice';
 
 export default {
   props: {
@@ -87,7 +74,8 @@ export default {
     ButtonFull,
     MoreIcon,
     AddToWishlist,
-    AddToCart
+    AddToCart,
+    ProductCartPrice
   },
   computed: {
     productLink () {

@@ -73,8 +73,8 @@ const mutations: MutationTree<ProductState> = {
       option_qty: optionQty,
       option_selections: optionSelections
     }
-    state.current_bundle_options = Object.assign(
-      {},
+    state.current_bundle_options = {}
+    Object.assign(
       state.current_bundle_options,
       { [optionId]: option }
     )

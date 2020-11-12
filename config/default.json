@@ -120,7 +120,10 @@
     "private_key": "SI0lK7LYzwS5xKZFNPNWoIQAXuG79jOXMNHOMBIC",
     "server_url": "https://magento.ringoo.ua/rest/V1/liqpay/callback"
   },
-  "admitadCampaignCode": "89a640b42b",
+  "admitad": {
+    "campaignCode": "89a640b42b",
+    "enabled": true
+  },
   "elasticsearch": {
     "httpAuth": "",
     "host": "https://ringoo.ua/api/catalog",
@@ -266,6 +269,8 @@
     ],
     "category": {
       "includeFields": [
+        "faq",
+        "description_bottom",
         "filterable_attributes",
         "description",
         "image",

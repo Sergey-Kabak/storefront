@@ -55,7 +55,7 @@
               />
             </h1>
             <div
-              class="mb20 uppercase cl-secondary sku"
+              class="mb20 cl-secondary sku"
               itemprop="sku"
               :content="getCurrentProduct.sku"
             >

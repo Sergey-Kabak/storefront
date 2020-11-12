@@ -19,14 +19,14 @@ const isBottomVisible = () => {
  */
 export default {
   mounted () {
-    const scrollHandler = () => {
-      if (isBottomVisible()) {
-        this.onBottomScroll()
-      }
-    }
-    document.addEventListener('scroll', scrollHandler)
-    this.$once('hook:destroyed', () => {
-      document.removeEventListener('scroll', scrollHandler)
-    })
+    // const scrollHandler = () => {
+    //   if (isBottomVisible()) {
+    //     this.onBottomScroll()
+    //   }
+    // }
+    // document.addEventListener('scroll', scrollHandler)
+    // this.$once('hook:destroyed', () => {
+    //   document.removeEventListener('scroll', scrollHandler)
+    // })
   }
 }
