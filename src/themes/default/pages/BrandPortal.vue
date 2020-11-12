@@ -149,7 +149,7 @@ export default {
   color: #1A1919;
 }
 
-.show-all {
+.button-full {
   margin: auto;
   background-color: transparent;
   border: 1px solid #23BE20;
@@ -177,7 +177,7 @@ export default {
       color: #1A1919;
     }
 
-    p {
+    p, li {
       margin-top: 0;
       font-family: DIN Pro;
       font-size: 15px;

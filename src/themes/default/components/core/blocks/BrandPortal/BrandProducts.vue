@@ -98,6 +98,7 @@ export default {
   display: grid;
   grid-gap: 20px;
   grid-template-columns: repeat(auto-fill, minmax(204px, 1fr));
+  grid-auto-rows: 1fr
 }
 
 .product-more {
