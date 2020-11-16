@@ -25,41 +25,41 @@ import i18n from '@vue-storefront/i18n';
 import { htmlDecode } from '@vue-storefront/core/lib/store/filters';
 
 export default {
-    props: {
-      showDescription: {
-        type: Boolean,
-        required: false,
-        default: false
-      }
-    },
-    mixins: [ IsOnWishlist, AddToWishlist, RemoveFromWishlist ],
-    computed: {
-      favoriteIcon () {
-        return this.isOnWishlist ? 'favorite' : 'favorite_border'
-      }
-    },
-    methods: {
-      async addProductToWhishlist (product) {
-        const childSku = product.configurable_children && product.configurable_children[0] && product.configurable_children[0].sku || null
-        const wishlistProduct = await this.$store.dispatch('product/loadProduct', { parentSku: product.parentSku, childSku})
+  props: {
+    showDescription: {
+      type: Boolean,
+      required: false,
+      default: false
+    }
+  },
+  mixins: [ IsOnWishlist, AddToWishlist, RemoveFromWishlist ],
+  computed: {
+    favoriteIcon () {
+      return this.isOnWishlist ? 'favorite' : 'favorite_border'
+    }
+  },
+  methods: {
+    async addProductToWhishlist (product) {
+      const childSku = product.configurable_children && product.configurable_children[0] && product.configurable_children[0].sku || null
+      const wishlistProduct = await this.$store.dispatch('product/loadProduct', { parentSku: product.parentSku, childSku})
 
-        this.addToWishlist(wishlistProduct)
-        this.$store.dispatch('notification/spawnNotification', {
-          type: 'success',
-          message: i18n.t('Product {productName} has been added to wishlist!', { productName: htmlDecode(product.name) }),
-          action1: { label: i18n.t('OK') }
-        }, { root: true })
-      },
-      removeProductFromWhishList (product) {
-        this.$store.dispatch('notification/spawnNotification', {
-          type: 'success',
-          message: i18n.t('Product {productName} has been removed from wishlist!', { productName: htmlDecode(product.name) }),
-          action1: { label: i18n.t('OK') }
-        }, { root: true })
-        this.removeFromWishlist(product)
-      }
+      this.addToWishlist(wishlistProduct)
+      this.$store.dispatch('notification/spawnNotification', {
+        type: 'success',
+        message: i18n.t('Product {productName} has been added to wishlist!', { productName: htmlDecode(product.name) }),
+        action1: { label: i18n.t('OK') }
+      }, { root: true })
+    },
+    removeProductFromWhishList (product) {
+      this.$store.dispatch('notification/spawnNotification', {
+        type: 'success',
+        message: i18n.t('Product {productName} has been removed from wishlist!', { productName: htmlDecode(product.name) }),
+        action1: { label: i18n.t('OK') }
+      }, { root: true })
+      this.removeFromWishlist(product)
     }
   }
+}
 </script>
 
 <style lang="scss" scoped>

@@ -1,34 +1,30 @@
 <template>
-  <div class="col-sm-12 mb10 city-select">
-    <div class="row">
-      <div class="col-sm-12">
-        <v-select
-            class="vue-select"
-            :searchable="true"
-            name="cities"
-            :options="options"
-            :value="selected"
-            @search="fetchOptions"
-            @input="changeCity"
-        >
-          <template slot="option" slot-scope="option">
-            <span
-                class="custom-option"
-                :key="option.toString()"
-                :class="{'id': option.id}"
-                v-html="highlight(search, option.value)"
-            ></span>
-          </template>
-          <template slot="no-options">
-            {{ $t('no cities') }}
-          </template>
-        </v-select>
-      </div>
-      <!--<div class="col-sm-6">-->
-      <!--<label class="form-label">{{ $t('Street, metro') }}</label>-->
-      <!--<base-input type="text" value="" name="metro" class="col-12 input-wrapper" />-->
-      <!--</div>-->
-    </div>
+  <div class="city-select">
+    <v-select
+      class="vue-select"
+      :searchable="true"
+      :clearable="false"
+      name="cities"
+      :options="options"
+      :value="selected"
+      @search="fetchOptions"
+      @input="changeCity"
+    >
+      <template slot="option" slot-scope="option">
+        <span
+          class="custom-option"
+          :key="option.toString()"
+          :class="{'id': option.id}"
+          v-html="highlight(search, option.value)"
+        ></span>
+      </template>
+      <template #open-indicator>
+        <span></span>
+      </template>
+      <template slot="no-options">
+        {{ $t('no cities') }}
+      </template>
+    </v-select>
   </div>
 </template>
 
@@ -74,31 +70,21 @@ export default {
       this.search = search;
       this.$emit('onSearch', {loading, search});
     }
-  },
-  computed: {
-    // bigCity () {
-    //   return this.options.filter(o => this.filter.find(f => f.value === o.value)).map(o => {
-    //     if (this.filter.find(f => f.value === o.value)) {
-    //       o = {...o, ...this.filter.find(f => f.value === o.value)}
-    //       return o
-    //     }
-    //   }).sort((a, b) => a.id - b.id)
-    // },
-    // cOptions () {
-    //   return [...this.bigCity, ...this.options.filter(o => !this.filter.find(f => f.value === o.value))]
-    // }
   }
 }
 </script>
 
-<style lang="scss" scoped>
-  @import '~bootstrap';
-
-</style>
-
 <style lang="scss">
   @import "vue-select/src/scss/vue-select.scss";
   .city-select {
+    ::-webkit-scrollbar {
+      width: 4px;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      border-radius: 4px;
+      background-color: #e0e0e0;
+    }
     .input-wrapper {
       margin-top: 5px;
       input {
@@ -112,15 +98,13 @@ export default {
         }
       }
     }
-    .vs__clear {
-      display: none !important;
-    }
     .vs--open {
       background: #f7f7f9;
       .vs__selected {
         display: none;
       }
       .vs__search {
+        height: 40px;
         background: #ffffff;
         margin: 5px 10px;
         border: 1px solid #bdbdbd;
@@ -136,6 +120,7 @@ export default {
         display: none;
       }
       .vs__dropdown-menu {
+        margin-top: 3px;
         background: #f7f7f9;
         .vs__dropdown-option {
           .id {
@@ -168,7 +153,20 @@ export default {
       margin: 0;
       border: none;
     }
+
+    .vs--open .vs__dropdown-toggle {
+      border-bottom-color: #23BE20!important;
+      border-bottom-left-radius: 4px!important;
+      border-bottom-right-radius: 4px!important;
+    }
+
     .vs__search {
+      height: 40px;
+      background: #ffffff;
+      font-family: DIN Pro;
+      font-style: normal;
+      font-size: 14px;
+      line-height: 16px;
       margin-top: 0;
     }
     .vs__selected {

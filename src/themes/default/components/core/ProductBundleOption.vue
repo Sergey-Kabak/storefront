@@ -3,7 +3,9 @@
     <h4> {{ option.title }} </h4>
     <div class="m5 relative" v-for="opval in option.product_links" :key="opval.id">
       <input
-        type="radio"
+        type="checkbox"
+        checked
+        disabled
         class="m0 no-outline"
         :name="bundleOptionName + opval.id"
         :id="bundleOptionName + opval.id"
@@ -13,7 +15,7 @@
       >
       <label v-if="opval.product" class="pl10 lh20 h4 pointer" :for="bundleOptionName + opval.id" v-html="opval.product.name" />
     </div>
-    <div>
+    <div v-if="false">
       <label class="qty-label flex" :for="quantityName">{{ $t('Quantity') }}</label>
       <input
         type="number"

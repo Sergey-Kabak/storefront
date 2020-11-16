@@ -21,7 +21,6 @@
 import { currentStoreView } from '@vue-storefront/core/lib/multistore';
 import { mapGetters, mapMutations } from 'vuex'
 export default {
-  props: ['banks', 'totalPrice'],
   data () {
     return {
       isCreditAvailable: true,
@@ -32,8 +31,13 @@ export default {
     ...mapGetters({
       productsInCart: 'cart/getCartItems',
       selectedCredit: 'themeCredit/getSelectedCredit',
-      getSelectedBank: 'themeCredit/getSelectedBank'
+      getSelectedBank: 'themeCredit/getSelectedBank',
+      getBanks: 'themeCredit/getBanks',
+      totals: 'cart/getTotals'
     }),
+    totalPrice () {
+      return this.totals.find(code => code.code === 'grand_total').value
+    },
     storeView () {
       return currentStoreView()
     },
@@ -82,6 +86,7 @@ export default {
         width: calc(100% + 32px);
         margin-left: -16px;
       }
+      box-sizing: border-box;
       background: #E4F9E4;
       border-radius: 4px;
       padding: 18px 16px;

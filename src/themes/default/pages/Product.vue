@@ -55,7 +55,7 @@
               />
             </h1>
             <div
-              class="mb20 uppercase cl-secondary sku"
+              class="mb20 cl-secondary sku"
               itemprop="sku"
               :content="getCurrentProduct.sku"
             >
@@ -66,13 +66,11 @@
               <meta itemprop="price" :content="parseFloat(getCurrentProduct.price_incl_tax).toFixed(2)">
               <meta itemprop="availability" :content="structuredData.availability">
               <meta itemprop="url" :content="getCurrentProduct.url_path">
-              <product-price
-                class="mb40 product-price"
+              <product-cart-price
                 v-if="getCurrentProduct.type_id !== 'grouped'"
                 :product="getCurrentProduct"
-                :custom-options="getCurrentCustomOptions"
-              />
-
+                :nameVisibility="false"
+                class="product-item-price"/>
               <div class="cl-primary variants" v-if="getCurrentProduct.type_id =='configurable'">
                 <div
                   class="error"
@@ -96,6 +94,17 @@
                         :selected-filters="getSelectedFilters"
                         @change="changeFilter"
                       />
+                    </div>
+                    <div v-else>
+                      <button-selector
+                        context="product"
+                        :code="option.attribute_code"
+                        class="size-select mr10 mb10"
+                        v-for="filter in getAvailableFilters[option.attribute_code]"
+                        :key="filter.id"
+                        :variant="filter"
+                        :selected-filters="getSelectedFilters"
+                        @change="changeFilter"/>
                     </div>
                   </div>
                 </div>
@@ -146,7 +155,6 @@
                 <AddToWishlist :product="getCurrentProduct" showDescription />
               </div>
             </div>
-
             <div class="seller-name-row" @click="showCustomSeller" v-if="parseInt(getCurrentProduct.marketplace)">
               <template v-if="customSeller">
                 <div class="seller-name-col">
@@ -165,7 +173,6 @@
                 </div>
               </template>
             </div>
-
           </div>
         </section>
       </div>
@@ -233,6 +240,7 @@ import WebShare from 'theme/components/theme/WebShare';
 import AddToWishlist from 'theme/components/core/blocks/Wishlist/AddToWishlist';
 import AddToCompare from 'theme/components/core/blocks/Compare/AddToCompare';
 import ButtonWhite from 'theme/components/core/blocks/Product/ButtonWhite';
+import ButtonSelector from 'theme/components/core/ButtonSelector';
 import { mapGetters } from 'vuex';
 import LazyHydrate from 'vue-lazy-hydration';
 import { ProductOption } from '@vue-storefront/core/modules/catalog/components/ProductOption.ts';
@@ -255,9 +263,12 @@ import {
 } from '@vue-storefront/core/helpers';
 import { catalogHooksExecutors } from '@vue-storefront/core/modules/catalog-next/hooks';
 import ProductPrice from 'theme/components/core/ProductPrice.vue';
+import ProductCartPrice from "../components/core/blocks/Product/ProductCartPrice";
 import Promo from "../components/core/blocks/Product/Promo";
 import Spinner from "../components/core/Spinner";
 import { filterChangedProduct } from '@vue-storefront/core/modules/catalog/events'
+import GTM from 'theme/mixins/GTM/dataLayer'
+
 export default {
   components: {
     AddToCart,
@@ -280,9 +291,11 @@ export default {
     ProductPrice,
     Promo,
     ButtonWhite,
-    Spinner
+    Spinner,
+    ProductCartPrice,
+    ButtonSelector
   },
-  mixins: [ProductOption],
+  mixins: [ProductOption, GTM],
   directives: { focusClean },
   beforeCreate () {
     registerModule(ReviewModule)
@@ -296,7 +309,8 @@ export default {
       isStockInfoLoading: false,
       hasAttributesLoaded: false,
       manageQuantity: true,
-      show_modal_credits_loading: false
+      show_modal_credits_loading: false,
+      prevRoute: null
     }
   },
   computed: {
@@ -388,7 +402,6 @@ export default {
   },
   async mounted () {
     await this.$store.dispatch('recently-viewed/addItem', this.getCurrentProduct);
-    this.setDataLayer();
   },
   async asyncData ({ store, route, context }) {
     if (context) context.output.cacheTags.add('product')
@@ -399,14 +412,21 @@ export default {
   },
   beforeRouteEnter (to, from, next) {
     if (isServer) {
-      next()
+      next((vm) => {
+        vm.prevRoute = from;
+      })
     } else {
       next((vm) => {
-        vm.getQuantity()
+        vm.getQuantity();
+        vm.prevRoute = from;
       })
     }
   },
   watch: {
+    prevRoute: function (val) {
+      let page = val.meta.name || 'product page';
+      this.GTM_PRODUCT_VIEW([this.getCurrentProduct], page)
+    },
     isOnline: {
       handler (isOnline) {
         if (isOnline) {
@@ -416,67 +436,17 @@ export default {
     }
   },
   methods: {
-    async showModalCredits () {
+    showModalCredits () {
       this.$bus.$emit('modal-show', 'modal-credits')
-      // try {
-      //   this.show_modal_credits_loading = true;
-      //   const diffLog = await this.$store.dispatch('cart/addItem', { productToAdd: this.getCurrentProduct })
-      //   diffLog.clientNotifications.forEach(notificationData => {
-      //
-      //     // Notify user that product is added
-      //     this.notifyUser(notificationData)
-      //
-      //     // Do open modal credits
-      //     this.$bus.$emit('modal-show', 'modal-credits')
-      //   })
-      // } catch (message) {
-      //   this.notifyUser(notifications.createNotification({ type: 'error', message }))
-      // } finally {
-      //   this.show_modal_credits_loading = false;
-      // }
-    },
-    setDataLayer () {
-      if (typeof window !== 'undefined' && this.getCurrentProduct) {
-        let { options } = this.getCustomAttributes.find(a => a.attribute_code === 'manufacturer');
-        window.dataLayer = window.dataLayer || [];
-        window.dataLayer.push({
-          'ecommerce': {
-            'currencyCode': 'UAH',
-            'detail': {
-              'products': [{
-                'name': this.getCurrentProduct.name,
-                'id': this.getCurrentProduct.id,
-                'price': this.getCurrentProduct.original_price_incl_tax,
-                'brand': options.find(o => parseInt(o.value) === parseInt(this.getCurrentProduct.manufacturer)),
-                'category': this.getCurrentProduct.category && this.getCurrentProduct.category[0].name
-              }]
-            },
-            'impressions': [
-              {
-                'name': this.getCurrentProduct.name,
-                'id': this.getCurrentProduct.id,
-                'price': this.getCurrentProduct.original_price_incl_tax,
-                'brand': options.find(o => parseInt(o.value) === parseInt(this.getCurrentProduct.manufacturer)),
-                'category': this.getCurrentProduct.category && this.getCurrentProduct.category[0].name
-              }]
-          },
-          'event': 'gtm-ee-event',
-          'gtm-ee-event-category': 'Enhanced Ecommerce',
-          'gtm-ee-event-action': 'Product Details',
-          'gtm-ee-event-non-interaction': 'True'
-        });
-      }
     },
     getLabelValue () {
       let attributes = this.getCurrentProduct.attributes_metadata;
       let attribute = attributes.find((attr) => {
         return attr.attribute_code === 'rma';
       });
-
       if (!(attribute.options && attribute.options.length)) {
         return false;
       }
-
       return attribute.options[0].label;
     },
     showDetails (event) {

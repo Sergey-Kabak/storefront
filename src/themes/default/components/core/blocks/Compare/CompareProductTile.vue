@@ -1,5 +1,5 @@
 <template>
-  <div class="product w-100 pb20 d-flex-column btw" v-observe-visibility="visibilityChanged"
+  <div @click="gtm" class="product w-100 pb20 d-flex-column btw" v-observe-visibility="visibilityChanged"
        :class="{'not-availible' : isAvailible}">
     <div class="product__icons">
       <AddToCompare class="product__icon" :product="product">
@@ -94,8 +94,10 @@ import { mapGetters } from 'vuex';
 import ProductCartMixin from '../../../../mixins/ProductCartMixin';
 import ProductCartControls from '../Product/ProductCartControls';
 import ProductCartPrice from '../Product/ProductCartPrice';
+import GTM from 'theme/mixins/GTM/dataLayer'
+
 export default {
-  mixins: [ProductTile, IsOnWishlist, IsOnCompare, AddToCompare, ProductCartMixin],
+  mixins: [ProductTile, IsOnWishlist, IsOnCompare, AddToCompare, ProductCartMixin, GTM],
   components: {
     ButtonFull,
     ProductImage,
@@ -139,6 +141,9 @@ export default {
     }
   },
   methods: {
+    gtm () {
+      this.GTM_PRODUCT_CLICK([this.product], 'compare page')
+    },
     toProduct () {
       this.$router.push(this.productLink)
     },

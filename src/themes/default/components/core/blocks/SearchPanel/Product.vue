@@ -1,5 +1,5 @@
 <template>
-  <li class="product" :class="{'out-of-stock': !inStock}">
+  <li @click="gtm" class="product" :class="{'out-of-stock': !inStock}">
     <div class="product-left">
       <div class="product-img">
         <router-link @click.native="closeSearchPanel()" :to="productLink">
@@ -15,21 +15,7 @@
       >
         {{ product.name | htmlDecode }}
       </router-link>
-
-      <div class="product-prices">
-        <span 
-          v-if="product.original_price_incl_tax"
-          class="price price-current"
-        >
-          {{ product.original_price_incl_tax | price(storeView) }}
-        </span>
-        <span
-          v-if="product.special_price"
-          class="price price-special"
-        >
-          {{ product.special_price | price(storeView) }}
-        </span>
-      </div>
+      <product-cart-price :product="product" :nameVisibility="false" />
       <div class="product-actions">
         <div class="actions" v-if="inStock && isShowButtons">
           <AddToCart :product="product" />
@@ -69,6 +55,8 @@ import ButtonFull from 'theme/components/theme/ButtonFull';
 import MoreIcon from 'theme/components/core/MoreIcon';
 import AddToWishlist from 'theme/components/core/blocks/Wishlist/AddToWishlist';
 import AddToCart from 'theme/components/core/AddToCart';
+import GTM from 'theme/mixins/GTM/dataLayer';
+import ProductCartPrice from '../Product/ProductCartPrice';
 
 export default {
   props: {
@@ -78,7 +66,7 @@ export default {
       required: false
     }
   },
-  mixins: [Product],
+  mixins: [Product, GTM],
   components: {
     ProductImage,
     AddToCompare,
@@ -86,7 +74,8 @@ export default {
     ButtonFull,
     MoreIcon,
     AddToWishlist,
-    AddToCart
+    AddToCart,
+    ProductCartPrice
   },
   computed: {
     productLink () {
@@ -106,6 +95,9 @@ export default {
     }
   },
   methods: {
+    gtm () {
+      this.GTM_PRODUCT_CLICK([this.product], 'search results')
+    },
     closeSearchPanel (){
       this.$store.commit('ui/setSidebar', false)
       this.$store.commit('ui/setMicrocart', false)
@@ -179,7 +171,7 @@ export default {
   .credit {
     font-weight: 600;
     margin-right: 24px;
-    
+
     &.mobile {
       display: none;
     }

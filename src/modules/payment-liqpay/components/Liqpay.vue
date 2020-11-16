@@ -1,14 +1,14 @@
 <template>
   <div>
-    <ButtonSmall @click.native="onCreateOrder()">
+    <button-full @click.native="onCreateOrder()">
       {{ $t('To pay') }}
-    </ButtonSmall>
+    </button-full>
     <div id="liqpay_checkout" :key="liqpayKey"/>
   </div>
 </template>
 <script>
 
-import ButtonSmall from 'theme/components/theme/ButtonFilledSmall'
+import ButtonFull from 'theme/components/theme/ButtonFull'
 import Base64 from 'crypto-js/enc-base64'
 import Utf8 from 'crypto-js/enc-utf8'
 import sha1 from 'crypto-js/sha1'
@@ -26,7 +26,7 @@ export default {
     }
   }),
   components: {
-    ButtonSmall
+    ButtonFull
   },
   beforeMount: function () {
     this.$bus.$on('liqpay', this.submit)

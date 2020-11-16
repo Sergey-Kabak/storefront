@@ -60,7 +60,6 @@ $active : #1d9f1b;
   justify-content: center;
   align-items: center;
   text-align: center;
-  height: 40px;
   padding: 0 5px;
   width: 100%;
   border-style: none;

@@ -48,10 +48,10 @@ const getters: GetterTree<CategoryState, RootState> = {
   getCurrentCategory: (state, getters, rootState, rootGetters) => {
     return getters.getCategoryByParams({ ...rootGetters['url/getCurrentRoute'].params })
   },
-  getAvailableFiltersFrom: (state, getters, rootState) => (aggregations) => {
+  getAvailableFiltersFrom: (state, getters, rootState) => (aggregations, defaultFilters) => {
     const filters = {}
     if (aggregations) { // populate filter aggregates
-      for (let attrToFilter of products.defaultFilters) { // fill out the filter options
+      for (let attrToFilter of defaultFilters) { // fill out the filter options
         let filterOptions: FilterVariant[] = []
 
         let uniqueFilterValues = {}
@@ -68,12 +68,14 @@ const getters: GetterTree<CategoryState, RootState> = {
 
           for (let key in uniqueFilterValues) {
             const label = optionLabel(rootState.attribute, { attributeKey: attrToFilter, optionId: key })
+            const attribute = rootState.attribute.list_by_code[attrToFilter]
             if (trim(label) !== '') { // is there any situation when label could be empty and we should still support it?
               filterOptions.push({
                 id: key,
                 count: uniqueFilterValues[key],
                 label: label,
-                type: attrToFilter
+                type: attrToFilter,
+                name: attribute.frontend_label
               })
             }
           }

@@ -81,6 +81,7 @@ import { getThumbnailForProduct } from '@vue-storefront/core/modules/cart/helper
 import ProductImage from 'theme/components/core/ProductImage';
 import { currentStoreView } from '@vue-storefront/core/lib/multistore';
 import TotalPrice from 'theme/components/core/TotalPrice';
+import totalAmount from "../../../../mixins/cart/totalAmount";
 
 export default {
   name: 'ThankYouPage',
@@ -92,7 +93,7 @@ export default {
     ButtonFilledSmall,
     TotalPrice
   },
-  mixins: [Composite, VueOfflineMixin, EmailForm],
+  mixins: [Composite, VueOfflineMixin, EmailForm, totalAmount],
   beforeCreate () {
     registerModule(MailerModule)
   },
@@ -146,12 +147,11 @@ export default {
     }
   },
   mounted: function() {
-    this.initAdmitad()
+    if (config.admitad.enabled) {
+      this.initAdmitad()
+    }
   },
   methods: {
-    finalPrice (product) {
-      return product.original_special_price || product.original_price_incl_tax
-    },
     onSuccess (message) {
       this.$store.dispatch('notification/spawnNotification', {
         type: 'success',

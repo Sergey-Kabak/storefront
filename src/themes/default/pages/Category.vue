@@ -116,7 +116,15 @@
             <product-listing :products="getCategoryProducts" />
           </lazy-hydrate>
           <product-listing v-else :products="getCategoryProducts" />
-          <spinner v-if="loadingProducts && !allProductsLoaded" />
+          <button-white
+            v-if="!allProductsLoaded" @click.native="onBottomScroll"
+            class="load">
+            {{ $t('Load more') }}
+            <spinner class="spinner" v-if="loadingProducts && !allProductsLoaded" />
+          </button-white>
+          <no-ssr>
+            <description v-if="isDescription" />
+          </no-ssr>
         </div>
       </div>
     </div>
@@ -142,6 +150,9 @@ import { currentStoreView } from '@vue-storefront/core/lib/multistore';
 import { htmlDecode } from '@vue-storefront/core/filters';
 import CountDown from "../components/core/CountDown";
 import Spinner from "../components/core/Spinner";
+import GTM from '../mixins/GTM/dataLayer'
+import Description from "../components/core/blocks/Category/Description";
+import ButtonWhite from "../components/core/blocks/Product/ButtonWhite";
 
 const THEME_PAGE_SIZE = 32
 const composeInitialPageState = async (store, route, forceLoad = false) => {
@@ -150,6 +161,7 @@ const composeInitialPageState = async (store, route, forceLoad = false) => {
     const cachedCategory = store.getters['category-next/getCategoryFrom'](route.path)
     const currentCategory = cachedCategory && !forceLoad ? cachedCategory : await store.dispatch('category-next/loadCategory', { filters })
     const pageSize = store.getters['url/isBackRoute'] ? store.getters['url/getCurrentRoute'].categoryPageSize : THEME_PAGE_SIZE
+    await store.dispatch('attribute/list', { filterValues: currentCategory.filterable_attributes })
     await store.dispatch('category-next/loadCategoryProducts', { route, category: currentCategory, pageSize })
     const breadCrumbsLoader = store.dispatch('category-next/loadCategoryBreadcrumbs', { category: currentCategory, currentRouteName: currentCategory.name, omitCurrent: true })
     if (isServer) await breadCrumbsLoader
@@ -158,6 +170,8 @@ const composeInitialPageState = async (store, route, forceLoad = false) => {
     console.error('Problem with setting Category initial data!', e)
   }
 }
+import NoSSR from 'vue-no-ssr';
+
 export default {
   components: {
     CountDown,
@@ -169,9 +183,12 @@ export default {
     Sidebar,
     SortBy,
     NewSortBy,
-    Spinner
+    Spinner,
+    Description,
+    ButtonWhite,
+    'no-ssr': NoSSR
   },
-  mixins: [onBottomScroll],
+  mixins: [onBottomScroll, GTM],
   data () {
     return {
       mobileFilters: false,
@@ -196,6 +213,9 @@ export default {
       getAvailableFilters: 'category-next/getAvailableFilters',
       getCategorySearchProductsStats: 'category-next/getCategorySearchProductsStats'
     }),
+    isDescription () {
+      return !!this.getCurrentCategory
+    },
     allProductsLoaded () {
       return this.getCategorySearchProductsStats.perPage + this.getCategorySearchProductsStats.start >= this.getCategorySearchProductsStats.total
     },
@@ -246,6 +266,7 @@ export default {
       this.$store.dispatch('category-next/switchSearchFilters', [filterVariant])
     },
     async onBottomScroll () {
+      let scrollBarPosition = window.pageYOffset
       if (this.loadingProducts) return
       this.loadingProducts = true
       try {
@@ -253,6 +274,7 @@ export default {
       } catch (e) {
         console.error('Problem with fetching more products', e)
       } finally {
+        window.scrollTo(0, scrollBarPosition)
         this.loadingProducts = false
       }
     },
@@ -272,6 +294,11 @@ export default {
     return {
       title: htmlDecode(meta_title || name),
       meta
+    }
+  },
+  watch: {
+    getCategoryProducts: function (val) {
+      this.GTM_PRODUCT_IMPRESSION(val, 'category')
     }
   }
 }
@@ -333,6 +360,9 @@ $mobile_screen : 768px;
   }
 
   .category {
+    @media (max-width: 767px) {
+      padding-bottom: 48px;
+    }
     display: flex;
     padding-bottom: 68px;
   }
@@ -607,6 +637,9 @@ $mobile_screen : 768px;
   }
 </style>
 <style lang="scss">
+.load{
+  margin: 32px auto 0;
+}
 .banner-description {
   margin-top: 25px;
   display: flex;

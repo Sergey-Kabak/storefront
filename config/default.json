@@ -16,6 +16,7 @@
     "outputCacheDefaultTtl": 86400,
     "availableCacheTags": [
       "attribute",
+      "brand",
       "C",
       "category",
       "checkout",
@@ -119,7 +120,10 @@
     "private_key": "SI0lK7LYzwS5xKZFNPNWoIQAXuG79jOXMNHOMBIC",
     "server_url": "https://magento.ringoo.ua/rest/V1/liqpay/callback"
   },
-  "admitadCampaignCode": "89a640b42b",
+  "admitad": {
+    "campaignCode": "89a640b42b",
+    "enabled": true
+  },
   "elasticsearch": {
     "httpAuth": "",
     "host": "https://ringoo.ua/api/catalog",
@@ -265,6 +269,9 @@
     ],
     "category": {
       "includeFields": [
+        "faq",
+        "description_bottom",
+        "filterable_attributes",
         "description",
         "image",
         "custom_design_from",
@@ -323,6 +330,7 @@
     "productList": {
       "sort": "updated_at:desc",
       "includeFields": [
+        "manufacturer",
         "marketplace",
         "rma",
         "preorder",
@@ -349,7 +357,8 @@
         "url_key",
         "*image",
         "*sku",
-        "*small_image"
+        "*small_image",
+        "bundle_options"
       ],
       "excludeFields": [
         "attribute_set_id",
@@ -550,6 +559,23 @@
         "url_path",
         "visibility"
       ]
+    },
+    "brand": {
+      "includeFields": [
+        "accessories",
+        "banner_desktop",
+        "banner_mobile",
+        "banner_tablet",
+        "banner_link",
+        "promo_banner_link",
+        "banner_promo",
+        "brand_name",
+        "categories",
+        "description",
+        "id",
+        "url_key"
+      ],
+      "excludeFields": null
     }
   },
   "cart": {
@@ -627,24 +653,6 @@
     "waitForPlatformSync": false,
     "setupVariantByAttributeCode": true,
     "endpoint": "/api/product",
-    "defaultFilters": [
-      "manufacturer",
-      "dyagonal_ekrana",
-      "obem_vstroennoj_pamyaty",
-      "obem_operatyvnoj_pamyaty",
-      "camerares",
-      "frontalnaya_kamera_mp",
-      "emkost_akkumulyatora_mach",
-      "sim",
-      "slot_dlya_karty_pamyaty",
-      "cores",
-      "material_korpusu",
-      "operatsyonnaya_systema",
-      "price",
-      "brand",
-      "color",
-      "price"
-    ],
     "systemFilterNames": [
       "sort"
     ],
@@ -751,9 +759,12 @@
   "images": {
     "useExactUrlsNoProxy": false,
     "baseUrl": "https://ringoo.ua/img/",
-    "useSpecificImagePaths": false,
+    "useSpecificImagePaths": true,
     "paths": {
-      "product": "/catalog/product"
+      "product": "/catalog/product",
+      "category": "/catalog/category/",
+      "brand": "/temabit/brands/",
+      "slider": "/bannerslider/upload/"
     },
     "productPlaceholder": "/assets/placeholder.jpg"
   },
@@ -913,7 +924,7 @@
       "filter": [
         {
           "key": "category_ids",
-          "value": { "eq": [49] }
+          "value": { "eq": [44] }
         }
       ]
     }

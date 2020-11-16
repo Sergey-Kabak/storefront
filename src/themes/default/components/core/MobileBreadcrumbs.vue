@@ -21,7 +21,6 @@ export default {
 
 <style lang="scss" scoped>
 .breadcrumbs {
-	margin-bottom: 20px;
 	cursor: pointer;
   span,
   a {

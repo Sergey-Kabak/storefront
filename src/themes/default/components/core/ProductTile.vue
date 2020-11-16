@@ -1,5 +1,5 @@
 <template>
-  <div class="product w-100 pb20 d-flex-column btw" v-observe-visibility="visibilityChanged">
+  <div @click="gtm" class="product w-100 pb20 d-flex-column btw" v-observe-visibility="visibilityChanged">
     <div class="product__icons" v-if="isShowCompareAndFavorite">
       <AddToWishlist :product="product" class="product-icon" :class="{'active': isOnWishlist }" />
       <AddToCompare :product="product" class="product-icon" :class="{'active': isOnCompare }" />
@@ -47,8 +47,10 @@ import Tag from 'theme/components/core/Tag';
 import { mapGetters } from 'vuex';
 import ProductCartControls from 'theme/components/core/blocks/Product/ProductCartControls';
 import ProductCartPrice from 'theme/components/core/blocks/Product/ProductCartPrice';
+import GTM from 'theme/mixins/GTM/dataLayer'
+
 export default {
-  mixins: [ProductTile, IsOnWishlist, IsOnCompare],
+  mixins: [ProductTile, IsOnWishlist, IsOnCompare, GTM],
   components: {
     ButtonFull,
     ProductImage,
@@ -95,6 +97,9 @@ export default {
     }
   },
   methods: {
+    gtm () {
+      this.GTM_PRODUCT_CLICK([this.product], null)
+    },
     toProduct () {
       this.$router.push(this.productLink)
     },
@@ -267,7 +272,6 @@ export default {
 
     &__thumb {
       padding: 0;
-      opacity: 0.8;
       will-change: opacity, transform;
       transition: 0.3s opacity $motion-main, 0.3s transform $motion-main;
 
@@ -279,7 +283,6 @@ export default {
     @media screen and (min-width: 768px) {
       &:hover {
         .product-cover__thumb {
-          opacity: 1;
           transform: scale(1.1);
         }
         &.sale::after,

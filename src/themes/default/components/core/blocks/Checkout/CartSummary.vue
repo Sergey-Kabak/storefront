@@ -24,9 +24,10 @@ import Product from 'theme/components/core/blocks/Checkout/Product';
 import { mapGetters } from 'vuex';
 import PromoCode from 'theme/components/core/blocks/Microcart/PromoCode';
 import TotalPrice from 'theme/components/core/TotalPrice';
+import GTM from 'theme/mixins/GTM/dataLayer'
 
 export default {
-  mixins: [CartSummary],
+  mixins: [CartSummary, GTM],
   components: {
     Product,
     PromoCode,
@@ -46,6 +47,9 @@ export default {
     totalPrice () {
       return this.productsInCart.reduce((acc, it) => acc + it.price * it.qty, 0)
     }
+  },
+  mounted () {
+    this.GTM_CHECKOUT(this.productsInCart, 'checkout')
   }
 };
 </script>

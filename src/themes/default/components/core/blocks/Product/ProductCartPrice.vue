@@ -1,38 +1,38 @@
 <template>
   <div class="flex flex-column product-price-block">
-        <span v-if="isDiscount"
-              class="price-sale only-mobile">
-          -{{discount}} %
-        </span>
-    <div class="mb0 name mt0 relative w-100">
+    <span v-if="isDiscount"
+          class="price-sale only-mobile">
+      -{{discount}} %
+    </span>
+    <div class="mb0 name mt0 relative w-100" v-if="nameVisibility">
       {{ product.name | htmlDecode }}
     </div>
-    <div class="product-price-wrapper">
-          <span
-            class="price-original mr5 lh30 cl-secondary"
-            v-if="product.special_price && parseFloat(product.original_price_incl_tax) > 0"
-          >
-            {{ product.original_price_incl_tax | price(storeView) }}
-          </span>
-      <span
-        class="price-special lh30 cl-accent weight-700"
-        v-if="product.special_price && parseFloat(product.special_price) > 0"
-      >
-          {{ product.price_incl_tax | price(storeView) }}
-          </span>
-      <span
-        class="lh30 cl-secondary price-special"
-        v-if="!product.special_price && parseFloat(product.price_incl_tax) > 0"
-      >
-            {{ product.price_incl_tax | price(storeView) }}
-          </span>
-      <span
-        v-if="isDiscount"
-        class="price-sale not-mobile"
-      >
-        -{{discount}}
+    <template v-if="product.special_price && !onlyImage">
+      <div class="product-price-wrapper">
+        <span
+          class="price-original mr5 lh30 cl-secondary"
+        >
+          {{ originalPrice | price(storeView) }}
+        </span>
+        <span
+          class="price-special lh30 cl-accent weight-700">
+          {{ finalPrice | price(storeView) }}
+        </span>
+        <span
+          v-if="isDiscount"
+          class="price-sale not-mobile"
+        >
+        -{{ discount }} %
       </span>
-    </div>
+      </div>
+    </template>
+    <template v-else-if="!onlyImage">
+      <div class="product-price-wrapper">
+        <span class="lh30 cl-secondary price-special">
+          {{ finalPrice | price(storeView) }}
+        </span>
+      </div>
+    </template>
   </div>
 </template>
 
@@ -48,6 +48,10 @@ export default {
     onlyImage: {
       type: Boolean,
       default: false
+    },
+    nameVisibility: {
+      type: Boolean,
+      default: true
     }
   },
   computed: {
@@ -55,16 +59,65 @@ export default {
       return currentStoreView()
     },
     discount () {
-      return parseInt(((this.product.original_price_incl_tax - this.product.special_price) / (this.product.original_price_incl_tax / 100)))
+      const productTypes = {
+        bundle: parseInt(100 - this.product.special_price)
+      }
+      return productTypes[this.product.type_id] || parseInt(((this.product.original_price_incl_tax - this.product.special_price) / (this.product.original_price_incl_tax / 100)))
     },
     isDiscount () {
       return this.product.original_price_incl_tax && this.product.special_price && this.discount > 0
+    },
+    bundleFinalPrice () {
+      if (this.product.special_price > 0) {
+        let baseDiscount = 100 - this.product.special_price,
+          onePercent = this.bundlePrice / 100;
+        return (this.bundlePrice - (onePercent * baseDiscount))
+      } else {
+        return this.bundlePrice
+      }
+    },
+    bundlePrice () {
+      if (this.isBundleProduct) {
+        let bundleProductsPrice = this.product.bundle_options.reduce((acc, it) => {
+          return acc += it.product_links.reduce((acc2, it2) => acc2 += it2.price, 0)
+        }, 0)
+        return bundleProductsPrice + this.product.original_price_incl_tax;
+      }
+    },
+    isBundleProduct () {
+      return this.product.type_id === 'bundle'
+    },
+    originalPrice () {
+      const productTypes = {
+        bundle: this.bundlePrice
+      }
+      return productTypes[this.product.type_id] || this.product.original_price_incl_tax
+    },
+    finalPrice () {
+      const productTypes = {
+        bundle: this.bundleFinalPrice
+      }
+      return productTypes[this.product.type_id] || this.product.price_incl_tax
     }
   }
 }
 </script>
 
 <style lang="scss" scoped>
+.product-item-price{
+  .price-original{
+    font-size: 24px;
+    line-height: 20px;
+    color: #5F5E5E;
+    position: relative;
+    top: 4px;
+  }
+  .price-special{
+    font-size: 36px;
+    line-height: 1;
+    font-weight: 900;
+  }
+}
 .only-mobile {
   @media (min-width: 768px) {
     display: none;
