@@ -1,7 +1,7 @@
 <template>
   <div class="brand-categories">
     <div class="brand-categories-left">
-      <h4 class="brand-categories-title">Аксессуары</h4>
+      <h4 class="brand-categories-title">{{ $t('Accessories') }}</h4>
       <div class="categories">
         <category-item v-for="(category, index) in categories" :category="category" :key="index"/>
       </div>
