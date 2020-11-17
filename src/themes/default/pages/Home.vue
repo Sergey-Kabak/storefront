@@ -50,7 +50,7 @@
     <section class="v-container ">
       <header class="col-md-12">
         <h2 class="cl-accent">
-          {{ $t('Sales leaders') }}
+          {{ $t('Audio equipment') }}
         </h2>
       </header>
       <div class="center-xs">

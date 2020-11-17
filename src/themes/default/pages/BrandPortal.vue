@@ -10,7 +10,7 @@
       <brand-products :brandItems="brand.categories" class="brand-products" />
       <brand-categories :categories="brand.accessories" class="brand-categories" />
       <div class="best-sellers"> 
-        <h4 class="best-sellers-title">Лидеры продаж</h4>
+        <h4 class="best-sellers-title">{{ $t('Sales leaders') }}</h4>
         <lazy-hydrate :trigger-hydration="!loading">
           <product-listing columns="4" :products="getRecommends" />
         </lazy-hydrate>
@@ -149,11 +149,16 @@ export default {
   color: #1A1919;
 }
 
-.button-full {
+.button-full.show-all {
   margin: auto;
   background-color: transparent;
   border: 1px solid #23BE20;
   color: #1A1919;
+
+  &:hover {
+    background-color: #23BE20;
+    color: #fff;
+  }
 }
 
 .see-also {
