@@ -1,17 +1,5 @@
 <template>
   <div class="delivery">
-    <h2>{{ $t('justin') }}</h2>
-    <img src="/assets/static/justin_poshta.jpg" alt="justin_poshta">
-    <p>{{ $t('justin company') }}</p>
-    <h2>{{ $t('why justin') }}</h2>
-    <ul>
-      <li>{{ $t('justin chain') }}</li>
-      <li>{{ $t('justin location') }}</li>
-      <li>{{ $t('justin delivery') }}</li>
-      <li>{{ $t('justin schedule') }}</li>
-    </ul>
-    <a href="https://justin.ua/">{{ $t('justin site') }}</a>
-    <p>{{ $t('delivery warning') }}</p>
     <h2>{{ $t('nova poshta') }}</h2>
     <img src="/assets/static/novaya_poshta.jpg" alt="novaya_poshta">
     <p>{{ $t('nova poshta descrtiption') }}</p>
@@ -34,11 +22,6 @@
       <li>Безкоштовно</li>
     </ul>
     <p>Ви можете оплатити та забрати товар в одному з магазинів ringoo. Дізнатися адресу магазину в своєму місті ви можете у нашого консультанта під час підтвердження замовлення.</p>
-    <h2>{{ $t('ukr poshta') }}</h2>
-    <img src="/assets/static/ukr_poshta.jpg" alt="ukr_poshta">
-    <p>{{ $t('ukr poshta description') }}</p>
-    <p>{{ $t('ukr poshta department') }}</p>
-    <p>{{ $t('delivery warning') }}</p>
   </div>
 </template>
 
