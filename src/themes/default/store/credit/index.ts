@@ -1,4 +1,4 @@
-import {Module} from 'vuex'
+import { Module } from 'vuex'
 import getters from './getters'
 import actions from './actions'
 import mutations from './mutations'
@@ -10,7 +10,9 @@ export const module: Module<CreditState, any> = {
     banks: [],
     selectedBank: null,
     selectedCredit: null,
-    fields: null,
+    accessories: null,
+    services: null,
+    creditMethod: 'pickup',
     creditDetails: {
       surname: '',
       name: '',

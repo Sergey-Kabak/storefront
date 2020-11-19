@@ -4,7 +4,6 @@
       {{ $t('Credit') }}
     </h3>
     <div slot="content" class="modal-credits_content">
-
       <div class="credit-card-block__row desctop_header head flex">
         <div>{{ $t('Suggestion') }}</div>
         <div>{{ $t('Monthly payment') }}, ₴</div>
@@ -20,7 +19,7 @@
                 :id="'bank' + index" name="bank" @change="setSelectedBank(index)"
                 :checked="selectedBank === index">{{ bank.name }}
               </base-radiobutton>
-              <img :src="'assets/banks/' + bank.icon" alt="">
+              <img :src="'assets/banks/' + bank.logo" alt="">
             </div>
           </div>
           <div >
@@ -31,7 +30,7 @@
             <div class="mobile-label">{{ $t('Number of payments') }}</div>
             <custom-select
               :selected-index="0"
-              :options="bank.credits"
+              :options="bank.groups[Object.keys(bank.groups)[0]]"
               @bankProduct="selectedPaymentCount($event, index, bank)"/>
           </div>
           <div>
@@ -68,7 +67,7 @@ import ButtonActive from 'theme/components/core/blocks/Product/ButtonActive'
 import Modal from 'theme/components/core/Modal.vue'
 import { mapGetters, mapMutations } from 'vuex'
 import config from 'config'
-import {currentStoreView, localizedRoute} from '@vue-storefront/core/lib/multistore'
+import { currentStoreView, localizedRoute } from '@vue-storefront/core/lib/multistore'
 import { CREDIT_SET_BANKS, CREDIT_SET_SELECTED_BANK } from '../../../store/credit/mutation-types'
 export default {
   components: {
@@ -118,8 +117,8 @@ export default {
   methods: {
     initBanks (banks) {
       banks.map((bank, index) => {
-        this.$set(this.selectedPositions, index, this.CalculateMontlyPayment(bank.credits[0]))
-        this.$set(this.selectedCreditProduct, index, bank.credits[0])
+        this.$set(this.selectedPositions, index, this.CalculateMontlyPayment(bank.groups[Object.keys(bank.groups)[0]]))
+        this.$set(this.selectedCreditProduct, index, bank.groups[Object.keys(bank.groups)[0]])
         this.$set(this.banks, index, bank)
       });
     },
@@ -130,7 +129,7 @@ export default {
       return this.getCurrentProduct.price_incl_tax / +creditRule.terms
     },
     async toCheckout () {
-      if (this.$route.name != 'checkout'){
+      if (this.$route.name !== 'checkout') {
         try {
           const diffLog = await this.$store.dispatch('cart/addItem', { productToAdd: Object.assign(
             { bank: this.getBankProduct },

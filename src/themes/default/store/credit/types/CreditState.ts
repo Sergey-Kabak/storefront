@@ -1,14 +1,15 @@
-
 export default interface CreditState {
   banks: [],
   selectedBank: null,
   selectedCredit: null,
-  fields: null,
+  accessories: null,
+  services: null,
+  creditMethod: string,
   creditDetails: {
-    surname: '',
-    name: '',
-    last_name: '',
-    date_of_birth: '',
-    identification_code: null
+    surname: string,
+    name: string,
+    last_name: string,
+    date_of_birth: string,
+    identification_code: string
   }
 }

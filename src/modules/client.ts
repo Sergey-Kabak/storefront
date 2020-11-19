@@ -15,6 +15,7 @@ import { GoogleTagManagerModule } from './google-tag-manager';
 import { PaymentBackendMethodsModule } from './payment-backend-methods'
 import { PaymentCashOnDeliveryModule } from './payment-cash-on-delivery'
 import { PaymentLiqpay } from './payment-liqpay'
+import { PaymentCreditModule } from './payment-credits'
 import { NewsletterModule } from '@vue-storefront/core/modules/newsletter'
 import { InitialResourcesModule } from '@vue-storefront/core/modules/initial-resources'
 
@@ -30,6 +31,7 @@ export function registerClientModules () {
   registerModule(PaymentBackendMethodsModule)
   registerModule(PaymentCashOnDeliveryModule)
   registerModule(PaymentLiqpay)
+  registerModule(PaymentCreditModule)
   registerModule(WishlistModule) // Trigger on wishlist icon click
   registerModule(NotificationModule)
   registerModule(UserModule) // Trigger on user icon click

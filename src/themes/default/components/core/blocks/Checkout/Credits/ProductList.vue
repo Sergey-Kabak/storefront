@@ -1,7 +1,7 @@
 <template>
-  <div class="product-list relative">
+  <div v-if="getAccessories" class="product-list relative">
     <div ref="productList" class="products-row flex relative">
-      <product v-for="product in productsInCart" :key="product.id" :product="product" />
+      <product v-for="product in getAccessories" :key="product.id" :product="product" />
     </div>
     <div v-if="leftarrow" class="keyboard_arrow left" ref="leftArrow" @click="scrollTo('left')">
       <span class="material-icons">keyboard_arrow_left</span>
@@ -13,7 +13,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { mapGetters } from 'vuex';
 import Product from './Product'
 export default {
   data () {
@@ -26,8 +26,10 @@ export default {
     Product
   },
   computed: {
-    ...mapState({
-      productsInCart: state => state.cart.cartItems
+    ...mapGetters({
+      productsInCart: 'cart/getCartItems',
+      getAccessories: 'themeCredit/getAccessories',
+      getServices: 'themeCredit/getServices'
     })
   },
   methods: {
@@ -35,13 +37,13 @@ export default {
       const step = 200;
       this.$refs.productList.scroll({
         top: 0,
-        left: side === 'right' ? +this.$refs.productList.clientWidth : -this.$refs.productList.clientWidth,
+        left: side === 'right' ? this.$refs.productList.scrollLeft + this.$refs.productList.clientWidth : this.$refs.productList.scrollLeft - this.$refs.productList.clientWidth,
         behavior: 'smooth'
       });
     },
     scrollHandler () {
       this.$refs.productList.scrollLeft > 0 ? this.leftarrow = true : this.leftarrow = false;
-      this.$refs.productList.scrollLeft * 2 === this.$refs.productList.scrollWidth ? this.rightarrow = false : this.rightarrow = true
+      this.$refs.productList.scrollLeft + this.$refs.productList.clientWidth === this.$refs.productList.scrollWidth ? this.rightarrow = false : this.rightarrow = true
     }
   },
   mounted () {

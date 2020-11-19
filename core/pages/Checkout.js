@@ -120,7 +120,7 @@ export default {
     if (!country) country = storeView.i18n.defaultCountry
     this.$bus.$emit('checkout-before-shippingMethods', country)
     this.personalDetails = this.cPersonalDetails
-    await this.$store.dispatch('themeCredit/fetchBanksCheckout', this.$store.state.cart.cartServerToken);
+    // await this.$store.dispatch('themeCredit/fetchBanksCheckout', this.$store.state.cart.cartServerToken);
   },
   beforeDestroy () {
     this.$store.dispatch('checkout/setModifiedAt', 0) // exit checkout
@@ -290,7 +290,10 @@ export default {
       this.order = {
         user_id: this.$store.state.user.current ? this.$store.state.user.current.id.toString() : '',
         cart_id: this.$store.state.cart.cartServerToken ? this.$store.state.cart.cartServerToken.toString() : '',
-        products: this.$store.state.cart.cartItems,
+        products: this.$store.state.cart.cartItems.map(it => {
+          delete it.attributes_metadata
+          return it
+        }),
         addressInformation: {
           billingAddress: {
             region: this.payment.state,

@@ -1,18 +1,17 @@
 <template>
-  <div v-if="isCreditAvailable" class="credit-product-wrapper">
+  <div class="credit-product-wrapper">
     <div class="credit-product">
       <div class="credit-product-name">
         {{getSelectedBank.name}}
       </div>
-
       <div @click="showCreditPopup()" class="align-right underline cursor">
         {{ $t('Edit') }}
       </div>
     </div>
     <div class="credit-info">
-      <span>{{ $t('First installment') }} {{ isSingleCreditProduct.monthly_payment | price(storeView) }},
-        {{$tc(`{count} payment` , isSingleCreditProduct.number_of_payments)}}</span>
-      <div class="inline"><b>по</b> <strong>{{ isSingleCreditProduct.monthly_payment | price(storeView) }}</strong> <b>/ {{$t('short month')}}</b></div>
+      <span>{{ $t('First installment') }} {{ creditProduct.monthly_payment | price(storeView) }},
+        {{$tc(`{count} payment` , creditProduct.number_of_payments)}}</span>
+      <div class="inline"><b>по</b> <strong>{{ creditProduct.monthly_payment | price(storeView) }}</strong> <b>/ {{$t('short month')}}</b></div>
     </div>
   </div>
 </template>
@@ -21,12 +20,6 @@
 import { currentStoreView } from '@vue-storefront/core/lib/multistore';
 import { mapGetters, mapMutations } from 'vuex'
 export default {
-  data () {
-    return {
-      isCreditAvailable: true,
-      terms: 0
-    }
-  },
   computed: {
     ...mapGetters({
       productsInCart: 'cart/getCartItems',
@@ -41,32 +34,16 @@ export default {
     storeView () {
       return currentStoreView()
     },
-    isSingleCreditProduct () {
-      if (this.isCreditAvailable) {
-        return {
-          number_of_payments: this.productsInCart.reduce((acc, it) => acc += +this.terms, 0),
-          monthly_payment: this.productsInCart.reduce((acc, it) => acc += (it.price_incl_tax / +this.terms) * it.qty, 0)
-        }
+    creditProduct () {
+      return {
+        number_of_payments: +this.selectedCredit.terms,
+        monthly_payment: this.productsInCart.reduce((acc, it) => acc += (it.price_incl_tax / +this.selectedCredit.terms) * it.qty, 0)
       }
-    }
-  },
-  created () {
-    if (this.productsInCart.length === 1 && this.productsInCart[0].credit) {
-      this.terms = +this.productsInCart[0].credit.terms
-      this.$store.dispatch('themeCredit/creditSetSelectedCredit', { credit: this.productsInCart[0].credit })
-    } else {
-      this.terms = +this.getSelectedBank.credits[0].terms
-      this.$store.dispatch('themeCredit/creditSetSelectedCredit', { credit: this.getSelectedBank.credits[0] })
     }
   },
   methods: {
     showCreditPopup () {
       this.$bus.$emit('modal-show', 'modal-credits')
-    }
-  },
-  watch: {
-    selectedCredit: function (val) {
-      this.terms = +val.terms
     }
   }
 }

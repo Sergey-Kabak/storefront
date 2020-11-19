@@ -62,7 +62,7 @@
       <total-price />
     </div>
     <div v-show="isActive">
-      <LiqPay class="button-pay" v-if="payment.paymentMethod === 'liqpaymagento_liqpay'" />
+      <LiqPay class="button-pay" v-if="payment.paymentMethod === 'liqpaymagento_liqpay' || (payment.paymentMethod === 'credit' && creditMethod === 'liqpay')" />
       <button-full
         v-else
         @click.native="placeOrder()"
@@ -121,21 +121,30 @@ export default {
   data: () => ({
     isShowPromocode: false
   }),
+  mounted () {
+    console.log(this.productsInCart);
+    this.$store.dispatch('themeCredit/findExtraCreditAttributes')
+  },
   watch: {
     'payment.paymentMethods': {
       handler: function (after, before) {
         this.sendDataToCheckout()
       },
       deep: true
-    },
-    productsInCart: function (products) {
-      this.$store.dispatch('themeCredit/fetchBanksCheckout', this.$store.state.cart.cartServerToken)
     }
+    // productsInCart: function (products) {
+    //   this.$store.dispatch('themeCredit/fetchBanksCheckout', this.$store.state.cart.cartServerToken)
+    // }
   },
   computed: {
     ...mapGetters({
+      productsInCart: 'cart/getCartItems',
       totals: 'cart/getTotals',
-      getCartToken: 'cart/getCartToken'
+      getCartToken: 'cart/getCartToken',
+      creditMethod: 'themeCredit/creditMethod'
+    }),
+    ...mapState({
+      banksLoaded: state => state.banksLoaded
     }),
     countryOptions () {
       return this.countries.map((item) => {
@@ -232,6 +241,9 @@ export default {
       }
     }
   },
+  created() {
+    this.$store.dispatch('themeCredit/fetchBanksCheckout', this.$store.state.cart.cartServerToken);
+  },
   methods: {
     isShowPaymentMethod (method) {
       return this.assoc[this.type].includes(method.code) && !this.productsHasPreorder(method) && this.creditsIsAvailable(method)
@@ -248,10 +260,8 @@ export default {
       this.sendDataToCheckout()
     },
     placeOrder () {
-      console.log(this.$refs.creditMethod[0].$refs.creditForm.$v);
-      this.$refs.creditMethod[0].$refs.creditForm.$v.$touch()
-
-      return false;
+      // console.log(this.$refs.creditMethod[0].$refs.creditForm.$v);
+      // this.$refs.creditMethod[0].$refs.creditForm.$v.$touch()
       // this.$v.creditDetails.$touch()
       // if (this.payment.paymentMethod === 'credit') {
       //   this.$v.creditDetails.$touch();

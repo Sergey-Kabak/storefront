@@ -12,8 +12,14 @@ const mutations: MutationTree<CreditState> = {
   [types.CREDIT_SET_SELECTED_CREDIT] (state, { credit }) {
     state.selectedCredit = credit;
   },
-  [types.CREDIT_SET_FIELDS] (state, { fields }) {
-    state.fields = fields;
+  [types.CREDIT_SET_ACCESSORIES] (state, { accessories }) {
+    state.accessories = accessories;
+  },
+  [types.CREDIT_SET_SERVICES] (state, { services }) {
+    state.services = services;
+  },
+  [types.CREDIT_SET_METHOD] (state, { creditMethod }) {
+    state.creditMethod = creditMethod;
   }
 }
 
