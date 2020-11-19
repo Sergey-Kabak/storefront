@@ -6,7 +6,8 @@ export function prepareQuickSearchQuery (queryText) {
           bool: {
             must: [
               { terms: { visibility: [3, 4] } },
-              { terms: { status: [0, 1] } }
+              { terms: { status: [0, 1] } },
+              { script: { script: 'doc["category_ids"].size() > 0' } }
             ]
           }
         },
@@ -26,47 +27,36 @@ export function prepareQuickSearchQuery (queryText) {
               bool: {
                 should: [
                   {
-                    match: {
-                      name: {
-                        query: queryText,
-                        fuzziness: 2,
-                        boost: 4,
-                        cutoff_frequency: 0.01,
-                        max_expansions: 3,
-                        prefix_length: 2,
-                        minimum_should_match: '75%25'
-                      }
+                    multi_match: {
+                      fields: [
+                        'name^6',
+                        'category.name^2',
+                        'description^2'
+                      ],
+                      query: queryText,
+                      operator: 'or',
+                      max_expansions: 10,
+                      prefix_length: 2,
+                      tie_breaker: '1',
+                      type: 'most_fields'
                     }
                   },
                   {
-                    match: {
-                      sku: {
-                        query: queryText,
-                        fuzziness: 0,
-                        boost: 2,
-                        cutoff_frequency: 0.01,
-                        max_expansions: 3,
-                        prefix_length: 2
-                      }
-                    }
-                  },
-                  {
-                    match: {
-                      'category.name': {
-                        query: queryText,
-                        fuzziness: 2,
-                        boost: 1,
-                        cutoff_frequency: 0.01,
-                        max_expansions: 2,
-                        prefix_length: 2
-                      }
+                    bool: {
+                      should: [
+                        { term: { sku: { value: queryText, boost: 10 } } }
+                      ]
                     }
                   },
                   {
                     bool: {
                       should: [
                         { terms: { 'configurable_children.sku': [queryText] } },
-                        { match_phrase: { sku: { query: queryText, boost: 1 } } },
+                        {
+                          match_phrase: {
+                            sku: { query: queryText, boost: 1 }
+                          }
+                        },
                         {
                           match_phrase: {
                             'configurable_children.sku': {
