@@ -65,7 +65,10 @@ let routes = [
   { name: 'category', path: '/c/:slug', component: Category, meta: { name: 'category' } },
   { name: 'cms-page', path: '/i/:slug', component: CmsPage, meta: { name: 'cms page' } },
   { name: 'page-not-found', path: '*', component: PageNotFound },
-  { path: '/ua/shops.html', redirect: '/' }
+  { path: '/ua/shops.html', redirect: '/' },
+  { path: '/magazyny', redirect: '/' },
+  { path: '/apple-iphone-12-64gb.html', redirect: '/apple-iphone-12-64gb-black-mgj53.html' }
+
 ];
 
 export default routes;

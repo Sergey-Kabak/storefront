@@ -4,7 +4,7 @@
       
       <span>{{ $tc(`{count} more items`, activeCategory.products_count) }}</span>
     </div>
-    <router-link :to="categoryLink">
+    <router-link :to="activeCategory.brand_page_url || categoryLink">
       <button-text class="product-more-button more">{{ $t('View all') }}</button-text>
     </router-link>
   </div>

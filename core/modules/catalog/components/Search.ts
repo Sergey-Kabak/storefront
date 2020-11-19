@@ -4,7 +4,8 @@ import onEscapePress from '@vue-storefront/core/mixins/onEscapePress'
 import { prepareQuickSearchQuery } from '@vue-storefront/core/modules/catalog/queries/searchPanel'
 import RootState from '@vue-storefront/core/types/RootState'
 import { Logger } from '@vue-storefront/core/lib/logger'
-import { debounce } from 'debounce';
+import { debounce } from 'debounce'
+import config from 'config'
 import GTM from 'theme/mixins/GTM/dataLayer'
 
 export const Search = {
@@ -62,7 +63,9 @@ export const Search = {
             options: {
               populateRequestCacheTags: false,
               prefetchGroupProducts: false
-            }
+            },
+            includeFields: [...config.entities.productList.includeFields, 'category_ids', 'category'],
+            excludeFIelds: config.entities.productList.excludeFields
           })
           this.products = items
           this.start = startValue + this.size

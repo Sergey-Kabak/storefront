@@ -116,8 +116,8 @@
     "server_url": "https://magento.ringoo.ua/rest/V1/liqpay/callback"
   },
   "liqpay_marketplace": {
-    "public_key": "i53133816828",
-    "private_key": "SI0lK7LYzwS5xKZFNPNWoIQAXuG79jOXMNHOMBIC",
+    "public_key": "i92747265253",
+    "private_key": "Ot6maFb6GbezBNCsUewdPm98qwQwjfIcrn3ePyKa",
     "server_url": "https://magento.ringoo.ua/rest/V1/liqpay/callback"
   },
   "admitad": {
