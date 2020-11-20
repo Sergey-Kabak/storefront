@@ -276,19 +276,17 @@ export default {
 <style lang="scss" scoped>
 @import '~bootstrap';
 .note-right {
-  @media (max-width: 575px) {
+  @media (max-width: 360px) {
     min-width: 100%;
     margin-top: 18px;
     margin-left: -2px;
   }
-
   svg {
     @media (max-width: 575px) {
       margin-right: 14px;
     }
     margin-right: 12px;
   }
-
   margin-left: auto;
   font-family: DIN Pro;
   font-style: normal;

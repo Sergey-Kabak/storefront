@@ -439,14 +439,25 @@ export default {
         color: #1A1919;
         border-bottom: 1px solid #E0E0E0;
         h3{
-            margin: 13px 0;
+          @media (max-width: 767px) {
+            margin: 13px 0 13px 24px;
+          }
+          margin: 13px 0 13px 16px;
         }
-      }
-      .modal-content{
-          padding: 24px;
       }
       p{
           margin-bottom: 16px;
       }
   }
+  .modal-header{
+    border-bottom: none !important;
+    padding-bottom: 12px !important;
+  }
+.modal-content{
+  @media (max-width: 767px) {
+    padding-left: 16px !important;
+    padding-right: 16px !important;
+    padding-top: 0px !important;
+  }
+}
 </style>
