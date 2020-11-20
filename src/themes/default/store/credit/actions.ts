@@ -14,7 +14,7 @@ const actions = {
       .then(res => commit(types.CREDIT_SET_BANKS, { banks: res.result }))
       .catch(error => commit(types.CREDIT_SET_BANKS, { banks: [] }))
   },
-  fetchBanksCheckout ({ commit, dispatch }, cartId) {
+  fetchBanksCheckout ({ state, commit, dispatch }, cartId) {
     CreditService.getCreditsCheckout(cartId)
       .then(async res => {
         let queryAccessory = {
@@ -42,6 +42,8 @@ const actions = {
         commit(types.CREDIT_SET_BANKS, { banks: res.result[0].bank })
         dispatch('defineSelectedCredit', res.result[0].bank[0])
         dispatch('defineSelectedBank', res.result[0].bank[0])
+        dispatch('findExtraCreditAttributes')
+        state.productSku = res.result[0].sku
       })
       .catch(error => commit(types.CREDIT_SET_BANKS, { banks: [] }))
   },
@@ -61,11 +63,20 @@ const actions = {
       commit(types.CREDIT_SET_SELECTED_BANK, { bank: payload })
     }
   },
-  async findExtraCreditAttributes ({ commit }) {
+  async findExtraCreditAttributes ({ state }) {
     const creditProducts = this.getters['cart/getCartItems'].filter(it => !!it.credit_extra_tag)
     if (creditProducts.length) {
-      const result = await this.dispatch('custom-attr/getCustomAttribute', ['credit_extra_tag'])
-      // const attrs = creditProducts.map(it => it.credit_extra_tag)
+      const query = {
+        query: {
+          bool: {
+            should: ['credit_extra_tag'].map(it => {
+              return { 'term': { 'attribute_code': it } }
+            })
+          }
+        }
+      };
+      const resp = await quickSearchByQuery({ entityType: 'attribute', query });
+      state.creditExtraAttributes = resp.items[0].options
     }
   }
 }

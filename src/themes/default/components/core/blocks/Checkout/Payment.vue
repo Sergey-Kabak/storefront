@@ -67,7 +67,7 @@
         v-else
         @click.native="placeOrder()"
         data-testid="paymentSubmit"
-        :disabled="$v.payment.$invalid"
+        :disabled="$v.payment.$invalid || (alertStatus.class !== 'success' && maxTermsSelected)" ref="creditForm)"
         class="button-pay"
         :aria-label="$t('To pay')"
       >
@@ -100,13 +100,13 @@ const lettersOnly = value => (
   /^[a-zA-Zа-яА-Я]+$/.test(value) ||
   value === ''
 );
+import mixin from "./Credits/mixin";
 
 export default {
   props: {
     activeSection: {
       type: Object,
-      required: true,
-      default: false
+      required: true
     }
   },
   components: {
@@ -117,13 +117,12 @@ export default {
     TotalPrice,
     CreditMethod
   },
-  mixins: [Payment],
+  mixins: [Payment, mixin],
   data: () => ({
     isShowPromocode: false
   }),
   mounted () {
-    console.log(this.productsInCart);
-    this.$store.dispatch('themeCredit/findExtraCreditAttributes')
+    // this.$store.dispatch('themeCredit/findExtraCreditAttributes')
   },
   watch: {
     'payment.paymentMethods': {
@@ -260,13 +259,10 @@ export default {
       this.sendDataToCheckout()
     },
     placeOrder () {
-      // console.log(this.$refs.creditMethod[0].$refs.creditForm.$v);
-      // this.$refs.creditMethod[0].$refs.creditForm.$v.$touch()
-      // this.$v.creditDetails.$touch()
-      // if (this.payment.paymentMethod === 'credit') {
-      //   this.$v.creditDetails.$touch();
-      //   if (this.$v.creditDetails.$error) return false
-      // }
+      this.$refs.creditMethod[0].$refs.creditForm.$v.$touch()
+      if (this.payment.paymentMethod === 'credit' && this.$refs.creditMethod[0].$refs.creditForm.$v.$error) {
+        return
+      }
       this.$bus.$emit('checkout-before-placeOrder')
     },
     productsHasPreorder (method) {

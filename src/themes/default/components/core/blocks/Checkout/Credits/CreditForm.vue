@@ -4,30 +4,30 @@
       <div class="block-title">
         {{ $t('Loan processing')}}
       </div>
-      <div class="credit-method-block">
-        <div v-if="+selectedCredit.liqpay_allowed" class="credit-method-select">
-          <span class="credit-method-title">Способ оплаты</span>
-          <div class="credit-method-radio">
-            <label v-for="(method, index) in availableMethods"
-                   :key="index"
-                   :for="'credit-method--' + method"
-                   :class="{'active': creditMethod === method}"
-            >
-              <input @input="chageMethod(method)" :id="'credit-method--' + method" type="radio" :value="method" name="credit-method">
-              {{ method }}
-            </label>
-          </div>
-        </div>
-        <div v-if="maxTermsSelected" class="credit-method-select">
-          <span class="credit-method-title">Дополнительные услуги</span>
-        </div>
-        <div v-if="AdditionalRules && +selectedCredit.liqpay_allowed">
-          <div class="alert">
-            Для возможности оплаты через систему Liqpay необходимо добавить к заказу аксессуар(ы) на сумму от {{accessoriesMinPrice | price(storeView)}}!
-          </div>
-          <product-list />
-        </div>
-      </div>
+<!--      <div class="credit-method-block">-->
+<!--        <div v-if="+selectedCredit.liqpay_allowed" class="credit-method-select">-->
+<!--          <span class="credit-method-title">Способ оплаты</span>-->
+<!--          <div class="credit-method-radio">-->
+<!--            <label v-for="(method, index) in availableMethods"-->
+<!--                   :key="index"-->
+<!--                   :for="'credit-method&#45;&#45;' + method"-->
+<!--                   :class="{'active': creditMethod === method}"-->
+<!--            >-->
+<!--              <input @input="chageMethod(method)" :id="'credit-method&#45;&#45;' + method" type="radio" :value="method" name="credit-method">-->
+<!--              {{ method }}-->
+<!--            </label>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--        <div v-if="maxTermsSelected" class="credit-method-select">-->
+<!--          <span class="credit-method-title">Дополнительные услуги</span>-->
+<!--        </div>-->
+<!--        <div v-if="AdditionalRules && +selectedCredit.liqpay_allowed">-->
+<!--          <div class="alert">-->
+<!--            Для возможности оплаты через систему Liqpay необходимо добавить к заказу аксессуар(ы) на сумму от {{accessoriesMinPrice | price(storeView)}}!-->
+<!--          </div>-->
+<!--          <product-list />-->
+<!--        </div>-->
+<!--      </div>-->
       <div class="form-row flex">
         <div class="form-column">
           <div class="form-label">
@@ -101,10 +101,10 @@
           </div>
         </div>
         <div class="form-column">
-          <div class="form-label">
-            <base-datepicker-checkout v-model="date_of_birth" :class="{ error: $v.identification_code.$error && $v.identification_code.$dirty }" :validations="[
+          <div class="form-label datepicker">
+            <base-datepicker-checkout v-model="date_of_birth" :class="{ error: $v.date_of_birth.$error && $v.date_of_birth.$dirty }" :validations="[
                           {
-                            condition: $v.identification_code.$error && !$v.identification_code.required && $v.identification_code.$dirty,
+                            condition: $v.date_of_birth.$error && !$v.date_of_birth.required && $v.date_of_birth.$dirty,
                             text: $t('Field is required')
                           },
                         ]"/>
@@ -151,6 +151,8 @@ import { minLength, required } from 'vuelidate/lib/validators';
 import ProductList from './ProductList';
 import { currentStoreView } from '@vue-storefront/core/lib/multistore';
 import * as types from 'theme/store/credit/mutation-types'
+import CreditRule from './CreditRule'
+
 export default {
   name: 'CreditForm',
   data () {
@@ -166,7 +168,8 @@ export default {
   components: {
     BaseDatepickerCheckout,
     BaseInput,
-    ProductList
+    ProductList,
+    CreditRule
   },
   computed: {
     ...mapGetters({
@@ -192,11 +195,11 @@ export default {
       return propositions.map(it => +it.terms).sort((a, b) => b - a)[0]
     }
   },
-  methods: {
-    chageMethod (method) {
-      this.$store.commit('themeCredit/' + types.CREDIT_SET_METHOD, { creditMethod: method });
-    }
-  },
+  // methods: {
+  //   chageMethod (method) {
+  //     this.$store.commit('themeCredit/' + types.CREDIT_SET_METHOD, { creditMethod: method });
+  //   }
+  // },
   // watch: {
   //   selectedCredit: function (v) {
   //     if (!+v.liqpay_allowed) {
@@ -234,6 +237,23 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.form-label.datepicker{
+  ::v-deep .error {
+    input {
+      border-color: #EE2C39;
+      &::placeholder {
+        color: #EE2C39;
+      }
+    }
+    svg{
+      color: #EE2C39;
+    }
+    .cl-error{
+      margin-top: -24px;
+      margin-bottom: 8px;
+    }
+  }
+}
 .block-title{
   display: block;
   text-align: left;
@@ -248,6 +268,11 @@ export default {
 
   ::v-deep input[type=number] {
     width: 100%;
+  }
+}
+.inn-input:not(.error) {
+  ::v-deep input[type=number] {
+    border-color: #bdbdbd;
   }
 }
 .form-row {

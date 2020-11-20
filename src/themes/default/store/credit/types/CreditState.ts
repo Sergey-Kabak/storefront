@@ -4,6 +4,8 @@ export default interface CreditState {
   selectedCredit: null,
   accessories: null,
   services: null,
+  productSku: null,
+  creditExtraAttributes: null,
   creditMethod: string,
   creditDetails: {
     surname: string,

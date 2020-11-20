@@ -12,6 +12,8 @@ export const module: Module<CreditState, any> = {
     selectedCredit: null,
     accessories: null,
     services: null,
+    productSku: null,
+    creditExtraAttributes: null,
     creditMethod: 'pickup',
     creditDetails: {
       surname: '',
