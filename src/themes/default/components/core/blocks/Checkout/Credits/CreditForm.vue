@@ -38,58 +38,58 @@
           <div class="form-field">
             <base-input
               class="custom-input"
-              :class="{ error: $v.surname.$error && $v.surname.$dirty }"
+              :class="{ error: $v.form.surname.$error && $v.form.surname.$dirty }"
               type="text"
               :autofocus="true"
               name="surname"
               :placeholder="$t('Last name')"
-              v-model.trim="surname"
-              @blur="$v.surname.$touch()"
+              v-model.trim="form.surname"
+              @blur="$v.form.surname.$touch()"
               autocomplete="given-name"
               :validations="[
-                          {
-                            condition: $v.surname.$error && !$v.surname.required && $v.surname.$dirty,
-                            text: $t('Field is required')
-                          },
-                        ]"
+                {
+                  condition: $v.form.surname.$error && !$v.form.surname.required && $v.form.surname.$dirty,
+                  text: $t('Field is required')
+                },
+              ]"
             />
           </div>
           <div class="form-field">
             <base-input
               class="custom-input"
-              :class="{ error: $v.name.$error && $v.name.$dirty }"
+              :class="{ error: $v.form.name.$error && $v.form.name.$dirty }"
               type="text"
               :autofocus="true"
               name="name"
               :placeholder="$t('First name')"
-              v-model.trim="name"
-              @blur="$v.name.$touch()"
+              v-model.trim="form.name"
+              @blur="$v.form.name.$touch()"
               autocomplete="given-name"
               :validations="[
-                          {
-                            condition: $v.name.$error && !$v.name.required && $v.name.$dirty,
-                            text: $t('Field is required')
-                          },
-                        ]"
+                {
+                  condition: $v.form.name.$error && !$v.form.name.required && $v.form.name.$dirty,
+                  text: $t('Field is required')
+                },
+              ]"
             />
           </div>
           <div class="form-field">
             <base-input
               class="custom-input"
-              :class="{ error: $v.last_name.$error && $v.last_name.$dirty }"
+              :class="{ error: $v.form.last_name.$error && $v.form.last_name.$dirty }"
               type="text"
               :autofocus="true"
               name="last_name"
               :placeholder="$t('surname')"
-              v-model.trim="last_name"
-              @blur="$v.last_name.$touch()"
+              v-model.trim="form.last_name"
+              @blur="$v.form.last_name.$touch()"
               autocomplete="given-name"
               :validations="[
-                          {
-                            condition: $v.last_name.$error && !$v.last_name.required && $v.last_name.$dirty,
-                            text: $t('Field is required')
-                          },
-                        ]"
+                {
+                  condition: $v.form.last_name.$error && !$v.form.last_name.required && $v.form.last_name.$dirty,
+                  text: $t('Field is required')
+                },
+              ]"
             />
           </div>
         </div>
@@ -102,12 +102,12 @@
         </div>
         <div class="form-column">
           <div class="form-label datepicker">
-            <base-datepicker-checkout v-model="date_of_birth" :class="{ error: $v.date_of_birth.$error && $v.date_of_birth.$dirty }" :validations="[
-                          {
-                            condition: $v.date_of_birth.$error && !$v.date_of_birth.required && $v.date_of_birth.$dirty,
-                            text: $t('Field is required')
-                          },
-                        ]"/>
+            <base-datepicker-checkout v-model="form.date_of_birth" :class="{ error: $v.form.date_of_birth.$error && $v.form.date_of_birth.$dirty }" :validations="[
+              {
+                condition: $v.form.date_of_birth.$error && !$v.form.date_of_birth.required && $v.form.date_of_birth.$dirty,
+                text: $t('Field is required')
+              },
+            ]"/>
           </div>
         </div>
       </div>
@@ -121,20 +121,20 @@
           <div class="form-label">
             <base-input
               class="custom-input inn-input"
-              :class="{ error: $v.identification_code.$error && $v.identification_code.$dirty }"
+              :class="{ error: $v.form.identification_code.$error && $v.form.identification_code.$dirty }"
               type="number"
               :autofocus="true"
               name="INN"
               :placeholder="$t('INN')"
-              v-model.trim="identification_code"
-              @blur="$v.identification_code.$touch()"
+              v-model.trim="form.identification_code"
+              @blur="$v.form.identification_code.$touch()"
               autocomplete="given-name"
               :validations="[
-                          {
-                            condition: $v.identification_code.$error && !$v.identification_code.required && $v.identification_code.$dirty,
-                            text: $t('Field is required')
-                          },
-                        ]"
+                {
+                  condition: $v.form.identification_code.$error && !$v.form.identification_code.required && $v.form.identification_code.$dirty,
+                  text: $t('Field is required')
+                },
+              ]"
             />
           </div>
         </div>
@@ -157,11 +157,13 @@ export default {
   name: 'CreditForm',
   data () {
     return {
-      surname: '',
-      name: '',
-      last_name: '',
-      date_of_birth: '',
-      identification_code: '',
+      form: {
+        surname: '',
+        name: '',
+        last_name: '',
+        date_of_birth: '',
+        identification_code: ''
+      },
       availableMethods: ['pickup', 'liqpay']
     }
   },
@@ -212,24 +214,26 @@ export default {
   // },
   validations () {
     return {
-      surname: {
-        required,
-        minLength: minLength(3)
-      },
-      name: {
-        required,
-        minLength: minLength(2)
-      },
-      last_name: {
-        required,
-        minLength: minLength(2)
-      },
-      date_of_birth: {
-        required
-      },
-      identification_code: {
-        required,
-        minLength: minLength(10)
+      form: {
+        surname: {
+          required,
+          minLength: minLength(3)
+        },
+        name: {
+          required,
+          minLength: minLength(2)
+        },
+        last_name: {
+          required,
+          minLength: minLength(2)
+        },
+        date_of_birth: {
+          required
+        },
+        identification_code: {
+          required,
+          minLength: minLength(10)
+        }
       }
     }
   }

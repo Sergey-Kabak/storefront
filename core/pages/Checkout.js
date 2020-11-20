@@ -334,11 +334,7 @@ export default {
         }
       }
       if (this.order.addressInformation.payment_method_code === 'credit') {
-        this.order.addressInformation.payment_method_additional['name'] = this.$store.state.themeCredit.creditDetails.name
-        this.order.addressInformation.payment_method_additional['last_name'] = this.$store.state.themeCredit.creditDetails.last_name
-        this.order.addressInformation.payment_method_additional['surname'] = this.$store.state.themeCredit.creditDetails.surname
-        this.order.addressInformation.payment_method_additional['date_of_birth'] = this.$store.state.themeCredit.creditDetails.date_of_birth
-        this.order.addressInformation.payment_method_additional['identification_code'] = this.$store.state.themeCredit.creditDetails.identification_code
+        this.order.addressInformation.payment_method_additional = { ...this.$store.state.themeCredit.creditDetails }
         this.order.addressInformation.payment_method_additional['credit_id'] = this.$store.state.themeCredit.selectedCredit.credit_id
       }
       if (this.shipping.deliveryType === 'new_post') {
