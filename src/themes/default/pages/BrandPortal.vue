@@ -8,8 +8,8 @@
       <banner-carousel />
       <h1 class="brand-portal-title">{{ brand.brand_name }}</h1>
       <brand-products :brandItems="brand.categories" class="brand-products" />
-      <brand-categories :categories="brand.accessories" class="brand-categories" />
-      <div class="best-sellers"> 
+      <brand-categories :categories="brand.accessories" class="brand-categories" v-if="brand.accessories"/>
+      <div class="best-sellers" v-if="isShowSalesLeaders"> 
         <h4 class="best-sellers-title">{{ $t('Sales leaders') }}</h4>
         <lazy-hydrate :trigger-hydration="!loading">
           <product-listing columns="4" :products="getRecommends" />
@@ -69,7 +69,10 @@ export default {
     ...mapGetters('homepage', ['getRecommends']),
     ...mapState({
       brand: state => state.brand.brand
-    })
+    }),
+    isShowSalesLeaders() {
+      return this.$route.params.brandId !== 'black-friday'
+    }
   },
   async asyncData ({ store, route, context }) { // this is for SSR purposes to prefetch data
     if (context) context.output.cacheTags.add('brand')

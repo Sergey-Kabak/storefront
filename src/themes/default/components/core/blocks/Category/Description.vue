@@ -1,7 +1,7 @@
 <template>
-  <div class="category-content-wrapper">
-    <div v-if="!!description" v-html="description"></div>
-    <div v-if="!!faq" v-html="faq"></div>
+  <div class="category-content-wrapper" v-if="description || faq">
+    <div v-if="description" v-html="description" />
+    <div v-if="faq" v-html="faq" />
   </div>
 </template>
 
