@@ -22,7 +22,7 @@ export default {
       return this.totals.find(it => it.code === 'grand_total').value / 100 * +this.selectedCredit.extra_items_part;
     },
     requiredExtraPrice () {
-      return this.finalPrice(this.productsInCart.find(it => it.sku === this.productSku)) / 100 * +this.selectedCredit.extra_items_part;
+      return this.finalPrice(this.productsInCart.find(it => it.sku === this.productSku)) / 100 * 10;
     },
     maxTermsSelected () {
       return +this.selectedCredit.terms === this.maxTerms;
