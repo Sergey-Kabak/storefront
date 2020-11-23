@@ -5,9 +5,14 @@
     :class="{ 'is-visible': navVisible, 'search-active': isSearchActive, 'fixed': isFixed }"
     :style="{top: -headerHeight + 'px'}"
   >
-    <div class="promo" v-if="isShowHeader">
-      <router-link class="promo-link" :to="promo.link" :style="{'background-color': promo.background }">
-        <img :src="promo.img" alt="promo" class="promo-image">
+    <div class="promo" :class="{'bf': !isBFPage}" v-if="isShowHeader">
+      <router-link class="promo-link" :to="promo.link">
+        <picture>
+          <source :srcset="promo.imgTablet" media="(min-width: 768px) and (max-width: 1439px)">
+          <source :srcset="promo.imgMobile" media="(max-width: 767px)">
+          <source :srcset="promo.img">
+          <img :src="promo.img" alt="promo" class="promo-image">
+        </picture>
       </router-link>
     </div>
     <div class="header-black-line" v-if="isShowHeader">
@@ -163,12 +168,16 @@ export default {
     isShowHeader () {
       return this.$route.name !== 'checkout'
     },
+    isBFPage () {
+      return this.$route.path === '/brand-portal/black-friday'
+    },
     promo () {
-      const isBFPage = this.$route.path === '/brand-portal/black-friday'
       return {
-        img: isBFPage ? '/assets/promo/iphone-desktop.jpg' : '/assets/promo/bf-desktop.jpg',
-        link: isBFPage ? '/kupuj-pershim' : 'brand-portal/black-friday',
-        background: isBFPage ? '#08101b' : '#f3aad7'
+        img: this.isBFPage ? '/assets/promo/iphone-desktop.jpg' : '/assets/promo/bf-desktop.jpg',
+        imgTablet: this.isBFPage ? '/assets/promo/iphone-mobile.jpg' : '/assets/promo/bf-tablet.jpg',
+        imgMobile: this.isBFPage ? '/assets/promo/iphone-mobile.jpg' : '/assets/promo/bf-mobile.jpg',
+        link: this.isBFPage ? '/kupuj-pershim' : 'brand-portal/black-friday',
+        background: this.isBFPage ? '#08101b' : '#f3aad7'
       }
     }
   },
@@ -246,9 +255,31 @@ $color-icon-hover: color(secondary, $colors-background);
     margin: 0 6px !important;
   }
 }
-
-
 .promo {
+  a{
+    background: linear-gradient(45deg, #08101b, #08101b);
+  }
+  picture{
+    margin: 0 auto;
+    img{
+      @media (max-width: 767px) {
+        height: 32px;
+      }
+    }
+  }
+  &.bf{
+    a{
+      @media (min-width: 1440px) {
+        background: linear-gradient(45deg, #f4b1da, #f1a5d4);
+      }
+      @media (min-width: 768px) and (max-width: 1439px){
+        background: linear-gradient(45deg, #f6bee1, #f6bee1);
+      }
+      @media (max-width: 767px) {
+        background: linear-gradient(45deg, #f8c2e4, #f6bee1);
+      }
+    }
+  }
   .promo-link {
     display: flex;
     max-height: 45px;
