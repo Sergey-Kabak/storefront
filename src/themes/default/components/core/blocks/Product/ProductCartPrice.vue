@@ -63,10 +63,10 @@ export default {
       const productTypes = {
         bundle: parseInt(100 - this.product.special_price)
       }
-      return productTypes[this.product.type_id] || parseInt(((this.product.original_price_incl_tax - this.product.special_price) / (this.product.original_price_incl_tax / 100)))
+      return productTypes[this.product.type_id] || parseInt(((this.product.original_price - this.product.special_price) / (this.product.original_price / 100)))
     },
     isDiscount () {
-      return this.product.original_price_incl_tax && this.product.special_price && this.discount > 0
+      return this.product.original_price && this.product.special_price && this.discount > 0
     },
     bundleFinalPrice () {
       if (this.product.special_price > 0) {
@@ -78,11 +78,11 @@ export default {
       }
     },
     bundlePrice () {
-      if (this.isBundleProduct) {
+      if (this.isBundleProduct && this.product.bundle_options) {
         let bundleProductsPrice = this.product.bundle_options.reduce((acc, it) => {
           return acc += it.product_links.reduce((acc2, it2) => acc2 += it2.price, 0)
         }, 0)
-        return bundleProductsPrice + this.product.original_price_incl_tax;
+        return bundleProductsPrice + this.product.original_price
       }
     },
     isBundleProduct () {
@@ -92,7 +92,7 @@ export default {
       const productTypes = {
         bundle: this.bundlePrice
       }
-      return productTypes[this.product.type_id] || this.product.original_price_incl_tax
+      return productTypes[this.product.type_id] || this.product.original_price
     },
     finalPrice () {
       const productTypes = {

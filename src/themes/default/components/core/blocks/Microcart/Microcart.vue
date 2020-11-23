@@ -182,6 +182,7 @@ export default {
       this.$store.dispatch('notification/spawnNotification', {
         type: 'warning',
         message: i18n.t('Are you sure you would like to remove all the items from the shopping cart?'),
+        title: `${this.$t('Remove all')}?`,
         action1: { label: i18n.t('Cancel'), action: 'close' },
         action2: { label: i18n.t('OK'),
           action: async () => {
