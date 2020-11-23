@@ -67,7 +67,6 @@ let routes = [
   { name: 'page-not-found', path: '*', component: PageNotFound },
   { path: '/ua/shops.html', redirect: '/' },
   { path: '/magazyny', redirect: '/' }
-
 ];
 
 export default routes;
