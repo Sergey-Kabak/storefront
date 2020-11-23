@@ -130,9 +130,9 @@ export default {
   justify-content: space-between;
 }
 
-.brand-products,
 .brand-categories {
   margin-bottom: 68px;
+  margin-top: 68px;
 }
 
 .best-sellers {
@@ -270,8 +270,8 @@ export default {
     display: none;
   }
 
-  .brand-products {
-    margin-bottom: 48px;
+  .brand-categories {
+    margin-top: 48px;
   }
 }
 
