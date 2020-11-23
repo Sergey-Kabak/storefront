@@ -7,6 +7,9 @@
         :key="`${notification.type}_${index}`"
         :class="notification.type"
       >
+        <div v-if="notification.title" class="notification-title">
+          {{notification.title}}
+        </div>
         <div
           @click="execAction(notification.action1, index)"
           class="message"
@@ -75,6 +78,15 @@ $color-warning: color(warning);
 $color-info: color(accent);
 $color-action: color(black);
 
+.notification-title{
+  font-family: DIN Pro;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 24px;
+  color: #1A1919;
+  margin-bottom: 24px;
+}
 .notifications {
   top: 100px;
   right: 5%;
