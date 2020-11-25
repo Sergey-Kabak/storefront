@@ -46,7 +46,7 @@
             <div v-if="method.code === 'credit' && payment.paymentMethod === 'credit'" class="credit-block-wrapper">
               <div class="credit-block">
                 <div class="block-title">{{ $t('Credit offer') }}</div>
-                <credit-method ref="creditMethod" />
+                <credit-method v-if="getBanks.length" ref="creditMethod" />
               </div>
             </div>
           </label>
@@ -67,13 +67,14 @@
         v-else
         @click.native="placeOrder()"
         data-testid="paymentSubmit"
-        :disabled="$v.payment.$invalid || (alertStatus.class !== 'success' && maxTermsSelected)" ref="creditForm)"
+        :disabled="$v.payment.$invalid || (alertStatus && (alertStatus.class !== 'success' && maxTermsSelected))" ref="creditForm)"
         class="button-pay"
         :aria-label="$t('To pay')"
       >
         {{ $t('To pay') }}
       </button-full>
     </div>
+    <button @click="privat">privat</button>
   </div>
 </template>
 
@@ -95,12 +96,14 @@ import Tooltip from 'theme/components/core/Tooltip';
 import LiqPay from 'src/modules/payment-liqpay/components/Liqpay';
 import TotalPrice from 'theme/components/core/TotalPrice';
 import CreditMethod from './Credits/CreditMethod';
+import { CreditService } from '../../../../services';
+import mixin from './Credits/mixin';
+import totalAmount from '../../../../mixins/cart/totalAmount';
 const lettersOnly = value => (
   /^[\u0400-\u04FF]+$/.test(value) ||
   /^[a-zA-Zа-яА-Я]+$/.test(value) ||
   value === ''
 );
-import mixin from "./Credits/mixin";
 
 export default {
   props: {
@@ -140,10 +143,8 @@ export default {
       productsInCart: 'cart/getCartItems',
       totals: 'cart/getTotals',
       getCartToken: 'cart/getCartToken',
+      getBanks: 'themeCredit/getBanks',
       creditMethod: 'themeCredit/creditMethod'
-    }),
-    ...mapState({
-      banksLoaded: state => state.banksLoaded
     }),
     countryOptions () {
       return this.countries.map((item) => {
@@ -240,10 +241,14 @@ export default {
       }
     }
   },
-  created() {
+  created () {
     this.$store.dispatch('themeCredit/fetchBanksCheckout', this.$store.state.cart.cartServerToken);
   },
   methods: {
+    privat() {
+      //let json = JSON.stringify();
+      //CreditService.privat()
+    },
     isShowPaymentMethod (method) {
       return this.assoc[this.type].includes(method.code) && !this.productsHasPreorder(method) && this.creditsIsAvailable(method)
     },
