@@ -80,6 +80,7 @@ import ButtonFull from 'theme/components/theme/ButtonFull';
 import Tooltip from 'theme/components/core/Tooltip';
 import LiqPay from 'src/modules/payment-liqpay/components/Liqpay';
 import TotalPrice from 'theme/components/core/TotalPrice';
+import config from 'config'
 
 export default {
   props: {
@@ -114,6 +115,7 @@ export default {
   computed: {
     ...mapGetters({
       totals: 'cart/getTotals',
+      productsInCart: 'cart/getCartItems'
     }),
     countryOptions () {
       return this.countries.map((item) => {
@@ -212,7 +214,7 @@ export default {
   },
   methods: {
     isShowPaymentMethod (method) {
-      return this.assoc[this.type].includes(method.code) && !this.productsHasPreorder(method)
+      return this.assoc[this.type].includes(method.code) && !this.productsHasPreorder(method) && this.isLiqpayEnabled(method)
     },
     onPaymentMethodChange () {
       this.$v.payment.paymentMethod.$touch()
@@ -224,6 +226,16 @@ export default {
     },
     productsHasPreorder (method) {
       return this.productsInCart.some(it => !!it.preorder) && method.code === 'liqpaymagento_liqpay'
+    },
+    isLiqpayEnabled (method) {
+      if (
+        method.code === 'liqpaymagento_liqpay' &&
+        (
+          !config.liqpay_enabled.liqpay ||
+          (this.productsInCart.find(product => !!product.marketplace) && !config.liqpay_enabled.liqpay_marketplace)
+        )
+      ) { return false }
+      return true
     }
   }
 }
