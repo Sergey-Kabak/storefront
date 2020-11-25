@@ -67,14 +67,13 @@
         v-else
         @click.native="placeOrder()"
         data-testid="paymentSubmit"
-        :disabled="$v.payment.$invalid || (alertStatus && (alertStatus.class !== 'success' && maxTermsSelected))" ref="creditForm)"
+        :disabled="$v.payment.$invalid" ref="creditForm)"
         class="button-pay"
         :aria-label="$t('To pay')"
       >
         {{ $t('To pay') }}
       </button-full>
     </div>
-    <button @click="privat">privat</button>
   </div>
 </template>
 
