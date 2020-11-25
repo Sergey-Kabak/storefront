@@ -22,7 +22,12 @@ export default {
       return this.totals.find(it => it.code === 'grand_total').value / 100 * +this.selectedCredit.extra_items_part;
     },
     requiredExtraPrice () {
-      return this.finalPrice(this.productsInCart.find(it => it.sku === this.productSku)) / 100 * +this.selectedCredit.extra_items_part;
+      const products = this.productsInCart.filter(it => this.productSku.includes(it.sku));
+      if (products.length) {
+        // eslint-disable-next-line no-return-assign
+        return products.reduce((acc, product) => acc += this.finalPrice(product), 0) / 100 * +this.selectedCredit.extra_items_part;
+      }
+      return 0;
     },
     maxTermsSelected () {
       return +this.selectedCredit.terms === this.maxTerms;
@@ -37,9 +42,6 @@ export default {
       return extraProducts.length ? extraProducts.reduce((accumulator, product) => accumulator += this.finalPrice(product) * product.qty, 0) : 0;
     },
     alertStatus () {
-      if (!this.getBanks.length) {
-        return false
-      }
       if (this.getAccessoriesPriceFromCart === 0) {
         return {
           class: 'error',
