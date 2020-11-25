@@ -110,6 +110,10 @@
     "url": "https://ringoo.ua",
     "saveBandwidthOverCache": true
   },
+  "liqpay_enabled" : {
+    "liqpay": true,
+    "liqpay_marketplace": false
+  },
   "liqpay": {
     "public_key": "i32012277522",
     "private_key": "yn1ZNgkzlC3rw0F15BdiE8hzkYqzJvCrpckDtnJQ",
