@@ -5,7 +5,7 @@
       -{{discount}} %
     </span>
     <div class="mb0 name mt0 relative w-100" v-if="nameVisibility">
-      {{ product.name | htmlDecode }}
+      {{ product.name | htmlDecode }} <span v-if="showProductColor">{{getColor}}</span>
     </div>
 
     <template v-if="product.special_price && !onlyImage">
@@ -53,9 +53,19 @@ export default {
     nameVisibility: {
       type: Boolean,
       default: true
+    },
+    showProductColor: {
+      type: Boolean,
+      default: false
     }
   },
   computed: {
+    getColor () {
+      if (this.product.type_id === 'configurable' && this.showProductColor) {
+        return this.product.attributes_metadata.find(it => it.attribute_code === 'color').options.find(option => +option.value === this.product.color).label || null
+      }
+      return null
+    },
     storeView () {
       return currentStoreView()
     },
@@ -100,6 +110,10 @@ export default {
       }
       return productTypes[this.product.type_id] || this.product.price_incl_tax
     }
+  },
+  mounted () {
+    console.log(this.getColor);
+    console.log(this.product);
   }
 }
 </script>
