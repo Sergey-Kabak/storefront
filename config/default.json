@@ -295,7 +295,9 @@
         "url_path",
         "children_data.id",
         "children_data.include_in_menu",
-        "*.id"
+        "*.id",
+        "meta_description",
+        "meta_title"
       ],
       "excludeFields": [
         "sgn"

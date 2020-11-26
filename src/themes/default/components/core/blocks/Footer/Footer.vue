@@ -95,7 +95,7 @@ export default {
     },
     visibleCategories () {
       return this.categories.filter(category => {
-        return category.product_count > 0 || category.children_count > 0
+        return category.include_in_menu && (category.product_count > 0 || category.children_count > 0)
       })
     },
     categories () {
@@ -151,7 +151,7 @@ export default {
         }]
       }]
     }
-  },
+  }
 }
 </script>
 

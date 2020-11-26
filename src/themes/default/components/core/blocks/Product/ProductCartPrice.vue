@@ -170,6 +170,7 @@ export default {
 .product-price-wrapper {
   display: flex;
   align-items: center !important;
+  white-space: nowrap;
 }
 
 .name {
