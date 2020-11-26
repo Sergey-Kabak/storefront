@@ -295,7 +295,9 @@
         "url_path",
         "children_data.id",
         "children_data.include_in_menu",
-        "*.id"
+        "*.id",
+        "meta_description",
+        "meta_title"
       ],
       "excludeFields": [
         "sgn"
@@ -346,6 +348,7 @@
         "configurable_children.price_incl_tax",
         "configurable_children.sku",
         "configurable_children.special_price",
+        "configurable_children.stock.is_in_stock",
         "category_ids",
         "id",
         "name",

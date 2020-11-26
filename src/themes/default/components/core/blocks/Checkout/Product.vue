@@ -9,7 +9,7 @@
       <div class="product-image">
         <img :src="image.src" alt="product" />
       </div>
-      <product-cart-price :product="product" class="product-info" />
+      <product-cart-price :product="product" :showProductColor="true" class="product-info" />
       <more-icon>
         <div class="more-item" @click="removeFromCart()">
           <svg width="14" height="18" viewBox="0 0 14 18" fill="none" xmlns="http://www.w3.org/2000/svg">

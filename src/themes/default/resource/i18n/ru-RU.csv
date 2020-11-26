@@ -85,6 +85,8 @@
 "PCs, computers, accessories, monitors","ПК, компьютеры, аксессуары, мониторы"
 "PROMOCODE","ПРОМОКОД"
 "Password must have at least 8 letters.","Длина пароля должна быть минимум 8 символов."
+"Password must have at least 1 uppercase letter.","Пароля должен иметь минимум 1 заглавный символ."
+"Password must have at least 1 number.","Пароля долженн иметь минимум 1 цифру."
 "Payment and delivery","Оплата и доставка"
 "Payments and loans","Выплаты и кредиты"
 "Pick up here","Забрать здесь"
