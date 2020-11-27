@@ -112,6 +112,14 @@
             {
               condition: !$v.password.minLength && $v.password.$error,
               text: $t('Password must have at least 8 letters.')
+            },
+            {
+              condition: !$v.password.hasUppercase && $v.password.$error,
+              text: $t('Password must have at least 1 uppercase letter.')
+            },
+            {
+              condition: !$v.password.hasNumbers && $v.password.$error,
+              text: $t('Password must have at least 1 number.')
             }
           ]"
         />
@@ -197,10 +205,15 @@ import {
 
 const lettersOnly = value => (
   /^[\u0400-\u04FF]+$/.test(value) ||
-  /^[a-zA-Z]+$/.test(value) ||
-    value === ""
+  /^[a-zA-Zа-яА-Я]+$/.test(value) ||
+    value === ''
 );
-
+const hasUppercase = value => (
+  /[A-ZА-Я]/.test(value) || value === ''
+)
+const hasNumbers = value => (
+  /[\d+]/.test(value) || value === ''
+)
 export default {
   validations: {
     email: {
@@ -220,12 +233,16 @@ export default {
     password: {
       minLength: minLength(8),
       required,
-      alphaNum
+      alphaNum,
+      hasUppercase,
+      hasNumbers
     },
     rPassword: {
       required,
       sameAsPassword: sameAs('password'),
-      alphaNum
+      alphaNum,
+      hasUppercase,
+      hasNumbers
     },
   },
   mixins: [Register],

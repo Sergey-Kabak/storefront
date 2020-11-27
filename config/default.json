@@ -110,15 +110,19 @@
     "url": "http://localhost:8080",
     "saveBandwidthOverCache": true
   },
+  "liqpay_enabled" : {
+    "liqpay": true,
+    "liqpay_marketplace": false
+  },
   "liqpay": {
     "public_key": "sandbox_i33827525821",
     "private_key": "sandbox_ZoeELbqo1BBTi3LQnEsHF93wu425TzSvpZpYH11N",
     "server_url": "https://sfdv-othe003.fz.fozzy.lan/rest/V1/liqpay/callback"
   },
   "liqpay_marketplace": {
-    "public_key": "i53133816828",
-    "private_key": "SI0lK7LYzwS5xKZFNPNWoIQAXuG79jOXMNHOMBIC",
-    "server_url": "https://sfdv-othe003.fz.fozzy.lan/rest/V1/liqpay/callback"
+    "public_key": "i92747265253",
+    "private_key": "Ot6maFb6GbezBNCsUewdPm98qwQwjfIcrn3ePyKa",
+    "server_url": "https://magento.ringoo.ua/rest/V1/liqpay/callback"
   },
   "admitad": {
     "campaignCode": "89a640b42b",
@@ -131,7 +135,7 @@
     "min_score": 0.02,
     "csrTimeout": 5000,
     "ssrTimeout": 1000,
-    "queryMethod": "GET",
+    "queryMethod": "POST",
     "disablePersistentQueriesCache": true,
     "searchScoring": {
       "attributes": {
@@ -291,7 +295,9 @@
         "url_path",
         "children_data.id",
         "children_data.include_in_menu",
-        "*.id"
+        "*.id",
+        "meta_description",
+        "meta_title"
       ],
       "excludeFields": [
         "sgn"
@@ -342,6 +348,8 @@
         "configurable_children.price_incl_tax",
         "configurable_children.sku",
         "configurable_children.special_price",
+        "configurable_children.stock.is_in_stock",
+        "category_ids",
         "id",
         "name",
         "original_price",
@@ -1022,116 +1030,41 @@
     "slug": "women-20",
     "url_path": "elektronika"
   },
-  "sliderProduct": [
-    {
-      "url_path": "kupuj-pershim",
-      "type_id": "configurable",
-      "img": "https://info.ringoo.ua/images/slider_2/Artboard-0.jpg"
-    },
-    {
-      "url_path": "halloween",
-      "type_id": "configurable",
-      "img": "https://info.ringoo.ua/images/slider_2/Artboard-1.jpg"
-    },
-    {
-      "url_path": "xiaomi-redmi-note-9-pro-6-128gb.html?childSku=т30122",
-      "type_id": "configurable",
-      "img": "https://info.ringoo.ua/images/slider_2/Artboard-2.jpg"
-    },
-    {
-      "url_path": "p/т30385/jbl-t500bt-black-jblt500btblk",
-      "type_id": "configurable",
-      "img": "https://info.ringoo.ua/images/slider_2/Artboard-3.jpg"
-    },
-    {
-      "url_path": "samsung-a31-4-64gb-a315.html?childSku=т27150",
-      "type_id": "configurable",
-      "img": "https://info.ringoo.ua/images/slider_2/Artboard-4.jpg"
-    },
-    {
-      "url_path": "chohol-wave-fancy-halloween-case-tpu-iphone-x-xs.html?childSku=т33555",
-      "type_id": "configurable",
-      "img": "https://info.ringoo.ua/images/slider_2/Artboard-5.jpg"
-    },
-    {
-      "url_path": "fitnes-braslet-mi-smart-band-4-z-nfc-black.html",
-      "type_id": "configurable",
-      "img": "https://info.ringoo.ua/images/slider_2/Artboard-6.jpg"
-    },
-    {
-      "url_path": "samsung-a11-sm-a115f-2-32gb.html?childSku=т28223",
-      "type_id": "configurable",
-      "img": "https://info.ringoo.ua/images/slider_2/Artboard-7.jpg"
-    },
-    {
-      "url_path": "xiaomi-mi-tv-uhd-4s-43-silver.html",
-      "type_id": "configurable",
-      "img": "https://info.ringoo.ua/images/slider_2/Artboard-8.jpg"
-    },
-    {
-      "url_path": "elektronika/noutbuki",
-      "type_id": "configurable",
-      "img": "https://info.ringoo.ua/images/slider_2/Artboard-9.jpg"
-    },
-    {
-      "url_path": "navushniki-redmi-airdots-s-chornij.html",
-      "type_id": "configurable",
-      "img": "https://info.ringoo.ua/images/slider_2/Artboard-10.jpg"
-    },
-    {
-      "url_path": "xiaomi-redmi-9c-2-32gb.html?childSku=т32315",
-      "type_id": "configurable",
-      "img": "https://info.ringoo.ua/images/slider_2/Artboard-11.jpg"
-    },
-    {
-      "url_path": "akustichna-sistema-jbl-charge-4-chorna.html",
-      "type_id": "configurable",
-      "img": "https://info.ringoo.ua/images/slider_2/Artboard-12.jpg"
-    },
-    {
-      "url_path": "zte-blade-a3-2020-1-32gb-nfc.html?childSku=т32124",
-      "type_id": "configurable",
-      "img": "https://info.ringoo.ua/images/slider_2/Artboard-13.jpg"
-    },
-    {
-      "url_path": "iphone-11-64gb.html?childSku=т29792",
-      "type_id": "configurable",
-      "img": "https://info.ringoo.ua/images/slider_2/Artboard-14.jpg"
-    },
-    {
-      "url_path": "planshet-huawei-t3-10-lte-16gb-gold.html",
-      "type_id": "configurable",
-      "img": "https://info.ringoo.ua/images/slider_2/Artboard-15.jpg"
-    },
-    {
-      "url_path": "konsol-ps4-1tb-cuh-2208b-dg-gow-tlou-psplus-3m.html",
-      "type_id": "configurable",
-      "img": "https://info.ringoo.ua/images/slider_2/Artboard-16.jpg"
-    }
-  ],
   "customSeller": {
     "name": "S-DIGIT",
     "rate": 4.9,
     "marks": 24,
     "logo": "https://i1.rozetka.ua/sellers/1635/1635253.jpg",
-    "description": "Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit. Exercitation veniam consequat sunt nostrud amet.",
-    "email": "custom@email.com",
-    "phones": ["+380 44 000 00 00", "+380 63 000 00 00", "+380 97 000 00 00"],
+    "description": "Великий вибір товарів за найкращими цінами, актуальність ціни та наявності, швидка доставка / термін до 2-х днів, висока якість обслуговування.",
+    "email": "infosales.sdigit@gmail.com",
+    "phones": ["+38 050 340 72 53"],
     "workTimes": ["Пн-Пт: 08:00-20:00;", "Сб: 10:00-18:00;", "Вс: 11:00-17:00"],
     "link": "/smartfoni-i-telefoni"
   },
   "rma": {
     "1": {
-      "title": "Купуй фітнес-браслет Xiaomi Mi Smart Band 4 з NFC та отримай -50% знижки на змінний ремінець!",
+      "title": "Купуй фітнес-браслет Xiaomi Mi Smart Band 4 з NFC та отримай 50% знижки на зміний ремінець",
       "image_url": "https://ringoo.ua/img/600/744/resize/_/2/_29725.jpg",
-      "time": "2020-11-01 23:59:59",
-      "category_link": "/halloween/t32040-fitnes-braslet-mi-smart-band-4-z-nfc-black/reminci-do-mi-band-4"
+      "time": "2020-11-26 23:59:59",
+      "category_link": "/zabrendujsja-vigidno/t32040-fitnes-braslet-mi-smart-band-4-z-nfc-black/reminci-do-mi-band-4"
     },
     "2": {
       "title": "Купуй Навушники Redmi AirDots S та отримай -50% знижки на чохол Silicone Case!",
       "image_url": "https://ringoo.ua/img/600/744/resize/_/2/_29032.jpg",
-      "time": "2020-11-01 23:59:59",
-      "category_link": "/halloween/t30002-navushniki-redmi-airdots-s/podarunok-chohol-silicone-case-for-xiaomi-redmi-airdots"
+      "time": "2020-11-26 23:59:59",
+      "category_link": "/zabrendujsja-vigidno/t30002-navushniki-redmi-airdots-s/podarunok-chohol-silicone-case-for-xiaomi-redmi-airdots"
+    },
+    "3": {
+      "title": "Купуй Apple AirPods 2 покоління та отримай БЗП Baseus Simple у подарунок!",
+      "image_url": "https://ringoo.ua/img/600/744/resize/1/0/1096.jpg",
+      "time": "2020-11-26 23:59:59",
+      "category_link": "/zabrendujsja-vigidno/apple-airpods-2-pokolinnja/bezdrotovij-zp-baseus-simple-u-podarunok"
+    },
+    "4": {
+      "title": "50% знижки на захисне скло до обраних моделей смарфонів Xiaomi!",
+      "image_url": "https://ringoo.ua/img/600/744/resize/_/2/_27934.jpg",
+      "time": "2020-11-26 23:59:59",
+      "category_link": "/zabrendujsja-vigidno/xiaomi-redmi-note-9/50-na-zahisne-sklo-do-smartfona"
     }
   }
 }

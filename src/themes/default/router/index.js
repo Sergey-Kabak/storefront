@@ -65,7 +65,8 @@ let routes = [
   { name: 'category', path: '/c/:slug', component: Category, meta: { name: 'category' } },
   { name: 'cms-page', path: '/i/:slug', component: CmsPage, meta: { name: 'cms page' } },
   { name: 'page-not-found', path: '*', component: PageNotFound },
-  { path: '/ua/shops.html', redirect: '/' }
+  { path: '/ua/shops.html', redirect: '/' },
+  { path: '/magazyny', redirect: '/' }
 ];
 
 export default routes;

@@ -7,6 +7,7 @@
         </router-link>
       </div>
       <div class="product-name">{{ product.name }}</div>
+      <product-cart-price :product="product" :nameVisibility="false" />
       <div class="product-actions">
         <router-link :to="formatLink(product)" class="product-link">
           <button-full class="product-button buy">{{ $t('Buy') }}</button-full>
@@ -26,7 +27,8 @@ import {
 } from '@vue-storefront/core/helpers';
 import { currentStoreView } from '@vue-storefront/core/lib/multistore'
 import { formatProductLink } from '@vue-storefront/core/modules/url/helpers'
-import { getThumbnailForProduct } from '@vue-storefront/core/modules/cart/helpers';
+import { getThumbnailForProduct } from '@vue-storefront/core/modules/cart/helpers'
+import ProductCartPrice from 'theme/components/core/blocks/Product/ProductCartPrice'
 
 export default {
   props: {
@@ -37,7 +39,8 @@ export default {
   },
   components: {
     ProductImage,
-    ButtonFull
+    ButtonFull,
+    ProductCartPrice
   },
   computed: {
     productImage() {
@@ -72,6 +75,7 @@ export default {
 }
 
 .product {
+  position: relative;
   width: 100%;
   background: #FFFFFF;
   border: 1px solid #E0E0E0;
@@ -99,9 +103,14 @@ export default {
   transition: 0.3s ease-in-out;
 }
 
+.product-price-block {
+  margin-top: auto;
+  margin-bottom: 20px;
+  padding: 0 16px;
+}
+
 .product-actions {
   padding: 0 16px;
-  margin-top: auto;
   width: 100%;
   padding: 0 16px 16px;
 }
@@ -111,7 +120,8 @@ export default {
 }
 
 .product-button {
-  height: 32px;
+  max-width: 100%!important;
+  height: 32px!important;
 }
 
 .product-cover {

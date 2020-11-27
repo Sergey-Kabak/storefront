@@ -14,18 +14,7 @@
       :loop="true"
     >
       <slide v-for="(product, index) in products" :key="index">
-        <div data-testid="productLink" class="product-image-link">
-          <div class="product-cover">
-            <product-image class="product-image" :image="productImage(product)" />
-          </div>
-          <slot name="pagination">
-            <pagination @paginationclick="goToPage($event, 'pagination')"/>
-          </slot>
-          <span class="product-name">{{product.name}}</span>
-          <router-link :to="formatLink(product)" class="product-link">
-            <button-full>{{ $t('Buy') }}</button-full>
-          </router-link>
-        </div>
+        <product :product="product"/>
       </slide>
     </carousel>
     <product-more />
@@ -42,6 +31,7 @@ import { getThumbnailForProduct } from '@vue-storefront/core/modules/cart/helper
 import { mapState } from 'vuex'
 import { formatCategoryLink } from '@vue-storefront/core/modules/url/helpers'
 import ProductMore from 'theme/components/core/blocks/BrandPortal/ProductMore.vue'
+import Product from 'theme/components/core/blocks/BrandPortal/Product.vue';
 
 export default {
   components: {
@@ -50,7 +40,8 @@ export default {
     ButtonFull,
     Pagination,
     ProductImage,
-    ProductMore
+    ProductMore,
+    Product
   },
   props: {
     products: {
@@ -141,6 +132,10 @@ export default {
   }
 }
 
+.product {
+  border: none;
+}
+
 .carousel {
   border: 1px solid #E0E0E0;
   border-radius: 4px 4px 0 0;
@@ -150,53 +145,5 @@ export default {
 .VueCarousel-slide {
   display: flex;
   justify-content: center;
-}
-
-.button-full {
-  max-width: 100%;
-}
-
-.product-image-link {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  padding: 16px;
-}
-
-.product-link {
-  margin-top: auto;
-}
-
-.product-image {
-  display: block;
-  width: auto;
-  text-align: center;
-  height: auto;
-  margin: auto;
-  max-width: 178px;
-  margin-bottom: 16px;
-}
-
-.product-name {
-  display: block;
-  text-align: center;
-  margin-bottom: 20px;
-  font-family: DIN Pro;
-  font-weight: 600;
-  font-size: 15px;
-  line-height: 24px;
-  color: #1A1919;
-}
-
-.product-cover {
-  height: 150px;
-}
-
-@media (max-width: 419px) {
-  ::v-deep .product-carousel {
-    img {
-      border-radius: 4px;
-    }
-  }
 }
 </style>

@@ -7,27 +7,12 @@
       <div class="container">
         <div class="row m0 center-xs between-md">
           <div
-            class="row m0 col-lg-7 col-md-8 col-xs-12 start-md between-md between-xs no-mobile"
+            class="row m0 col-lg-8 col-md-8 col-xs-12 start-md between-md between-xs no-mobile"
           >
             <div class="start-md">
               <h3 class="cl-accent weight-400">
                 {{ $t('Departments') }}
               </h3>
-              <div class="mt15">
-                <router-link class="cl-secondary" :to="localizedRoute('/women/women-20')" exact>
-                  {{ $t('Women fashion') }}
-                </router-link>
-              </div>
-              <div class="mt15">
-                <router-link class="cl-secondary" :to="localizedRoute('/men/men-11')" exact>
-                  {{ $t("Men's fashion") }}
-                </router-link>
-              </div>
-              <div class="mt15">
-                <router-link class="cl-secondary" :to="localizedRoute('/')" exact>
-                  {{ $t('Kidswear') }}
-                </router-link>
-              </div>
               <div class="mt15">
                 <router-link class="cl-secondary" :to="localizedRoute('/')" exact>
                   {{ $t('Home') }}
@@ -48,29 +33,14 @@
                   {{ $t('Delivery') }}
                 </router-link>
               </div>
-              <div class="mt15">
-                <router-link class="cl-secondary" :to="localizedRoute('/returns')" exact>
-                  {{ $t('Return policy') }}
-                </router-link>
-              </div>
             </div>
             <div class="start-md">
               <h3 class="cl-accent weight-400">
                 {{ $t('Help') }}
               </h3>
               <div class="mt15">
-                <router-link class="cl-secondary" :to="localizedRoute('/customer-service')" exact>
-                  {{ $t('Customer service') }}
-                </router-link>
-              </div>
-              <div class="mt15">
                 <router-link class="cl-secondary" :to="localizedRoute('/size-guide')" exact>
                   {{ $t('Size guide') }}
-                </router-link>
-              </div>
-              <div class="mt15">
-                <router-link class="cl-secondary" :to="localizedRoute('/contact')" exact>
-                  {{ $t('Contact us') }}
                 </router-link>
               </div>
             </div>
@@ -78,28 +48,6 @@
               <h3 class="cl-accent weight-400">
                 {{ $t('About us') }}
               </h3>
-              <div class="mt15">
-                <router-link class="cl-secondary" :to="localizedRoute('/about-us')" exact>
-                  {{ $t('About us') }}
-                </router-link>
-              </div>
-              <div class="mt15">
-                <router-link class="cl-secondary" :to="localizedRoute('/store-locator')" exact>
-                  {{ $t('Store locator') }}
-                </router-link>
-              </div>
-              <div class="mt15">
-                <!-- Link to custom Magento Cms Page -->
-                <router-link class="cl-secondary" :to="localizedRoute('/custom-cms-page')" exact>
-                  {{ $t('Custom Cms Page') }}
-                </router-link>
-              </div>
-              <div class="mt15">
-                <!-- Link to synced Magento Cms Page -->
-                <router-link class="cl-secondary" :to="localizedRoute('/cms-page-sync')" exact>
-                  {{ $t('Cms Page Sync') }}
-                </router-link>
-              </div>
             </div>
           </div>
           <div class="row social mt30">
@@ -149,26 +97,7 @@
     <div class="container">
       <div class="row middle-xs px15 bottom-links">
         <div class="col-xs col-sm-9 end-xs">
-          <ul class="pl0 links" data-testid="bottomLinks">
-            <li class="inline-flex">
-              <router-link
-                class="cl-tertiary mr10 underline"
-                to="/legal"
-                exact
-              >
-                {{ $t('Legal notice') }}
-              </router-link>
-            </li>
-            <li class="inline-flex">
-              <router-link
-                class="cl-tertiary underline"
-                to="/privacy"
-                exact
-              >
-                {{ $t('Privacy policy') }}
-              </router-link>
-            </li>
-          </ul>
+          <ul class="pl0 links" data-testid="bottomLinks"></ul>
         </div>
       </div>
     </div>

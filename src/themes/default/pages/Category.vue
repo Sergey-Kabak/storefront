@@ -4,21 +4,17 @@
       <div class="v-container">
         <breadcrumbs withHomepage />
         <mobile-breadcrumbs withHomepage />
-        <div class="row middle-sm" v-if="getCurrentCategory.image || getCurrentCategory.description">
-          <div class="col-sm-12 mt-50" >
-            <div class="banner-description">
-              <div v-if="getCurrentCategory.image" :class="{full: !getCurrentCategory.description}">
-                <img class="desk" :src="`https://magento.ringoo.ua/${getCurrentCategory.image}`" alt="banner">
-              </div>
-              <div class="banner-description__block" v-if="getCurrentCategory.description">
-                <h3>{{ $t('Description of the action') }}</h3>
-                <div class="banner-description__text" v-html="getCurrentCategory.description"></div>
-                <div class="banner-description__timer">
-                  <h3>{{ $t('Until the end of the promotion') }}</h3>
-                  {{getCurrentCategory}}
-                  <CountDown :end-time="getEndTime()" />
-                </div>
-              </div>
+
+        <div class="banner-description" v-if="getCurrentCategory.image || getCurrentCategory.description">
+          <div v-if="getCurrentCategory.image" :class="{full: !getCurrentCategory.description}">
+            <img class="desk" :src="`https://magento.ringoo.ua/${getCurrentCategory.image}`" alt="banner">
+          </div>
+          <div class="banner-description__block" v-if="getCurrentCategory.description">
+            <h3>{{ $t('Description of the action') }}</h3>
+            <div class="banner-description__text" v-html="getCurrentCategory.description"></div>
+            <div class="banner-description__timer">
+              <h3>{{ $t('Until the end of the promotion') }}</h3>
+              <CountDown :end-time="getEndTime()" />
             </div>
           </div>
         </div>
@@ -153,7 +149,7 @@ import Spinner from "../components/core/Spinner";
 import GTM from '../mixins/GTM/dataLayer'
 import Description from "../components/core/blocks/Category/Description";
 import ButtonWhite from "../components/core/blocks/Product/ButtonWhite";
-
+import NoSSR from 'vue-no-ssr';
 const THEME_PAGE_SIZE = 32
 const composeInitialPageState = async (store, route, forceLoad = false) => {
   try {
@@ -170,7 +166,6 @@ const composeInitialPageState = async (store, route, forceLoad = false) => {
     console.error('Problem with setting Category initial data!', e)
   }
 }
-import NoSSR from 'vue-no-ssr';
 
 export default {
   components: {
@@ -372,6 +367,7 @@ $mobile_screen : 768px;
   }
 
   .breadcrumbs {
+    margin-bottom: 24px;
     &.mobile {
       display: none;
     }
@@ -482,7 +478,7 @@ $mobile_screen : 768px;
     display: flex;
     flex-wrap: wrap;
     align-items: baseline;
-    margin: 20px 0px 24px 0;
+    margin: 0px 0px 24px 0;
 
     .category-title {
       display: inline;
@@ -641,7 +637,7 @@ $mobile_screen : 768px;
   margin: 32px auto 0;
 }
 .banner-description {
-  margin-top: 25px;
+  margin-bottom: 64px;;
   display: flex;
   flex-direction: column;
   img {
@@ -717,6 +713,12 @@ $mobile_screen : 768px;
   }
   .category-filters {
     max-width: 250px!important;
+  }
+}
+
+@media (max-width: 768px) {
+  .banner-description {
+    margin-bottom: 46px;
   }
 }
 

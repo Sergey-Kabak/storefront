@@ -1,99 +1,108 @@
 <template>
-  <div class="header-wrap">
+  <div class="header-wrap" ref="headerWrap">
     <header
-      ref="header"
-      class="w-100"
-      :class="{ 'is-visible': navVisible, 'search-active': isSearchActive }"
-    >
-      <div class="header-black-line" v-if="isShowHeader">
-        <ul>
-          <li>
-            <router-link class="cl-secondary" :to="localizedRoute('/shops')" exact>
-              {{ $t('The shops') }}
-            </router-link>
-          </li>
-          <li>
-            <router-link class="cl-secondary" :to="localizedRoute('/payment')" exact>
-              {{ $t('the Payment') }}
-            </router-link>
-          </li>
-          <li>
-            <router-link class="cl-secondary" :to="localizedRoute('/delivery')" exact>
-              {{ $t('Delivery') }}
-            </router-link>
-          </li>
-          <li class="phone-wrap">
-            <svg width="12" height="12" viewBox="0 0 12 12" xmlns="http://www.w3.org/2000/svg">
-              <path d="M2.36 1.33333C2.4 1.92667 2.5 2.50667 2.66 3.06L1.86 3.86C1.58667 3.06 1.41333 2.21333 1.35333 1.33333H2.36ZM8.93333 9.34667C9.5 9.50667 10.08 9.60667 10.6667 9.64667V10.64C9.78667 10.58 8.94 10.4067 8.13333 10.14L8.93333 9.34667ZM3 0H0.666667C0.3 0 0 0.3 0 0.666667C0 6.92667 5.07333 12 11.3333 12C11.7 12 12 11.7 12 11.3333V9.00667C12 8.64 11.7 8.34 11.3333 8.34C10.5067 8.34 9.7 8.20667 8.95333 7.96C8.88667 7.93333 8.81333 7.92667 8.74667 7.92667C8.57333 7.92667 8.40667 7.99333 8.27333 8.12L6.80667 9.58667C4.92 8.62 3.37333 7.08 2.41333 5.19333L3.88 3.72667C4.06667 3.54 4.12 3.28 4.04667 3.04667C3.8 2.3 3.66667 1.5 3.66667 0.666667C3.66667 0.3 3.36667 0 3 0Z"/>
-            </svg>
-            <div class="phone">
-              <a href="tel:+380674666111">
-                +38 073 090 87 07
-              </a>
-              <phone-info v-show="navVisible"></phone-info>
-            </div>
-            <svg width="8" height="6" viewBox="0 0 8 6" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M0.94 0.726667L4 3.78L7.06 0.726667L8 1.66667L4 5.66667L0 1.66667L0.94 0.726667Z"/>
-            </svg>
-          </li>
-        </ul>
-      </div>
-      <div class="header-container-wrap border" v-if="!isCheckoutPage || isThankYouPage">
-        <div class="v-container header-top-container">
-          <div class="header-top">
-            <div class="header-left">
-              <hamburger-icon class="icon menu" />
-              <mobile-hamburger-icon class="mobile-menu" />
-            </div>
-
-            <div class="header-middle">
-              <logo width="auto" class="logo"/>
-            </div>
-            <div class="header-right">
-              <consultation-icon class="icon icon-consultation" />
-              <search-icon class="icon pointer icon-search" />
-              <compare-icon class="icon pointer icon-compare" />
-              <microcart-icon class="icon pointer icon-microcart" />
-              <wishlist-icon class="icon pointer icon-wishlist" />
-              <account-icon class="icon pointer icon-account" />
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="header-container-wrap" v-if="!isCheckoutPage || isThankYouPage">
-        <div class="header-container">
-          <div class="header-bottom" v-if="isShowHeader">
-            <search-panel mobile class="mobile"/>
-          </div>
-        </div>
-      </div>
-      <div class="header-container-wrap border" v-if="isCheckoutPage && !isThankYouPage">
-        <div class="header-container checkout">
-          <router-link
-            :to="localizedRoute('/')"
-            class="return-to-shopping__link"
-          >
-            <img src="/assets/custom/Back.svg" alt="back" class="return-to-shopping__icon">
-            <span class="return-to-shopping__text">{{ $t('Return to shopping') }}</span>
+    ref="header"
+    :class="{ 'is-visible': navVisible, 'search-active': isSearchActive, 'fixed': isFixed }"
+    :style="{top: -headerHeight + 'px'}"
+  >
+    <div class="promo" :class="{'bf': !isBFPage}" v-if="isShowHeader">
+      <router-link class="promo-link" :to="promo.link">
+        <picture>
+          <source :srcset="promo.imgTablet" media="(min-width: 768px) and (max-width: 1439px)">
+          <source :srcset="promo.imgMobile" media="(max-width: 767px)">
+          <source :srcset="promo.img">
+          <img :src="promo.img" alt="promo" class="promo-image">
+        </picture>
+      </router-link>
+    </div>
+    <div class="header-black-line" v-if="isShowHeader">
+      <ul>
+        <li>
+          <router-link class="cl-secondary" :to="localizedRoute('/shops')" exact>
+            {{ $t('The shops') }}
           </router-link>
-          <logo width="auto" height="41px" />
-          <div class="header-help">
-            <div class="header-help-desktop">
-              <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M3.54 2C3.6 2.89 3.75 3.76 3.99 4.59L2.79 5.79C2.38 4.59 2.12 3.32 2.03 2H3.54ZM13.4 14.02C14.25 14.26 15.12 14.41 16 14.47V15.96C14.68 15.87 13.41 15.61 12.2 15.21L13.4 14.02ZM4.5 0H1C0.45 0 0 0.45 0 1C0 10.39 7.61 18 17 18C17.55 18 18 17.55 18 17V13.51C18 12.96 17.55 12.51 17 12.51C15.76 12.51 14.55 12.31 13.43 11.94C13.33 11.9 13.22 11.89 13.12 11.89C12.86 11.89 12.61 11.99 12.41 12.18L10.21 14.38C7.38 12.93 5.06 10.62 3.62 7.79L5.82 5.59C6.1 5.31 6.18 4.92 6.07 4.57C5.7 3.45 5.5 2.25 5.5 1C5.5 0.45 5.05 0 4.5 0Z" fill="#787878" />
-              </svg>
-              <span class="header-help-text">{{ $t('Need help?') }}</span>
-              <phone-info v-show="navVisible"></phone-info>
-            </div>
-            <div class="header-help-mobile">
-              <microcart-icon class="icon pointer icon-microcart" />
-              <consultation-icon class="icon icon-consultation" />
-            </div>
+        </li>
+        <li>
+          <router-link class="cl-secondary" :to="localizedRoute('/payment')" exact>
+            {{ $t('the Payment') }}
+          </router-link>
+        </li>
+        <li>
+          <router-link class="cl-secondary" :to="localizedRoute('/delivery')" exact>
+            {{ $t('Delivery') }}
+          </router-link>
+        </li>
+        <li class="phone-wrap">
+          <svg width="12" height="12" viewBox="0 0 12 12" xmlns="http://www.w3.org/2000/svg">
+            <path d="M2.36 1.33333C2.4 1.92667 2.5 2.50667 2.66 3.06L1.86 3.86C1.58667 3.06 1.41333 2.21333 1.35333 1.33333H2.36ZM8.93333 9.34667C9.5 9.50667 10.08 9.60667 10.6667 9.64667V10.64C9.78667 10.58 8.94 10.4067 8.13333 10.14L8.93333 9.34667ZM3 0H0.666667C0.3 0 0 0.3 0 0.666667C0 6.92667 5.07333 12 11.3333 12C11.7 12 12 11.7 12 11.3333V9.00667C12 8.64 11.7 8.34 11.3333 8.34C10.5067 8.34 9.7 8.20667 8.95333 7.96C8.88667 7.93333 8.81333 7.92667 8.74667 7.92667C8.57333 7.92667 8.40667 7.99333 8.27333 8.12L6.80667 9.58667C4.92 8.62 3.37333 7.08 2.41333 5.19333L3.88 3.72667C4.06667 3.54 4.12 3.28 4.04667 3.04667C3.8 2.3 3.66667 1.5 3.66667 0.666667C3.66667 0.3 3.36667 0 3 0Z"/>
+          </svg>
+          <div class="phone">
+            <a href="tel:+380674666111">
+              +38 073 090 87 07
+            </a>
+            <phone-info v-show="navVisible"></phone-info>
+          </div>
+          <svg width="8" height="6" viewBox="0 0 8 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M0.94 0.726667L4 3.78L7.06 0.726667L8 1.66667L4 5.66667L0 1.66667L0.94 0.726667Z"/>
+          </svg>
+        </li>
+      </ul>
+    </div>
+    <div class="header-container-wrap border" v-if="!isCheckoutPage || isThankYouPage">
+      <div class="v-container header-top-container">
+        <div class="header-top">
+          <div class="header-left">
+            <hamburger-icon class="icon menu" />
+            <mobile-hamburger-icon class="mobile-menu" />
+          </div>
+
+          <div class="header-middle">
+            <logo width="auto" class="logo"/>
+          </div>
+          <div class="header-right">
+            <consultation-icon class="icon icon-consultation" />
+            <search-icon class="icon pointer icon-search" />
+            <compare-icon class="icon pointer icon-compare" />
+            <microcart-icon class="icon pointer icon-microcart" />
+            <wishlist-icon class="icon pointer icon-wishlist" />
+            <account-icon class="icon pointer icon-account" />
           </div>
         </div>
       </div>
+    </div>
+    <div class="header-container-wrap" v-if="!isCheckoutPage || isThankYouPage">
+      <div class="header-container">
+        <div class="header-bottom" v-if="isShowHeader">
+          <search-panel mobile class="mobile"/>
+        </div>
+      </div>
+    </div>
+    <div class="header-container-wrap border" v-if="isCheckoutPage && !isThankYouPage">
+      <div class="header-container checkout">
+        <router-link
+          :to="localizedRoute('/')"
+          class="return-to-shopping__link"
+        >
+          <img src="/assets/custom/Back.svg" alt="back" class="return-to-shopping__icon">
+          <span class="return-to-shopping__text">{{ $t('Return to shopping') }}</span>
+        </router-link>
+        <logo width="auto" height="41px" />
+        <div class="header-help">
+          <div class="header-help-desktop">
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M3.54 2C3.6 2.89 3.75 3.76 3.99 4.59L2.79 5.79C2.38 4.59 2.12 3.32 2.03 2H3.54ZM13.4 14.02C14.25 14.26 15.12 14.41 16 14.47V15.96C14.68 15.87 13.41 15.61 12.2 15.21L13.4 14.02ZM4.5 0H1C0.45 0 0 0.45 0 1C0 10.39 7.61 18 17 18C17.55 18 18 17.55 18 17V13.51C18 12.96 17.55 12.51 17 12.51C15.76 12.51 14.55 12.31 13.43 11.94C13.33 11.9 13.22 11.89 13.12 11.89C12.86 11.89 12.61 11.99 12.41 12.18L10.21 14.38C7.38 12.93 5.06 10.62 3.62 7.79L5.82 5.59C6.1 5.31 6.18 4.92 6.07 4.57C5.7 3.45 5.5 2.25 5.5 1C5.5 0.45 5.05 0 4.5 0Z" fill="#787878" />
+            </svg>
+            <span class="header-help-text">{{ $t('Need help?') }}</span>
+            <phone-info v-show="navVisible"></phone-info>
+          </div>
+          <div class="header-help-mobile">
+            <microcart-icon class="icon pointer icon-microcart" />
+            <consultation-icon class="icon icon-consultation" />
+          </div>
+        </div>
+      </div>
+    </div>
     </header>
-    <div class="header-placeholder" />
   </div>
 </template>
 
@@ -129,11 +138,20 @@ export default {
   mixins: [CurrentPage],
   data () {
     return {
+      isPromoLoaded: false,
       navVisible: true,
       isScrolling: false,
       scrollTop: 0,
       lastScrollTop: 0,
-      headerHeight: 104
+      headerHeight: null,
+      isFixed: false
+    }
+  },
+  watch: {
+    $route(to, from) {
+      this.$nextTick(() => {
+        this.calculateHeaderHeight()
+      })
     }
   },
   computed: {
@@ -149,6 +167,18 @@ export default {
     },
     isShowHeader () {
       return this.$route.name !== 'checkout'
+    },
+    isBFPage () {
+      return this.$route.path === '/brand-portal/black-friday'
+    },
+    promo () {
+      return {
+        img: this.isBFPage ? '/assets/promo/iphone-desktop.jpg' : '/assets/promo/bf-desktop.jpg',
+        imgTablet: this.isBFPage ? '/assets/promo/iphone-mobile.jpg' : '/assets/promo/bf-tablet.jpg',
+        imgMobile: this.isBFPage ? '/assets/promo/iphone-mobile.jpg' : '/assets/promo/bf-mobile.jpg',
+        link: this.isBFPage ? '/kupuj-pershim' : 'brand-portal/black-friday',
+        background: this.isBFPage ? '#08101b' : '#f3aad7'
+      }
     }
   },
   beforeMount () {
@@ -165,15 +195,24 @@ export default {
         this.hasScrolled()
         this.isScrolling = false
       }
-    }, 250)
+    })
   },
   mounted: function() {
+    this.calculateHeaderHeight()
+    this.isFixed = true
     window.addEventListener('resize', this.onResize)
   },
   beforeDestroy() {
     window.removeEventListener('resize', this.onResize)
   },
   methods: {
+    imageLoaded () {
+      this.isPromoLoaded = true
+    },
+    calculateHeaderHeight () {
+      this.headerHeight = this.$refs.header.clientHeight
+      this.$refs.headerWrap.style.height = this.headerHeight + 'px'
+    },
     gotoAccount () {
       this.$bus.$emit('modal-toggle', 'modal-signup')
     },
@@ -190,6 +229,7 @@ export default {
       this.lastScrollTop = this.scrollTop
     },
     onResize() {
+      this.calculateHeaderHeight()
       if (window.innerWidth >= 768 && this.isSearchActive) {
         this.$store.commit('ui/setOverlay', false)
         this.$store.commit('ui/setSearch', false)
@@ -215,19 +255,60 @@ $color-icon-hover: color(secondary, $colors-background);
     margin: 0 6px !important;
   }
 }
+.promo {
+  a{
+    background: linear-gradient(45deg, #08101b, #08101b);
+  }
+  picture{
+    margin: 0 auto;
+    img{
+      @media (max-width: 767px) {
+        height: 32px;
+      }
+    }
+  }
+  &.bf{
+    a{
+      @media (min-width: 1440px) {
+        background: linear-gradient(45deg, #f4b1da, #f1a5d4);
+      }
+      @media (min-width: 768px) and (max-width: 1439px){
+        background: linear-gradient(45deg, #f6bee1, #f6bee1);
+      }
+      @media (max-width: 767px) {
+        background: linear-gradient(45deg, #f8c2e4, #f6bee1);
+      }
+    }
+  }
+  .promo-link {
+    display: flex;
+    max-height: 45px;
+  }
+
+  .promo-image {
+    max-width: 1440px;
+    margin: auto;
+    width: 100%;
+    display: block;
+  }
+}
 
 header {
   background: #fff;
   overflow-anchor: none;
-
+  right: 0;
+  left: 0;
   &.search-active {
     z-index: 4;
     overflow: auto;
   }
+
+  &.fixed {
+    position: fixed;
+  }
 }
 
 .header-wrap {
-  height: 97px;
   margin-bottom: 16px;
 }
 
@@ -378,15 +459,13 @@ header {
 
 header {
   box-sizing: border-box;
-  position: fixed;
-  top: -115px;
   max-height: 100vh;
   overflow: unset;
   z-index: 3;
   transition: top 0.2s ease-in-out;
 
   &.is-visible {
-    top: 0;
+    top: 0!important;
   }
 }
 
@@ -625,10 +704,6 @@ a.underline:after, a:not(.no-underline):hover:after {
 }
 
 @media (max-width: 768px) {
-  .header-wrap {
-    height: 104px;
-  }
-
   .header-top {
     padding: 0 16px;
   }

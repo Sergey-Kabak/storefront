@@ -5,7 +5,7 @@
       -{{discount}} %
     </span>
     <div class="mb0 name mt0 relative w-100" v-if="nameVisibility">
-      {{ product.name | htmlDecode }}
+      {{ product.name | htmlDecode }} <span v-if="showProductColor">{{getColor}}</span>
     </div>
     <template v-if="product.special_price && !onlyImage">
       <div class="product-price-wrapper">
@@ -52,9 +52,19 @@ export default {
     nameVisibility: {
       type: Boolean,
       default: true
+    },
+    showProductColor: {
+      type: Boolean,
+      default: false
     }
   },
   computed: {
+    getColor () {
+      if (this.product.type_id === 'configurable' && this.showProductColor) {
+        return this.product.attributes_metadata.find(it => it.attribute_code === 'color').options.find(option => +option.value === this.product.color).label || null
+      }
+      return null
+    },
     storeView () {
       return currentStoreView()
     },
@@ -62,10 +72,10 @@ export default {
       const productTypes = {
         bundle: parseInt(100 - this.product.special_price)
       }
-      return productTypes[this.product.type_id] || parseInt(((this.product.original_price_incl_tax - this.product.special_price) / (this.product.original_price_incl_tax / 100)))
+      return productTypes[this.product.type_id] || parseInt(((this.product.original_price - this.product.special_price) / (this.product.original_price / 100)))
     },
     isDiscount () {
-      return this.product.original_price_incl_tax && this.product.special_price && this.discount > 0
+      return this.product.original_price && this.product.special_price && this.discount > 0
     },
     bundleFinalPrice () {
       if (this.product.special_price > 0) {
@@ -77,11 +87,11 @@ export default {
       }
     },
     bundlePrice () {
-      if (this.isBundleProduct) {
+      if (this.isBundleProduct && this.product.bundle_options) {
         let bundleProductsPrice = this.product.bundle_options.reduce((acc, it) => {
           return acc += it.product_links.reduce((acc2, it2) => acc2 += it2.price, 0)
         }, 0)
-        return bundleProductsPrice + this.product.original_price_incl_tax;
+        return bundleProductsPrice + this.product.original_price
       }
     },
     isBundleProduct () {
@@ -91,7 +101,7 @@ export default {
       const productTypes = {
         bundle: this.bundlePrice
       }
-      return productTypes[this.product.type_id] || this.product.original_price_incl_tax
+      return productTypes[this.product.type_id] || this.product.original_price
     },
     finalPrice () {
       const productTypes = {
@@ -99,6 +109,10 @@ export default {
       }
       return productTypes[this.product.type_id] || this.product.price_incl_tax
     }
+  },
+  mounted () {
+    console.log(this.getColor);
+    console.log(this.product);
   }
 }
 </script>
@@ -155,6 +169,7 @@ export default {
 .product-price-wrapper {
   display: flex;
   align-items: center !important;
+  white-space: nowrap;
 }
 
 .name {

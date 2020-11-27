@@ -103,6 +103,7 @@ const lettersOnly = value => (
   /^[a-zA-Zа-яА-Я]+$/.test(value) ||
   value === ''
 );
+import config from 'config'
 
 export default {
   props: {
@@ -244,12 +245,8 @@ export default {
     this.$store.dispatch('themeCredit/fetchBanksCheckout', this.$store.state.cart.cartServerToken);
   },
   methods: {
-    privat() {
-      //let json = JSON.stringify();
-      //CreditService.privat()
-    },
     isShowPaymentMethod (method) {
-      return this.assoc[this.type].includes(method.code) && !this.productsHasPreorder(method) && this.creditsIsAvailable(method)
+      return this.assoc[this.type].includes(method.code) && !this.productsHasPreorder(method) && this.creditsIsAvailable(method) && this.isLiqpayEnabled(method)
     },
     creditsIsAvailable (method) {
       if (method.code === 'credit') {
@@ -272,6 +269,16 @@ export default {
     },
     productsHasPreorder (method) {
       return this.productsInCart.some(it => !!it.preorder) && method.code === 'liqpaymagento_liqpay'
+    },
+    isLiqpayEnabled (method) {
+      if (
+        method.code === 'liqpaymagento_liqpay' &&
+        (
+          !config.liqpay_enabled.liqpay ||
+          (this.productsInCart.find(product => !!product.marketplace) && !config.liqpay_enabled.liqpay_marketplace)
+        )
+      ) { return false }
+      return true
     }
   }
 }

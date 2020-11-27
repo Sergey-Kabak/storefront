@@ -49,7 +49,7 @@ export default {
           type: 'Services',
           name: this.$t('Insurance'),
           total: 0,
-          link: ''
+          link: '/services?credit_extra_tag=accessory'
         }
       ],
       selectedCategory: null

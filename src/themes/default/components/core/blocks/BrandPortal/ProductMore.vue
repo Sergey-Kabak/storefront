@@ -1,10 +1,11 @@
 <template>
-  <div class="product-more">
+  <div class="product-more" v-if="activeCategory.products_count">
     <div class="product-more-count">
-      <span> Еще {{ activeCategory.products_count }} товаров </span>
+      
+      <span>{{ $tc(`{count} more items`, activeCategory.products_count) }}</span>
     </div>
-    <router-link :to="categoryLink">
-      <button-text class="product-more-button more">смотреть все</button-text>
+    <router-link :to="activeCategory.brand_page_url || categoryLink">
+      <button-text class="product-more-button more">{{ $t('View all') }}</button-text>
     </router-link>
   </div>
 </template>

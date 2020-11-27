@@ -15,7 +15,7 @@
           data-testid="productLink"
           class="banner-link"
         > -->
-        <router-link :to="brand.banner_link" :disable="!brand.banner_link">
+        <router-link :to="brand.banner_link || ''" :disable="!brand.banner_link" :event="brand.banner_link ? 'click' : ''">
           <img v-if="!resolution" :src="defaultImage" alt="banner-image" class="banner-image">
           <img v-else :src="bannerImage" alt="banner-image" class="banner-image">
         </router-link>

@@ -50,7 +50,7 @@
     <section class="v-container ">
       <header class="col-md-12">
         <h2 class="cl-accent">
-          {{ $t('Sales leaders') }}
+          {{ $t('Audio equipment') }}
         </h2>
       </header>
       <div class="center-xs">
@@ -71,9 +71,13 @@
       </div>
     </section>
 
-    <section class="v-container  pb60">
+    <section class="v-container pb60">
       <div class="banner">
-        <img src="https://info.ringoo.ua/images/mag/main_baner.png" alt="banner">
+        <picture>
+          <source srcset="/assets/promo/free_del_288x260.jpg" media="(max-width: 400px)">
+          <source srcset="/assets/promo/free_del_1324x260.jpg">
+          <img src="/assets/promo/free_del_1324x260.jpg" class="promo-image">
+        </picture>
       </div>
     </section>
 
@@ -372,6 +376,10 @@ export default {
 <style lang="scss" scoped>
   .v-container {
     width: 90%;
+  }
+
+  .promo-image {
+    width: 100%;
   }
 
   .banner-group {

@@ -69,7 +69,7 @@ export default {
       window.dataLayer.push({
         event: 'ecommerce.view',
         ecommerce: {
-          click: {
+          detail: {
             actionField: {
               list: this.getPage(page)
             },
@@ -174,9 +174,9 @@ export default {
           purchase: {
             actionField: {
               id,
-              revenue,
-              products: result
-            }
+              revenue
+            },
+            products: result
           }
         }
       });
