@@ -19,7 +19,7 @@
                 :id="'bank' + index" name="bank" @change="setSelectedBank(index)"
                 :checked="selectedBank === index">{{ bank.name }}
               </base-radiobutton>
-              <img :src="'assets/banks/' + bank.logo" alt="">
+              <img :src="getThumbnail(bank.logo, 24, 24, 'credit')">
             </div>
           </div>
           <div >

@@ -109,10 +109,6 @@ export default {
       }
       return productTypes[this.product.type_id] || this.product.price_incl_tax
     }
-  },
-  mounted () {
-    console.log(this.getColor);
-    console.log(this.product);
   }
 }
 </script>
