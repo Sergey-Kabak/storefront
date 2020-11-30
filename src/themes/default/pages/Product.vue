@@ -135,13 +135,17 @@
             />
             <div
               v-if="getCurrentProduct.stock.is_in_stock"
-              class="row m0"
+              class="row m0 action-block-buttons"
             >
               <add-to-cart
                 :product="getCurrentProduct"
                 class="col-xs-12 col-sm-4 col-md-6">
+              >
                 <template v-if="preorder" v-slot:text>{{$t('pre order')}}</template>
               </add-to-cart>
+              <button-white v-if="getBanks.length" @click.native="showModalCredits" class="buy_in_credit h40 flex1">
+                <span>{{ $t('In credit') }}</span>
+              </button-white>
             </div>
             <div class="row py40 add-to-buttons">
               <div class="col-xs-6 col-sm-3 col-md-6">
@@ -235,6 +239,7 @@ import focusClean from 'theme/components/theme/directives/focusClean';
 import WebShare from 'theme/components/theme/WebShare';
 import AddToWishlist from 'theme/components/core/blocks/Wishlist/AddToWishlist';
 import AddToCompare from 'theme/components/core/blocks/Compare/AddToCompare';
+import ButtonWhite from 'theme/components/core/blocks/Product/ButtonWhite';
 import ButtonSelector from 'theme/components/core/ButtonSelector';
 import { mapGetters } from 'vuex';
 import LazyHydrate from 'vue-lazy-hydration';
@@ -260,6 +265,7 @@ import { catalogHooksExecutors } from '@vue-storefront/core/modules/catalog-next
 import ProductPrice from 'theme/components/core/ProductPrice.vue';
 import ProductCartPrice from "../components/core/blocks/Product/ProductCartPrice";
 import Promo from "../components/core/blocks/Product/Promo";
+import Spinner from "../components/core/Spinner";
 import { filterChangedProduct } from '@vue-storefront/core/modules/catalog/events'
 import GTM from 'theme/mixins/GTM/dataLayer'
 
@@ -284,6 +290,8 @@ export default {
     ProductQuantityNew,
     ProductPrice,
     Promo,
+    ButtonWhite,
+    Spinner,
     ProductCartPrice,
     ButtonSelector
   },
@@ -301,6 +309,7 @@ export default {
       isStockInfoLoading: false,
       hasAttributesLoaded: false,
       manageQuantity: true,
+      show_modal_credits_loading: false,
       prevRoute: null
     }
   },
@@ -312,7 +321,8 @@ export default {
       getCurrentProductConfiguration: 'product/getCurrentProductConfiguration',
       getOriginalProduct: 'product/getOriginalProduct',
       attributesByCode: 'attribute/attributeListByCode',
-      getCurrentCustomOptions: 'product/getCurrentCustomOptions'
+      getCurrentCustomOptions: 'product/getCurrentCustomOptions',
+      getBanks: 'themeCredit/getBanks'
     }),
     productStatus () {
       if (this.getCurrentProduct.stock.is_in_stock && !!this.getCurrentProduct.preorder) {
@@ -385,6 +395,11 @@ export default {
       return config && config.customSeller
     }
   },
+  async beforeMount () {
+    this.$bus.$on('product-after-configure', (data) => {
+      this.getQuantity()
+    });
+  },
   async mounted () {
     await this.$store.dispatch('recently-viewed/addItem', this.getCurrentProduct);
   },
@@ -421,16 +436,17 @@ export default {
     }
   },
   methods: {
+    showModalCredits () {
+      this.$bus.$emit('modal-show', 'modal-credits')
+    },
     getLabelValue () {
       let attributes = this.getCurrentProduct.attributes_metadata;
       let attribute = attributes.find((attr) => {
         return attr.attribute_code === 'rma';
       });
-
       if (!(attribute.options && attribute.options.length)) {
         return false;
       }
-
       return attribute.options[0].label;
     },
     showDetails (event) {
@@ -479,6 +495,7 @@ export default {
         this.maxQuantity = res.isManageStock ? res.qty : null
       } finally {
         this.isStockInfoLoading = false
+        await this.$store.dispatch('themeCredit/fetchBanks', this.getCurrentProduct.sku)
       }
     },
     handleQuantityError (error) {
@@ -548,7 +565,6 @@ $color-tertiary: color(tertiary);
 $color-secondary: color(secondary);
 $color-white: color(white);
 $bg-secondary: color(secondary, $colors-background);
-
 .seller-name-row {
   cursor: pointer;
   border: 1px solid #E0E0E0;
@@ -804,6 +820,18 @@ $bg-secondary: color(secondary, $colors-background);
     .variants-wrapper {
       padding-bottom: 16px;
     }
+  }
+}
+.action-block-buttons{
+  display: grid;
+  grid-gap: 20px;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  .buy_in_credit{
+    max-width: 260px;
+    height: 40px;
+    width: auto;
+    justify-content: center;
+    border-color: #20af1d;
   }
 }
 </style>

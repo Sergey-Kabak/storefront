@@ -63,7 +63,7 @@
   font-family: 'DIN Pro';
   color: #1A1919;
 
-  input {
+  input[type=radio] {
     position: absolute;
     opacity: 0;
     cursor: pointer;
@@ -92,7 +92,7 @@
     }
   }
 
-  input:checked ~ .checkmark:after {
+  input[type=radio]:checked ~ .checkmark:after {
     display: block;
   }
 }

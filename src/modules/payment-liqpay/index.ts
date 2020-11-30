@@ -8,12 +8,12 @@ export const PaymentLiqpay: StorefrontModule = function({ store }) {
       EventBus.$emit("checkout-do-placeOrder", {});
     }
 	};
-	
+
   let paymentMethodConfig = {
     title: "Online payment",
     code: "liqpaymagento_liqpay"
   };
-  
+
   store.dispatch("checkout/addPaymentMethod", paymentMethodConfig);
 
   EventBus.$on("checkout-before-placeOrder", placeOrder);

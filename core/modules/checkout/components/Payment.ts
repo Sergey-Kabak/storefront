@@ -21,10 +21,11 @@ export const Payment = {
       generateInvoice: false,
       sendToShippingAddress: true,
       sendToBillingAddress: true,
+      creditDetails: this.$store.state.themeCredit.creditDetails,
       assoc: {
         'currier': ['cashondelivery', 'liqpaymagento_liqpay'],
         'new_post': ['cashondelivery', 'liqpaymagento_liqpay'],
-        'shop': ['cashondelivery']
+        'shop': ['cashondelivery', 'credit']
       }
     }
   },
@@ -37,12 +38,13 @@ export const Payment = {
     ...mapGetters({
       paymentMethods: 'checkout/getPaymentMethods',
       paymentDetails: 'checkout/getPaymentDetails',
-      isVirtualCart: 'cart/isVirtualCart'
+      isVirtualCart: 'cart/isVirtualCart',
+      totals: 'cart/getTotals',
+      getBanks: 'themeCredit/getBanks'
     }),
     productsInCart (): Product[] {
       return this.$store.state.cart.cartItems
     },
-    
   },
   beforeMount () {
     this.$bus.$on('checkout-after-load', this.onCheckoutLoad)

@@ -4,6 +4,7 @@
       <div class="v-container">
         <breadcrumbs withHomepage />
         <mobile-breadcrumbs withHomepage />
+
         <div class="banner-description" v-if="getCurrentCategory.image || getCurrentCategory.description">
           <div v-if="getCurrentCategory.image" :class="{full: !getCurrentCategory.description}">
             <img class="desk" :src="`https://magento.ringoo.ua/${getCurrentCategory.image}`" alt="banner">
@@ -148,7 +149,7 @@ import Spinner from "../components/core/Spinner";
 import GTM from '../mixins/GTM/dataLayer'
 import Description from "../components/core/blocks/Category/Description";
 import ButtonWhite from "../components/core/blocks/Product/ButtonWhite";
-
+import NoSSR from 'vue-no-ssr';
 const THEME_PAGE_SIZE = 32
 const composeInitialPageState = async (store, route, forceLoad = false) => {
   try {
@@ -165,7 +166,6 @@ const composeInitialPageState = async (store, route, forceLoad = false) => {
     console.error('Problem with setting Category initial data!', e)
   }
 }
-import NoSSR from 'vue-no-ssr';
 
 export default {
   components: {
