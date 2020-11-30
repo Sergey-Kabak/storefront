@@ -107,7 +107,7 @@
     "port": 8080
   },
   "api": {
-    "url": "http://localhost:8080",
+    "url": "https://ringoo.ua",
     "saveBandwidthOverCache": true
   },
   "liqpay_enabled" : {
@@ -115,9 +115,9 @@
     "liqpay_marketplace": false
   },
   "liqpay": {
-    "public_key": "sandbox_i33827525821",
-    "private_key": "sandbox_ZoeELbqo1BBTi3LQnEsHF93wu425TzSvpZpYH11N",
-    "server_url": "https://sfdv-othe003.fz.fozzy.lan/rest/V1/liqpay/callback"
+    "public_key": "i32012277522",
+    "private_key": "yn1ZNgkzlC3rw0F15BdiE8hzkYqzJvCrpckDtnJQ",
+    "server_url": "https://magento.ringoo.ua/rest/V1/liqpay/callback"
   },
   "liqpay_marketplace": {
     "public_key": "i92747265253",
@@ -130,7 +130,7 @@
   },
   "elasticsearch": {
     "httpAuth": "",
-    "host": "https://ringoo.dev.fozzy.lan/api/catalog",
+    "host": "https://ringoo.ua/api/catalog",
     "index": "vue_storefront_catalog_1",
     "min_score": 0.02,
     "csrTimeout": 5000,
