@@ -135,4 +135,5 @@ declare namespace DataResolver {
   interface PaymentService {
     cancelPayment: (orderId: number) => Promise<Task>
   }
+
 }

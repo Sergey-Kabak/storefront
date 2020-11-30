@@ -772,7 +772,8 @@
       "product": "/catalog/product",
       "category": "/catalog/category/",
       "brand": "/temabit/brands/",
-      "slider": "/bannerslider/upload/"
+      "slider": "/bannerslider/upload/",
+      "credit": "/temabit/credit/"
     },
     "productPlaceholder": "/assets/placeholder.jpg"
   },

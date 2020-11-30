@@ -26,6 +26,7 @@ export const attributeStore = {
           })
         })
       })
+      return resp
     }
   },
   getters: {

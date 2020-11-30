@@ -120,6 +120,7 @@ export default {
     if (!country) country = storeView.i18n.defaultCountry
     this.$bus.$emit('checkout-before-shippingMethods', country)
     this.personalDetails = this.cPersonalDetails
+    // await this.$store.dispatch('themeCredit/fetchBanksCheckout', this.$store.state.cart.cartServerToken);
   },
   beforeDestroy () {
     this.$store.dispatch('checkout/setModifiedAt', 0) // exit checkout
@@ -289,7 +290,10 @@ export default {
       this.order = {
         user_id: this.$store.state.user.current ? this.$store.state.user.current.id.toString() : '',
         cart_id: this.$store.state.cart.cartServerToken ? this.$store.state.cart.cartServerToken.toString() : '',
-        products: this.$store.state.cart.cartItems,
+        products: this.$store.state.cart.cartItems.map(it => {
+          delete it.attributes_metadata
+          return it
+        }),
         addressInformation: {
           billingAddress: {
             region: this.payment.state,
@@ -306,7 +310,6 @@ export default {
             region_code: this.payment.region_code ? this.payment.region_code : '',
             vat_id: this.payment.taxId
           },
-
           shipping_method_code: shippingMethods[this.shippingType], // this.shippingMethod.method_code ? this.shippingMethod.method_code : this.shipping.shippingMethod,
           shipping_carrier_code: shippingMethods[this.shippingType], // this.shippingMethod.carrier_code ? this.shippingMethod.carrier_code : this.shipping.shippingCarrier,
           payment_method_code: this.getPaymentMethod(),
@@ -329,6 +332,12 @@ export default {
           email: this.personalDetails.emailAddress,
           region_code: this.payment.region_code ? this.payment.region_code : ''
         }
+      }
+      if (this.order.addressInformation.payment_method_code === 'credit') {
+        this.order.addressInformation.payment_method_additional = { ...this.$store.state.themeCredit.creditDetails }
+        this.order.addressInformation.payment_method_additional['credit_id'] = this.$store.state.themeCredit.selectedCredit.credit_id
+        this.order.addressInformation.payment_method_additional['terms'] = this.$store.state.themeCredit.selectedCredit.terms
+        this.order.addressInformation.payment_method_additional['groupid'] = Object.keys(this.$store.state.themeCredit.selectedBank.groups)[0]
       }
       if (this.shipping.deliveryType === 'new_post') {
         this.order.addressInformation['shippingExtraFields'] = {

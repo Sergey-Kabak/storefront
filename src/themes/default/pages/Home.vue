@@ -166,15 +166,11 @@ import { mapGetters } from 'vuex';
 import config from 'config';
 import { registerModule } from '@vue-storefront/core/lib/modules';
 import { RecentlyViewedModule } from '@vue-storefront/core/modules/recently-viewed';
-
 import { clearAllBodyScrollLocks } from 'body-scroll-lock';
 import ButtonFull from 'theme/components/theme/ButtonFull.vue';
-import { prepareQuery } from '@vue-storefront/core/modules/catalog/queries/common';
 import NoSSR from 'vue-no-ssr';
 import HomeCarousel from 'theme/components/theme/blocks/HomeCarousel';
-
 import { formatCategoryLink } from '@vue-storefront/core/modules/url/helpers';
-
 import { ProductOption } from '@vue-storefront/core/modules/catalog/components/ProductOption.ts';
 import GTM from '../mixins/GTM/dataLayer'
 

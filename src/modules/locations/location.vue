@@ -72,7 +72,7 @@ export default {
     schedule() {
       const schedule = this.source.schedule
       if (schedule) {
-        return this.$t('schedule', { 
+        return this.$t('schedule', {
           mon: this.formatDay(schedule.Monday),
           sat: this.formatDay(schedule.Saturday),
           sun: this.formatDay(schedule.Sunday)}
