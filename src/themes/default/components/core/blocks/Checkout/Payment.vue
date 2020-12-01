@@ -260,11 +260,13 @@ export default {
       this.sendDataToCheckout()
     },
     placeOrder () {
-      this.$refs.creditMethod[0].$refs.creditForm.$v.$touch()
-      if (this.payment.paymentMethod === 'credit' && this.$refs.creditMethod[0].$refs.creditForm.$v.$error) {
-        return
+      if (this.payment.paymentMethod === 'credit') {
+        this.$refs.creditMethod[0].$refs.creditForm.$v.$touch()
+        if (this.payment.paymentMethod === 'credit' && this.$refs.creditMethod[0].$refs.creditForm.$v.$error) {
+          return
+        }
+        this.$store.state.themeCredit.creditDetails = { ...this.$refs.creditMethod[0].$refs.creditForm.form }
       }
-      this.$store.state.themeCredit.creditDetails = { ...this.$refs.creditMethod[0].$refs.creditForm.form }
       this.$bus.$emit('checkout-before-placeOrder')
     },
     productsHasPreorder (method) {
