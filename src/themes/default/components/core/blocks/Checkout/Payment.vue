@@ -144,7 +144,8 @@ export default {
       totals: 'cart/getTotals',
       getCartToken: 'cart/getCartToken',
       getBanks: 'themeCredit/getBanks',
-      creditMethod: 'themeCredit/creditMethod'
+      creditMethod: 'themeCredit/creditMethod',
+      selectedCredit: 'themeCredit/getSelectedCredit',
     }),
     countryOptions () {
       return this.countries.map((item) => {
