@@ -12,7 +12,7 @@ const actions = {
   fetchBanks ({ commit }, sku) {
     CreditService.getCredits(sku)
       .then(res => {
-        res.result[0].bank.map(bank => {
+        res.result.map(bank => {
           const sorted = bank.groups[Object.keys(bank.groups)[0]].sort((a, b) => +b.terms - +a.terms)
           return sorted.map((el, index) => {
             if (sorted.filter(it2 => {

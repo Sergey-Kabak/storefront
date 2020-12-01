@@ -38,6 +38,7 @@ export default {
       }
     },
     maxTerms () {
+      console.log(this.getSelectedBank.groups[Object.keys(this.getSelectedBank.groups)]);
       const propositions = this.getSelectedBank.groups[Object.keys(this.getSelectedBank.groups)[0]];
       return propositions.map(it => +it.terms).sort((a, b) => b - a)[0];
     },

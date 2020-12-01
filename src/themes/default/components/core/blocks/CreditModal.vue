@@ -102,6 +102,7 @@ export default {
       return this.banks[this.selectedBank]
     },
     getCreditProduct () {
+      console.log(this.selectedPositions, this.selectedBank, this.selectedPositions);
       return this.selectedCreditProduct[this.selectedBank]
     },
     totalPrice () {
@@ -158,6 +159,7 @@ export default {
       this.$router.push(localizedRoute('/'));
     },
     selectedPaymentCount (value, index, bank) {
+      console.log(value, index, bank);
       this.$set(this.selectedCreditProduct, index, value)
       this.$set(this.selectedPositions, index, this.CalculateMontlyPayment(value))
     },
