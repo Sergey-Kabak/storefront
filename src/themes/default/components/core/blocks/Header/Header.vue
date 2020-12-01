@@ -5,7 +5,7 @@
     :class="{ 'is-visible': navVisible, 'search-active': isSearchActive, 'fixed': isFixed }"
     :style="{top: -headerHeight + 'px'}"
   >
-    <div class="promo" :class="{'bf': !isBFPage}" v-if="isShowHeader">
+    <div class="promo" v-if="isShowHeader">
       <router-link class="promo-link" :to="promo.link">
         <picture>
           <source :srcset="promo.imgTablet" media="(min-width: 768px) and (max-width: 1439px)">
@@ -173,11 +173,11 @@ export default {
     },
     promo () {
       return {
-        img: this.isBFPage ? '/assets/promo/iphone-desktop.jpg' : '/assets/promo/bf-desktop.jpg',
-        imgTablet: this.isBFPage ? '/assets/promo/iphone-mobile.jpg' : '/assets/promo/bf-tablet.jpg',
-        imgMobile: this.isBFPage ? '/assets/promo/iphone-mobile.jpg' : '/assets/promo/bf-mobile.jpg',
-        link: this.isBFPage ? '/kupuj-pershim' : 'brand-portal/black-friday',
-        background: this.isBFPage ? '#08101b' : '#f3aad7'
+        img: '/assets/promo/iphone-desktop.jpg',
+        imgTablet: '/assets/promo/iphone-mobile.jpg',
+        imgMobile: '/assets/promo/iphone-mobile.jpg',
+        link: '/kupuj-pershim',
+        background: '#08101b'
       }
     }
   },

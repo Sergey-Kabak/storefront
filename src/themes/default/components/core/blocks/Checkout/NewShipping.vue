@@ -45,7 +45,7 @@
           </div>
           <div class="text">
             <p class="main">{{ $t('Novaya Pochta(Branch)') }}</p>
-            <p class="desc">{{ $t('from 35 uah') }}</p>
+            <p class="desc">{{ $t('is free') }}</p>
           </div>
         </div>
       </li>
@@ -58,7 +58,7 @@
           </div>
           <div class="text">
             <p class="main">{{ $t('Courier delivery') }}</p>
-            <p class="desc">{{ $t('from 55 uah') }}</p>
+            <p class="desc">{{ $t('is free') }}</p>
           </div>
         </div>
       </li>

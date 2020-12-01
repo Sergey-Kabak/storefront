@@ -4,9 +4,6 @@
       <AddToWishlist :product="product" class="product-icon" :class="{'active': isOnWishlist }" />
       <AddToCompare :product="product" class="product-icon" :class="{'active': isOnCompare }" />
     </div>
-    <router-link :to="productLink" class="promo" v-if="product.category_ids && product.category_ids.includes(849)">
-      <img src="/assets/promo/bf_56x56.png" alt="black friday">
-    </router-link>
     <router-link
       class="flex flex-column no-underline product-link"
       :to="productLink"
@@ -154,13 +151,6 @@ export default {
   $bg-secondary: color(secondary, $colors-background);
   $border-secondary: color(secondary, $colors-border);
   $color-white: color(white);
-
-  .promo {
-    z-index: 1;
-    position: absolute;
-    left: 12px;
-    top: 12px;
-  }
 
   .product {
     @media (max-width: 575px){
