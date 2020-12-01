@@ -144,7 +144,8 @@ export default {
       totals: 'cart/getTotals',
       getCartToken: 'cart/getCartToken',
       getBanks: 'themeCredit/getBanks',
-      creditMethod: 'themeCredit/creditMethod'
+      creditMethod: 'themeCredit/creditMethod',
+      selectedCredit: 'themeCredit/getSelectedCredit',
     }),
     countryOptions () {
       return this.countries.map((item) => {
@@ -260,12 +261,14 @@ export default {
       this.sendDataToCheckout()
     },
     placeOrder () {
-      this.$refs.creditMethod[0].$refs.creditForm.$v.$touch()
-      if (this.payment.paymentMethod === 'credit' && this.$refs.creditMethod[0].$refs.creditForm.$v.$error) {
-        return
+      if (this.payment.paymentMethod === 'credit') {
+        this.$refs.creditMethod[0].$refs.creditForm.$v.$touch()
+        if (this.payment.paymentMethod === 'credit' && this.$refs.creditMethod[0].$refs.creditForm.$v.$error) {
+          return
+        }
+        this.$store.state.themeCredit.creditDetails = { ...this.$refs.creditMethod[0].$refs.creditForm.form }
+        this.$bus.$emit('checkout-before-placeOrder')
       }
-      this.$store.state.themeCredit.creditDetails = { ...this.$refs.creditMethod[0].$refs.creditForm.form }
-      this.$bus.$emit('checkout-before-placeOrder')
     },
     productsHasPreorder (method) {
       return this.productsInCart.some(it => !!it.preorder) && method.code === 'liqpaymagento_liqpay'

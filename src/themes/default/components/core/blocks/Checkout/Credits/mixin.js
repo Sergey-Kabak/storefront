@@ -23,26 +23,31 @@ export default {
     },
     requiredExtraPrice () {
       const products = this.productsInCart.filter(it => this.productSku.includes(it.sku));
-      if (products.length) {
-        // eslint-disable-next-line no-return-assign
-        return products.reduce((acc, product) => acc += this.finalPrice(product), 0) / 100 * +this.selectedCredit.extra_items_part;
+      if (products.length && +this.selectedCredit.extra_items_part > 0) {
+        const total = products.reduce((acc, product) => {
+          // eslint-disable-next-line no-return-assign
+          return acc += this.finalPrice(product);
+        }, 0);
+        return total / 100 * +this.selectedCredit.extra_items_part;
       }
       return 0;
     },
     maxTermsSelected () {
-      return +this.selectedCredit.terms === this.maxTerms;
+      if (!!this.selectedCredit && this.selectedCredit.terms) {
+        return +this.selectedCredit.terms === this.maxTerms;
+      }
     },
     maxTerms () {
       const propositions = this.getSelectedBank.groups[Object.keys(this.getSelectedBank.groups)[0]];
       return propositions.map(it => +it.terms).sort((a, b) => b - a)[0];
     },
     getAccessoriesPriceFromCart () {
-      const extraProducts = this.productsInCart.filter(it => !!it.credit_extra_tag)
+      const extraProducts = this.productsInCart.filter(it => !!it.credit_extra_tag && it.credit_extra_tag !== 7436)
       // eslint-disable-next-line no-return-assign
       return extraProducts.length ? extraProducts.reduce((accumulator, product) => accumulator += this.finalPrice(product) * product.qty, 0) : 0;
     },
     alertStatus () {
-      if (this.getAccessoriesPriceFromCart === 0) {
+      if (this.getAccessoriesPriceFromCart === 0 && +this.selectedCredit.extra_items_part > 0) {
         return {
           class: 'error',
           icon: `

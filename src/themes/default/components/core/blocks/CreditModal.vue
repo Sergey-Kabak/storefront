@@ -30,7 +30,7 @@
             <div class="mobile-label">{{ $t('Number of payments') }}</div>
             <custom-select
               :selected-index="0"
-              :options="bank.groups[Object.keys(bank.groups)[0]]"
+              :options="bank.groups[Object.keys(bank.groups)[0]].filter(el => !!el)"
               @bankProduct="selectedPaymentCount($event, index, bank)"/>
           </div>
           <div>
@@ -117,9 +117,11 @@ export default {
   methods: {
     initBanks (banks) {
       banks.map((bank, index) => {
-        this.$set(this.selectedPositions, index, this.CalculateMontlyPayment(bank.groups[Object.keys(bank.groups)[0]]))
-        this.$set(this.selectedCreditProduct, index, bank.groups[Object.keys(bank.groups)[0]])
-        this.$set(this.banks, index, bank)
+        if (bank) {
+          this.$set(this.selectedPositions, index, this.CalculateMontlyPayment(bank.groups[Object.keys(bank.groups)[0]]))
+          this.$set(this.selectedCreditProduct, index, bank.groups[Object.keys(bank.groups)[0]])
+          this.$set(this.banks, index, bank);
+        }
       });
     },
     CalculateMontlyPayment (creditRule) {

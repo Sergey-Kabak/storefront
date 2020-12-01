@@ -11,11 +11,13 @@ const actions = {
   },
   fetchBanks ({ commit }, sku) {
     CreditService.getCredits(sku)
-      .then(res => commit(types.CREDIT_SET_BANKS, { banks: res.result }))
+      .then(res => {
+        commit(types.CREDIT_SET_BANKS, { banks: res.result })
+      })
       .catch(error => commit(types.CREDIT_SET_BANKS, { banks: [] }))
   },
-  fetchBanksCheckout ({ state, commit, dispatch }, cartId) {
-    CreditService.getCreditsCheckout(cartId)
+  async fetchBanksCheckout ({ state, commit, dispatch }, cartId) {
+    await CreditService.getCreditsCheckout(cartId)
       .then(async res => {
         let queryAccessory = {
           query: {
@@ -37,6 +39,17 @@ const actions = {
         }
         const accessories = await quickSearchByQuery({ entityType: 'product', query: queryAccessory })
         const services = await quickSearchByQuery({ entityType: 'product', query: queryService })
+        res.result[0].bank.map(bank => {
+          const sorted = bank.groups[Object.keys(bank.groups)[0]].sort((a, b) => +b.terms - +a.terms)
+          return sorted.map((el, index) => {
+            if (sorted.filter(it2 => {
+              return it2.terms === el.terms
+            }).length > 1) {
+              delete sorted[index]
+            }
+            return sorted
+          })
+        })
         commit(types.CREDIT_SET_ACCESSORIES, { accessories: accessories.items })
         commit(types.CREDIT_SET_SERVICES, { services: services.items })
         commit(types.CREDIT_SET_BANKS, { banks: res.result[0].bank })
@@ -52,7 +65,7 @@ const actions = {
     if (productsInCart.length === 1 && productsInCart[0].credit) {
       commit(types.CREDIT_SET_SELECTED_CREDIT, { credit: productsInCart[0].credit })
     } else {
-      commit(types.CREDIT_SET_SELECTED_CREDIT, { credit: payload.groups[Object.keys(payload.groups)[0]][0] })
+      commit(types.CREDIT_SET_SELECTED_CREDIT, { credit: payload.groups[Object.keys(payload.groups)[0]].find(el => !!el) })
     }
   },
   defineSelectedBank ({ commit }, payload) {
