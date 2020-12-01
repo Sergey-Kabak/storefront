@@ -5,11 +5,11 @@
     :class="{ 'is-visible': navVisible, 'search-active': isSearchActive, 'fixed': isFixed }"
     :style="{top: -headerHeight + 'px'}"
   >
-    <div class="promo" :class="{'bf': !isBFPage}" v-if="isShowHeader">
+    <div class="promo" v-if="isShowHeader" :style="{'background-color': promo.background}">
       <router-link class="promo-link" :to="promo.link">
         <picture>
-          <source :srcset="promo.imgTablet" media="(min-width: 768px) and (max-width: 1439px)">
-          <source :srcset="promo.imgMobile" media="(max-width: 767px)">
+          <source :srcset="promo.imgTablet" media="(min-width: 567px) and (max-width: 768px)">
+          <source :srcset="promo.imgMobile" media="(max-width: 567px)">
           <source :srcset="promo.img">
           <img :src="promo.img" alt="promo" class="promo-image">
         </picture>
@@ -168,16 +168,16 @@ export default {
     isShowHeader () {
       return this.$route.name !== 'checkout'
     },
-    isBFPage () {
-      return this.$route.path === '/brand-portal/black-friday'
+    isNYPage () {
+      return this.$route.path === '/svjatkuj-z-nami'
     },
     promo () {
       return {
-        img: this.isBFPage ? '/assets/promo/iphone-desktop.jpg' : '/assets/promo/bf-desktop.jpg',
-        imgTablet: this.isBFPage ? '/assets/promo/iphone-mobile.jpg' : '/assets/promo/bf-tablet.jpg',
-        imgMobile: this.isBFPage ? '/assets/promo/iphone-mobile.jpg' : '/assets/promo/bf-mobile.jpg',
-        link: this.isBFPage ? '/kupuj-pershim' : 'brand-portal/black-friday',
-        background: this.isBFPage ? '#08101b' : '#f3aad7'
+        img: !this.isNYPage ? '/assets/promo/ny-desktop.jpg' : '/assets/promo/iphone-desktop.jpg',
+        imgTablet: !this.isNYPage ? '/assets/promo/ny-tablet.jpg' : '/assets/promo/iphone-mobile.jpg',
+        imgMobile: !this.isNYPage ? '/assets/promo/ny-mobile.jpg' : '/assets/promo/iphone-mobile.jpg',
+        link: !this.isNYPage ? '/svjatkuj-z-nami' : '/kupuj-pershim',
+        background: !this.isNYPage ? '#e2cbab' : '#08101b'
       }
     }
   },
@@ -256,29 +256,8 @@ $color-icon-hover: color(secondary, $colors-background);
   }
 }
 .promo {
-  a{
-    background: linear-gradient(45deg, #08101b, #08101b);
-  }
   picture{
     margin: 0 auto;
-    img{
-      @media (max-width: 767px) {
-        height: 32px;
-      }
-    }
-  }
-  &.bf{
-    a{
-      @media (min-width: 1440px) {
-        background: linear-gradient(45deg, #f4b1da, #f1a5d4);
-      }
-      @media (min-width: 768px) and (max-width: 1439px){
-        background: linear-gradient(45deg, #f6bee1, #f6bee1);
-      }
-      @media (max-width: 767px) {
-        background: linear-gradient(45deg, #f8c2e4, #f6bee1);
-      }
-    }
   }
   .promo-link {
     display: flex;

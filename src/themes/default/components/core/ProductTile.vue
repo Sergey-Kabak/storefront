@@ -4,8 +4,8 @@
       <AddToWishlist :product="product" class="product-icon" :class="{'active': isOnWishlist }" />
       <AddToCompare :product="product" class="product-icon" :class="{'active': isOnCompare }" />
     </div>
-    <router-link :to="productLink" class="promo" v-if="product.category_ids && product.category_ids.includes(849)">
-      <img src="/assets/promo/bf_56x56.png" alt="black friday">
+    <router-link :to="productLink" class="promo" v-if="product.category_ids && product.category_ids.includes(869)">
+      <img :src="randomPromoImage" alt="promo">
     </router-link>
     <router-link
       class="flex flex-column no-underline product-link"
@@ -97,6 +97,9 @@ export default {
     },
     storeView () {
       return currentStoreView()
+    },
+    randomPromoImage() {
+      return `/assets/promo/ny-${Math.floor(Math.random() * 4) + 1 }.png`
     }
   },
   methods: {

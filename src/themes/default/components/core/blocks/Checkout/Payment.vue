@@ -267,8 +267,8 @@ export default {
           return
         }
         this.$store.state.themeCredit.creditDetails = { ...this.$refs.creditMethod[0].$refs.creditForm.form }
-        this.$bus.$emit('checkout-before-placeOrder')
       }
+      this.$bus.$emit('checkout-before-placeOrder')
     },
     productsHasPreorder (method) {
       return this.productsInCart.some(it => !!it.preorder) && method.code === 'liqpaymagento_liqpay'

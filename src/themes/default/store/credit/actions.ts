@@ -12,12 +12,23 @@ const actions = {
   fetchBanks ({ commit }, sku) {
     CreditService.getCredits(sku)
       .then(res => {
+        res.result[0].bank.map(bank => {
+          const sorted = bank.groups[Object.keys(bank.groups)[0]].sort((a, b) => +b.terms - +a.terms)
+          return sorted.map((el, index) => {
+            if (sorted.filter(it2 => {
+              return it2.terms === el.terms
+            }).length > 1) {
+              delete sorted[index]
+            }
+            return sorted
+          })
+        })
         commit(types.CREDIT_SET_BANKS, { banks: res.result })
       })
       .catch(error => commit(types.CREDIT_SET_BANKS, { banks: [] }))
   },
-  async fetchBanksCheckout ({ state, commit, dispatch }, cartId) {
-    await CreditService.getCreditsCheckout(cartId)
+  fetchBanksCheckout ({ state, commit, dispatch }, cartId) {
+    CreditService.getCreditsCheckout(cartId)
       .then(async res => {
         let queryAccessory = {
           query: {

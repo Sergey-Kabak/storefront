@@ -10,7 +10,6 @@ const mutations: MutationTree<CreditState> = {
     state.selectedBank = bank;
   },
   [types.CREDIT_SET_SELECTED_CREDIT] (state, { credit }) {
-    console.log(credit);
     state.selectedCredit = credit;
   },
   [types.CREDIT_SET_ACCESSORIES] (state, { accessories }) {
