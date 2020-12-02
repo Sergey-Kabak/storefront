@@ -67,7 +67,7 @@
         v-else
         @click.native="placeOrder()"
         data-testid="paymentSubmit"
-        :disabled="$v.payment.$invalid || (payment.paymentMethod === 'credit' && maxTermsSelected && alertStatus.class !== 'success')"
+        :disabled="$v.payment.$invalid || (payment.paymentMethod === 'credit' && typeof maxTermsSelected !== 'undefined' && maxTermsSelected && alertStatus.class !== 'success')"
         class="button-pay"
         :aria-label="$t('To pay')"
       >
