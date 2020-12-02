@@ -19,7 +19,9 @@
 <script>
 import { currentStoreView } from '@vue-storefront/core/lib/multistore';
 import { mapGetters, mapMutations } from 'vuex'
+import totalAmount from '../../../../../mixins/cart/totalAmount';
 export default {
+  mixins: [totalAmount],
   computed: {
     ...mapGetters({
       productsInCart: 'cart/getCartItems',
@@ -37,7 +39,7 @@ export default {
     creditProduct () {
       return {
         number_of_payments: +this.selectedCredit.terms,
-        monthly_payment: this.productsInCart.reduce((acc, it) => acc += (it.price_incl_tax / +this.selectedCredit.terms) * it.qty, 0)
+        monthly_payment: this.productsInCart.reduce((acc, it) => acc += (this.finalPrice(it) / +this.selectedCredit.terms) * it.qty, 0)
       }
     }
   },
