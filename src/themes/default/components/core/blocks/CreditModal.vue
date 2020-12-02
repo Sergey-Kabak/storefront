@@ -69,7 +69,9 @@ import { mapGetters, mapMutations } from 'vuex'
 import config from 'config'
 import { currentStoreView, localizedRoute } from '@vue-storefront/core/lib/multistore'
 import { CREDIT_SET_BANKS, CREDIT_SET_SELECTED_BANK } from '../../../store/credit/mutation-types'
+import totalAmount from '../../../mixins/cart/totalAmount';
 export default {
+  mixins: [totalAmount],
   components: {
     Modal,
     BaseRadiobutton,
@@ -102,14 +104,13 @@ export default {
       return this.banks[this.selectedBank]
     },
     getCreditProduct () {
-      console.log(this.selectedPositions, this.selectedBank, this.selectedPositions);
       return this.selectedCreditProduct[this.selectedBank]
     },
     totalPrice () {
       if (this.$route.name === 'checkout') {
-        return this.productsInCart.reduce((acc, it) => acc += it.price_incl_tax * it.qty, 0)
+        return this.productsInCart.reduce((acc, it) => acc += this.finalPrice(it) * it.qty, 0)
       }
-      return this.getCurrentProduct.price_incl_tax
+      return this.finalPrice(this.getCurrentProduct) * this.getCurrentProduct.qty
     }
   },
   beforeMount () {
@@ -127,9 +128,9 @@ export default {
     },
     CalculateMontlyPayment (creditRule) {
       if (this.$route.name === 'checkout') {
-        return this.productsInCart.reduce((acc, it) => acc += (it.price_incl_tax / +creditRule.terms) * it.qty, 0)
+        return this.productsInCart.reduce((acc, it) => acc += (this.finalPrice(it) / +creditRule.terms) * it.qty, 0)
       }
-      return this.getCurrentProduct.price_incl_tax / +creditRule.terms
+      return this.finalPrice(this.getCurrentProduct) / +creditRule.terms
     },
     async toCheckout () {
       if (this.$route.name !== 'checkout') {
@@ -159,7 +160,6 @@ export default {
       this.$router.push(localizedRoute('/'));
     },
     selectedPaymentCount (value, index, bank) {
-      console.log(value, index, bank);
       this.$set(this.selectedCreditProduct, index, value)
       this.$set(this.selectedPositions, index, this.CalculateMontlyPayment(value))
     },
