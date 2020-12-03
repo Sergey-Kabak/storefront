@@ -73,6 +73,11 @@
       >
         {{ $t('To pay') }}
       </button-full>
+      <br>
+      {{getCartToken}}
+      <button-full @click.native="privat">
+        Privat
+      </button-full>
     </div>
   </div>
 </template>
@@ -98,12 +103,12 @@ import CreditMethod from './Credits/CreditMethod';
 import { CreditService } from '../../../../services';
 import mixin from './Credits/mixin';
 import totalAmount from '../../../../mixins/cart/totalAmount';
+import config from 'config'
 const lettersOnly = value => (
   /^[\u0400-\u04FF]+$/.test(value) ||
   /^[a-zA-Zа-яА-Я]+$/.test(value) ||
   value === ''
 );
-import config from 'config'
 
 export default {
   props: {
@@ -145,7 +150,7 @@ export default {
       getCartToken: 'cart/getCartToken',
       getBanks: 'themeCredit/getBanks',
       creditMethod: 'themeCredit/creditMethod',
-      selectedCredit: 'themeCredit/getSelectedCredit',
+      selectedCredit: 'themeCredit/getSelectedCredit'
     }),
     countryOptions () {
       return this.countries.map((item) => {
@@ -246,6 +251,29 @@ export default {
     this.$store.dispatch('themeCredit/fetchBanksCheckout', this.$store.state.cart.cartServerToken);
   },
   methods: {
+    privat () {
+      const products = this.productsInCart.map(product => {
+        return {
+          name: product.name,
+          count: product.qty,
+          price: this.finalPrice(product).toFixed(2)
+        }
+      })
+      const data = {
+        orderId: Date.now(),
+        amount: this.totals.find(it => it.code === 'grand_total').value.toFixed(2),
+        partsCount: 6,
+        merchantType: 'PP',
+        products,
+        responseUrl: 'https://ringoo.knyazev.space/rest/V1/payparts/callback',
+        redirectUrl: 'http://shop.com/redirect'
+      }
+      CreditService.PartPayment(JSON.stringify(data))
+        .then(res => {
+          console.log(res.result);
+          window.open('https://payparts2.privatbank.ua/ipp/v2/payment?token=' + res.result.token)
+        })
+    },
     isShowPaymentMethod (method) {
       return this.assoc[this.type].includes(method.code) && !this.productsHasPreorder(method) && this.creditsIsAvailable(method) && this.isLiqpayEnabled(method)
     },
