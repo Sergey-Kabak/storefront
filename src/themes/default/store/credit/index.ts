@@ -21,7 +21,8 @@ export const module: Module<CreditState, any> = {
       last_name: '',
       date_of_birth: '',
       identification_code: null
-    }
+    },
+    PartPaymentData: null
   },
   getters,
   actions,

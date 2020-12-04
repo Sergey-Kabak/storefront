@@ -20,6 +20,9 @@ const getters: GetterTree<CreditState, RootState> = {
   },
   creditMethod (state) {
     return state.creditMethod
+  },
+  getPartPaymentData (state) {
+    return state.PartPaymentData
   }
 }
 

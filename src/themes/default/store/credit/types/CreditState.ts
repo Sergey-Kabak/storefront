@@ -13,5 +13,6 @@ export default interface CreditState {
     last_name: string,
     date_of_birth: string,
     identification_code: string
-  }
+  },
+  PartPaymentData: object
 }

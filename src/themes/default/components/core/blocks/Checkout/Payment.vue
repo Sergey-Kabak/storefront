@@ -74,9 +74,8 @@
         {{ $t('To pay') }}
       </button-full>
       <br>
-      {{getCartToken}}
       <button-full @click.native="privat">
-        Privat
+        privat
       </button-full>
     </div>
   </div>
@@ -260,19 +259,15 @@ export default {
         }
       })
       const data = {
-        orderId: Date.now(),
         amount: this.totals.find(it => it.code === 'grand_total').value.toFixed(2),
         partsCount: 6,
         merchantType: 'PP',
         products,
         responseUrl: 'https://ringoo.knyazev.space/rest/V1/payparts/callback',
-        redirectUrl: 'http://shop.com/redirect'
+        redirectUrl: 'https://ringoo.ua'
       }
-      CreditService.PartPayment(JSON.stringify(data))
-        .then(res => {
-          console.log(res.result);
-          window.open('https://payparts2.privatbank.ua/ipp/v2/payment?token=' + res.result.token)
-        })
+      this.$store.commit('themeCredit/SET_PART_PAYMENT', data)
+      this.$store.dispatch('themeCredit/sendPartPayment', { orderNumber: Date.now() })
     },
     isShowPaymentMethod (method) {
       return this.assoc[this.type].includes(method.code) && !this.productsHasPreorder(method) && this.creditsIsAvailable(method) && this.isLiqpayEnabled(method)
@@ -293,6 +288,24 @@ export default {
         this.$refs.creditMethod[0].$refs.creditForm.$v.$touch()
         if (this.payment.paymentMethod === 'credit' && this.$refs.creditMethod[0].$refs.creditForm.$v.$error) {
           return
+        }
+        if (+this.selectedCredit.liqpay_allowed) {
+          const products = this.productsInCart.map(product => {
+            return {
+              name: product.name,
+              count: product.qty,
+              price: this.finalPrice(product).toFixed(2)
+            }
+          })
+          const data = {
+            amount: this.totals.find(it => it.code === 'grand_total').value.toFixed(2),
+            partsCount: 6,
+            merchantType: 'PP',
+            products,
+            responseUrl: 'https://ringoo.knyazev.space/rest/V1/payparts/callback',
+            redirectUrl: 'https://ringoo.ua'
+          }
+          this.$store.commit('themeCredit/SET_PART_PAYMENT', data)
         }
         this.$store.state.themeCredit.creditDetails = { ...this.$refs.creditMethod[0].$refs.creditForm.form }
       }

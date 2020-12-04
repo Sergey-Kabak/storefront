@@ -161,7 +161,14 @@ export default {
     async onAfterPlaceOrder (payload) {
       await this.GTM_TRANSACTION({ id: payload.confirmation.orderNumber, revenue: this.totals.find(it => it.code === 'grand_total').value, products: payload.order.products })
       this.confirmation = payload.confirmation
-      this.$store.dispatch('checkout/setThankYouPage', true)
+      if (this.$store.getters['themeCredit/getPartPaymentData']) {
+        const result = await this.$store.dispatch('themeCredit/sendPartPayment', { orderNumber: payload.confirmation.orderNumber });
+        this.$store.dispatch('cart/clear', { sync: false }, { root: true })
+        this.$store.dispatch('user/getOrdersHistory', { refresh: true, useCache: true })
+        location.href = 'https://payparts2.privatbank.ua/ipp/v2/payment?token=' + result.token
+      } else {
+        this.$store.dispatch('checkout/setThankYouPage', true)
+      }
       this.$store.dispatch('cart/clear', { sync: false }, { root: true })
       this.$store.dispatch('user/getOrdersHistory', { refresh: true, useCache: true })
       Logger.debug(payload.order)()
