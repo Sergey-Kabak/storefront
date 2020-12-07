@@ -354,7 +354,7 @@ export default {
         };
       }
       if (this.$store.getters['themeCredit/getSelectedCredit'] && +this.$store.getters['themeCredit/getSelectedCredit'].liqpay_allowed) {
-        this.order.addressInformation.payment_method_code = 'payparts'
+        this.order.addressInformation.payment_method_code = 'temabit_payparts'
       }
       return this.order
     },

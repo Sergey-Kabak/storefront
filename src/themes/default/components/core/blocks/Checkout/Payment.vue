@@ -73,10 +73,6 @@
       >
         {{ $t('To pay') }}
       </button-full>
-      <br>
-      <button-full @click.native="privat">
-        privat
-      </button-full>
     </div>
   </div>
 </template>
@@ -250,25 +246,6 @@ export default {
     this.$store.dispatch('themeCredit/fetchBanksCheckout', this.$store.state.cart.cartServerToken);
   },
   methods: {
-    privat () {
-      const products = this.productsInCart.map(product => {
-        return {
-          name: product.name,
-          count: product.qty,
-          price: this.finalPrice(product).toFixed(2)
-        }
-      })
-      const data = {
-        amount: this.totals.find(it => it.code === 'grand_total').value.toFixed(2),
-        partsCount: 6,
-        merchantType: 'PP',
-        products,
-        responseUrl: 'https://ringoo.knyazev.space/rest/V1/payparts/callback',
-        redirectUrl: 'https://ringoo.ua'
-      }
-      this.$store.commit('themeCredit/SET_PART_PAYMENT', data)
-      this.$store.dispatch('themeCredit/sendPartPayment', { orderNumber: Date.now() })
-    },
     isShowPaymentMethod (method) {
       return this.assoc[this.type].includes(method.code) && !this.productsHasPreorder(method) && this.creditsIsAvailable(method) && this.isLiqpayEnabled(method)
     },
