@@ -177,6 +177,7 @@ export default {
       this.activateSection(section)
     },
     onBeforePlaceOrder (payload) {
+
     },
     onAfterCartSummary (receivedData) {
       this.cartSummary = receivedData
@@ -351,6 +352,9 @@ export default {
           warehouse_id: this.shipping.location.id,
           carrier: 'nova-poshta'
         };
+      }
+      if (this.$store.getters['themeCredit/getSelectedCredit'] && +this.$store.getters['themeCredit/getSelectedCredit'].liqpay_allowed) {
+        this.order.addressInformation.payment_method_code = 'payparts'
       }
       return this.order
     },
