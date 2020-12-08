@@ -16,30 +16,20 @@ export default {
       return this.$store.state.cmsPage.current ? this.$store.state.cmsPage.current.meta_keywords : ''
     }
   },
-  watch: {
-    '$route': 'validateRoute'
-  },
-  asyncData ({ store, route, context }) { // this is for SSR purposes to prefetch data
-    return new Promise((resolve, reject) => {
-      if (context) context.output.cacheTags.add(`cmsPage`)
-      store.dispatch('cmsPage/single', {
-        value: route.params.slug,
-        setCurrent: true
-      }).then(page => {
-        resolve(page)
-      }).catch(err => {
-        Logger.error(err)()
-        reject(err)
-      })
-    })
-  },
-  methods: {
-    validateRoute () {
-      this.$store.dispatch('cmsPage/single', { value: this.$route.params.slug, setCurrent: true }).then(cmsPage => {
-        if (!cmsPage) {
-          this.$router.push(this.localizedRoute('/'))
-        }
-      })
+  async asyncData ({ store, route, context }) {
+    if (context) context.output.cacheTags.add(`cmsPage`)
+    const requests = [
+      store.dispatch('cmsPage/single', { value: route.params.slug, setCurrent: true }),
+      store.dispatch('cms/getCmsMenu')
+    ]
+    if (route.params.slug === 'shops') {
+      requests.push(store.dispatch('shop/getShops', store.state.ui.defaultCity))
+    }
+    try {
+      await Promise.all(requests)
+    } catch (e) {
+      Logger.error(e)()
+      throw e
     }
   },
   metaInfo () {

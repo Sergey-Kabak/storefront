@@ -28,6 +28,10 @@ const actions: ActionTree<CmsPageState, RootState> = {
 
       if (pageResponse && pageResponse.items && pageResponse.items.length > 0) {
         commit(types.CMS_PAGE_ADD_CMS_PAGE, pageResponse.items[0])
+        commit('cms/SET_ACTIVE_MENU', {
+          identifier: pageResponse.items[0].identifier,
+          title: pageResponse.items[0].title
+        }, { root: true })
         if (setCurrent) commit(types.CMS_PAGE_SET_CURRENT, pageResponse.items[0])
         return pageResponse.items[0]
       }

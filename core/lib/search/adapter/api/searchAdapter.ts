@@ -228,5 +228,14 @@ export class SearchAdapter {
         return this.handleResult(resp, 'brand', start, size)
       }
     })
+    this.registerEntityType('inventory_source', {
+      queryProcessor: (query) => {
+        // function that can modify the query each time before it's being executed
+        return query
+      },
+      resultProcessor: (resp, start, size) => {
+        return this.handleResult(resp, 'inventory_source', start, size)
+      }
+    })
   }
 }
