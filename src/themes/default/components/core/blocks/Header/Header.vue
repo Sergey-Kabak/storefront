@@ -18,17 +18,17 @@
     <div class="header-black-line" v-if="isShowHeader">
       <ul>
         <li>
-          <router-link class="cl-secondary" :to="localizedRoute('/shops')" exact>
+          <router-link class="cl-secondary" :to="localizedRoute('/info/shops')" exact>
             {{ $t('The shops') }}
           </router-link>
         </li>
         <li>
-          <router-link class="cl-secondary" :to="localizedRoute('/payment')" exact>
+          <router-link class="cl-secondary" :to="localizedRoute('/info/payment')" exact>
             {{ $t('the Payment') }}
           </router-link>
         </li>
         <li>
-          <router-link class="cl-secondary" :to="localizedRoute('/delivery')" exact>
+          <router-link class="cl-secondary" :to="localizedRoute('/info/delivery')" exact>
             {{ $t('Delivery') }}
           </router-link>
         </li>

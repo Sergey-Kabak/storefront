@@ -585,6 +585,10 @@
         "url_key"
       ],
       "excludeFields": null
+    },
+    "shop": {
+      "includeFields": null,
+      "excludeFields": null
     }
   },
   "cart": {
