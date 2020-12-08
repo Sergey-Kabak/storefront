@@ -1,19 +1,24 @@
 export default {
   methods: {
     bundleFinalPrice (product) {
-      if (product.special_price) {
-        return (this.bundlePrice(product) - ((this.bundlePrice(product) / 100) * (100 - product.special_price)));
+      if (product.special_price > 0) {
+        return product.special_price + this.BundleOptionsPrice(product);
       } else {
         return this.bundlePrice(product);
       }
     },
     bundlePrice (product) {
+      return this.BundleOptionsPrice(product) + product.original_price;
+    },
+    BundleOptionsPrice (product) {
       if (product.bundle_options) {
-        // eslint-disable-next-line no-return-assign
-        return product.bundle_options.reduce((acc, it) => acc += it.product_links.reduce((acc2, it2) => acc2 += it2.price, 0), 0) + product.original_price_incl_tax;
-      } else {
-        return product.original_price_incl_tax;
+        let bundleProductsPrice = product.bundle_options.reduce((acc, it) => {
+          // eslint-disable-next-line no-return-assign
+          return acc += it.product_links.reduce((acc2, it2) => acc2 += it2.price, 0);
+        }, 0);
+        return bundleProductsPrice;
       }
+      return 0;
     },
     finalPrice (product) {
       const productTypes = {
@@ -22,4 +27,4 @@ export default {
       return productTypes[product.type_id] || product.price_incl_tax;
     }
   }
-}
+};
