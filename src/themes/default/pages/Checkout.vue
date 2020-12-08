@@ -105,6 +105,9 @@ export default {
   beforeCreate () {
     registerModule(OrderModule)
   },
+  created () {
+    this.$store.dispatch('ui/closeMicrocart')
+  },
   methods: {
     notifyEmptyCart () {
       this.$store.dispatch('notification/spawnNotification', {

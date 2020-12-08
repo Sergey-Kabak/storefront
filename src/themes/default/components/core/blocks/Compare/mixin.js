@@ -6,8 +6,9 @@ export default {
   data () {
     return {
       categories: {},
-      isDifference: false
-    }
+      isDifference: false,
+      prevRoute: null
+    };
   },
   computed: {
     ...mapState({
@@ -36,7 +37,7 @@ export default {
 
       return inCompare;
     },
-    getAvailibleAttributes () {
+    async getAvailibleAttributes () {
       let attributes = [];
       if (this.items.length && this.currentCategory && Object.keys(this.categories).length){
         this.all_comparable_attributes.forEach(el => {
@@ -99,7 +100,7 @@ export default {
       return this.categories[categoty].filter(product => (product.stock && !product.stock.is_in_stock)).length
     },
     goBack(){
-      this.$router.go(-1);
+      this.prevRoute.name ? this.$router.go(-1) : this.$router.push({name: 'home'});
     },
     categorized(){
       let requiredField = this.items.some(el => !el.category);
@@ -133,7 +134,7 @@ export default {
       }, { root: true })
     }
   },
-  created () {
+  async created () {
     this.categorized();
   },
   mounted () {
@@ -141,6 +142,11 @@ export default {
   },
   destroyed () {
     window.removeEventListener('scroll', this.scroll);
+  },
+  beforeRouteEnter(to, from, next) {
+    next(vm => {
+      vm.prevRoute = from
+    });
   },
   watch: {
     'items' : function (newVal, oldVal) {
@@ -150,8 +156,8 @@ export default {
     },
     'isEmpty' : function (newVal, oldVal) {
       if ( !newVal ){
-        this.$router.push({name : 'home'});
+        this.goBack();
       }
     }
   }
-}
+};
