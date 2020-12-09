@@ -17,9 +17,9 @@
       <div class="checkout-subtitle-text">{{ $t('the Payment') }}:</div>
     </div>
     <div v-if="isActive && activeSection.payment" class="payment-body">
-      <div class="label mb10">
+      <div class="payment-label">
         {{ $t('Payment method') }}
-        <span class="label--highlighted">*</span>
+        <span class="payment-label highlighted">*</span>
       </div>
       <div class="payment-methods">
         <div class="payment-card" v-for="(method, index) in paymentMethods" :key="index" v-if="isShowPaymentMethod(method)">
@@ -313,8 +313,23 @@ export default {
   text-transform: uppercase;
   color: #5F5E5E;
 }
+
+.payment-label {
+  margin-bottom: 12px;
+  font-family: DIN Pro;
+  font-size: 13px;
+  line-height: 16px;
+  color: #5F5E5E;
+
+  &.highlighted {
+    color: #23BE20;
+  }
+}
+
 .mobile-data {
+  margin-top: 16px;
   display: none;
+
   .button-pay {
     max-width: 204px;
   }
@@ -452,9 +467,6 @@ export default {
       grid-template-columns: 1fr 1fr;
       margin-bottom: 0;
     }
-    .mobile-data {
-      display: block;
-    }
     .payment-body {
       padding-bottom: 16px;
       border-bottom: 1px solid #E0E0E0;
@@ -488,6 +500,19 @@ export default {
     }
   }
 }
+
+@media (max-width: 960px) {
+  .mobile-data {
+    display: block;
+  }
+}
+
+@media (max-width: 400px) {
+  .button-full {
+    max-width: 100%;
+  }
+}
+
 .credit-block-wrapper{
   order: -1;
 }
