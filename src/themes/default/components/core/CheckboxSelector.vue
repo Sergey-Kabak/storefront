@@ -3,7 +3,7 @@
     <input type="checkbox" @change="onChange()">
     <span class="checkbox" :class="{ 'active': isActive }" />
     <span class="checkbox-title"> {{ variant.label }} </span>
-    <span class="checkbox-amount" v-if="variant.count"> ({{ variant.count }})</span>
+    <span class="checkbox-amount" v-if="variant.count && variant.type !== 'kategorija'"> ({{ variant.count }})</span>
   </label>
 </template>
 

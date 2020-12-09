@@ -156,7 +156,7 @@ export default {
     },
     // should be received from config
     isCheckboxFilter (filterName) {
-      return ['manufacturer', 'dyagonal_ekrana', 'emkost_akkumulyatora_mach', 'sim', 'slot_dlya_karty_pamyaty', 'cores', 'material_korpusu', 'operatsyonnaya_systema'].includes(filterName)
+      return ['manufacturer', 'dyagonal_ekrana', 'emkost_akkumulyatora_mach', 'sim', 'slot_dlya_karty_pamyaty', 'cores', 'material_korpusu', 'operatsyonnaya_systema', 'kategorija'].includes(filterName)
     }
   }
 }
