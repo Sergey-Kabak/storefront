@@ -7,12 +7,7 @@
     ]"
     v-on="$listeners"
   >
-    <img
-      v-show="showPlaceholder"
-      src="/assets/placeholder.svg"
-      :alt="alt"
-      class="product-image__placeholder"
-    >
+    <product-spinner v-if="showPlaceholder" />
     <img
       v-if="!lowerQualityImageError || isOnline"
       v-show="showLowerQuality"
@@ -37,6 +32,7 @@
 
 <script>
 import { onlineHelper } from '@vue-storefront/core/helpers';
+import ProductSpinner from 'theme/components/theme/ProductSpinner'
 
 export default {
   props: {
@@ -59,6 +55,9 @@ export default {
       type: String,
       default: ""
     }
+  },
+  components: {
+    ProductSpinner
   },
   data () {
     return {

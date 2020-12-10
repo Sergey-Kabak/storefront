@@ -6,8 +6,9 @@ export default {
   data () {
     return {
       categories: {},
-      isDifference: false
-    }
+      isDifference: false,
+      prevRoute: null
+    };
   },
   computed: {
     ...mapState({
@@ -99,7 +100,7 @@ export default {
       return this.categories[categoty].filter(product => (product.stock && !product.stock.is_in_stock)).length
     },
     goBack(){
-      this.$router.go(-1);
+      this.prevRoute.name ? this.$router.go(-1) : this.$router.push({name: 'home'});
     },
     categorized(){
       let requiredField = this.items.some(el => !el.category);
@@ -125,15 +126,10 @@ export default {
       for (let k in this.categories){
         this.categories[k].forEach(product => this.removeFromCompare(product))
       }
-      this.categories = {}
-      this.$store.dispatch('notification/spawnNotification', {
-        type: 'success',
-        message: i18n.t('Products has been removed from compare!', { productName: htmlDecode(product.name) }),
-        action1: { label: i18n.t('OK') }
-      }, { root: true })
+      this.categories = {};
     }
   },
-  created () {
+  async created () {
     this.categorized();
   },
   mounted () {
@@ -141,6 +137,11 @@ export default {
   },
   destroyed () {
     window.removeEventListener('scroll', this.scroll);
+  },
+  beforeRouteEnter(to, from, next) {
+    next(vm => {
+      vm.prevRoute = from
+    });
   },
   watch: {
     'items' : function (newVal, oldVal) {
@@ -150,8 +151,8 @@ export default {
     },
     'isEmpty' : function (newVal, oldVal) {
       if ( !newVal ){
-        this.$router.push({name : 'home'});
+        this.goBack();
       }
     }
   }
-}
+};
