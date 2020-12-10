@@ -116,15 +116,14 @@ export default {
 }
 
 .left-sidebar{
-  height: 100%;
+  height: 100vh;
   width: 350px;
   top: 0;
   left: 0;
-  overflow: hidden;
+  overflow-x: hidden;
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
   z-index: 4;
-
     @media (max-width: 767px) {
       width: 100vh;
     }

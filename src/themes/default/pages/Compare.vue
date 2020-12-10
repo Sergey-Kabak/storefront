@@ -1,5 +1,5 @@
 <template>
-  <div class="compare">
+  <div class="compare" v-if="all_comparable_attributes.length">
     <div class="">
       <div class="f-container container">
         <div class="row">
@@ -222,6 +222,7 @@ export default {
   },
   mounted () {
     this.calculateWidth()
+    this.calculateCells()
   },
   updated () {
     this.calculateCells();
