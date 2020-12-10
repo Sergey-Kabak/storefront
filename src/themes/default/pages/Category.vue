@@ -11,7 +11,10 @@
           </div>
           <div class="banner-description__block" v-if="getCurrentCategory.description">
             <h3>{{ $t('Description of the action') }}</h3>
-            <div class="banner-description__text" v-html="getCurrentCategory.description"></div>
+            <div class="banner-description-info">
+              <div class="banner-description__text" :class="{'active': isDescriptionActive}" v-html="getCurrentCategory.description"></div>
+              <div class="next-button" v-if="!isDescriptionActive" @click="isDescriptionActive = true">{{ $t('next') }}</div>
+            </div>
             <div class="banner-description__timer">
               <h3>{{ $t('Until the end of the promotion') }}</h3>
               <CountDown :end-time="getEndTime()" />
@@ -200,7 +203,8 @@ export default {
         seconds: 0
       },
       expired: null,
-      interval: null
+      interval: null,
+      isDescriptionActive: false
     }
   },
   computed: {
@@ -628,6 +632,40 @@ $mobile_screen : 768px;
     }
   }
 
+  .next-button {
+    display: none;
+    font-family: DIN Pro;
+    font-size: 13px;
+    line-height: 16px;
+    color: #1A1919;
+    border-bottom: 1px dashed #1A1919;
+  }
+
+
+  @media (max-width: 576px) {
+    .next-button {
+      display: inline-block;
+    }
+    .banner-description__text {
+      /* autoprefixer: ignore next */
+      -webkit-box-orient: vertical;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      overflow: hidden;
+      transition: .2 ease-in-out;
+
+      &.active {
+        display: block;
+      }
+
+      ::v-deep {
+        p {
+          margin: 0;
+        }
+      }
+    }
+  }
+
   .close-container {
     left: 0;
   }
@@ -698,6 +736,7 @@ $mobile_screen : 768px;
     line-height: 24px;
     color: #595858;
     overflow: auto;
+    margin-bottom: 8px;
   }
   &__timer {
     position: relative;
