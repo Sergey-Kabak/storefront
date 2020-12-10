@@ -163,9 +163,12 @@ export default {
       this.confirmation = payload.confirmation
       if (this.$store.getters['themeCredit/getPartPaymentData']) {
         const result = await this.$store.dispatch('themeCredit/sendPartPayment', { orderNumber: payload.confirmation.orderNumber });
-        this.$store.dispatch('cart/clear', { sync: false }, { root: true })
-        this.$store.dispatch('user/getOrdersHistory', { refresh: true, useCache: true })
-        location.href = 'https://payparts2.privatbank.ua/ipp/v2/payment?token=' + result.token
+        if (result.code === 200) {
+          localStorage.setItem('payparts_' + payload.confirmation.orderNumber, JSON.stringify(this.order))
+          this.$store.dispatch('cart/clear', { sync: false }, { root: true })
+          this.$store.dispatch('user/getOrdersHistory', { refresh: true, useCache: true })
+          location.href = 'https://payparts2.privatbank.ua/ipp/v2/payment?token=' + result.token
+        }
       } else {
         this.$store.dispatch('checkout/setThankYouPage', true)
       }

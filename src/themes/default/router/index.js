@@ -11,12 +11,13 @@ const Compare = () => import(/* webpackChunkName: "vsf-compare" */ 'theme/pages/
 const MyAccount = () => import(/* webpackChunkName: "vsf-my-account" */ 'theme/pages/MyAccount.vue');
 const Static = () => import(/* webpackChunkName: "vsf-static" */ 'theme/pages/Static.vue');
 const BrandPortal = () => import(/* webpackChunkName: "vsf-static" */ 'theme/pages/BrandPortal.vue');
-// const ThankYouPage = () => import(/* webpackChunkName: "vsf-static" */ 'src/themes/default/components/core/blocks/Checkout/ThankYouPage.vue')
+const ThankYouPage = () => import(/* webpackChunkName: "vsf-static" */ 'theme/pages/ThankYouPage.vue');
 
 let routes = [
   { name: 'home', path: '/', component: Home, alias: '/pwa.html', meta: { name: 'home page', title: i18n.t('home page meta title'), description: i18n.t('home page meta discription') } },
   // { name: 'ThankYouPage', path: '/thank-you-page', component: ThankYouPage },
   { name: 'checkout', path: '/checkout', component: Checkout, meta: { name: 'checkout' } },
+  { name: 'order', path: '/order', component: ThankYouPage, meta: { name: 'order' } },
   { name: 'brand-portal', path: '/brand-portal/:brandId', component: BrandPortal, meta: { name: 'brand portal' } },
   { name: 'delivery', path: '/delivery', component: Static, props: { page: 'lorem', title: i18n.t('Delivery') }, meta: { description: 'delivery metadesc' } },
   { name: 'payment', path: '/payment', component: Static, props: { page: 'lorem', title: i18n.t('Payment') }, meta: { description: 'payment metadesc' } },
