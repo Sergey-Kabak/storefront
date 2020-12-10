@@ -7,7 +7,7 @@
             <breadcrumbs class="pb20"/>
           </div>
           <div class="mobile-header hidden-md mt10">
-            <h1
+            <h2
               class="mb20 mt0 cl-mine-shaft product-name"
               data-testid="productName"
               itemprop="name"
@@ -18,7 +18,7 @@
                 text="Check this product!"
                 class="web-share"
               />
-            </h1>
+            </h2>
             <div
               class="product-in-stock"
               :class="{ 'not-available': isAddToCartDisabled }"

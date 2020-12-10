@@ -105,9 +105,6 @@ export default {
   beforeCreate () {
     registerModule(OrderModule)
   },
-  created () {
-    this.$store.dispatch('ui/closeMicrocart')
-  },
   methods: {
     notifyEmptyCart () {
       this.$store.dispatch('notification/spawnNotification', {
@@ -144,6 +141,9 @@ export default {
         action1: { label: this.$t('OK') }
       })
     }
+  },
+  mounted () {
+    this.$store.state.ui.microcart = false
   }
 }
 </script>

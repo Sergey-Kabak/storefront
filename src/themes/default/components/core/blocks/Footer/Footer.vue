@@ -11,9 +11,9 @@
           <div class="copyright">{{ $t('All rights reserved.') }} <br> “Ringoo” Copyright 2020</div>
         </div>
         <div class="start-md" v-for="(footerColumn, index) in footerColumns" :key="index">
-          <h1 class="footer-title">
+          <h2 class="footer-title">
             {{ $t(footerColumn.title) }}
-          </h1>
+          </h2>
           <div class="footer-routes">
             <div :key="index" v-for="(cat, index) in footerColumn.routes" class="route">
               <router-link class="cl-secondary" :to="localizedRoute(`/${cat.url_path}`)" exact>
@@ -23,9 +23,9 @@
           </div>
         </div>
         <div class="start-md">
-          <h1 class="footer-title">
+          <h2 class="footer-title">
             {{ $t('Contact') }}
-          </h1>
+          </h2>
           <div class="phone">
             <a href="tel:380970908707">+38 097 090 87 07</a>
             <a href="tel:380730908707">+38 073 090 87 07</a>
@@ -36,9 +36,9 @@
           <div class="info">
             <span>{{ $t('Calls according to the tariffs of your operator') }}</span>
           </div>
-          <h1 class="footer-title">
+          <h2 class="footer-title">
             {{ $t('We accept') }}
-          </h1>
+          </h2>
           <div>
             <div class="payment">
               <img src="/assets/payments/mastercard.svg" alt="mastercard" class="payment-icon">

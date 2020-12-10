@@ -126,6 +126,8 @@ export const Shipping = {
         // shippingMethod: this.type,
         // shippingCarrier: this.type,
       }
+      console.log('HEREEEEEEEEEEE');
+      console.log(this.shipping);
       this.$bus.$emit('checkout-after-shippingDetails', this.shipping, this.$v)
       this.isFilled = true
     },

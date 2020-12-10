@@ -37,7 +37,7 @@ export default {
 
       return inCompare;
     },
-    async getAvailibleAttributes () {
+    getAvailibleAttributes () {
       let attributes = [];
       if (this.items.length && this.currentCategory && Object.keys(this.categories).length){
         this.all_comparable_attributes.forEach(el => {
