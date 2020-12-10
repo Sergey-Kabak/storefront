@@ -633,6 +633,8 @@ $mobile_screen : 768px;
   }
 
   .next-button {
+    cursor: pointer;
+    padding: 4px 0px;
     display: none;
     font-family: DIN Pro;
     font-size: 13px;
@@ -647,12 +649,11 @@ $mobile_screen : 768px;
       display: inline-block;
     }
     .banner-description__text {
-      /* autoprefixer: ignore next */
+      /*! autoprefixer: off */
       -webkit-box-orient: vertical;
       display: -webkit-box;
       -webkit-line-clamp: 3;
       overflow: hidden;
-      transition: .2 ease-in-out;
 
       &.active {
         display: block;
