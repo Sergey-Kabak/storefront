@@ -126,12 +126,7 @@ export default {
       for (let k in this.categories){
         this.categories[k].forEach(product => this.removeFromCompare(product))
       }
-      this.categories = {}
-      this.$store.dispatch('notification/spawnNotification', {
-        type: 'success',
-        message: i18n.t('Products has been removed from compare!', { productName: htmlDecode(product.name) }),
-        action1: { label: i18n.t('OK') }
-      }, { root: true })
+      this.categories = {};
     }
   },
   async created () {
