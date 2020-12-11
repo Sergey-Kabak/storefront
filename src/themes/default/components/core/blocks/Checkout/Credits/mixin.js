@@ -38,7 +38,8 @@ export default {
       }
     },
     maxTerms () {
-      const propositions = this.getSelectedBank.groups[Object.keys(this.getSelectedBank.groups)[0]].filter(el => !!el);
+      console.log(this.getSelectedBank);
+      const propositions = this.getSelectedBank.credits;
       return propositions.map(it => +it.terms).sort((a, b) => b - a)[0];
     },
     getAccessoriesPriceFromCart () {

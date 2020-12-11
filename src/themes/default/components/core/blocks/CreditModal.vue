@@ -30,7 +30,7 @@
             <div class="mobile-label">{{ $t('Number of payments') }}</div>
             <custom-select
               :selected-index="0"
-              :options="bank.groups[Object.keys(bank.groups)[0]].filter(el => !!el)"
+              :options="bank.credits.filter(el => !!el)"
               @bankProduct="selectedPaymentCount($event, index, bank)"/>
           </div>
           <div>
@@ -120,8 +120,8 @@ export default {
     initBanks (banks) {
       banks.map((bank, index) => {
         if (bank) {
-          this.$set(this.selectedPositions, index, this.CalculateMontlyPayment(bank.groups[Object.keys(bank.groups)[0]]))
-          this.$set(this.selectedCreditProduct, index, bank.groups[Object.keys(bank.groups)[0]])
+          this.$set(this.selectedPositions, index, this.CalculateMontlyPayment(bank.credits[0]))
+          this.$set(this.selectedCreditProduct, index, bank.credits[0])
           this.$set(this.banks, index, bank);
         }
       });
@@ -135,17 +135,12 @@ export default {
     async toCheckout () {
       if (this.$route.name !== 'checkout') {
         try {
-          const diffLog = await this.$store.dispatch('cart/addItem', { productToAdd: Object.assign(
-            { bank: this.getBankProduct },
-            { credit: this.getCreditProduct },
-            this.getCurrentProduct) });
+          await this.$store.dispatch('cart/addItem', { productToAdd: Object.assign(
+            { bank: this.getBankProduct }, { credit: this.getCreditProduct }, this.getCurrentProduct)
+          });
           this.$router.push({ name: 'checkout' });
-          diffLog.clientNotifications.forEach(notificationData => {
-            // Notify user that product is added
-            this.notifyUser(notificationData);
-          })
-        } catch (message) {
-          this.notifyUser(notifications.createNotification({ type: 'error', message }))
+        } catch (e) {
+          console.log(e)
         } finally {
           this.$bus.$emit('modal-hide', 'modal-credits');
         }
