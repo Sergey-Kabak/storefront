@@ -177,7 +177,7 @@ export default {
         imgTablet: !this.isNYPage ? '/assets/promo/ny-tablet.jpg' : '/assets/promo/iphone-mobile.jpg',
         imgMobile: !this.isNYPage ? '/assets/promo/ny-mobile.jpg' : '/assets/promo/iphone-mobile.jpg',
         link: !this.isNYPage ? '/svjatkuj-z-nami' : '/kupuj-pershim',
-        background: !this.isNYPage ? '#e2cbab' : '#08101b'
+        background: !this.isNYPage ? '#6fd4ce' : '#08101b'
       }
     }
   },
