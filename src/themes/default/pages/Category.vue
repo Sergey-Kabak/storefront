@@ -161,7 +161,7 @@ const composeInitialPageState = async (store, route, forceLoad = false) => {
     const currentCategory = cachedCategory && !forceLoad ? cachedCategory : await store.dispatch('category-next/loadCategory', { filters })
     const pageSize = store.getters['url/isBackRoute'] ? store.getters['url/getCurrentRoute'].categoryPageSize : THEME_PAGE_SIZE
     // TODO: REMOVE
-    if (currentCategory.id === 870) {
+    if (currentCategory.id === 911) {
       currentCategory.filterable_attributes.unshift('kategorija', 'znizhka')
     }
     await store.dispatch('attribute/list', { filterValues: currentCategory.filterable_attributes })
