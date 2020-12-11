@@ -140,17 +140,11 @@ $z-index-modal: map-get($z-index, modal);
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 945px;
     margin: 0 auto;
     max-width: 100%;
     max-height: 100%;
     z-index: $z-index-modal+1;
-
-    @media (max-width: 600px) {
-      min-height: 100%;
-      min-width: 100%;
-      margin: 0;
-    }
+    height: auto;
   }
 
   .modal-header {

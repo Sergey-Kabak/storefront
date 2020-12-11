@@ -11,21 +11,21 @@
           <div class="copyright">{{ $t('All rights reserved.') }} <br> “Ringoo” Copyright 2020</div>
         </div>
         <div class="start-md" v-for="(footerColumn, index) in footerColumns" :key="index">
-          <h1 class="footer-title">
+          <h2 class="footer-title">
             {{ $t(footerColumn.title) }}
-          </h1>
+          </h2>
           <div class="footer-routes">
             <div :key="index" v-for="(cat, index) in footerColumn.routes" class="route">
-              <router-link class="cl-secondary" :to="localizedRoute(`/${cat.url_path}`)" exact>
+              <router-link class="cl-secondary" :to="localizedRoute(`${cat.url_path}`)" exact>
                 {{ $t(cat.name) }}
               </router-link>
             </div>
           </div>
         </div>
         <div class="start-md">
-          <h1 class="footer-title">
+          <h2 class="footer-title">
             {{ $t('Contact') }}
-          </h1>
+          </h2>
           <div class="phone">
             <a href="tel:380970908707">+38 097 090 87 07</a>
             <a href="tel:380730908707">+38 073 090 87 07</a>
@@ -36,9 +36,9 @@
           <div class="info">
             <span>{{ $t('Calls according to the tariffs of your operator') }}</span>
           </div>
-          <h1 class="footer-title">
+          <h2 class="footer-title">
             {{ $t('We accept') }}
-          </h1>
+          </h2>
           <div>
             <div class="payment">
               <img src="/assets/payments/mastercard.svg" alt="mastercard" class="payment-icon">
@@ -111,43 +111,40 @@ export default {
         title: 'To customers',
         routes: [{
           name: 'Payment and delivery',
-          url_path: 'delivery'
+          url_path: '/info/delivery'
         }, {
           name: 'Payments and loans',
-          url_path: 'payments-and-loans'
+          url_path: '/info/payments-and-loans'
         }, {
           name: 'Warranty, Exchange, Return',
-          url_path: 'warranty-exchange-return'
+          url_path: '/info/warranty-exchange-return'
         }, {
           name: 'Service centres',
-          url_path: 'service-centers'
+          url_path: '/info/service-centers'
         }, {
           name: 'Use promotional code',
-          url_path: 'using-a-promo-code'
+          url_path: '/info/using-a-promo-code'
         }, {
           name: 'Public offer',
-          url_path: 'public-offer'
-        }, {
-          name: 'Promotions',
-          url_path: 'promotional-offers'
+          url_path: '/info/public-offer'
         }]
       }, {
         title: 'About Us',
         routes: [{
           name: 'The shops',
-          url_path: 'shops'
+          url_path: '/info/shops'
         }, {
           name: 'Company',
-          url_path: 'about-the-company'
+          url_path: '/info/company'
         }, {
           name: 'Vacancies',
-          url_path: 'work-in-the-company'
+          url_path: '/info/vacancy'
         }, {
           name: 'Own account',
-          url_path: 'own-account'
+          url_path: '/info/own-account'
         }, {
           name: 'To landlords',
-          url_path: 'landlords'
+          url_path: '/info/landlords'
         }]
       }]
     }

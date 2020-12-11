@@ -164,8 +164,25 @@
               <path d="M9.66732 1.2735L8.72732 0.333496L5.00065 4.06016L1.27398 0.333496L0.333984 1.2735L4.06065 5.00016L0.333984 8.72683L1.27398 9.66683L5.00065 5.94016L8.72732 9.66683L9.66732 8.72683L5.94065 5.00016L9.66732 1.2735Z" fill="#EE2C39"/>
             </svg>
           </li>
+          <li>
+            {{ $t('Password must have at least 1 uppercase letter.') }}
+            <svg v-if="$v.password.$dirty && $v.password.hasUppercase && password !== ''" width="12" height="10" viewBox="0 0 12 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M4.00091 7.80007L1.20091 5.00006L0.267578 5.9334L4.00091 9.66673L12.0009 1.66673L11.0676 0.733398L4.00091 7.80007Z" fill="#23BE20"/>
+            </svg>
+            <svg v-if="$v.password.$dirty && !$v.password.hasUppercase" width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M9.66732 1.2735L8.72732 0.333496L5.00065 4.06016L1.27398 0.333496L0.333984 1.2735L4.06065 5.00016L0.333984 8.72683L1.27398 9.66683L5.00065 5.94016L8.72732 9.66683L9.66732 8.72683L5.94065 5.00016L9.66732 1.2735Z" fill="#EE2C39"/>
+            </svg>
+          </li>
+          <li>
+            {{ $t('Password must have at least 1 number.') }}
+            <svg v-if="$v.password.$dirty && $v.password.hasNumbers && password !== ''" width="12" height="10" viewBox="0 0 12 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M4.00091 7.80007L1.20091 5.00006L0.267578 5.9334L4.00091 9.66673L12.0009 1.66673L11.0676 0.733398L4.00091 7.80007Z" fill="#23BE20"/>
+            </svg>
+            <svg v-if="$v.password.$dirty && !$v.password.hasNumbers" width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M9.66732 1.2735L8.72732 0.333496L5.00065 4.06016L1.27398 0.333496L0.333984 1.2735L4.06065 5.00016L0.333984 8.72683L1.27398 9.66683L5.00065 5.94016L8.72732 9.66683L9.66732 8.72683L5.94065 5.00016L9.66732 1.2735Z" fill="#EE2C39"/>
+            </svg>
+          </li>
         </ul>
-
         <button-full :disabled="$v.$invalid" class="mb20 auth-button" type="submit" :aria-label="$t('Registrate')">
           {{ $t('Registrate') }}
         </button-full>

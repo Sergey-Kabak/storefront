@@ -18,17 +18,17 @@
     <div class="header-black-line" v-if="isShowHeader">
       <ul>
         <li>
-          <router-link class="cl-secondary" :to="localizedRoute('/shops')" exact>
+          <router-link class="cl-secondary" :to="localizedRoute('/info/shops')" exact>
             {{ $t('The shops') }}
           </router-link>
         </li>
         <li>
-          <router-link class="cl-secondary" :to="localizedRoute('/payment')" exact>
+          <router-link class="cl-secondary" :to="localizedRoute('/info/payment')" exact>
             {{ $t('the Payment') }}
           </router-link>
         </li>
         <li>
-          <router-link class="cl-secondary" :to="localizedRoute('/delivery')" exact>
+          <router-link class="cl-secondary" :to="localizedRoute('/info/delivery')" exact>
             {{ $t('Delivery') }}
           </router-link>
         </li>
@@ -177,7 +177,7 @@ export default {
         imgTablet: !this.isNYPage ? '/assets/promo/ny-tablet.jpg' : '/assets/promo/iphone-mobile.jpg',
         imgMobile: !this.isNYPage ? '/assets/promo/ny-mobile.jpg' : '/assets/promo/iphone-mobile.jpg',
         link: !this.isNYPage ? '/svjatkuj-z-nami' : '/kupuj-pershim',
-        background: !this.isNYPage ? '#e2cbab' : '#08101b'
+        background: !this.isNYPage ? '#6fd4ce' : '#08101b'
       }
     }
   },
