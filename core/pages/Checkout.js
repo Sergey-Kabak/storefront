@@ -337,7 +337,6 @@ export default {
         this.order.addressInformation.payment_method_additional = { ...this.$store.state.themeCredit.creditDetails }
         this.order.addressInformation.payment_method_additional['credit_id'] = this.$store.state.themeCredit.selectedCredit.credit_id
         this.order.addressInformation.payment_method_additional['terms'] = this.$store.state.themeCredit.selectedCredit.terms
-        this.order.addressInformation.payment_method_additional['groupid'] = Object.keys(this.$store.state.themeCredit.selectedBank.groups)[0]
       }
       if (this.shipping.deliveryType === 'new_post') {
         this.order.addressInformation['shippingExtraFields'] = {

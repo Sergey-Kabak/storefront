@@ -60,7 +60,7 @@ export default {
   },
   computed: {
     getColor () {
-      if (this.product.type_id === 'configurable' && this.showProductColor) {
+      if (this.product.type_id === 'configurable' && this.showProductColor ) {
         return this.product.attributes_metadata.find(it => it.attribute_code === 'color').options.find(option => +option.value === this.product.color).label || null
       }
       return null

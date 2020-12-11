@@ -10,8 +10,6 @@ export const module: Module<CreditState, any> = {
     banks: [],
     selectedBank: null,
     selectedCredit: null,
-    accessories: null,
-    services: null,
     productSku: null,
     creditExtraAttributes: null,
     creditMethod: 'pickup',
