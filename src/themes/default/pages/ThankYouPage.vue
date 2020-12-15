@@ -1,68 +1,140 @@
 <template>
-  <div class="thank-you">
+  <div class="thank-you" v-if="order">
     <div class="thank-you-content">
       <h3 class="thank-you-title">
         {{ $t('Thank!') }}
-        {{ $t('Your order') }} <span>№ 123121321321</span>
+        {{ $t('Your order') }} <span>№ {{ order.increment_id }}</span>
       </h3>
       <p class="thank-you-description">{{ $t('In the near future we will call you back to clarify the details. Have a nice day!)') }}</p>
-<!--      <button-filled-small-->
-<!--        color="dark"-->
-<!--        class="thank-you-button"-->
-<!--        @click.native="$router.push('/')"-->
-<!--      >-->
-<!--        {{ $t('to main') }}-->
-<!--      </button-filled-small>-->
+      <button-filled-small
+        color="dark"
+        class="thank-you-button"
+        @click.native="$router.push('/')"
+      >
+        {{ $t('to main') }}
+      </button-filled-small>
       <div class="thank-you-body">
         <div class="thank-you-row" >
           <span class="left">{{ $t('Contact details') }}: </span>
-          <span class="middle">billingAddress.firstname billingAddress.lastname, billingAddress.telephone, billingAddress.email</span>
+          <span class="middle">{{order.billing_address.firstname}} {{order.billing_address.lastname}}, {{order.billing_address.telephone}}, {{order.billing_address.email}}</span>
         </div>
         <div class="thank-you-row">
           <span class="left">{{ $t('Payment method') }}: </span>
-          <span class="middle">$t(addressInformation.payment_method_code)</span>
-<!--          <span class="right label-paid" v-if="addressInformation.payment_method_code === 'liqpaymagento_liqpay'"> {{ $t('paid') }} </span>-->
+          <span class="middle">{{ $t(order.payment.method) }}</span>
+          <span class="right label-paid" v-if="order.payment.method === 'liqpaymagento_liqpay'"> {{ $t('paid') }} </span>
         </div>
         <div class="thank-you-row">
           <span class="left">{{ $t('Shipping method') }}: </span>
-          <span class="middle">$t(shippingType)</span>
+          <span class="middle">{{ $t(order.shipping_description) }}</span>
           <span class="right label-free"> {{ $t('free') }} </span>
         </div>
         <div class="thank-you-row">
           <span class="left">{{ $t('Shipping address') }}: </span>
-          <span class="middle">{{ $t('st.') }} billingAddress.street && billingAddress.street[0], billingAddress.street && billingAddress.street[1]</span>
+          <span class="middle">{{ order.billing_address.street && order.billing_address.street[0], order.billing_address.street && order.billing_address.street[1] }}</span>
         </div>
       </div>
-<!--      <div class="thank-you-body" v-if="products.length">-->
-<!--        <ul class="thank-you-page-products products">-->
-<!--          <li class="product-item-row" v-for="product in products" :key="product.server_item_id || product.id">-->
-<!--            <product-image :image="image(product)" />-->
-<!--            <div class="product-left">-->
-<!--              <span class="product-name">-->
-<!--                {{ product.name | htmlDecode }}-->
-<!--              </span>-->
-<!--            </div>-->
-<!--            <div class="product-middle">-->
-<!--              <span class="qty">-->
-<!--                {{ product.qty }}&nbsp;{{ $t('pc.') }}-->
-<!--              </span>-->
-<!--            </div>-->
-<!--            <div class="product-right">-->
-<!--              <div class="prices">-->
-<!--                <span class="price-special">-->
-<!--                  {{ finalPrice(product) | price(storeView) }}-->
-<!--                </span>-->
-<!--              </div>-->
-<!--            </div>-->
-<!--          </li>-->
-<!--          <li class="product-price">-->
-<!--            <total-price />-->
-<!--          </li>-->
-<!--        </ul>-->
-<!--      </div>-->
+      <div class="thank-you-body" v-if="products && products.length">
+        <ul class="thank-you-page-products products">
+          <li class="product-item-row" v-for="product in products" :key="product.server_item_id || product.id">
+            <product-image :image="image(product)" />
+            <div class="product-left">
+              <span class="product-name">
+                {{ product.name | htmlDecode }}
+              </span>
+            </div>
+            <div class="product-middle">
+              <span class="qty">
+                {{ product.qty }}&nbsp;{{ $t('pc.') }}
+              </span>
+            </div>
+            <div class="product-right">
+              <div class="prices">
+                <span class="price-special">
+                  {{ finalPrice(product) | price(storeView) }}
+                </span>
+              </div>
+            </div>
+          </li>
+          <li class="product-price">
+            <div data-v-2eee09e6="" data-v-4f8ccff9="" class="total-prices">
+              <div data-v-2eee09e6="" class="total-price">
+                <div data-v-2eee09e6="" class="total-price-label">
+                  {{ $t('Total') }}:
+                </div>
+                <div data-v-2eee09e6="" class="total-price-value">
+                  {{ order.total_due | price(storeView) }}
+                </div>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
     </div>
   </div>
 </template>
+
+<script>
+import { PaymentService } from '@vue-storefront/core/data-resolver';
+import { getThumbnailForProduct } from '@vue-storefront/core/modules/cart/helpers';
+import totalAmount from '../mixins/cart/totalAmount'
+import ProductImage from 'theme/components/core/ProductImage';
+import ButtonFilledSmall from 'theme/components/theme/ButtonFilledSmall';
+import TotalPrice from 'theme/components/core/TotalPrice';
+import { currentStoreView } from '@vue-storefront/core/lib/multistore';
+
+export default {
+  mixins: [totalAmount],
+  data () {
+    return {
+      order: null,
+      productSKUs: null,
+      products: null
+    }
+  },
+  components: {
+    ProductImage,
+    ButtonFilledSmall,
+    TotalPrice
+  },
+  computed: {
+    storeView () {
+      return currentStoreView();
+    }
+  },
+  created () {
+    this.getOrder()
+  },
+  methods: {
+    getOrder () {
+      // jBNd8Y20EPY1SC2LeR5i178pIIcsl7wn
+      PaymentService.getOrderByCartId(this.$route.query.cartId).then(async res => {
+        this.order = res.result
+        this.productSKUs = this.order.items.filter(product => product.product_type === 'simple').map(it => {
+          return { sku: it.sku, qty: it.qty_ordered }
+        })
+        this.products = await this.$store.dispatch('search/getProductsBySKU', this.productSKUs.map(it => it.sku))
+        // eslint-disable-next-line no-return-assign
+        this.products.forEach(it => it.qty = this.productSKUs.find(el => el.sku === it.sku).qty)
+        if (Object.keys(this.$route.query).includes('payparts')) {
+          let PayPartStatus = await this.$store.dispatch('themeCredit/partPaymentStatus', { id: this.order.increment_id, marketplace: this.$route.query.marketplace })
+          PayPartStatus.paymentState !== 'SUCCESS' && this.$router.push('/')
+        }
+      }).catch(e => {
+        this.$router.push('/')
+      })
+    },
+    image (product) {
+      return {
+        loading: this.thumbnail(product),
+        src: this.thumbnail(product)
+      }
+    },
+    thumbnail (product) {
+      return getThumbnailForProduct(product)
+    }
+  }
+}
+</script>
 
 <style lang="scss" scoped>
 span {

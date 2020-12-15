@@ -353,6 +353,7 @@
         "id",
         "name",
         "original_price",
+        "priority",
         "price",
         "product_links",
         "stock.is_in_stock",
@@ -583,6 +584,10 @@
         "id",
         "url_key"
       ],
+      "excludeFields": null
+    },
+    "shop": {
+      "includeFields": null,
       "excludeFields": null
     }
   },

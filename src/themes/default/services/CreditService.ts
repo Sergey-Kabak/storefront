@@ -21,6 +21,17 @@ const PartPayment = async (data: any): Promise<Task> => {
   })
 }
 
+const PartPaymentStatus = async (data: any): Promise<Task> => {
+  return TaskQueue.execute({
+    url: `${getApiEndpointUrl({ endpoint: '/api/ext/credits/partpayment-status?id=' + data.id + '&marketplace=' + data.marketplace }, 'endpoint')}`,
+    payload: {
+      method: 'GET',
+      headers,
+      mode: 'cors'
+    }
+  })
+}
+
 const getCredits = async (sku: any): Promise<Task> => {
   return TaskQueue.execute({
     url: `${getApiEndpointUrl({ endpoint: '/api/ext/credits?sku=' + sku }, 'endpoint')}`,
@@ -45,6 +56,7 @@ const getCreditsCheckout = async (cart_id: any): Promise<Task> => {
 
 export const CreditService: DataResolver.CreditService = {
   PartPayment,
+  PartPaymentStatus,
   getCredits,
   getCreditsCheckout
 }

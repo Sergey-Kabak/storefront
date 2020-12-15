@@ -24,7 +24,8 @@ const config = merge(base, {
   mode: 'development',
   resolve: {
     alias: {
-      'create-api': './create-api-client.js'
+      'create-api': './create-api-client.js',
+      'vue': 'vue/dist/vue.js'
     }
   },
   plugins: [

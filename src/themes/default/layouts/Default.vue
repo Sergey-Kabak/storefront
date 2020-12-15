@@ -53,6 +53,7 @@
 
       <cookie-notification/>
       <offline-badge/>
+      <city-picker />
       <order-confirmation :orders-data="ordersData" v-if="loadOrderConfirmation"/>
     </div>
     <vue-progress-bar/>
@@ -84,6 +85,7 @@ const CustomSellerProduct = () => import(/* webpackChunkName: "vsf-custom-city-p
 const Consultation = () => import(/* webpackChunkName: "vsf-custom-city-picker-modal" */ 'theme/components/core/blocks/Consultation/Consultation.vue');
 const CreditModal = () => import('theme/components/core/blocks/CreditModal.vue')
 const CompareSidebar = () => import(/* webpackChunkName: "vsf-sidebar-menu" */ 'theme/components/core/blocks/Compare/CompareSidebar.vue');
+const CityPicker = () => import(/* webpackChunkName: "vsf-custom-city-picker-modal" */ 'theme/components/core/blocks/CityPicker/CityPicker.vue');
 
 export default {
   data() {
@@ -163,6 +165,7 @@ export default {
     AsyncSidebar,
     CustomCityPickerModal,
     CustomSellerProduct,
+    CityPicker,
     CreditModal
   }
 };

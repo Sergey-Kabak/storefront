@@ -141,6 +141,9 @@ export default {
         action1: { label: this.$t('OK') }
       })
     }
+  },
+  mounted () {
+    this.$store.state.ui.microcart = false
   }
 }
 </script>

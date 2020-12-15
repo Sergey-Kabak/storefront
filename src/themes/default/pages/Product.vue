@@ -7,7 +7,7 @@
             <breadcrumbs class="pb20"/>
           </div>
           <div class="mobile-header hidden-md mt10">
-            <h1
+            <h2
               class="mb20 mt0 cl-mine-shaft product-name"
               data-testid="productName"
               itemprop="name"
@@ -18,7 +18,7 @@
                 text="Check this product!"
                 class="web-share"
               />
-            </h1>
+            </h2>
             <div
               class="product-in-stock"
               :class="{ 'not-available': isAddToCartDisabled }"
@@ -371,9 +371,9 @@ export default {
       }
     },
     getCustomAttributes () {
-      return Object.values(this.attributesByCode).filter(a => {
+      return this.getCurrentProduct.attributes_metadata && this.getCurrentProduct.attributes_metadata.filter(a => {
         return a.is_visible && a.is_user_defined && (parseInt(a.is_visible_on_front) || a.is_visible_on_front === true) && this.getCurrentProduct[a.attribute_code]
-      }).sort((a, b) => { return a.attribute_id > b.attribute_id })
+      })
     },
     getAvailableFilters () {
       return getAvailableFiltersByProduct(this.getCurrentProduct)

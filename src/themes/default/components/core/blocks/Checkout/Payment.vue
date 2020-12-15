@@ -17,9 +17,9 @@
       <div class="checkout-subtitle-text">{{ $t('the Payment') }}:</div>
     </div>
     <div v-if="isActive && activeSection.payment" class="payment-body">
-      <div class="label mb10">
+      <div class="payment-label">
         {{ $t('Payment method') }}
-        <span class="label--highlighted">*</span>
+        <span class="payment-label highlighted">*</span>
       </div>
       <div class="payment-methods">
         <div class="payment-card" v-for="(method, index) in paymentMethods" :key="index" v-if="isShowPaymentMethod(method)">
@@ -73,11 +73,6 @@
       >
         {{ $t('To pay') }}
       </button-full>
-      <br>
-      <button-full
-        @click.native="privat">
-        privat
-      </button-full>
     </div>
   </div>
 </template>
@@ -109,7 +104,6 @@ const lettersOnly = value => (
   /^[a-zA-Zа-яА-Я]+$/.test(value) ||
   value === ''
 );
-
 export default {
   props: {
     activeSection: {
@@ -138,9 +132,6 @@ export default {
         this.sendDataToCheckout()
       },
       deep: true
-    },
-    productsInCart: function (products) {
-      this.$dispatch('sync', { forceClientState: true })
     }
   },
   computed: {
@@ -251,25 +242,6 @@ export default {
     this.$store.dispatch('themeCredit/fetchBanksCheckout', this.$store.state.cart.cartServerToken);
   },
   methods: {
-    privat () {
-      const products = this.productsInCart.map(product => {
-        return {
-          name: product.name,
-          count: product.qty,
-          price: this.finalPrice(product).toFixed(2)
-        }
-      })
-      const data = {
-        amount: this.totals.find(it => it.code === 'grand_total').value.toFixed(2),
-        partsCount: 25,
-        merchantType: 'PP',
-        products,
-        responseUrl: 'https://ringoo.knyazev.space/rest/V1/payparts/callback',
-        redirectUrl: 'http://localhost:3000/order'
-      }
-      this.$store.commit('themeCredit/SET_PART_PAYMENT', data)
-      this.$store.dispatch('themeCredit/sendPartPayment', { orderNumber: Date.now() });
-    },
     isShowPaymentMethod (method) {
       return this.assoc[this.type].includes(method.code) && !this.productsHasPreorder(method) && this.creditsIsAvailable(method) && this.isLiqpayEnabled(method)
     },
@@ -290,7 +262,7 @@ export default {
         if (this.payment.paymentMethod === 'credit' && this.$refs.creditMethod[0].$refs.creditForm.$v.$error) {
           return
         }
-        if (+this.selectedCredit.liqpay_allowed) {
+        if (!+this.selectedCredit.liqpay_allowed) {
           const products = this.productsInCart.map(product => {
             return {
               name: product.name,
@@ -298,13 +270,14 @@ export default {
               price: this.finalPrice(product).toFixed(2)
             }
           })
+          const marketplace = this.productsInCart.some(it => !!it.marketplace)
           const data = {
             amount: this.totals.find(it => it.code === 'grand_total').value.toFixed(2),
-            partsCount: 25,
+            partsCount: +this.selectedCredit.terms,
             merchantType: 'PP',
             products,
             responseUrl: 'https://ringoo.knyazev.space/rest/V1/payparts/callback',
-            redirectUrl: 'http://localhost:3000/order'
+            redirectUrl: location.origin + '/order?cartId=' + this.getCartToken + '&payparts&marketplace=' + marketplace
           }
           this.$store.commit('themeCredit/SET_PART_PAYMENT', data)
         }
@@ -355,8 +328,23 @@ export default {
   text-transform: uppercase;
   color: #5F5E5E;
 }
+
+.payment-label {
+  margin-bottom: 12px;
+  font-family: DIN Pro;
+  font-size: 13px;
+  line-height: 16px;
+  color: #5F5E5E;
+
+  &.highlighted {
+    color: #23BE20;
+  }
+}
+
 .mobile-data {
+  margin-top: 16px;
   display: none;
+
   .button-pay {
     max-width: 204px;
   }
@@ -494,9 +482,6 @@ export default {
       grid-template-columns: 1fr 1fr;
       margin-bottom: 0;
     }
-    .mobile-data {
-      display: block;
-    }
     .payment-body {
       padding-bottom: 16px;
       border-bottom: 1px solid #E0E0E0;
@@ -530,6 +515,19 @@ export default {
     }
   }
 }
+
+@media (max-width: 960px) {
+  .mobile-data {
+    display: block;
+  }
+}
+
+@media (max-width: 400px) {
+  .button-full {
+    max-width: 100%;
+  }
+}
+
 .credit-block-wrapper{
   order: -1;
 }

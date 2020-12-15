@@ -163,17 +163,16 @@ export default {
       this.confirmation = payload.confirmation
       if (this.$store.getters['themeCredit/getPartPaymentData']) {
         const result = await this.$store.dispatch('themeCredit/sendPartPayment', { orderNumber: payload.confirmation.orderNumber });
-        if (result.code === 200) {
-          localStorage.setItem('payparts_' + payload.confirmation.orderNumber, JSON.stringify(this.order))
-          this.$store.dispatch('cart/clear', { sync: false }, { root: true })
-          this.$store.dispatch('user/getOrdersHistory', { refresh: true, useCache: true })
+        if (result.state === 'SUCCESS') {
+          await this.$store.dispatch('cart/clear', { sync: false }, { root: true })
+          await this.$store.dispatch('user/getOrdersHistory', { refresh: true, useCache: true })
           location.href = 'https://payparts2.privatbank.ua/ipp/v2/payment?token=' + result.token
         }
       } else {
         this.$store.dispatch('checkout/setThankYouPage', true)
+        this.$store.dispatch('cart/clear', { sync: false }, { root: true })
+        this.$store.dispatch('user/getOrdersHistory', { refresh: true, useCache: true })
       }
-      this.$store.dispatch('cart/clear', { sync: false }, { root: true })
-      this.$store.dispatch('user/getOrdersHistory', { refresh: true, useCache: true })
       Logger.debug(payload.order)()
     },
     onBeforeEdit (section) {
@@ -348,7 +347,6 @@ export default {
         this.order.addressInformation.payment_method_additional = { ...this.$store.state.themeCredit.creditDetails }
         this.order.addressInformation.payment_method_additional['credit_id'] = this.$store.state.themeCredit.selectedCredit.credit_id
         this.order.addressInformation.payment_method_additional['terms'] = this.$store.state.themeCredit.selectedCredit.terms
-        this.order.addressInformation.payment_method_additional['groupid'] = Object.keys(this.$store.state.themeCredit.selectedBank.groups)[0]
       }
       if (this.shipping.deliveryType === 'new_post') {
         this.order.addressInformation['shippingExtraFields'] = {
@@ -356,7 +354,7 @@ export default {
           carrier: 'nova-poshta'
         };
       }
-      if (this.$store.getters['themeCredit/getSelectedCredit'] && +this.$store.getters['themeCredit/getSelectedCredit'].liqpay_allowed) {
+      if (this.order.addressInformation.payment_method_code === 'credit' && !+this.$store.getters['themeCredit/getSelectedCredit'].liqpay_allowed) {
         this.order.addressInformation.payment_method_code = 'temabit_payparts'
       }
       return this.order

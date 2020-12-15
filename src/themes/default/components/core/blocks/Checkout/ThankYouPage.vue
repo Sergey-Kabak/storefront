@@ -31,7 +31,7 @@
         </div>
         <div class="thank-you-row" v-if="billingAddress">
           <span class="left">{{ $t('Shipping address') }}: </span>
-          <span class="middle">{{ $t('st.') }} {{ billingAddress.street && billingAddress.street[0] }}, {{ billingAddress.street && billingAddress.street[1] }}</span>
+          <span class="middle">{{ shippingType === 'currier' ? $t('st.') : '' }} {{ (billingAddress.street && billingAddress.street[0]).replace(/\W+,/g, '').trim() }}, {{ billingAddress.street && billingAddress.street[1] }}</span>
         </div>
       </div>
       <div class="thank-you-body" v-if="products.length">

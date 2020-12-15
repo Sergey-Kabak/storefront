@@ -1,8 +1,8 @@
-<template>
+  <template>
   <div class="price-selector">
     <div class="inputs">
       <price-input id="from-price" label="От" v-model="variant.from" @keypress="isNumber($event)" @change="changeFilter()"/>
-      <price-input id="to-price" label="До" v-model="variant.to" @keypress="isNumber($event)"  @change="changeFilter()"/>
+      <price-input id="to-price" label="До" v-model="variant.to" @keypress="isNumber($event)" @change="changeFilter()"/>
     </div>
   </div>
 </template>
