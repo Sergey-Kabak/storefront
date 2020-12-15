@@ -354,7 +354,7 @@ export default {
           carrier: 'nova-poshta'
         };
       }
-      if (this.order.addressInformation.payment_method_code === 'credit' && !+this.$store.getters['themeCredit/getSelectedCredit'].liqpay_allowed) {
+      if (this.order.addressInformation.payment_method_code === 'credit' && +this.$store.getters['themeCredit/getSelectedCredit'].liqpay_allowed) {
         this.order.addressInformation.payment_method_code = 'temabit_payparts'
       }
       return this.order

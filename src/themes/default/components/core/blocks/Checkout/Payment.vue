@@ -262,7 +262,7 @@ export default {
         if (this.payment.paymentMethod === 'credit' && this.$refs.creditMethod[0].$refs.creditForm.$v.$error) {
           return
         }
-        if (!+this.selectedCredit.liqpay_allowed) {
+        if (+this.selectedCredit.liqpay_allowed) {
           const products = this.productsInCart.map(product => {
             return {
               name: product.name,
@@ -276,7 +276,6 @@ export default {
             partsCount: +this.selectedCredit.terms,
             merchantType: 'PP',
             products,
-            responseUrl: 'https://ringoo.knyazev.space/rest/V1/payparts/callback',
             redirectUrl: location.origin + '/order?cartId=' + this.getCartToken + '&payparts&marketplace=' + marketplace
           }
           this.$store.commit('themeCredit/SET_PART_PAYMENT', data)
