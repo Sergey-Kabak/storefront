@@ -76,11 +76,13 @@ $color-gray: color(gainsboro);
 $color-black: color(matterhorn);
 
 button {
+  display: flex;
+  align-items: center;
   font-family: DIN Pro;
   font-style: normal;
   font-weight: 700;
   font-size: 14px;
-  line-height: 16px;
+  line-height: 14px;
   color: #595858;
   span {
     margin-right: 10px;
