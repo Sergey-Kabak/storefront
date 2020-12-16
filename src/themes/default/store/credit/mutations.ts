@@ -14,6 +14,9 @@ const mutations: MutationTree<CreditState> = {
   },
   [types.CREDIT_SET_METHOD] (state, { creditMethod }) {
     state.creditMethod = creditMethod;
+  },
+  SET_PART_PAYMENT (state, payload) {
+    state.PartPaymentData = payload
   }
 }
 

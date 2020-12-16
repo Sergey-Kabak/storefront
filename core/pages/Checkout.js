@@ -161,15 +161,25 @@ export default {
     async onAfterPlaceOrder (payload) {
       await this.GTM_TRANSACTION({ id: payload.confirmation.orderNumber, revenue: this.totals.find(it => it.code === 'grand_total').value, products: payload.order.products })
       this.confirmation = payload.confirmation
-      this.$store.dispatch('checkout/setThankYouPage', true)
-      this.$store.dispatch('cart/clear', { sync: false }, { root: true })
-      this.$store.dispatch('user/getOrdersHistory', { refresh: true, useCache: true })
+      if (this.$store.getters['themeCredit/getPartPaymentData']) {
+        const result = await this.$store.dispatch('themeCredit/sendPartPayment', { orderNumber: payload.confirmation.orderNumber });
+        if (result.state === 'SUCCESS') {
+          await this.$store.dispatch('cart/clear', { sync: false }, { root: true })
+          await this.$store.dispatch('user/getOrdersHistory', { refresh: true, useCache: true })
+          location.href = 'https://payparts2.privatbank.ua/ipp/v2/payment?token=' + result.token
+        }
+      } else {
+        this.$store.dispatch('checkout/setThankYouPage', true)
+        this.$store.dispatch('cart/clear', { sync: false }, { root: true })
+        this.$store.dispatch('user/getOrdersHistory', { refresh: true, useCache: true })
+      }
       Logger.debug(payload.order)()
     },
     onBeforeEdit (section) {
       this.activateSection(section)
     },
     onBeforePlaceOrder (payload) {
+
     },
     onAfterCartSummary (receivedData) {
       this.cartSummary = receivedData
@@ -333,7 +343,7 @@ export default {
           region_code: this.payment.region_code ? this.payment.region_code : ''
         }
       }
-      if (this.order.addressInformation.payment_method_code === 'credit') {
+      if (this.getPaymentMethod() === 'credit') {
         this.order.addressInformation.payment_method_additional = { ...this.$store.state.themeCredit.creditDetails }
         this.order.addressInformation.payment_method_additional['credit_id'] = this.$store.state.themeCredit.selectedCredit.credit_id
         this.order.addressInformation.payment_method_additional['terms'] = this.$store.state.themeCredit.selectedCredit.terms
@@ -343,6 +353,9 @@ export default {
           warehouse_id: this.shipping.location.id,
           carrier: 'nova-poshta'
         };
+      }
+      if (this.getPaymentMethod() === 'credit' && +this.$store.getters['themeCredit/getSelectedCredit'].liqpay_allowed) {
+        this.order.addressInformation.payment_method_code = 'temabit_payparts'
       }
       return this.order
     },
