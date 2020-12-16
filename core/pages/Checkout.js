@@ -343,7 +343,7 @@ export default {
           region_code: this.payment.region_code ? this.payment.region_code : ''
         }
       }
-      if (this.order.addressInformation.payment_method_code === 'credit') {
+      if (this.getPaymentMethod() === 'credit') {
         this.order.addressInformation.payment_method_additional = { ...this.$store.state.themeCredit.creditDetails }
         this.order.addressInformation.payment_method_additional['credit_id'] = this.$store.state.themeCredit.selectedCredit.credit_id
         this.order.addressInformation.payment_method_additional['terms'] = this.$store.state.themeCredit.selectedCredit.terms
@@ -354,7 +354,7 @@ export default {
           carrier: 'nova-poshta'
         };
       }
-      if (this.order.addressInformation.payment_method_code === 'credit' && +this.$store.getters['themeCredit/getSelectedCredit'].liqpay_allowed) {
+      if (this.getPaymentMethod() === 'credit' && +this.$store.getters['themeCredit/getSelectedCredit'].liqpay_allowed) {
         this.order.addressInformation.payment_method_code = 'temabit_payparts'
       }
       return this.order

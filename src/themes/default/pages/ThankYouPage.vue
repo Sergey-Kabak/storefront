@@ -62,7 +62,7 @@
                   {{ $t('Total') }}:
                 </div>
                 <div data-v-2eee09e6="" class="total-price-value">
-                  {{ order.total_due | price(storeView) }}
+                  {{ order.total_paid | price(storeView) }}
                 </div>
               </div>
             </div>
