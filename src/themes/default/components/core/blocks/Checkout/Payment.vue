@@ -98,13 +98,12 @@ import CreditMethod from './Credits/CreditMethod';
 import { CreditService } from '../../../../services';
 import mixin from './Credits/mixin';
 import totalAmount from '../../../../mixins/cart/totalAmount';
+import config from 'config'
 const lettersOnly = value => (
   /^[\u0400-\u04FF]+$/.test(value) ||
   /^[a-zA-Zа-яА-Я]+$/.test(value) ||
   value === ''
 );
-import config from 'config'
-
 export default {
   props: {
     activeSection: {
@@ -134,9 +133,6 @@ export default {
       },
       deep: true
     }
-    // productsInCart: function (products) {
-    //   this.$store.dispatch('themeCredit/fetchBanksCheckout', this.$store.state.cart.cartServerToken)
-    // }
   },
   computed: {
     ...mapGetters({
@@ -145,7 +141,7 @@ export default {
       getCartToken: 'cart/getCartToken',
       getBanks: 'themeCredit/getBanks',
       creditMethod: 'themeCredit/creditMethod',
-      selectedCredit: 'themeCredit/getSelectedCredit',
+      selectedCredit: 'themeCredit/getSelectedCredit'
     }),
     countryOptions () {
       return this.countries.map((item) => {
@@ -265,6 +261,24 @@ export default {
         this.$refs.creditMethod[0].$refs.creditForm.$v.$touch()
         if (this.payment.paymentMethod === 'credit' && this.$refs.creditMethod[0].$refs.creditForm.$v.$error) {
           return
+        }
+        if (+this.selectedCredit.liqpay_allowed) {
+          const products = this.productsInCart.map(product => {
+            return {
+              name: product.name,
+              count: product.qty,
+              price: this.finalPrice(product).toFixed(2)
+            }
+          })
+          const marketplace = this.productsInCart.some(it => !!it.marketplace)
+          const data = {
+            amount: this.totals.find(it => it.code === 'grand_total').value.toFixed(2),
+            partsCount: +this.selectedCredit.terms,
+            merchantType: 'PP',
+            products,
+            redirectUrl: location.origin + '/order?cartId=' + this.getCartToken + '&payparts&marketplace=' + marketplace
+          }
+          this.$store.commit('themeCredit/SET_PART_PAYMENT', data)
         }
         this.$store.state.themeCredit.creditDetails = { ...this.$refs.creditMethod[0].$refs.creditForm.form }
       }

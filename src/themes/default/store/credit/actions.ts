@@ -58,6 +58,15 @@ const actions = {
       const resp = await quickSearchByQuery({ entityType: 'attribute', query });
       state.creditExtraAttributes = resp.items[0].options
     }
+  },
+  async sendPartPayment ({ state }, payload) {
+    state.PartPaymentData.orderId = payload.orderNumber
+    const res = await CreditService.PartPayment(JSON.stringify(state.PartPaymentData))
+    return res.result
+  },
+  async partPaymentStatus ({ state }, payload) {
+    const res = await CreditService.PartPaymentStatus(payload)
+    return res.result
   }
 }
 
