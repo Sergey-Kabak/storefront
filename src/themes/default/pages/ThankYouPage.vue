@@ -106,9 +106,8 @@ export default {
   },
   methods: {
     getOrder () {
-      // jBNd8Y20EPY1SC2LeR5i178pIIcsl7wn
       PaymentService.getOrderByCartId(this.$route.query.cartId).then(async res => {
-        this.order = res.result
+        const order = res.result
         this.productSKUs = this.order.items.filter(product => product.product_type === 'simple').map(it => {
           return { sku: it.sku, qty: it.qty_ordered }
         })
@@ -116,9 +115,10 @@ export default {
         // eslint-disable-next-line no-return-assign
         this.products.forEach(it => it.qty = this.productSKUs.find(el => el.sku === it.sku).qty)
         if (Object.keys(this.$route.query).includes('payparts')) {
-          let PayPartStatus = await this.$store.dispatch('themeCredit/partPaymentStatus', { id: this.order.increment_id, marketplace: this.$route.query.marketplace })
+          let PayPartStatus = await this.$store.dispatch('themeCredit/partPaymentStatus', { id: order.increment_id, marketplace: this.$route.query.marketplace })
           PayPartStatus.paymentState !== 'SUCCESS' && this.$router.push('/')
         }
+        this.order = order;
       }).catch(e => {
         this.$router.push('/')
       })
