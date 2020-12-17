@@ -296,7 +296,13 @@ export default {
     ] : []
     return {
       title: htmlDecode(meta_title || name),
-      meta
+      meta,
+      link: [
+        {
+          rel: 'canonical',
+          href: 'https://ringoo.ua' + this.$route.path
+        }
+      ]
     }
   },
   watch: {
