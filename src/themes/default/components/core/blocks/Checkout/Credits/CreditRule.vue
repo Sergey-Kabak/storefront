@@ -1,5 +1,5 @@
 <template>
-  <div v-if="maxTermsSelected">
+  <div v-if="isExtraItemsPart">
     <div class="alert" :class="alertStatus.class">
       <i class="icon" v-html="alertStatus.icon"></i>
       <div class="content">
