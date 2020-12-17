@@ -509,6 +509,10 @@ export default {
     const storeView = currentStoreView()
     return {
       link: [
+        {
+          rel: 'canonical',
+          href: 'https://ringoo.ua' + this.$route.path
+        },
         { rel: 'amphtml',
           href: this.$router.resolve(localizedRoute({
             name: this.getCurrentProduct.type_id + '-product-amp',
