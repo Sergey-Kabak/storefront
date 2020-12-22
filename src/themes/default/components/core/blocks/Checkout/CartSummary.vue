@@ -50,6 +50,11 @@ export default {
   },
   mounted () {
     this.GTM_CHECKOUT(this.productsInCart, 'checkout')
+  },
+  watch: {
+    productsInCart: function (v) {
+      this.$store.dispatch('cart/synchronizeCart', { forceClientState: false })
+    }
   }
 };
 </script>
