@@ -17,9 +17,9 @@
       <div class="checkout-subtitle-text">{{ $t('the Payment') }}:</div>
     </div>
     <div v-if="isActive && activeSection.payment" class="payment-body">
-      <div class="label mb10">
+      <div class="payment-label">
         {{ $t('Payment method') }}
-        <span class="label--highlighted">*</span>
+        <span class="payment-label highlighted">*</span>
       </div>
       <div class="payment-methods">
         <div class="payment-card" v-for="(method, index) in paymentMethods" :key="index" v-if="isShowPaymentMethod(method)">
@@ -67,7 +67,7 @@
         v-else
         @click.native="placeOrder()"
         data-testid="paymentSubmit"
-        :disabled="$v.payment.$invalid || (payment.paymentMethod === 'credit' && typeof maxTermsSelected !== 'undefined' && maxTermsSelected && alertStatus.class !== 'success')"
+        :disabled="$v.payment.$invalid || (payment.paymentMethod === 'credit' && typeof isExtraItemsPart !== 'undefined' && isExtraItemsPart && alertStatus.class !== 'success')"
         class="button-pay"
         :aria-label="$t('To pay')"
       >
@@ -98,13 +98,12 @@ import CreditMethod from './Credits/CreditMethod';
 import { CreditService } from '../../../../services';
 import mixin from './Credits/mixin';
 import totalAmount from '../../../../mixins/cart/totalAmount';
+import config from 'config'
 const lettersOnly = value => (
   /^[\u0400-\u04FF]+$/.test(value) ||
   /^[a-zA-Zа-яА-Я]+$/.test(value) ||
   value === ''
 );
-import config from 'config'
-
 export default {
   props: {
     activeSection: {
@@ -134,9 +133,6 @@ export default {
       },
       deep: true
     }
-    // productsInCart: function (products) {
-    //   this.$store.dispatch('themeCredit/fetchBanksCheckout', this.$store.state.cart.cartServerToken)
-    // }
   },
   computed: {
     ...mapGetters({
@@ -145,7 +141,7 @@ export default {
       getCartToken: 'cart/getCartToken',
       getBanks: 'themeCredit/getBanks',
       creditMethod: 'themeCredit/creditMethod',
-      selectedCredit: 'themeCredit/getSelectedCredit',
+      selectedCredit: 'themeCredit/getSelectedCredit'
     }),
     countryOptions () {
       return this.countries.map((item) => {
@@ -266,6 +262,24 @@ export default {
         if (this.payment.paymentMethod === 'credit' && this.$refs.creditMethod[0].$refs.creditForm.$v.$error) {
           return
         }
+        if (+this.selectedCredit.liqpay_allowed) {
+          const products = this.productsInCart.map(product => {
+            return {
+              name: product.name,
+              count: product.qty,
+              price: this.finalPrice(product).toFixed(2)
+            }
+          })
+          const marketplace = this.productsInCart.some(it => !!it.marketplace)
+          const data = {
+            amount: this.totals.find(it => it.code === 'grand_total').value.toFixed(2),
+            partsCount: +this.selectedCredit.terms,
+            merchantType: 'PP',
+            products,
+            redirectUrl: location.origin + '/order?cartId=' + this.getCartToken + '&payparts&marketplace=' + marketplace
+          }
+          this.$store.commit('themeCredit/SET_PART_PAYMENT', data)
+        }
         this.$store.state.themeCredit.creditDetails = { ...this.$refs.creditMethod[0].$refs.creditForm.form }
       }
       this.$bus.$emit('checkout-before-placeOrder')
@@ -313,8 +327,23 @@ export default {
   text-transform: uppercase;
   color: #5F5E5E;
 }
+
+.payment-label {
+  margin-bottom: 12px;
+  font-family: DIN Pro;
+  font-size: 13px;
+  line-height: 16px;
+  color: #5F5E5E;
+
+  &.highlighted {
+    color: #23BE20;
+  }
+}
+
 .mobile-data {
+  margin-top: 16px;
   display: none;
+
   .button-pay {
     max-width: 204px;
   }
@@ -452,9 +481,6 @@ export default {
       grid-template-columns: 1fr 1fr;
       margin-bottom: 0;
     }
-    .mobile-data {
-      display: block;
-    }
     .payment-body {
       padding-bottom: 16px;
       border-bottom: 1px solid #E0E0E0;
@@ -488,6 +514,19 @@ export default {
     }
   }
 }
+
+@media (max-width: 960px) {
+  .mobile-data {
+    display: block;
+  }
+}
+
+@media (max-width: 400px) {
+  .button-full {
+    max-width: 100%;
+  }
+}
+
 .credit-block-wrapper{
   order: -1;
 }

@@ -11,7 +11,10 @@
           </div>
           <div class="banner-description__block" v-if="getCurrentCategory.description">
             <h3>{{ $t('Description of the action') }}</h3>
-            <div class="banner-description__text" v-html="getCurrentCategory.description"></div>
+            <div class="banner-description-info">
+              <div class="banner-description__text" :class="{'active': isDescriptionActive}" v-html="getCurrentCategory.description"></div>
+              <div class="next-button" v-if="!isDescriptionActive" @click="isDescriptionActive = true">{{ $t('next') }}</div>
+            </div>
             <div class="banner-description__timer">
               <h3>{{ $t('Until the end of the promotion') }}</h3>
               <CountDown :end-time="getEndTime()" />
@@ -157,6 +160,10 @@ const composeInitialPageState = async (store, route, forceLoad = false) => {
     const cachedCategory = store.getters['category-next/getCategoryFrom'](route.path)
     const currentCategory = cachedCategory && !forceLoad ? cachedCategory : await store.dispatch('category-next/loadCategory', { filters })
     const pageSize = store.getters['url/isBackRoute'] ? store.getters['url/getCurrentRoute'].categoryPageSize : THEME_PAGE_SIZE
+    // TODO: REMOVE
+    if (currentCategory.id === 911) {
+      currentCategory.filterable_attributes.unshift('kategorija', 'znizhka')
+    }
     await store.dispatch('attribute/list', { filterValues: currentCategory.filterable_attributes })
     await store.dispatch('category-next/loadCategoryProducts', { route, category: currentCategory, pageSize })
     const breadCrumbsLoader = store.dispatch('category-next/loadCategoryBreadcrumbs', { category: currentCategory, currentRouteName: currentCategory.name, omitCurrent: true })
@@ -196,7 +203,8 @@ export default {
         seconds: 0
       },
       expired: null,
-      interval: null
+      interval: null,
+      isDescriptionActive: false
     }
   },
   computed: {
@@ -288,7 +296,13 @@ export default {
     ] : []
     return {
       title: htmlDecode(meta_title || name),
-      meta
+      meta,
+      link: [
+        {
+          rel: 'canonical',
+          href: 'https://ringoo.ua' + this.$route.path
+        }
+      ]
     }
   },
   watch: {
@@ -624,6 +638,41 @@ $mobile_screen : 768px;
     }
   }
 
+  .next-button {
+    cursor: pointer;
+    padding: 4px 0px;
+    display: none;
+    font-family: DIN Pro;
+    font-size: 13px;
+    line-height: 16px;
+    color: #1A1919;
+    border-bottom: 1px dashed #1A1919;
+  }
+
+
+  @media (max-width: 576px) {
+    .next-button {
+      display: inline-block;
+    }
+    .banner-description__text {
+      /*! autoprefixer: off */
+      -webkit-box-orient: vertical;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      overflow: hidden;
+
+      &.active {
+        display: block;
+      }
+
+      ::v-deep {
+        p {
+          margin: 0;
+        }
+      }
+    }
+  }
+
   .close-container {
     left: 0;
   }
@@ -694,6 +743,7 @@ $mobile_screen : 768px;
     line-height: 24px;
     color: #595858;
     overflow: auto;
+    margin-bottom: 8px;
   }
   &__timer {
     position: relative;

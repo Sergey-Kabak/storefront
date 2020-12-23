@@ -4,8 +4,8 @@
       <AddToWishlist :product="product" class="product-icon" :class="{'active': isOnWishlist }" />
       <AddToCompare :product="product" class="product-icon" :class="{'active': isOnCompare }" />
     </div>
-    <router-link :to="productLink" class="promo" v-if="product.category_ids && product.category_ids.includes(869)">
-      <img :src="randomPromoImage" alt="promo">
+    <router-link :to="productLink" class="promo" v-if="categoryImage">
+      <img :src="categoryImage" alt="promo" class="sale-image">
     </router-link>
     <router-link
       class="flex flex-column no-underline product-link"
@@ -100,6 +100,21 @@ export default {
     },
     randomPromoImage() {
       return `/assets/promo/ny-${Math.floor(Math.random() * 4) + 1 }.png`
+    },
+    categoryImage() {
+      const categoryIds = [891, 892, 893, 894, 895, 896, 897, 898, 899, 900, 901, 902, 903]
+      const categoryId = this.product.category_ids.find(it => {
+        return categoryIds.find(categoryId => categoryId === it)
+      })
+      if (this.product.category_ids.includes(869) && !categoryId) {
+        return this.randomPromoImage
+      } else {
+        const imagePath = '/assets/promo/sales/sale'
+        return categoryIds.reduce((result, item) => {
+          result[item] = imagePath + item + '.png';
+          return result;
+        }, {})[categoryId]
+      }
     }
   },
   methods: {
@@ -338,6 +353,13 @@ export default {
     .product-icon {
       opacity: 1;
     }
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .sale-image {
+    max-width: 56px;
+    width: 100%;
   }
 }
 </style>

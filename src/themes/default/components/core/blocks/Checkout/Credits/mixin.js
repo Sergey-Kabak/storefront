@@ -32,14 +32,8 @@ export default {
       }
       return 0;
     },
-    maxTermsSelected () {
-      if (!!this.selectedCredit && this.selectedCredit.terms) {
-        return +this.selectedCredit.terms === this.maxTerms;
-      }
-    },
-    maxTerms () {
-      const propositions = this.getSelectedBank.groups[Object.keys(this.getSelectedBank.groups)[0]];
-      return propositions.map(it => +it.terms).sort((a, b) => b - a)[0];
+    isExtraItemsPart () {
+      return !!+this.selectedCredit.extra_items_part;
     },
     getAccessoriesPriceFromCart () {
       const extraProducts = this.productsInCart.filter(it => !!it.credit_extra_tag && it.credit_extra_tag !== 7436)
@@ -47,7 +41,7 @@ export default {
       return extraProducts.length ? extraProducts.reduce((accumulator, product) => accumulator += this.finalPrice(product) * product.qty, 0) : 0;
     },
     alertStatus () {
-      if (this.getAccessoriesPriceFromCart === 0 && +this.selectedCredit.extra_items_part > 0) {
+      if (this.getAccessoriesPriceFromCart === 0 && this.isExtraItemsPart) {
         return {
           class: 'error',
           icon: `

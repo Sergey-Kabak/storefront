@@ -24,14 +24,18 @@ export default {
       }
       return products.map(it => {
         let { sku, name, price, manufacturer, brand = null, category = null, list = page } = it;
-        manufacturer && (brand = attr.manufacturer.find(el => el.value === manufacturer + '').label);
+        if (manufacturer && attr.manufacturer.find(el => el.value === manufacturer + '')) {
+          brand = attr.manufacturer.find(el => el.value === manufacturer + '').label
+        }
         if (this.getBreadcrumbsRoutes.length || this.getBreadcrumbsCurrent) {
           // eslint-disable-next-line no-return-assign
           category = this.getBreadcrumbsRoutes.reduce((acc, route) => acc += route.name + ' /', '') + this.getBreadcrumbsCurrent;
         }
         if (it.qty && it.color) {
           let { color, qty } = it;
-          color = attr.color.find(it => +it.value === color).label;
+          if (attr.color.find(it => +it.value === color)) {
+            color = attr.color.find(it => +it.value === color).label;
+          }
           return { id: sku, name, price, brand, category, list, variant: color, quantity: qty };
         } else {
           return { id: sku, name, price, brand, category, list };

@@ -10,8 +10,6 @@ export const module: Module<CreditState, any> = {
     banks: [],
     selectedBank: null,
     selectedCredit: null,
-    accessories: null,
-    services: null,
     productSku: null,
     creditExtraAttributes: null,
     creditMethod: 'pickup',
@@ -21,7 +19,8 @@ export const module: Module<CreditState, any> = {
       last_name: '',
       date_of_birth: '',
       identification_code: null
-    }
+    },
+    PartPaymentData: null
   },
   getters,
   actions,

@@ -4,7 +4,7 @@ import routes from './router';
 import Vue from 'vue';
 import VueProgressBar from 'vue-progressbar';
 import '@vue-storefront/core/lib/passive-listeners';
-import { once } from '@vue-storefront/core/helpers';
+import { once, isServer } from '@vue-storefront/core/helpers';
 import { module as cartModule } from './store/cart';
 import { module as creditModule } from './store/credit';
 
@@ -17,14 +17,18 @@ import { paymentStore } from 'theme/store/payment';
 import { compareStore } from 'theme/store/compare';
 import { searchStore } from 'theme/store/search';
 import { brandStore } from 'theme/store/brand';
+import { cmsStore } from 'theme/store/cms';
 import { attributeStore } from 'theme/store/attributes';
+import { shopStore } from 'theme/store/shop';
 import { StorageManager } from '@vue-storefront/core/lib/storage-manager';
 import { module as carouselModule } from 'theme/store/carousel';
 import vClickOutside from 'v-click-outside';
+import Autocomplete from '@trevoreyre/autocomplete-vue'
 
 once('__VUE_EXTEND_DROPPOINT_VPB__', () => {
   Vue.use(VueProgressBar)
   Vue.use(vClickOutside)
+  Vue.use(Autocomplete)
 })
 
 const themeEntry = App
@@ -52,6 +56,8 @@ function initTheme (app, router, store, config, ssrContext) {
   store.registerModule('brand', brandStore);
   store.registerModule('slider', carouselModule);
   store.registerModule('custom-attr', attributeStore);
+  store.registerModule('cms', cmsStore);
+  store.registerModule('shop', shopStore);
   // store.registerModule('payment', paymentStore);
 }
 

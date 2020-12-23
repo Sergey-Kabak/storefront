@@ -1,8 +1,8 @@
 <template>
   <div class="w-100">
     <current-credit />
-    <credit-rule v-if="maxTermsSelected" />
-    <credit-form v-if="alertStatus.class === 'success' || !maxTermsSelected" ref="creditForm" />
+    <credit-rule v-if="isExtraItemsPart" />
+    <credit-form v-if="alertStatus.class === 'success' || !isExtraItemsPart" ref="creditForm" />
   </div>
 </template>
 

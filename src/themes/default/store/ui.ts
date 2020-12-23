@@ -13,6 +13,7 @@ export const uiStore = {
     overlay: false,
     loader: false,
     authElem: 'login',
+    defaultCity: 'Київ',
     checkoutMode: false,
     openMyAccount: false,
     headerIndex: 3,
@@ -85,6 +86,9 @@ export const uiStore = {
     setSearch (state, action) {
       state.isSearchActive = action === true
       state.overlay = action === true
+    },
+    setDefaultCity (state, action) {
+      state.defaultCity = action
     }
   },
   actions: {

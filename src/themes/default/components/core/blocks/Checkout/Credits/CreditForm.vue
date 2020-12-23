@@ -4,30 +4,6 @@
       <div class="block-title">
         {{ $t('Loan processing')}}
       </div>
-<!--      <div class="credit-method-block">-->
-<!--        <div v-if="+selectedCredit.liqpay_allowed" class="credit-method-select">-->
-<!--          <span class="credit-method-title">Способ оплаты</span>-->
-<!--          <div class="credit-method-radio">-->
-<!--            <label v-for="(method, index) in availableMethods"-->
-<!--                   :key="index"-->
-<!--                   :for="'credit-method&#45;&#45;' + method"-->
-<!--                   :class="{'active': creditMethod === method}"-->
-<!--            >-->
-<!--              <input @input="chageMethod(method)" :id="'credit-method&#45;&#45;' + method" type="radio" :value="method" name="credit-method">-->
-<!--              {{ method }}-->
-<!--            </label>-->
-<!--          </div>-->
-<!--        </div>-->
-<!--        <div v-if="maxTermsSelected" class="credit-method-select">-->
-<!--          <span class="credit-method-title">Дополнительные услуги</span>-->
-<!--        </div>-->
-<!--        <div v-if="AdditionalRules && +selectedCredit.liqpay_allowed">-->
-<!--          <div class="alert">-->
-<!--            Для возможности оплаты через систему Liqpay необходимо добавить к заказу аксессуар(ы) на сумму от {{accessoriesMinPrice | price(storeView)}}!-->
-<!--          </div>-->
-<!--          <product-list />-->
-<!--        </div>-->
-<!--      </div>-->
       <div class="form-row flex">
         <div class="form-column">
           <div class="form-label">
@@ -188,30 +164,8 @@ export default {
     },
     accessoriesMinPrice () {
       return this.totals.find(it => it.code === 'grand_total').value / 100 * +this.selectedCredit.extra_items_part
-    },
-    maxTermsSelected () {
-      return !+this.selectedCredit.liqpay_allowed && +this.selectedCredit.terms === this.maxTerms
-    },
-    maxTerms () {
-      const propositions = this.getSelectedBank.groups[Object.keys(this.getSelectedBank.groups)[0]];
-      return propositions.map(it => +it.terms).sort((a, b) => b - a)[0]
     }
   },
-  // methods: {
-  //   chageMethod (method) {
-  //     this.$store.commit('themeCredit/' + types.CREDIT_SET_METHOD, { creditMethod: method });
-  //   }
-  // },
-  // watch: {
-  //   selectedCredit: function (v) {
-  //     if (!+v.liqpay_allowed) {
-  //       this.$store.commit('themeCredit/' + types.CREDIT_SET_METHOD, { creditMethod: 'pickup' })
-  //     }
-  //   }
-  // },
-  // beforeDestroy () {
-  //   this.$store.commit('themeCredit/' + types.CREDIT_SET_METHOD, { creditMethod: 'pickup' })
-  // },
   validations () {
     return {
       form: {

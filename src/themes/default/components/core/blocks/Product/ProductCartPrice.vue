@@ -60,7 +60,7 @@ export default {
   },
   computed: {
     getColor () {
-      if (this.product.type_id === 'configurable' && this.showProductColor) {
+      if (this.product.type_id === 'configurable' && this.showProductColor ) {
         return this.product.attributes_metadata.find(it => it.attribute_code === 'color').options.find(option => +option.value === this.product.color).label || null
       }
       return null
@@ -69,29 +69,27 @@ export default {
       return currentStoreView()
     },
     discount () {
-      const productTypes = {
-        bundle: parseInt(100 - this.product.special_price)
-      }
-      return productTypes[this.product.type_id] || parseInt(((this.product.original_price - this.product.special_price) / (this.product.original_price / 100)))
+      return parseInt(((this.product.original_price - this.product.special_price) / (this.product.original_price / 100)))
     },
     isDiscount () {
       return this.product.original_price && this.product.special_price && this.discount > 0
     },
     bundleFinalPrice () {
       if (this.product.special_price > 0) {
-        let baseDiscount = 100 - this.product.special_price,
-          onePercent = this.bundlePrice / 100;
-        return (this.bundlePrice - (onePercent * baseDiscount))
+        return this.product.special_price + this.BundleOptionsPrice
       } else {
         return this.bundlePrice
       }
     },
     bundlePrice () {
+      return this.BundleOptionsPrice + this.product.original_price
+    },
+    BundleOptionsPrice () {
       if (this.isBundleProduct && this.product.bundle_options) {
         let bundleProductsPrice = this.product.bundle_options.reduce((acc, it) => {
           return acc += it.product_links.reduce((acc2, it2) => acc2 += it2.price, 0)
         }, 0)
-        return bundleProductsPrice + this.product.original_price
+        return bundleProductsPrice
       }
     },
     isBundleProduct () {

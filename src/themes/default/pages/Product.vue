@@ -371,9 +371,9 @@ export default {
       }
     },
     getCustomAttributes () {
-      return Object.values(this.attributesByCode).filter(a => {
+      return this.getCurrentProduct.attributes_metadata && this.getCurrentProduct.attributes_metadata.filter(a => {
         return a.is_visible && a.is_user_defined && (parseInt(a.is_visible_on_front) || a.is_visible_on_front === true) && this.getCurrentProduct[a.attribute_code]
-      }).sort((a, b) => { return a.attribute_id > b.attribute_id })
+      })
     },
     getAvailableFilters () {
       return getAvailableFiltersByProduct(this.getCurrentProduct)
@@ -509,6 +509,10 @@ export default {
     const storeView = currentStoreView()
     return {
       link: [
+        {
+          rel: 'canonical',
+          href: 'https://ringoo.ua' + this.$route.path
+        },
         { rel: 'amphtml',
           href: this.$router.resolve(localizedRoute({
             name: this.getCurrentProduct.type_id + '-product-amp',

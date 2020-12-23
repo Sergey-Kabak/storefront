@@ -12,14 +12,11 @@ const getters: GetterTree<CreditState, RootState> = {
   getSelectedCredit (state) {
     return state.selectedCredit;
   },
-  getAccessories (state) {
-    return state.accessories;
-  },
-  getServices (state) {
-    return state.services;
-  },
   creditMethod (state) {
     return state.creditMethod
+  },
+  getPartPaymentData (state) {
+    return state.PartPaymentData
   }
 }
 
