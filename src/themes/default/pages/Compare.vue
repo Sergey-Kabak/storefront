@@ -165,6 +165,7 @@
       </div>
     </div>
   </div>
+  <div v-else>{{all_comparable_attributes}}</div>
 </template>
 
 <script>
@@ -176,6 +177,7 @@ import ProductAttribute from '../components/core/blocks/Compare/ProductAttribute
 import i18n from '@vue-storefront/i18n';
 import { RemoveFromCompare } from '@vue-storefront/core/modules/compare/components/RemoveFromCompare';
 import mixin from '../components/core/blocks/Compare/mixin'
+import { mapGetters } from 'vuex'
 
 export default {
   components: {
@@ -220,9 +222,16 @@ export default {
       }
     }
   },
+  computed: {
+    ...mapGetters({
+      getCompareItems: 'compare/getCompareItems',
+      isCompareLoaded: 'compare/isCompareLoaded'
+    })
+  },
   mounted () {
-    this.calculateWidth()
-    this.calculateCells()
+    // this.$store.dispatch('product/loadProductAttributes', { product: JSON.parse(localStorage.getItem('shop/compare/current-compare'))[0] })
+    this.calculateWidth();
+    this.calculateCells();
   },
   updated () {
     this.calculateCells();
@@ -234,6 +243,21 @@ export default {
       meta: this.$route.meta.description
         ? [{ vmid: 'description', description: this.$route.meta.description }]
         : []
+    }
+  },
+  watch: {
+    getCompareItems: function (v) {
+      console.log(v);
+      const attr = this.getCompareItems.map(el => el.attributes_metadata.filter(attr => attr.is_comparable && attr.is_visible_on_front)).flat();
+      let uniqAttr = []
+      attr.forEach(el => {
+        if (!uniqAttr.length) {
+          uniqAttr.push(el)
+        } else if (!uniqAttr.find(it => it.id === el.id)) {
+          uniqAttr.push(el)
+        }
+      })
+      this.$store.state.attribute.list_by_code = [...uniqAttr]
     }
   }
 }

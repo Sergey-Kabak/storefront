@@ -1,6 +1,6 @@
 <template>
-  <div class="sidebar-menu fixed mw-100 bg-cl-secondary">
-    <div class="row brdr-bottom-1 brdr-cl-bg-secondary">
+  <div ref="megaMenu" class="sidebar-menu fixed mw-100 bg-cl-secondary">
+    <div class="row m0 brdr-bottom-1 brdr-cl-bg-secondary">
       <div
         v-if="submenu.depth"
         class="back-button"
@@ -349,11 +349,9 @@ $bg-secondary: color(secondary, $colors-background);
 $color-gainsboro: color(gainsboro);
 $color-matterhorn: color(matterhorn);
 $color-mine-shaft: color(mine-shaft);
-
 .sidebar-menu {
   height: 100%;
   width: 350px;
-  overflow: hidden;
 
   a {
     font-family: DIN Pro;
@@ -377,8 +375,15 @@ $color-mine-shaft: color(mine-shaft);
   }
 
   &__container {
-    -webkit-overflow-scrolling: touch;
-    height: 100%;
+    height: calc(100% - 54px);
+    overflow-x: hidden;
+    overflow-y: auto;
+    @media (max-width: 575px) {
+      -webkit-overflow-scrolling: touch;
+      overflow-anchor: none;
+      opacity: 0.9999;
+      will-change: transform;
+    }
   }
 
   &__list {
@@ -412,9 +417,7 @@ $color-mine-shaft: color(mine-shaft);
 
   .sidebar-wrapper {
     width: 100%;
-    height: 100%;
-    overflow-y: auto;
-    overflow-x: hidden;
+    min-height: 100%;
 
     button {
       display: flex;
