@@ -5,7 +5,7 @@
     :class="{ 'is-visible': navVisible, 'search-active': isSearchActive, 'fixed': isFixed }"
     :style="{top: -headerHeight + 'px'}"
   >
-    <div class="promo" v-if="isShowHeader" :style="{'background-color': promo.background}">
+    <div class="promo" v-if="isShowHeader" :style="{'background-color': promo.background}" :class="{'ny-page': !isNYPage}">
       <router-link class="promo-link" :to="promo.link">
         <picture>
           <source :srcset="promo.imgTablet" media="(min-width: 567px) and (max-width: 768px)">
@@ -174,10 +174,10 @@ export default {
     promo () {
       return {
         img: !this.isNYPage ? '/assets/promo/ny-desktop.jpg' : '/assets/promo/iphone-desktop.jpg',
-        imgTablet: !this.isNYPage ? '/assets/promo/ny-tablet.jpg' : '/assets/promo/iphone-mobile.jpg',
+        imgTablet: !this.isNYPage ? '/assets/promo/ny-mobile.jpg' : '/assets/promo/iphone-mobile.jpg',
         imgMobile: !this.isNYPage ? '/assets/promo/ny-mobile.jpg' : '/assets/promo/iphone-mobile.jpg',
-        link: !this.isNYPage ? '/svjatkuj-z-nami' : '/kupuj-pershim',
-        background: !this.isNYPage ? '#6fd4ce' : '#08101b'
+        link: !this.isNYPage ? '/svjatkuj-z-nami' : '/smartfoni-i-telefoni/smartfoni?manufacturer=Apple',
+        background: !this.isNYPage ? '#ae2125' : '#08101b'
       }
     }
   },
@@ -259,6 +259,7 @@ $color-icon-hover: color(secondary, $colors-background);
   picture{
     margin: 0 auto;
   }
+
   .promo-link {
     display: flex;
     max-height: 45px;
@@ -269,6 +270,21 @@ $color-icon-hover: color(secondary, $colors-background);
     margin: auto;
     width: 100%;
     display: block;
+  }
+
+  &.ny-page {
+    background-image: url('/assets/promo/vector.png');
+    background-position: center center;
+    background-repeat: repeat;
+    background-size: 67px;
+    background-color: #ae2125;
+    @media (max-width : 768px){
+      background-size: 45px;
+    }
+
+    picture {
+      box-shadow: 6px 0 12px -4px #000000, -3px 0 17px -4px #000000
+    }
   }
 }
 
