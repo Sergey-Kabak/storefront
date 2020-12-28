@@ -24,7 +24,7 @@ export const Payment = {
       creditDetails: this.$store.state.themeCredit.creditDetails,
       assoc: {
         'currier': ['cashondelivery', 'liqpaymagento_liqpay'],
-        'new_post': ['cashondelivery', 'liqpaymagento_liqpay'],
+        'new_post': ['cashondelivery', 'liqpaymagento_liqpay', 'credit'],
         'shop': ['cashondelivery', 'credit']
       }
     }

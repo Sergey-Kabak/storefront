@@ -11,8 +11,8 @@
         <div>{{ $t('grand_total') }}</div>
       </div>
       <div class="credit-card-block__wrap">
-        <div v-for="(bank , index) in banks" :key="index" class="credit-card-block__row flex h-center"
-             :class="{'active' : selectedBank === index}">
+        <div v-for="(bank , index) in availableBanks" :key="index" class="credit-card-block__row flex h-center"
+             :class="{'active' : selectedBank === index}" v-show="bank.visible">
           <div class="credit-card-block__radio-wrap flex v-center">
             <div class="flex v-center">
               <base-radiobutton
@@ -65,11 +65,12 @@ import BaseInputNumber from 'theme/components/core/blocks/Form/BaseInputNumber'
 import CustomSelect from 'theme/components/core/blocks/Form/CustomSelect'
 import ButtonActive from 'theme/components/core/blocks/Product/ButtonActive'
 import Modal from 'theme/components/core/Modal.vue'
-import { mapGetters, mapMutations } from 'vuex'
+import { mapState, mapGetters, mapMutations } from 'vuex'
 import config from 'config'
 import { currentStoreView, localizedRoute } from '@vue-storefront/core/lib/multistore'
 import { CREDIT_SET_BANKS, CREDIT_SET_SELECTED_BANK } from '../../../store/credit/mutation-types'
 import totalAmount from '../../../mixins/cart/totalAmount';
+import RootState from "@vue-storefront/core/types/RootState";
 export default {
   mixins: [totalAmount],
   components: {
@@ -89,11 +90,25 @@ export default {
     }
   },
   computed: {
+    ...mapState({
+      shippingDetails: state => state.checkout.shippingDetails
+    }),
     ...mapGetters({
       getBanks: 'themeCredit/getBanks',
       getCurrentProduct: 'product/getCurrentProduct',
       productsInCart: 'cart/getCartItems'
     }),
+    availableBanks () {
+      if (this.$route.name === 'checkout' && this.shippingDetails.deliveryType === 'new_post') {
+        return this.getBanks.map(bank => {
+          if (bank.credits.some(it => !+it.liqpay_allowed)) {
+            return { ...bank, visible: false }
+          }
+          return { ...bank, visible: true }
+        })
+      }
+      return this.getBanks
+    },
     storeView () {
       return currentStoreView()
     },

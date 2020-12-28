@@ -4,7 +4,10 @@ import CreditState from './types/CreditState'
 
 const mutations: MutationTree<CreditState> = {
   [types.CREDIT_SET_BANKS] (state, { banks }) {
-    state.banks = banks;
+    state.banks = banks.map(bank => {
+      bank.visible = true
+      return bank;
+    });
   },
   [types.CREDIT_SET_SELECTED_BANK] (state, { bank }) {
     state.selectedBank = bank;
