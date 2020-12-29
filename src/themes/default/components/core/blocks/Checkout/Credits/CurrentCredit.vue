@@ -20,8 +20,13 @@
 import { currentStoreView } from '@vue-storefront/core/lib/multistore';
 import { mapGetters, mapMutations, mapState } from 'vuex'
 import totalAmount from '../../../../../mixins/cart/totalAmount';
+import * as types from '../../../../../store/credit/mutation-types';
 export default {
   mixins: [totalAmount],
+  mounted () {
+    console.log(this.$route.name === 'checkout' && this.shippingType === 'new_post' && this.getBanks.length)
+    this.PayPartsOnly()
+  },
   computed: {
     ...mapState({
       shippingType: state => state.customShipping.type
@@ -31,7 +36,7 @@ export default {
       selectedCredit: 'themeCredit/getSelectedCredit',
       getSelectedBank: 'themeCredit/getSelectedBank',
       getBanks: 'themeCredit/getBanks',
-      totals: 'cart/getTotals',
+      totals: 'cart/getTotals'
     }),
     totalPrice () {
       return this.totals.find(code => code.code === 'grand_total').value
@@ -44,6 +49,11 @@ export default {
         number_of_payments: +this.selectedCredit.terms,
         monthly_payment: this.productsInCart.reduce((acc, it) => acc += (this.finalPrice(it) / +this.selectedCredit.terms) * it.qty, 0)
       }
+    }
+  },
+  methods: {
+    showCreditPopup () {
+      this.$bus.$emit('modal-show', 'modal-credits')
     },
     PayPartsOnly () {
       if (this.$route.name === 'checkout' && this.shippingType === 'new_post' && this.getBanks.length) {
@@ -53,15 +63,13 @@ export default {
           }
           return { ...bank, visible: true }
         })
-        this.$store.dispatch('themeCredit/defineSelectedBank', banks.find(bank => bank.visible))
-        this.$store.dispatch('themeCredit/defineSelectedCredit', banks.find(bank => bank.visible))
+        this.$store.state.themeCredit.selectedBank = banks.find(bank => bank.visible)
+        this.$store.state.themeCredit.selectedCredit = banks.find(bank => bank.visible).credits[0]
+        console.log(this.selectedCredit);
+        console.log(this.getSelectedBank);
+        console.log(banks.find(bank => bank.visible));
+        console.log(banks.find(bank => bank.visible).credits[0]);
       }
-      return this.$route.name === 'checkout' && this.shippingType === 'new_post'
-    }
-  },
-  methods: {
-    showCreditPopup () {
-      this.$bus.$emit('modal-show', 'modal-credits')
     }
   }
 }
