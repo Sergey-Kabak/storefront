@@ -7,8 +7,8 @@
       </div>
       <banner-carousel />
       <h1 class="brand-portal-title">{{ brand.brand_name }}</h1>
-      <brand-products :brandItems="brand.categories" class="brand-products" />
-      <brand-categories :categories="brand.accessories" class="brand-categories" v-if="brand.accessories"/>
+      <brand-products class="brand-products" />
+      <brand-accessories :accessories="brand.accessories" class="brand-accessories" v-if="brand.accessories"/>
       <div class="best-sellers" v-if="isShowSalesLeaders"> 
         <h4 class="best-sellers-title">{{ $t('Sales leaders') }}</h4>
         <lazy-hydrate :trigger-hydration="!loading">
@@ -36,7 +36,7 @@ import ProductListing from 'theme/components/core/ProductListing';
 import Breadcrumbs from 'theme/components/core/Breadcrumbs.vue';
 import BannerCarousel from 'theme/components/core/blocks/BrandPortal/BannerCarousel.vue';
 import BrandProducts from 'theme/components/core/blocks/BrandPortal/BrandProducts.vue';
-import BrandCategories from 'theme/components/core/blocks/BrandPortal/BrandCategories.vue';
+import BrandAccessories from 'theme/components/core/blocks/BrandPortal/BrandAccessories.vue';
 import SeeAlso from 'theme/components/core/blocks/BrandPortal/SeeAlso.vue';
 import NoSSR from 'vue-no-ssr';
 import { isServer } from '@vue-storefront/core/helpers';
@@ -50,7 +50,7 @@ export default {
   components: {
     Breadcrumbs,
     BannerCarousel,
-    BrandCategories,
+    BrandAccessories,
     SeeAlso,
     ProductListing,
     LazyHydrate,
@@ -124,15 +124,12 @@ export default {
   text-transform: capitalize;
 }
 
-.brand-categories {
+.brand-accessories {
+  margin-bottom: 68px;
+  margin-top: 68px;
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
-}
-
-.brand-categories {
-  margin-bottom: 68px;
-  margin-top: 68px;
 }
 
 .best-sellers {
@@ -196,7 +193,7 @@ export default {
 }
 
 @media (max-width: 1024px) {
-  .brand-categories {
+  .brand-accessories {
     flex-direction: column;
     align-items: center;
 
@@ -204,6 +201,10 @@ export default {
       .brand-categories-left {
         max-width: 100%;
         margin-right: 0;
+      }
+
+      .accessory-link {
+        max-width: 100%;
       }
 
       .categories {

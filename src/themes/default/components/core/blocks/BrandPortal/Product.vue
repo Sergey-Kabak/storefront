@@ -2,14 +2,13 @@
   <div class="product">
     <div class="product-body" v-if="!product.count">
       <div class="product-cover">
-        <router-link :to="formatLink(product)" class="product-link" >
+        <router-link :to="localizedRoute(product.url)" class="product-link" >
           <product-image class="product-image" :image="productImage" />
         </router-link>
       </div>
       <div class="product-name">{{ product.name }}</div>
-      <product-cart-price :product="product" :nameVisibility="false" />
       <div class="product-actions">
-        <router-link :to="formatLink(product)" class="product-link">
+        <router-link :to="localizedRoute(product.url)" class="product-link">
           <button-full class="product-button buy">{{ $t('Buy') }}</button-full>
         </router-link>
       </div>
@@ -45,12 +44,9 @@ export default {
   computed: {
     productImage() {
       return {
-        src: this.thumbnail,
+        src: this.getThumbnail(this.product.thumbnail, 152, 152, 'brand'),
         alt: this.thumbnail
       }
-    },
-    thumbnail () {
-      return getThumbnailForProduct(this.product)
     }
   },
   methods: {
@@ -101,12 +97,6 @@ export default {
   padding: 0 16px;
   margin-bottom: 20px;
   transition: 0.3s ease-in-out;
-}
-
-.product-price-block {
-  margin-top: auto;
-  margin-bottom: 20px;
-  padding: 0 16px;
 }
 
 .product-actions {

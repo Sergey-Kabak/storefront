@@ -1,8 +1,8 @@
 export interface Brand {
   accessories: BrandAccessories[],
+  groups: BrandGroups[],
   banner_desktop: string,
   banner_promo: string,
-  categories: BrandCategories[],
   description: string,
   id: number | string,
   url_key: string
@@ -16,16 +16,16 @@ export interface BrandAccessories {
   id: number
 }
 
-export interface BrandCategories {
+export interface BrandGroups {
   image: string,
   name: string,
   url_key: string,
   url_path: string,
   id: number,
-  products: BrandProduct[]
+  products: BrandSubGroup[]
 }
 
-export interface BrandProduct {
+export interface BrandSubGroup {
   image: string,
   name: string,
   url_key: string,

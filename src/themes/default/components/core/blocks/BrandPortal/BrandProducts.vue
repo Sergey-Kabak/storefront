@@ -2,26 +2,25 @@
   <div class="brand-products">
     <div class="brand-items">
       <category-select
-        v-if="isShowCategorySelect"
-        :categories="brand.categories"
+        v-if="isShowGroupSelect"
+        :groups="brand.groups"
         v-model="category"
       />
       <brand-item
-        v-else
-        v-for="(brand, index) in brand.categories"
-        @onCategoryChange="changeActiveCategory($event)"
+        v-for="(brand, index) in brand.groups"
+        @onCategoryChange="changeActiveGroup($event)"
         :key="index"
         :brand="brand"
-        :class="{ active: category.id === brand.id }"
+        :class="{ active: category && category.id === brand.id }"
       />
     </div>
     <div class="products" v-if="isShowProducts">
       <no-ssr v-if="isMobile">
-        <product-carousel :products="category.products"/>
+        <product-carousel :products="category.sub_groups"/>
       </no-ssr>
       <template v-else> 
         <product
-          v-for="(product, index) in category.products"
+          v-for="(product, index) in category.sub_groups"
           :key="index"
           :product="product"
         />
@@ -51,35 +50,28 @@ export default {
     ProductMore,
     'no-ssr': NoSSR
   },
-  props: {
-    brandItems: {
-      type: Array,
-      required: true,
-      default: () => []
-    }
-  },
   computed: {
     ...mapState({
       brand: state => state.brand.brand
     }),
-    isShowCategorySelect() {
+    isShowGroupSelect() {
       return this.isTablet || this.isMobile
     },
     category: {
       get() {
-        return this.$store.state.brand.activeCategory
+        return this.$store.state.brand.activeGroup
       },
       set(category) {
-        this.$store.commit('brand/SET_ACTIVE_CATEGORY', category)
+        this.$store.commit('brand/SET_ACTIVE_GROUP', category)
       }
     },
     isShowProducts() {
-      return this.category && this.category.products
+      return this.category && this.category.sub_groups
     }
   },
   methods: {
-    changeActiveCategory(category) {
-      this.$store.commit('brand/SET_ACTIVE_CATEGORY', category)
+    changeActiveGroup(group) {
+      this.$store.commit('brand/SET_ACTIVE_GROUP', group)
     }
   }
 };

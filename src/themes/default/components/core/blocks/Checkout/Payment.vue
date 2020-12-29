@@ -258,10 +258,6 @@ export default {
     },
     placeOrder () {
       if (this.payment.paymentMethod === 'credit') {
-        this.$refs.creditMethod[0].$refs.creditForm.$v.$touch()
-        if (this.payment.paymentMethod === 'credit' && this.$refs.creditMethod[0].$refs.creditForm.$v.$error) {
-          return
-        }
         if (+this.selectedCredit.liqpay_allowed) {
           const products = this.productsInCart.map(product => {
             return {
@@ -279,8 +275,13 @@ export default {
             redirectUrl: location.origin + '/order?cartId=' + this.getCartToken + '&payparts&marketplace=' + marketplace
           }
           this.$store.commit('themeCredit/SET_PART_PAYMENT', data)
+        } else {
+          this.$refs.creditMethod[0].$refs.creditForm.$v.$touch()
+          if (this.payment.paymentMethod === 'credit' && this.$refs.creditMethod[0].$refs.creditForm.$v.$error) {
+            return
+          }
+          this.$store.state.themeCredit.creditDetails = { ...this.$refs.creditMethod[0].$refs.creditForm.form }
         }
-        this.$store.state.themeCredit.creditDetails = { ...this.$refs.creditMethod[0].$refs.creditForm.form }
       }
       this.$bus.$emit('checkout-before-placeOrder')
     },

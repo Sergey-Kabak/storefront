@@ -7,8 +7,8 @@ const mutations = {
     state.brands = brands
   },
 
-  SET_ACTIVE_CATEGORY (state, category) {
-    state.activeCategory = category
+  SET_ACTIVE_GROUP (state, group) {
+    state.activeGroup = group
   }
 }
 

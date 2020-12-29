@@ -18,11 +18,19 @@
 
 <script>
 import { currentStoreView } from '@vue-storefront/core/lib/multistore';
-import { mapGetters, mapMutations } from 'vuex'
+import { mapGetters, mapMutations, mapState } from 'vuex'
 import totalAmount from '../../../../../mixins/cart/totalAmount';
+import * as types from '../../../../../store/credit/mutation-types';
 export default {
   mixins: [totalAmount],
+  mounted () {
+    console.log(this.$route.name === 'checkout' && this.shippingType === 'new_post' && this.getBanks.length)
+    this.PayPartsOnly()
+  },
   computed: {
+    ...mapState({
+      shippingType: state => state.customShipping.type
+    }),
     ...mapGetters({
       productsInCart: 'cart/getCartItems',
       selectedCredit: 'themeCredit/getSelectedCredit',
@@ -46,6 +54,18 @@ export default {
   methods: {
     showCreditPopup () {
       this.$bus.$emit('modal-show', 'modal-credits')
+    },
+    PayPartsOnly () {
+      if (this.$route.name === 'checkout' && this.shippingType === 'new_post' && this.getBanks.length) {
+        const banks = this.getBanks.map(bank => {
+          if (bank.credits.some(it => !+it.liqpay_allowed)) {
+            return { ...bank, visible: false }
+          }
+          return { ...bank, visible: true }
+        })
+        this.$store.state.themeCredit.selectedBank = banks.find(bank => bank.visible)
+        this.$store.state.themeCredit.selectedCredit = banks.find(bank => bank.visible).credits[0]
+      }
     }
   }
 }

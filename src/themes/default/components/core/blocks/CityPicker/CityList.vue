@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import CityItem from 'theme/components/core/blocks/CityPicker/CItyItem'
+import CityItem from 'theme/components/core/blocks/CityPicker/CityItem'
 
 export default {
   components: {

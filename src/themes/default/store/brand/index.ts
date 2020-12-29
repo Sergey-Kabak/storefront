@@ -6,7 +6,7 @@ export const brandStore = {
   state: {
     brands: [],
     brand: null,
-    activeCategory: null
+    activeGroup: null
   },
   actions,
   mutations
