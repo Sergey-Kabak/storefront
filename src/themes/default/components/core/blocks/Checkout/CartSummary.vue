@@ -52,8 +52,9 @@ export default {
     this.GTM_CHECKOUT(this.productsInCart, 'checkout')
   },
   watch: {
-    productsInCart: function (v) {
-      this.$store.dispatch('cart/synchronizeCart', { forceClientState: false })
+    productsInCart: async function (v) {
+      let products = await this.$store.dispatch('cart/sync', { forceClientState: true, dryRun: true })
+      await this.$store.dispatch('cart/merge', { serverItems: products.items, clientItems: products.items })
     }
   }
 };
