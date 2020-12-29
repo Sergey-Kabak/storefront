@@ -351,9 +351,12 @@ export default {
       }
       if (this.shipping.deliveryType === 'new_post') {
         this.order.addressInformation['shippingExtraFields'] = {
-          warehouse_id: this.shipping.location.id,
-          carrier: 'nova-poshta'
+          nova_poshta_warehouse_ref: this.shipping.location.id,
+          nova_poshta_city_ref: this.shipping.location.city_id
         };
+
+        this.order.addressInformation.shipping_method_code = 'nova_poshta_to_warehouse'
+        this.order.addressInformation.shipping_carrier_code = 'nova_poshta'
       }
       if (this.getPaymentMethod() === 'credit' && +this.$store.getters['themeCredit/getSelectedCredit'].liqpay_allowed) {
         this.order.addressInformation.payment_method_code = 'temabit_payparts'
