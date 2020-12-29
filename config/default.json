@@ -580,6 +580,7 @@
         "banner_promo",
         "brand_name",
         "categories",
+        "groups",
         "description",
         "id",
         "url_key"
