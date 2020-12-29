@@ -56,10 +56,10 @@ export default {
   }),
   computed: {
     ...mapState({
-      activeCategory: (state) => state.brand.activeCategory
+      activeGroup: (state) => state.brand.activeGroup
     }),
     seeMoreLink() {
-      return formatCategoryLink(this.activeCategory)
+      return formatCategoryLink(this.activeGroup)
     }
   },
   methods: {

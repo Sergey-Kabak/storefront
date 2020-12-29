@@ -2,20 +2,20 @@
   <v-select 
     :value="value.id"
     @input="onSelectChange($event)"
-    :reduce="category => category.id"
-    :options="categories"
+    :reduce="group => group.id"
+    :options="groups"
     :clearable="false"
     :searchable="false" 
   >
-    <template #selected-option="{ name, image }">
+    <template #selected-option="{ name, thumbnail }">
       <div class="option selected">
-        <img class="option-image" :src="categoryImage(image)" :alt="name">
+        <img class="option-image" :src="groupImage(thumbnail)" :alt="name">
         <span class="option-name">{{name}}</span>
       </div>
     </template>
-    <template #option="{ name, image }">
+    <template #option="{ name, thumbnail }">
       <div class="option">
-        <img class="option-image" :src="categoryImage(image)" :alt="name">
+        <img class="option-image" :src="groupImage(thumbnail)" :alt="name">
         <span class="option-name">{{name}}</span>
         <div class="selected-option-image">
           <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -40,7 +40,7 @@ export default {
     vSelect
   },
   props: {
-    categories: {
+    groups: {
       type: Array,
       required: true,
       default: () => []
@@ -52,11 +52,11 @@ export default {
     }
   },
   methods: {
-    onSelectChange(categoryId) {
-      this.$emit('input', this.categories.find(it => it.id === categoryId))
+    onSelectChange(groupId) {
+      this.$emit('input', this.groups.find(it => it.id === groupId))
     },
-    categoryImage(image) {
-      return this.getThumbnail(image, 24, 24, 'category')
+    groupImage(image) {
+      return this.getThumbnail(image, 24, 24, 'brand')
     }
   }
 }

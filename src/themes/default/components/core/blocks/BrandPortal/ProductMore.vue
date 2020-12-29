@@ -1,10 +1,10 @@
 <template>
-  <div class="product-more" v-if="activeCategory.products_count">
+  <div class="product-more" v-if="activeGroup.products_count">
     <div class="product-more-count">
       
-      <span>{{ $tc(`{count} more items`, activeCategory.products_count) }}</span>
+      <span>{{ $tc(`{count} more items`, activeGroup.products_count) }}</span>
     </div>
-    <router-link :to="activeCategory.brand_page_url || categoryLink">
+    <router-link :to="activeGroup.brand_page_url || categoryLink">
       <button-text class="product-more-button more">{{ $t('View all') }}</button-text>
     </router-link>
   </div>
@@ -21,10 +21,10 @@ export default {
   },
   computed: {
     ...mapState({
-      activeCategory: (state) => state.brand.activeCategory
+      activeGroup: (state) => state.brand.activeGroup
     }),
     categoryLink() {
-      return formatCategoryLink(this.activeCategory)
+      return formatCategoryLink(this.activeGroup)
     }
   }
 }

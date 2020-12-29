@@ -15,8 +15,8 @@ export default {
   },
   computed: {
     brandImage() {
-      if (this.brand.image) {
-        return this.getThumbnail(this.brand.image, 50, 50, 'category')
+      if (this.brand.thumbnail) {
+        return this.getThumbnail(this.brand.thumbnail, 50, 50, 'brand')
       }
     }
   }
