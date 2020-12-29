@@ -65,10 +65,6 @@ export default {
         })
         this.$store.state.themeCredit.selectedBank = banks.find(bank => bank.visible)
         this.$store.state.themeCredit.selectedCredit = banks.find(bank => bank.visible).credits[0]
-        console.log(this.selectedCredit);
-        console.log(this.getSelectedBank);
-        console.log(banks.find(bank => bank.visible));
-        console.log(banks.find(bank => bank.visible).credits[0]);
       }
     }
   }
