@@ -8,7 +8,7 @@
         <div class="start-md">
           <logo width="89" height="auto"/>
           <social></social>
-          <div class="copyright">{{ $t('All rights reserved.') }} <br> “Ringoo” Copyright 2020</div>
+          <div class="copyright">{{ $t('All rights reserved.') }} <br> “ringoo” Copyright 2020</div>
         </div>
         <div class="start-md" v-for="(footerColumn, index) in footerColumns" :key="index">
           <h2 class="footer-title">
