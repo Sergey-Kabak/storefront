@@ -334,7 +334,7 @@ export default {
           country_id: this.payment.country,
           street: [this.payment.streetAddress, this.payment.apartmentNumber],
           company: '',
-          telephone: this.payment.phoneNumber,
+          telephone: unmask(this.payment.phoneNumber, '+38(###)###-##-##'),
           postcode: this.payment.zipCode || '69068',
           city: this.payment.city,
           firstname: this.payment.firstName,
