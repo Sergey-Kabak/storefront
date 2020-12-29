@@ -63,11 +63,6 @@ export default {
     showCreditPopup () {
       this.$bus.$emit('modal-show', 'modal-credits')
     }
-  },
-  watch: {
-    PayPartsOnly: function (v) {
-      console.log(v);
-    }
   }
 }
 </script>
