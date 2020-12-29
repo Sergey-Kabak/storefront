@@ -18,17 +18,20 @@
 
 <script>
 import { currentStoreView } from '@vue-storefront/core/lib/multistore';
-import { mapGetters, mapMutations } from 'vuex'
+import { mapGetters, mapMutations, mapState } from 'vuex'
 import totalAmount from '../../../../../mixins/cart/totalAmount';
 export default {
   mixins: [totalAmount],
   computed: {
+    ...mapState({
+      shippingType: state => state.customShipping.type
+    }),
     ...mapGetters({
       productsInCart: 'cart/getCartItems',
       selectedCredit: 'themeCredit/getSelectedCredit',
       getSelectedBank: 'themeCredit/getSelectedBank',
       getBanks: 'themeCredit/getBanks',
-      totals: 'cart/getTotals'
+      totals: 'cart/getTotals',
     }),
     totalPrice () {
       return this.totals.find(code => code.code === 'grand_total').value
@@ -41,11 +44,29 @@ export default {
         number_of_payments: +this.selectedCredit.terms,
         monthly_payment: this.productsInCart.reduce((acc, it) => acc += (this.finalPrice(it) / +this.selectedCredit.terms) * it.qty, 0)
       }
+    },
+    PayPartsOnly () {
+      if (this.$route.name === 'checkout' && this.shippingType === 'new_post' && this.getBanks.length) {
+        const banks = this.getBanks.map(bank => {
+          if (bank.credits.some(it => !+it.liqpay_allowed)) {
+            return { ...bank, visible: false }
+          }
+          return { ...bank, visible: true }
+        })
+        this.$store.dispatch('themeCredit/defineSelectedBank', banks.find(bank => bank.visible))
+        this.$store.dispatch('themeCredit/defineSelectedCredit', banks.find(bank => bank.visible))
+      }
+      return this.$route.name === 'checkout' && this.shippingType === 'new_post'
     }
   },
   methods: {
     showCreditPopup () {
       this.$bus.$emit('modal-show', 'modal-credits')
+    }
+  },
+  watch: {
+    PayPartsOnly: function (v) {
+      console.log(v);
     }
   }
 }

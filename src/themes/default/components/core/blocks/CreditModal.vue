@@ -11,41 +11,36 @@
         <div>{{ $t('grand_total') }}</div>
       </div>
       <div class="credit-card-block__wrap">
-        <div v-for="(bank , index) in availableBanks" :key="index" class="credit-card-block__row flex h-center"
-             :class="{'active' : selectedBank === index}" v-show="bank.visible">
-          <div class="credit-card-block__radio-wrap flex v-center">
-            <div class="flex v-center">
-              <base-radiobutton
-                :id="'bank' + index" name="bank" @change="setSelectedBank(index)"
-                :checked="selectedBank === index">{{ bank.name }}
-              </base-radiobutton>
-              <img :src="getThumbnail(bank.logo, 24, 24, 'credit')">
+        <div v-for="(bank , index) in availableBanks" :key="index"
+             :class="{'active' : selectedBank === index, 'credit-card-block__row flex h-center' : bank.visible}">
+          <template v-if="bank.visible">
+            <div class="credit-card-block__radio-wrap flex v-center">
+              <div class="flex v-center">
+                <base-radiobutton
+                  :id="'bank' + index" name="bank" @change="setSelectedBank(index)"
+                  :checked="selectedBank === index">{{ bank.name }}
+                </base-radiobutton>
+                <img :src="getThumbnail(bank.logo, 24, 24, 'credit')">
+              </div>
             </div>
-          </div>
-          <div >
-            <div class="mobile-label">{{ $t('Monthly payment') }}, ₴</div>
-            <span>{{getMonthlyPayment[index] | price(storeView)}}</span>
-          </div>
-          <div>
-            <div class="mobile-label">{{ $t('Number of payments') }}</div>
-            <custom-select
-              :selected-index="0"
-              :options="bank.credits.filter(el => !!el)"
-              @bankProduct="selectedPaymentCount($event, index, bank)"/>
-          </div>
-          <div>
-            <div class="mobile-label">{{ $t('grand_total') }}</div>
-            <b class="grand-total">{{totalPrice | price(storeView)}}</b>
-          </div>
+            <div >
+              <div class="mobile-label">{{ $t('Monthly payment') }}, ₴</div>
+              <span>{{getMonthlyPayment[index] | price(storeView)}}</span>
+            </div>
+            <div>
+              <div class="mobile-label">{{ $t('Number of payments') }}</div>
+              <custom-select
+                :selected-index="0"
+                :options="bank.credits.filter(el => !!el)"
+                @bankProduct="selectedPaymentCount($event, index, bank)"/>
+            </div>
+            <div>
+              <div class="mobile-label">{{ $t('grand_total') }}</div>
+              <b class="grand-total">{{totalPrice | price(storeView)}}</b>
+            </div>
+          </template>
         </div>
-
       </div>
-
-      <p class="description">
-        Здесь будет текст про флоу оформления кредита:
-        Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim
-        velit mollit. Exercitation veniam consequat sunt nostrud amet.
-      </p>
 
       <div class="credits-to-order flex">
         <span class="underline" @click="close()">{{ $t('Continue shopping') }}</span>
@@ -100,12 +95,15 @@ export default {
     }),
     availableBanks () {
       if (this.$route.name === 'checkout' && this.shippingDetails.deliveryType === 'new_post') {
-        return this.getBanks.map(bank => {
+        const banks = this.getBanks.map(bank => {
           if (bank.credits.some(it => !+it.liqpay_allowed)) {
             return { ...bank, visible: false }
           }
           return { ...bank, visible: true }
         })
+        // eslint-disable-next-line vue/no-side-effects-in-computed-properties
+        this.selectedBank = banks.findIndex(it => it.visible)
+        return banks
       }
       return this.getBanks
     },
