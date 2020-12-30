@@ -40,6 +40,7 @@ export default {
     getAvailibleAttributes () {
       let attributes = [];
       if (this.items.length && this.currentCategory && Object.keys(this.categories).length){
+        console.log(this.all_comparable_attributes);
         this.all_comparable_attributes.forEach(el => {
           this.categories[this.currentCategory].forEach(product => {
             if (Object.keys(product).indexOf(el.attribute_code) > -1 && !attributes.find(attr => attr.attribute_code === el.attribute_code)){

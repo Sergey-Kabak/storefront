@@ -15,7 +15,7 @@
       <router-link :to="productLink" class="ml-auto">
         <button-full
           data-testid="addToCart" class="add-to-cart"
-          :class="productStatus"
+          :class="{productStatus, 'pre_order': productStatus === 'preorder'}"
           :aria-label="$t('Buy')"
         >
           <template v-if="productStatus === 'available'">
@@ -120,6 +120,11 @@ export default {
       display: none;
     }
   }
+}
+.add-to-cart.pre_order{
+  background-color: #fff;
+  color: #1A1919;
+  border: 1px solid #23be20;
 }
 .product-is-not-available{
   min-height: 32px;
