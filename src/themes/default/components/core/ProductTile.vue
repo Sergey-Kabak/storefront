@@ -356,10 +356,8 @@ export default {
   }
 }
 
-@media screen and (max-width: 768px) {
-  .sale-image {
-    max-width: 56px;
-    width: 100%;
-  }
+.sale-image {
+  max-width: 56px;
+  width: 100%;
 }
 </style>
