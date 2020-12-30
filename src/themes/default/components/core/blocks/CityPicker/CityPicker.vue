@@ -10,16 +10,23 @@
       <city-list :cities="cities" :selectedCity="selectedCity" @onSelectCity="onChooseCity($event)" />
       <div class="search">
         <span class="search-title">{{ $t('Search') }}</span>
-        <autocomplete :placeholder="$t('Choose your city')" class="search-autocomplete" :debounce-time="500" :search="getCities" :get-result-value="getResultValue" @submit="onChooseCity">
-          <template #result="{ result, props }">
-            <li
-              v-bind="props"
-              class="city-result"
-            >
-              <span class="city-title" v-html="highlight(result)" />
-            </li>
-          </template>
-        </autocomplete>
+        <div class="relative">
+          <autocomplete ref="autocomplete" :placeholder="$t('Choose your city')" class="search-autocomplete" :debounce-time="500" :search="getCities" :get-result-value="getResultValue" @submit="onChooseCity">
+            <template #result="{ result, props }">
+              <li
+                v-bind="props"
+                class="city-result"
+              >
+                <span class="city-title" v-html="highlight(result)" />
+              </li>
+            </template>
+          </autocomplete>
+          <svg @click="cleanField" class="cleanField close-icon" data-v-590c2eb2="" fill="#BDBDBD" width="24" height="24" viewBox="0 0 24 24"
+               xmlns="http://www.w3.org/2000/svg">
+            <path data-v-590c2eb2=""
+                  d="M19 6.41L17.59 5L12 10.59L6.41 5L5 6.41L10.59 12L5 17.59L6.41 19L12 13.41L17.59 19L19 17.59L13.41 12L19 6.41Z"></path>
+          </svg>
+        </div>
         <button-full @click.native="changeCity()">{{ $t('To apply') }}</button-full>
       </div>
     </div>
@@ -57,6 +64,9 @@ export default {
     this.selectedCity = this.defaultCity
   },
   methods: {
+    cleanField () {
+      this.$refs.autocomplete.inputProps.value = ''
+    },
     closePopup() {
       this.$bus.$emit('modal-hide', 'modal-city-picker')
     },
@@ -97,7 +107,11 @@ export default {
 .modal {
   width: auto;
 }
-
+.cleanField{
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
 .city-picker {
   margin: auto;
   max-width: 533px;

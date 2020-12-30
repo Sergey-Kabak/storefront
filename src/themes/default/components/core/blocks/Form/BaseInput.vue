@@ -214,4 +214,7 @@ export default {
   input.h4.sans-serif.error-input {
     border-color: #eb5757!important;
   }
+  input{
+    line-height: 1;
+  }
 </style>

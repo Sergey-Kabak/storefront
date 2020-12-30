@@ -104,10 +104,6 @@ export default {
   width: 100%;
   max-width: 550px;
   min-width: 320px;
-  overflow-anchor: none;
-  overflow-y: auto;
-  overflow-x: hidden;
-  -webkit-overflow-scrolling: touch;
 }
 
 .consultation-sidebar {
@@ -116,28 +112,25 @@ export default {
 }
 
 .left-sidebar{
-  height: 100vh;
+  height: 100%;
   width: 350px;
   top: 0;
   left: 0;
-  overflow-x: hidden;
-  overflow-y: auto;
-  -webkit-overflow-scrolling: touch;
   z-index: 4;
-    @media (max-width: 767px) {
-      width: 100vh;
-    }
+  @media (max-width: 767px) {
+    width: 100vh;
   }
+}
 
-  .close {
+.close {
+  i {
+    opacity: 0.6;
+  }
+  &:hover,
+  &:focus {
     i {
-      opacity: 0.6;
-    }
-    &:hover,
-    &:focus {
-      i {
-        opacity: 1;
-      }
+      opacity: 1;
     }
   }
+}
 </style>
