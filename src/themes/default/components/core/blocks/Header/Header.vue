@@ -174,7 +174,7 @@ export default {
     promo () {
       return {
         img: !this.isNYPage ? '/assets/promo/ny-desktop.jpg' : '/assets/promo/iphone-desktop.jpg',
-        imgTablet: !this.isNYPage ? '/assets/promo/ny-mobile.jpg' : '/assets/promo/iphone-mobile.jpg',
+        imgTablet: !this.isNYPage ? '/assets/promo/ny-tablet.jpg' : '/assets/promo/iphone-tablet.jpg',
         imgMobile: !this.isNYPage ? '/assets/promo/ny-mobile.jpg' : '/assets/promo/iphone-mobile.jpg',
         link: !this.isNYPage ? '/svjatkuj-z-nami' : '/smartfoni-i-telefoni/smartfoni?manufacturer=Apple',
         background: !this.isNYPage ? '#ae2125' : '#08101b'
@@ -263,6 +263,11 @@ $color-icon-hover: color(secondary, $colors-background);
   .promo-link {
     display: flex;
     max-height: 45px;
+    min-height: 32px;
+    
+    @media (max-width: 768px) {
+      height: 32px;
+    }
   }
 
   .promo-image {
@@ -270,6 +275,10 @@ $color-icon-hover: color(secondary, $colors-background);
     margin: auto;
     width: 100%;
     display: block;
+
+    @media (max-width: 768px) {
+      height: 100%;
+    }
   }
 
   &.ny-page {

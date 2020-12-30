@@ -74,7 +74,7 @@
     <section class="v-container pb60">
       <div class="banner">
         <picture>
-          <source srcset="/assets/promo/free_del_288x260.jpg" media="(max-width: 400px)">
+          <source srcset="/assets/promo/free_del_288x260(x2).png" media="(max-width: 400px)">
           <source srcset="/assets/promo/free_del_1324x260.jpg">
           <img src="/assets/promo/free_del_1324x260.jpg" class="promo-image">
         </picture>
@@ -380,6 +380,10 @@ export default {
 
   .promo-image {
     width: 100%;
+
+    @media only screen and (max-width: 400px) {
+      border-radius: 4px;
+    }
   }
 
   .banner-group {
