@@ -42,7 +42,7 @@
             </a>
             <phone-info v-show="navVisible"></phone-info>
           </div>
-          <svg width="8" height="6" viewBox="0 0 8 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <svg class="phone-wrap__arrow" width="8" height="6" viewBox="0 0 8 6" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M0.94 0.726667L4 3.78L7.06 0.726667L8 1.66667L4 5.66667L0 1.66667L0.94 0.726667Z"/>
           </svg>
         </li>
@@ -531,6 +531,10 @@ header {
   z-index: 1;
   cursor: pointer;
 
+  &:hover &__arrow {
+    transform: rotate(180deg);
+  }
+  
   &:hover {
     .phone {
       color: #fff;
