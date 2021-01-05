@@ -74,9 +74,9 @@
     <section class="v-container pb60">
       <div class="banner">
         <picture>
-          <source srcset="/assets/promo/free_del_288x260(x2).png" media="(max-width: 400px)">
-          <source srcset="/assets/promo/free_del_1324x260.jpg">
-          <img src="/assets/promo/free_del_1324x260.jpg" class="promo-image">
+          <source srcset="/assets/promo/delivery_promo_288x260.jpg" media="(max-width: 400px)">
+          <source srcset="/assets/promo/delivery_promo_1324x260.jpg">
+          <img src="/assets/promo/delivery_promo_1324x260.jpg" class="promo-image">
         </picture>
       </div>
     </section>
