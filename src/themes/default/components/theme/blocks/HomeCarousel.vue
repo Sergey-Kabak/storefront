@@ -7,7 +7,7 @@
         class="slide-link"
         @click="checkRoute(product)"
       >
-        <img :src="getThumbnail(product.image, 260, 434, 'slider')" :alt="index">
+        <img :src="getThumbnail(product.image, 263, 434, 'slider')" :alt="index">
       </div>
     </VueSlickCarousel>
   </div>
@@ -153,10 +153,13 @@ export default {
 
 img {
   width: 100%;
-  max-width: 260px;
+  max-width: 263px;
   height: 100%;
   max-height: 434px;
 
+  @media only screen and (min-width: 1440px) {
+    height: 434px;
+  }
   &:focus,
   &:active {
     outline: none!important;

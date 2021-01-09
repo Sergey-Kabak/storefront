@@ -81,7 +81,7 @@
       </div>
     </section>
 
-    <section v-if="isOnline" class="v-container pb60 ">
+    <section v-if="isOnline" class="v-container section__shares">
       <header class="col-md-12">
         <h2 class="cl-accent">
           {{ $t('Our shares') }}
@@ -322,7 +322,7 @@ export default {
 }
 </script>
 
-<style lang="sass">
+<style lang="sass" scoped>
   #home
     h2
       font-family: 'DIN Pro'
@@ -361,8 +361,8 @@ export default {
           .VueCarousel-dot-button
             background: #23BE20 !important
   .offer-gallery
-    &.v-container
-      width: 95%
+    margin-bottom: 75px
+
   .gallery-title
     margin: 68px 0px 32px 0px
     font-family: 'DIN Pro'
@@ -375,7 +375,7 @@ export default {
 
 <style lang="scss" scoped>
   .v-container {
-    width: 90%;
+    width: 92%;
   }
 
   .promo-image {
@@ -396,7 +396,7 @@ export default {
       box-sizing: border-box;
       background: #F6F7FA;
       border-radius: 4px;
-      padding: 32px;
+      padding: 24px;
       position: relative;
       height: 320px;
 
@@ -427,8 +427,8 @@ export default {
         font-family: DIN Pro;
         font-style: normal;
         font-weight: normal;
-        font-size: 16px;
-        line-height: 24px;
+        font-size: 15px;
+        line-height: 18px;
         color: #595858;
         margin-top: 16px;
       }
@@ -526,6 +526,12 @@ export default {
           width: 100%;
         }
       }
+    }
+  }
+
+  .section {
+    &__shares {
+      padding-bottom: 30px;
     }
   }
 </style>
