@@ -5,16 +5,23 @@
       v-if="!isCheckoutPage"
     >
       <div class="v-container footer-wrap">
-        <div class="start-md">
+        <div class="start-md footer__cta-section">
           <logo width="89" height="auto"/>
           <social></social>
-          <div class="copyright">{{ $t('All rights reserved.') }} <br> “Ringoo” Copyright 2020</div>
         </div>
-        <div class="start-md" v-for="(footerColumn, index) in footerColumns" :key="index">
-          <h2 class="footer-title">
-            {{ $t(footerColumn.title) }}
-          </h2>
-          <div class="footer-routes">
+        <div class="start-md footer__category" :class="{'footer__category--last': index===footerColumns.length-1}" v-for="(footerColumn, index) in footerColumns" :key="index">
+          <div class="footer-title footer__category-title-wrapper"  :role="isMobile ? 'button': 'presentation'" @click="catalogToggleState[footerColumn.title] = !catalogToggleState[footerColumn.title]">
+          <template v-if="isMobile">
+            <span class="footer__category-title" :class="{ unfolded: !catalogToggleState[footerColumn.title] }">{{ $t(footerColumn.title) }}</span>
+            <svg v-if="catalogToggleState[footerColumn.title]" class="footer__category-btn" :class="{ folded: catalogToggleState[footerColumn.title] }" width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M14 8H8V14H6V8H0V6H6V0H8V6H14V8Z" fill="#E0E0E0"/>
+            </svg>
+            <svg v-else class="footer__category-btn" :class="{ folded: catalogToggleState[footerColumn.title] }" width="14" height="2" viewBox="0 0 14 2" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M14 2H0V0H14V2Z" fill="#E0E0E0"/>
+            </svg>
+          </template>
+          </div>
+          <div class="footer-routes" v-show="!catalogToggleState[footerColumn.title]">
             <div :key="index" v-for="(cat, index) in footerColumn.routes" class="route">
               <router-link class="cl-secondary" :to="localizedRoute(`${cat.url_path}`)" exact>
                 {{ $t(cat.name) }}
@@ -48,6 +55,9 @@
           </div>
         </div>
       </div>
+      <div class="v-container">
+        <div class="copyright"><span>{{ $t('All rights reserved.') }}</span> <span>“Ringoo” Copyright © 2020</span></div>
+      </div>
     </div>
     <back-to-top bottom="60px" right="20px" visibleoffset="200">
       <button type="button" class="btn-top button no-outline brdr-none cl-white bg-cl-mine-shaft :bg-cl-th-secondary py10 px10" aria-label="back-to-top">
@@ -68,16 +78,35 @@ import config from 'config';
 import Logo from 'theme/components/core/Logo';
 import Social from 'theme/components/core/blocks/Footer/Social'
 import { mapGetters } from 'vuex';
+import mobileResolution from 'theme/mixins/mobileResolution'
+
+const CATALOG = "Catalog"
+const TO_CUSTOMERS = "To customers"
+const ABOUT_US = "About us"
 
 export default {
-  mixins: [CurrentPage],
+  mixins: [CurrentPage, mobileResolution],
   components: {
     Logo,
     BackToTop,
     Social
   },
   name: 'MainFooter',
+  data() {
+    return {
+      catalogToggleState: {
+        [CATALOG]: true,
+        [TO_CUSTOMERS]: true,
+        [ABOUT_US]: true
+      }
+    }
+  },
   methods: {
+    fold(column) {
+      console.log(column);
+      column.folded = !column.folded
+      console.log(column);
+    },
     goToAccount () {
       this.$bus.$emit('modal-toggle', 'modal-signup')
     }
@@ -105,10 +134,10 @@ export default {
     },
     footerColumns () {
       return [{
-        title: 'Catalog',
+        title: CATALOG,
         routes: this.visibleCategories
       }, {
-        title: 'To customers',
+        title: TO_CUSTOMERS,
         routes: [{
           name: 'Payment and delivery',
           url_path: '/info/delivery'
@@ -129,7 +158,7 @@ export default {
           url_path: '/info/public-offer'
         }]
       }, {
-        title: 'About Us',
+        title: ABOUT_US,
         routes: [{
           name: 'The shops',
           url_path: '/info/shops'
@@ -148,34 +177,130 @@ export default {
         }]
       }]
     }
+  },
+  mounted() {
+    for (const key in this.catalogToggleState) {
+      this.catalogToggleState[key] = this.isMobile
+    }
   }
 }
 </script>
 
 <style lang="scss" scoped>
+%reset-button {
+    border: none;
+    margin: 0;
+    padding: 0;
+    width: auto;
+    overflow: visible;
+
+    background: transparent;
+    color: inherit;
+    font: inherit;
+    line-height: normal;
+    -webkit-font-smoothing: inherit;
+    -moz-osx-font-smoothing: inherit;
+    -webkit-appearance: none;
+}
+
 @import '~theme/css/variables/colors';
 @import '~theme/css/helpers/functions/color';
+$grey: #E0E0E0;
+$border: 1px solid $grey;
+@mixin mobile-view {
+  @media only screen and (max-width: 576px) {
+    @content
+  }
+}
 $color-secondary: color(secondary);
 
 .v-container {
   width: 90%;
-  padding: 16px 0;
+  padding: 32px 0;
+
+  @include mobile-view {
+    padding: 16px 0;
+    width: 100%
+  }
 }
 
 .footer-wrap {
   display: grid;
   grid-gap: 48px;
   grid-template-columns: repeat(auto-fill, minmax(205px, 1fr));
+
+  @include mobile-view {
+    grid-gap: 0;
+    margin-bottom: 24px;
+    grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+  }
 }
 
 .start-md {
   display: flex;
   flex-direction: column;
+
+  @include mobile-view {
+    padding: 0 16px;
+  }
 }
 
+.footer {
+  &__cta-section {
+    @include mobile-view {
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+  }
+
+  &__category {
+    &--last {
+      @include mobile-view {
+        margin-bottom: 24px;
+      }
+    }
+
+    @include mobile-view {
+      border-top: $border;
+      border-bottom: $border;
+      padding-top: 12px;
+      padding-bottom: 12px;
+    }
+  }
+  &__category-title-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  &__category-title {
+    &.unfolded {
+      margin-bottom: 16px;
+    }
+  }
+  &__category-btn {
+    @extend %reset-button;
+
+    font-size: 14px;
+    color: $grey;
+
+    &.folded {
+      color: #23BE20;
+    }
+
+    &:hover path {
+      color: #23BE20;
+    }
+  }
+}
 .custom-logo {
   max-width: 89px;
   margin: 0 0 32px 0px;
+
+  @include mobile-view {
+    margin: 0;
+  }
 }
 
 .copyright {
@@ -204,6 +329,13 @@ $color-secondary: color(secondary);
   line-height: 24px;
   margin: 0 0 16px 0;
   color: #FFFFFF;
+
+  &.unfolded {
+    margin: 0 0 16px 0;
+  }
+  @include mobile-view {
+    margin: 0;
+  }
 }
 
 .payment {
@@ -220,7 +352,7 @@ $color-secondary: color(secondary);
 
 footer {
   margin-top: auto;
-  border-top: 1px solid #E0E0E0;
+  border-top: $border;
   background-color: #1A1919;
 
 
@@ -238,6 +370,10 @@ footer {
     line-height: 16px;
     color: #fff;
     text-align: left;
+
+    @media only screen and (max-width: 768px) {
+      padding: 0 16px;
+    }
   }
   h3 {
     font-family: 'DIN Pro';
@@ -297,7 +433,7 @@ footer {
     color: #BDBDBD;
     padding-bottom: 16px;
     margin-bottom: 24px;
-    border-bottom: 1px solid #fff;
+    border-bottom: $border;
   }
 }
 
