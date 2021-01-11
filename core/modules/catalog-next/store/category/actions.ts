@@ -33,7 +33,8 @@ const actions: ActionTree<CategoryState, RootState> = {
     }
     const searchQuery = getters.getCurrentFiltersFrom(route[products.routerFiltersSource], categoryMappedFilters)
     let filterQr = buildFilterProductsQuery(searchCategory, searchQuery.filters)
-    const sort = `stock.is_in_stock:desc,priority:desc,${searchQuery.sort || products.defaultSortBy.attribute + ':' + products.defaultSortBy.order}`
+    let disableOrderOnPriceSort = [config.products.sortByAttributes['Price: Low to high'],config.products.sortByAttributes['Price: High to low']].includes(searchQuery.sort)
+    const sort = `stock.is_in_stock:desc,${disableOrderOnPriceSort ? '' : 'priority:desc,'}${searchQuery.sort || products.defaultSortBy.attribute + ':' + products.defaultSortBy.order}`
     const { items, perPage, start, total, aggregations, attributeMetadata } = await dispatch('product/findProducts', {
       query: filterQr,
       sort,
