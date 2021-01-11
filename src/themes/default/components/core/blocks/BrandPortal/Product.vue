@@ -100,6 +100,7 @@ export default {
 }
 
 .product-actions {
+  margin-top: auto;
   padding: 0 16px;
   width: 100%;
   padding: 0 16px 16px;
