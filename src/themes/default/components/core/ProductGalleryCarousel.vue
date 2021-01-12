@@ -110,7 +110,8 @@ export default {
       this.currentPage = index
     },
     async selectVariant (configuration) {
-      let configData = configuration ? {color: configuration} : this.configuration
+      // let configData = configuration ? {color: configuration} : this.configuration
+      let configData = configuration
       await this.$nextTick()
       if (config.products.gallery.mergeConfigurableChildren) {
         const option = reduce(map((configData), 'attribute_code'), (result, attribute) => {
@@ -145,6 +146,11 @@ export default {
     },
     onVideoStarted (index) {
       this.hideImageAtIndex = index
+    }
+  },
+  watch: {
+    configuration: function (v) {
+      this.selectVariant(v)
     }
   }
 }
