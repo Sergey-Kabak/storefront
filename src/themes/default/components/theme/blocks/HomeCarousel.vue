@@ -79,6 +79,7 @@ export default {
   },
   methods: {
     checkRoute (product) {
+      debugger;
       if (+product.new_tab) {
         let routeData = this.$router.resolve({ path: product.url_banner });
         window.open(product.url_banner, '_blank');

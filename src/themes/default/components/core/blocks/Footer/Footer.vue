@@ -10,24 +10,27 @@
           <social></social>
         </div>
         <div class="start-md footer__category" :class="{'footer__category--last': index===footerColumns.length-1}" v-for="(footerColumn, index) in footerColumns" :key="index">
-          <div class="footer-title footer__category-title-wrapper"  :role="isMobile ? 'button': 'presentation'" @click="catalogToggleState[footerColumn.title] = !catalogToggleState[footerColumn.title]">
-          <template v-if="isMobile">
-            <span class="footer__category-title" :class="{ unfolded: !catalogToggleState[footerColumn.title] }">{{ $t(footerColumn.title) }}</span>
-            <svg v-if="catalogToggleState[footerColumn.title]" class="footer__category-btn" :class="{ folded: catalogToggleState[footerColumn.title] }" width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M14 8H8V14H6V8H0V6H6V0H8V6H14V8Z" fill="#E0E0E0"/>
-            </svg>
-            <svg v-else class="footer__category-btn" :class="{ folded: catalogToggleState[footerColumn.title] }" width="14" height="2" viewBox="0 0 14 2" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M14 2H0V0H14V2Z" fill="#E0E0E0"/>
-            </svg>
-          </template>
+          <div class="footer-title footer__category-title-wrapper"  :role="notDesktop ? 'button': 'presentation'" @click="catalogToggleState[footerColumn.title] = !catalogToggleState[footerColumn.title]">
+            <template v-if="notDesktop">
+              <span class="footer__category-title" :class="{ unfolded: !catalogToggleState[footerColumn.title] }">{{ $t(footerColumn.title) }}</span>
+              <svg v-if="catalogToggleState[footerColumn.title]" class="footer__category-btn" :class="{ folded: catalogToggleState[footerColumn.title] }" width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M14 8H8V14H6V8H0V6H6V0H8V6H14V8Z" fill="#E0E0E0"/>
+              </svg>
+              <svg v-else class="footer__category-btn" :class="{ folded: catalogToggleState[footerColumn.title] }" width="14" height="2" viewBox="0 0 14 2" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M14 2H0V0H14V2Z" fill="#E0E0E0"/>
+              </svg>
+            </template>
+            <span v-else class="footer__category-title">{{ $t(footerColumn.title) }}</span>
           </div>
-          <div class="footer-routes" v-show="!catalogToggleState[footerColumn.title]">
-            <div :key="index" v-for="(cat, index) in footerColumn.routes" class="route">
-              <router-link class="cl-secondary" :to="localizedRoute(`${cat.url_path}`)" exact>
-                {{ $t(cat.name) }}
-              </router-link>
+          <transition name="slide">
+            <div class="footer-routes" v-if="!catalogToggleState[footerColumn.title]">
+              <div :key="index" v-for="(cat, index) in footerColumn.routes" class="route">
+                <router-link class="cl-secondary" :to="localizedRoute(`${cat.url_path}`)" exact>
+                  {{ $t(cat.name) }}
+                </router-link>
+              </div>
             </div>
-          </div>
+          </transition>
         </div>
         <div class="start-md">
           <h2 class="footer-title">
@@ -81,8 +84,7 @@ import { mapGetters } from 'vuex';
 import mobileResolution from 'theme/mixins/mobileResolution'
 
 const CATALOG = "Catalog"
-const TO_CUSTOMERS = "To customers"
-const ABOUT_US = "About us"
+const HELP = "Help"
 
 export default {
   mixins: [CurrentPage, mobileResolution],
@@ -96,8 +98,7 @@ export default {
     return {
       catalogToggleState: {
         [CATALOG]: true,
-        [TO_CUSTOMERS]: true,
-        [ABOUT_US]: true
+        [HELP]: true
       }
     }
   },
@@ -116,6 +117,9 @@ export default {
     ...mapGetters({
       isLogged: 'user/isLoggedIn'
     }),
+    notDesktop() {
+      return !this.isDesktop
+    },
     multistoreEnabled () {
       return config.storeViews.multistore
     },
@@ -137,7 +141,7 @@ export default {
         title: CATALOG,
         routes: this.visibleCategories
       }, {
-        title: TO_CUSTOMERS,
+        title: HELP,
         routes: [{
           name: 'Payment and delivery',
           url_path: '/info/delivery'
@@ -156,10 +160,7 @@ export default {
         }, {
           name: 'Public offer',
           url_path: '/info/public-offer'
-        }]
-      }, {
-        title: ABOUT_US,
-        routes: [{
+        }, {
           name: 'The shops',
           url_path: '/info/shops'
         }, {
@@ -180,7 +181,7 @@ export default {
   },
   mounted() {
     for (const key in this.catalogToggleState) {
-      this.catalogToggleState[key] = this.isMobile
+      this.catalogToggleState[key] = this.notDesktop
     }
   }
 }
@@ -205,49 +206,58 @@ export default {
 
 @import '~theme/css/variables/colors';
 @import '~theme/css/helpers/functions/color';
+@import '~theme/css/helpers/mixins';
 $grey: #E0E0E0;
 $border: 1px solid $grey;
-@mixin mobile-view {
-  @media only screen and (max-width: 576px) {
-    @content
-  }
-}
+
 $color-secondary: color(secondary);
 
 .v-container {
-  width: 90%;
+  width: 92%;
   padding: 32px 0;
 
-  @include mobile-view {
+  @include tablet-view {
     padding: 16px 0;
     width: 100%
   }
 }
 
 .footer-wrap {
-  display: grid;
-  grid-gap: 48px;
-  grid-template-columns: repeat(auto-fill, minmax(205px, 1fr));
-
-  @include mobile-view {
-    grid-gap: 0;
-    margin-bottom: 24px;
-    grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+  display: flex;
+  flex-wrap: wrap;
+  
+  & > * {
+    flex: 1;
+    margin-right: 15px;
   }
+  & > *:last-child {
+    flex: 1.3;
+    margin-right: 0;
+  }
+
+  @include tablet-view {
+    margin-bottom: 0;
+    flex-direction: column;
+    
+    & > * {
+      margin-right: 0;
+    }
+  }
+
 }
 
 .start-md {
   display: flex;
   flex-direction: column;
 
-  @include mobile-view {
+  @include tablet-view {
     padding: 0 16px;
   }
 }
 
 .footer {
   &__cta-section {
-    @include mobile-view {
+    @include tablet-view {
       flex-direction: row;
       justify-content: space-between;
       align-items: flex-start;
@@ -255,13 +265,17 @@ $color-secondary: color(secondary);
   }
 
   &__category {
+
+    @include tablet-view {
+      cursor: pointer;
+    }
     &--last {
-      @include mobile-view {
+      @include tablet-view {
         margin-bottom: 24px;
       }
     }
 
-    @include mobile-view {
+    @include tablet-view {
       border-top: $border;
       border-bottom: $border;
       padding-top: 12px;
@@ -298,7 +312,7 @@ $color-secondary: color(secondary);
   max-width: 89px;
   margin: 0 0 32px 0px;
 
-  @include mobile-view {
+  @include tablet-view {
     margin: 0;
   }
 }
@@ -333,14 +347,18 @@ $color-secondary: color(secondary);
   &.unfolded {
     margin: 0 0 16px 0;
   }
-  @include mobile-view {
+  @include tablet-view {
     margin: 0;
+    margin-bottom: 16px;
   }
 }
 
 .payment {
   display: flex;
 
+  // @media only screen and (max-width: 992px) {
+  //   flex-direction: column;
+  // }
   &-icon {
     margin-right: 20px;
 
@@ -408,8 +426,8 @@ footer {
       display: block;
       font-family: 'DIN Pro';
       font-weight: 600;
-      font-size: 18px;
-      line-height: 24px;
+      font-size: 15px;
+      line-height: 16px;
       color: #23BE20;
       margin-bottom: 12px;
 

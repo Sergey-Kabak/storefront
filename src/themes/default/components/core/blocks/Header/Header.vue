@@ -335,6 +335,10 @@ header {
   align-items: center;
   height: 67px;
   justify-content: center;
+  @media only screen and (max-width: 768px) {
+      display: flex;
+      align-items: center;
+  }
   @media (max-width : 575px){
     padding-right: 6px !important;
   }
@@ -409,15 +413,22 @@ header {
   max-width: 260px;
   align-items: center;
   justify-self: flex-start;
+  @media only screen and (max-width: 768px) {
+    width: unset;
+    margin-right: 20px;
+  }
 }
 
 .header-middle {
   justify-self: center;
 
+
   .logo {
     height: 41px;
     margin-top: 7px;
-
+    @media only screen and (max-width: 768px) {
+      margin-top: 17px;
+    }
     img {
       width: 100%;
     }
@@ -428,6 +439,10 @@ header {
   display: flex;
   align-items: center;
   justify-self: flex-end;
+
+  @media only screen and (max-width: 768px) {
+    margin-left: auto;
+  }
 
   .icon {
     display: flex;
@@ -825,7 +840,6 @@ a.underline:after, a:not(.no-underline):hover:after {
 
   .header-middle {
     .logo {
-      margin-top: 12px;
       width: 80px;
     }
   }

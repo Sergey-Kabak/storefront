@@ -87,8 +87,8 @@
 "PCs, computers, accessories, monitors","ПК, комп'ютери, аксесуари, монітори"
 "PROMOCODE","ПРОМОКОД"
 "Password must have at least 8 letters.","Довжина паролю має складати не менше 8 символів."
-"Password must have at least 1 uppercase letter.","Парол має складати не менше 1 великої літери."
-"Password must have at least 1 number.","Парол має складати не менше 1 цифри."
+"Password must have at least 1 uppercase letter.","Пароль має складати не менше 1 великої літери."
+"Password must have at least 1 number.","Пароль має складати не менше 1 цифри."
 "Payment and delivery","Оплата і доставка"
 "Payments and loans","Виплати і кредити"
 "Pick up here","Забрати тут"
@@ -139,6 +139,7 @@
 "To landlords","Орендодавцям"
 "To pay","Оформити замовлення"
 "Total","Всього"
+"Only today","Лише сьогодні"
 "Try again","Спробуйте знову"
 "Unexpected authorization error. Check your Network conection.","Несподівана помилка при авторизації. Перевірте ваш інтернет зв'язок."
 "Until the end of the promotion","До кінця акції"
@@ -219,6 +220,7 @@
 "work in the company metadesc","Дивіться наявні вакансії в мережі мобільного зв'язку ringoo, що входить до групи компаній Fozzy Group — одного з лідерів роздрібної торгівлі в Україні."
 "work in the company text","Наша компанія — це молодий, амбітний і дружний колектив, який ставить перед собою цілі й досягає результатів у заплановані терміни. Наше керівництво знає, що саме колектив формує вартість компанії на ринку, ми культивуємо лояльне ставлення до себе як до роботодавця. Переваги ringoo. Цінуємо кожного фахівця. Виконуємо фінансові зобов'язання вчасно. Винагороджуємо відповідно до прозорої системи мотивації. Підтримуємо фаховий розвиток. Пропонуємо систему лояльності для співробітників. Гарантуємо офіційне працевлаштування. Детальніше про наші вакансії дивіться тут."
 "work_time",Пн-Пт: 9:00-18:00; Сб-Нд: 10:00-18:00
+"{count} days left","Акція закінчилась | Залишився {count} день | Залишилось {count} дні | Залишилось {count} днів"
 "{count} items","Товари не знайдені | {count} товар | {count} товари | {count} товарів"
 "{count} more items","Товари не знайдені | Ще {count} товар | Ще {count} товари | Ще {count} товарів"
 "{count} products worth","Товари не знайдені | {count} товар на суму | {count} товари на суму | {count} товарів на суму"
@@ -371,6 +373,8 @@ Register,Реєстрація
 Remake order,Повторити замовлення
 Remember me,Запам'ятати мене
 Remove all,Видалити все
+From date, з 
+To date, по
 Remove from compare,Видалити з порівняння
 Remove from compare,Видалити зі сторінки порівняння
 Remove,Видалити
@@ -475,7 +479,8 @@ indicate,Показувати
 liqpaymagento_liqpay,Карткою на сайті
 login to your account,увійти під своїм обліковим записом
 markets,"Ринки"
-next,"Далі"
+next,"Більше"
+before,"Менше"
 official partners,"Офіційні партнери"
 official rules,"Офіційні правила"
 or write to us through,або написати нам через

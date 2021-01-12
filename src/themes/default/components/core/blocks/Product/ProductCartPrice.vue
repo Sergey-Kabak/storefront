@@ -112,20 +112,20 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.product-item-price{
-  .price-original{
-    font-size: 24px;
-    line-height: 20px;
-    color: #5F5E5E;
-    position: relative;
-    top: 4px;
-  }
-  .price-special{
-    font-size: 36px;
-    line-height: 1;
-    font-weight: 900;
-  }
-}
+// .product-item-price{
+//   .price-original{
+//     font-size: 24px;
+//     line-height: 20px;
+//     color: #5F5E5E;
+//     position: relative;
+//     top: 4px;
+//   }
+//   .price-special{
+//     font-size: 36px;
+//     line-height: 1;
+//     font-weight: 900;
+//   }
+// }
 .only-mobile {
   @media (min-width: 768px) {
     display: none;
@@ -231,8 +231,8 @@ export default {
     font-weight: 700;
     font-family: DIN Pro;
     font-style: normal;
-    font-size: 18px;
-    line-height: 20px;
+    font-size: 24px;
+    line-height: 30px;
     color: #1A1919;
   }
 

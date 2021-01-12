@@ -71,7 +71,7 @@
       </div>
     </section>
 
-    <section class="v-container pb60">
+    <section class="v-container section__banner">
       <div class="banner">
         <picture>
           <source srcset="/assets/promo/free_del_288x260.jpg" media="(max-width: 400px)">
@@ -329,6 +329,9 @@ export default {
       font-size: 24px
       line-height: 30px
       color: #1A1919
+      margin-top: 0;
+      margin-bottom: 33px;
+      padding-left: 0;
     .show-all
       min-width: 233px
       margin: 32px auto 68px auto
@@ -361,7 +364,7 @@ export default {
           .VueCarousel-dot-button
             background: #23BE20 !important
   .offer-gallery
-    margin-bottom: 75px
+    margin-bottom: 68px;
 
   .gallery-title
     margin: 68px 0px 32px 0px
@@ -532,6 +535,9 @@ export default {
   .section {
     &__shares {
       padding-bottom: 30px;
+    }
+    &__banner {
+      margin-bottom: 68px;
     }
   }
 </style>

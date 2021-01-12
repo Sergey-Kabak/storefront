@@ -40,6 +40,6 @@ export default {
   }
 
   ::v-deep .product-image__thumb {
-    max-height: 200px!important;
+    max-height: 250px!important;
   }
 </style>
