@@ -349,6 +349,7 @@
         "configurable_children.sku",
         "configurable_children.special_price",
         "configurable_children.stock.is_in_stock",
+        "configurable_children.final_price",
         "category_ids",
         "id",
         "name",
@@ -367,7 +368,8 @@
         "*image",
         "*sku",
         "*small_image",
-        "bundle_options"
+        "bundle_options",
+        "final_price"
       ],
       "excludeFields": [
         "attribute_set_id",
@@ -684,8 +686,8 @@
     },
     "sortByAttributes": {
       "Latest": "updated_at:desc",
-      "Price: Low to high": "price",
-      "Price: High to low": "price:desc"
+      "Price: Low to high": "final_price",
+      "Price: High to low": "final_price:desc"
     },
     "gallery": {
       "mergeConfigurableChildren": true,
