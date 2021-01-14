@@ -4,9 +4,6 @@
       <AddToWishlist :product="product" class="product-icon" :class="{'active': isOnWishlist }" />
       <AddToCompare :product="product" class="product-icon" :class="{'active': isOnCompare }" />
     </div>
-    <router-link :to="productLink" class="promo" v-if="categoryImage">
-      <img :src="categoryImage" alt="promo" class="sale-image">
-    </router-link>
     <router-link
       class="flex flex-column no-underline product-link"
       :to="productLink"
@@ -97,24 +94,6 @@ export default {
     },
     storeView () {
       return currentStoreView()
-    },
-    randomPromoImage() {
-      return `/assets/promo/ny-${Math.floor(Math.random() * 4) + 1 }.png`
-    },
-    categoryImage() {
-      const categoryIds = [891, 892, 893, 894, 895, 896, 897, 898, 899, 900, 901, 902, 903]
-      const categoryId = this.product.category_ids.find(it => {
-        return categoryIds.find(categoryId => categoryId === it)
-      })
-      if (this.product.category_ids.includes(869) && !categoryId) {
-        return this.randomPromoImage
-      } else {
-        const imagePath = '/assets/promo/sales/sale'
-        return categoryIds.reduce((result, item) => {
-          result[item] = imagePath + item + '.png';
-          return result;
-        }, {})[categoryId]
-      }
     }
   },
   methods: {
@@ -172,13 +151,6 @@ export default {
   $bg-secondary: color(secondary, $colors-background);
   $border-secondary: color(secondary, $colors-border);
   $color-white: color(white);
-
-  .promo {
-    z-index: 1;
-    position: absolute;
-    left: 12px;
-    top: 12px;
-  }
 
   .product {
     @media (max-width: 575px){
@@ -356,8 +328,4 @@ export default {
   }
 }
 
-.sale-image {
-  max-width: 56px;
-  width: 100%;
-}
 </style>
