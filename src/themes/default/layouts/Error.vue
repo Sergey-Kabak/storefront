@@ -1,7 +1,7 @@
 <template>
   <div class="minimal-layout">
     <div id="viewport" class="w-100 relative">
-      <minimal-header />
+      <error-header />
       <slot />
       <minimal-footer />
     </div>
@@ -10,7 +10,7 @@
 
 <script>
 import { mapState } from 'vuex';
-import MinimalHeader from 'theme/components/core/blocks/Header/MinimalHeader.vue';
+import ErrorHeader from 'theme/components/core/blocks/Header/ErrorHeader.vue';
 import MinimalFooter from 'theme/components/core/blocks/Footer/MinimalFooter.vue';
 
 import Head from 'theme/head';
@@ -34,7 +34,7 @@ export default {
   },
   metaInfo: Head,
   components: {
-    MinimalHeader,
+    ErrorHeader,
     MinimalFooter
   }
 }
