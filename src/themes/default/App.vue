@@ -15,6 +15,7 @@ import config from 'config'
 const DefaultLayout = () => import(/* webpackChunkName: "vsf-layout-default" */ './layouts/Default')
 const EmptyLayout = () => import(/* webpackChunkName: "vsf-layout-empty" */ './layouts/Empty')
 const MinimalLayout = () => import(/* webpackChunkName: "vsf-layout-minimal" */ './layouts/Minimal')
+const ErrorLayout = () => import(/* webpackChunkName: "vsf-layout-minimal" */ './layouts/Error')
 
 export default {
   data () {
@@ -34,7 +35,8 @@ export default {
   components: {
     DefaultLayout,
     EmptyLayout,
-    MinimalLayout
+    MinimalLayout,
+    ErrorLayout
   },
   beforeMount () {
     if (window) {

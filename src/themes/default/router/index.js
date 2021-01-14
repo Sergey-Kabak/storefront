@@ -12,6 +12,7 @@ const MyAccount = () => import(/* webpackChunkName: "vsf-my-account" */ 'theme/p
 const BrandPortal = () => import(/* webpackChunkName: "vsf-static" */ 'theme/pages/BrandPortal.vue');
 const ThankYouPage = () => import(/* webpackChunkName: "vsf-static" */ 'theme/pages/ThankYouPage.vue');
 const Shops = () => import(/* webpackChunkName: "vsf-static" */ 'theme/pages/Shops.vue');
+const UnderConstruction = () => import(/* webpackChunkName: "vsf-static" */ 'theme/pages/UnderConstruction.vue');
 // const ThankYouPage = () => import(/* webpackChunkName: "vsf-static" */ 'src/themes/default/components/core/blocks/Checkout/ThankYouPage.vue')
 
 let routes = [
@@ -27,7 +28,7 @@ let routes = [
   { name: 'my-order', path: '/my-account/orders/:orderId', component: MyAccount, props: { activeBlock: 'MyOrder' } },
   { name: 'my-recently-viewed', path: '/my-account/recently-viewed', component: MyAccount, props: { activeBlock: 'MyRecentlyViewed' } },
   { name: 'compare', path: '/compare', component: Compare, props: { title: 'Compare Products' }, meta: { name: 'compare' } },
-  { name: 'error', path: '/error', component: ErrorPage, meta: { layout: 'minimal' } },
+  { name: 'error', path: '/error', component: ErrorPage, meta: { layout: 'error' } },
   { name: 'virtual-product', path: '/p/:parentSku/:slug', component: Product, meta: { name: 'product page' } }, // :sku param can be marked as optional with ":sku?" (https://github.com/vuejs/vue-router/blob/dev/examples/route-matching/app.js#L16), but it requires a lot of work to adjust the rest of the site
   { name: 'bundle-product', path: '/p/:parentSku/:slug', component: Product, meta: { name: 'product page' } }, // :sku param can be marked as optional with ":sku?" (https://github.com/vuejs/vue-router/blob/dev/examples/route-matching/app.js#L16), but it requires a lot of work to adjust the rest of the site
   { name: 'simple-product', path: '/p/:parentSku/:slug', component: Product, meta: { name: 'product page' } }, // :sku param can be marked as optional with ":sku?" (https://github.com/vuejs/vue-router/blob/dev/examples/route-matching/app.js#L16), but it requires a lot of work to adjust the rest of the site
@@ -38,6 +39,7 @@ let routes = [
   { name: 'category', path: '/c/:slug', component: Category, meta: { name: 'category' } },
   { name: 'cms-page', path: '/info/:slug', component: CmsPage, meta: { name: 'cms page' } },
   { name: 'page-not-found', path: '*', component: PageNotFound },
+  { name: 'page-not-found', path: '/under-construction', component: UnderConstruction },
   { path: '/ua/shops.html', redirect: '/' },
   { path: '/magazyny', redirect: '/' }
 ];
