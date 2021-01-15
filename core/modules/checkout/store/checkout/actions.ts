@@ -11,6 +11,7 @@ const actions: ActionTree<CheckoutState, RootState> = {
       const result = await dispatch('order/placeOrder', order, { root: true })
       if (!result.resultCode || result.resultCode === 200) {
         await dispatch('updateOrderTimestamp')
+        await dispatch('cart/clear', { sync: false, clearStore: false }, { root: true })
         await dispatch('dropPassword')
       }
     } catch (e) {
@@ -43,11 +44,15 @@ const actions: ActionTree<CheckoutState, RootState> = {
     const [
       personalDetails,
       shippingDetails,
-      paymentDetails
+      paymentDetails,
+      courierShipping,
+      city
     ] = await Promise.all([
       checkoutStorage.getItem('personal-details'),
       checkoutStorage.getItem('shipping-details'),
-      checkoutStorage.getItem('payment-details')
+      checkoutStorage.getItem('payment-details'),
+      checkoutStorage.getItem('courier-shipping'),
+      checkoutStorage.getItem('city')
     ])
 
     if (personalDetails) {
@@ -61,6 +66,15 @@ const actions: ActionTree<CheckoutState, RootState> = {
     if (paymentDetails) {
       commit(types.CHECKOUT_LOAD_PAYMENT_DETAILS, paymentDetails)
     }
+
+    if (courierShipping) {
+      commit('checkoutPage/SET_COURIER_SHIPPING', courierShipping, { root: true })
+    }
+
+    if (city) {
+      commit('ui/setCity', city, { root: true })
+    }
+
   },
   async updatePropValue ({ commit }, payload) {
     commit(types.CHECKOUT_UPDATE_PROP_VALUE, payload)

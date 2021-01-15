@@ -1,4 +1,4 @@
-import {mapState, mapGetters} from 'vuex'
+import  { mapState, mapGetters } from 'vuex'
 import RootState from '@vue-storefront/core/types/RootState'
 import toString from 'lodash-es/toString'
 
@@ -6,12 +6,6 @@ const Countries = require('@vue-storefront/i18n/resource/countries.json')
 
 export const Shipping = {
   name: 'Shipping',
-  props: {
-    isActive: {
-      type: Boolean,
-      required: true
-    }
-  },
   beforeDestroy () {
     this.$bus.$off('checkout-after-load', this.onCheckoutLoad)
     this.$bus.$off('checkout-after-personalDetails', this.onAfterPersonalDetails)

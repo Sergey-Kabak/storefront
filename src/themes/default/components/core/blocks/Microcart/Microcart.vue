@@ -31,9 +31,6 @@
             <path d="M10.5 21C11.3284 21 12 20.3284 12 19.5C12 18.6716 11.3284 18 10.5 18C9.67157 18 9 18.6716 9 19.5C9 20.3284 9.67157 21 10.5 21Z" fill="#23BE20"/>
             <path d="M16.5 21C17.3284 21 18 20.3284 18 19.5C18 18.6716 17.3284 18 16.5 18C15.6716 18 15 18.6716 15 19.5C15 20.3284 15.6716 21 16.5 21Z" fill="#23BE20"/>
           </svg>
-          <span class="microcart-top-total-count" v-if="productsInCart.length">
-            {{ countProducts }}
-          </span>
           <more-icon class="more" v-if="productsInCart.length">
             <div class="more-item" @click="clearCart()">
               <svg width="14" height="18" viewBox="0 0 14 18" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -65,7 +62,7 @@
         <div
           class="actions-button"
           v-if="productsInCart.length && !isCheckoutMode"
-        >
+      >
           <button-full
             :link="{ name: 'checkout' }"
             class="button"
@@ -167,12 +164,8 @@ export default {
       this.$store.dispatch('cart/removeCoupon')
       this.addCouponPressed = false
     },
-    toggleMicrocart () {
-      this.$store.dispatch('ui/toggleMicrocart')
-    },
     closeMicrocartExtend () {
-      this.toggleMicrocart()
-      this.$store.commit('ui/setSidebar', false)
+      this.$store.commit('ui/setMicrocart', false)
       this.addCouponPressed = false
     },
     onEscapePress () {
@@ -357,6 +350,12 @@ export default {
     margin: 0;
   }
 
+  .product {
+    border: 1px solid #E0E0E0;
+    border-radius: 4px;
+    margin-bottom: 20px;
+  }
+
   .promo-code {
     margin-bottom: 20px;
   }
@@ -381,6 +380,10 @@ export default {
 
   .more {
     display: none;
+  }
+
+  .total-prices {
+    margin-bottom: 24px;
   }
 
   @media (max-width: 500px) {
@@ -459,8 +462,7 @@ export default {
       }
     }
 
-    ::v-deep .product  {
-      flex-direction: column;
+    .product ::v-deep {
       align-items: flex-start;
 
       &-left {

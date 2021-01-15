@@ -1,7 +1,7 @@
 import { quickSearchByQuery } from '@vue-storefront/core/lib/search'
 import bodybuilder from 'bodybuilder'
 import config from 'config'
-import { Shop } from 'theme/types/Shop'
+import { ShopResponse, Shop } from 'theme/types/Shop'
 
 const getShops = async ({
     city = null,
@@ -9,12 +9,12 @@ const getShops = async ({
     sort = '',
     includeFields = config.entities.optimize ? config.entities.shop.includeFields : null,
     excludeFields = config.entities.optimize ? config.entities.shop.excludeFields : null
-} = {}): Promise<Shop[]> => {
+} = {}): Promise<ShopResponse> => {
   let searchQuery = bodybuilder();
   if (city) {
     searchQuery = searchQuery.query('match', 'city', city)
   }
-  const { items: shops = [] } = await quickSearchByQuery({
+  const res = await quickSearchByQuery({
     entityType: 'inventory_source',
     query: searchQuery.build(),
     size,
@@ -23,7 +23,8 @@ const getShops = async ({
     includeFields
   })
 
-  return shops
+  
+  return { shops: res.items, total: res.total }
 }
 
 const getCities = async ({
@@ -38,14 +39,13 @@ const getCities = async ({
   searchQuery.aggregation('terms', 'city')
 
   if (city) {
-    searchQuery = searchQuery.query('query_string', 
-    {
+    searchQuery = searchQuery.query('query_string', {
       "query": `*${city}*`, 
       "fields": ["city"]
     })
   }
 
-  const resp = await quickSearchByQuery({
+  const res = await quickSearchByQuery({
     entityType: 'inventory_source',
     query: searchQuery.build(),
     size,
@@ -54,7 +54,7 @@ const getCities = async ({
     includeFields
   })
 
-  return resp.aggregations && resp.aggregations.agg_terms_city && resp.aggregations.agg_terms_city.buckets.map(it => it.key.charAt(0).toUpperCase() + it.key.slice(1))
+  return res.aggregations && res.aggregations.agg_terms_city && res.aggregations.agg_terms_city.buckets.map(it => it.key.charAt(0).toUpperCase() + it.key.slice(1))
 }
 
 export const ShopService = {

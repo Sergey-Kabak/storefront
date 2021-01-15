@@ -124,11 +124,9 @@
             />
             <product-quantity-new
               class="row m0 mb35"
-              v-if="getCurrentProduct.type_id !== 'grouped' && getCurrentProduct.type_id !== 'bundle'"
               v-model="getCurrentProduct.qty"
               :max-quantity="maxQuantity"
               :loading="isStockInfoLoading"
-              :is-simple-or-configurable="isSimpleOrConfigurable"
               :show-quantity="manageQuantity"
               :check-max-quantity="manageQuantity"
               @error="handleQuantityError"
@@ -381,15 +379,12 @@ export default {
     getSelectedFilters () {
       return getSelectedFiltersByProduct(this.getCurrentProduct, this.getCurrentProductConfiguration)
     },
-    isSimpleOrConfigurable () {
-      return ['simple', 'configurable'].includes(this.getCurrentProduct.type_id)
-    },
     isAddToCartDisabled () {
       if (this.quantityError || this.isStockInfoLoading) {
         return false
       }
 
-      return this.isOnline && !this.maxQuantity && this.manageQuantity && this.isSimpleOrConfigurable
+      return this.isOnline && !this.maxQuantity && this.manageQuantity
     },
     customSeller () {
       return config && config.customSeller
@@ -620,6 +615,14 @@ $bg-secondary: color(secondary, $colors-background);
       display: block;
     }
   }
+}
+
+.product-item-price ::v-deep {
+  .product-price-wrapper {
+    justify-content: flex-start;
+    margin: -4px 0 0 0;
+  }
+
 }
 
 .breadcrumbs {

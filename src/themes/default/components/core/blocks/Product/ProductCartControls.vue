@@ -1,12 +1,12 @@
 <template>
   <div>
-    <span
-      v-if="productStatus === 'not available'"
-      class="product-is-not-available product-card-bottom-options"
-    >
-      <slot name="wishlist" />
-      {{ $t('Not available') }}
-    </span>
+      <span
+        v-if="productStatus === 'not available'"
+        class="product-is-not-available product-card-bottom-options"
+      >
+        <slot name="wishlist" />
+        {{ $t('Not available') }}
+      </span>
     <div
       v-else
       class="d-flex btw product-card-bottom-options"
@@ -56,9 +56,7 @@ export default {
   },
   computed: {
     productStatus () {
-      if (this.product.stock.is_in_stock && !!this.product.preorder) {
-        return 'preorder'
-      } else if (this.product.stock.is_in_stock && !this.product.preorder) {
+      if (this.product.stock.is_in_stock) {
         return 'available'
       } else {
         return 'not available'

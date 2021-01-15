@@ -19,12 +19,12 @@ export const PaymentLiqpay: StorefrontModule = function({ store }) {
   EventBus.$on("checkout-before-placeOrder", placeOrder);
 
   EventBus.$on("checkout-payment-method-changed", paymentMethodCode => {
-    let methods = store.state["checkout"].paymentMethods;
+    let methods = store.state.checkout.paymentMethods
     if (methods) {
       let method = methods.find(item => item.code === paymentMethodCode);
       if (
         paymentMethodCode === "liqpaymagento_liqpay" &&
-        ((typeof method !== "undefined" && !method.is_server_method) ||
+        ((typeof method !== "undefined") ||
           typeof method ===
             "undefined")
       ) {

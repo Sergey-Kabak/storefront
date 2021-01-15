@@ -1,3 +1,6 @@
+import { StorageManager } from '@vue-storefront/core/lib/storage-manager'
+import { Logger } from '@vue-storefront/core/lib/logger'
+
 export const uiStore = {
   namespaced: true,
   state: {
@@ -13,7 +16,8 @@ export const uiStore = {
     overlay: false,
     loader: false,
     authElem: 'login',
-    defaultCity: 'Київ',
+    shopCity: 'Київ',
+    city: 'Київ',
     checkoutMode: false,
     openMyAccount: false,
     headerIndex: 3,
@@ -87,8 +91,14 @@ export const uiStore = {
       state.isSearchActive = action === true
       state.overlay = action === true
     },
-    setDefaultCity (state, action) {
-      state.defaultCity = action
+    setShopCity (state, action) {
+      state.shopCity = action
+    },
+    setCity (state, city) {
+      StorageManager.get('checkout').setItem('city', city).catch((reason) => {
+        Logger.error(reason)()
+      })
+      state.city = city
     }
   },
   actions: {

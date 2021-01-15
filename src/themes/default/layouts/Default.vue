@@ -1,7 +1,6 @@
 <template>
   <div class="default-layout">
     <overlay v-if="overlayActive"/>
-    <loader/>
     <div id="viewport" class="w-100 relative">
       <main-header/>
       <async-sidebar
@@ -42,10 +41,7 @@
 
       <slot/>
       <main-footer/>
-      <notification/>
       <sign-up/>
-
-      <custom-city-picker-modal />
 
       <custom-seller-product />
 
@@ -53,8 +49,7 @@
 
       <cookie-notification/>
       <offline-badge/>
-      <city-picker />
-      <order-confirmation :orders-data="ordersData" v-if="loadOrderConfirmation"/>
+      <city-shop-picker />
     </div>
     <vue-progress-bar/>
   </div>
@@ -66,11 +61,10 @@ import AsyncSidebar from 'theme/components/theme/blocks/AsyncSidebar/AsyncSideba
 import MainHeader from 'theme/components/core/blocks/Header/Header.vue';
 import MainFooter from 'theme/components/core/blocks/Footer/Footer.vue';
 import Overlay from 'theme/components/core/Overlay.vue';
-import Loader from 'theme/components/core/Loader.vue';
-import Notification from 'theme/components/core/Notification.vue';
 import SignUp from 'theme/components/core/blocks/Auth/SignUp.vue';
 import CookieNotification from 'theme/components/core/CookieNotification.vue';
 import OfflineBadge from 'theme/components/core/OfflineBadge.vue';
+import CreditModal from 'theme/components/core/blocks/CreditModal.vue';
 import { isServer } from '@vue-storefront/core/helpers';
 import Head from 'theme/head';
 import config from 'config';
@@ -79,19 +73,14 @@ const SidebarMenu = () => import(/* webpackChunkName: "vsf-sidebar-menu" */ 'the
 const Microcart = () => import(/* webpackChunkName: "vsf-microcart" */ 'theme/components/core/blocks/Microcart/Microcart.vue');
 const Wishlist = () => import(/* webpackChunkName: "vsf-wishlist" */ 'theme/components/core/blocks/Wishlist/Wishlist.vue');
 const SearchPanel = () => import(/* webpackChunkName: "vsf-search-panel" */ 'theme/components/core/blocks/SearchPanel/SearchPanel.vue');
-const OrderConfirmation = () => import(/* webpackChunkName: "vsf-order-confirmation" */ 'theme/components/core/blocks/Checkout/OrderConfirmation.vue');
-const CustomCityPickerModal = () => import(/* webpackChunkName: "vsf-custom-city-picker-modal" */ 'theme/components/core/blocks/CustomCityPickerModal/CustomCityPickerModal.vue');
 const CustomSellerProduct = () => import(/* webpackChunkName: "vsf-custom-city-picker-modal" */ 'theme/components/core/blocks/CustomSellerProduct/CustomSellerProduct.vue');
 const Consultation = () => import(/* webpackChunkName: "vsf-custom-city-picker-modal" */ 'theme/components/core/blocks/Consultation/Consultation.vue');
-const CreditModal = () => import('theme/components/core/blocks/CreditModal.vue')
 const CompareSidebar = () => import(/* webpackChunkName: "vsf-sidebar-menu" */ 'theme/components/core/blocks/Compare/CompareSidebar.vue');
-const CityPicker = () => import(/* webpackChunkName: "vsf-custom-city-picker-modal" */ 'theme/components/core/blocks/CityPicker/CityPicker.vue');
+const CityShopPicker = () => import(/* webpackChunkName: "vsf-custom-city-picker-modal" */ 'theme/components/core/blocks/CityShopPicker/CityShopPicker.vue');
 
 export default {
   data() {
     return {
-      loadOrderConfirmation: false,
-      ordersData: [],
       Microcart,
       Wishlist,
       SearchPanel,
@@ -113,17 +102,7 @@ export default {
     })
   },
   methods: {
-    onOrderConfirmation(payload) {
-      this.loadOrderConfirmation = true;
-      this.ordersData = payload;
-      this.$bus.$emit('modal-show', 'modal-order-confirmation');
-    },
     fetchMenuData() {
-      // return this.$store.dispatch('category/list', {
-      //   level: config.entities.category.categoriesDynamicPrefetch && config.entities.category.categoriesDynamicPrefetchLevel >= 0 ? config.entities.category.categoriesDynamicPrefetchLevel : null,
-      //   includeFields: config.entities.optimize && isServer ? config.entities.category.includeFields : null,
-      //   skipCache: isServer
-      // })
       return this.$store.dispatch('category-next/fetchMenuCategories', {
         level: config.entities.category.categoriesDynamicPrefetch && config.entities.category.categoriesDynamicPrefetchLevel >= 0
           ? config.entities.category.categoriesDynamicPrefetchLevel
@@ -156,16 +135,12 @@ export default {
     MainFooter,
     SidebarMenu,
     Overlay,
-    Loader,
-    Notification,
     SignUp,
     CookieNotification,
     OfflineBadge,
-    OrderConfirmation,
     AsyncSidebar,
-    CustomCityPickerModal,
     CustomSellerProduct,
-    CityPicker,
+    CityShopPicker,
     CreditModal
   }
 };

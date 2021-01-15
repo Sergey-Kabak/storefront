@@ -3,24 +3,15 @@ import sumBy from 'lodash-es/sumBy'
 import ShippingMethod from '@vue-storefront/core/modules/cart/types/ShippingMethod'
 import PaymentMethod from '@vue-storefront/core/modules/cart/types/PaymentMethod'
 import CartItem from '@vue-storefront/core/modules/cart/types/CartItem'
-import totalAmount from 'theme/mixins/cart/totalAmount'
-import {Logger} from "core/lib/logger";
-
+import { price } from 'theme/helpers'
 
 
 const calculateTotals = (shippingMethod: ShippingMethod, paymentMethod: PaymentMethod, cartItems: CartItem[]) => {
-  const shippingTax = shippingMethod ? shippingMethod.price_incl_tax : 0
-
   const totalsArray = [
-    {
-      code: 'subtotal_incl_tax',
-      title: i18n.t('Subtotal incl. tax'),
-      value: sumBy(cartItems, (p) => p.qty * this.finalPrice(p))
-    },
     {
       code: 'grand_total',
       title: i18n.t('Grand total'),
-      value: sumBy(cartItems, (p) => p.qty * this.finalPrice(p) + shippingTax)
+      value: sumBy(cartItems, (p) => p.qty * price(p))
     }
   ]
 

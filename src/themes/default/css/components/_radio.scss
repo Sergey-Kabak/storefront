@@ -1,0 +1,33 @@
+.radio-button {
+  position: relative;
+  display: inline-block;
+  min-width: 20px;
+  min-height: 20px;
+  border-radius: 50%;
+  border: 2px solid #e0e0e0;
+  background: #fff;
+  cursor: pointer;
+  margin-right: 16px;
+  transition: .2s ease-in-out;
+
+  &:before {
+    content: "";
+    transition: .2s ease-in-out;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    border-radius: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    width: 10px;
+    height: 10px;
+    background-color: #23be20;
+  }
+
+  &.active {
+    border-color: #23be20;
+
+    &:before {
+      transform: translate(-50%, -50%) scale(1);
+    }
+  }
+}

@@ -237,5 +237,32 @@ export class SearchAdapter {
         return this.handleResult(resp, 'inventory_source', start, size)
       }
     })
+    this.registerEntityType('nova_poshta_city_street', {
+      queryProcessor: (query) => {
+        // function that can modify the query each time before it's being executed
+        return query
+      },
+      resultProcessor: (resp, start, size) => {
+        return this.handleResult(resp, 'nova_poshta_city_street', start, size)
+      }
+    })
+    this.registerEntityType('nova_poshta_warehouse', {
+      queryProcessor: (query) => {
+        // function that can modify the query each time before it's being executed
+        return query
+      },
+      resultProcessor: (resp, start, size) => {
+        return this.handleResult(resp, 'nova_poshta_warehouse', start, size)
+      }
+    })
+    this.registerEntityType('justin_departments', {
+      queryProcessor: (query) => {
+        // function that can modify the query each time before it's being executed
+        return query
+      },
+      resultProcessor: (resp, start, size) => {
+        return this.handleResult(resp, 'justin_departments', start, size)
+      }
+    })
   }
 }

@@ -13,11 +13,11 @@
 
 <script>
 import GoogleMapsApiLoader from 'google-maps-api-loader'
+import config from 'config'
 
 export default {
   props:{
     mapConfig: Object,
-    apiKey: String,
     markers: Array
   },
   data(){
@@ -37,7 +37,7 @@ export default {
   },
   mounted () {
     GoogleMapsApiLoader({
-      apiKey: this.apiKey
+      apiKey: config.googleApiKey
     }).then((google) => {
       this.google = google
       this.initializeMap()

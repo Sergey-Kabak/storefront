@@ -23,7 +23,7 @@ export default {
       store.dispatch('cms/getCmsMenu')
     ]
     if (route.params.slug === 'shops') {
-      requests.push(store.dispatch('shop/getShops', store.state.ui.defaultCity))
+      requests.push(store.dispatch('shop/getShops', { city: store.state.ui.shopCity }))
     }
     try {
       await Promise.all(requests)

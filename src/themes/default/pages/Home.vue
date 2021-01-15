@@ -240,27 +240,10 @@ export default {
     }
   },
   methods: {
-    navigate (key) {
-      console.log(this.$refs)
-      // this.$refs.zoomCarousel.goToPage(key)
-    },
-    increaseCarouselTransitionSpeed () {
-      this.carouselTransitionSpeed = 500
-    },
-    pageChange (index) {
-      this.currentPage = index
-      this.hideImageAtIndex = null
-    },
-    onVideoStarted (index) {
-      this.hideImageAtIndex = index
-    },
     goToCategory (cat) {
       let link = formatCategoryLink(config && config.catLinks[cat])
       return this.$router.push(link)
     }
-  },
-  mounted () {
-    if (!this.isLoggedIn && localStorage.getItem('redirect')) this.$bus.$emit('modal-show', 'modal-signup')
   },
   destroyed () {
     clearAllBodyScrollLocks()

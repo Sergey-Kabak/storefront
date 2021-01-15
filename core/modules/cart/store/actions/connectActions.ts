@@ -3,6 +3,7 @@ import {Logger} from '@vue-storefront/core/lib/logger'
 import config from 'config'
 import {CartService} from '@vue-storefront/core/data-resolver'
 import {createDiffLog} from '@vue-storefront/core/modules/cart/helpers'
+import { StorageManager } from '@vue-storefront/core/lib/storage-manager'
 
 const connectActions = {
   toggleMicrocart ({ commit }) {
@@ -13,9 +14,15 @@ const connectActions = {
    * Options:
    * sync - if you want to sync it with backend.
    * disconnect - if you want to clear cart token.
+   * clearStore - if you want to clear cart only from store
    */
-  async clear ({ commit, dispatch }, { disconnect = true, sync = true } = {}) {
-    await commit(types.CART_LOAD_CART, [])
+  async clear ({ commit, dispatch }, { disconnect = true, sync = true, clearStore = true } = {}) {
+    if (!clearStore) {
+      await StorageManager.get('cart').setItem('current-cart', [])
+      await commit(types.CART_SYNC)
+    } else {
+      await commit(types.CART_LOAD_CART, [])
+    }
     if (sync) {
       await dispatch('sync', { forceClientState: true, forceSync: true })
     }

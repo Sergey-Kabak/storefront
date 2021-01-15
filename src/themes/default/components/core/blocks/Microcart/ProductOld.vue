@@ -54,7 +54,6 @@
             :value="productQty"
             :max-quantity="maxQuantity"
             :loading="isStockInfoLoading"
-            :is-simple-or-configurable="isSimpleOrConfigurable"
             @input="updateProductQty"
             @error="handleQuantityError"
           />
@@ -226,13 +225,10 @@ export default {
       productQty () {
         return this.editMode ? this.getEditingQty : this.product.qty
       },
-      isSimpleOrConfigurable () {
-        return ['simple', 'configurable'].includes(this.product.type_id)
-      },
       isUpdateCartDisabled () {
         return this.quantityError ||
           this.isStockInfoLoading ||
-          (this.isOnline && !this.maxQuantity && this.isSimpleOrConfigurable)
+          (this.isOnline && !this.maxQuantity)
       },
       storeView () {
         return currentStoreView()
