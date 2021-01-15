@@ -152,13 +152,13 @@ export default {
       }
     },
     async onAfterShippingMethodChanged (payload) {
-      // await this.$store.dispatch('cart/syncTotals', { forceServerSync: true, methodsData: payload })
+      await this.$store.dispatch('cart/syncTotals', { forceServerSync: true, methodsData: payload })
       this.shippingMethod = payload
     },
     onBeforeShippingMethods (country) {
-      // this.$store.dispatch('checkout/updatePropValue', ['country', country])
-      // this.$store.dispatch('cart/syncTotals', { forceServerSync: true })
-      // this.$forceUpdate()
+      this.$store.dispatch('checkout/updatePropValue', ['country', country])
+      this.$store.dispatch('cart/syncTotals', { forceServerSync: true })
+      this.$forceUpdate()
     },
     async onAfterPlaceOrder (payload) {
       await this.GTM_TRANSACTION({ id: payload.confirmation.orderNumber, revenue: this.totals.find(it => it.code === 'grand_total').value, products: payload.order.products })

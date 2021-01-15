@@ -51,7 +51,8 @@ const totalsActions = {
   },
   async syncTotals ({ dispatch, getters, rootGetters }, payload: { forceServerSync: boolean, methodsData?: any } = { forceServerSync: false, methodsData: null }) {
     const methodsData = payload ? payload.methodsData : null
-
+    await dispatch('pullMethods', { forceServerSync: payload.forceServerSync })
+    
     if (getters.canSyncTotals && (getters.isTotalsSyncRequired || payload.forceServerSync)) {
       const shippingMethodsData = methodsData || createOrderData({
         shippingDetails: rootGetters['checkout/getShippingDetails'],
