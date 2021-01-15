@@ -2,8 +2,10 @@
   <div class="cart-summary">
     <h3 class="summary-title">
       {{ $t('My Order') }}
-      <span class="summary-title__count">{{ getItemsTotalQuantity }}</span>
     </h3>
+    <p class="summary-quantity">
+      {{ $tc('{count} items', getItemsTotalQuantity, { count: getItemsTotalQuantity}) }}
+    </p>
     <product
       v-for="product in productsInCart"
       :key="product.server_item_id || product.id"
@@ -104,5 +106,14 @@ export default {
     border-radius: 50%;
     background: #23be20;
   }
+}
+.summary-quantity {
+  font-family: DIN Pro;
+  font-size: 13px;
+  font-style: normal;
+  line-height: 16px;
+  letter-spacing: 0em;
+  text-align: left;
+  color: #1A1919;
 }
 </style>

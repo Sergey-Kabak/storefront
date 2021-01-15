@@ -1,26 +1,21 @@
 <template>
-  <div class="product">
-    <div class="product-left">
-      <div class="product-remove" @click="removeFromCart()">
-        <svg width="14" height="18" viewBox="0 0 14 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M1 16C1 17.1 1.9 18 3 18H11C12.1 18 13 17.1 13 16V4H1V16ZM3.5 8.9L4.9 7.5L7 9.6L9.1 7.5L10.5 8.9L8.4 11L10.5 13.1L9.1 14.5L7 12.4L4.9 14.5L3.5 13.1L5.6 11L3.5 8.9ZM10.5 1L9.5 0H4.5L3.5 1H0V3H14V1H10.5Z" fill="#BDBDBD"/>
-        </svg>
-      </div>
-      <div class="product-image">
-        <img :src="image.src" alt="product" />
-      </div>
-      <product-cart-price :product="product" :showProductColor="true" class="product-info" />
-      <more-icon>
-        <div class="more-item" @click="removeFromCart()">
-          <svg width="14" height="18" viewBox="0 0 14 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M1 16C1 17.1 1.9 18 3 18H11C12.1 18 13 17.1 13 16V4H1V16ZM3.5 8.9L4.9 7.5L7 9.6L9.1 7.5L10.5 8.9L8.4 11L10.5 13.1L9.1 14.5L7 12.4L4.9 14.5L3.5 13.1L5.6 11L3.5 8.9ZM10.5 1L9.5 0H4.5L3.5 1H0V3H14V1H10.5Z" fill="#BDBDBD"/>
-          </svg>
-          <span>{{ $t('Remove') }}</span>
+  <article class="product">
+    <img class="product__image" :src="image.src" alt="product" />
+    <div class="product__details">
+      <div class="product__details-top">
+        <div class="product__title">
+           {{ product.name | htmlDecode }} <span v-if="showProductColor">{{getColor}}</span>
         </div>
-      </more-icon>
-    </div>
-    <div class="product-right">
-      <div class="product-qty" v-if="product.type_id !== 'grouped' && product.type_id !== 'bundle'">
+        <div class="product__actions">
+          <div class="product__like"></div>
+          <div class="product__remove" @click="removeFromCart()">
+            <svg width="14" height="18" viewBox="0 0 14 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M1 16C1 17.1 1.9 18 3 18H11C12.1 18 13 17.1 13 16V4H1V16ZM3.5 8.9L4.9 7.5L7 9.6L9.1 7.5L10.5 8.9L8.4 11L10.5 13.1L9.1 14.5L7 12.4L4.9 14.5L3.5 13.1L5.6 11L3.5 8.9ZM10.5 1L9.5 0H4.5L3.5 1H0V3H14V1H10.5Z" fill="#BDBDBD"/>
+            </svg>
+          </div>
+        </div>
+      </div>
+      <div class="product__details-bottom">
         <product-quantity-new
           v-model.number="product.qty"
           @input="udpateQty($event)"
@@ -29,12 +24,21 @@
           :check-max-quantity="manageQuantity"
           :loading="isQtyUpdating"
         />
-      </div>
-      <div class="product-price">
-        <span> {{ finalPrice * product.qty | price(storeView) }} </span>
+        <product-cart-price :product="product" :showProductColor="true" class="product-info" />
+        <!-- <div class="product-price">
+          <span> {{ finalPrice * product.qty | price(storeView) }} </span>
+        </div> -->
+          <more-icon>
+            <div class="more-item" @click="removeFromCart()">
+              <svg width="14" height="18" viewBox="0 0 14 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M1 16C1 17.1 1.9 18 3 18H11C12.1 18 13 17.1 13 16V4H1V16ZM3.5 8.9L4.9 7.5L7 9.6L9.1 7.5L10.5 8.9L8.4 11L10.5 13.1L9.1 14.5L7 12.4L4.9 14.5L3.5 13.1L5.6 11L3.5 8.9ZM10.5 1L9.5 0H4.5L3.5 1H0V3H14V1H10.5Z" fill="#BDBDBD"/>
+              </svg>
+              <span>{{ $t('Remove') }}</span>
+            </div>
+        </more-icon>
       </div>
     </div>
-  </div>
+  </article>
 </template>
 
 <script>
@@ -44,8 +48,9 @@ import { currentStoreView } from '@vue-storefront/core/lib/multistore';
 import { Product } from '@vue-storefront/core/modules/checkout/components/Product';
 import i18n from '@vue-storefront/i18n';
 import MoreIcon from 'theme/components/core/MoreIcon';
-import ProductCartPrice from "../Product/ProductCartPrice";
-import GTM from 'theme/mixins/GTM/dataLayer'
+import ProductCartPrice from "../Product/NewProductCartPrice";
+import GTM from 'theme/mixins/GTM/dataLayer';
+
 export default {
   mixins: [Product, ProductCartPrice, GTM],
   components: {
@@ -63,6 +68,12 @@ export default {
     manageQuantity: true
   }),
   computed: {
+    getColor () {
+      if (this.product.type_id === 'configurable' && this.showProductColor ) {
+        return this.product.attributes_metadata.find(it => it.attribute_code === 'color').options.find(option => +option.value === this.product.color).label || null
+      }
+      return null
+    },
     finalPrice () {
       if (this.isBundleProduct) {
         return this.isDiscount ? this.bundleFinalPrice : this.bundlePrice
@@ -114,188 +125,224 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import '~theme/css/helpers/mixins';
+
 .product {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding-bottom: 16px;
+  // padding-bottom: 16px;
   margin-bottom: 16px;
-  border-bottom: 1px solid #e0e0e0;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  padding: 16px;
+
+  &__image {
+    max-width: 88px;
+    max-height: 88px;
+    width: auto;
+    height: auto;
+    margin-right: 16px;
+  }
+  &__details {
+    flex: 1;
+  }
+  &__details-top {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+  }
+  &__details-bottom {
+    display: flex;
+    align-items: center;
+    & > *:first-child {
+      margin-right: 12px;
+    }
+
+    @include tablet-view {
+      flex-direction: column;
+
+      & > *:first-child {
+        margin-right: 0;
+        margin-bottom: 10px;
+      }
+    }
+  }
+  &__actions {
+    display: flex;
+  }
+  &__like {
+    margin-right: 16px;
+  }
+  &__remove {
+
+  }
 }
 
-.product-left,
-.product-right {
-  width: 100%;
-  box-sizing: border-box;
-  display: flex;
-  align-items: center;
-}
+// .product-left,
+// .product-right {
+//   width: 100%;
+//   box-sizing: border-box;
+//   display: flex;
+//   align-items: center;
+// }
+// .product-left {
+//   align-items: flex-start;
+// }
 
-.product-right {
-  margin-left: auto;
-  max-width: 205px;
-  width: 100%;
-}
+// .product-right {
+//   margin-left: auto;
+//   max-width: 205px;
+//   width: 100%;
+// }
 
 .more {
   display: none;
   margin-left: auto;
 }
 
-.price-sale {
-  font-family: DIN Pro;
-  font-style: normal;
-  font-weight: 700;
-  font-size: 11px;
-  line-height: 16px;
-  text-transform: uppercase;
-  color: #FFFFFF;
-  background: #EE2C39;
-  border-radius: 30px;
-  padding: 1px 7px;
-  margin-left: 10px;
-}
+// .price-sale {
+//   font-family: DIN Pro;
+//   font-style: normal;
+//   font-weight: 700;
+//   font-size: 11px;
+//   line-height: 16px;
+//   text-transform: uppercase;
+//   color: #FFFFFF;
+//   background: #EE2C39;
+//   border-radius: 30px;
+//   padding: 1px 7px;
+//   margin-left: 10px;
+// }
 
-.product-remove {
-  margin-right: 12px;
-  cursor: pointer;
+// .product-remove {
+//   margin-right: 12px;
+//   cursor: pointer;
 
-  svg {
-    width: 14px;
-    height: 18px;
-  }
-}
+//   svg {
+//     width: 14px;
+//     height: 18px;
+//   }
+// }
 
-.product-image {
-  margin-right: 10px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 50px;
-  height: 50px;
-  font-family: DIN Pro;
-  font-style: normal;
+// .product-image {
 
-  img {
-    max-width: 50px;
-    max-height: 50px;
-    width: auto;
-    height: auto;
-  }
-}
 
-.product-info {
-  margin-right: 20px;
-  max-width: 280px;
-  ::v-deep .name{
-    font-size: 13px;
-  }
-}
+//   img {
+//     max-width: 88px;
+//     // max-height: 88px;
+//     width: auto;
+//     height: auto;
+//   }
+// }
 
-.product-info-name {
-  font-family: DIN Pro;
-  font-style: normal;
-  font-size: 13px;
-  line-height: 16px;
-  color: #1A1919;
-  margin-bottom: 4px;
-}
+// .product-info {
+//   margin-right: 20px;
+//   max-width: 280px;
+//   ::v-deep .name{
+//     font-size: 13px;
+//   }
+// }
 
-.product-info-price {
-  display: flex;
-  flex-wrap: wrap;
-  font-family: DIN Pro;
-  font-style: normal;
-  font-size: 15px;
-  font-weight: 600;
-  line-height: 16px;
-  color: #1a1919;
-}
+// .product-info-name {
+//   font-family: DIN Pro;
+//   font-style: normal;
+//   font-size: 13px;
+//   line-height: 16px;
+//   color: #1A1919;
+//   margin-bottom: 4px;
+// }
 
-.product-price {
-  width: 100%;
-  font-family: DIN Pro;
-  font-style: normal;
-  font-size: 18px;
-  line-height: 24px;
-  font-weight: 600;
-  color: #1A1919;
-  text-align: right;
-}
+// .product-info-price {
+//   display: flex;
+//   flex-wrap: wrap;
+//   font-family: DIN Pro;
+//   font-style: normal;
+//   font-size: 15px;
+//   font-weight: 600;
+//   line-height: 16px;
+//   color: #1a1919;
+// }
 
-.product-qty {
-  margin-right: 20px;
-  margin-left: auto;
-}
+// .product-price {
+//   width: 100%;
+//   font-family: DIN Pro;
+//   font-style: normal;
+//   font-size: 18px;
+//   line-height: 24px;
+//   font-weight: 600;
+//   color: #1A1919;
+//   text-align: right;
+// }
 
-img {
-  width: 100%;
-}
+// .product-qty {
+//   margin-right: 20px;
+//   margin-left: auto;
+// }
 
-.original-price {
-  &.disabled {
-    text-decoration: line-through;
-    color: #595858;
-  }
-}
+// img {
+//   width: 100%;
+// }
 
-.price-special {
-  color: #1A1919;
-}
+// .original-price {
+//   &.disabled {
+//     text-decoration: line-through;
+//     color: #595858;
+//   }
+// }
 
-.product-name {
-  font-family: "DIN Pro";
-  font-size: 13px;
-  line-height: 16px;
-  color: #1A1919;
-  margin-bottom: 2px;
-}
+// .price-special {
+//   color: #1A1919;
+// }
 
-.product-data {
-  display: flex;
-  margin-left: 18px;
-  flex: 1;
-}
-.product-info {
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-}
-.product-price-container {
-  display: flex;
-  align-items: center;
-  min-width: 75px;
-}
+// .product-name {
+//   font-family: "DIN Pro";
+//   font-size: 13px;
+//   line-height: 16px;
+//   color: #1A1919;
+//   margin-bottom: 2px;
+// }
 
-.total-price {
-  font-family: "DIN Pro";
-  font-weight: bold;
-  font-size: 18px;
-  line-height: 24px;
-  text-align: right;
-  color: #1A1919;
-}
+// .product-data {
+//   display: flex;
+//   margin-left: 18px;
+//   flex: 1;
+// }
+// .product-info {
+//   display: flex;
+//   flex-direction: column;
+//   flex: 1;
+// }
+// .product-price-container {
+//   display: flex;
+//   align-items: center;
+//   min-width: 75px;
+// }
 
-.more-item {
-  display: flex;
-  align-items: center;
-  padding: 12px 16px;
+// .total-price {
+//   font-family: "DIN Pro";
+//   font-weight: bold;
+//   font-size: 18px;
+//   line-height: 24px;
+//   text-align: right;
+//   color: #1A1919;
+// }
 
-  svg {
-    margin-right: 20px;
-  }
+// .more-item {
+//   display: flex;
+//   align-items: center;
+//   padding: 12px 16px;
 
-  span {
-    font-family: DIN Pro;
-    font-style: normal;
-    font-size: 14px;
-    line-height: 24px;
-    color: #595858;
-  }
-}
-</style>
-<style>
-  .checkout-product-quantity {
-    padding: 0 20px;
-  }
+//   svg {
+//     margin-right: 20px;
+//   }
+
+//   span {
+//     font-family: DIN Pro;
+//     font-style: normal;
+//     font-size: 14px;
+//     line-height: 24px;
+//     color: #595858;
+//   }
+// }
 </style>
