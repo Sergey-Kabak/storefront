@@ -22,10 +22,11 @@ const createOrderData = ({
   shippingMethods,
   paymentMethods,
   paymentDetails,
+  selectedShipping,
   taxCountry = currentStoreView().tax.defaultCountry
 }: CheckoutData): OrderShippingDetails => {
   const country = shippingDetails.country ? shippingDetails.country : taxCountry
-  const shipping = getDefaultShippingMethod(shippingMethods)
+  const shipping = selectedShipping || getDefaultShippingMethod(shippingMethods)
   const payment = getDefaultPaymentMethod(paymentMethods)
 
   return {
