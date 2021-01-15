@@ -66,6 +66,7 @@ export default {
   methods: {
     setActiveShippingMethod(methodCode) {
       const activeShipping = this.shippingMethods.find(it => it.method_code === methodCode)
+      this.changeShippingMethod(activeShipping)
       this.$store.commit('checkoutPage/SET_SELECTED_SHIPPING', activeShipping)
     },
     selectShipping() {

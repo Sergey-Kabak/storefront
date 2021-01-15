@@ -18,9 +18,9 @@
         class="promo-code"
         :isActive.sync="isShowPromocode"
       />
-      <div class="shipping-price" v-if="selectedShipping.method_code">
+      <div class="shipping-price">
         <span>{{ $t('shipping cost') }}:</span>
-        <span>{{ shippingPrice }}</span>
+        <span>{{ shippingPrice | price(storeView) }}</span>
       </div>
       <total-price class="total-prices"/>
     </div>
@@ -65,7 +65,8 @@ export default {
       return this.productsInCart.reduce((acc, it) => acc + it.price * it.qty, 0)
     },
     shippingPrice () {
-      return this.selectedShipping.amount || this.$t('is free')
+      const total = this.totals.find(it => it.code === 'shipping')
+      return total && total.value || this.$t('is free')
     }
   },
   mounted () {

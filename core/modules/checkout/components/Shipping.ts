@@ -38,7 +38,8 @@ export const Shipping = {
   computed: {
     ...mapState({
       currentUser: (state: RootState) => state.user.current,
-      shippingType: (state: RootState) => state.customShipping.type
+      shippingType: (state: RootState) => state.customShipping.type,
+      selectedShipping: (state: any) => state.checkoutPage.selectedShipping
     }),
     ...mapGetters({
       shippingMethods: 'checkout/getShippingMethods'
@@ -193,14 +194,12 @@ export const Shipping = {
       let currentMethod = this.shippingMethods ? this.shippingMethods.find(item => item.method_code === shippingCode) : {}
       return currentMethod
     },
-    changeShippingMethod () {
-      let currentShippingMethod = this.getCurrentShippingMethod()
-      if (currentShippingMethod) {
-        this.shipping = Object.assign(this.shipping, { shippingCarrier: currentShippingMethod.carrier_code })
+    changeShippingMethod (shipping) {
+      if (shipping) {
         this.$bus.$emit('checkout-after-shippingMethodChanged', {
-          country: this.shipping.country,
-          method_code: currentShippingMethod.method_code,
-          carrier_code: currentShippingMethod.carrier_code,
+          country: 'UA',
+          method_code: shipping.method_code,
+          carrier_code: shipping.carrier_code,
           payment_method: this.paymentMethod[0].code
         })
       }
