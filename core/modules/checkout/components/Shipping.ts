@@ -38,7 +38,8 @@ export const Shipping = {
   computed: {
     ...mapState({
       currentUser: (state: RootState) => state.user.current,
-      shippingType: (state: RootState) => state.customShipping.type
+      shippingType: (state: RootState) => state.customShipping.type,
+      selectedShipping: (state: any) => state.checkoutPage.selectedShipping
     }),
     ...mapGetters({
       shippingMethods: 'checkout/getShippingMethods'
