@@ -11,22 +11,27 @@
       >
         {{ $t(segment.code) }}:
       </div>
-      <div
-        class="total-price-value"
-        :class="{ discount: segment.code === 'discount' }"
-      >
-        {{ Math.abs(segment.value) | price(storeView) }}
-      </div>
+      <no-ssr>
+        <div
+          class="total-price-value"
+          :class="{ discount: segment.code === 'discount' }"
+        >
+          {{ Math.abs(segment.value) | price(storeView) }}
+        </div>
+      </no-ssr>
     </div>
   </div>
 </template>
 
 <script>
-
+import NoSSR from 'vue-no-ssr';
 import { mapGetters } from 'vuex';
 import { currentStoreView } from '@vue-storefront/core/lib/multistore';
 
 export default {
+  components: {
+    'no-ssr': NoSSR
+  },
   computed: {
     ...mapGetters({
       totals: "cart/getTotals"
@@ -45,10 +50,15 @@ export default {
 
 <style lang="scss" scoped>
 .total-price {
+  width: 100%;
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 24px;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
 }
 
 .total-price-label {

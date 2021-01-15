@@ -12,7 +12,7 @@
           <header>
             <h1 class="page-title"> {{ cmsPageContent.title }}</h1>
             <div v-if="isShowCity" class="city-picker" @click="openCityModal()">
-              <button class="city">{{ defaultCity }}</button>
+              <button class="city">{{ shopCity }}</button>
               <svg class="city-picker-icon" width="18" height="18" viewBox="0 0 18 18" fill="#BDBDBD" xmlns="http://www.w3.org/2000/svg">
                 <path d="M5.25 7.5L9 11.25L12.75 7.5H5.25Z" />
               </svg>
@@ -51,7 +51,7 @@ export default {
     ...mapState({
       activeMenu: (state) => state.cms.activeMenu,
       cmsPageContent: (state) => state.cmsPage.current,
-      defaultCity: (state) => state.ui.defaultCity
+      shopCity: (state) => state.ui.shopCity
     }),
     isShowCity() {
       return ['shops'].includes(this.$route.params.slug)
@@ -59,7 +59,7 @@ export default {
   },
   methods: {
     openCityModal() {
-      this.$bus.$emit('modal-show', 'modal-city-picker')
+      this.$bus.$emit('modal-show', 'modal-city-shop-picker')
     }
   }
 };

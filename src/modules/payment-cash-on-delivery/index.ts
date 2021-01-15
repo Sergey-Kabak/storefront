@@ -40,12 +40,12 @@ export const PaymentCashOnDeliveryModule: StorefrontModule = function ({ store }
 
     // Mount the info component when required.
     EventBus.$on('checkout-payment-method-changed', (paymentMethodCode) => {
-      let methods = store.state['payment-backend-methods'].methods
+      let methods = store.state.checkout.paymentMethods
       if (methods) {
         let method = methods.find(item => (item.code === paymentMethodCode))
-        if (paymentMethodCode === 'cashondelivery' && ((typeof method !== 'undefined' && !method.is_server_method) || typeof method === 'undefined') /* otherwise it could be a `payment-backend-methods` module */) {
+        if (paymentMethodCode === 'cashondelivery' && ((typeof method !== 'undefined') || typeof method === 'undefined') /* otherwise it could be a `payment-backend-methods` module */) {
           correctPaymentMethod = true
-
+          
           // Dynamically inject a component into the order review section (optional)
           // const Component = Vue.extend(InfoComponent)
           // const componentInstance = (new Component())

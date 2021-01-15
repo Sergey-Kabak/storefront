@@ -7,12 +7,6 @@ const Countries = require('@vue-storefront/i18n/resource/countries.json')
 
 export const Payment = {
   name: 'Payment',
-  props: {
-    isActive: {
-      type: Boolean,
-      required: true
-    }
-  },
   data () {
     return {
       isFilled: false,
@@ -24,7 +18,7 @@ export const Payment = {
       creditDetails: this.$store.state.themeCredit.creditDetails,
       assoc: {
         'currier': ['cashondelivery', 'liqpaymagento_liqpay'],
-        'new_post': ['cashondelivery', 'liqpaymagento_liqpay', 'credit'],
+        'new_post': ['cashondelivery', 'liqpaymagento_liqpay'],
         'shop': ['cashondelivery', 'credit']
       }
     }
@@ -32,8 +26,7 @@ export const Payment = {
   computed: {
     ...mapState({
       currentUser: (state: RootState) => state.user.current,
-      shippingDetails: (state: RootState) => state.checkout.shippingDetails,
-      type: (state: RootState) => state.customShipping.type,
+      shippingDetails: (state: RootState) => state.checkout.shippingDetails
     }),
     ...mapGetters({
       paymentMethods: 'checkout/getPaymentMethods',
@@ -129,7 +122,7 @@ export const Payment = {
                 zipCode: addresses[i].postcode,
                 taxId: addresses[i].vat_id,
                 phoneNumber: addresses[i].telephone,
-                paymentMethod: this.assoc[this.type][0] || ''
+                paymentMethod: ''
               }
               this.generateInvoice = true
               this.sendToBillingAddress = true
@@ -152,7 +145,7 @@ export const Payment = {
           zipCode: '',
           phoneNumber: '',
           taxId: '',
-          paymentMethod: this.assoc[this.type][0] || ''
+          paymentMethod: ''
         }
       }
     },
@@ -177,7 +170,7 @@ export const Payment = {
         apartmentNumber: this.shippingDetails.apartmentNumber,
         zipCode: this.shippingDetails.zipCode,
         phoneNumber: this.shippingDetails.phoneNumber,
-        paymentMethod: this.assoc[this.type][0] || ''
+        paymentMethod: ''
       }
     },
     useBillingAddress () {
@@ -198,7 +191,7 @@ export const Payment = {
               zipCode: addresses[i].postcode,
               taxId: addresses[i].vat_id,
               phoneNumber: addresses[i].telephone,
-              paymentMethod: this.assoc[this.type][0] || ''
+              paymentMethod: ''
             }
             this.generateInvoice = true
           }

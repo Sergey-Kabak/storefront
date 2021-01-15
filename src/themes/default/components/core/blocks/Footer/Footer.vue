@@ -8,7 +8,7 @@
         <div class="start-md">
           <logo width="89" height="auto"/>
           <social></social>
-          <div class="copyright">{{ $t('All rights reserved.') }} <br> “ringoo” Copyright 2020</div>
+          <div class="copyright">{{ $t('All rights reserved.') }} <br> “ringoo” Copyright {{ new Date().getFullYear() }}</div>
         </div>
         <div class="start-md" v-for="(footerColumn, index) in footerColumns" :key="index">
           <h2 class="footer-title">
@@ -63,7 +63,6 @@
 import { localizedRoute } from '@vue-storefront/core/lib/multistore';
 import CurrentPage from 'theme/mixins/currentPage';
 import BackToTop from 'theme/components/core/BackToTop';
-import { getPathForStaticPage } from 'theme/helpers';
 import config from 'config';
 import Logo from 'theme/components/core/Logo';
 import Social from 'theme/components/core/blocks/Footer/Social'

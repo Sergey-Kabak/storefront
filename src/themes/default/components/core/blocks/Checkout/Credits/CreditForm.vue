@@ -16,7 +16,6 @@
               class="custom-input"
               :class="{ error: $v.form.surname.$error && $v.form.surname.$dirty }"
               type="text"
-              :autofocus="true"
               name="surname"
               :placeholder="$t('Last name')"
               v-model.trim="form.surname"
@@ -35,7 +34,6 @@
               class="custom-input"
               :class="{ error: $v.form.name.$error && $v.form.name.$dirty }"
               type="text"
-              :autofocus="true"
               name="name"
               :placeholder="$t('First name')"
               v-model.trim="form.name"
@@ -54,7 +52,6 @@
               class="custom-input"
               :class="{ error: $v.form.last_name.$error && $v.form.last_name.$dirty }"
               type="text"
-              :autofocus="true"
               name="last_name"
               :placeholder="$t('surname')"
               v-model.trim="form.last_name"
@@ -99,7 +96,6 @@
               class="custom-input inn-input"
               :class="{ error: $v.form.identification_code.$error && $v.form.identification_code.$dirty }"
               type="number"
-              :autofocus="true"
               name="INN"
               :placeholder="$t('INN')"
               v-model.trim="form.identification_code"
@@ -195,10 +191,27 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.form-field{
+  margin-bottom: 20px;
+}
+.form-label{
+  font-family: DIN Pro;
+  font-size: 13px;
+  line-height: 16px;
+  color: #5F5E5E;
+}
+::v-deep .date-picker.mx-datepicker{
+  input{
+    border-color: #E0E0E0 !important;
+  }
+  i{
+    color: #BDBDBD !important;
+  }
+}
 .form-label.datepicker{
   ::v-deep .error {
     input {
-      border-color: #EE2C39;
+      border-color: #EE2C39 !important;
       &::placeholder {
         color: #EE2C39;
       }
@@ -230,7 +243,7 @@ export default {
 }
 .inn-input:not(.error) {
   ::v-deep input[type=number] {
-    border-color: #bdbdbd;
+    border-color: #E0E0E0;
   }
 }
 .form-row {
@@ -260,8 +273,7 @@ export default {
 }
 ::v-deep .date-picker.mx-datepicker {
   width: 100%;
-  height: 4.5rem;
-
+  margin-bottom: 28px;
   input {
     height: 40px;
     box-shadow: none;

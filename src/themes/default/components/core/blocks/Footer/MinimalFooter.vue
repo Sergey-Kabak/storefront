@@ -1,6 +1,6 @@
 <template>
   <footer class="footer">
-    <span class="copyright">{{ $t('All rights reserved.') }} «ringoo» Copyright © 2021</span>
+    <span class="copyright">Все права защищены. «Ringoo» Copyright © {{ new Date().getFullYear() }}</span>
   </footer>
 </template>
 

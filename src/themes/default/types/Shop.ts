@@ -11,3 +11,8 @@ export interface Shop {
   fax?: string,
   opening_hours?: string
 }
+
+export interface ShopResponse {
+  shops: Shop[],
+  total: number
+}

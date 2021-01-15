@@ -8,6 +8,8 @@ export const module: Module<CreditState, any> = {
   namespaced: true,
   state: {
     banks: [],
+    creditBanks: [],
+    paypartsBanks: [],
     selectedBank: null,
     selectedCredit: null,
     productSku: null,

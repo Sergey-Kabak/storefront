@@ -1,6 +1,7 @@
 <template></template>
 <script>
 import Vue from 'vue'
+import i18n from '@vue-storefront/i18n'
 
 export default {
   props: {
@@ -23,8 +24,12 @@ export default {
       })
       this.InfoWindow.open(this.map)
       this.$nextTick(() => {
-        const instance = new info({ store: this.$store, propsData: { marker: this.activeMarker }}).$mount('#info-window')
-        instance.$on('close-popup', () => this.InfoWindow.close())
+        const instance = new info({ store: this.$store, i18n, propsData: { marker: this.activeMarker }}).$mount('#info-window')
+        instance.$on('close-popup', () => {
+          this.InfoWindow.close()
+          this.$emit('close')
+        })
+        instance.$on('select', (event) => this.$emit('select', event))
       })
     }
   }

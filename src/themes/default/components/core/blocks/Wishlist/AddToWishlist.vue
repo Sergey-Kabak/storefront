@@ -74,6 +74,7 @@ export default {
 }
 
 .icon-wishlist {
+  box-sizing: content-box;
   padding: 4px;
   border-radius: 4px;
 

@@ -2,7 +2,7 @@
   <div class="credit-product-wrapper">
     <div class="credit-product">
       <div class="credit-product-name">
-        {{getSelectedBank.name}}
+        {{ getSelectedBank.name }}
       </div>
       <div @click="showCreditPopup()" class="align-right underline cursor">
         {{ $t('Edit') }}
@@ -18,15 +18,11 @@
 
 <script>
 import { currentStoreView } from '@vue-storefront/core/lib/multistore';
-import { mapGetters, mapMutations, mapState } from 'vuex'
-import totalAmount from '../../../../../mixins/cart/totalAmount';
-import * as types from '../../../../../store/credit/mutation-types';
+import { mapState, mapGetters, mapMutations } from 'vuex'
+import { price } from 'theme/helpers'
+import * as types from 'theme/store/credit/mutation-types';
+
 export default {
-  mixins: [totalAmount],
-  mounted () {
-    console.log(this.$route.name === 'checkout' && this.shippingType === 'new_post' && this.getBanks.length)
-    this.PayPartsOnly()
-  },
   computed: {
     ...mapState({
       shippingType: state => state.customShipping.type
@@ -36,18 +32,20 @@ export default {
       selectedCredit: 'themeCredit/getSelectedCredit',
       getSelectedBank: 'themeCredit/getSelectedBank',
       getBanks: 'themeCredit/getBanks',
-      totals: 'cart/getTotals'
+      totals: 'cart/getTotals',
+      getPaypartsBanks: 'themeCredit/getPaypartsBanks',
+      getCreditBanks: 'themeCredit/getCreditBanks'
     }),
-    totalPrice () {
-      return this.totals.find(code => code.code === 'grand_total').value
-    },
+    ...mapState({
+      selectedPayment: (state) => state.checkoutPage.selectedPayment
+    }),
     storeView () {
       return currentStoreView()
     },
     creditProduct () {
       return {
         number_of_payments: +this.selectedCredit.terms,
-        monthly_payment: this.productsInCart.reduce((acc, it) => acc += (this.finalPrice(it) / +this.selectedCredit.terms) * it.qty, 0)
+        monthly_payment: this.productsInCart.reduce((acc, it) => acc += (price(it) / +this.selectedCredit.terms) * it.qty, 0)
       }
     }
   },
@@ -55,18 +53,13 @@ export default {
     showCreditPopup () {
       this.$bus.$emit('modal-show', 'modal-credits')
     },
-    PayPartsOnly () {
-      if (this.$route.name === 'checkout' && this.shippingType === 'new_post' && this.getBanks.length) {
-        const banks = this.getBanks.map(bank => {
-          if (bank.credits.some(it => !+it.liqpay_allowed)) {
-            return { ...bank, visible: false }
-          }
-          return { ...bank, visible: true }
-        })
-        this.$store.state.themeCredit.selectedBank = banks.find(bank => bank.visible)
-        this.$store.state.themeCredit.selectedCredit = banks.find(bank => bank.visible).credits[0]
-      }
+    changeBanks (banks) {
+      console.log(this.$store);
+      this.$store.commit('themeCredit/themeCredit/CREDIT_SET_BANKS', { banks: [...banks] })
     }
+  },
+  created () {
+    this.selectedPayment.code === 'credit' ? this.changeBanks(this.getCreditBanks) : this.changeBanks(this.getPaypartsBanks)
   }
 }
 </script>

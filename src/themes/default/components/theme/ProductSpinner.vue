@@ -5,17 +5,14 @@
       attributeType="XML"
       type="rotate"
       dur="1s"
-      from="0 0 0"
-      to="360 0 0"
+      by="360"
       repeatCount="indefinite" />
-    <circle class="path" cx="25" cy="25" r="20" fill="none">
-    </circle>
+    <circle class="path" cx="25" cy="25" r="20" fill="none" />
   </svg>
 </template>
 
 <style scoped lang="scss">
 .product-spinner {
-  animation: rotate 2s linear infinite;
   width: 48px;
   height: 48px;
   @media (max-width: 576px){

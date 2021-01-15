@@ -73,6 +73,12 @@ const mutations: MutationTree<CartState> = {
     EventBus.$emit('application-after-loaded')
     EventBus.$emit('cart-after-loaded')
   },
+  [types.CART_SYNC] (state) {
+    state.cartIsLoaded = true
+    EventBus.$emit('sync/PROCESS_QUEUE', { config }) // process checkout queue
+    EventBus.$emit('application-after-loaded')
+    EventBus.$emit('cart-after-loaded')
+  },
   [types.CART_LOAD_CART_SERVER_TOKEN] (state, token) {
     state.cartServerToken = token
   },

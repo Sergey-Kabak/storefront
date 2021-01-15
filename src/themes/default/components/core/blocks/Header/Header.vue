@@ -2,8 +2,7 @@
   <div class="header-wrap" ref="headerWrap">
     <header
     ref="header"
-    :class="{ 'is-visible': navVisible, 'search-active': isSearchActive, 'fixed': isFixed }"
-    :style="{top: -headerHeight + 'px'}"
+    :class="{ 'is-visible': navVisible, 'search-active': isSearchActive }"
   >
     <div class="promo" v-if="isShowHeader" :style="{'background-color': promo.background}" :class="{'ny-page': !isNYPage}">
       <router-link class="promo-link" :to="promo.link">
@@ -77,31 +76,6 @@
         </div>
       </div>
     </div>
-    <div class="header-container-wrap border" v-if="isCheckoutPage && !isThankYouPage">
-      <div class="header-container checkout">
-        <router-link
-          :to="localizedRoute('/')"
-          class="return-to-shopping__link"
-        >
-          <img src="/assets/custom/Back.svg" alt="back" class="return-to-shopping__icon">
-          <span class="return-to-shopping__text">{{ $t('Return to shopping') }}</span>
-        </router-link>
-        <logo width="auto" height="41px" />
-        <div class="header-help">
-          <div class="header-help-desktop">
-            <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M3.54 2C3.6 2.89 3.75 3.76 3.99 4.59L2.79 5.79C2.38 4.59 2.12 3.32 2.03 2H3.54ZM13.4 14.02C14.25 14.26 15.12 14.41 16 14.47V15.96C14.68 15.87 13.41 15.61 12.2 15.21L13.4 14.02ZM4.5 0H1C0.45 0 0 0.45 0 1C0 10.39 7.61 18 17 18C17.55 18 18 17.55 18 17V13.51C18 12.96 17.55 12.51 17 12.51C15.76 12.51 14.55 12.31 13.43 11.94C13.33 11.9 13.22 11.89 13.12 11.89C12.86 11.89 12.61 11.99 12.41 12.18L10.21 14.38C7.38 12.93 5.06 10.62 3.62 7.79L5.82 5.59C6.1 5.31 6.18 4.92 6.07 4.57C5.7 3.45 5.5 2.25 5.5 1C5.5 0.45 5.05 0 4.5 0Z" fill="#787878" />
-            </svg>
-            <span class="header-help-text">{{ $t('Need help?') }}</span>
-            <phone-info v-show="navVisible"></phone-info>
-          </div>
-          <div class="header-help-mobile">
-            <microcart-icon class="icon pointer icon-microcart" />
-            <consultation-icon class="icon icon-consultation" />
-          </div>
-        </div>
-      </div>
-    </div>
     </header>
   </div>
 </template>
@@ -143,15 +117,7 @@ export default {
       isScrolling: false,
       scrollTop: 0,
       lastScrollTop: 0,
-      headerHeight: null,
-      isFixed: false
-    }
-  },
-  watch: {
-    $route(to, from) {
-      this.$nextTick(() => {
-        this.calculateHeaderHeight()
-      })
+      navbarHeight: 142
     }
   },
   computed: {
@@ -198,8 +164,6 @@ export default {
     })
   },
   mounted: function() {
-    this.calculateHeaderHeight()
-    this.isFixed = true
     window.addEventListener('resize', this.onResize)
   },
   beforeDestroy() {
@@ -209,10 +173,6 @@ export default {
     imageLoaded () {
       this.isPromoLoaded = true
     },
-    calculateHeaderHeight () {
-      this.headerHeight = this.$refs.header.clientHeight
-      this.$refs.headerWrap.style.height = this.headerHeight + 'px'
-    },
     gotoAccount () {
       this.$bus.$emit('modal-toggle', 'modal-signup')
     },
@@ -220,7 +180,7 @@ export default {
       this.scrollTop = window.scrollY
       if (
         this.scrollTop > this.lastScrollTop &&
-        this.scrollTop > this.headerHeight
+        this.scrollTop > this.navbarHeight
       ) {
         this.navVisible = false
       } else {
@@ -229,7 +189,6 @@ export default {
       this.lastScrollTop = this.scrollTop
     },
     onResize() {
-      this.calculateHeaderHeight()
       if (window.innerWidth >= 768 && this.isSearchActive) {
         this.$store.commit('ui/setOverlay', false)
         this.$store.commit('ui/setSearch', false)
@@ -298,6 +257,7 @@ $color-icon-hover: color(secondary, $colors-background);
 }
 
 header {
+  position: fixed;
   background: #fff;
   overflow-anchor: none;
   right: 0;
@@ -314,25 +274,13 @@ header {
 
 .header-wrap {
   margin-bottom: 16px;
+  height: 142px;
 }
 
 .minimal {
   height: 67px;
 }
 
-.return-to-shopping {
-  &__text {
-    font-family: DIN Pro;
-    font-style: normal;
-    font-size: 15px;
-    line-height: 24px;
-    display: block;
-    color: #595858;
-  }
-  &__icon {
-    margin-right: 20px;
-  }
-}
 
 .header-black-line {
   display: block;
@@ -462,6 +410,7 @@ header {
 }
 
 header {
+  top: -142px;
   box-sizing: border-box;
   max-height: 100vh;
   overflow: unset;
@@ -597,45 +546,10 @@ header {
   }
 }
 
-.icon {
-  opacity: 1;
-  &:hover,
-  &:focus {
-    background-color: $color-icon-hover;
-    opacity: 1;
-  }
-}
 .header-placeholder {
   height: 54px;
 }
 
-.return-to-shopping {
-  &__text {
-    font-family: DIN Pro;
-    font-style: normal;
-    font-size: 15px;
-    line-height: 25px;
-    display: block;
-    color: #595858;
-    transition: .2s ease-in-out;
-
-    &:hover {
-      color: #1A1919;
-    }
-  }
-
-  &__link {
-    height: 100%;
-    display: flex;
-    align-items: center;
-    width: fit-content;
-  }
-
-  &__icon {
-    margin-right: 12px;
-    width: 10px;
-  }
-}
 .account {
   &__text {
     display: block;
@@ -647,64 +561,6 @@ header {
 
 .header-bottom {
   display: none;
-}
-
-.header-container {
-  box-sizing: border-box;
-  &.checkout {
-    height: 56px;
-    display: grid;
-    align-items: center;
-    grid-template-columns: 1fr 1fr 1fr;
-    width: 95%;
-    max-width: 1324px;
-    margin: auto;
-  }
-}
-
-.header-help {
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  height: 100%;
-
-  svg {
-    margin-right: 15px;
-  }
-
-  &-text {
-    font-family: DIN Pro;
-    font-style: normal;
-    font-size: 15px;
-    line-height: 24px;
-    color: #1A1919;
-  }
-
-  &-desktop {
-    position: relative;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    cursor: pointer;
-
-    &:hover {
-      .phone-tooltip {
-        display: flex;
-        animation: slide .2s ease-in-out;
-        left: auto;
-        right: 0;
-        transform: none;
-      }
-    }
-  }
-}
-
-.header-help-mobile {
-  display: none;
-}
-
-a.underline:after, a:not(.no-underline):hover:after {
-  content: none;
 }
 
 @media (max-width: 768px) {
@@ -772,12 +628,6 @@ a.underline:after, a:not(.no-underline):hover:after {
     margin-bottom: 15px;
   }
 
-  .header-container-wrap {
-    &.border {
-      border-bottom: 1px solid #e0e0e0;
-      box-shadow: none;
-    }
-  }
   .header-help-desktop {
     display: none;
   }

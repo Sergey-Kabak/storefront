@@ -18,8 +18,8 @@ const UnderConstruction = () => import(/* webpackChunkName: "vsf-static" */ 'the
 let routes = [
   { name: 'home', path: '/', component: Home, alias: '/pwa.html', meta: { name: 'home page', title: i18n.t('home page meta title'), description: i18n.t('home page meta discription') } },
   // { name: 'ThankYouPage', path: '/thank-you-page', component: ThankYouPage },
-  { name: 'checkout', path: '/checkout', component: Checkout, meta: { name: 'checkout' } },
-  { name: 'order', path: '/order', component: ThankYouPage, meta: { name: 'order' } },
+  { name: 'checkout', path: '/checkout', component: Checkout, meta: { name: 'checkout', layout: 'minimal' } },
+  { name: 'thank-you-page', path: '/thank-you-page', component: ThankYouPage, meta: { name: 'thank-you-page', layout: 'minimal' } },
   { name: 'brand-portal', path: '/brand-portal/:brandId', component: BrandPortal, meta: { name: 'brand portal' } },
   { name: 'my-account', path: '/my-account', component: MyAccount },
   { name: 'my-shipping-details', path: '/my-account/shipping-details', component: MyAccount, props: { activeBlock: 'MyShippingDetails' } },

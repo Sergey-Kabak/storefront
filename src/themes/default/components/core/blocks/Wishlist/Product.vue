@@ -227,7 +227,6 @@ export default {
 }
 
 .product-prices {
-  flex-direction: column;
   margin-bottom: 20px;
 
   .price-special {

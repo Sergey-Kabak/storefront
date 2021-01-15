@@ -2,6 +2,7 @@
   <div id="app">
     <component :is="layout">
       <router-view />
+      <notification/>
     </component>
   </div>
 </template>
@@ -11,6 +12,7 @@ import { mapState } from 'vuex';
 import 'src/themes/default/assets/fonts/stylesheet.css';
 import version from 'theme/helpers/Version';
 import config from 'config'
+import Notification from 'theme/components/core/Notification.vue';
 
 const DefaultLayout = () => import(/* webpackChunkName: "vsf-layout-default" */ './layouts/Default')
 const EmptyLayout = () => import(/* webpackChunkName: "vsf-layout-empty" */ './layouts/Empty')
@@ -36,6 +38,7 @@ export default {
     DefaultLayout,
     EmptyLayout,
     MinimalLayout,
+    Notification,
     ErrorLayout
   },
   beforeMount () {

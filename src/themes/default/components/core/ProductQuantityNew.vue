@@ -47,10 +47,6 @@ export default {
     loading: {
       type: Boolean,
       default: false
-    },
-    isSimpleOrConfigurable: {
-      type: Boolean,
-      default: false
     }
   },
   computed: {
@@ -58,7 +54,7 @@ export default {
       return onlineHelper.isOnline
     },
     max () {
-      if (!this.isOnline || !this.isSimpleOrConfigurable) {
+      if (!this.isOnline) {
         return null
       }
 
@@ -68,10 +64,10 @@ export default {
       if (!this.isOnline) {
         return false
       }
-      return !this.maxQuantity && this.checkMaxQuantity && this.isSimpleOrConfigurable
+      return !this.maxQuantity && this.checkMaxQuantity
     },
     name () {
-      if (this.isSimpleOrConfigurable && !this.loading && this.showQuantity) {
+      if (!this.loading && this.showQuantity) {
         return this.$i18n.t(this.isOnline ? 'Quantity available' : 'Quantity available offline', { qty: this.maxQuantity })
       }
       return this.$i18n.t('Quantity')
@@ -81,7 +77,7 @@ export default {
     return {
       value: {
         minValue: minValue(1),
-        maxValue: maxValue(this.max) && !this.isSimpleOrConfigurable,
+        maxValue: maxValue(this.max),
         numeric,
         required
       }

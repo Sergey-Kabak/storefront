@@ -1,8 +1,7 @@
 <template>
   <div class="map">
-    <map-loader :apiKey="googleApiKey" :mapConfig="mapConfig" :markers="shops">
+    <map-loader :mapConfig="mapConfig" :markers="shops">
       <template slot-scope="scopeProps">
-        <!-- wrapped in block coz duplicate -->
         <div>
           <child-marker
             v-for="marker in filteredShops"
@@ -12,7 +11,7 @@
             :item="marker"
             :map="scopeProps.map"
             :icons="icons"
-            @onSelectMarker="openPopup($event)"
+            @onSelectMarker="selectMarker($event)"
             :activeMarker="selectedMarker"
             id="source_code"
           />
@@ -34,10 +33,9 @@
 </template>
 
 <script>
-import config from 'config'
+
 import { mapState } from 'vuex'
 import ShopInfoWindow from 'theme/components/core/blocks/Shop/ShopInfoWindow.vue'
-import NoSSR from 'vue-no-ssr'
 import MapLoader from 'src/modules/map/MapLoader'
 import ChildMarker from 'src/modules/map/ChildMarker'
 import InfoWindow from 'src/modules/map/InfoWindow'
@@ -46,8 +44,7 @@ export default {
   components: {
     MapLoader,
     InfoWindow,
-    ChildMarker,
-    'no-ssr': NoSSR
+    ChildMarker
   },
   data: () => ({
     ShopInfoWindow,
@@ -57,8 +54,7 @@ export default {
     icons: {
       default: '/assets/google-map/default-pin.svg',
       active: '/assets/google-map/active-pin.svg'
-    },
-    googleApiKey: config.googleApiKey
+    }
   }),
   computed: {
     ...mapState({
@@ -77,7 +73,7 @@ export default {
     }
   },
   methods: {
-    openPopup(shop) {
+    selectMarker(shop) {
       this.$store.commit('shop/SET_SELECTED_SHOP', shop)
       this.scrollToActiveElement()
     },
