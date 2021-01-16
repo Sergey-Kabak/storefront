@@ -79,8 +79,8 @@
                         :key="index"
                         class="compare__product compare__product-head"
                         data-testid="comparedProduct"
-                        v-if="currentCategory === product.category[0].name"
-                        :class="{'visible' : currentCategory === product.category[0].name}"
+                        v-if="currentCategory === product.breadcrumbs[0].name"
+                        :class="{'visible' : currentCategory === product.breadcrumbs[0].name}"
                       >
                         <div class="compare__top-info pt45"
                              :class="{'single-product' : addedProducts[currentCategory] === 1}">
@@ -127,7 +127,7 @@
                       :key="index"
                       class="compare__product"
                       data-testid="comparedProduct"
-                      v-if="currentCategory === product.category[0].name"
+                      v-if="currentCategory === product.breadcrumbs[0].name"
                     >
                       <ul class="compare__features-list">
                         <template v-for="(attr, attIndex) in getAvailibleAttributes">
