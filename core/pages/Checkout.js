@@ -305,7 +305,7 @@ export default {
       const extensionAttributes = this.order.addressInformation.shippingExtraFields
 
       if (this.selectedShipping.method_code === 'freeshipping') {
-        shippingAddress.postcode = billingAddress.postcode = this.shopShipping.postcode
+        shippingAddress.postcode = billingAddress.postcode = this.shopShipping.source_code
         shippingAddress.street = billingAddress.street = [this.shopShipping.street]
       }
 
@@ -331,10 +331,11 @@ export default {
         shippingAddress.postcode = billingAddress.postcode = 69068
         shippingAddress.street = billingAddress.street = [`${this.courierShipping.address.Description}, ${this.courierShipping.house}, ${this.courierShipping.apartmentNumber}`]
       }
-      if (this.order.addressInformation.payment_method_code === 'credit' || this.order.addressInformation.payment_method_code === 'temabit_payparts') {
+      if (['credit', 'temabit_payparts'].includes(this.order.addressInformation.payment_method_code)) {
         this.order.addressInformation.payment_method_additional = { ...this.$store.state.themeCredit.creditDetails }
         this.order.addressInformation.payment_method_additional['credit_id'] = this.$store.state.themeCredit.selectedCredit.credit_id
         this.order.addressInformation.payment_method_additional['terms'] = this.$store.state.themeCredit.selectedCredit.terms
+        this.order.addressInformation.payment_method_additional['bank_id'] = this.$store.state.themeCredit.selectedBank.id
       }
       return this.order
     },
