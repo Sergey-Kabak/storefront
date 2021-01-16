@@ -53,12 +53,16 @@ export default {
     }),
     ...mapState({
       selectedPayment: (state) => state.checkoutPage.selectedPayment,
-      selectedShipping: (state) => state.checkoutPage.selectedShipping
+      selectedShipping: (state) => state.checkoutPage.selectedShipping,
+      cartItems: (state) => state.cart.cartItems
     }),
+    isMarketplace () {
+      return this.cartItems.some(it => +it.marketplace)
+    },
     methods () {
       const methods = {
         'cashondelivery': true,
-        'liqpaymagento_liqpay': !['freeshipping'].includes(this.selectedShipping.method_code),
+        'liqpaymagento_liqpay': !['freeshipping'].includes(this.selectedShipping.method_code) && !this.isMarketplace,
         'temabit_payparts': this.getPaypartsBanks.length,
         'credit': this.selectedShipping.method_code === 'freeshipping' && this.getCreditBanks.length
       }
