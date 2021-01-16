@@ -1,7 +1,7 @@
 <template>
   <div>
       <span
-        v-if="productStatus === 'not available'"
+        v-if="!product.stock.is_in_stock && !isPreorder"
         class="product-is-not-available product-card-bottom-options"
       >
         <slot name="wishlist" />
@@ -15,10 +15,10 @@
       <router-link :to="productLink" class="ml-auto">
         <button-full
           data-testid="addToCart" class="add-to-cart"
-          :class="{productStatus, 'pre_order': productStatus === 'preorder'}"
+          :class="{'pre_order': !!isPreorder}"
           :aria-label="$t('Buy')"
         >
-          <template v-if="productStatus === 'available'">
+          <template v-if="!isPreorder">
             <svg class="basket--icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path
                 d="M10.5 22C11.3284 22 12 21.3284 12 20.5C12 19.6716 11.3284 19 10.5 19C9.67157 19 9 19.6716 9 20.5C9 21.3284 9.67157 22 10.5 22Z"
@@ -32,7 +32,7 @@
               <path d="M18.25 8.16L15.5 5.16L16.66 4L18.25 5.59L21.84 2L23 3.41L18.25 8.16Z" fill="white"/>
             </svg>
           </template>
-          <span class="add-to-cart-text">{{ productStatus === 'available' ? $t('Buy') : $t('pre order') }}</span>
+          <span class="add-to-cart-text">{{ isPreorder ? $t('pre order') : $t('Buy') }}</span>
         </button-full>
       </router-link>
     </div>
@@ -55,12 +55,8 @@ export default {
     ButtonFull
   },
   computed: {
-    productStatus () {
-      if (this.product.stock.is_in_stock) {
-        return 'available'
-      } else {
-        return 'not available'
-      }
+    isPreorder () {
+      return this.product.stock.is_in_stock && !!this.product.preorder
     }
   }
 }
