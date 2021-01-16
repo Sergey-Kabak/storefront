@@ -7,6 +7,7 @@
     :aria-label="$t('Show subcategories')"
     data-testid="categoryButton"
   >
+    {{ customClass }}
     <span class="back" v-html="ico"></span>
     {{ name }}
     <i class="material-icons mla">keyboard_arrow_right</i>
@@ -18,6 +19,7 @@
     @click.stop="back()"
     :aria-label="$t('Back')"
   >
+    {{ customClass }}
     <span v-html="ico" class="back"></span>
     {{ name }}
     <i class="material-icons mla">keyboard_arrow_left</i>
@@ -46,7 +48,11 @@ export default {
       type: Boolean,
       default: true
     },
-    ico: {}
+    ico: {},
+    customClass: {
+      type: String,
+      default: ''
+    }
   },
   computed: {
     ...mapState({
