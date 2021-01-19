@@ -20,6 +20,7 @@ import {
 } from '@vue-storefront/core/modules/catalog/helpers'
 import { getProductConfigurationOptions } from '@vue-storefront/core/modules/catalog/helpers/productOptions'
 import { checkParentRedirection } from '@vue-storefront/core/modules/catalog/events'
+import {isArray} from "util";
 
 const actions: ActionTree<ProductState, RootState> = {
   doPlatformPricesSync (context, { products }) {
@@ -182,7 +183,10 @@ const actions: ActionTree<ProductState, RootState> = {
    */
   setBundleOptions (context, { bundleOptions, product }) {
     if (bundleOptions) { // TODO: this causes some kind of recurrency error
-      context.commit(types.PRODUCT_SET_CURRENT, Object.assign({}, product, { product_option: setBundleProductOptionsAsync(context, { product: context.getters.getCurrentProduct, bundleOptions: bundleOptions }) }))
+      let options = product.product_option.extension_attributes.bundle_options
+      options.push(bundleOptions[Object.keys(bundleOptions)[0]])
+      // context.commit(types.PRODUCT_SET_CURRENT, Object.assign({}, product, { product_option: setBundleProductOptionsAsync(context, { product: context.getters.getCurrentProduct, bundleOptions: bundleOptions }) }))
+      context.commit(types.PRODUCT_SET_CURRENT, Object.assign({}, product))
     }
   },
   /**
