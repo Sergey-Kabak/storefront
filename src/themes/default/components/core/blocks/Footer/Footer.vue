@@ -50,9 +50,9 @@
       </div>
     </div>
     <back-to-top bottom="60px" right="20px" visibleoffset="200">
-      <button type="button" class="btn-top button no-outline brdr-none cl-white bg-cl-mine-shaft :bg-cl-th-secondary py10 px10" aria-label="back-to-top">
-        <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg" fill-rule="evenodd" clip-rule="evenodd">
-          <path d="M23.245 20l-11.245-14.374-11.219 14.374-.781-.619 12-15.381 12 15.391-.755.609z" fill="white" />
+      <button type="button" class="btn-top button no-outline brdr-none cl-white py10 px10" aria-label="back-to-top">
+        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 28 28" fill="none">
+        <path d="M5.83301 10.5L7.47801 12.145L12.833 6.80162V25.6666H15.1663V6.80162L20.5213 12.1566L22.1663 10.5L13.9997 2.33329L5.83301 10.5Z" fill="#23BE20"/>
         </svg>
       </button>
     </back-to-top>
