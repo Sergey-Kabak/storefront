@@ -6,7 +6,7 @@
   >
     <div class="promo" v-if="isShowHeader" :style="{'background-color': promo.background}">
       <router-link class="promo-link" :to="promo.link">
-        <picture>
+        <picture class="flex">
           <source :srcset="promo.imgTablet" media="(min-width: 567px) and (max-width: 768px)">
           <source :srcset="promo.imgMobile" media="(max-width: 567px)">
           <source :srcset="promo.img">
