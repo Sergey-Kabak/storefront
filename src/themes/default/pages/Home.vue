@@ -32,9 +32,9 @@
       </div>
       <div class="center-xs">
         <lazy-hydrate :trigger-hydration="!loading" v-if="isLazyHydrateEnabled">
-          <product-listing columns="4" :products="getStockGoods" />
+          <product-listing columns="4" :products="getStockGoods" gtm-list="home page" />
         </lazy-hydrate>
-        <product-listing v-else columns="4" :products="getStockGoods" />
+        <product-listing v-else columns="4" :products="getStockGoods" gtm-list="home page" />
 
         <button-full
             class="mt35 show-all"
@@ -55,10 +55,10 @@
       </header>
       <div class="center-xs">
         <lazy-hydrate :trigger-hydration="!loading" v-if="isLazyHydrateEnabled">
-          <product-listing columns="4" :products="getSalesLeaders" />
+          <product-listing columns="4" :products="getSalesLeaders" gtm-list="home page" />
           <!--<product-listing columns="4" :products="products" />-->
         </lazy-hydrate>
-        <product-listing v-else columns="4" :products="getSalesLeaders" />
+        <product-listing v-else columns="4" :products="getSalesLeaders" gtm-list="home page" />
         <!--<product-listing v-else columns="4" :products="products" />-->
         <button-full
             class="mt35 show-all"
@@ -102,9 +102,9 @@
       </div>
       <div class="center-xs">
         <lazy-hydrate :trigger-hydration="!loading" v-if="isLazyHydrateEnabled">
-          <product-listing columns="4" :products="getNew" />
+          <product-listing columns="4" :products="getNew" gtm-list="home page" />
         </lazy-hydrate>
-        <product-listing v-else columns="4" :products="getNew" />
+        <product-listing v-else columns="4" :products="getNew" gtm-list="home page" />
 
         <button-full
             class="mt35 show-all"
@@ -128,10 +128,10 @@
       <div class="center-xs">
         <lazy-hydrate :trigger-hydration="!loading" v-if="isLazyHydrateEnabled">
           <!--<product-listing columns="4" :products="getBestsellers" />-->
-          <product-listing columns="4" :products="getRecommends" />
+          <product-listing columns="4" :products="getRecommends" gtm-list="home page" />
         </lazy-hydrate>
         <!--<product-listing v-else columns="4" :products="getBestsellers" />-->
-        <product-listing v-else columns="4" :products="getRecommends" />
+        <product-listing v-else columns="4" :products="getRecommends" gtm-list="home page" />
         <button-full
             class="mt35 show-all"
             type="submit"

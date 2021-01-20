@@ -114,7 +114,7 @@
           <lazy-hydrate :trigger-hydration="!loading" v-if="isLazyHydrateEnabled">
             <product-listing :products="getCategoryProducts" />
           </lazy-hydrate>
-          <product-listing v-else :products="getCategoryProducts" />
+          <product-listing v-else :products="getCategoryProducts" gtm-list="category" />
           <button-white
             v-if="!allProductsLoaded" @click.native="onBottomScroll"
             class="load">
