@@ -6,9 +6,9 @@
         <accessory-item v-for="(accessory, index) in accessories" :accessory="accessory" :key="index"/>
       </div>
     </div>
-    <div class="brand-categories-right" v-if="brand.banner_promo">
-      <router-link :to="brand.promo_banner_link" :disabled="!brand.promo_banner_link">
-        <img v-lazy="promoBanner" class="brand-categories-banner" alt="promo">
+    <div class="brand-accessories-right" v-if="brand.banner_promo">
+      <router-link :to="brand.promo_banner_link">
+        <img :src="promoBanner" class="brand-accessories-banner" alt="promo">
       </router-link>
     </div>
   </div>
