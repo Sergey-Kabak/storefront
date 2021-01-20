@@ -6,11 +6,11 @@
   >
     <div class="promo" v-if="isShowHeader" :style="{'background-color': promo.background}">
       <router-link class="promo-link" :to="promo.link">
-        <picture class="flex">
+        <picture>
           <source :srcset="promo.imgTablet" media="(min-width: 567px) and (max-width: 768px)">
           <source :srcset="promo.imgMobile" media="(max-width: 567px)">
           <source :srcset="promo.img">
-          <img :src="promo.img" alt="promo" class="promo-image">
+          <img v-lazy="promo.img" alt="promo" class="promo-image">
         </picture>
       </router-link>
     </div>

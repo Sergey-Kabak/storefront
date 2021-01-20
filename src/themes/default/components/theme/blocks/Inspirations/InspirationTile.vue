@@ -4,7 +4,7 @@
       :to="localizedRoute({ name: product.type_id + '-product', path: product.url_path, params: { parentSku: product.sku, slug: product.slug }})"
     >
       <div class="product-image bg-cl-secondary">
-        <img :src="thumbnail" class="product-thumbnail">
+        <img v-lazy="thumbnail" class="product-thumbnail">
       </div>
     </router-link>
   </div>

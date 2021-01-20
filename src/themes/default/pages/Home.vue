@@ -15,7 +15,7 @@
             <div class="title">{{ $t(category.title) }}</div>
             <div class="description">{{ $t(category.description) }}</div>
           </div>
-          <img :src="category.image" alt="index" class="image">
+          <img v-lazy="category.image" alt="index" class="image">
         </router-link>
       </div>
     </section>
@@ -76,7 +76,7 @@
         <picture>
           <source srcset="/assets/promo/delivery_promo_288x260.jpg" media="(max-width: 400px)">
           <source srcset="/assets/promo/delivery_promo_1324x260.jpg">
-          <img src="/assets/promo/delivery_promo_1324x260.jpg" class="promo-image">
+          <img v-lazy="'/assets/promo/delivery_promo_1324x260.jpg'" class="promo-image" alt="delivery promo image">
         </picture>
       </div>
     </section>
