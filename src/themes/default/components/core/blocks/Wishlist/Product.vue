@@ -1,11 +1,6 @@
 <template>
   <li class="product" :class="{'out-of-stock': !inStock}">
     <div class="product-left">
-      <div class="remove-icon" @click="removeProductFromWhishList(product)">
-        <svg width="14" height="18" viewBox="0 0 14 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M1 16C1 17.1 1.9 18 3 18H11C12.1 18 13 17.1 13 16V4H1V16ZM3.5 8.9L4.9 7.5L7 9.6L9.1 7.5L10.5 8.9L8.4 11L10.5 13.1L9.1 14.5L7 12.4L4.9 14.5L3.5 13.1L5.6 11L3.5 8.9ZM10.5 1L9.5 0H4.5L3.5 1H0V3H14V1H10.5Z" fill="#BDBDBD"/>
-        </svg>
-      </div>
       <div class="product-img" @click="closeWishlist">
         <router-link :to="productLink">
           <img :src="image.src" :alt="product.name" class="product-image">
@@ -50,10 +45,28 @@
     <div class="product-right">
       <div class="product-right-data">
         <AddToCompare :product="product"> </AddToCompare>
+        <button class="remove-icon p0 inline-flex middle-xs bg-cl-transparent brdr-none action h5 pointer cl-secondary" @click="removeProductFromWhishList(product)">
+          <!-- <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="32" height="32" rx="4" fill="white" fill-opacity="0.95"/>
+            <path d="M20 13V23H12V13H20ZM18.5 7H13.5L12.5 8H9V10H23V8H19.5L18.5 7ZM22 11H10V23C10 24.1 10.9 25 12 25H20C21.1 25 22 24.1 22 23V11Z" fill="#BDBDBD"/>
+          </svg> -->
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M16 9V19H8V9H16ZM14.5 3H9.5L8.5 4H5V6H19V4H15.5L14.5 3ZM18 7H6V19C6 20.1 6.9 21 8 21H16C17.1 21 18 20.1 18 19V7Z" fill="#BDBDBD"/>
+          </svg>
+        </button>
       </div>
       <div class="product-right-data mobile">
         <more-icon class="more">
           <AddToCompare :product="product" class="more-item" showDescription />
+          <button class="remove-icon p0 inline-flex middle-xs bg-cl-transparent brdr-none action h5 pointer cl-secondary" >
+            <svg @click="removeProductFromWhishList(product)" width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect width="32" height="32" rx="4" fill="white" fill-opacity="0.95"/>
+              <path d="M20 13V23H12V13H20ZM18.5 7H13.5L12.5 8H9V10H23V8H19.5L18.5 7ZM22 11H10V23C10 24.1 10.9 25 12 25H20C21.1 25 22 24.1 22 23V11Z" fill="#BDBDBD"/>
+            </svg>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M16 9V19H8V9H16ZM14.5 3H9.5L8.5 4H5V6H19V4H15.5L14.5 3ZM18 7H6V19C6 20.1 6.9 21 8 21H16C17.1 21 18 20.1 18 19V7Z" fill="#BDBDBD"/>
+            </svg>
+          </button>       
         </more-icon>
       </div>
     </div>
@@ -161,16 +174,19 @@ export default {
     padding-top: 0;
   }
 }
-
+.remove-icon {
+  cursor: pointer;
+  & svg {
+    padding: 4px;
+  }
+  & svg:hover {
+    background-color: #F9F9F9;
+  }
+}
 .product-left {
   display: flex;
   align-items: center;
   margin-right: 12px;
-
-  .remove-icon {
-    cursor: pointer;
-    margin-right: 12px;
-  }
 
   .product-img ::v-deep {
     a {
@@ -194,6 +210,14 @@ export default {
 
   .more {
     display: none;
+  }
+}
+
+.product-right-data {
+  display: flex;
+  align-items: center;
+  & > *:first-child {
+    margin-right: 7px;
   }
 }
 

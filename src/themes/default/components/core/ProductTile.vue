@@ -267,7 +267,7 @@ export default {
 
   .product-cover {
     overflow: hidden;
-    height: 215px;
+    height: 266px;
     width: 100%;
 
     &__thumb {

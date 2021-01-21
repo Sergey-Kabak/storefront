@@ -14,10 +14,26 @@
             <div class="banner-description-info">
               <div class="banner-description__text" :class="{'active': isDescriptionActive}" v-html="getCurrentCategory.description"></div>
               <div class="next-button" v-if="!isDescriptionActive" @click="isDescriptionActive = true">{{ $t('next') }}</div>
+              <div class="next-button next-button--close" v-else @click="isDescriptionActive = false">{{ $t('before') }}</div>
             </div>
-            <div class="banner-description__timer">
+            <!-- <div class="banner-description__timer">
               <h3>{{ $t('Until the end of the promotion') }}</h3>
               <CountDown :end-time="getEndTime()" />
+            </div> -->
+            <div class="banner-description__timer" v-if="!timeExpired">
+              <div class="banner-description__timer--only-today" v-if="onlyToday">
+                {{ $t('Only today') }}
+              </div>
+              <template v-else>
+                <span class="banner-description__timer--from-to">
+                  {{ $t('From date') }} {{ startTime }} {{ $t('To date') }} {{ endTime }} 
+                </span>
+                <div class="banner-description__timer--days-left-wrapper" v-html="daysLeftHTML">
+                  <!-- <span class="banner-description__timer--days-left banner-description__timer--secondary">Залишився</span>
+                  <span class="banner-description__timer--days-left banner-description__timer--primary">{{ daysLeft }} день</span> -->
+
+                </div>
+              </template>
             </div>
           </div>
         </div>
@@ -230,6 +246,68 @@ export default {
     },
     filterLength () {
       return Object.keys(this.getCurrentSearchQuery && this.getCurrentSearchQuery.filters).length
+    },
+    daysLeftHTML() {
+      const [word, ...days] = this.$tc('{count} days left', this.daysLeft, { count: this.daysLeft } ).split(' ');
+      return `
+        <span class="banner-description__timer--days-left-word">${word}</span>
+        <span class="banner-description__timer--days-left-days">${days.join(' ')}</span>
+      `
+    },
+    timeExpired() {
+      if (!this.getCurrentCategory && this.getCurrentCategory.custom_design_to) return false
+      let countDownDate = Number(new Date(this.getCurrentCategory && this.getCurrentCategory.custom_design_to && this.getCurrentCategory.custom_design_to.replace(' ', 'T')).getTime());
+      let now = new Date().getTime();
+      let diff = countDownDate - now;
+      if (diff < 0) return true
+    },
+    onlyToday() {
+      if (!this.getCurrentCategory && this.getCurrentCategory.custom_design_from) return false
+      const [year, month, day] = this.getCurrentCategory.custom_design_from.split(' ')[0].split('-')
+      const [endYear, endMonth, endDay] = this.getCurrentCategory.custom_design_to.split(' ')[0].split('-')
+      if (endYear === year && endMonth === month && day === endDay) {
+        return true
+      }
+    },
+    startTime() {
+      if (!this.getCurrentCategory && this.getCurrentCategory.custom_design_from) return false
+      const [startYear, startMonth, startDay] = this.getCurrentCategory.custom_design_from.split(' ')[0].split('-')
+      const [endYear, endMonth, endDay] = this.getCurrentCategory.custom_design_to.split(' ')[0].split('-')
+      const countDownDate = Number(new Date(this.getCurrentCategory.custom_design_from.replace(' ', 'T')).getTime());
+      const day = endDay.replace('0', '')
+      if (+startMonth === +endMonth) {
+        return `${day}`
+      } else {
+        if (startYear === endYear) {
+          return this.$d(countDownDate, 'longWithMonth')
+        } else {
+          return this.$d(countDownDate, 'longWithMonthYear')
+        }
+      }
+    },
+    endTime() {
+      if (!this.getCurrentCategory && this.getCurrentCategory.custom_design_from) return false
+      const [startYear, startMonth, startDay] = this.getCurrentCategory.custom_design_from.split(' ')[0].split('-')
+      const [endYear, endMonth, endDay] = this.getCurrentCategory.custom_design_to.split(' ')[0].split('-')
+      const countDownDate = Number(new Date(this.getCurrentCategory.custom_design_to.replace(' ', 'T')).getTime());
+      const day = endDay.replace('0', '')
+      
+      if (+startMonth === +endMonth) {
+        return `${day}`
+      } else {
+        if (startYear === endYear) {
+          return this.$d(countDownDate, 'longWithMonth')
+        } else {
+          return this.$d(countDownDate, 'longWithMonthYear')
+
+        }
+      }
+    },
+    daysLeft() {
+      let countDownDate = Number(new Date(this.getCurrentCategory && this.getCurrentCategory.custom_design_to && this.getCurrentCategory.custom_design_to.replace(' ', 'T')).getTime());
+      let now = new Date().getTime();
+      let diff = countDownDate - now;
+      return Math.floor(diff / (1000 * 60 * 60 * 24));
     }
   },
   async asyncData ({ store, route, context }) { // this is for SSR purposes to prefetch data - and it's always executed before parent component methods
@@ -281,9 +359,12 @@ export default {
         this.loadingProducts = false
       }
     },
-    getEndTime () {
-      return new Date(this.getCurrentCategory && this.getCurrentCategory.custom_design_to && this.getCurrentCategory.custom_design_to.replace(' ', 'T')).getTime();
-    }
+    // getEndTime () {
+    //   return new Date(this.getCurrentCategory && this.getCurrentCategory.custom_design_to && this.getCurrentCategory.custom_design_to.replace(' ', 'T')).getTime();
+    // },
+    // getStartTime() {
+    //   return new Date(this.getCurrentCategory && this.getCurrentCategory.custom_design_to && this.getCurrentCategory.custom_design_from.replace(' ', 'T')).getTime();
+    // }
   },
   beforeDestroy () {
     this.closeFilters()
@@ -314,6 +395,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+
 $mobile_screen : 768px;
   ::v-deep .spinner{
     display: flex;
@@ -322,7 +404,7 @@ $mobile_screen : 768px;
     top: 30px;
   }
   .v-container {
-    width: 95%;
+    width: 92%;
   }
   .active-filters-mobile{
     position: fixed;
@@ -639,6 +721,7 @@ $mobile_screen : 768px;
   }
 
   .next-button {
+    margin-top: 16px;
     cursor: pointer;
     padding: 4px 0px;
     display: none;
@@ -647,6 +730,10 @@ $mobile_screen : 768px;
     line-height: 16px;
     color: #1A1919;
     border-bottom: 1px dashed #1A1919;
+
+    &--close {
+      margin-top: 24px;
+    }
   }
 
 
@@ -682,6 +769,8 @@ $mobile_screen : 768px;
   }
 </style>
 <style lang="scss">
+@import '~theme/css/helpers/mixins';
+
 .load{
   margin: 32px auto 0;
 }
@@ -690,6 +779,9 @@ $mobile_screen : 768px;
   display: flex;
   flex-direction: column;
   img {
+    &.desk {
+      border-radius: 4px;
+    }
     display: block;
     width: 100%;
     &.mob {
@@ -714,12 +806,12 @@ $mobile_screen : 768px;
   @media (max-width: 1200px) {
     .banner-description__block {
       & > h3 {
-        margin: 0;
+        margin: 16;
       }
     }
   }
   &__block {
-    margin-top: 25px;
+    margin-top: 20px;
     background: #FFFFFF;
     border: 1px solid #E0E0E0;
     box-sizing: border-box;
@@ -727,6 +819,13 @@ $mobile_screen : 768px;
     width: 100%;
     padding: 16px;
     position: relative;
+
+    @include mobile-view {
+      margin-top: 16px;
+    }
+    & > h3 {
+      margin-top: 0;
+    }
   }
   h3 {
     font-family: DIN Pro;
@@ -741,19 +840,61 @@ $mobile_screen : 768px;
     font-family: DIN Pro;
     font-size: 15px;
     line-height: 24px;
-    color: #595858;
+    // color: #595858;
+    color: #5f5e5e;
     overflow: auto;
     margin-bottom: 8px;
+    margin: 0;
   }
+  // &__timer {
+  //   position: relative;
+  //   bottom: 16px;
+  //   left: 16px;
+  //   right: 16px;
+  //   padding-top: 30px;
+  //   width: calc(100% - 32px);
+  //   background: rgb(255,255,255);
+  //   background: linear-gradient(0deg, rgba(255,255,255,1) 0%, rgba(255,255,255,1) 65%, rgba(255,255,255,0) 100%);
+  // }
   &__timer {
-    position: relative;
-    bottom: 16px;
-    left: 16px;
-    right: 16px;
-    padding-top: 30px;
-    width: calc(100% - 32px);
-    background: rgb(255,255,255);
-    background: linear-gradient(0deg, rgba(255,255,255,1) 0%, rgba(255,255,255,1) 65%, rgba(255,255,255,0) 100%);
+    display: flex;
+    align-items: center;
+    margin-top: 24px;
+
+    &--from-to {
+      font-size: 12px;
+      line-height: 16px;
+      position: relative;
+      margin-right: 16px;
+      color: rgba(95, 94, 94, 0.6);
+      text-align: justify;
+
+      &::after {
+        content: '';
+        height: 100%;
+        width: 1px;
+        position: absolute;
+        right: -8px;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        background-color: #E0E0E0;
+      }
+    }
+    &--days-left-wrapper {
+      display: flex;
+      align-items: center;
+    }
+    &--days-left-days {
+      white-space: nowrap;
+      color: #EE2C39;
+      font-size: 14px;
+      line-height: 16px;
+    }
+    &--days-left-word {
+      font-size: 12px;
+      line-height: 12px;
+      margin-right: 4px;
+    }
   }
 }
 
