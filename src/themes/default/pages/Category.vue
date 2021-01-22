@@ -13,8 +13,8 @@
             <h3>{{ $t('Description of the action') }}</h3>
             <div class="banner-description-info">
               <div class="banner-description__text" :class="{'active': isDescriptionActive}" v-html="getCurrentCategory.description"></div>
-              <div class="next-button" v-if="!isDescriptionActive" @click="isDescriptionActive = true">{{ $t('next') }}</div>
-              <div class="next-button next-button--close" v-else @click="isDescriptionActive = false">{{ $t('before') }}</div>
+              <div class="next-button" v-if="!isDescriptionActive" @click="isDescriptionActive = true">{{ $t('more than') }}</div>
+              <div class="next-button next-button--close" v-else @click="isDescriptionActive = false">{{ $t('less than') }}</div>
             </div>
             <!-- <div class="banner-description__timer">
               <h3>{{ $t('Until the end of the promotion') }}</h3>
@@ -274,7 +274,7 @@ export default {
       const [startYear, startMonth, startDay] = this.getCurrentCategory.custom_design_from.split(' ')[0].split('-')
       const [endYear, endMonth, endDay] = this.getCurrentCategory.custom_design_to.split(' ')[0].split('-')
       const countDownDate = Number(new Date(this.getCurrentCategory.custom_design_from.replace(' ', 'T')).getTime());
-      const day = endDay.replace('0', '')
+      const day = startDay.replace('0', '')
       if (+startMonth === +endMonth) {
         return `${day}`
       } else {
@@ -293,7 +293,7 @@ export default {
       const day = endDay.replace('0', '')
       
       if (+startMonth === +endMonth) {
-        return `${day}`
+        return this.$d(countDownDate, 'longWithMonth')
       } else {
         if (startYear === endYear) {
           return this.$d(countDownDate, 'longWithMonth')
@@ -806,7 +806,7 @@ $mobile_screen : 768px;
   @media (max-width: 1200px) {
     .banner-description__block {
       & > h3 {
-        margin: 16;
+        // margin: 16;
       }
     }
   }
@@ -817,7 +817,7 @@ $mobile_screen : 768px;
     box-sizing: border-box;
     border-radius: 4px;
     width: 100%;
-    padding: 16px;
+    padding: 0 16px 16px 16px;
     position: relative;
 
     @include mobile-view {
