@@ -8,7 +8,6 @@
         <div class="start-md footer__cta-section">
           <logo width="89" height="auto"/>
           <social></social>
-          <div class="copyright">{{ $t('All rights reserved.') }} <br> “ringoo” Copyright {{ new Date().getFullYear() }}</div>
         </div>
         <div class="start-md footer__category" :class="{'footer__category--last': index===footerColumns.length-1}" v-for="(footerColumn, index) in footerColumns" :key="index">
           <div class="footer-title footer__category-title-wrapper"  :role="notDesktop ? 'button': 'presentation'" @click="catalogToggleState[footerColumn.title] = !catalogToggleState[footerColumn.title]">
@@ -34,7 +33,7 @@
           </transition>
         </div>
         <div class="start-md">
-          <h2 class="footer-title">
+          <h2 class="footer-title footer-title--contact">
             {{ $t('Contact') }}
           </h2>
           <div class="phone">
@@ -47,7 +46,7 @@
           <div class="info">
             <span>{{ $t('Calls according to the tariffs of your operator') }}</span>
           </div>
-          <h2 class="footer-title">
+          <h2 class="footer-title footer-title--accept">
             {{ $t('We accept') }}
           </h2>
           <div>
@@ -60,7 +59,7 @@
         </div>
       </div>
       <div class="v-container">
-        <div class="copyright"><span>{{ $t('All rights reserved.') }}</span> <span>“Ringoo” Copyright © 2020</span></div>
+        <div class="copyright">{{ $t('All rights reserved.') }} “ringoo” Copyright © {{ new Date().getFullYear() }}</div>
       </div>
     </div>
     <back-to-top bottom="60px" right="20px" visibleoffset="200">
@@ -319,6 +318,10 @@ $color-secondary: color(secondary);
 
 .copyright {
   margin-top: auto;
+
+  @media only screen and (max-width: 768px) {
+    margin-top: 0;
+  }
 }
 
 .footer-routes {
@@ -344,12 +347,22 @@ $color-secondary: color(secondary);
   margin: 0 0 16px 0;
   color: #FFFFFF;
 
+  &--contact {
+    @include tablet-view {
+      margin-bottom: 16px !important;
+    }
+  }
+  &--accept {
+    @include tablet-view {
+      margin-bottom: 16px !important;
+    }
+  }
   &.unfolded {
     margin: 0 0 16px 0;
   }
   @include tablet-view {
     margin: 0;
-    margin-bottom: 16px;
+    // margin-bottom: 16px;
   }
 }
 
@@ -520,7 +533,7 @@ footer {
   }
 
   .footer-links {
-    padding-bottom: 30px;
+    // padding-bottom: 30px;
   }
 }
 </style>
