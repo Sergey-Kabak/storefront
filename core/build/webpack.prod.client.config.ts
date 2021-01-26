@@ -1,6 +1,7 @@
 import path from 'path';
 import merge from 'webpack-merge';
 import baseClientConfig from './webpack.client.config';
+import BrotliPlugin from 'brotli-webpack-plugin';
 
 const themeRoot = require('./theme-path');
 
@@ -9,8 +10,13 @@ const extendedConfig = require(path.join(themeRoot, '/webpack.config.js'))
 const prodClientConfig = merge(baseClientConfig, {
   mode: 'production',
   // devtool: 'nosources-source-map',
-  devtool: '',
   plugins: [
+    new BrotliPlugin({
+      asset: '[path].br[query]',
+      test: /\.(js|css|html|svg)$/,
+      threshold: 10240,
+      minRatio: 0.8
+    }),
   ],
   optimization: {
     splitChunks: {

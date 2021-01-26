@@ -2,6 +2,7 @@ import webpack from 'webpack';
 import merge from 'webpack-merge';
 import base from './webpack.base.config';
 import VueSSRPlugin from 'vue-ssr-webpack-plugin';
+import BrotliPlugin from 'brotli-webpack-plugin';
 
 // when output cache is enabled generate cache version key
 import config from 'config'
@@ -34,6 +35,12 @@ export default merge(base, {
     new webpack.DefinePlugin({
       'process.env.VUE_ENV': '"server"'
     }),
-    new VueSSRPlugin()
+    new VueSSRPlugin(),
+    new BrotliPlugin({
+      asset: '[path].br[query]',
+      test: /\.(js|css|html|svg)$/,
+      threshold: 10240,
+      minRatio: 0.8
+    })
   ]
 })

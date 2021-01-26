@@ -979,21 +979,21 @@
       "url_path": "smartfoni-i-telefoni",
       "title": "Smartphones",
       "description": "Apple, Samsung, Huawei, Xiaomi",
-      "image": "/assets/actual-categories/tinified/smartphones.png"
+      "image": "/assets/actual-categories/small/smartphones.png"
     },
     {
       "slug": "men-11",
       "url_path": "elektronika",
       "title": "Electronics",
       "description": "PC, notebooks, tablets",
-      "image": "/assets/actual-categories/tinified/electronics.png"
+      "image": "/assets/actual-categories/small/electronics.png"
     },
     {
       "slug": "women-20",
       "url_path": "gadzheti",
       "title": "Gadgets",
       "description": "Smart watches, Cameras, Fitness bracelets",
-      "image": "/assets/actual-categories/tinified/gadgets.png"
+      "image": "/assets/actual-categories/small/gadgets.png"
 
     },
     {
@@ -1001,7 +1001,7 @@
       "url_path": "apple",
       "title": "Apple",
       "description": "MacBook, iPhone 12, Apple Watch 6, iPhone SE 2020, iPad",
-      "image": "/assets/actual-categories/tinified/apple.png"
+      "image": "/assets/actual-categories/small/apple.png"
 
     },
     {
@@ -1009,7 +1009,7 @@
       "url_path": "aksesuari",
       "title": "Accessories",
       "description": "Covers, protective glass, memory cards",
-      "image": "/assets/actual-categories/tinified/accessories.png"
+      "image": "/assets/actual-categories/small/accessories.png"
     }
   ],
   "stockGoods": {

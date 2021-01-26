@@ -7,7 +7,7 @@
         class="slide-link"
         @click="checkRoute(product)"
       >
-        <img v-lazy="getThumbnail(product.image, 263, 434, 'slider')" :alt="index">
+        <!-- <img v-lazy="getThumbnail(product.image, 263, 434, 'slider')" :alt="index"> -->
       </div>
     </VueSlickCarousel>
   </div>
