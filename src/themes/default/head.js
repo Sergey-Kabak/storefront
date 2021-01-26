@@ -1,3 +1,5 @@
+/* eslint-disable */
+import config from 'config'
 export default {
   title: 'ringoo.ua',
   titleTemplate: '%s - ringoo.ua',
@@ -25,8 +27,12 @@ export default {
     { rel: 'apple-touch-startup-image', href: '/assets/custom/Splash_screens (iPhone)/iPhone_8 (750x1334).png', sizes: '750x1334' },
     { rel: 'apple-touch-startup-image', href: '/assets/custom/Splash_screens (iPhone)/iPhone_SE (640x1136).png', sizes: '640x1136' },
     { rel: 'manifest', href: '/assets/manifest.json' },
-    { rel: 'stylesheet', as: 'style', href: 'https://fonts.googleapis.com/css?family=Playfair+Display:400,700|Roboto:400,700|Material+Icons&display=swap' },
-    { rel: 'preconnect', href: 'https://fonts.gstatic.com/', crossorigin: 'anonymous' }
+    { rel: 'preconnect', href: 'https://fonts.gstatic.com/', crossorigin: '' },
+    { rel: 'preload', as: 'style', href: 'https://fonts.googleapis.com/css?family=Playfair+Display:400,700|Roboto:400,700|Material+Icons&display=swap' },
+    { rel: 'stylesheet', media: 'print', onload: "this.media='all'", href: 'https://fonts.googleapis.com/css?family=Playfair+Display:400,700|Roboto:400,700|Material+Icons&display=swap' },
+    { rel: 'preload', as: 'script', href: `https://www.googletagmanager.com/gtag/js?id=${config.googleTagManager.id}` },
+    { rel: "dns-prefetch", href: "https://www.googletagmanager.com" },
+    { rel: "dns-prefetch", href: "https://www.google-analytics.com" }
   ],
   script: [
     {

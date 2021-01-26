@@ -1,6 +1,6 @@
 <template>
   <div class="brand-item" @click="$emit('onCategoryChange', brand)">
-    <img class="brand-image" :src="brandImage" :alt="brand.name">
+    <img class="brand-image" v-lazy="brandImage" :alt="brand.name">
     <span class="brand-name">{{ brand.name }}</span>
   </div>
 </template>

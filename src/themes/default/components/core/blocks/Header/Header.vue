@@ -10,7 +10,7 @@
           <source :srcset="promo.imgTablet" media="(min-width: 567px) and (max-width: 768px)">
           <source :srcset="promo.imgMobile" media="(max-width: 567px)">
           <source :srcset="promo.img">
-          <img :src="promo.img" alt="promo" class="promo-image">
+          <img v-lazy="promo.img" alt="promo" class="promo-image">
         </picture>
       </router-link>
     </div>

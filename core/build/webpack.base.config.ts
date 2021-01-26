@@ -5,6 +5,7 @@ import CaseSensitivePathsPlugin from 'case-sensitive-paths-webpack-plugin';
 import VueLoaderPlugin from 'vue-loader/lib/plugin';
 import autoprefixer from 'autoprefixer';
 import HTMLPlugin from 'html-webpack-plugin';
+import BrotliPlugin from 'brotli-webpack-plugin';
 import webpack from 'webpack';
 import dayjs from 'dayjs';
 
@@ -69,12 +70,20 @@ export default {
       chunksSortMode: 'none',
       inject: isProd === false
     }),
+    new BrotliPlugin({
+      asset: '[path].br[query]',
+      test: /\.(js|css|html|svg)$/,
+      threshold: 10240,
+      minRatio: 0.8
+    }),
     new webpack.DefinePlugin({
       'process.env.__APPVERSION__': JSON.stringify(require('../../package.json').version),
       'process.env.__BUILDTIME__': JSON.stringify(dayjs().format('YYYY-MM-DD HH:mm:ss'))
     })
   ],
-  devtool: 'source-map',
+
+  devtool: '',
+  // devtool: 'source-map',
   entry: {
     app: ['@babel/polyfill', './core/client-entry.ts']
   },

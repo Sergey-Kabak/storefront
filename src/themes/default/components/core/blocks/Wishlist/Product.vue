@@ -8,7 +8,7 @@
       </div>
       <div class="product-img" @click="closeWishlist">
         <router-link :to="productLink">
-          <img :src="image.src" :alt="product.name" class="product-image">
+          <img v-lazy="image.src" :alt="product.name" class="product-image">
         </router-link>
       </div>
     </div>
