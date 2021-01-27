@@ -159,7 +159,7 @@ const actions: ActionTree<ProductState, RootState> = {
     if (!options[key]) {
       throw new Error('Please provide the search key ' + key + ' for product/single action!')
     }
-    const product = await ProductService.getProductByKey({
+    let product = await ProductService.getProductByKey({
       options,
       key,
       skipCache
@@ -167,6 +167,17 @@ const actions: ActionTree<ProductState, RootState> = {
 
     if (setCurrentProduct) await context.dispatch('setCurrent', product)
     EventBus.$emitFilter('product-after-single', { key, options, product })
+
+    if (product.visibility === 1) {
+      product = await ProductService.getProductByKey({
+        options: {
+          sku: product['parent_sku'][product['parent_sku'].length - 1],
+          childSku: product.sku
+        },
+        key,
+        skipCache
+      })
+    }
 
     return product
   },
