@@ -60,14 +60,15 @@
       <div class="product-right-data mobile">
         <more-icon class="more">
           <AddToCompare :product="product" class="more-item" showDescription />
-          <button class="remove-icon p0 inline-flex middle-xs bg-cl-transparent brdr-none action h5 pointer cl-secondary" >
-            <svg @click="removeProductFromWhishList(product)" width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <button @click="removeProductFromWhishList(product)" class="remove-icon remove-icon-mobile p0 inline-flex middle-xs bg-cl-transparent brdr-none action h5 pointer cl-secondary" >
+            <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
               <rect width="32" height="32" rx="4" fill="white" fill-opacity="0.95"/>
               <path d="M20 13V23H12V13H20ZM18.5 7H13.5L12.5 8H9V10H23V8H19.5L18.5 7ZM22 11H10V23C10 24.1 10.9 25 12 25H20C21.1 25 22 24.1 22 23V11Z" fill="#BDBDBD"/>
             </svg>
-            <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <!-- <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
               <rect width="32" height="32" rx="4" fill="white" fill-opacity="0.95"/>
-            </svg>
+            </svg> -->
+            <span class="remove-from-wishlist-text">{{ $t('Remove from wishlist?') }}</span>
           </button>       
         </more-icon>
       </div>
@@ -113,6 +114,9 @@ export default {
     productLink () {
       return formatProductLink(this.product, currentStoreView().storeCode)
     },
+    removeFromWishlistText() {
+      return this.$t('Remove {productName} from wishlist?', { productName: htmlDecode(this.product.name) })
+    },
     image () {
       return {
         loading: this.thumbnail,
@@ -157,10 +161,16 @@ export default {
 
 <style lang="scss" scoped>
 .product {
-  padding: 16px 0;
+  padding: 16px 12px 16px 16px;
+
+  @media only screen and (max-width: 500px) {
+    padding: 10px;
+  }
   display: flex;
   align-items: flex-start;
-  border-bottom: 1px solid #e0e0e0;
+  border: 1px solid #E0E0E0;
+  margin-bottom: 20px;
+  border-radius: 4px;
 
   &.out-of-stock {
     .product-name, .price-current {
@@ -172,9 +182,6 @@ export default {
     }
   }
 
-  &:first-child {
-    padding-top: 0;
-  }
 }
 .remove-icon {
   cursor: pointer;
@@ -183,14 +190,31 @@ export default {
     background-color: #F9F9F9;
   }
 }
+.remove-icon-mobile {
+  width: 100%;
+  padding: 8px 16px;
+}
+  .product-img {
+    width: 88px;
+    height: 88px;
+  }
+  
 .product-left {
   display: flex;
   align-items: center;
   margin-right: 23px;
 
+
+  
+  @media only screen and (max-width: 520px) {
+    margin-right: 19px;
+  }
   .product-img ::v-deep {
-    width: 88px;
-    height: 88px;
+      
+    @media only screen and (max-width: 520px) {
+      width: 56px;
+      height: 56px;
+    }
     a {
       display: block;
     }
@@ -211,6 +235,10 @@ export default {
 
   .more {
     display: none;
+
+    @media only screen and (max-width: 500px) {
+      display: block;
+    }
   }
 }
 
@@ -245,10 +273,15 @@ export default {
   display: inline-block;
   margin-bottom: 8px;
   font-family: DIN Pro;
-  font-size: 13px;
-  line-height: 16px;
+  font-size: 15px;
+  line-height: 18px;
   color: #1A1919;
   cursor: pointer;
+
+  @media only screen and (max-width: 520px) {
+    font-size: 13px;
+    line-height: 16px;
+  }
 }
 
 .product-prices {
@@ -283,7 +316,6 @@ export default {
 .product-right {
   .more {
     margin-left: auto;
-
     .more-item {
       padding: 8px 16px;
       display: flex;
@@ -304,6 +336,14 @@ export default {
   &.mobile {
     display: none;
   }
+}
+.remove-from-wishlist-text {
+  display: inline-block;
+  font-family: DIN Pro;
+  font-size: 14px;
+  line-height: 24px;
+  color: #595858;
+  margin-left: 20px;
 }
 
 </style>

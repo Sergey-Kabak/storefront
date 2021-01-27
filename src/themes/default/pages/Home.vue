@@ -420,7 +420,7 @@ export default {
         font-size: 15px;
         line-height: 18px;
         color: #595858;
-        margin-top: 16px;
+        margin-top: 8px;
       }
 
       .text {

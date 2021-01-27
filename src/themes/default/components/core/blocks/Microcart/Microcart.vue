@@ -50,10 +50,11 @@
             <button-text @click.native="clearCart()">{{ $t('Remove all') }}</button-text>
           </div>
         </div>
+        <div class="microcart-empty" v-if="!productsInCart.length">
+          <p>{{ $t('Add your favorite products to the basket!') }}</p>
+        </div>
       </div>
-      <div class="microcart-empty" v-if="!productsInCart.length">
-        <p>{{ $t('Add your favorite products to the basket!') }}</p>
-      </div>
+
       <div class="microcart-scroll-content" v-if="productsInCart.length">
         <ul v-if="productsInCart.length" class="products">
           <product v-for="product in productsInCart" :key="product.server_item_id || product.id" :product="product" />
@@ -311,7 +312,6 @@ export default {
   }
 
   .microcart-empty {
-    padding: 0 32px;
     p {
       font-family: DIN Pro;
       font-style: normal;
@@ -404,8 +404,8 @@ export default {
 
       &-top {
         padding: 56px 16px 0px 16px;
-        flex-direction: column-reverse;
-        align-items: flex-start;
+        flex-direction: column;
+        // align-items: flex-start;
         margin-bottom: 16px;
       }
 
@@ -436,7 +436,7 @@ export default {
       }
 
       &-right {
-        display: none;
+        // display: none;
       }
 
       .close {
@@ -454,7 +454,7 @@ export default {
       }
 
       .more {
-        display: block;
+        // display: block;
       }
     }
 
