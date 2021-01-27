@@ -91,9 +91,10 @@ export default {
     this.$bus.$on('filter-changed-product', this.selectVariant)
     this.$bus.$on('product-after-load', this.selectVariant)
   },
+  created() {
+    this.selectVariant(this.configuration)
+  },
   mounted () {
-    this.selectVariant()
-
     if (this.configuration.color) {
       const { color } = this.configuration
       this.currentColor = color.id

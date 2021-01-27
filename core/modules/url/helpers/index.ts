@@ -76,6 +76,38 @@ export function formatCategoryLink (category: Category, storeCode: string = curr
   }
   return '/' + storeCode;
 }
+export function formatProductLinkNoSku (
+  product: {
+    parentSku?: string,
+    sku: string,
+    url_path?: string,
+    type_id: string,
+    slug: string,
+    options?: [],
+    configurable_children?: []
+  },
+  storeCode
+): string | LocalizedRoute {
+  if (config.seo.useUrlDispatcher && product.url_path) {
+    let routeData: LocalizedRoute;
+    if ((product.options && product.options.length > 0) || (product.configurable_children && product.configurable_children.length > 0)) {
+      routeData = {
+        path: product.url_path,
+      }
+    } else {
+      routeData = { path: product.url_path }
+    }
+    return localizedDispatcherRoute(routeData, storeCode)
+  } else {
+    const routeData: LocalizedRoute = {
+      name: product.type_id + '-product', // we should use here localizedDispatcherRouteName?
+      params: {
+        slug: product.slug,
+      }
+    }
+    return localizedRoute(routeData, storeCode)
+  }
+}
 
 export function formatProductLink (
   product: {
