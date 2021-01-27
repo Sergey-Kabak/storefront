@@ -50,9 +50,11 @@
             <rect width="32" height="32" rx="4" fill="white" fill-opacity="0.95"/>
             <path d="M20 13V23H12V13H20ZM18.5 7H13.5L12.5 8H9V10H23V8H19.5L18.5 7ZM22 11H10V23C10 24.1 10.9 25 12 25H20C21.1 25 22 24.1 22 23V11Z" fill="#BDBDBD"/>
           </svg> -->
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M16 9V19H8V9H16ZM14.5 3H9.5L8.5 4H5V6H19V4H15.5L14.5 3ZM18 7H6V19C6 20.1 6.9 21 8 21H16C17.1 21 18 20.1 18 19V7Z" fill="#BDBDBD"/>
+          <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="32" height="32" rx="4" fill="white" fill-opacity="0.95"/>
+            <path d="M20 13V23H12V13H20ZM18.5 7H13.5L12.5 8H9V10H23V8H19.5L18.5 7ZM22 11H10V23C10 24.1 10.9 25 12 25H20C21.1 25 22 24.1 22 23V11Z" fill="#BDBDBD"/>
           </svg>
+
         </button>
       </div>
       <div class="product-right-data mobile">
@@ -63,8 +65,8 @@
               <rect width="32" height="32" rx="4" fill="white" fill-opacity="0.95"/>
               <path d="M20 13V23H12V13H20ZM18.5 7H13.5L12.5 8H9V10H23V8H19.5L18.5 7ZM22 11H10V23C10 24.1 10.9 25 12 25H20C21.1 25 22 24.1 22 23V11Z" fill="#BDBDBD"/>
             </svg>
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M16 9V19H8V9H16ZM14.5 3H9.5L8.5 4H5V6H19V4H15.5L14.5 3ZM18 7H6V19C6 20.1 6.9 21 8 21H16C17.1 21 18 20.1 18 19V7Z" fill="#BDBDBD"/>
+            <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect width="32" height="32" rx="4" fill="white" fill-opacity="0.95"/>
             </svg>
           </button>       
         </more-icon>
@@ -176,9 +178,7 @@ export default {
 }
 .remove-icon {
   cursor: pointer;
-  & svg {
-    padding: 4px;
-  }
+  
   & svg:hover {
     background-color: #F9F9F9;
   }
@@ -186,16 +186,17 @@ export default {
 .product-left {
   display: flex;
   align-items: center;
-  margin-right: 12px;
+  margin-right: 23px;
 
   .product-img ::v-deep {
+    width: 88px;
+    height: 88px;
     a {
       display: block;
     }
 
     .product-image__thumb, .product-image {
-      max-width: 50px;
-      max-height: 50px;
+      max-width: 100%;
     }
   }
 }

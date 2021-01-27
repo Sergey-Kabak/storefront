@@ -307,7 +307,7 @@ export default {
       let countDownDate = Number(new Date(this.getCurrentCategory && this.getCurrentCategory.custom_design_to && this.getCurrentCategory.custom_design_to.replace(' ', 'T')).getTime());
       let now = new Date().getTime();
       let diff = countDownDate - now;
-      return Math.floor(diff / (1000 * 60 * 60 * 24));
+      return Math.floor(diff / (1000 * 60 * 60 * 24)) + 1;
     }
   },
   async asyncData ({ store, route, context }) { // this is for SSR purposes to prefetch data - and it's always executed before parent component methods
