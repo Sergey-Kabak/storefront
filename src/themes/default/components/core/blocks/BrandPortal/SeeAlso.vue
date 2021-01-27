@@ -4,7 +4,7 @@
     <ul class="brands">
       <li class="brand" v-for="(brand, index) in brands" :key="index">
         <router-link to="/">
-          <img :src="brand.img" alt="">
+          <img v-lazy="brand.img" alt="">
         </router-link>
       </li>
     </ul>

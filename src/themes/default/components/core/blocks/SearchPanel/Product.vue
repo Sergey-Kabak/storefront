@@ -3,7 +3,7 @@
     <div class="product-left">
       <div class="product-img">
         <router-link @click.native="closeSearchPanel()" :to="productLink">
-          <img :src="image.src" :alt="product.name" class="product-image">
+          <img v-lazy="image.src" :alt="product.name" class="product-image">
         </router-link>
       </div>
     </div>

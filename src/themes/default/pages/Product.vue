@@ -167,7 +167,7 @@
                   </div>
                 </div>
                 <div class="seller-logo">
-                  <img :src="customSeller.logo" alt="custom-seller-logo">
+                  <img v-lazy="customSeller.logo" alt="custom-seller-logo">
                 </div>
               </template>
             </div>
@@ -209,9 +209,16 @@
     <lazy-hydrate when-idle>
       <related-products type="upsell" :heading="$t('We found other products you might like')" />
     </lazy-hydrate>
-    <lazy-hydrate when-idle>
-      <promoted-offers single-banner />
-    </lazy-hydrate>
+<!--    <lazy-hydrate when-idle>-->
+<!--      <promoted-offers single-banner />-->
+<!--    </lazy-hydrate>-->
+    <div class="banner flex my30">
+      <picture>
+        <source srcset="/assets/promo/delivery_promo_288x260.jpg" media="(max-width: 400px)">
+        <source srcset="/assets/promo/delivery_promo_1324x260.jpg">
+        <img src="/assets/promo/delivery_promo_1324x260.jpg" class="promo-image">
+      </picture>
+    </div>
     <lazy-hydrate when-idle>
       <related-products type="related" />
     </lazy-hydrate>
@@ -439,7 +446,7 @@ export default {
       let attribute = attributes.find((attr) => {
         return attr.attribute_code === 'rma';
       });
-      if (!(attribute.options && attribute.options.length)) {
+      if (!(attribute && attribute.options && attribute.options.length)) {
         return false;
       }
       return attribute.options[0].label;
@@ -535,6 +542,16 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.banner.flex{
+  justify-content: center;
+  picture{
+    max-width: 1324px;
+    padding: 0 15px;
+  }
+  img{
+    width: 100%;
+  }
+}
   #product {
     .add-to-cart {
       /*width: 25px;*/

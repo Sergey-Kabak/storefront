@@ -26,7 +26,7 @@ export function price(product, priceType = null) {
       if (priceType) {
         return product[priceType] ? product[priceType] + price : 0 
       } else {
-        return product.special_price + price || product.original_price + price
+        return (product.special_price && product.special_price + price) || (product.original_price + price)
       }
     }
   }

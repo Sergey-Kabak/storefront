@@ -7,7 +7,7 @@
 
         <div class="banner-description" v-if="getCurrentCategory.image || getCurrentCategory.description">
           <div v-if="getCurrentCategory.image" :class="{full: !getCurrentCategory.description}">
-            <img class="desk" :src="`https://magento.ringoo.ua/${getCurrentCategory.image}`" alt="banner">
+            <img class="desk" v-lazy="`https://magento.ringoo.ua/${getCurrentCategory.image}`" alt="banner">
           </div>
           <div class="banner-description__block" v-if="getCurrentCategory.description">
             <h3>{{ $t('Description of the action') }}</h3>
