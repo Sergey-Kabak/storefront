@@ -61,7 +61,7 @@ export default {
 .filter-body {
   box-sizing: border-box;
   max-height: 300px;
-  border-bottom: 20px solid transparent;
+  border-bottom: 23px solid transparent;
   overflow-y: auto;
 }
 
