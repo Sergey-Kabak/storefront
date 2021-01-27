@@ -189,7 +189,7 @@
     ],
     "ru": {
       "storeCode": "ru",
-      "storeId": 3,
+      "storeId": 2,
       "name": "Russian Store",
       "url": "/ru",
       "appendStoreCode": true,
