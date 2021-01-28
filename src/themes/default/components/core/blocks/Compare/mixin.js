@@ -1,5 +1,5 @@
 import i18n from '@vue-storefront/i18n';
-import { mapGetters, mapState } from 'vuex'
+import { mapGetters, mapState } from 'vuex';
 /* eslint-disable */
 
 export default {
@@ -37,16 +37,15 @@ export default {
 
       return inCompare;
     },
-    getAvailibleAttributes () {
+    getAvailableAttributes () {
       let attributes = [];
       if (this.items.length && this.currentCategory && Object.keys(this.categories).length){
-        console.log(this.all_comparable_attributes);
         this.all_comparable_attributes.forEach(el => {
           this.categories[this.currentCategory].forEach(product => {
-            if (Object.keys(product).indexOf(el.attribute_code) > -1 && !attributes.find(attr => attr.attribute_code === el.attribute_code)){
+            if (Object.keys(product).indexOf(el.attribute_code) > -1 && !attributes.find(attr => attr.attribute_code === el.attribute_code) && this.isAttributeVisible(el)){
               let valuesArr = this.categories[this.currentCategory].map(va => va[el.attribute_code]),
                 isUnique = valuesArr.every(item => item === valuesArr[0]);
-              el['isUnique'] = isUnique;
+              el.isUnique = isUnique;
               attributes.push(el);
             }
           });
@@ -56,7 +55,7 @@ export default {
     },
     hasDiff () {
       if (
-        this.getAvailibleAttributes.some(attr => attr.isUnique === false) &&
+        this.getAvailableAttributes.some(attr => attr.isUnique === false) &&
         this.addedProducts[this.currentCategory] > 1
       ){
         return true;
@@ -65,6 +64,9 @@ export default {
     }
   },
   methods: {
+    isAttributeVisible (attr) {
+      return attr.is_visible && attr.is_comparable && attr.is_visible_on_front;
+    },
     scroll () {
         let container = this.$refs['compare-container'],
           innerContainer = document.querySelector('.compare__products-columns'),
@@ -73,14 +75,14 @@ export default {
         if (container && innerContainer) {
           if (window.scrollY > containerOffset + 120){
             document.querySelectorAll('.collection-product').forEach(el => el.classList.add('small'));
-            innerContainer.style.position = 'absolute'
+            innerContainer.style.position = 'absolute';
             if (window.innerWidth < 768){
               innerContainer.style.top = window.scrollY - (containerOffset + 16) + 'px';
               table.style.paddingTop = '200px';
 
             } else {
               innerContainer.style.top = window.scrollY - (containerOffset + 80) + 'px';
-              table.style.paddingTop = '75px'
+              table.style.paddingTop = '75px';
             }
             innerContainer.style.zIndex = 2;
           } else {
@@ -97,11 +99,8 @@ export default {
     toggleSidebar(value) {
       this.$store.commit('ui/setCompareSidebar', value);
     },
-    findNotAvailibles(categoty){
-      return this.categories[categoty].filter(product => (product.stock && !product.stock.is_in_stock)).length
-    },
     goBack(){
-      this.prevRoute.name ? this.$router.go(-1) : this.$router.push({name: 'home'});
+      this.prevRoute.name ? this.$router.go(-1) : this.$router.push({ name: 'home' });
     },
     categorized(){
       let requiredField = this.items.some(el => !el.category);
@@ -123,9 +122,9 @@ export default {
         }
       }
     },
-    removeAll (product) {
+    removeAll () {
       for (let k in this.categories){
-        this.categories[k].forEach(product => this.removeFromCompare(product))
+        this.categories[k].forEach(product => this.removeFromCompare(product));
       }
       this.categories = {};
     }
@@ -141,8 +140,11 @@ export default {
   },
   beforeRouteEnter(to, from, next) {
     next(vm => {
-      vm.prevRoute = from
+      vm.prevRoute = from;
     });
+  },
+  async asyncData ({ store, route, context }) {
+    await store.dispatch('attribute/loadProductAttributes', {products: store.getters['compare/getCompareItems']});
   },
   watch: {
     'items' : function (newVal, oldVal) {
