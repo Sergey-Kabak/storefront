@@ -8,8 +8,6 @@ const extendedConfig = require(path.join(themeRoot, '/webpack.config.js'))
 
 export default extendedConfig(baseServerConfig, {
   mode: 'production',
-  // devtool: 'nosources-source-map',
-  devtool: '',
   isClient: false,
   isDev: false
 })

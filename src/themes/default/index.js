@@ -32,6 +32,12 @@ once('__VUE_EXTEND_DROPPOINT_VPB__', () => {
   Vue.use(Autocomplete)
 })
 
+if (process.env.NODE_ENV === 'production') {
+  Vue.config.devtools = false
+  Vue.config.productionTip = false
+  Vue.config.silent = true
+}
+
 const themeEntry = App
 function initTheme (app, router, store, config, ssrContext) {
   store.registerModule('themeCart', cartModule);
