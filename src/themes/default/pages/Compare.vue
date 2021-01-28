@@ -79,8 +79,8 @@
                         :key="index"
                         class="compare__product compare__product-head"
                         data-testid="comparedProduct"
-                        v-if="currentCategory === product.category[0].name"
-                        :class="{'visible' : currentCategory === product.category[0].name}"
+                        v-if="currentCategory === product.breadcrumbs[0].name"
+                        :class="{'visible' : currentCategory === product.breadcrumbs[0].name}"
                       >
                         <div class="compare__top-info pt45"
                              :class="{'single-product' : addedProducts[currentCategory] === 1}">
@@ -109,7 +109,7 @@
             <div v-else class="relative flex container-js-width" ref="container-js-width">
               <div class="compare__features attributes-list flex mobile">
                 <ul class="compare__features-list">
-                  <template v-for="(attr, index) in getAvailibleAttributes">
+                  <template v-for="(attr, index) in getAvailableAttributes">
                     <li
                       :key="index"
                       class="compare__features-item attr-name"
@@ -127,10 +127,10 @@
                       :key="index"
                       class="compare__product"
                       data-testid="comparedProduct"
-                      v-if="currentCategory === product.category[0].name"
+                      v-if="currentCategory === product.breadcrumbs[0].name"
                     >
                       <ul class="compare__features-list">
-                        <template v-for="(attr, attIndex) in getAvailibleAttributes">
+                        <template v-for="(attr, attIndex) in getAvailableAttributes">
                           <li
                             :key="attIndex"
                             v-if="!(isDifference && attr.isUnique)"
@@ -247,7 +247,6 @@ export default {
   },
   watch: {
     getCompareItems: function (v) {
-      console.log(v);
       const attr = this.getCompareItems.map(el => el.attributes_metadata.filter(attr => attr.is_comparable && attr.is_visible_on_front)).flat();
       let uniqAttr = []
       attr.forEach(el => {

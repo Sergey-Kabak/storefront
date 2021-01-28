@@ -34,6 +34,18 @@
             </router-link>
           </li>
           <li
+            class="brdr-bottom-1 brdr-cl-bg-secondary bg-cl-primary"
+          >
+            <router-link
+              class="block px25 py20 cl-accent no-underline"
+              :to="localizedRoute('/brand-portal/apple')"
+              exact
+            >
+              <span v-html="ico[44]"></span>
+              Apple
+            </router-link>
+          </li>
+          <li
             class="brdr-bottom-1 brdr-cl-bg-secondary bg-cl-primary flex"
             :key="category.slug"
             @click="closeMenu"

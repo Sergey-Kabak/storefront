@@ -68,6 +68,8 @@ export default {
 }
 
 .shop {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
   border-bottom: 1px solid #E0E0E0;
 
   &:last-child {
@@ -105,6 +107,7 @@ export default {
   max-width: 131px;
   width: 100%;
   margin-top: auto;
+  margin-left: auto;
 
   .button-full {
     height: 31px;
@@ -133,7 +136,7 @@ export default {
 
 @media  (max-width: 460px) {
   .shop {
-    flex-direction: column;
+    grid-template-columns: 1fr;
   }
 
   .shop-actions {

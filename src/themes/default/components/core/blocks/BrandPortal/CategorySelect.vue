@@ -9,13 +9,13 @@
   >
     <template #selected-option="{ name, thumbnail }">
       <div class="option selected">
-        <img class="option-image" :src="groupImage(thumbnail)" :alt="name">
+        <img class="option-image" v-lazy="groupImage(thumbnail)" :alt="name">
         <span class="option-name">{{name}}</span>
       </div>
     </template>
     <template #option="{ name, thumbnail }">
       <div class="option">
-        <img class="option-image" :src="groupImage(thumbnail)" :alt="name">
+        <img class="option-image" v-lazy="groupImage(thumbnail)" :alt="name">
         <span class="option-name">{{name}}</span>
         <div class="selected-option-image">
           <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">

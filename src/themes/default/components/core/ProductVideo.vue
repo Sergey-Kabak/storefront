@@ -11,7 +11,7 @@
       <LoaderScoped v-if="!iframeLoaded" />
       <div class="iframe-container w-100">
         <iframe
-          :src="embedUrl"
+          v-lazy="embedUrl"
           class="absolute w-100 h-100"
           allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
           webkitallowfullscreen mozallowfullscreen allowfullscreen

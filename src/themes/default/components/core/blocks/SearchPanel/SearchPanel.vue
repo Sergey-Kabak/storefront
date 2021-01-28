@@ -50,6 +50,7 @@
             :key="index"
             :isShowButtons="false"
             :product="product"
+            gtm-list="Search results"
           />
         </div>
       </div>
@@ -65,6 +66,7 @@
               :key="index"
               isShowButtons
               :product="product"
+              gtm-list="search results"
             />
           </div>
           <button-outline

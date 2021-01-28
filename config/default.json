@@ -324,6 +324,7 @@
       "sort": "updated_at:desc",
       "includeFields": [
         "manufacturer",
+        "breadcrumbs",
         "marketplace",
         "rma",
         "preorder",
@@ -729,7 +730,8 @@
       "claims": "LOCALSTORAGE",
       "syncTasks": "LOCALSTORAGE",
       "ordersHistory": "LOCALSTORAGE",
-      "checkout": "LOCALSTORAGE"
+      "checkout": "LOCALSTORAGE",
+      "gtm": "LOCALSTORAGE"
     },
     "preserveCollections": [
       "cart",
@@ -979,35 +981,37 @@
       "url_path": "smartfoni-i-telefoni",
       "title": "Smartphones",
       "description": "Apple, Samsung, Huawei, Xiaomi",
-      "image": "https://info.ringoo.ua/images/mag/smartphones.png"
+      "image": "/assets/actual-categories/smartphones.png"
     },
     {
       "slug": "men-11",
       "url_path": "elektronika",
       "title": "Electronics",
       "description": "PC, notebooks, tablets",
-      "image": "https://info.ringoo.ua/images/mag/electronics.png"
+      "image": "/assets/actual-categories/electronics.png"
     },
     {
       "slug": "women-20",
       "url_path": "gadzheti",
       "title": "Gadgets",
       "description": "Smart watches, Cameras, Fitness bracelets",
-      "image": "https://info.ringoo.ua/images/mag/gadgets.png"
+      "image": "/assets/actual-categories/gadgets.png"
+
     },
     {
       "slug": "men-11",
       "url_path": "apple",
       "title": "Apple",
       "description": "MacBook, iPhone 12, Apple Watch 6, iPhone SE 2020, iPad",
-      "image": "https://info.ringoo.ua/images/mag/apple.png"
+      "image": "/assets/actual-categories/apple.png"
+
     },
     {
       "slug": "women-20",
       "url_path": "aksesuari",
       "title": "Accessories",
       "description": "Covers, protective glass, memory cards",
-      "image": " https://info.ringoo.ua/images/mag/accessories.png"
+      "image": "/assets/actual-categories/accessories1.png"
     }
   ],
   "stockGoods": {

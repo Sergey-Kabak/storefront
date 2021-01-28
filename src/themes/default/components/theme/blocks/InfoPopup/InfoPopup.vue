@@ -81,8 +81,8 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
-@import '~bootstrap';
+<style lang="scss">
+@use'~bootstrap';
 </style>
 
 <style lang="scss">
