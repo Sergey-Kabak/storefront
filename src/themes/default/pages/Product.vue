@@ -446,7 +446,7 @@ export default {
       let attribute = attributes.find((attr) => {
         return attr.attribute_code === 'rma';
       });
-      if (!(attribute.options && attribute.options.length)) {
+      if (!(attribute && attribute.options && attribute.options.length)) {
         return false;
       }
       return attribute.options[0].label;
