@@ -64,6 +64,10 @@ export default {
       type: Boolean,
       default: true,
       required: false
+    },
+    gtmList: {
+      type: String,
+      default: 'search results'
     }
   },
   mixins: [Product, GTM],
@@ -96,7 +100,7 @@ export default {
   },
   methods: {
     gtm () {
-      this.GTM_PRODUCT_CLICK([this.product], 'search results')
+      this.GTM_PRODUCT_CLICK([this.product], this.gtmList)
     },
     closeSearchPanel (){
       this.$store.commit('ui/setSidebar', false)

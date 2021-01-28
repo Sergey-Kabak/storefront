@@ -101,6 +101,7 @@ import { InstantCheckoutModule } from 'src/modules/instant-checkout';
 import PromoCode from './PromoCode';
 import MoreIcon from 'theme/components/core/MoreIcon';
 import TotalPrice from 'theme/components/core/TotalPrice';
+import GTM from 'theme/mixins/GTM/dataLayer';
 
 export default {
   components: {
@@ -115,7 +116,8 @@ export default {
   mixins: [
     VueOfflineMixin,
     EditMode,
-    onEscapePress
+    onEscapePress,
+    GTM
   ],
   data () {
     return {
@@ -181,6 +183,9 @@ export default {
           action: async () => {
             // We just need to clear cart on frontend and backend.
             // but cart token can be reused
+            this.productsInCart.forEach(product => {
+              this.GTM_REMOVE_FROM_CART([product])
+            })
             await this.$store.dispatch('cart/clear', { disconnect: false })
           }
         },
@@ -198,9 +203,6 @@ export default {
     height: 100%;
     &-footer{
       @media (max-width: 550px){
-        position: fixed;
-        bottom: 0;
-        right: 0;
         width: 100%;
         box-sizing: border-box;
         background: #fff;
@@ -295,6 +297,7 @@ export default {
 
     &-scroll-content {
       padding: 0 32px;
+      overflow: auto;
     }
 
     &-left {
@@ -331,10 +334,6 @@ export default {
     .button {
       box-sizing: border-box;
       max-width: 100%;
-
-      // &:first-child {
-      //   margin-right: 2%;
-      // }
     }
   }
 

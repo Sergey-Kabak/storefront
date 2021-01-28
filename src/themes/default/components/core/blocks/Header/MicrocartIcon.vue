@@ -60,7 +60,7 @@ export default {
     background: #EE2C39;
     left: 50%;
     top: 2px;
-    padding: 0 2px;
+    padding: 0 4px;
     min-width: 16px;
     min-height: 16px;
     border-radius: 20px;
