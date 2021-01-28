@@ -259,18 +259,19 @@ export default {
     margin-bottom: 24px;
   }
 }
+@media (max-width: 960px) {
+  .base-input.custom-input {
+    max-width: 100%;
+  }
+}
 
-@media  (max-width: 576px) {
+@media (max-width: 576px) {
   .personal-details-row {
     flex-direction: column;
   }
 
   .personal-details-column {
     padding: 0;
-  }
-
-  .base-input.custom-input {
-    max-width: 100%;
   }
 
   .title {
