@@ -42,7 +42,7 @@ export default {
       if (this.items.length && this.currentCategory && Object.keys(this.categories).length){
         this.all_comparable_attributes.forEach(el => {
           this.categories[this.currentCategory].forEach(category => {
-            if (Object.keys(category).indexOf(el.attribute_code) > -1 && !attributes.find(attr => attr.attribute_code === el.attribute_code && this.isAttributeVisible(el))){
+            if (Object.keys(category).indexOf(el.attribute_code) > -1 && !attributes.find(attr => attr.attribute_code === el.attribute_code) && this.isAttributeVisible(el)){
               let valuesArr = this.categories[this.currentCategory].map(va => va[el.attribute_code]),
                 isUnique = valuesArr.every(item => item === valuesArr[0]);
               el.isUnique = isUnique;
@@ -54,13 +54,7 @@ export default {
       return attributes;
     },
     hasDiff () {
-      if (
-        this.getAvailableAttributes.some(attr => attr.isUnique === false) &&
-        this.addedProducts[this.currentCategory] > 1
-      ){
-        return true;
-      }
-      return false;
+      return this.getAvailableAttributes.some(attr => attr.isUnique === false) && this.addedProducts[this.currentCategory] > 1;
     }
   },
   methods: {
