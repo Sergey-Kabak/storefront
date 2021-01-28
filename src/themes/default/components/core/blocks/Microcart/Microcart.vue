@@ -203,9 +203,6 @@ export default {
     height: 100%;
     &-footer{
       @media (max-width: 550px){
-        position: fixed;
-        bottom: 0;
-        right: 0;
         width: 100%;
         box-sizing: border-box;
         background: #fff;
@@ -300,6 +297,7 @@ export default {
 
     &-scroll-content {
       padding: 0 32px;
+      overflow: auto;
     }
 
     &-left {
@@ -336,10 +334,6 @@ export default {
     .button {
       box-sizing: border-box;
       max-width: 100%;
-
-      // &:first-child {
-      //   margin-right: 2%;
-      // }
     }
   }
 
