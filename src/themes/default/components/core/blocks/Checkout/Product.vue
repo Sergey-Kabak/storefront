@@ -97,11 +97,11 @@ export default {
           action2: { label: i18n.t('OK'),
             action: async () => {
               this.$store.dispatch('cart/removeItem', { product: this.product })
+              await this.GTM_REMOVE_FROM_CART([this.product])
             }
           },
           hasNoTimeout: true
         })
-        this.GTM_REMOVE_FROM_CART([this.product], null, null, { color: this.product.color, quantity: this.product.qty })
       } catch (e) {
         console.log(e);
       }
@@ -299,7 +299,7 @@ img {
   .product-info-bottom {
     justify-content: space-between;
   }
-  
+
   .product-image {
     width: 56px;
     height: 56px;
