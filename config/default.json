@@ -324,6 +324,7 @@
       "sort": "updated_at:desc",
       "includeFields": [
         "manufacturer",
+        "breadcrumbs",
         "marketplace",
         "rma",
         "preorder",
