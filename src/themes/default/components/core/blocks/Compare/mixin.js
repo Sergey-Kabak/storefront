@@ -41,8 +41,8 @@ export default {
       let attributes = [];
       if (this.items.length && this.currentCategory && Object.keys(this.categories).length){
         this.all_comparable_attributes.forEach(el => {
-          this.categories[this.currentCategory].forEach(product => {
-            if (Object.keys(product).indexOf(el.attribute_code) > -1 && !attributes.find(attr => attr.attribute_code === el.attribute_code) && this.isAttributeVisible(el)){
+          this.categories[this.currentCategory].forEach(category => {
+            if (Object.keys(category).indexOf(el.attribute_code) > -1 && !attributes.find(attr => attr.attribute_code === el.attribute_code && this.isAttributeVisible(el))){
               let valuesArr = this.categories[this.currentCategory].map(va => va[el.attribute_code]),
                 isUnique = valuesArr.every(item => item === valuesArr[0]);
               el.isUnique = isUnique;
@@ -109,11 +109,12 @@ export default {
         this.$router.push({name : 'home'});
       } else {
         this.items.forEach((el , i) => {
-          if (el.category){
-            if (!this.categories[el.category[0].name]){
-              this.$set(this.categories, [el.category[0].name], [el]);
+          let categoryName = el.breadcrumbs[0].name || undefined;
+          if (el.category.length && el.breadcrumbs.length && !!categoryName){
+            if (!this.categories[categoryName]){
+              this.$set(this.categories, [categoryName], [el]);
             } else {
-              this.$set(this.categories[el.category[0].name], i, el);
+              this.$set(this.categories[categoryName], i, el);
             }
           }
         });
