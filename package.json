@@ -59,7 +59,6 @@
     "body-scroll-lock": "^2.6.4",
     "bodybuilder": "2.2.21",
     "bootstrap-vue": "^2.15.0",
-    "brotli-webpack-plugin": "^1.1.0",
     "config": "^1.30.0",
     "cross-env": "^3.1.4",
     "crypto-js": "^4.0.0",

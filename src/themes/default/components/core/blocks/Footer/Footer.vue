@@ -41,9 +41,9 @@
           </h2>
           <div>
             <div class="payment">
-              <img src="/assets/payments/mastercard.svg" alt="mastercard" class="payment-icon">
-              <img src="/assets/payments/visa.svg" alt="visa" class="payment-icon">
-              <img src="/assets/payments/liqpay.svg" alt="liqpay" class="payment-icon">
+              <img v-lazy="'/assets/payments/mastercard.svg'" alt="mastercard" class="payment-icon">
+              <img v-lazy="'/assets/payments/visa.svg'" alt="visa" class="payment-icon">
+              <img v-lazy="'/assets/payments/liqpay.svg'" alt="liqpay" class="payment-icon">
             </div>
           </div>
         </div>
