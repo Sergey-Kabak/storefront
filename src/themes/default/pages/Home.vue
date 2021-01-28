@@ -15,7 +15,7 @@
             <div class="title">{{ $t(category.title) }}</div>
             <div class="description">{{ $t(category.description) }}</div>
           </div>
-          <img :src="category.image" alt="index" class="image">
+          <img v-lazy="category.image" alt="index" class="image">
         </router-link>
       </div>
     </section>
@@ -32,9 +32,9 @@
       </div>
       <div class="center-xs">
         <lazy-hydrate :trigger-hydration="!loading" v-if="isLazyHydrateEnabled">
-          <product-listing columns="4" :products="getStockGoods" />
+          <product-listing columns="4" :products="getStockGoods" gtm-list="home page" />
         </lazy-hydrate>
-        <product-listing v-else columns="4" :products="getStockGoods" />
+        <product-listing v-else columns="4" :products="getStockGoods" gtm-list="home page" />
 
         <button-full
             class="mt35 show-all"
@@ -55,10 +55,10 @@
       </header>
       <div class="center-xs">
         <lazy-hydrate :trigger-hydration="!loading" v-if="isLazyHydrateEnabled">
-          <product-listing columns="4" :products="getSalesLeaders" />
+          <product-listing columns="4" :products="getSalesLeaders" gtm-list="home page" />
           <!--<product-listing columns="4" :products="products" />-->
         </lazy-hydrate>
-        <product-listing v-else columns="4" :products="getSalesLeaders" />
+        <product-listing v-else columns="4" :products="getSalesLeaders" gtm-list="home page" />
         <!--<product-listing v-else columns="4" :products="products" />-->
         <button-full
             class="mt35 show-all"
@@ -76,7 +76,7 @@
         <picture>
           <source srcset="/assets/promo/delivery_promo_288x260.jpg" media="(max-width: 400px)">
           <source srcset="/assets/promo/delivery_promo_1324x260.jpg">
-          <img src="/assets/promo/delivery_promo_1324x260.jpg" class="promo-image">
+          <img v-lazy="'/assets/promo/delivery_promo_1324x260.jpg'" class="promo-image" alt="delivery promo image">
         </picture>
       </div>
     </section>
@@ -102,9 +102,9 @@
       </div>
       <div class="center-xs">
         <lazy-hydrate :trigger-hydration="!loading" v-if="isLazyHydrateEnabled">
-          <product-listing columns="4" :products="getNew" />
+          <product-listing columns="4" :products="getNew" gtm-list="home page" />
         </lazy-hydrate>
-        <product-listing v-else columns="4" :products="getNew" />
+        <product-listing v-else columns="4" :products="getNew" gtm-list="home page" />
 
         <button-full
             class="mt35 show-all"
@@ -128,10 +128,10 @@
       <div class="center-xs">
         <lazy-hydrate :trigger-hydration="!loading" v-if="isLazyHydrateEnabled">
           <!--<product-listing columns="4" :products="getBestsellers" />-->
-          <product-listing columns="4" :products="getRecommends" />
+          <product-listing columns="4" :products="getRecommends" gtm-list="home page" />
         </lazy-hydrate>
         <!--<product-listing v-else columns="4" :products="getBestsellers" />-->
-        <product-listing v-else columns="4" :products="getRecommends" />
+        <product-listing v-else columns="4" :products="getRecommends" gtm-list="home page" />
         <button-full
             class="mt35 show-all"
             type="submit"

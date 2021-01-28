@@ -11,7 +11,9 @@ export const PaymentLiqpay: StorefrontModule = function({ store }) {
 
   let paymentMethodConfig = {
     title: "Online payment",
-    code: "liqpaymagento_liqpay"
+    code: "liqpaymagento_liqpay",
+    offline: false,
+    is_server_method: true
   };
 
   store.dispatch("checkout/addPaymentMethod", paymentMethodConfig);

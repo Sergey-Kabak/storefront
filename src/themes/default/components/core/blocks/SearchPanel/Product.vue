@@ -3,7 +3,7 @@
     <div class="product-left">
       <div class="product-img">
         <router-link @click.native="closeSearchPanel()" :to="productLink">
-          <img :src="image.src" :alt="product.name" class="product-image">
+          <img v-lazy="image.src" :alt="product.name" class="product-image">
         </router-link>
       </div>
     </div>
@@ -64,6 +64,10 @@ export default {
       type: Boolean,
       default: true,
       required: false
+    },
+    gtmList: {
+      type: String,
+      default: 'search results'
     }
   },
   mixins: [Product, GTM],
@@ -96,7 +100,7 @@ export default {
   },
   methods: {
     gtm () {
-      this.GTM_PRODUCT_CLICK([this.product], 'search results')
+      this.GTM_PRODUCT_CLICK([this.product], this.gtmList)
     },
     closeSearchPanel (){
       this.$store.commit('ui/setSidebar', false)

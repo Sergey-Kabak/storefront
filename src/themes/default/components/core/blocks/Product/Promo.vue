@@ -1,7 +1,7 @@
 <template>
   <div class="promo-block flex w-100">
     <div class="promo-block-gift relative flex v-center">
-      <img :src="getImageUrl()" alt="">
+      <img v-lazy="getImageUrl()" alt="">
       <div v-if="!noGiftImage" class="promo-block-gift-icon absolute flex h-center v-center">
         <GiftSvg />
       </div>
