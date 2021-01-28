@@ -74,6 +74,10 @@ export default {
     onlyImage: {
       type: Boolean,
       default: false
+    },
+    gtmList: {
+      type: String,
+      default: 'Category'
     }
   },
   computed: {
@@ -98,7 +102,8 @@ export default {
   },
   methods: {
     gtm () {
-      this.GTM_PRODUCT_CLICK([this.product], null)
+      console.log(this.gtmList);
+      this.GTM_PRODUCT_CLICK([this.product], this.gtmList)
     },
     toProduct () {
       this.$router.push(this.productLink)

@@ -729,7 +729,8 @@
       "claims": "LOCALSTORAGE",
       "syncTasks": "LOCALSTORAGE",
       "ordersHistory": "LOCALSTORAGE",
-      "checkout": "LOCALSTORAGE"
+      "checkout": "LOCALSTORAGE",
+      "gtm": "LOCALSTORAGE"
     },
     "preserveCollections": [
       "cart",
