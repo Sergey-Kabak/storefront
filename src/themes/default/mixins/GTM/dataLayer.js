@@ -1,4 +1,5 @@
 import { mapGetters } from 'vuex';
+import { StorageManager } from '@vue-storefront/core/lib/storage-manager';
 export default {
   computed: {
     ...mapGetters({
@@ -8,42 +9,40 @@ export default {
     })
   },
   methods: {
+    getBrand (product, attr) {
+      if (product.manufacturer && attr.manufacturer.find(el => el.value === product.manufacturer + '')) {
+        return attr.manufacturer.find(el => el.value === product.manufacturer + '').label;
+      }
+    },
+    getProductColor (product, attr) {
+      return attr.color.find(it => +it.value === product.color).label;
+    },
+    getCategory (product) {
+      return product.breadcrumbs[product.breadcrumbs.length - 1].name;
+    },
     getPage (page) {
       if (!page) {
         return this.$route.meta.name || null;
       }
       return page;
     },
-    async PrepareProducts (products, page = null, attr = null) {
+    async PrepareProducts ({ products, showQty = false }) {
       if (!this.$store.getters['custom-attr/getFilter']) {
         await this.$store.dispatch('custom-attr/getCustomAttribute', ['manufacturer', 'color']);
       }
-      attr = this.$store.getters['custom-attr/getFilter'];
-      if (!page) {
-        page = this.getPage(page);
-      }
       return products.map(it => {
-        let { sku, name, price, manufacturer, brand = null, category = null, list = page } = it;
-        if (manufacturer && attr.manufacturer.find(el => el.value === manufacturer + '')) {
-          brand = attr.manufacturer.find(el => el.value === manufacturer + '').label
-        }
-        if (this.getBreadcrumbsRoutes.length || this.getBreadcrumbsCurrent) {
-          // eslint-disable-next-line no-return-assign
-          category = this.getBreadcrumbsRoutes.reduce((acc, route) => acc += route.name + ' /', '') + this.getBreadcrumbsCurrent;
-        }
-        if (it.qty && it.color) {
-          let { color, qty } = it;
-          if (attr.color.find(it => +it.value === color)) {
-            color = attr.color.find(it => +it.value === color).label;
-          }
-          return { id: sku, name, price, brand, category, list, variant: color, quantity: qty };
-        } else {
-          return { id: sku, name, price, brand, category, list };
-        }
+        let { sku, name, price, qty } = it;
+        const attr = this.$store.getters['custom-attr/getFilter'];
+        const brand = this.getBrand(it, attr);
+        const category = this.getCategory(it);
+        const color = this.getProductColor(it, attr);
+        const product = { id: sku, name, price, brand, category, variant: color };
+        showQty && Object.assign(product, { quantity: qty });
+        return product;
       });
     },
     async GTM_PRODUCT_IMPRESSION (products, page) {
-      const result = await this.PrepareProducts(products, page);
+      const result = await this.PrepareProducts({ products });
       window.dataLayer = window.dataLayer || [];
       window.dataLayer.push({
         event: 'ecommerce.impression',
@@ -52,8 +51,9 @@ export default {
         }
       });
     },
-    async GTM_PRODUCT_CLICK (product, page) {
-      const result = await this.PrepareProducts(product, page);
+    async GTM_PRODUCT_CLICK (products, page) {
+      StorageManager.get('gtm').setItem('gtm_' + products[0].sku, page);
+      const result = await this.PrepareProducts({ products });
       window.dataLayer = window.dataLayer || [];
       window.dataLayer.push({
         event: 'ecommerce.click',
@@ -67,8 +67,8 @@ export default {
         }
       });
     },
-    async GTM_PRODUCT_VIEW (product, page) {
-      const result = await this.PrepareProducts(product, page);
+    async GTM_PRODUCT_VIEW (products, page) {
+      const result = await this.PrepareProducts({ products });
       window.dataLayer = window.dataLayer || [];
       window.dataLayer.push({
         event: 'ecommerce.view',
@@ -82,38 +82,41 @@ export default {
         }
       });
     },
-    async GTM_ADD_TO_CART (product, page) {
-      const result = await this.PrepareProducts(product, page);
+    async GTM_ADD_TO_CART (products, page) {
+      const list = await StorageManager.get('gtm').getItem('gtm_' + products[0].sku);
+      const result = await this.PrepareProducts({ products, showQty: true });
       window.dataLayer = window.dataLayer || [];
       window.dataLayer.push({
         event: 'ecommerce.add',
         ecommerce: {
           add: {
             actionField: {
-              list: this.getPage(page)
+              list: this.getPage(list)
             },
             products: result
           }
         }
       });
     },
-    async GTM_REMOVE_FROM_CART (product, page) {
-      const result = await this.PrepareProducts(product, page);
+    async GTM_REMOVE_FROM_CART (products, page) {
+      const list = await StorageManager.get('gtm').getItem('gtm_' + products[0].sku);
+      const result = await this.PrepareProducts({ products, showQty: true });
       window.dataLayer = window.dataLayer || [];
       window.dataLayer.push({
         event: 'ecommerce.remove',
         ecommerce: {
           remove: {
             actionField: {
-              list: this.getPage(page)
+              list: this.getPage(list)
             },
             products: result
           }
         }
       });
+      StorageManager.get('gtm').removeItem('gtm_' + products[0].sku);
     },
-    async GTM_CHECKOUT (product, page) {
-      const result = await this.PrepareProducts(product, page);
+    async GTM_CHECKOUT (products, page) {
+      const result = await this.PrepareProducts({ products });
       window.dataLayer = window.dataLayer || [];
       window.dataLayer.push({
         event: 'ecommerce.checkout',
@@ -169,7 +172,7 @@ export default {
       });
     },
     async GTM_TRANSACTION ({ id, revenue, products }) {
-      const result = await this.PrepareProducts(products);
+      const result = await this.PrepareProducts({ products, showQty: true });
       window.dataLayer = window.dataLayer || [];
       window.dataLayer.push({
         event: 'ecommerce.transaction',

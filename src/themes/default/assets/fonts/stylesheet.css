@@ -1,5 +1,6 @@
 @font-face {
     font-family: 'DIN Pro Cond';
+    font-display: swap;
     src: url('DINPro-CondensedBlack.eot');
     src: local('DIN Pro Condensed Black'), local('DINPro-CondensedBlack'),
         url('DINPro-CondensedBlack.eot?#iefix') format('embedded-opentype'),
@@ -12,6 +13,7 @@
 
 @font-face {
     font-family: 'DIN Pro';
+    font-display: swap;
     src: url('DINPro-Light.eot');
     src: local('DIN Pro Light'), local('DINPro-Light'),
         url('DINPro-Light.eot?#iefix') format('embedded-opentype'),
@@ -24,6 +26,7 @@
 
 @font-face {
     font-family: 'DIN Pro';
+    font-display: swap;
     src: url('DINPro.eot');
     src: local('DIN Pro'), local('DINPro'),
         url('DINPro.eot?#iefix') format('embedded-opentype'),
@@ -36,6 +39,7 @@
 
 @font-face {
     font-family: 'DIN Pro';
+    font-display: swap;
     src: url('DINPro-BoldItalic.eot');
     src: local('DIN Pro Bold Italic'), local('DINPro-BoldItalic'),
         url('DINPro-BoldItalic.eot?#iefix') format('embedded-opentype'),
@@ -48,6 +52,7 @@
 
 @font-face {
     font-family: 'DIN Pro';
+    font-display: swap;
     src: url('DINPro-Bold.eot');
     src: local('DIN Pro Bold'), local('DINPro-Bold'),
         url('DINPro-Bold.eot?#iefix') format('embedded-opentype'),
@@ -60,6 +65,7 @@
 
 @font-face {
     font-family: 'DIN Pro Cond';
+    font-display: swap;
     src: url('DINPro-CondensedBoldItalic.eot');
     src: local('DIN Pro Condensed Bold Italic'), local('DINPro-CondensedBoldItalic'),
         url('DINPro-CondensedBoldItalic.eot?#iefix') format('embedded-opentype'),
@@ -72,6 +78,7 @@
 
 @font-face {
     font-family: 'DIN Pro';
+    font-display: swap;
     src: url('DINPro-MediumItalic.eot');
     src: local('DIN Pro Medium Italic'), local('DINPro-MediumItalic'),
         url('DINPro-MediumItalic.eot?#iefix') format('embedded-opentype'),
@@ -84,6 +91,7 @@
 
 @font-face {
     font-family: 'DIN Pro';
+    font-display: swap;
     src: url('DINPro-Black.eot');
     src: local('DIN Pro Black'), local('DINPro-Black'),
         url('DINPro-Black.eot?#iefix') format('embedded-opentype'),
@@ -96,6 +104,7 @@
 
 @font-face {
     font-family: 'DIN Pro Cond';
+    font-display: swap;
     src: url('DINPro-CondensedMedium.eot');
     src: local('DIN Pro Condensed Medium'), local('DINPro-CondensedMedium'),
         url('DINPro-CondensedMedium.eot?#iefix') format('embedded-opentype'),
@@ -108,6 +117,7 @@
 
 @font-face {
     font-family: 'DIN Pro Cond';
+    font-display: swap;
     src: url('DINPro-CondensedLight.eot');
     src: local('DIN Pro Condensed Light'), local('DINPro-CondensedLight'),
         url('DINPro-CondensedLight.eot?#iefix') format('embedded-opentype'),
@@ -120,6 +130,7 @@
 
 @font-face {
     font-family: 'DIN Pro';
+    font-display: swap;
     src: url('DINPro-Medium.eot');
     src: local('DIN Pro Medium'), local('DINPro-Medium'),
         url('DINPro-Medium.eot?#iefix') format('embedded-opentype'),
@@ -132,6 +143,7 @@
 
 @font-face {
     font-family: 'DIN Pro';
+    font-display: swap;
     src: url('DINPro-Italic.eot');
     src: local('DIN Pro Italic'), local('DINPro-Italic'),
         url('DINPro-Italic.eot?#iefix') format('embedded-opentype'),
@@ -144,6 +156,7 @@
 
 @font-face {
     font-family: 'DIN Pro Cond';
+    font-display: swap;
     src: url('DINPro-CondensedLightItalic.eot');
     src: local('DIN Pro Condensed Light Italic'), local('DINPro-CondensedLightItalic'),
         url('DINPro-CondensedLightItalic.eot?#iefix') format('embedded-opentype'),
@@ -156,6 +169,7 @@
 
 @font-face {
     font-family: 'DIN Pro Cond';
+    font-display: swap;
     src: url('DINPro-CondensedMediumItalic.eot');
     src: local('DIN Pro Condensed Medium Italic'), local('DINPro-CondensedMediumItalic'),
         url('DINPro-CondensedMediumItalic.eot?#iefix') format('embedded-opentype'),
@@ -168,6 +182,7 @@
 
 @font-face {
     font-family: 'DIN Pro Cond';
+    font-display: swap;
     src: url('DINPro-CondensedBlackItalic.eot');
     src: local('DIN Pro Condensed Black Italic'), local('DINPro-CondensedBlackItalic'),
         url('DINPro-CondensedBlackItalic.eot?#iefix') format('embedded-opentype'),
@@ -180,6 +195,7 @@
 
 @font-face {
     font-family: 'DIN Pro Cond';
+    font-display: swap;
     src: url('DINPro-CondensedBold.eot');
     src: local('DIN Pro Condensed Bold'), local('DINPro-CondensedBold'),
         url('DINPro-CondensedBold.eot?#iefix') format('embedded-opentype'),
@@ -192,6 +208,7 @@
 
 @font-face {
     font-family: 'DIN Pro';
+    font-display: swap;
     src: url('DINPro-BlackItalic.eot');
     src: local('DIN Pro Black Italic'), local('DINPro-BlackItalic'),
         url('DINPro-BlackItalic.eot?#iefix') format('embedded-opentype'),
@@ -204,6 +221,7 @@
 
 @font-face {
     font-family: 'DIN Pro';
+    font-display: swap;
     src: url('DINPro-LightItalic.eot');
     src: local('DIN Pro Light Italic'), local('DINPro-LightItalic'),
         url('DINPro-LightItalic.eot?#iefix') format('embedded-opentype'),
@@ -216,6 +234,7 @@
 
 @font-face {
     font-family: 'DIN Pro Cond';
+    font-display: swap;
     src: url('DINPro-CondensedItalic.eot');
     src: local('DIN Pro Condensed Italic'), local('DINPro-CondensedItalic'),
         url('DINPro-CondensedItalic.eot?#iefix') format('embedded-opentype'),
@@ -228,6 +247,7 @@
 
 @font-face {
     font-family: 'DIN Pro Cond';
+    font-display: swap;
     src: url('DINPro-CondensedRegular.eot');
     src: local('DIN Pro Condensed Regular'), local('DINPro-CondensedRegular'),
         url('DINPro-CondensedRegular.eot?#iefix') format('embedded-opentype'),

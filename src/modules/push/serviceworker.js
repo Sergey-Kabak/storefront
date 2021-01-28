@@ -1,0 +1,1 @@
+importScripts("https://ringooua.push.world/https.serviceworker.js");

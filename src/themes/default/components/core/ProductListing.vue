@@ -5,6 +5,7 @@
       :key="key"
       :product="product"
       :isShowCompareAndFavorite="isShowCompareAndFavorite"
+      :gtm-list="gtmList"
     />
   </div>
 </template>
@@ -26,6 +27,10 @@ export default {
     products: {
       type: null,
       required: true
+    },
+    gtmList: {
+      type: String,
+      default: 'category'
     }
   }
 }

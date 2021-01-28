@@ -98,7 +98,7 @@
         <!--<div v-for="product in products" :key="product.sku">-->
           <!--<div class="product flex-container align-center">-->
             <!--<div class="flex-item">-->
-              <!--<img class="blend pl10" :src="thumbnail(product.image)" :alt="product.name">-->
+              <!--<img class="blend pl10" v-lazy="thumbnail(product.image)" :alt="product.name">-->
             <!--</div>-->
             <!--<div class="flex-item">-->
               <!--<div class="flex-wrapper">-->
