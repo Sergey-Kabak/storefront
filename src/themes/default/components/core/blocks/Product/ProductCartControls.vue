@@ -109,16 +109,16 @@ export default {
 @media (max-width: 576px) {
   .button-full.add-to-cart {
     max-width: 100%;
-    .basket-icon {
-      display: block;
-    }
 
     &:not(.pre_order):not(.not-available) {
+      .basket-icon {
+        display: block;
+      }
+
       .add-to-cart-text {
         display: none!important;
       }
     }
-
   }
 }
 </style>
