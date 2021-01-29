@@ -16,6 +16,7 @@
               @submit="onChooseStreet"
               @blur="$v.courierShipping.address.Description.$touch()"
               :get-result-value="getResultValue"
+              :debounce-time="300"
             >
               <template #result="{ result, props }">
                 <li
@@ -94,7 +95,7 @@ export default {
         Description: {
           required,
           fromList: function() {
-            return !!(this.streets.find(it => it && it.Description.toLowerCase() === (this.courierShipping.address.Description && this.courierShipping.address.Description.toLowerCase())))
+            return !!(this.streets.find(it => it && it.Description.toLowerCase() === (this.courierShipping.address.Description && this.courierShipping.address.Description.toLowerCase())) || this.courierShipping.address.Ref)
           }
         }
       },
@@ -117,11 +118,16 @@ export default {
     })
   },
   mounted() {
-    this.$store.dispatch('checkoutPage/getStreetsByCity', { city: this.city })
     this.value = this.courierShipping.address.Description
   },
   methods: {
     validateData() {
+      if (this.streets && this.streets.length) {
+        const street = this.streets.find(it => it.Description.toLowerCase() === this.value.trim().toLowerCase())
+        if (street) {
+          this.courierShipping.address = street
+        }
+      }
       if (this.$v.courierShipping.$invalid) {
         this.$v.courierShipping.$touch()
       } else {
@@ -132,16 +138,7 @@ export default {
     getStreets(query) {
       this.value = query
       this.courierShipping.address = { Description: query }
-      const streets = this.streets.filter(it => {
-        return it.Description.toLowerCase().includes(query.toLowerCase())
-      })
-      const street = streets.find(it => it.Description.toLowerCase() === query.trim().toLowerCase())
-      if (street) {
-        this.courierShipping.address = street
-        this.value = street.Description
-      }
-
-      return streets
+      return this.$store.dispatch('checkoutPage/getStreetsByCity', { city: this.city, street: query })
     },
     onChooseStreet(it) {
       this.value = it.Description
