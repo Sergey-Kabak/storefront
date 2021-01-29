@@ -58,7 +58,12 @@ const getStreets = async ({
     size,
     sort
   })
-  return streets
+  return streets.map(it => {
+    if (!it.Description.includes('Поштомат') || !new RegExp('^вул.').test(it.Description) || !new RegExp('^просп.').test(it.Description)) {
+      it.Description = it.StreetsType + ' ' + it.Description
+    }
+    return it
+  })
 }
 
 
