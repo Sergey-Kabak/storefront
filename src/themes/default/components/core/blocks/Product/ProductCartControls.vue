@@ -115,7 +115,7 @@ export default {
 
     &:not(.pre_order):not(.not-available) {
       .add-to-cart-text {
-        display: none;
+        display: none!important;
       }
     }
 
