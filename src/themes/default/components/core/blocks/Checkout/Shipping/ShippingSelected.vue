@@ -29,7 +29,7 @@ export default {
     }),
     shippingInfo() {
       const methods = {
-        'nova_poshta_to_door': `${this.$t(this.selectedShipping.method_code)}: ${this.city}, ${this.courierShipping.address.StreetsType} ${this.courierShipping.address.Description}, ${this.courierShipping.house}, ${this.courierShipping.apartmentNumber}`,
+        'nova_poshta_to_door': `${this.$t(this.selectedShipping.method_code)}: ${this.city}, ${this.courierShipping.address.Description}, ${this.courierShipping.house}, ${this.courierShipping.apartmentNumber}`,
         'freeshipping': this.shopShipping && `${this.$t(this.selectedShipping.method_code)}: ${this.city}, ${this.shopShipping.street}`,
         'nova_poshta_to_warehouse': this.newPostShipping && `${this.$t(this.selectedShipping.method_code)}: ${this.city}, ${this.newPostShipping.Description}`,
         'justin_to_department': this.justinShipping && `${this.$t(this.selectedShipping.method_code)}: ${this.justinShipping.address_ua}`,
