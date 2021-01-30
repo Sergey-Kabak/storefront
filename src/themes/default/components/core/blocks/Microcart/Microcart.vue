@@ -199,8 +199,8 @@ export default {
 <style lang="scss" scoped>
   @import "~theme/css/animations/transitions";
   .microcart {
-    min-height: 100vh;
     height: 100%;
+    z-index: 0;
     &-footer{
       @media (max-width: 550px){
         width: 100%;
@@ -296,8 +296,23 @@ export default {
     }
 
     &-scroll-content {
-      padding: 0 32px;
-      overflow: auto;
+      @media (min-width: 600px) {
+        overflow: auto;
+        display: flex;
+        flex-direction: column;
+        padding: 0 32px;
+      }
+      @media (max-width: 600px) {
+        overflow-y: scroll;
+        height: calc(100% - 244px);
+        padding: 0 16px;
+        position: relative;
+        z-index: 0;
+        -webkit-overflow-scrolling: touch;
+        overflow-anchor: none;
+        opacity: 0.9999;
+        will-change: transform;
+      }
     }
 
     &-left {
@@ -319,11 +334,9 @@ export default {
   }
 
   .scroll-bar {
+    height: 100%;
     display: flex;
     flex-direction: column;
-    height: 100%;
-    box-sizing: border-box;
-    transform: translateZ(0);
   }
 
   .actions-button {
@@ -489,9 +502,9 @@ export default {
 
     .actions-button {
       .button {
-        &:first-child {
-          margin-right: 16px;
-        }
+        //&:first-child {
+        //  margin-right: 16px;
+        //}
       }
     }
   }
