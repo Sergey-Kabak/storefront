@@ -204,28 +204,26 @@ export default {
     line-height: 30px;
   }
 }
-  ::v-deep .modal-container{
-    display: flex;
-    flex-direction: column;
-    height: calc(100% - 58px);
-    .modal-content{
+::v-deep .modal-container{
+  display: flex;
+  flex-direction: column;
+  height: calc(100% - 58px);
+  .modal-content{
+    @media (min-width: 601px) {
       position: relative;
       flex: 1;
       max-height: calc(100vh - 57px - 58px);
       padding-bottom: 90px;
-      @media (max-width : 600px){
-        padding-bottom: 111px;
-      }
-      overflow: auto;
-      &::-webkit-scrollbar {
-          width: 4px;
-      }
-      &::-webkit-scrollbar-thumb {
-          border-radius: 4px;
-          background-color: #E0E0E0;;
-      }
+    }
+    &::-webkit-scrollbar {
+        width: 4px;
+    }
+    &::-webkit-scrollbar-thumb {
+        border-radius: 4px;
+        background-color: #E0E0E0;;
     }
   }
+}
 </style>
 <style lang="scss">
 .modal-header{
@@ -295,18 +293,20 @@ export default {
       flex-direction: column-reverse;
       padding: 16px;
     }
-    border: 0 0 4px 4px;
+    @media (min-width: 600px) {
+      border-radius: 0 0 4px 4px;
+      box-shadow: 0px -1px 4px rgba(0, 0, 0, 0.25);
+      position: fixed;
+      bottom: 0;
+      right: 0;
+    }
     align-items: center;
     justify-content: flex-end;
     padding: 24px;
-    position: fixed;
-    bottom: 0;
-    right: 0;
     background-color: #fff;
     z-index: 2;
     width: 100%;
     box-sizing: border-box;
-    box-shadow: 0px -1px 4px rgba(0, 0, 0, 0.25);
     &>span{
       font-size: 14px;
       line-height: 18px;
