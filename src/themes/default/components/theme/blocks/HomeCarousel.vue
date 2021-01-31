@@ -7,7 +7,7 @@
         class="slide-link"
         @click="checkRoute(product)"
       >
-        <img v-lazy="getThumbnail(product.image, 263, 434, 'slider')" :alt="index">
+        <img :src="getThumbnail(product.image, 263, 434, 'slider')" :alt="index">
       </div>
     </VueSlickCarousel>
   </div>
@@ -16,14 +16,15 @@
 <script>
 import { currentStoreView } from '@vue-storefront/core/lib/multistore'
 import { formatProductLink } from '@vue-storefront/core/modules/url/helpers'
-import config from 'config'
-import VueSlickCarousel from 'vue-slick-carousel'
+// import config from 'config'
+
+const VueSlickCarousel = () => import('vue-slick-carousel')
 import 'vue-slick-carousel/dist/vue-slick-carousel.css'
 import 'vue-slick-carousel/dist/vue-slick-carousel-theme.css'
 import {mapGetters} from "vuex";
 export default {
   components: {
-    VueSlickCarousel
+    VueSlickCarousel,
   },
   data: () => ({
     isClient: false,

@@ -32,7 +32,7 @@ export default {
       type: String,
       default: 'category'
     }
-  }
+  },
 }
 </script>
 
