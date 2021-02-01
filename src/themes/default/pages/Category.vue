@@ -807,7 +807,8 @@ $mobile_screen : 768px;
   display: flex;
   flex-direction: column;
   @media only screen and (max-width: 1024px) {
-    min-width: 370px;
+    // min-width: 370px;
+    width: 100%;
   }
 }
 .banner-description {
@@ -862,6 +863,7 @@ $mobile_screen : 768px;
     }
     position: relative;
     @media only screen and (max-width: 1024px) {
+      padding: 0 16px 16px 16px;
       margin-top: 20px;
       width: 100%;
     }
