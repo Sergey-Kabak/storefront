@@ -12,7 +12,9 @@
           <div class="banner-description__block" v-if="getCurrentCategory.description">
             <h3>{{ $t('Description of the action') }}</h3>
             <div class="banner-description-info">
-              <div class="banner-description__text" :class="{'active': isDescriptionActive}" v-html="getCurrentCategory.description"></div>
+              <div class="banner-description__text-wrapper" :class="{'active': isDescriptionActive}" >
+                <div class="banner-description__text" :class="{'active': isDescriptionActive}" v-html="getCurrentCategory.description"></div>
+              </div>
               <div class="next-button" v-if="!isDescriptionActive" @click="isDescriptionActive = true">{{ $t('more than') }}</div>
               <div class="next-button next-button--close" v-else @click="isDescriptionActive = false">{{ $t('less than') }}</div>
             </div>
@@ -69,7 +71,7 @@
       <div class="category">
         <div class="category-filters">
           <p class="products-count">
-            {{ $tc('{count} items', getCategoryProductsTotal) }}
+            {{ $tc('{count} items chosen', getCategoryProductsTotal) }}
           </p>
           <sidebar :filters="getAvailableFilters" @changeFilter="changeFilter" />
         </div>
@@ -565,7 +567,9 @@ $mobile_screen : 768px;
       margin-left: 7px;
     }
   }
-
+  .banner-description-info {
+   margin-bottom: 24px; 
+  }
   .mobile-sorting {
     display: none;
   }
@@ -635,6 +639,7 @@ $mobile_screen : 768px;
 
     .mobile-sorting {
       display: block;
+      flex: 0 0 40%;
     }
 
     .category-filters {
@@ -699,9 +704,11 @@ $mobile_screen : 768px;
     }
 
     .mobile-actions {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      grid-gap: 16px;
+      justify-content: space-around;
+      display: flex;
+      & > * {
+        flex: 0 0 48%;
+      }
     }
 
     .category-sort {
@@ -721,10 +728,10 @@ $mobile_screen : 768px;
   }
 
   .next-button {
+    display: inline-block;
     margin-top: 16px;
     cursor: pointer;
     padding: 4px 0px;
-    display: none;
     font-family: DIN Pro;
     font-size: 13px;
     line-height: 16px;
@@ -736,28 +743,49 @@ $mobile_screen : 768px;
     }
   }
 
+.banner-description__text-wrapper {
+  position: relative;
+  
+  &::before {
+    z-index: 2;
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 30%;
+    width: 100%;
+    background: linear-gradient(rgba(255, 255, 255, 0.02), white);
+  }
+  &.active::before {
+    height: 0;
+  }
+}
+.banner-description__text {
+  /*! autoprefixer: off */
+  -webkit-box-orient: vertical;
+  display: -webkit-box;
+  -webkit-line-clamp: 5;
+  overflow: hidden;
+  @media only screen and (max-width: 1200px) {
+    -webkit-line-clamp: 3;
+  }
+  height: 100%;
+  &.active {
+    display: block;
+  }
 
+  ::v-deep {
+    p {
+      margin: 0;
+    }
+  }
+}
   @media (max-width: 576px) {
     .next-button {
       display: inline-block;
     }
-    .banner-description__text {
-      /*! autoprefixer: off */
-      -webkit-box-orient: vertical;
-      display: -webkit-box;
-      -webkit-line-clamp: 3;
-      overflow: hidden;
 
-      &.active {
-        display: block;
-      }
 
-      ::v-deep {
-        p {
-          margin: 0;
-        }
-      }
-    }
   }
 
   .close-container {
@@ -774,13 +802,25 @@ $mobile_screen : 768px;
 .load{
   margin: 32px auto 0;
 }
+.banner-description__block {
+  width: 370px;
+  display: flex;
+  flex-direction: column;
+  @media only screen and (max-width: 1024px) {
+    min-width: 370px;
+  }
+}
 .banner-description {
   margin-bottom: 64px;;
   display: flex;
-  flex-direction: column;
+  @media only screen and (max-width: 1024px) {
+    flex-direction: column;
+  }
   img {
     &.desk {
       border-radius: 4px;
+      margin-right: 20px;
+      height: 23.26vw;
     }
     display: block;
     width: 100%;
@@ -811,15 +851,20 @@ $mobile_screen : 768px;
     }
   }
   &__block {
-    margin-top: 20px;
     background: #FFFFFF;
     border: 1px solid #E0E0E0;
     box-sizing: border-box;
     border-radius: 4px;
-    width: 100%;
+    // width: 100%;
     padding: 0 16px 16px 16px;
+    @media only screen and (max-width: 1200px) {
+      padding: 0 8px 8px 8px;
+    }
     position: relative;
-
+    @media only screen and (max-width: 1024px) {
+      margin-top: 20px;
+      width: 100%;
+    }
     @include mobile-view {
       margin-top: 16px;
     }
@@ -842,7 +887,6 @@ $mobile_screen : 768px;
     line-height: 24px;
     // color: #595858;
     color: #5f5e5e;
-    overflow: auto;
     margin-bottom: 8px;
     margin: 0;
   }
@@ -859,8 +903,9 @@ $mobile_screen : 768px;
   &__timer {
     display: flex;
     align-items: center;
-    margin-top: 24px;
-
+    // margin-top: 24px;
+    margin-top: auto;
+    font-family: DIN Pro;
     &--from-to {
       font-size: 12px;
       line-height: 16px;

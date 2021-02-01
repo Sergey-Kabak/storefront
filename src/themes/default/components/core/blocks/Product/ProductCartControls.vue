@@ -12,8 +12,12 @@
       class="d-flex btw product-card-bottom-options"
     >
       <slot name="wishlist" />
-      <router-link :to="productLink" class="ml-auto">
+      <router-link :to="productLink" class="ml-auto wishlist-link">
+        <!-- <button-underline v-if="!isPreorder && getBanks.length" @click.native="showModalCredits">
+          <span>{{ $t('In credit') }}</span>
+        </button-underline> -->
         <button-full
+          :link="productLink"
           data-testid="addToCart" class="add-to-cart"
           :class="{'pre_order': !!isPreorder}"
           :aria-label="$t('Buy')"
@@ -32,7 +36,7 @@
               <path d="M18.25 8.16L15.5 5.16L16.66 4L18.25 5.59L21.84 2L23 3.41L18.25 8.16Z" fill="white"/>
             </svg>
           </template>
-          <span class="add-to-cart-text">{{ isPreorder ? $t('pre order') : $t('Buy') }}</span>
+          <span class="add-to-cart-text" :class="{ preorder: isPreorder }">{{ isPreorder ? $t('pre order') : $t('Buy') }}</span>
         </button-full>
       </router-link>
     </div>
@@ -41,8 +45,9 @@
 
 <script>
 import ButtonFull from '../../../theme/ButtonFull';
+import ButtonUnderline from '../../../theme/ButtonUnderline';
 import { ProductTile } from '@vue-storefront/core/modules/catalog/components/ProductTile.ts';
-
+import { mapGetters } from 'vuex';
 export default {
   props: {
     product: {
@@ -52,9 +57,18 @@ export default {
   },
   mixins: [ProductTile],
   components: {
-    ButtonFull
+    ButtonFull,
+    ButtonUnderline
+  },
+  methods: {
+    showModalCredits () {
+      this.$bus.$emit('modal-show', 'modal-credits')
+    }
   },
   computed: {
+    ...mapGetters({
+      getBanks: 'themeCredit/getBanks'
+    }),
     isPreorder () {
       return this.product.stock.is_in_stock && !!this.product.preorder
     }
@@ -96,15 +110,20 @@ export default {
 .add-to-cart{
   height: 32px;
   @media (max-width: 767px) {
+    box-shadow: 1px 1px 3px rgba(255,255,255, 0.2), 1px 1px 3px rgba(0, 0, 0, 0.2);
     width: auto;
     max-width: 100%;
     margin-left: auto;
     padding: 0 13px;
     .add-to-cart-text{
-      display: block;
+      display: none;
       white-space: nowrap;
       text-overflow: ellipsis;
       overflow: hidden;
+
+      &.preorder {
+        display: block;
+      }
     }
   }
 }
@@ -133,5 +152,10 @@ export default {
   color: #000000;
   text-align: center;
   margin-top: auto;
+}
+.wishlist-link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 </style>

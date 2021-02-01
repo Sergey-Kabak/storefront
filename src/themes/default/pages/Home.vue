@@ -360,8 +360,10 @@ export default {
 </style>
 
 <style lang="scss" scoped>
+@import '~theme/css/helpers/mixins';
+
   .v-container {
-    width: 92%;
+    width: 95%;
   }
 
   .promo-image {
@@ -381,7 +383,7 @@ export default {
       display: flex;
       justify-content: space-between;
       flex-wrap: wrap-reverse;
-      align-items: flex-end;
+      align-items: space-between;
       grid-column: span 2;
       box-sizing: border-box;
       background: #F6F7FA;
@@ -400,8 +402,9 @@ export default {
 
       .image {
         display: block;
-        width: 40%;
+        max-width: 50%;
         height: auto;
+        max-height: 270px;
       }
 
       .title {
@@ -442,7 +445,7 @@ export default {
         padding: 16px;
         flex-direction: column-reverse;
         align-items: center;
-        justify-content: flex-end;
+        justify-content: space-between;
         height: 100%;
 
         .text {
@@ -450,9 +453,9 @@ export default {
         }
 
         .image {
-          width: 100%;
-          max-width: 180px;
+          max-width: 100%;
           margin-bottom: 16px;
+          width: auto;
         }
       }
     }
@@ -463,16 +466,23 @@ export default {
       margin: 48px 0px 24px 0px;
     }
 
+    .text {
+      margin-top: auto;
+      height: 68px;
+    }
+    
     .banner-group {
       grid-gap: 16px;
       .banner {
         grid-column: span 3;
+        height: auto;
+        justify-content: flex-end;
 
         &:last-child {
           grid-column: span 6;
           flex-direction: row;
           align-items: center;
-          justify-content: space-between;
+          justify-content: flex-end;
           flex-wrap: nowrap;
 
           .text {
@@ -489,13 +499,15 @@ export default {
         .description {
           font-size: 13px;
           line-height: 16px;
+          @include maxLines(3);
         }
 
-        .image {
-          min-width: 100px;
-
-          &:last-child {
+        &:last-child {
+          .image {
             margin-bottom: 0;
+          }
+          .text {
+            width: 100%;
           }
         }
       }
@@ -505,7 +517,13 @@ export default {
       .banner-group {
         .banner {
           .image {
-            max-width: 120px;
+            width: auto;
+            // max-height: 100px;
+            height: 100px;
+            margin-bottom: 32px;
+          }
+          .text {
+            margin-top: unset;
           }
         }
       }
@@ -525,6 +543,10 @@ export default {
     }
     &__banner {
       margin-bottom: 68px;
+
+      @media only screen and (max-width: 768px) {
+        margin-bottom: 54px;
+      }
     }
   }
 </style>

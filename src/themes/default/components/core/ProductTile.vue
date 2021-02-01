@@ -151,10 +151,30 @@ export default {
   $bg-secondary: color(secondary, $colors-background);
   $border-secondary: color(secondary, $colors-border);
   $color-white: color(white);
-
+  $border: 1px solid #E0E0E0;
   .product {
-    @media (max-width: 575px){
+    @media (max-width: 540px){
       min-width: 50% !important;
+      border: none;
+
+      border-bottom: $border;
+      border-radius: 0;
+      &:nth-child(2n-1) {
+        padding-left: 0;
+      }
+      &:nth-child(2n) {
+        padding-right: 0;
+      }
+      &:nth-child(1),
+      &:nth-child(2) {
+        border-top: $border;
+      }
+      &:nth-child(2n-1) {
+        border-right: $border;
+      }
+      &:nth-child(2n-1) {
+        border-right: $border;
+      }
     }
     position: relative;
     border: 1px solid #E0E0E0;
@@ -185,15 +205,13 @@ export default {
     }
 
     .product-link {
+      height: 100%;
       align-items: flex-start;
       .mt-auto {
         margin-top: auto;
       }
     }
 
-    @media (max-width: 767px) {
-      padding: 5px;
-    }
     &__icons {
       position: absolute;
       top: 12px;
@@ -213,11 +231,11 @@ export default {
         opacity: 1;
       }
     }
-    &:hover {
-      .product__icon {
-        opacity: 1;
-      }
-    }
+    // &:hover {
+    //   .product__icon {
+    //     opacity: 1;
+    //   }
+    // }
     .btw {
       justify-content: space-between;
       text-align: right;
@@ -268,6 +286,9 @@ export default {
   .product-cover {
     overflow: hidden;
     height: 266px;
+    @media only screen and (max-width: 768px) {
+      height: auto;
+    }
     width: 100%;
 
     &__thumb {
@@ -308,8 +329,19 @@ export default {
 
 .product-icon {
   z-index: 1;
-  opacity: 0;
+  opacity: 1;
+  margin-bottom: 8px;
+  border-radius: 4px;
+  box-shadow: 1px 1px 3px rgba(255,255,255, 0.2), 1px 1px 3px rgba(0, 0, 0, 0.2);
 
+  &:hover {
+    @media only screen and (max-width: 768px) {
+      background: rgba(255, 255, 255, 1);
+    }
+  }
+  @media only screen and (max-width: 768px) {
+
+  }
   &.active {
     opacity: 1!important;
   }
@@ -325,6 +357,9 @@ export default {
     .product-icon {
       opacity: 1;
     }
+  }
+  @media only screen and (max-width: 768px) {
+    min-height: 350px;
   }
 }
 

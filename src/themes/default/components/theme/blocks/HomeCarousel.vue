@@ -123,6 +123,10 @@ export default {
       height: 10px;
       margin: 0 4px;
 
+      @media only screen and (max-width: 540px) {
+        height: 8px;
+        width: 8px;
+      }
       button {
         padding: 0;
         width: auto;
@@ -153,13 +157,13 @@ export default {
 
 img {
   width: 100%;
-  max-width: 263px;
   height: 100%;
   max-height: 434px;
 
   @media only screen and (min-width: 1440px) {
     height: 434px;
   }
+
   &:focus,
   &:active {
     outline: none!important;

@@ -174,10 +174,10 @@ export default {
   text-align: left;
   margin-bottom: 8px;
   @media(max-width: 767px) {
-    height: 34px;
     overflow: hidden;
     font-size: 13px;
     line-height: 16px;
+    margin-bottom: 8px;
   }
 }
 

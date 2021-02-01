@@ -62,14 +62,13 @@ export default {
     }
   },
   watch: {
-    $route(to, from) {
-      this.activateMenu(to.params.slug)
-      this.scrollToActiveElement()
+    $route: {
+      handler(to, from) {
+        this.activateMenu(to.params.slug)
+        this.scrollToActiveElement()
+      },
+      immediate: true
     }
-  },
-  mounted: function() {
-    this.activateMenu(this.$route.params.slug)
-    this.scrollToActiveElement()
   },
   methods: {
     changeActiveMenu(menu) {
@@ -152,7 +151,7 @@ export default {
 }
 .menu-item-icon {
   margin-right: 22px;
-  display: inline-block;
+  display: inline-flex;
 }
 
 .menu-link {
@@ -164,6 +163,7 @@ export default {
   width: 100%;
   display: flex;
   transition: color .2s ease-in-out;
+  align-items: center;
 
   &:hover {
     color: #23BE20;
@@ -174,8 +174,8 @@ export default {
     font-weight: 600;
     background: #E4F9E4;
     border-radius: 4px;
-    path{
-      fill:#23BE20;
+    path {
+      fill:#23BE20 !important;
     }
     .menu-item-title {
       color: #23BE20;
