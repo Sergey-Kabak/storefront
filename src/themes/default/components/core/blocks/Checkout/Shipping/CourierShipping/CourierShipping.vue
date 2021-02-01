@@ -140,9 +140,11 @@ export default {
       this.courierShipping.address = { Description: query }
       return this.$store.dispatch('checkoutPage/getStreetsByCity', { city: this.city, street: query })
     },
-    onChooseStreet(it) {
-      this.value = it.Description
-      this.courierShipping.address = it
+    onChooseStreet(street) {
+      if (street) {
+        this.value = street.Description
+        this.courierShipping.address = street
+      }
     },
     getResultValue(it) {
       return it.Description

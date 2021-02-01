@@ -117,7 +117,30 @@ export default {
       isScrolling: false,
       scrollTop: 0,
       lastScrollTop: 0,
-      navbarHeight: 142
+      navbarHeight: 142,
+      promos: {
+        samsung: {
+          img: '/assets/promo/samsung/md.jpg',
+          imgTablet: '/assets/promo/samsung/lg.jpg',
+          imgMobile: '/assets/promo/samsung/md.jpg',
+          link: '/samsung-s21',
+          background: '#fff'
+        },
+        keepInTouch: {
+          img: '/assets/promo/iphone-desktop.jpg',
+          imgTablet: '/assets/promo/iphone-tablet.jpg',
+          imgMobile: '/assets/promo/iphone-mobile.jpg',
+          link: '/smartfoni-i-telefoni/smartfoni?manufacturer=Apple',
+          background: '#08101b'
+        },
+        ValentinesDay: {
+          img: '/assets/promo/ValentinesDay/desktop.jpg',
+          imgTablet: '/assets/promo/ValentinesDay/laptop.jpg',
+          imgMobile: '/assets/promo/ValentinesDay/mobile.jpg',
+          link: '/valentines-day',
+          background: '#47bdef'
+        }
+      }
     }
   },
   computed: {
@@ -135,41 +158,19 @@ export default {
       return this.$route.name !== 'checkout'
     },
     promoPages () {
-      const promos = {
-        samsung: {
-          img: '/assets/promo/samsung/md.jpg',
-          imgTablet: '/assets/promo/samsung/lg.jpg',
-          imgMobile: '/assets/promo/samsung/md.jpg',
-          link: '/samsung-s21',
-          background: '#fff'
-        },
-        keepInTouch: {
-          img: '/assets/promo/iphone-desktop.jpg',
-          imgTablet: '/assets/promo/iphone-tablet.jpg',
-          imgMobile: '/assets/promo/iphone-mobile.jpg',
-          link: '/smartfoni?manufacturer=Apple',
-          background: '#08101b'
-        }
-      }
       return [
         {
           path: '/',
-          options: promos.samsung
+          options: this.promos.samsung
         },
         {
-          path: '/bud-na-zv-jazku',
-          options: promos.keepInTouch
+          path: '/valentines-day',
+          options: this.promos.keepInTouch
         }
       ]
     },
     promo () {
-      const defaultPromo = {
-        img: '/assets/promo/keepInTouch/xl.jpg',
-        imgTablet: '/assets/promo/keepInTouch/lg.jpg',
-        imgMobile: '/assets/promo/keepInTouch/md.jpg',
-        link: '/bud-na-zv-jazku',
-        background: '#97b6e2'
-      }
+      const defaultPromo = this.promos.ValentinesDay
       const promo = this.promoPages.find(promo => this.$route.path === promo.path)
       return (promo && promo.options) || defaultPromo;
     }
