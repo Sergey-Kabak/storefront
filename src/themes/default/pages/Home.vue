@@ -15,7 +15,7 @@
             <div class="title">{{ $t(category.title) }}</div>
             <div class="description">{{ $t(category.description) }}</div>
           </div>
-          <img v-lazy="category.image" alt="index" class="image">
+          <img :src="category.image" alt="index" class="image">
         </router-link>
       </div>
     </section>
