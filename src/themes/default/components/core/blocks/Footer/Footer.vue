@@ -118,10 +118,12 @@ export default {
         }, {
           name: 'Warranty, Exchange, Return',
           url_path: '/info/warranty-exchange-return'
-        }, {
-          name: 'Service centres',
-          url_path: '/info/service-centers'
-        }, {
+        },
+        // {
+        //   name: 'Service centres',
+        //   url_path: '/info/service-centers'
+        // },
+        {
           name: 'Use promotional code',
           url_path: '/info/using-a-promo-code'
         }, {
