@@ -11,7 +11,7 @@ export const checkoutModule: Module<CheckoutState, RootState> = {
   state: {
     order: {},
     paymentMethods: [],
-    shippingMethods: config.shipping.methods,
+    shippingMethods: [],
     personalDetails: {
       firstName: '',
       lastName: '',

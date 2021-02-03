@@ -18,13 +18,8 @@ export const attributeStore = {
       };
       const resp = await quickSearchByQuery({ entityType: 'attribute', query });
       state.filter = {}
-      resp.items.forEach((el, index) => {
-        Object.assign(state.filter, {
-          [attributes[index]]: el.options.map(it => {
-            it['id'] = it['value'];
-            return it;
-          })
-        })
+      resp.items.forEach(el => {
+        state.filter[el.attribute_code] = el.options
       })
       return resp
     }

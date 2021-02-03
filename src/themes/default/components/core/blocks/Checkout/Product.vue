@@ -1,15 +1,32 @@
 <template>
   <div class="product">
-    <div class="product-left">
-      <div class="product-remove" @click="removeFromCart()">
-        <svg width="14" height="18" viewBox="0 0 14 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M1 16C1 17.1 1.9 18 3 18H11C12.1 18 13 17.1 13 16V4H1V16ZM3.5 8.9L4.9 7.5L7 9.6L9.1 7.5L10.5 8.9L8.4 11L10.5 13.1L9.1 14.5L7 12.4L4.9 14.5L3.5 13.1L5.6 11L3.5 8.9ZM10.5 1L9.5 0H4.5L3.5 1H0V3H14V1H10.5Z" fill="#BDBDBD"/>
-        </svg>
+    <div class="product-image">
+      <img :src="image.src" alt="product" />
+    </div>
+    <div class="product-info-top">
+      <span class="product-name">{{ product.name }}</span>
+    </div>
+    <div class="product-info-bottom">
+      <div class="product-qty">
+        <product-quantity-new
+          v-model.number="product.qty"
+          @input="udpateQty($event)"
+          :show-quantity="manageQuantity"
+          :check-max-quantity="manageQuantity"
+          :loading="isQtyUpdating"
+        />
       </div>
-      <div class="product-image">
-        <img :src="image.src" alt="product" />
+      <product-cart-price :product="product" :nameVisibility="false"/>
+    </div>
+    <div class="product-actions">
+      <div class="actions">
+        <AddToWishlist :product="product" class="product-icon" />
+        <div class="remove" @click="removeFromCart()">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M16 9V19H8V9H16ZM14.5 3H9.5L8.5 4H5V6H19V4H15.5L14.5 3ZM18 7H6V19C6 20.1 6.9 21 8 21H16C17.1 21 18 20.1 18 19V7Z" fill="#BDBDBD"/>
+          </svg>
+        </div>
       </div>
-      <product-cart-price :product="product" :showProductColor="true" class="product-info" />
       <more-icon>
         <div class="more-item" @click="removeFromCart()">
           <svg width="14" height="18" viewBox="0 0 14 18" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -18,21 +35,6 @@
           <span>{{ $t('Remove') }}</span>
         </div>
       </more-icon>
-    </div>
-    <div class="product-right">
-      <div class="product-qty" v-if="product.type_id !== 'grouped' && product.type_id !== 'bundle'">
-        <product-quantity-new
-          v-model.number="product.qty"
-          @input="udpateQty($event)"
-          :is-simple-or-configurable="isSimpleOrConfigurable"
-          :show-quantity="manageQuantity"
-          :check-max-quantity="manageQuantity"
-          :loading="isQtyUpdating"
-        />
-      </div>
-      <div class="product-price">
-        <span> {{ finalPrice * product.qty | price(storeView) }} </span>
-      </div>
     </div>
   </div>
 </template>
@@ -46,12 +48,15 @@ import i18n from '@vue-storefront/i18n';
 import MoreIcon from 'theme/components/core/MoreIcon';
 import ProductCartPrice from "../Product/ProductCartPrice";
 import GTM from 'theme/mixins/GTM/dataLayer'
+import AddToWishlist from 'theme/components/core/blocks/Wishlist/AddToWishlist';
+
 export default {
   mixins: [Product, ProductCartPrice, GTM],
   components: {
     ProductQuantityNew,
     MoreIcon,
-    ProductCartPrice
+    ProductCartPrice,
+    AddToWishlist
   },
   data: () => ({
     maxQuantity: 0,
@@ -75,9 +80,6 @@ export default {
         src: this.thumbnail
       };
     },
-    isSimpleOrConfigurable () {
-      return ['simple', 'configurable'].includes(this.product.type_id)
-    },
     isOnline (value) {
       return onlineHelper.isOnline
     },
@@ -95,11 +97,11 @@ export default {
           action2: { label: i18n.t('OK'),
             action: async () => {
               this.$store.dispatch('cart/removeItem', { product: this.product })
+              await this.GTM_REMOVE_FROM_CART([this.product])
             }
           },
           hasNoTimeout: true
         })
-        this.GTM_REMOVE_FROM_CART([this.product], null, null, { color: this.product.color, quantity: this.product.qty })
       } catch (e) {
         console.log(e);
       }
@@ -115,20 +117,22 @@ export default {
 
 <style lang="scss" scoped>
 .product {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+  padding: 16px 12px 16px 16px;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  grid-template-rows: auto auto;
+  grid-row-gap: 16px;
+  grid-template-areas:
+    "image top-info actions"
+    "image bottom-info actions";
+  align-items: flex-start;
   padding-bottom: 16px;
   margin-bottom: 16px;
   border-bottom: 1px solid #e0e0e0;
 }
 
-.product-left,
-.product-right {
-  width: 100%;
-  box-sizing: border-box;
-  display: flex;
-  align-items: center;
+.more {
+  display: none;
 }
 
 .product-right {
@@ -137,12 +141,8 @@ export default {
   width: 100%;
 }
 
-.more {
-  display: none;
-  margin-left: auto;
-}
-
 .price-sale {
+  margin-top: 4px;
   font-family: DIN Pro;
   font-style: normal;
   font-weight: 700;
@@ -167,49 +167,23 @@ export default {
 }
 
 .product-image {
-  margin-right: 10px;
+  grid-area: image;
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 50px;
-  height: 50px;
+  width: 88px;
+  height: 88px;
   font-family: DIN Pro;
   font-style: normal;
+  margin-right: 14px;
 
   img {
-    max-width: 50px;
-    max-height: 50px;
+    display: block;
+    max-width: 100%;
+    max-height: 100%;
     width: auto;
     height: auto;
   }
-}
-
-.product-info {
-  margin-right: 20px;
-  max-width: 280px;
-  ::v-deep .name{
-    font-size: 13px;
-  }
-}
-
-.product-info-name {
-  font-family: DIN Pro;
-  font-style: normal;
-  font-size: 13px;
-  line-height: 16px;
-  color: #1A1919;
-  margin-bottom: 4px;
-}
-
-.product-info-price {
-  display: flex;
-  flex-wrap: wrap;
-  font-family: DIN Pro;
-  font-style: normal;
-  font-size: 15px;
-  font-weight: 600;
-  line-height: 16px;
-  color: #1a1919;
 }
 
 .product-price {
@@ -220,12 +194,10 @@ export default {
   line-height: 24px;
   font-weight: 600;
   color: #1A1919;
-  text-align: right;
 }
 
 .product-qty {
-  margin-right: 20px;
-  margin-left: auto;
+  margin-right: 12px;
 }
 
 img {
@@ -244,11 +216,11 @@ img {
 }
 
 .product-name {
-  font-family: "DIN Pro";
-  font-size: 13px;
-  line-height: 16px;
+  display: block;
+  font-family: DIN Pro;
+  font-size: 15px;
+  line-height: 18px;
   color: #1A1919;
-  margin-bottom: 2px;
 }
 
 .product-data {
@@ -259,21 +231,22 @@ img {
 .product-info {
   display: flex;
   flex-direction: column;
-  flex: 1;
-}
-.product-price-container {
-  display: flex;
-  align-items: center;
-  min-width: 75px;
+  justify-content: space-between;
+  align-self: stretch;
 }
 
-.total-price {
-  font-family: "DIN Pro";
-  font-weight: bold;
-  font-size: 18px;
-  line-height: 24px;
-  text-align: right;
-  color: #1A1919;
+.product-info-top {
+  align-items: flex-start;
+  grid-area: top-info;
+  padding-right: 20px;
+}
+
+.product-info-bottom {
+  display: flex;
+  align-items: baseline;
+  justify-content: flex-start;
+  grid-area: bottom-info;
+  margin-top: auto;
 }
 
 .more-item {
@@ -293,9 +266,56 @@ img {
     color: #595858;
   }
 }
-</style>
-<style>
-  .checkout-product-quantity {
-    padding: 0 20px;
+
+.actions {
+  grid-area: actions;
+  display: flex;
+  align-items: center;
+  align-self: flex-start;
+  align-self: flex-start;
+}
+
+.remove {
+  display: flex;
+  cursor: pointer;
+
+  svg {
+    padding: 4px;
+    box-sizing: content-box;
   }
+
+  &:hover {
+    background-color: #F9F9F9;
+  }
+}
+
+@media (max-width: 768px) {
+  .product {
+    grid-template-areas:
+      "image top-info actions"
+      "bottom-info bottom-info bottom-info";
+  }
+
+  .product-info-bottom {
+    justify-content: space-between;
+  }
+
+  .product-image {
+    width: 56px;
+    height: 56px;
+  }
+
+  .product-info-top {
+    padding-right: 12px;
+  }
+
+  .actions {
+    display: none;
+  }
+
+  .more {
+    display: block;
+  }
+}
+
 </style>

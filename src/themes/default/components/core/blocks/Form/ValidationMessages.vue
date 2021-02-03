@@ -2,7 +2,7 @@
   <div v-if="validations">
     <span
       v-if="validation"
-      class="block cl-error h6 mt8"
+      class="block cl-error h6 error-message"
       :class="[errorClass]"
       data-testid="errorMessage"
     >
@@ -29,3 +29,13 @@ export default {
   }
 }
 </script>
+
+<style lang="scss" scoped>
+.error-message {
+  margin-top: 4px;
+  font-family: DIN Pro;
+  font-size: 13px;
+  line-height: 16px;
+  color: #EE2C39;
+}
+</style>

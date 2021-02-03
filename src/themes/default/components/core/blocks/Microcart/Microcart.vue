@@ -31,9 +31,6 @@
             <path d="M10.5 21C11.3284 21 12 20.3284 12 19.5C12 18.6716 11.3284 18 10.5 18C9.67157 18 9 18.6716 9 19.5C9 20.3284 9.67157 21 10.5 21Z" fill="#23BE20"/>
             <path d="M16.5 21C17.3284 21 18 20.3284 18 19.5C18 18.6716 17.3284 18 16.5 18C15.6716 18 15 18.6716 15 19.5C15 20.3284 15.6716 21 16.5 21Z" fill="#23BE20"/>
           </svg>
-          <span class="microcart-top-total-count" v-if="productsInCart.length">
-            {{ countProducts }}
-          </span>
           <more-icon class="more" v-if="productsInCart.length">
             <div class="more-item" @click="clearCart()">
               <svg width="14" height="18" viewBox="0 0 14 18" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -65,7 +62,7 @@
         <div
           class="actions-button"
           v-if="productsInCart.length && !isCheckoutMode"
-        >
+      >
           <button-full
             :link="{ name: 'checkout' }"
             class="button"
@@ -104,6 +101,7 @@ import { InstantCheckoutModule } from 'src/modules/instant-checkout';
 import PromoCode from './PromoCode';
 import MoreIcon from 'theme/components/core/MoreIcon';
 import TotalPrice from 'theme/components/core/TotalPrice';
+import GTM from 'theme/mixins/GTM/dataLayer';
 
 export default {
   components: {
@@ -118,7 +116,8 @@ export default {
   mixins: [
     VueOfflineMixin,
     EditMode,
-    onEscapePress
+    onEscapePress,
+    GTM
   ],
   data () {
     return {
@@ -167,12 +166,8 @@ export default {
       this.$store.dispatch('cart/removeCoupon')
       this.addCouponPressed = false
     },
-    toggleMicrocart () {
-      this.$store.dispatch('ui/toggleMicrocart')
-    },
     closeMicrocartExtend () {
-      this.toggleMicrocart()
-      this.$store.commit('ui/setSidebar', false)
+      this.$store.commit('ui/setMicrocart', false)
       this.addCouponPressed = false
     },
     onEscapePress () {
@@ -188,6 +183,9 @@ export default {
           action: async () => {
             // We just need to clear cart on frontend and backend.
             // but cart token can be reused
+            this.productsInCart.forEach(product => {
+              this.GTM_REMOVE_FROM_CART([product])
+            })
             await this.$store.dispatch('cart/clear', { disconnect: false })
           }
         },
@@ -201,13 +199,10 @@ export default {
 <style lang="scss" scoped>
   @import "~theme/css/animations/transitions";
   .microcart {
-    min-height: 100vh;
     height: 100%;
+    z-index: 0;
     &-footer{
       @media (max-width: 550px){
-        position: fixed;
-        bottom: 0;
-        right: 0;
         width: 100%;
         box-sizing: border-box;
         background: #fff;
@@ -301,7 +296,23 @@ export default {
     }
 
     &-scroll-content {
-      padding: 0 32px;
+      @media (min-width: 600px) {
+        overflow: auto;
+        display: flex;
+        flex-direction: column;
+        padding: 0 32px;
+      }
+      @media (max-width: 600px) {
+        overflow-y: scroll;
+        height: calc(100% - 244px);
+        padding: 0 16px;
+        position: relative;
+        z-index: 0;
+        -webkit-overflow-scrolling: touch;
+        overflow-anchor: none;
+        opacity: 0.9999;
+        will-change: transform;
+      }
     }
 
     &-left {
@@ -323,11 +334,9 @@ export default {
   }
 
   .scroll-bar {
+    height: 100%;
     display: flex;
     flex-direction: column;
-    height: 100%;
-    box-sizing: border-box;
-    transform: translateZ(0);
   }
 
   .actions-button {
@@ -338,10 +347,6 @@ export default {
     .button {
       box-sizing: border-box;
       max-width: 100%;
-
-      // &:first-child {
-      //   margin-right: 2%;
-      // }
     }
   }
 
@@ -355,6 +360,12 @@ export default {
   .products {
     padding-left: 0;
     margin: 0;
+  }
+
+  .product {
+    border: 1px solid #E0E0E0;
+    border-radius: 4px;
+    margin-bottom: 20px;
   }
 
   .promo-code {
@@ -381,6 +392,10 @@ export default {
 
   .more {
     display: none;
+  }
+
+  .total-prices {
+    margin-bottom: 24px;
   }
 
   @media (max-width: 500px) {
@@ -459,8 +474,7 @@ export default {
       }
     }
 
-    ::v-deep .product  {
-      flex-direction: column;
+    .product ::v-deep {
       align-items: flex-start;
 
       &-left {
@@ -488,9 +502,9 @@ export default {
 
     .actions-button {
       .button {
-        &:first-child {
-          margin-right: 16px;
-        }
+        //&:first-child {
+        //  margin-right: 16px;
+        //}
       }
     }
   }

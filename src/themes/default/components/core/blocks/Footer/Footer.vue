@@ -8,7 +8,7 @@
         <div class="start-md">
           <logo width="89" height="auto"/>
           <social></social>
-          <div class="copyright">{{ $t('All rights reserved.') }} <br> “ringoo” Copyright 2020</div>
+          <div class="copyright">{{ $t('All rights reserved.') }} <br> “ringoo” Copyright {{ new Date().getFullYear() }}</div>
         </div>
         <div class="start-md" v-for="(footerColumn, index) in footerColumns" :key="index">
           <h2 class="footer-title">
@@ -41,18 +41,18 @@
           </h2>
           <div>
             <div class="payment">
-              <img src="/assets/payments/mastercard.svg" alt="mastercard" class="payment-icon">
-              <img src="/assets/payments/visa.svg" alt="visa" class="payment-icon">
-              <img src="/assets/payments/liqpay.svg" alt="liqpay" class="payment-icon">
+              <img v-lazy="'/assets/payments/mastercard.svg'" alt="mastercard" class="payment-icon">
+              <img v-lazy="'/assets/payments/visa.svg'" alt="visa" class="payment-icon">
+              <img v-lazy="'/assets/payments/liqpay.svg'" alt="liqpay" class="payment-icon">
             </div>
           </div>
         </div>
       </div>
     </div>
     <back-to-top bottom="60px" right="20px" visibleoffset="200">
-      <button type="button" class="btn-top button no-outline brdr-none cl-white bg-cl-mine-shaft :bg-cl-th-secondary py10 px10" aria-label="back-to-top">
-        <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg" fill-rule="evenodd" clip-rule="evenodd">
-          <path d="M23.245 20l-11.245-14.374-11.219 14.374-.781-.619 12-15.381 12 15.391-.755.609z" fill="white" />
+      <button type="button" class="btn-top button no-outline brdr-none cl-white py10 px10" aria-label="back-to-top">
+        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 28 28" fill="none">
+        <path d="M5.83301 10.5L7.47801 12.145L12.833 6.80162V25.6666H15.1663V6.80162L20.5213 12.1566L22.1663 10.5L13.9997 2.33329L5.83301 10.5Z" fill="#23BE20"/>
         </svg>
       </button>
     </back-to-top>
@@ -63,7 +63,6 @@
 import { localizedRoute } from '@vue-storefront/core/lib/multistore';
 import CurrentPage from 'theme/mixins/currentPage';
 import BackToTop from 'theme/components/core/BackToTop';
-import { getPathForStaticPage } from 'theme/helpers';
 import config from 'config';
 import Logo from 'theme/components/core/Logo';
 import Social from 'theme/components/core/blocks/Footer/Social'

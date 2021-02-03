@@ -1,5 +1,7 @@
 export default interface CreditState {
   banks: [],
+  creditBanks: [],
+  paypartsBanks: [],
   selectedBank: null,
   selectedCredit: null,
   productSku: null,

@@ -1,4 +1,5 @@
 @import 'vendor/flexboxgrid2';
+@import "vue-select/src/scss/vue-select.scss";
 
 @import 'variables/variables';
 @import 'helpers/mixins';
@@ -18,6 +19,8 @@
 @import 'components/buttons';
 @import 'components/forms';
 @import 'components/date-picker';
+@import 'components/radio';
+@import 'components/autocomplete';
 
 @import 'utilities/utilities';
 @import 'utilities/visibility';

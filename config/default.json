@@ -20,6 +20,7 @@
       "C",
       "category",
       "checkout",
+      "cmsPage",
       "compare",
       "error",
       "home",
@@ -110,27 +111,13 @@
     "url": "https://ringoo.ua",
     "saveBandwidthOverCache": true
   },
-  "liqpay_enabled" : {
-    "liqpay": true,
-    "liqpay_marketplace": false
-  },
-  "liqpay": {
-    "public_key": "i32012277522",
-    "private_key": "yn1ZNgkzlC3rw0F15BdiE8hzkYqzJvCrpckDtnJQ",
-    "server_url": "https://magento.ringoo.ua/rest/V1/liqpay/callback"
-  },
-  "liqpay_marketplace": {
-    "public_key": "i92747265253",
-    "private_key": "Ot6maFb6GbezBNCsUewdPm98qwQwjfIcrn3ePyKa",
-    "server_url": "https://magento.ringoo.ua/rest/V1/liqpay/callback"
-  },
   "admitad": {
     "campaignCode": "89a640b42b",
     "enabled": true
   },
   "elasticsearch": {
     "httpAuth": "",
-    "host": "https://ringoo.ua/api/catalog",
+    "host": "/api/catalog",
     "index": "vue_storefront_catalog_1",
     "min_score": 0.02,
     "csrTimeout": 5000,
@@ -337,6 +324,7 @@
       "sort": "updated_at:desc",
       "includeFields": [
         "manufacturer",
+        "breadcrumbs",
         "marketplace",
         "rma",
         "preorder",
@@ -349,6 +337,7 @@
         "configurable_children.sku",
         "configurable_children.special_price",
         "configurable_children.stock.is_in_stock",
+        "configurable_children.final_price",
         "category_ids",
         "id",
         "name",
@@ -367,7 +356,8 @@
         "*image",
         "*sku",
         "*small_image",
-        "bundle_options"
+        "bundle_options",
+        "final_price"
       ],
       "excludeFields": [
         "attribute_set_id",
@@ -684,8 +674,8 @@
     },
     "sortByAttributes": {
       "Latest": "updated_at:desc",
-      "Price: Low to high": "price",
-      "Price: High to low": "price:desc"
+      "Price: Low to high": "final_price",
+      "Price: High to low": "final_price:desc"
     },
     "gallery": {
       "mergeConfigurableChildren": true,
@@ -740,7 +730,8 @@
       "claims": "LOCALSTORAGE",
       "syncTasks": "LOCALSTORAGE",
       "ordersHistory": "LOCALSTORAGE",
-      "checkout": "LOCALSTORAGE"
+      "checkout": "LOCALSTORAGE",
+      "gtm": "LOCALSTORAGE"
     },
     "preserveCollections": [
       "cart",
@@ -824,8 +815,8 @@
     "defaultLocale": "uk-UA",
     "currencyCode": "UAH",
     "currencySign": "₴",
-    "currencyDecimal": "",
-    "currencyGroup": "",
+    "currencyDecimal": " ",
+    "currencyGroup": " ",
     "fractionDigits": 0,
     "priceFormat": "{amount} {sign}",
     "dateFormat": "HH:mm D/M/YYYY",
@@ -990,35 +981,37 @@
       "url_path": "smartfoni-i-telefoni",
       "title": "Smartphones",
       "description": "Apple, Samsung, Huawei, Xiaomi",
-      "image": "https://info.ringoo.ua/images/mag/smartphones.png"
+      "image": "/assets/actual-categories/smartphones.png"
     },
     {
       "slug": "men-11",
       "url_path": "elektronika",
       "title": "Electronics",
       "description": "PC, notebooks, tablets",
-      "image": "https://info.ringoo.ua/images/mag/electronics.png"
+      "image": "/assets/actual-categories/electronics.png"
     },
     {
       "slug": "women-20",
       "url_path": "gadzheti",
       "title": "Gadgets",
       "description": "Smart watches, Cameras, Fitness bracelets",
-      "image": "https://info.ringoo.ua/images/mag/gadgets.png"
+      "image": "/assets/actual-categories/gadgets.png"
+
     },
     {
       "slug": "men-11",
       "url_path": "apple",
       "title": "Apple",
       "description": "MacBook, iPhone 12, Apple Watch 6, iPhone SE 2020, iPad",
-      "image": "https://info.ringoo.ua/images/mag/apple.png"
+      "image": "/assets/actual-categories/apple.png"
+
     },
     {
       "slug": "women-20",
       "url_path": "aksesuari",
       "title": "Accessories",
       "description": "Covers, protective glass, memory cards",
-      "image": " https://info.ringoo.ua/images/mag/accessories.png"
+      "image": "/assets/actual-categories/accessories1.png"
     }
   ],
   "stockGoods": {
@@ -1050,28 +1043,10 @@
   },
   "rma": {
     "1": {
-      "title": "Купуй фітнес-браслет Xiaomi Mi Smart Band 4 з NFC та отримай 50% знижки на зміний ремінець",
-      "image_url": "https://ringoo.ua/img/600/744/resize/_/2/_29725.jpg",
-      "time": "2020-11-26 23:59:59",
-      "category_link": "/zabrendujsja-vigidno/t32040-fitnes-braslet-mi-smart-band-4-z-nfc-black/reminci-do-mi-band-4"
-    },
-    "2": {
-      "title": "Купуй Навушники Redmi AirDots S та отримай -50% знижки на чохол Silicone Case!",
-      "image_url": "https://ringoo.ua/img/600/744/resize/_/2/_29032.jpg",
-      "time": "2020-11-26 23:59:59",
-      "category_link": "/zabrendujsja-vigidno/t30002-navushniki-redmi-airdots-s/podarunok-chohol-silicone-case-for-xiaomi-redmi-airdots"
-    },
-    "3": {
-      "title": "Купуй Apple AirPods 2 покоління та отримай БЗП Baseus Simple у подарунок!",
-      "image_url": "https://ringoo.ua/img/600/744/resize/1/0/1096.jpg",
-      "time": "2020-11-26 23:59:59",
-      "category_link": "/zabrendujsja-vigidno/apple-airpods-2-pokolinnja/bezdrotovij-zp-baseus-simple-u-podarunok"
-    },
-    "4": {
-      "title": "50% знижки на захисне скло до обраних моделей смарфонів Xiaomi!",
-      "image_url": "https://ringoo.ua/img/600/744/resize/_/2/_27934.jpg",
-      "time": "2020-11-26 23:59:59",
-      "category_link": "/zabrendujsja-vigidno/xiaomi-redmi-note-9/50-na-zahisne-sklo-do-smartfona"
+      "title": "Планшет SAMSUNG SM-T295N Galaxy Tab A8 2019 LTE 2/32Gb Black за 1 грн!",
+      "image_url": "https://ringoo.ua/img/600/744/resize/catalog/product/s/m/sm-t295nzkasek.png",
+      "time": "2021-01-31 23:59:59",
+      "category_link": "/planshet-samsung-sm-t295n-galaxy-tab-a8-2019-lte-2-32gb-black.html"
     }
   }
 }

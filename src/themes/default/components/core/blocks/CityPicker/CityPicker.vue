@@ -10,13 +10,13 @@
       <city-list :cities="cities" :selectedCity="selectedCity" @onSelectCity="onChooseCity($event)" />
       <div class="search">
         <span class="search-title">{{ $t('Search') }}</span>
-        <autocomplete :placeholder="$t('Choose your city')" class="search-autocomplete" :debounce-time="500" :search="getCities" :get-result-value="getResultValue" @submit="onChooseCity">
+        <autocomplete :placeholder="$t('Choose your city')" class="search-autocomplete" :debounce-time="500" :search="getCities" @submit="onChooseCity">
           <template #result="{ result, props }">
             <li
               v-bind="props"
-              class="city-result"
+              class="autocomplete-result"
             >
-              <span class="city-title" v-html="highlight(result)" />
+              <span class="city-title">{{ result }}</span>
             </li>
           </template>
         </autocomplete>
@@ -50,44 +50,41 @@ export default {
   }),
   computed: {
     ...mapState({
-      defaultCity: (state) => state.ui.defaultCity
+      city: (state) => state.ui.city
     })
   },
   mounted: function() {
-    this.selectedCity = this.defaultCity
+    this.selectedCity = this.city
   },
   methods: {
+    cleanField () {
+      this.$refs.autocomplete.inputProps.value = ''
+    },
     closePopup() {
       this.$bus.$emit('modal-hide', 'modal-city-picker')
     },
     getCities(query) {
       this.query = query
-      if (query && query.length >= 3) {
-        return this.$store.dispatch('shop/getCities', query)
+      if (query && query.trim() && query.length >= 3) {
+        return this.$store.dispatch('checkoutPage/getCities', { city: query })
       }
       return []
     },
-    getResultValue(it) {
-      return it
-    },
-    highlight(result) {
-      let query = this.query.toLowerCase()
-
-      if (!result.search(new RegExp(query, 'gi'))) {
-        query = query.charAt(0).toUpperCase() + query.slice(1)
-      }
-      return result.replace(new RegExp(query, 'gi'), `<span class='highlight'>${query}</span>`)
-    },
-    onChooseCity(event) {
-      this.selectedCity = typeof event === 'object' ? event.city : event
+    onChooseCity(city) {
+      this.selectedCity = city.key || city
     },
     async changeCity() {
       this.closePopup()
-      this.$store.commit('shop/SET_SELECTED_SHOP', null)
-      this.$store.commit('ui/setDefaultCity', this.selectedCity)
-      await this.$store.dispatch('shop/getShops', this.selectedCity)
-      this.$bus.$emit('fit-bounds')
-      this.$bus.$emit('close-info-window')
+      this.$store.commit('checkoutPage/SET_PERSONAL_DETAILS_STATUS', 'active')
+      this.$store.commit('checkoutPage/SET_SHIPPING_STATUS', 'disabled')
+      this.$store.commit('checkoutPage/SET_PAYMENT_STATUS', 'disabled')
+      this.$store.commit('ui/setCity', this.selectedCity)
+      this.$store.commit('checkoutPage/SET_COURIER_SHIPPING', {
+        address: {},
+        house: null,
+        apartmentNumber: null
+      })
+      this.$store.dispatch('checkoutPage/init')
     }
   }
 }
@@ -98,6 +95,15 @@ export default {
   width: auto;
 }
 
+.city-title {
+  text-transform: capitalize;
+}
+
+.cleanField{
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
 .city-picker {
   margin: auto;
   max-width: 533px;
@@ -145,60 +151,32 @@ export default {
   margin-bottom: 24px;
 }
 
-.search-autocomplete {
-  margin-bottom: 32px;
-
-  ::v-deep {
-    .autocomplete[data-loading=true]:after {
-      border-right-color: #23BE20;
-    }
-
-    .highlight {
-      color: #23BE20;
-    }
-
-    .autocomplete-input {
-      border: 1px solid #E0E0E0;
-      background: #FFFFFF;
-      border-radius: 4px;
-      padding: 12px 16px;
-      font-family: DIN Pro;
-      font-size: 14px;
-      line-height: 16px;
-      color: #1A1919;
-
-
-      &:focus {
-        box-shadow: none;
-        border-color: #23BE20;
-      }
-    }
-
-    .autocomplete-result-list {
-      margin-top: 3px;
-      box-shadow: none;
-      border: 1px solid #E0E0E0;
-      border-radius: 4px;
-    }
-  }
-}
-
-.city-result {
-  cursor: pointer;
-  padding: 8px 16px;
-  background: transparent;
-  font-family: DIN Pro;
-  font-size: 14px;
-  line-height: 16px;
-  color: #1A1919;
-
-  &:hover {
-    background-color: #F9F9F9;
-  }
-}
-
 .button-full {
   max-width: 131px;
 }
 
+.search-autocomplete ::v-deep {
+  [data-position=below] .autocomplete-result-list {
+    margin-top: 3px;
+  }
+
+  [data-position=above] .autocomplete-input[aria-expanded=true] {
+    margin-bottom: 3px;
+  }
+
+  [data-position=below] .autocomplete-input[aria-expanded=true] {
+    border-bottom-color: #23be20;
+    border-radius: 4px;
+  }
+
+  [data-position=above] .autocomplete-input[aria-expanded=true] {
+    border-top-color: #23be20;
+    border-radius: 4px;
+  }
+
+  .autocomplete-result-list {
+    border-top-color: #e0e0e0;
+    border-radius: 4px;
+  }
+}
 </style>

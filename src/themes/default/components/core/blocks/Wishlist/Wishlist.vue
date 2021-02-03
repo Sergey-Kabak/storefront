@@ -35,7 +35,7 @@
             {{ $tc('{count} products worth', productsInWishlist.length) }}:
           </span>
           <span class="wishlist-footer-amount">
-            {{ totalAmount | price(storeView) }}
+            {{ price | price(storeView) }}
           </span>
         </div>
         <div class="wishlist-footer-actions">
@@ -73,9 +73,10 @@ import ButtonFull from 'theme/components/theme/ButtonFull';
 import ButtonText from 'theme/components/theme/ButtonText';
 import { notifications } from '@vue-storefront/core/modules/cart/helpers';
 import MoreIcon from 'theme/components/core/MoreIcon';
-import totalAmount from "../../../../mixins/cart/totalAmount";
+import { mapGetters } from 'vuex';
+
 export default {
-  mixins: [Wishlist, totalAmount],
+  mixins: [Wishlist],
   components: {
     Product,
     ClearWishlistButton,
@@ -91,11 +92,14 @@ export default {
     }
   },
   computed: {
+    ...mapGetters({
+      totals: 'cart/getTotals'
+    }),
     storeView () {
       return currentStoreView()
     },
-    totalAmount () {
-      return this.productsInWishlist.reduce((acc, it) => acc + this.finalPrice(it), 0)
+    price () {
+      return this.totals.find(it => it.code === 'grand_total').value
     }
   },
   methods: {

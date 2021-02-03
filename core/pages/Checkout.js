@@ -24,12 +24,6 @@ export default {
       stockCheckCompleted: false,
       stockCheckOK: false,
       confirmation: null, // order confirmation from server
-      activeSection: {
-        shipping: true,
-        personalDetails: false,
-        payment: false,
-        orderReview: false
-      },
       order: {},
       personalDetails: {},
       shipping: {},
@@ -52,15 +46,24 @@ export default {
       totals: 'cart/getTotals'
     }),
     ...mapState({
+      selectedShipping: (state) => state.checkoutPage.selectedShipping,
+      selectedPayment: (state) => state.checkoutPage.selectedPayment,
+      courierShipping: (state) => state.checkoutPage.courierShipping,
+      shopShipping: (state) => state.checkoutPage.shopShipping,
+      newPostShipping: (state) => state.checkoutPage.newPostShipping,
+      justinShipping: (state) => state.checkoutPage.justinShipping,
+      city: (state) => state.ui.city,
       shippingDetails: state => state.checkout.shippingDetails,
       cPersonalDetails: state => state.checkout.personalDetails,
-      shippingType: state => state.customShipping.type
+      shippingType: state => state.customShipping.type,
+      cartServerToken: (state) => state.cart.cartServerToken
     })
   },
   async beforeMount () {
-    await this.$store.dispatch('cart/pullMethods', { forceServerSync: true, syncShipping: false })
     await this.$store.dispatch('checkout/load')
+    await this.$store.dispatch('checkoutPage/init')
     this.$bus.$emit('checkout-after-load')
+    await this.$store.dispatch('cart/pullMethods', { forceServerSync: true, syncShipping: false })
     this.$store.dispatch('checkout/setModifiedAt', Date.now())
     // TODO: Use one event with name as apram
     this.$bus.$on('cart-after-update', this.onCartAfterUpdate)
@@ -71,8 +74,7 @@ export default {
     this.$bus.$on('checkout-after-cartSummary', this.onAfterCartSummary)
     this.$bus.$on('checkout-before-placeOrder', this.onBeforePlaceOrder)
     this.$bus.$on('checkout-do-placeOrder', this.onDoPlaceOrder)
-    this.$bus.$on('checkout-before-edit', this.onBeforeEdit)
-    this.$bus.$on('order-after-placed', this.onAfterPlaceOrder)
+    this.$bus.$on('order-after-placed', this.onAfterPlaceOrder) // unsubscribe when payment method -liqpay
     this.$bus.$on('checkout-before-shippingMethods', this.onBeforeShippingMethods)
     this.$bus.$on('checkout-after-shippingMethodChanged', this.onAfterShippingMethodChanged)
     this.$bus.$on('checkout-after-validationError', this.focusField)
@@ -132,7 +134,6 @@ export default {
     this.$bus.$off('checkout-after-cartSummary', this.onAfterCartSummary)
     this.$bus.$off('checkout-before-placeOrder', this.onBeforePlaceOrder)
     this.$bus.$off('checkout-do-placeOrder', this.onDoPlaceOrder)
-    this.$bus.$off('checkout-before-edit', this.onBeforeEdit)
     this.$bus.$off('order-after-placed', this.onAfterPlaceOrder)
     this.$bus.$off('checkout-before-shippingMethods', this.onBeforeShippingMethods)
     this.$bus.$off('checkout-after-shippingMethodChanged', this.onAfterShippingMethodChanged)
@@ -145,7 +146,8 @@ export default {
   methods: {
     onCartAfterUpdate (payload) {
       if (this.$store.state.cart.cartItems.length === 0) {
-        this.notifyEmptyCart()
+        // this.notifyEmptyCart()
+        this.$store.commit('ui/setMicrocart', false)
         this.$router.push(this.localizedRoute('/'))
       }
     },
@@ -160,23 +162,11 @@ export default {
     },
     async onAfterPlaceOrder (payload) {
       await this.GTM_TRANSACTION({ id: payload.confirmation.orderNumber, revenue: this.totals.find(it => it.code === 'grand_total').value, products: payload.order.products })
+      if (['liqpaymagento_liqpay', 'temabit_payparts'].includes(payload.order.addressInformation.payment_method_code)) return
+      this.$router.push({ path: '/thank-you-page', query: { cartId: this.cartServerToken } })
       this.confirmation = payload.confirmation
-      if (this.$store.getters['themeCredit/getPartPaymentData']) {
-        const result = await this.$store.dispatch('themeCredit/sendPartPayment', { orderNumber: payload.confirmation.orderNumber });
-        if (result.state === 'SUCCESS') {
-          await this.$store.dispatch('cart/clear', { sync: false }, { root: true })
-          await this.$store.dispatch('user/getOrdersHistory', { refresh: true, useCache: true })
-          location.href = 'https://payparts2.privatbank.ua/ipp/v2/payment?token=' + result.token
-        }
-      } else {
-        this.$store.dispatch('checkout/setThankYouPage', true)
-        this.$store.dispatch('cart/clear', { sync: false }, { root: true })
-        this.$store.dispatch('user/getOrdersHistory', { refresh: true, useCache: true })
-      }
+      this.$store.dispatch('user/getOrdersHistory', { refresh: true, useCache: true })
       Logger.debug(payload.order)()
-    },
-    onBeforeEdit (section) {
-      this.activateSection(section)
     },
     onBeforePlaceOrder (payload) {
 
@@ -206,7 +196,6 @@ export default {
     onAfterShippingDetails (receivedData, validationResult) {
       this.shipping = receivedData
       this.validationResults.shipping = validationResult
-      this.activateSection('personalDetails')
       this.saveShippingDetails()
 
       const storeView = currentStoreView()
@@ -216,11 +205,6 @@ export default {
       this.personalDetails = receivedData
       this.validationResults.personalDetails = validationResult
 
-      if (this.isVirtualCart === true) {
-        this.activateSection('payment')
-      } else {
-        this.activateSection('payment')
-      }
       this.savePersonalDetails()
       this.focusedField = null
     },
@@ -261,27 +245,10 @@ export default {
       }
       return isValid
     },
-    activateHashSection () {
-      if (!isServer) {
-        var urlStep = window.location.hash.replace('#', '')
-        if (this.activeSection.hasOwnProperty(urlStep) && this.activeSection[urlStep] === false) {
-          this.activateSection(urlStep)
-        } else if (urlStep === '') {
-          this.activateSection('personalDetails')
-        }
-      }
-    },
     checkConnection (isOnline) {
       if (!isOnline) {
         this.notifyNoConnection()
       }
-    },
-    activateSection (sectionToActivate) {
-      for (let section in this.activeSection) {
-        this.activeSection[section] = false
-      }
-      this.activeSection[sectionToActivate] = true
-      if (!isServer) window.location.href = window.location.origin + window.location.pathname + '#' + sectionToActivate
     },
     // This method checks if there exists a mapping of chosen payment method to one of Magento's payment methods.
     getPaymentMethod () {
@@ -292,11 +259,6 @@ export default {
       return paymentMethod
     },
     prepareOrder () {
-      const shippingMethods = {
-        new_post: 'flatrate',
-        shop: 'freeshipping',
-        currier: 'flatrate'
-      }
       this.order = {
         user_id: this.$store.state.user.current ? this.$store.state.user.current.id.toString() : '',
         cart_id: this.$store.state.cart.cartServerToken ? this.$store.state.cart.cartServerToken.toString() : '',
@@ -306,60 +268,74 @@ export default {
         }),
         addressInformation: {
           billingAddress: {
-            region: this.payment.state,
-            region_id: this.payment.region_id ? this.payment.region_id : 0,
-            country_id: this.payment.country,
-            street: [this.payment.streetAddress, this.payment.apartmentNumber],
+            region: '',
+            region_id: 0,
+            country_id: 'UA',
             company: this.payment.company,
-            telephone: unmask(this.payment.phoneNumber, '+38(###)###-##-##'),
-            postcode: this.payment.zipCode || '69068',
-            city: this.payment.city,
-            firstname: this.payment.firstName,
-            lastname: this.payment.lastName,
+            telephone: unmask(this.personalDetails.phoneNumber, '+38(###)###-##-##'),
+            city: this.city,
+            firstname: this.personalDetails.firstName,
+            lastname: this.personalDetails.lastName,
             email: this.personalDetails.emailAddress,
             region_code: this.payment.region_code ? this.payment.region_code : '',
             vat_id: this.payment.taxId
           },
-          shipping_method_code: shippingMethods[this.shippingType], // this.shippingMethod.method_code ? this.shippingMethod.method_code : this.shipping.shippingMethod,
-          shipping_carrier_code: shippingMethods[this.shippingType], // this.shippingMethod.carrier_code ? this.shippingMethod.carrier_code : this.shipping.shippingCarrier,
-          payment_method_code: this.getPaymentMethod(),
-          payment_method_additional: this.payment.paymentMethodAdditional,
-          shippingExtraFields: this.shipping.extraFields
+          shippingAddress: {
+            region: '',
+            region_id: 0,
+            country_id: 'UA',
+            company: '',
+            telephone: unmask(this.personalDetails.phoneNumber, '+38(###)###-##-##'),
+            city: this.city,
+            firstname: this.personalDetails.firstName,
+            lastname: this.personalDetails.lastName,
+            email: this.personalDetails.emailAddress,
+            region_code: ''
+          },
+          shippingExtraFields: {},
+          shipping_method_code: this.selectedShipping.method_code,
+          shipping_carrier_code: this.selectedShipping.carrier_code,
+          payment_method_code: this.selectedPayment.code,
+          payment_method_additional: this.payment.paymentMethodAdditional
         }
       }
-      if (!this.isVirtualCart) {
-        this.order.addressInformation.shippingAddress = {
-          region: this.payment.state,
-          region_id: this.payment.region_id ? this.payment.region_id : 0,
-          country_id: this.payment.country,
-          street: [this.payment.streetAddress, this.payment.apartmentNumber],
-          company: '',
-          telephone: unmask(this.payment.phoneNumber, '+38(###)###-##-##'),
-          postcode: this.payment.zipCode || '69068',
-          city: this.payment.city,
-          firstname: this.payment.firstName,
-          lastname: this.payment.lastName,
-          email: this.personalDetails.emailAddress,
-          region_code: this.payment.region_code ? this.payment.region_code : ''
-        }
+
+      const billingAddress = this.order.addressInformation.billingAddress
+      const shippingAddress = this.order.addressInformation.shippingAddress
+      const extensionAttributes = this.order.addressInformation.shippingExtraFields
+
+      if (this.selectedShipping.method_code === 'freeshipping') {
+        shippingAddress.postcode = billingAddress.postcode = this.shopShipping.source_code
+        shippingAddress.street = billingAddress.street = [this.shopShipping.street]
       }
-      if (this.getPaymentMethod() === 'credit') {
+
+      if (this.selectedShipping.method_code === 'nova_poshta_to_warehouse') {
+        extensionAttributes.nova_poshta_warehouse_ref = this.newPostShipping.Ref
+        extensionAttributes.nova_poshta_city_ref = this.newPostShipping.CityRef
+        shippingAddress.street = billingAddress.street = [this.newPostShipping.Description]
+        shippingAddress.postcode = billingAddress.postcode = 69068
+      }
+
+      if (this.selectedShipping.method_code === 'justin_to_department') {
+        extensionAttributes.justin_department_uuid = this.justinShipping.uuid
+        extensionAttributes.justin_city_uuid = this.justinShipping.city_uuid
+        shippingAddress.street = billingAddress.street = [this.justinShipping.address_ua]
+        shippingAddress.postcode = billingAddress.postcode = 69068
+      }
+
+      if (this.selectedShipping.method_code === 'nova_poshta_to_door') {
+        extensionAttributes.nova_poshta_city_ref = this.courierShipping.address.CityRef
+        extensionAttributes.nova_poshta_street_ref = this.courierShipping.address.Ref
+        extensionAttributes.nova_poshta_building_number = this.courierShipping.house
+        extensionAttributes.nova_poshta_flat = this.courierShipping.apartmentNumber
+        shippingAddress.postcode = billingAddress.postcode = 69068
+        shippingAddress.street = billingAddress.street = [`${this.courierShipping.address.Description}, ${this.courierShipping.house}, ${this.courierShipping.apartmentNumber}`]
+      }
+      if (['credit', 'temabit_payparts'].includes(this.order.addressInformation.payment_method_code)) {
         this.order.addressInformation.payment_method_additional = { ...this.$store.state.themeCredit.creditDetails }
-        this.order.addressInformation.payment_method_additional['bank_id'] = this.$store.state.themeCredit.selectedBank.id
         this.order.addressInformation.payment_method_additional['credit_id'] = this.$store.state.themeCredit.selectedCredit.credit_id
         this.order.addressInformation.payment_method_additional['terms'] = this.$store.state.themeCredit.selectedCredit.terms
-      }
-      if (this.shipping.deliveryType === 'new_post') {
-        this.order.addressInformation['shippingExtraFields'] = {
-          nova_poshta_warehouse_ref: this.shipping.location.id,
-          nova_poshta_city_ref: this.shipping.location.city_id
-        };
-
-        this.order.addressInformation.shipping_method_code = 'nova_poshta_to_warehouse'
-        this.order.addressInformation.shipping_carrier_code = 'nova_poshta'
-      }
-      if (this.getPaymentMethod() === 'credit' && +this.$store.getters['themeCredit/getSelectedCredit'].liqpay_allowed) {
-        this.order.addressInformation.payment_method_code = 'temabit_payparts'
+        this.order.addressInformation.payment_method_additional['bank_id'] = this.$store.state.themeCredit.selectedBank.id
       }
       return this.order
     },
@@ -386,12 +362,10 @@ export default {
     focusField (fieldName) {
       if (fieldName === 'password') {
         window.scrollTo(0, 0)
-        this.activateSection('personalDetails')
         this.focusedField = fieldName
       }
       if (fieldName === 'email-address') {
         window.scrollTo(0, 0)
-        this.activateSection('personalDetails')
         this.focusedField = fieldName
       }
     }
@@ -405,7 +379,7 @@ export default {
   asyncData ({ store, route, context }) { // this is for SSR purposes to prefetch data
     return new Promise((resolve, reject) => {
       if (context) context.output.cacheTags.add(`checkout`)
-      if (context) context.server.response.redirect(localizedRoute('/'))
+      // if (context) context.server.response.redirect(localizedRoute('/'))
       resolve()
     })
   }

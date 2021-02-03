@@ -64,10 +64,9 @@ import { mapState, mapGetters, mapMutations } from 'vuex'
 import config from 'config'
 import { currentStoreView, localizedRoute } from '@vue-storefront/core/lib/multistore'
 import { CREDIT_SET_BANKS, CREDIT_SET_SELECTED_BANK } from '../../../store/credit/mutation-types'
-import totalAmount from '../../../mixins/cart/totalAmount';
-import RootState from "@vue-storefront/core/types/RootState";
+import { price } from 'theme/helpers';
+
 export default {
-  mixins: [totalAmount],
   components: {
     Modal,
     BaseRadiobutton,
@@ -86,24 +85,19 @@ export default {
   },
   computed: {
     ...mapState({
-      shippingDetails: state => state.checkout.shippingDetails
+      selectedPayment: (state) => state.checkoutPage.selectedPayment
     }),
     ...mapGetters({
       getBanks: 'themeCredit/getBanks',
       getCurrentProduct: 'product/getCurrentProduct',
-      productsInCart: 'cart/getCartItems'
+      productsInCart: 'cart/getCartItems',
+      totals: 'cart/getTotals',
+      getPaypartsBanks: 'themeCredit/getPaypartsBanks',
+      getCreditBanks: 'themeCredit/getCreditBanks'
     }),
     availableBanks () {
-      if (this.$route.name === 'checkout' && this.shippingDetails.deliveryType === 'new_post') {
-        const banks = this.getBanks.map(bank => {
-          if (bank.credits.some(it => !+it.liqpay_allowed)) {
-            return { ...bank, visible: false }
-          }
-          return { ...bank, visible: true }
-        })
-        // eslint-disable-next-line vue/no-side-effects-in-computed-properties
-        this.selectedBank = banks.findIndex(it => it.visible)
-        return banks
+      if (this.$route.name === 'checkout') {
+        return this.selectedPayment.code === 'credit' ? this.getCreditBanks : this.getPaypartsBanks
       }
       return this.getBanks
     },
@@ -121,9 +115,10 @@ export default {
     },
     totalPrice () {
       if (this.$route.name === 'checkout') {
-        return this.productsInCart.reduce((acc, it) => acc += this.finalPrice(it) * it.qty, 0)
+        return this.totals.find(it => it.code === 'grand_total').value
+      } else {
+        return price(this.getCurrentProduct) * this.getCurrentProduct.qty
       }
-      return this.finalPrice(this.getCurrentProduct) * this.getCurrentProduct.qty
     }
   },
   beforeMount () {
@@ -131,7 +126,11 @@ export default {
   },
   methods: {
     initBanks (banks) {
-      banks.map((bank, index) => {
+      this.selectedBank = 0;
+      this.selectedPositions = {};
+      this.selectedCreditProduct = {};
+      this.banks = [];
+      banks.forEach((bank, index) => {
         if (bank) {
           this.$set(this.selectedPositions, index, this.CalculateMontlyPayment(bank.credits[0]))
           this.$set(this.selectedCreditProduct, index, bank.credits[0])
@@ -141,16 +140,20 @@ export default {
     },
     CalculateMontlyPayment (creditRule) {
       if (this.$route.name === 'checkout') {
-        return this.productsInCart.reduce((acc, it) => acc += (this.finalPrice(it) / +creditRule.terms) * it.qty, 0)
+        return this.productsInCart.reduce((acc, it) => acc += (price(it) / +creditRule.terms) * it.qty, 0)
+      } else {
+        return price(this.getCurrentProduct) / +creditRule.terms
       }
-      return this.finalPrice(this.getCurrentProduct) / +creditRule.terms
+    },
+    setBankAndCredit () {
+      this.$store.commit('themeCredit/themeCredit/CREDIT_SET_SELECTED_BANK', { bank: this.getBankProduct })
+      this.$store.commit('themeCredit/themeCredit/CREDIT_SET_SELECTED_CREDIT', { credit: this.getCreditProduct })
     },
     async toCheckout () {
       if (this.$route.name !== 'checkout') {
         try {
-          await this.$store.dispatch('cart/addItem', { productToAdd: Object.assign(
-            { bank: this.getBankProduct }, { credit: this.getCreditProduct }, this.getCurrentProduct)
-          });
+          await this.$store.dispatch('cart/addItem', { productToAdd: this.getCurrentProduct });
+          this.setBankAndCredit()
           this.$router.push({ name: 'checkout' });
         } catch (e) {
           console.log(e)
@@ -158,8 +161,7 @@ export default {
           this.$bus.$emit('modal-hide', 'modal-credits');
         }
       } else {
-        await this.$store.dispatch('themeCredit/creditSetSelectedCredit', { credit: this.getCreditProduct })
-        await this.$store.dispatch('themeCredit/creditSetSelectedBank', { bank: this.getBankProduct })
+        this.setBankAndCredit()
         this.$bus.$emit('modal-hide', 'modal-credits');
       }
     },
@@ -202,28 +204,26 @@ export default {
     line-height: 30px;
   }
 }
-  ::v-deep .modal-container{
-    display: flex;
-    flex-direction: column;
-    height: calc(100% - 58px);
-    .modal-content{
+::v-deep .modal-container{
+  display: flex;
+  flex-direction: column;
+  height: calc(100% - 58px);
+  .modal-content{
+    @media (min-width: 601px) {
       position: relative;
       flex: 1;
       max-height: calc(100vh - 57px - 58px);
       padding-bottom: 90px;
-      @media (max-width : 600px){
-        padding-bottom: 111px;
-      }
-      overflow: auto;
-      &::-webkit-scrollbar {
-          width: 4px;
-      }
-      &::-webkit-scrollbar-thumb {
-          border-radius: 4px;
-          background-color: #E0E0E0;;
-      }
+    }
+    &::-webkit-scrollbar {
+        width: 4px;
+    }
+    &::-webkit-scrollbar-thumb {
+        border-radius: 4px;
+        background-color: #E0E0E0;;
     }
   }
+}
 </style>
 <style lang="scss">
 .modal-header{
@@ -293,18 +293,20 @@ export default {
       flex-direction: column-reverse;
       padding: 16px;
     }
-    border: 0 0 4px 4px;
+    @media (min-width: 600px) {
+      border-radius: 0 0 4px 4px;
+      box-shadow: 0px -1px 4px rgba(0, 0, 0, 0.25);
+      position: fixed;
+      bottom: 0;
+      right: 0;
+    }
     align-items: center;
     justify-content: flex-end;
     padding: 24px;
-    position: fixed;
-    bottom: 0;
-    right: 0;
     background-color: #fff;
     z-index: 2;
     width: 100%;
     box-sizing: border-box;
-    box-shadow: 0px -1px 4px rgba(0, 0, 0, 0.25);
     &>span{
       font-size: 14px;
       line-height: 18px;

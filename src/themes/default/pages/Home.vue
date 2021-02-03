@@ -32,9 +32,9 @@
       </div>
       <div class="center-xs">
         <lazy-hydrate :trigger-hydration="!loading" v-if="isLazyHydrateEnabled">
-          <product-listing columns="4" :products="getStockGoods" />
+          <product-listing columns="4" :products="getStockGoods" gtm-list="home page" />
         </lazy-hydrate>
-        <product-listing v-else columns="4" :products="getStockGoods" />
+        <product-listing v-else columns="4" :products="getStockGoods" gtm-list="home page" />
 
         <button-full
             class="mt35 show-all"
@@ -55,10 +55,10 @@
       </header>
       <div class="center-xs">
         <lazy-hydrate :trigger-hydration="!loading" v-if="isLazyHydrateEnabled">
-          <product-listing columns="4" :products="getSalesLeaders" />
+          <product-listing columns="4" :products="getSalesLeaders" gtm-list="home page" />
           <!--<product-listing columns="4" :products="products" />-->
         </lazy-hydrate>
-        <product-listing v-else columns="4" :products="getSalesLeaders" />
+        <product-listing v-else columns="4" :products="getSalesLeaders" gtm-list="home page" />
         <!--<product-listing v-else columns="4" :products="products" />-->
         <button-full
             class="mt35 show-all"
@@ -74,9 +74,9 @@
     <section class="v-container pb60">
       <div class="banner">
         <picture>
-          <source srcset="/assets/promo/free_del_288x260.jpg" media="(max-width: 400px)">
-          <source srcset="/assets/promo/free_del_1324x260.jpg">
-          <img src="/assets/promo/free_del_1324x260.jpg" class="promo-image">
+          <source srcset="/assets/promo/delivery_promo_288x260.jpg" media="(max-width: 400px)">
+          <source srcset="/assets/promo/delivery_promo_1324x260.jpg">
+          <img v-lazy="'/assets/promo/delivery_promo_1324x260.jpg'" class="promo-image" alt="delivery promo image">
         </picture>
       </div>
     </section>
@@ -102,9 +102,9 @@
       </div>
       <div class="center-xs">
         <lazy-hydrate :trigger-hydration="!loading" v-if="isLazyHydrateEnabled">
-          <product-listing columns="4" :products="getNew" />
+          <product-listing columns="4" :products="getNew" gtm-list="home page" />
         </lazy-hydrate>
-        <product-listing v-else columns="4" :products="getNew" />
+        <product-listing v-else columns="4" :products="getNew" gtm-list="home page" />
 
         <button-full
             class="mt35 show-all"
@@ -128,10 +128,10 @@
       <div class="center-xs">
         <lazy-hydrate :trigger-hydration="!loading" v-if="isLazyHydrateEnabled">
           <!--<product-listing columns="4" :products="getBestsellers" />-->
-          <product-listing columns="4" :products="getRecommends" />
+          <product-listing columns="4" :products="getRecommends" gtm-list="home page" />
         </lazy-hydrate>
         <!--<product-listing v-else columns="4" :products="getBestsellers" />-->
-        <product-listing v-else columns="4" :products="getRecommends" />
+        <product-listing v-else columns="4" :products="getRecommends" gtm-list="home page" />
         <button-full
             class="mt35 show-all"
             type="submit"
@@ -240,27 +240,10 @@ export default {
     }
   },
   methods: {
-    navigate (key) {
-      console.log(this.$refs)
-      // this.$refs.zoomCarousel.goToPage(key)
-    },
-    increaseCarouselTransitionSpeed () {
-      this.carouselTransitionSpeed = 500
-    },
-    pageChange (index) {
-      this.currentPage = index
-      this.hideImageAtIndex = null
-    },
-    onVideoStarted (index) {
-      this.hideImageAtIndex = index
-    },
     goToCategory (cat) {
       let link = formatCategoryLink(config && config.catLinks[cat])
       return this.$router.push(link)
     }
-  },
-  mounted () {
-    if (!this.isLoggedIn && localStorage.getItem('redirect')) this.$bus.$emit('modal-show', 'modal-signup')
   },
   destroyed () {
     clearAllBodyScrollLocks()
@@ -380,6 +363,10 @@ export default {
 
   .promo-image {
     width: 100%;
+
+    @media only screen and (max-width: 400px) {
+      border-radius: 4px;
+    }
   }
 
   .banner-group {

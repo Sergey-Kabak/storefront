@@ -9,12 +9,11 @@
          py10 w-100 border-box brdr-none brdr-bottom-1
          brdr-cl-primary h4 sans-serif
         "
-        :class="{pr30: type === 'password', empty: value === ''}"
+        :class="{pr30: type === 'password', empty: !value}"
         :type="type === 'password' ? passType : type"
         :name="name"
         :autocomplete="autocomplete"
         :value="value"
-        :autofocus="autofocus"
         :ref="name"
         @input="$emit('input', sanitize($event))"
         @blur="$emit('blur')"
@@ -141,9 +140,11 @@ export default {
     }
   },
   mounted () {
-    if (this.focus) {
-      this.$refs[this.name].focus()
-    }
+    this.$nextTick(() => {
+      if (this.autofocus) {
+        this.$refs[this.name].focus()
+      }
+    })
   }
 }
 </script>
@@ -157,8 +158,6 @@ export default {
   $color-hover: color(tertiary, $colors-background);
 
   .base-input {
-    min-height: 4.5rem;
-
     &.error {
       input:focus ~ label,
       input:not(.empty) ~ label,
@@ -199,9 +198,7 @@ export default {
     left: 15px;
     top: 50%;
     transform: translateY(-50%);
-    transition:0.2s ease all;
-    -moz-transition:0.2s ease all;
-    -webkit-transition:0.2s ease all;
+    transition: 0.2s ease all;
     pointer-events: none;
   }
   input:focus ~ label, input:not(.empty) ~ label{
@@ -219,7 +216,53 @@ export default {
     }
   }
 
-  input.h4.sans-serif.error-input {
-    border-color: #eb5757!important;
+.base-input {
+  width: 100%;
+  min-width: 40px;
+  max-width: 310px;
+
+  input {
+    font-family: DIN Pro;
+    font-size: 13px;
+    color: #1A1919;
+    line-height: 16px;
+    background: #FFFFFF;
+    border: 1px solid #E0E0E0;
+    box-sizing: border-box;
+    border-radius: 4px;
+    padding: 16px;
+
+    &:focus {
+      border-color: #23BE20;
+    }
+
+    &:focus ~ label,
+    &:not(.empty) ~ label {
+      padding: 0 10px;
+      background: #ffffff;
+      opacity: 1;
+      margin-top: 0;
+      color: #23BE20;
+    }
   }
+
+  label {
+    font-family: 'DIN Pro';
+    font-size: 13px;
+    line-height: 16px;
+    color: #9f9e9e;
+  }
+}
+
+.base-input {
+  &.error {
+    label {
+      color: #EE2C39;
+    }
+
+    input {
+      border-color: #EE2C39;
+    }
+  }
+}
 </style>

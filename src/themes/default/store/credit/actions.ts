@@ -3,13 +3,7 @@ import { CreditService } from '../../services/index';
 import { quickSearchByQuery } from '@vue-storefront/core/lib/search';
 
 const actions = {
-  creditSetSelectedBank ({ commit }, { bank }) {
-    commit(types.CREDIT_SET_SELECTED_BANK, { bank })
-  },
-  creditSetSelectedCredit ({ commit }, { credit }) {
-    commit(types.CREDIT_SET_SELECTED_CREDIT, { credit })
-  },
-  fetchBanks ({ commit }, sku) {
+  fetchBanks ({ commit, dispatch }, sku) {
     CreditService.getCredits(sku)
       .then(res => {
         commit(types.CREDIT_SET_BANKS, { banks: res.result })
@@ -19,29 +13,23 @@ const actions = {
   fetchBanksCheckout ({ state, commit, dispatch }, cartId) {
     CreditService.getCreditsCheckout(cartId)
       .then(async res => {
-        commit(types.CREDIT_SET_BANKS, { banks: res.result[0].bank })
-        dispatch('defineSelectedCredit', res.result[0].bank[0])
-        dispatch('defineSelectedBank', res.result[0].bank[0])
-        dispatch('findExtraCreditAttributes')
-        state.productSku = res.result[0].sku
+        if (res.result.length) {
+          await dispatch('findExtraCreditAttributes')
+          commit(types.CREDIT_SET_BANKS, { banks: res.result[0].bank })
+          state.productSku = res.result[0].sku
+          commit(types.CREDIT_SET_CREDIT_BANKS, { banks: [...res.result[0].bank].map(bank => {
+            if (bank.credits.find(credit => !!+credit.liqpay_allowed === false)) {
+              return bank;
+            }
+          }).filter(it => !!it) });
+          commit(types.CREDIT_SET_PAYPARTS_BANKS, { banks: [...res.result[0].bank].map(bank => {
+            if (bank.credits.find(credit => !!+credit.liqpay_allowed === true)) {
+              return bank;
+            }
+          }).filter(it => !!it) });
+        }
       })
       .catch(error => commit(types.CREDIT_SET_BANKS, { banks: [] }))
-  },
-  defineSelectedCredit ({ commit }, payload) {
-    const productsInCart = this.getters['cart/getCartItems']
-    if (productsInCart.length === 1 && productsInCart[0].credit) {
-      commit(types.CREDIT_SET_SELECTED_CREDIT, { credit: productsInCart[0].credit })
-    } else {
-      commit(types.CREDIT_SET_SELECTED_CREDIT, { credit: payload.credits[0] })
-    }
-  },
-  defineSelectedBank ({ commit }, payload) {
-    const productsInCart = this.getters['cart/getCartItems']
-    if (productsInCart.length === 1 && productsInCart[0].bank) {
-      commit(types.CREDIT_SET_SELECTED_BANK, { bank: productsInCart[0].bank })
-    } else {
-      commit(types.CREDIT_SET_SELECTED_BANK, { bank: payload })
-    }
   },
   async findExtraCreditAttributes ({ state }) {
     const creditProducts = this.getters['cart/getCartItems'].filter(it => !!it.credit_extra_tag)

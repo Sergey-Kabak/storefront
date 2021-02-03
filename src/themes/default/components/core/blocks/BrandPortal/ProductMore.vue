@@ -1,10 +1,9 @@
 <template>
-  <div class="product-more" v-if="activeGroup.products_count">
-    <div class="product-more-count">
-      
+  <div class="product-more" v-if="activeGroup">
+    <div class="product-more-count" v-if="activeGroup.products_count">
       <span>{{ $tc(`{count} more items`, activeGroup.products_count) }}</span>
     </div>
-    <router-link :to="activeGroup.brand_page_url || categoryLink">
+    <router-link :to="localizedRoute(activeGroup.url)">
       <button-text class="product-more-button more">{{ $t('View all') }}</button-text>
     </router-link>
   </div>
@@ -12,7 +11,6 @@
 
 <script>
 import { mapState } from 'vuex'
-import { formatCategoryLink } from '@vue-storefront/core/modules/url/helpers'
 import ButtonText from 'theme/components/theme/ButtonText'
 
 export default {
@@ -22,10 +20,7 @@ export default {
   computed: {
     ...mapState({
       activeGroup: (state) => state.brand.activeGroup
-    }),
-    categoryLink() {
-      return formatCategoryLink(this.activeGroup)
-    }
+    })
   }
 }
 </script>
@@ -70,9 +65,4 @@ export default {
   }
 }
 
-@media (max-width: 576px) {
-  .product-more {
-    justify-content: space-between;
-  }
-}
 </style>

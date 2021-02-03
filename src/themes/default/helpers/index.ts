@@ -1,13 +1,3 @@
-import config from 'config'
-import { currentStoreView } from '@vue-storefront/core/lib/multistore'
-
-export function getPathForStaticPage (path: string) {
-  const { storeCode } = currentStoreView()
-  const isStoreCodeEquals = storeCode === config.defaultStoreCode
-
-  return isStoreCodeEquals ? `/i${path}` : path
-}
-
 export function unmask(maskedValue, mask){
   if (!maskedValue) return
   let defaultTokens = ['#', 'X', 'S', 'A', 'a', '!']
@@ -26,4 +16,28 @@ export function unmask(maskedValue, mask){
   }
 
   return unmaskedValue;
+}
+
+export function price(product, priceType = null) {
+
+  const bundlePrice = () => {
+    if (product.bundle_options) {
+      const price = product.bundle_options.reduce((acc, it) => acc += it.product_links.reduce((acc, it) => acc += it.price, 0), 0);
+      if (priceType) {
+        return product[priceType] ? product[priceType] + price : 0 
+      } else {
+        return (product.special_price && product.special_price + price) || (product.original_price + price)
+      }
+    }
+  }
+  
+  const productPrice = () => {
+    return priceType ? product[priceType] : product.special_price || product.original_price
+  }
+  
+  const productTypes = {
+    bundle: bundlePrice()
+  };
+
+  return Number.isInteger(productTypes[product.type_id]) ? productTypes[product.type_id] : productPrice();
 }

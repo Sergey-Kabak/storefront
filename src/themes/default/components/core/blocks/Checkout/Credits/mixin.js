@@ -1,19 +1,22 @@
 import { mapGetters, mapState } from 'vuex';
 import { currentStoreView } from '@vue-storefront/core/lib/multistore';
-import totalAmount from '../../../../../mixins/cart/totalAmount';
+import { price } from 'theme/helpers';
 
 export default {
-  mixins: [totalAmount],
   computed: {
     ...mapState({
       productSku: state => state.themeCredit.productSku,
-      creditExtraAttributes: state => state.themeCredit.creditExtraAttributes
+      creditExtraAttributes: state => state.themeCredit.creditExtraAttributes,
+      selectedPayment: (state) => state.checkoutPage.selectedPayment
     }),
     ...mapGetters({
       productsInCart: 'cart/getCartItems',
       getBanks: 'themeCredit/getBanks',
       selectedCredit: 'themeCredit/getSelectedCredit',
-      getSelectedBank: 'themeCredit/getSelectedBank'
+      getSelectedBank: 'themeCredit/getSelectedBank',
+      getPaypartsBanks: 'themeCredit/getPaypartsBanks',
+      getCreditBanks: 'themeCredit/getCreditBanks',
+      totals: 'cart/getTotals'
     }),
     storeView () {
       return currentStoreView();
@@ -26,7 +29,7 @@ export default {
       if (products.length && +this.selectedCredit.extra_items_part > 0) {
         const total = products.reduce((acc, product) => {
           // eslint-disable-next-line no-return-assign
-          return acc += this.finalPrice(product);
+          return acc += price(product);
         }, 0);
         return total / 100 * +this.selectedCredit.extra_items_part;
       }
@@ -38,7 +41,7 @@ export default {
     getAccessoriesPriceFromCart () {
       const extraProducts = this.productsInCart.filter(it => !!it.credit_extra_tag && it.credit_extra_tag !== 7436)
       // eslint-disable-next-line no-return-assign
-      return extraProducts.length ? extraProducts.reduce((accumulator, product) => accumulator += this.finalPrice(product) * product.qty, 0) : 0;
+      return extraProducts.length ? extraProducts.reduce((accumulator, product) => accumulator += price(product) * product.qty, 0) : 0;
     },
     alertStatus () {
       if (this.getAccessoriesPriceFromCart === 0 && this.isExtraItemsPart) {

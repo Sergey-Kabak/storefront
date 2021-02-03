@@ -1,96 +1,33 @@
 <template>
   <div id="checkout">
-    <div class="v-container" v-show="!isThankYouPage">
-      <nav aria-label="breadcrumb">
-        <ol class="breadcrumb">
-          <li class="breadcrumb-item" :class="{'active': activeSection.shipping}" aria-current="page">
-            <span>1.</span>
-            {{ $t('Delivery') }} <span class="material-icons">keyboard_arrow_right</span>
-          </li>
-          <li class="breadcrumb-item" :class="{'active': activeSection.personalDetails}">
-            <span>2.</span>
-            {{ $t('Contact details') }} <span class="material-icons">keyboard_arrow_right</span>
-          </li>
-          <li class="breadcrumb-item" :class="{'active': activeSection.payment}">
-            <span>3.</span>
-            {{ $t('the Payment') }}
-          </li>
-        </ol>
-      </nav>
-      <shipping
-        :class="{hidden: !activeSection.shipping}"
-        :is-active="activeSection.shipping"
-      />
-      <div class="custom-active-block" v-show="!activeSection.shipping">
-        <div class="checkout-left">
-          <div class="checkout-title">
-            <h1>
-              {{ $t('Checkout') }}
-            </h1>
-          </div>
-          <div class="shipping-details__edit" v-if="activeSection.personalDetails || activeSection.payment || activeSection.orderReview">
-            <div class="checkout-subtitle">
-              <div class="number-block" :class="{'checked': !activeSection.shipping}">
-                <div class="number align-center" v-if="activeSection.shipping">1</div>
-                <img src='/assets/custom/Check.svg' v-else alt="correct">
-              </div>
-              <div class="checkout-subtitle-text">{{ $t('Delivery') }}:</div>
-              <div class="lh30 flex end-lg ml-auto">
-                <span class="edit" @click.prevent="$bus.$emit('checkout-before-edit', 'shipping')">{{ $t('Edit') }}</span>
-              </div>
-            </div>
-            <div class="shipping-data">
-              <div class="text">
-                {{ shippingDetails.streetAddress }}
-              </div>
-            </div>
-          </div>
-          <div class="shipping-details__edit" v-if="activeSection.payment || activeSection.orderReview">
-            <div class="checkout-subtitle">
-              <div class="number-block" :class="{'checked': !activeSection.personalDetails}">
-                <div class="number" v-if="activeSection.shipping">3</div>
-                <img src='/assets/custom/Check.svg' v-else alt="correct">
-              </div>
-              <div class="checkout-subtitle-text">{{ $t('Contact details') }}:</div>
-              <div class="lh30 flex end-lg ml-auto">
-                <span class="edit" @click.prevent="$bus.$emit('checkout-before-edit', 'personalDetails')">{{ $t('Edit') }}</span>
-              </div>
-            </div>
-            <div class="shipping-data">
-              <div class="text">
-                {{ `${personalDetails.firstName} ${personalDetails.lastName}, ${shippingDetails.phoneNumber}, ${personalDetails.emailAddress}` }}
-              </div>
-            </div>
-          </div>
-          <personal-details
-            :class="{hidden: !activeSection.personalDetails}"
-            class="line relative"
-            :is-active="activeSection.personalDetails"
-            :focused-field="focusedField"
-          />
-          <payment
-            :activeSection="activeSection"
-            class="line relative"
-            :is-active="activeSection.payment"
-          />
+    <div class="v-container">
+      <checkout-title />
+      <div class="checkout">
+        <div class="checkout-sections">
+          <cart-summary-mobile class="checkout-item cart-summary-mobile"/>
+          <personal-details class="checkout-item"/>
+          <shipping class="checkout-item"/>
+          <payment class="checkout-item"/>
         </div>
-        <cart-summary class="checkout-right" />
+        <div class="order">
+          <cart-summary class="checkout-right" />
+        </div>
       </div>
     </div>
-    <thank-you-page v-if="isThankYouPage" />
   </div>
 </template>
 
 <script>
 import Checkout from '@vue-storefront/core/pages/Checkout';
-import PersonalDetails from 'theme/components/core/blocks/Checkout/PersonalDetails';
-import Shipping from 'theme/components/core/blocks/Checkout/NewShipping';
-import Payment from 'theme/components/core/blocks/Checkout/Payment';
+import PersonalDetails from 'theme/components/core/blocks/Checkout/PersonalDetails/PersonalDetails';
+import Shipping from 'theme/components/core/blocks/Checkout/Shipping/Shipping';
+import Payment from 'theme/components/core/blocks/Checkout/Payment/Payment';
 import CartSummary from 'theme/components/core/blocks/Checkout/CartSummary';
-import ThankYouPage from 'theme/components/core/blocks/Checkout/ThankYouPage';
-import CheckoutMicrocart from 'theme/components/core/blocks/Checkout/CheckoutMicrocart';
+import CartSummaryMobile from 'theme/components/core/blocks/Checkout/CartSummaryMobile';
+import CheckoutTitle from 'theme/components/core/blocks/Checkout/CheckoutTitle';
 import { registerModule } from '@vue-storefront/core/lib/modules';
 import { OrderModule } from '@vue-storefront/core/modules/order';
+import { syncCartWhenLocalStorageChange } from '@vue-storefront/core/modules/cart/helpers';
 
 export default {
   components: {
@@ -98,8 +35,8 @@ export default {
     Shipping,
     Payment,
     CartSummary,
-    ThankYouPage,
-    CheckoutMicrocart
+    CheckoutTitle,
+    CartSummaryMobile
   },
   mixins: [Checkout],
   beforeCreate () {
@@ -144,219 +81,65 @@ export default {
   },
   mounted () {
     this.$store.state.ui.microcart = false
+    syncCartWhenLocalStorageChange.addEventListener()
+    this.$once('hook:beforeDestroy', () => {
+      syncCartWhenLocalStorageChange.removeEventListener()
+    })
   }
 }
 </script>
 
-<style lang="sass" scoped>
-  .v-container
-    width: 95%
-  #checkout
-    position: relative
-    padding-bottom: 65px
-    .action
-      font-family: 'DIN Pro'
-      font-size: 13px
-      line-height: 16px
-      color: #1A1919
-    .shipping-details__edit
-      margin-bottom: 24px
-      .shipping-data
-        border-bottom: 1px solid #E0E0E0
-        .text
-          font-family: 'DIN Pro'
-          overflow: hidden
-          white-space: nowrap
-          text-overflow: ellipsis;
-          padding-bottom: 24px
-          font-size: 13px
-          line-height: 16px
-          color: #595858
-          opacity: 0.6
-          background: #ffffff
-  .edit
-    cursor: pointer
-    font-family: DIN Pro
-    font-style: normal
-    padding-bottom: 4px
-    border-bottom: 1px dashed #1A1919
-    font-size: 13px
-    line-height: 16px
-    color: #1A1919
-
-    &:hover
-      border-color: transparent
-
-  .number-block
-    display: flex;
-    align-items: center;
-    justify-content: center
-    font-family: 'DIN Pro'
-    font-size: 14px
-    line-height: 16px
-    color: #ffffff
-    margin-right: 15px
-    background: #ffffff
-    border-radius: 100%
-    border: 1px solid #23BE20
-    color: #1A1919
-    font-weight: 600
-    box-sizing: border-box
-    width: 24px
-    height: 24px
-
-    &.checked
-      background-color: #23BE20
-</style>
-
 <style lang="scss" scoped>
-  @import '~theme/css/base/text';
-  @import '~theme/css/variables/colors';
-  @import '~theme/css/helpers/functions/color';
-  $bg-secondary: color(secondary, $colors-background);
-  $color-tertiary: color(tertiary);
-  $color-secondary: color(secondary);
-  $color-error: color(error);
-  $color-white: color(white);
-  $color-black: color(black);
+.v-container {
+  width: 90%;
+  padding-bottom: 48px;
+  max-width: 1157px;
+}
 
-  #checkout {
-    .breadcrumb {
-      padding: 0;
-      margin: 0 0 26px 0;
-      background-color: transparent;
-      &-item {
-        font-family: 'DIN Pro';
-        font-size: 13px;
-        line-height: 16px;
-        color: #BDBDBD;
-        &.active {
-          color: #595858;
-        }
-        & + .breadcrumb-item::before {
-          display: none;
-        }
-        .material-icons {
-          color: #BDBDBD;
-          line-height: 16px;
-        }
-      }
-    }
-    .number-circle {
-      width: 35px;
-      height: 35px;
+.checkout {
+  display: flex;
+  align-items: flex-start;
+}
 
-      @media (max-width: 768px) {
-        width: 25px;
-        height: 25px;
-        line-height: 25px;
-      }
-    }
+.checkout-sections {
+  margin-right: 20px;
+  max-width: 652px;
+  width: 100%;
+}
+
+.order {
+  max-width: 485px;
+  width: 100%;
+}
+
+.checkout-item {
+  width: 100%;
+  margin-bottom: 20px;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+.cart-summary-mobile {
+  display: none;
+}
+
+@media  (max-width: 960px) {
+  .order {
+    display: none;
   }
 
-  .line {
-    &:after {
-      content: '';
-      display: none;
-      position: absolute;
-      top: 0;
-      left: 37px;
-      z-index: -1;
-      width: 1px;
-      height: 100%;
-      background-color: $bg-secondary;
-
-      @media (max-width: 768px) {
-        display: none;
-      }
-    }
-  }
-  .checkout-title {
-    margin-bottom: 24px;
-
-    h1 {
-      font-family: 'DIN Pro';
-      margin: 0;
-      font-style: normal;
-      font-size: 24px;
-      font-weight: 600;
-      line-height: 30px;
-      color: #1A1919;
-    }
-    @media (max-width: 767px) {
-      margin-bottom: 25px;
-    }
+  .checkout-sections {
+    max-width: 100%;
+    margin-right: 0;
   }
 
-  .custom-active-block {
-    display: flex;
-    justify-content: space-between;
+  .cart-summary-mobile {
+    display: block;
   }
 
-  .checkout-left {
-    max-width: 652px;
-    width: 100%;
-    margin-right: 76px;
+  .checkout-item {
+    margin-bottom: 16px
   }
-
-  .checkout-right {
-    max-width: 592px;
-    width: 100%;
-  }
-
-  @media (max-width: 1200px) {
-    .checkout-left {
-      margin-right: 30px;
-    }
-  }
-
-  @media (max-width: 960px) {
-    .checkout-right {
-      display: none;
-    }
-
-    .checkout-left {
-      max-width: 100%;
-      margin-right: 0;
-    }
-  }
-
-  @media (max-width: 460px) {
-    #checkout {
-      .breadcrumb {
-        justify-content: center;
-        align-items: center;
-        margin-bottom: 15px;
-
-        .material-icons {
-          display: none;
-        }
-
-        .breadcrumb-item {
-          flex-direction: column;
-          justify-content: center;
-          margin-right: 30px;
-          align-items: center;
-
-          &:last-child {
-            margin-right: 0;
-          }
-        }
-      }
-      .subtitle {
-        margin-bottom: 15px;
-      }
-      .text {
-        padding-bottom: 15px!important;
-      }
-    }
-    .checkout-title {
-      margin-bottom: 15px;
-    }
-  }
-</style>
-
-<style lang="scss" scoped>
-@import '~bootstrap';
-
+}
 </style>

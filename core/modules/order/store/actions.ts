@@ -57,12 +57,8 @@ const actions: ActionTree<OrderState, RootState> = {
     if (task.resultCode === 200) {
       dispatch('enqueueOrder', { newOrder: order })
       commit(types.ORDER_LAST_ORDER_WITH_CONFIRMATION, { order, confirmation: task.result })
-      if (order.addressInformation.payment_method_code === 'liqpaymagento_liqpay' || (this.getters['themeCredit/creditMethod'] === 'liqpay' && order.addressInformation.payment_method_code === 'credit')) {
-        EventBus.$emit('liqpay', { order, confirmation: task.result })
-      } else {
-        orderHooksExecutors.afterPlaceOrder({ order, task })
-        EventBus.$emit('order-after-placed', { order, confirmation: task.result })
-      }
+      orderHooksExecutors.afterPlaceOrder({ order, task })
+      EventBus.$emit('order-after-placed', { order, confirmation: task.result })
       EventBus.$emit('notification-progress-stop')
       return task
     }

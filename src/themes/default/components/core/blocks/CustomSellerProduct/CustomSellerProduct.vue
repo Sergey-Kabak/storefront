@@ -27,7 +27,7 @@
             </div>
           </div>
           <div class="seller-logo">
-            <img :src="customSeller.logo" alt="custom-seller-logo">
+            <img v-lazy="customSeller.logo" alt="custom-seller-logo">
           </div>
         </div>
 

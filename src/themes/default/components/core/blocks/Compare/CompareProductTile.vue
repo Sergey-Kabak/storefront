@@ -190,6 +190,10 @@ export default {
 $bg-secondary: color(secondary, $colors-background);
 $border-secondary: color(secondary, $colors-border);
 $color-white: color(white);
+::v-deep .add-to-compare svg{
+  position: relative;
+  top: -6px;
+}
 .product-cart-controls{
   @media (min-width: 768px) {
     padding-left: 104px;
@@ -346,7 +350,7 @@ $color-white: color(white);
     display: flex;
     flex-direction: column;
     padding-right: 12px;
-    padding-top: 10px;
+    padding-top: 8px;
   }
 
   &__icon {

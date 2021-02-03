@@ -1,9 +1,17 @@
 <template>
   <div class="shop-items" v-if="shop.street">
-    <shop-title :shop="shop" class="shop-item"/>
-    <shop-phone :phone="shop.phone" class="shop-item"/>
-    <shop-schedule :schedule="shop.opening_hours" class="shop-item reset-offset"/>
-    <slot />
+    <div class="shop-info">
+      <slot name="title">
+        <shop-title @click.native="activateShopOnMap()" :street="shop.street" class="shop-item title"/>
+      </slot>
+      <slot name="phone">
+        <shop-phone :phone="shop.phone" class="shop-item phone"/>
+      </slot>
+      <slot name="schedule">
+        <shop-schedule :schedule="shop.opening_hours" class="shop-item reset-offset"/>
+      </slot>
+    </div>
+    <slot name="shop-actions" />
   </div>
 </template>
 
@@ -24,19 +32,35 @@ export default {
       required: true,
       default: () => {}
     }
+  },
+  methods: {
+    activateShopOnMap() {
+      this.$store.commit('shop/SET_SELECTED_SHOP', this.shop)
+    }
   }
 }
 </script>
 
 <style lang="scss" scoped>
 .shop-items {
-  padding: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 16px 12px 16px 16px;
 }
 
+.title {
+  display: flex;
+  align-items: center;
+}
 
 .shop-item {
-  cursor: pointer;
   margin-bottom: 16px;
+
+  &.title,
+  &.phone {
+    cursor: pointer;
+  }
 
   &:last-child {
     margin-bottom: 0;

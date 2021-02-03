@@ -4,6 +4,7 @@ export const CART_DEL_ITEM = SN_CART + '/DEL'
 export const CART_DEL_NON_CONFIRMED_ITEM = SN_CART + '/DEL_NONCONFIRMED'
 export const CART_UPD_ITEM = SN_CART + '/UPD'
 export const CART_LOAD_CART = SN_CART + '/LOAD'
+export const CART_SYNC = SN_CART + '/SYNC' //  
 export const CART_UPD_SHIPPING = SN_CART + '/SHIPPING'
 export const CART_SAVE = SN_CART + '/SAVE'
 export const CART_SET_ITEMS_HASH = SN_CART + '/SAVE_HASH'

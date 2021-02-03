@@ -1,69 +1,73 @@
 <template>
   <div class="thank-you" v-if="order">
-    <div class="thank-you-content">
-      <h3 class="thank-you-title">
-        {{ $t('Thank!') }}
-        {{ $t('Your order') }} <span>№ {{ order.increment_id }}</span>
-      </h3>
-      <p class="thank-you-description">{{ $t('In the near future we will call you back to clarify the details. Have a nice day!)') }}</p>
-      <button-filled-small
-        color="dark"
-        class="thank-you-button"
-        @click.native="$router.push('/')"
-      >
-        {{ $t('to main') }}
-      </button-filled-small>
-      <div class="thank-you-body">
-        <div class="thank-you-row" >
-          <span class="left">{{ $t('Contact details') }}: </span>
-          <span class="middle">{{order.billing_address.firstname}} {{order.billing_address.lastname}}, {{order.billing_address.telephone}}, {{order.billing_address.email}}</span>
+    <div class="v-container">
+      <div class="thank-you-header">
+        <div class="title">
+          <svg class="title-icon" width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="#23BE20">
+            <path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM9.29 16.29L5.7 12.7C5.31 12.31 5.31 11.68 5.7 11.29C6.09 10.9 6.72 10.9 7.11 11.29L10 14.17L16.88 7.29C17.27 6.9 17.9 6.9 18.29 7.29C18.68 7.68 18.68 8.31 18.29 8.7L10.7 16.29C10.32 16.68 9.68 16.68 9.29 16.29Z"/>
+          </svg>
+          <p class="title-text"> {{ $t('Thank!') }} {{ $t('Your order') }}&nbsp;<span class="highlighted">№ {{ order.increment_id }}</span></p>
         </div>
-        <div class="thank-you-row">
-          <span class="left">{{ $t('Payment method') }}: </span>
-          <span class="middle">{{ $t(order.payment.method) }}</span>
-          <span class="right label-paid" v-if="order.payment.method === 'liqpaymagento_liqpay'"> {{ $t('paid') }} </span>
-        </div>
-        <div class="thank-you-row">
-          <span class="left">{{ $t('Shipping method') }}: </span>
-          <span class="middle">{{ $t(order.shipping_description) }}</span>
-          <span class="right label-free"> {{ $t('free') }} </span>
-        </div>
-        <div class="thank-you-row">
-          <span class="left">{{ $t('Shipping address') }}: </span>
-          <span class="middle">{{ order.billing_address.street && order.billing_address.street[0], order.billing_address.street && order.billing_address.street[1] }}</span>
-        </div>
+        <p class="thank-you-description">
+          {{ $t('In the near future we will call you back to clarify the details. Have a nice day!)') }}</p>
       </div>
-      <div class="thank-you-body" v-if="products && products.length">
-        <ul class="thank-you-page-products products">
+      <div class="thank-you-page-content">
+        <div class="order-info">
+          <div class="thank-you-body">
+            <div class="thank-you-row">
+              <span class="left">{{ $t('Contact details') }}: </span>
+              <div class="middle">
+                <span>{{ order.billing_address.firstname }} {{ order.billing_address.lastname }}, {{ order.billing_address.telephone }}</span>
+                <span>{{ order.billing_address.email }}</span>
+              </div>
+            </div>
+            <div class="thank-you-row">
+              <span class="left">{{ $t('Payment method') }}: </span>
+              <span class="middle">{{ $t(order.payment.method) }}</span>
+              <span class="right pay-status" :class="status" v-if="status"> {{ $t(status) }} </span>
+            </div>
+            <div class="thank-you-row">
+              <span class="left">{{ $t('Shipping method') }}: </span>
+              <span class="middle">{{ $t(shippingMethod) }}</span>
+              <span class="right label-free"> {{ $t('free') }} </span>
+            </div>
+            <div class="thank-you-row">
+              <span class="left">{{ $t('Shipping address') }}: </span>
+              <span class="middle">{{ order.billing_address.street && order.billing_address.street[0] }} {{ order.billing_address.street && order.billing_address.street[1] }}</span>
+            </div>
+          </div>
+          <div class="order-prices">
+            <div class="price-row discount" v-if="order.base_discount_amount">
+              <span class="left">{{ $t('discount') }}:</span>
+              <span class="right">{{ order.base_discount_amount * -1 | price(storeView) }}</span>
+            </div>
+            <div class="price-row grand-total">
+              <span class="left">{{ $t('Grand total') }}:</span>
+              <span class="right">{{ order.base_grand_total | price }}</span>
+            </div>
+          </div>
+        </div>
+        <ul class="products" v-if="order.items.length">
+          <li class="products-title">{{ $t('Your order') }}</li>
           <li class="product-item-row" v-for="product in products" :key="product.server_item_id || product.id">
-            <product-image :image="image(product)" />
-            <div class="product-left">
+            <product-image :image="image(product)"/>
+            <div class="product-info">
               <span class="product-name">
                 {{ product.name | htmlDecode }}
               </span>
-            </div>
-            <div class="product-middle">
               <span class="qty">
-                {{ product.qty }}&nbsp;{{ $t('pc.') }}
+                {{ product.qty_ordered }}&nbsp;{{ $t('pc.') }}
               </span>
-            </div>
-            <div class="product-right">
               <div class="prices">
-                <span class="price-special">
-                  {{ finalPrice(product) | price(storeView) }}
+                <span class="price-original" :class="{ 'old-price': product.original_price > product.price }">
+                  {{ product.original_price | price(storeView) }}
                 </span>
-              </div>
-            </div>
-          </li>
-          <li class="product-price">
-            <div data-v-2eee09e6="" data-v-4f8ccff9="" class="total-prices">
-              <div data-v-2eee09e6="" class="total-price">
-                <div data-v-2eee09e6="" class="total-price-label">
-                  {{ $t('Total') }}:
-                </div>
-                <div data-v-2eee09e6="" class="total-price-value">
-                  {{ order.total_paid | price(storeView) }}
-                </div>
+                <span class="price-special" v-if="product.original_price > product.price">
+                  {{ product.price | price(storeView) }}
+                </span>
+                <span class="price-discount" v-if="product.original_price > product.price">
+                  -{{ discount(product) }} %
+                </span>
               </div>
             </div>
           </li>
@@ -74,111 +78,224 @@
 </template>
 
 <script>
-import { PaymentService } from '@vue-storefront/core/data-resolver';
-import { getThumbnailForProduct } from '@vue-storefront/core/modules/cart/helpers';
-import totalAmount from '../mixins/cart/totalAmount'
 import ProductImage from 'theme/components/core/ProductImage';
-import ButtonFilledSmall from 'theme/components/theme/ButtonFilledSmall';
 import TotalPrice from 'theme/components/core/TotalPrice';
-import { currentStoreView } from '@vue-storefront/core/lib/multistore';
+import {getThumbnailForProduct} from '@vue-storefront/core/modules/cart/helpers';
+import {currentStoreView} from '@vue-storefront/core/lib/multistore';
+import {price} from 'theme/helpers';
+import {mapState} from 'vuex';
+import {Logger} from '@vue-storefront/core/lib/logger';
+import {localizedRoute} from '@vue-storefront/core/lib/multistore';
+import {PaymentService} from '@vue-storefront/core/data-resolver';
 
 export default {
-  mixins: [totalAmount],
-  data () {
-    return {
-      order: null,
-      productSKUs: null,
-      products: null
-    }
-  },
   components: {
     ProductImage,
-    ButtonFilledSmall,
     TotalPrice
   },
+  data: () => ({
+    status: null
+  }),
   computed: {
+    ...mapState({
+      order: (state) => state.checkoutPage.order,
+      cartServerToken: (state) => state.cart.cartServerToken
+    }),
+    products () {
+      return this.order.items.filter(it => !it.parent_item_id)
+    },
+    isMarketplace () {
+      return this.products.some(it => it.extension_attributes.marketplace)
+    },
+    shippingMethod() {
+      return this.order.extension_attributes.shipping_assignments && this.order.extension_attributes.shipping_assignments[0] && this.order.extension_attributes.shipping_assignments[0].shipping.method
+    },
     storeView () {
       return currentStoreView();
     }
   },
-  created () {
-    this.getOrder()
+  async asyncData ({ context, route, store }) {
+    try {
+      const order = await store.dispatch('checkoutPage/getOrderByCartId', route.query.cartId)
+      if (order.errorMessage) {
+        context.server.response.redirect(localizedRoute('/'))
+      }
+    } catch (e) {
+      Logger.error(e)()
+      throw e
+    }
+  },
+  async mounted() {
+    if (!this.cartServerToken) { // clear only correct cart
+      this.$store.commit('checkoutPage/RESET_CHECKOUT', null)
+      this.$store.dispatch('cart/clear', { sync: false })
+    }
+    if (this.order.payment.method === 'liqpaymagento_liqpay') {
+      this.status = await this.$store.dispatch('checkoutPage/getLiqpayStatus', {
+        orderId: this.order.increment_id,
+        marketplace: this.isMarketplace
+      })
+    }
+
+    if (this.order.payment.method === 'temabit_payparts') {
+      const status = await this.$store.dispatch('themeCredit/partPaymentStatus', {
+        id: this.order.increment_id,
+        marketplace: this.isMarketplace
+      })
+      this.status = status.state && status.state.toLowerCase()
+    }
+    this.initAdmitad()
   },
   methods: {
-    getOrder () {
-      PaymentService.getOrderByCartId(this.$route.query.cartId).then(async res => {
-        const order = res.result
-        this.productSKUs = this.order.items.filter(product => product.product_type === 'simple').map(it => {
-          return { sku: it.sku, qty: it.qty_ordered }
-        })
-        this.products = await this.$store.dispatch('search/getProductsBySKU', this.productSKUs.map(it => it.sku))
-        // eslint-disable-next-line no-return-assign
-        this.products.forEach(it => it.qty = this.productSKUs.find(el => el.sku === it.sku).qty)
-        if (Object.keys(this.$route.query).includes('payparts')) {
-          let PayPartStatus = await this.$store.dispatch('themeCredit/partPaymentStatus', { id: order.increment_id, marketplace: this.$route.query.marketplace })
-          PayPartStatus.paymentState !== 'SUCCESS' && this.$router.push('/')
-        }
-        this.order = order;
-      }).catch(e => {
-        this.$router.push('/')
-      })
-    },
-    image (product) {
+    image(product) {
       return {
-        loading: this.thumbnail(product),
-        src: this.thumbnail(product)
+        src: this.getThumbnail(product.extension_attributes.thumbnail, 88, 88)
       }
     },
-    thumbnail (product) {
-      return getThumbnailForProduct(product)
+    discount (product) {
+      if (product.original_price > product.price) {
+        return parseInt(((product.original_price - product.price) / (product.original_price / 100)))
+      }
+    },
+    initAdmitad() {
+      ADMITAD = window.ADMITAD || {};
+      ADMITAD.Invoice = ADMITAD.Invoice || {};
+      ADMITAD.Invoice.category = '1';
+
+      const orderedItem = [];
+      this.products.map(it => {
+        orderedItem.push({
+          Product: {
+            productID: it.item_id,
+            category: '1',
+            price: it.price,
+            priceCurrency: 'UAH',
+          },
+          orderQuantity: it.qty_ordered,
+          additionalType: 'sale'
+        });
+      })
+      ADMITAD.Invoice.referencesOrder = ADMITAD.Invoice.referencesOrder || [];
+
+      ADMITAD.Invoice.referencesOrder.push({
+        orderNumber: this.order.increment_id,
+        orderedItem: orderedItem
+      });
+      ADMITAD.Tracking.processPositions();
     }
   }
 }
 </script>
 
 <style lang="scss" scoped>
+.v-container {
+  width: 90%;
+  max-width: 1157px;
+  padding-bottom: 24px;
+}
+
 span {
+  display: block;
   font-family: DIN Pro;
   font-size: 13px;
   line-height: 16px;
   color: #1A1919;
+  overflow-wrap: break-word;
 }
 
 .thank-you {
-  padding: 42px 0;
+  width: 100%;
+  margin: 0 auto;
+}
 
-  &-title {
-    margin-bottom: 16px;
-    margin-top: 0;
+.thank-you-page-content {
+  display: flex;
+  align-items: flex-start;
+}
+
+.title {
+  display: flex;
+  align-items: center;
+  margin-bottom: 24px;
+
+  svg {
+    min-width: 24px;
+    min-height: 24px;
+  }
+}
+
+.title-icon {
+  margin-right: 16px;
+}
+
+.title-text {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  margin: 0;
+  font-family: DIN Pro;
+  font-weight: 600;
+  font-size: 24px;
+  line-height: 30px;
+  color: #1A1919;
+}
+
+.highlighted {
+  font-family: DIN Pro;
+  font-weight: 600;
+  font-size: 24px;
+  line-height: 30px;
+  color: #23be20;
+}
+
+.thank-you-description {
+  font-family: DIN Pro;
+  font-size: 15px;
+  line-height: 24px;
+  color: #5F5E5E;
+  margin: 0 0 24px 0;
+}
+
+.order-info {
+  max-width: 652px;
+  width: 100%;
+  margin-right: 20px;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+}
+
+.pay-status {
+  font-family: DIN Pro;
+  font-weight: 600;
+  font-size: 13px;
+  line-height: 16px;
+
+  &.error,
+  &.failure {
+    color: #EE2C39;
   }
 
-  &-button {
-    margin: auto;
-    margin-bottom: 33px;
-  }
-
-  &-description {
-    margin: 0 0 32px 0;
+  &.success {
+    color: #1A1919;
   }
 }
 
 .thank-you-body {
-  border-radius: 4px;
-  margin-bottom: 22px;
   box-sizing: border-box;
-  border: 1px solid #e0e0e0;
+  border-bottom: 1px solid #E0E0E0;
 }
 
 .thank-you-row {
   display: grid;
   align-items: flex-start;
-  grid-template-columns: 40% 48% 12%;
-  padding: 16px 15px 22px 15px;
+  grid-template-columns: 40% 44% auto;
+  padding: 16px;
   text-align: left;
 
   .left {
+    font-size: 13px;
+    line-height: 16px;
     color: #595858;
-    margin-right: 80px;
     font-weight: 600;
   }
 
@@ -188,78 +305,98 @@ span {
 
   .middle {
     text-align: left;
-    margin-right: 80px;
+
+    span {
+      margin-bottom: 8px;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
   }
 }
 
 .product-image {
+  width: auto!important;
+  max-width: 88px;
+  margin-right: 16px;
+  min-width: 88px;
+  min-height: 88px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   grid-row-start: 1;
-  min-width: 35px;
-  width: 35px;
-  margin-right: 17px;
+}
+
+.product-info {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+.products {
+  border: 1px solid #E0E0E0;
+  border-radius: 4px;
+  width: 100%;
+  max-width: 485px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.products-title {
+  padding: 16px 16px 8px 16px;
+  font-family: DIN Pro;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 24px;
+  color: #1A1919;
 }
 
 .thank-you-content {
-  max-width: 680px;
+  max-width: 652px;
   width: 95%;
   margin: auto;
-  text-align: center;
+  text-align: left;
   padding-left: 0;
+}
 
-  .products {
-    margin: 0;
-    padding: 0;
-    list-style: none;
-  }
+.product-name {
+  width: 80%;
+  margin-bottom: 8px;
+  font-family: DIN Pro;
+  font-size: 15px;
+  line-height: 18px;
+  color: #1A1919;
+}
 
-  .m-auto {
-    margin: 0 auto;
-  }
-
-  .mr-auto {
-    margin-right: auto;
-  }
-
-  h3 {
-    font-family: 'DIN Pro';
-    font-weight: 800;
-    font-size: 24px;
-    line-height: 30px;
-    color: #1A1919;
-
-    span {
-      font-size: 24px;
-      font-weight: 600;
-      margin: 0 5px;
-      color: #23BE20;
-    }
-  }
-
-  p {
-    font-family: 'DIN Pro';
-    font-size: 16px;
-    line-height: 24px;
-    color: #595858;
-  }
+.qty {
+  width: 20%;
+  display: flex;
+  justify-content: flex-end;
 }
 
 .product-item-row {
-  display: grid;
-  border-bottom: 1px solid #e0e0e0;;
+  display: flex;
+  border-bottom: 1px solid #e0e0e0;
   align-items: flex-start;
-  grid-template-columns: auto 52% 20% 20%;
-  padding: 20px 15px;
+  padding: 16px;
   text-align: left;
   font-family: DIN Pro;
   font-style: normal;
   font-size: 13px;
   line-height: 16px;
 
+  &:last-child {
+    border-bottom: none;
+  }
+
   .product-left {
     display: flex;
+    flex-direction: column;
     grid-row-start: 1;
     align-items: flex-start;
-    margin-right: 60px;
+    margin-right: 5px;
   }
 
   .product-right {
@@ -268,19 +405,39 @@ span {
   }
 
   .product-middle {
-    grid-row-start: 1;
+    margin-left: auto;
+    text-align: right;
   }
 }
 
-.product-price {
-  padding: 24px 16px 16px 16px;
+.price-row {
+  display: grid;
+  grid-template-columns: auto auto;
+  padding: 16px;
+
+  .right {
+    text-align: right;
+  }
+
+  &.discount {
+    padding: 16px 16px 8px 16px;
+    span {
+      font-family: DIN Pro;
+      font-weight: 600;
+      font-size: 14px;
+      line-height: 16px;
+      color: #23BE20;
+    }
+  }
 }
 
-.thank-you-improvment {
-  padding: 0 20px 15px;
-
-  textarea {
-    min-height: 100px;
+.grand-total {
+  span {
+    font-family: DIN Pro;
+    font-weight: 600;
+    font-size: 24px;
+    line-height: 30px;
+    color: #1A1919;
   }
 }
 
@@ -288,18 +445,7 @@ span {
   display: flex;
   align-items: center;
   justify-content: space-between;
-}
-
-.price-title,
-.price-total {
-  font-weight: 600;
-  font-size: 24px;
-  line-height: 30px;
-  color: #1A1919;
-}
-
-.price-special {
-  font-weight: 600;
+  padding: 24px 16px 16px 16px;
 }
 
 .label-paid {
@@ -308,27 +454,71 @@ span {
 }
 
 .label-free {
+  color: #23BE20;
   font-weight: 600;
 }
 
-.product-item-row ::v-deep {
-  .product-image__thumb {
-    height: auto!important
+.prices {
+  display: flex;
+  align-items: baseline;
+}
+
+.price-original {
+  white-space: nowrap;
+  margin-right: 4px;
+  font-family: DIN Pro;
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 24px;
+  color: #1A1919;
+
+  &.old-price {
+    font-family: DIN Pro;
+    font-weight: normal;
+    font-size: 12px;
+    line-height: 12px;
+    text-decoration-line: line-through;
+    color: #5F5E5E;
   }
 }
 
-.total-prices {
-  width: 100%;
+.price-special {
+  white-space: nowrap;
+  font-family: DIN Pro;
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 18px;
+  color: #1A1919;
 }
 
-::v-deep {
-  .total-price {
-    display: flex;
-    justify-content: space-between;
+.price-discount {
+  white-space: nowrap;
+  align-self: center;
+  margin-left: 5px;
+  font-family: DIN Pro;
+  font-weight: 400;
+  font-size: 11px;
+  line-height: 16px;
+  text-transform: uppercase;
+  color: #FFFFFF;
+  background: #EE2C39;
+  border-radius: 30px;
+  padding: 0 7px;
+}
 
-    &:last-child {
-      margin-bottom: 0;
-    }
+@media (max-width: 1068px) {
+  .thank-you-page-content {
+    flex-direction: column-reverse;
+  }
+
+  .products {
+    max-width: 100%;
+    margin-bottom: 16px;
+  }
+
+  .order-info {
+    max-width: 100%;
+    margin-right: 0;
   }
 }
 
@@ -352,32 +542,38 @@ span {
     }
   }
 
-  .product-item-row {
-    grid-template-columns: auto 1fr;
+  .product-name {
+    width: 100%;
+    font-size: 13px;
+    line-height: 16px;
+  }
 
-    .product-left {
-      grid-column-start: 2;
-      grid-row-start: 1;
-      margin-bottom: 20px;
-    }
+  .price-original {
+    font-size: 15px;
+    line-height: 16px;
 
-    .product-middle {
-      grid-row-start: 1;
-      grid-column-start: 2;
-      margin-left: auto;
-      margin-top: auto;
-    }
-
-    .product-right {
-      margin-top: auto;
-      margin-right: auto;
-      grid-row-start: 1;
-      grid-column-start: 2;
+    &.old-price {
+      font-size: 11px;
+      line-height: 11px;
     }
   }
 
+  .price-special {
+    font-size: 15px;
+    line-height: 16px;
+  }
+
   .product-image {
-    grid-row-start: 1;
+    max-width: 56px;
+    min-width: 56px;
+    max-height: 56px;
+    min-height: auto;
+  }
+
+  .qty {
+    width: auto;
+    margin-left: auto;
+    order: 1;
   }
 }
 </style>
