@@ -18,7 +18,7 @@ import { currentStoreView } from '@vue-storefront/core/lib/multistore'
 import { formatProductLink } from '@vue-storefront/core/modules/url/helpers'
 // import config from 'config'
 
-const VueSlickCarousel = () => import('vue-slick-carousel')
+import VueSlickCarousel from 'vue-slick-carousel'
 import 'vue-slick-carousel/dist/vue-slick-carousel.css'
 import 'vue-slick-carousel/dist/vue-slick-carousel-theme.css'
 import {mapGetters} from "vuex";

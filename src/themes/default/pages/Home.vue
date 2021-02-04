@@ -31,15 +31,18 @@
         </header>
       </div>
       <div class="center-xs">
+        <lazy-hydrate :trigger-hydration="!loading" v-if="isLazyHydrateEnabled">
           <product-listing columns="4" :products="getStockGoods" gtm-list="home page" />
-          <button-full
-            class="mt35 show-all"
-            type="submit"
-            @click.native="goToCategory('stockGoods')"
-            :aria-label="$t('See all')"
+        </lazy-hydrate>
+        <product-listing v-else columns="4" :products="getStockGoods" gtm-list="home page" />
+        <button-full
+          class="mt35 show-all"
+          type="submit"
+          @click.native="goToCategory('stockGoods')"
+          :aria-label="$t('See all')"
         >
-            {{ $t('See all') }}
-          </button-full>
+          {{ $t('See all') }}
+        </button-full>
       </div>
     </section>
 
@@ -50,15 +53,20 @@
         </h2>
       </header>
       <div class="center-xs">
+        <lazy-hydrate :trigger-hydration="!loading" v-if="isLazyHydrateEnabled">
           <product-listing columns="4" :products="getSalesLeaders" gtm-list="home page" />
-          <button-full
-            class="mt35 show-all"
-            type="submit"
-            @click.native="goToCategory('salesLeaders')"
-            :aria-label="$t('See all')"
-          >
-            {{ $t('See all') }}
-          </button-full>
+          <!--<product-listing columns="4" :products="products" />-->
+        </lazy-hydrate>
+        <product-listing v-else columns="4" :products="getSalesLeaders" gtm-list="home page" />
+        <!--<product-listing v-else columns="4" :products="products" />-->
+        <button-full
+          class="mt35 show-all"
+          type="submit"
+          @click.native="goToCategory('salesLeaders')"
+          :aria-label="$t('See all')"
+        >
+          {{ $t('See all') }}
+        </button-full>
       </div>
     </section>
 
@@ -92,7 +100,11 @@
         </header>
       </div>
       <div class="center-xs">
-          <product-listing columns="4" :products="getNew" gtm-list="home page" />
+          <lazy-hydrate :trigger-hydration="!loading" v-if="isLazyHydrateEnabled">
+            <product-listing columns="4" :products="getNew" gtm-list="home page" />
+          </lazy-hydrate>
+          <product-listing v-else columns="4" :products="getNew" gtm-list="home page" />
+
           <button-full
             class="mt35 show-all"
             type="submit"
@@ -112,7 +124,12 @@
         </header>
       </div>
       <div class="center-xs">
+        <lazy-hydrate :trigger-hydration="!loading" v-if="isLazyHydrateEnabled">
+          <!--<product-listing columns="4" :products="getBestsellers" />-->
           <product-listing columns="4" :products="getRecommends" gtm-list="home page" />
+        </lazy-hydrate>
+        <!--<product-listing v-else columns="4" :products="getBestsellers" />-->
+        <product-listing v-else columns="4" :products="getRecommends" gtm-list="home page" />
           <button-full
             class="mt35 show-all"
             type="submit"
@@ -134,25 +151,23 @@ import {
   onlineHelper
 } from '@vue-storefront/core/helpers';
 import LazyHydrate from 'vue-lazy-hydration';
-import { hydrateWhenVisible } from 'vue-lazy-hydration';
+
 // Core pages
 import Home from '@vue-storefront/core/pages/Home';
 // Theme core components
-
-const ProductListing = hydrateWhenVisible(() => import('theme/components/core/ProductListing'))
-const Onboard = () => import('theme/components/theme/blocks/Home/Onboard')
-const ButtonFull = hydrateWhenVisible(() => import('theme/components/theme/ButtonFull.vue'))
-const HomeCarousel = hydrateWhenVisible(() => import('theme/components/theme/blocks/HomeCarousel'))
-
-const NoSSR = () => import('vue-no-ssr')
-
+import ProductListing from 'theme/components/core/ProductListing';
+// Theme local components
+import Onboard from 'theme/components/theme/blocks/Home/Onboard';
+import TileLinks from 'theme/components/theme/blocks/TileLinks/TileLinks';
 import { Logger } from '@vue-storefront/core/lib/logger';
 import { mapGetters } from 'vuex';
 import config from 'config';
 import { registerModule } from '@vue-storefront/core/lib/modules';
 import { RecentlyViewedModule } from '@vue-storefront/core/modules/recently-viewed';
 import { clearAllBodyScrollLocks } from 'body-scroll-lock';
-
+import ButtonFull from 'theme/components/theme/ButtonFull.vue';
+import NoSSR from 'vue-no-ssr';
+import HomeCarousel from 'theme/components/theme/blocks/HomeCarousel';
 import { formatCategoryLink } from '@vue-storefront/core/modules/url/helpers';
 import { ProductOption } from '@vue-storefront/core/modules/catalog/components/ProductOption.ts';
 import GTM from '../mixins/GTM/dataLayer'
