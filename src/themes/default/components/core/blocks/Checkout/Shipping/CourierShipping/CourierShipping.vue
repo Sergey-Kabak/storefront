@@ -129,8 +129,6 @@ export default {
     sanitize(e) {
       const v = DOMPurify.sanitize(e.target.value);
       this.$refs.autocomplete.value = v
-      console.log(v)
-      // return DOMPurify.sanitize(v);
     },
     validateData() {
       if (this.streets && this.streets.length) {

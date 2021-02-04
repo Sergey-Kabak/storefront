@@ -114,9 +114,7 @@ export default {
     sanitize(e) {
       const v = DOMPurify.sanitize(e.target.value);
       e.target.value = v;
-      console.log(v)
       return v;
-      // return DOMPurify.sanitize(v);
     },
     togglePassType () {
       if (this.passType === 'password') {
