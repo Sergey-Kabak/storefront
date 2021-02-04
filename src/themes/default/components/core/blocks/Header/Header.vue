@@ -41,7 +41,7 @@
             </a>
             <phone-info v-show="navVisible"></phone-info>
           </div>
-          <svg width="8" height="6" viewBox="0 0 8 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <svg class="phone-wrap__arrow" width="8" height="6" viewBox="0 0 8 6" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M0.94 0.726667L4 3.78L7.06 0.726667L8 1.66667L4 5.66667L0 1.66667L0.94 0.726667Z"/>
           </svg>
         </li>
@@ -289,7 +289,7 @@ header {
   }
 }
 .header-wrap {
-  margin-bottom: 16px;
+  // margin-bottom: 16px;
   height: 142px;
 }
 .minimal {
@@ -304,6 +304,10 @@ header {
   align-items: center;
   height: 67px;
   justify-content: center;
+  @media only screen and (max-width: 768px) {
+      display: flex;
+      align-items: center;
+  }
   @media (max-width : 575px){
     padding-right: 6px !important;
   }
@@ -377,15 +381,22 @@ header {
   max-width: 260px;
   align-items: center;
   justify-self: flex-start;
+  @media only screen and (max-width: 768px) {
+    width: unset;
+    margin-right: 20px;
+  }
 }
 
 .header-middle {
   justify-self: center;
 
+
   .logo {
     height: 41px;
     margin-top: 7px;
-
+    @media only screen and (max-width: 768px) {
+      margin-top: 17px;
+    }
     img {
       width: 100%;
     }
@@ -396,6 +407,10 @@ header {
   display: flex;
   align-items: center;
   justify-self: flex-end;
+
+  @media only screen and (max-width: 768px) {
+    margin-left: auto;
+  }
 
   .icon {
     display: flex;
@@ -500,6 +515,10 @@ header {
   z-index: 1;
   cursor: pointer;
 
+  &:hover &__arrow {
+    transform: rotate(180deg);
+  }
+  
   &:hover {
     .phone {
       color: #fff;
@@ -691,7 +710,6 @@ header {
 
   .header-middle {
     .logo {
-      margin-top: 12px;
       width: 80px;
     }
   }

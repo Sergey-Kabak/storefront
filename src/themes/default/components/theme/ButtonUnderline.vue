@@ -3,7 +3,7 @@
     :is="compontentType"
     :type="!link ? type : false"
     :to="redirectionLink"
-    class="button-full"
+    class="button-underline"
     :class="{
       disabled: disabled,
       'button-disabled': disabled
@@ -20,7 +20,7 @@
 <script>
 import focusClean from 'theme/components/theme/directives/focusClean';
 export default {
-  name: 'ButtonFull',
+  name: 'ButtonUnderline',
   directives: { focusClean },
   props: {
     type: {
@@ -51,44 +51,37 @@ export default {
 </script>
 
 <style lang='scss' scoped>
-$hover : #20af1d;
-$focus : #1fa71c;
-$active : #1d9f1b;
-.button-full {
-  box-shadow: 1px 1px 3px rgba(255,255,255, 0.2), 1px 1px 3px rgba(0, 0, 0, 0.2);
-  transition: background-color ease-in 0.2s;
+$main-dark: #1A1919;
+.button-underline {
+  outline: none;
+  box-shadow: none;
+  border: none;
+  padding: 0;
+  transition: all ease-in 0.2s;
   display: flex;
   justify-content: center;
   align-items: center;
   text-align: center;
   padding: 0 5px;
-  width: 100%;
-  border-style: none;
-  background-color: #23be20;
-  color: #ffffff;
+  background: transparent;
+  color: $main-dark;
   max-width: 260px;
   font-family: DIN Pro;
-  font-size: 15px;
-  font-weight: 600;
-  line-height: 16px;
-  border-radius: 4px;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 15px;
+  padding-bottom: 4px;
+  border-bottom: 1px dashed $main-dark;
 
-  &:hover {
-      background-color : $hover;
-      color: #ffffff;
-  }
-  &:focus {
-      background-color : $focus;
-      outline: none;
-      color: #ffffff;
-  }
+  &:hover,
+  &:focus,
   &:active {
-      background-color : $active;
-      color: #ffffff;
+    color: grey;
+    border-color: transparent;
   }
   &:disabled {
-    background-color: #abe6aa;
-    color: #fff;
+    color: grey;
+    cursor: not-allowed;
   }
 }
 </style>

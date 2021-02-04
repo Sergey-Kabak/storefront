@@ -19,8 +19,9 @@
 
 <script>
 import ButtonFull from '../../../theme/ButtonFull';
+import ButtonUnderline from '../../../theme/ButtonUnderline';
 import { ProductTile } from '@vue-storefront/core/modules/catalog/components/ProductTile.ts';
-
+import { mapGetters } from 'vuex';
 export default {
   props: {
     product: {
@@ -30,9 +31,18 @@ export default {
   },
   mixins: [ProductTile],
   components: {
-    ButtonFull
+    ButtonFull,
+    ButtonUnderline
+  },
+  methods: {
+    showModalCredits () {
+      this.$bus.$emit('modal-show', 'modal-credits')
+    }
   },
   computed: {
+    ...mapGetters({
+      getBanks: 'themeCredit/getBanks'
+    }),
     isPreorder () {
       return this.product.stock.is_in_stock && !!this.product.preorder
     },
@@ -125,5 +135,10 @@ export default {
       }
     }
   }
+}
+.wishlist-link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 </style>

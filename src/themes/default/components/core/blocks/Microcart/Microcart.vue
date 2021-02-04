@@ -19,18 +19,25 @@
         </i>
       </button>
       <div class="microcart-top">
-        <div class="microcart-left">
-          <h2 class="microcart-top-title cl-accent" v-if="productsInCart.length">
-            {{ $t('Your cart') }}
-          </h2>
-          <h2 class="microcart-top-title cl-accent" v-if="!productsInCart.length">
-            {{ $t('Your shopping cart is empty.') }}
-          </h2>
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M21 4H2V6H4.3L7.582 15.025C7.79362 15.6029 8.1773 16.1021 8.68134 16.4552C9.18539 16.8083 9.78556 16.9985 10.401 17H19V15H10.401C9.982 15 9.604 14.735 9.461 14.342L8.973 13H18.246C19.136 13 19.926 12.402 20.169 11.549L21.962 5.275C22.0039 5.12615 22.0109 4.96962 21.9823 4.81763C21.9537 4.66565 21.8904 4.52234 21.7973 4.39889C21.7041 4.27544 21.5837 4.1752 21.4454 4.106C21.3071 4.0368 21.1546 4.00053 21 4ZM18.246 11H8.246L6.428 6H19.675L18.246 11Z" fill="#23BE20"/>
-            <path d="M10.5 21C11.3284 21 12 20.3284 12 19.5C12 18.6716 11.3284 18 10.5 18C9.67157 18 9 18.6716 9 19.5C9 20.3284 9.67157 21 10.5 21Z" fill="#23BE20"/>
-            <path d="M16.5 21C17.3284 21 18 20.3284 18 19.5C18 18.6716 17.3284 18 16.5 18C15.6716 18 15 18.6716 15 19.5C15 20.3284 15.6716 21 16.5 21Z" fill="#23BE20"/>
-          </svg>
+        <div class="microcart-top-primary">
+          <div class="microcart-left">
+            <h2 class="microcart-top-title cl-accent" v-if="productsInCart.length">
+              {{ $t('Your cart') }}
+            </h2>
+            <h2 class="microcart-top-title cl-accent" v-if="!productsInCart.length">
+              {{ $t('Your shopping cart is empty.') }}
+            </h2>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M21 4H2V6H4.3L7.582 15.025C7.79362 15.6029 8.1773 16.1021 8.68134 16.4552C9.18539 16.8083 9.78556 16.9985 10.401 17H19V15H10.401C9.982 15 9.604 14.735 9.461 14.342L8.973 13H18.246C19.136 13 19.926 12.402 20.169 11.549L21.962 5.275C22.0039 5.12615 22.0109 4.96962 21.9823 4.81763C21.9537 4.66565 21.8904 4.52234 21.7973 4.39889C21.7041 4.27544 21.5837 4.1752 21.4454 4.106C21.3071 4.0368 21.1546 4.00053 21 4ZM18.246 11H8.246L6.428 6H19.675L18.246 11Z" fill="#23BE20"/>
+              <path d="M10.5 21C11.3284 21 12 20.3284 12 19.5C12 18.6716 11.3284 18 10.5 18C9.67157 18 9 18.6716 9 19.5C9 20.3284 9.67157 21 10.5 21Z" fill="#23BE20"/>
+              <path d="M16.5 21C17.3284 21 18 20.3284 18 19.5C18 18.6716 17.3284 18 16.5 18C15.6716 18 15 18.6716 15 19.5C15 20.3284 15.6716 21 16.5 21Z" fill="#23BE20"/>
+            </svg>
+          </div>
+        </div>
+        <div class="microcart-top-secondary">
+          <span class="microcart-top-total-count" v-if="productsInCart.length">
+            {{ $tc('{count} items', countProducts, { count: countProducts}) }}
+          </span>
           <more-icon class="more" v-if="productsInCart.length">
             <div class="more-item" @click="clearCart()">
               <svg width="14" height="18" viewBox="0 0 14 18" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -39,14 +46,15 @@
               <span>{{ $t('Remove all') }}</span>
             </div>
           </more-icon>
+          <div class="microcart-right" v-if="productsInCart.length">
+            <button-text @click.native="clearCart()">{{ $t('Remove all') }}</button-text>
+          </div>
         </div>
-        <div class="microcart-right" v-if="productsInCart.length">
-          <button-text @click.native="clearCart()">{{ $t('Remove all') }}</button-text>
+        <div class="microcart-empty" v-if="!productsInCart.length">
+          <p>{{ $t('Add your favorite products to the basket!') }}</p>
         </div>
       </div>
-      <div class="microcart-empty" v-if="!productsInCart.length">
-        <p>{{ $t('Add your favorite products to the basket!') }}</p>
-      </div>
+
       <div class="microcart-scroll-content" v-if="productsInCart.length">
         <ul v-if="productsInCart.length" class="products">
           <product v-for="product in productsInCart" :key="product.server_item_id || product.id" :product="product" />
@@ -243,8 +251,9 @@ export default {
     &-top {
       padding: 50px 32px 0 32px;
       display: flex;
-      align-items: center;
+      // align-items: center;
       justify-content: space-between;
+      flex-direction: column;
       margin-bottom: 32px;
 
       &-title {
@@ -265,21 +274,13 @@ export default {
       }
 
       &-total-count {
-        box-sizing: border-box;
         font-family: DIN Pro;
+        font-size: 13px;
         font-style: normal;
-        font-weight: 600;
-        font-size: 12px;
-        line-height: 13px;
-        background-color: #22be21;
-        padding: 5px;
-        min-width: 24px;
-        min-height: 24px;
-        color: white;
-        display: inline-flex;
-        justify-content: center;
-        align-items: center;
-        border-radius: 50%;
+        line-height: 16px;
+        letter-spacing: 0em;
+        text-align: left;
+        color: #1A1919;
       }
 
       &-remove {
@@ -293,6 +294,13 @@ export default {
         padding-bottom: 4px;
         border-bottom: 1px dashed #1A1919;;
       }
+    }
+    &-top-primary {
+      margin-bottom: 32px;
+    }
+    &-top-secondary {
+      display: flex;
+      justify-content: space-between;
     }
 
     &-scroll-content {
@@ -322,7 +330,6 @@ export default {
   }
 
   .microcart-empty {
-    padding: 0 32px;
     p {
       font-family: DIN Pro;
       font-style: normal;
@@ -409,8 +416,8 @@ export default {
 
       &-top {
         padding: 56px 16px 0px 16px;
-        flex-direction: column-reverse;
-        align-items: flex-start;
+        flex-direction: column;
+        // align-items: flex-start;
         margin-bottom: 16px;
       }
 
@@ -441,7 +448,7 @@ export default {
       }
 
       &-right {
-        display: none;
+        // display: none;
       }
 
       .close {
@@ -459,7 +466,7 @@ export default {
       }
 
       .more {
-        display: block;
+        // display: block;
       }
     }
 

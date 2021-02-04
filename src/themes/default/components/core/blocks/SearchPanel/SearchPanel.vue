@@ -318,32 +318,8 @@ export default {
     border-radius: 0;
     padding: 16px 15px;
     border: none;
-    border-bottom: 1px solid #E0E0E0;
-
-    &:first-child {
-      padding-top: 0;
-    }
-
-    &:last-child {
-      border-bottom: none;
-    }
-  }
-}
-
-.empty-content {
-  .product-listing {
-    .product {
-      padding: 16px 0;
-
-      &:first-child {
-      padding-top: 0;
-      }
-
-      &:last-child {
-        border-bottom: none;
-        padding-bottom: 0;
-      }
-    }
+    border: 1px solid #E0E0E0;
+    margin-bottom: 20px;
   }
 }
 

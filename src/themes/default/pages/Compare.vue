@@ -31,7 +31,7 @@
         </div>
       </div>
     </div>
-    <div class="pt35 f-container container compare-container" ref="compare-container">
+    <div class="f-container container compare-container" ref="compare-container">
       <div class="row" v-if="items.length">
         <div class="col-xs-12 compare-col">
           <div class="compare__products-table" ref="compare__products-table">
@@ -339,7 +339,7 @@ $screen-l: 1170px;
 }
 
 .compare-container {
-  padding-top: 16px;
+  // padding-top: 16px;
   @media (min-width: 768px) {
     padding-bottom: 68px;
   }
@@ -483,7 +483,7 @@ $screen-l: 1170px;
     line-height: 16px;
     color: #1A1919;
     display: inline-block;
-    margin-bottom: 29px;
+    margin-bottom: 28px;
 
     &.underline {
       cursor: pointer;

@@ -1,21 +1,20 @@
 <template>
   <div class="flex flex-column product-price-block">
-    <div class="mb0 name mt0 relative w-100" v-if="nameVisibility">
-      {{ product.name | htmlDecode }} <span v-if="showProductColor">{{getColor}}</span>
-    </div>
-    <template v-if="specialPrice && !onlyImage">
+    <span v-if="isDiscount"
+          class="price-sale only-mobile">
+      -{{discount}} %
+    </span>
+    <template v-if="product.special_price && !onlyImage">
       <div class="product-price-wrapper">
-        <div class="main-price">
-          <span
-            class="price-original mr5 lh30 cl-secondary"
-          >
-            {{ originalPrice | price(storeView) }}
-          </span>
-          <span
-            class="price-special lh30 cl-accent weight-700">
-            {{ specialPrice | price(storeView) }}
-          </span>
-        </div>
+        <span
+          class="price-original mr5 lh30 cl-secondary"
+        >
+          {{ originalPrice | price(storeView) }}
+        </span>
+        <span
+          class="price-special lh30 cl-accent weight-700">
+          {{ finalPrice | price(storeView) }}
+        </span>
         <span
           v-if="isDiscount"
           class="price-sale not-mobile"
@@ -27,7 +26,7 @@
     <template v-else-if="!onlyImage">
       <div class="product-price-wrapper">
         <span class="lh30 cl-secondary price-special">
-          {{ originalPrice | price(storeView) }}
+          {{ finalPrice | price(storeView) }}
         </span>
       </div>
     </template>
@@ -36,7 +35,6 @@
 
 <script>
 import { currentStoreView } from '@vue-storefront/core/lib/multistore';
-import { price } from 'theme/helpers';
 
 export default {
   props: {
@@ -73,35 +71,63 @@ export default {
     isDiscount () {
       return this.product.original_price && this.product.special_price && this.discount > 0
     },
-    originalPrice() {
-      return price(this.product, 'original_price')
+    bundleFinalPrice () {
+      if (this.product.special_price > 0) {
+        return this.product.special_price + this.BundleOptionsPrice
+      } else {
+        return this.bundlePrice
+      }
     },
-    specialPrice() {
-      return price(this.product, 'special_price')
+    bundlePrice () {
+      return this.BundleOptionsPrice + this.product.original_price
+    },
+    BundleOptionsPrice () {
+      if (this.isBundleProduct && this.product.bundle_options) {
+        let bundleProductsPrice = this.product.bundle_options.reduce((acc, it) => {
+          return acc += it.product_links.reduce((acc2, it2) => acc2 += it2.price, 0)
+        }, 0)
+        return bundleProductsPrice
+      }
+    },
+    isBundleProduct () {
+      return this.product.type_id === 'bundle'
+    },
+    originalPrice () {
+      const productTypes = {
+        bundle: this.bundlePrice
+      }
+      return productTypes[this.product.type_id] || this.product.original_price
+    },
+    finalPrice () {
+      const productTypes = {
+        bundle: this.bundleFinalPrice
+      }
+      return productTypes[this.product.type_id] || this.product.price_incl_tax
     }
   }
 }
 </script>
 
 <style lang="scss" scoped>
-.product-item-price{
-  .price-original{
-    font-size: 24px;
-    line-height: 20px;
-    color: #5F5E5E;
-    position: relative;
-  }
-  .price-special{
-    font-size: 36px;
-    line-height: 1;
-    font-weight: 900;
-  }
-}
-// .only-mobile {
-//   @media (min-width: 768px) {
-//     display: none;
+// .product-item-price{
+//   .price-original{
+//     font-size: 24px;
+//     line-height: 20px;
+//     color: #5F5E5E;
+//     position: relative;
+//     top: 4px;
+//   }
+//   .price-special{
+//     font-size: 36px;
+//     line-height: 1;
+//     font-weight: 900;
 //   }
 // }
+.only-mobile {
+  @media (min-width: 768px) {
+    display: none;
+  }
+}
 
 .not-mobile {
   @media (max-width: 767px) {
@@ -109,21 +135,13 @@ export default {
   }
 }
 
-// .price-sale.only-mobile {
-//   position: absolute;
-//   top: 25px;
-//   left: 0;
-// }
-
-.main-price {
-  display: flex;
-  align-items: baseline;
-  white-space: nowrap;
-  margin-top: 4px;
+.price-sale.only-mobile {
+  position: absolute;
+  top: 25px;
+  left: 0;
 }
 
 .price-sale {
-  margin-top: 4px;
   text-align: center;
   margin-left: 8px;
   background: #EE2C39;
@@ -140,11 +158,9 @@ export default {
 }
 
 .product-price-wrapper {
-  margin: -4px 0 0 0;
   display: flex;
-  flex-wrap: wrap-reverse;
-  justify-content: flex-end;
-  align-items: center;
+  align-items: baseline !important;
+  white-space: nowrap;
 }
 
 .name {
@@ -158,10 +174,10 @@ export default {
   text-align: left;
   margin-bottom: 8px;
   @media(max-width: 767px) {
-    height: 34px;
     overflow: hidden;
     font-size: 13px;
     line-height: 16px;
+    margin-bottom: 8px;
   }
 }
 
@@ -169,15 +185,20 @@ export default {
   display: flex;
   align-items: flex-start;
   justify-content: flex-start;
-
-  margin-top: auto;
+  width: 100%;
+  @media (max-width: 767px) {
+    flex-direction: column;
+    .price-sale {
+      margin-left: 0;
+      margin-top: 5px;
+    }
+  }
 }
 
 .price {
   &-discount {
     font-family: DIN Pro;
     font-style: normal;
-    margin-top: 4px;
     font-weight: 400;
     font-size: 11px;
     line-height: 16px;
@@ -197,14 +218,14 @@ export default {
     font-style: normal;
     font-weight: 400;
     font-size: 12px;
-    line-height: 12px;
+    line-height: 16px;
     text-decoration-line: line-through;
     color: #595858;
     margin-right: 4px;
   }
 
   &-special {
-    font-weight: 600;
+    font-weight: 700;
     font-family: DIN Pro;
     font-style: normal;
     font-size: 18px;
