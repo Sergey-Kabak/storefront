@@ -16,7 +16,7 @@
               </button>
             </h2>
             <div v-if="items.length" class="compare-nav-container--mobile">
-              <div class="compare-nav__link weight-700" @click="goBack()">{{ $t('add more to comapre') }}</div>
+              <div class="compare-nav__link weight-700" @click="goBack()">{{ $t('add more to compare') }}</div>
               <div class="flex">
                 <div class="compare-nav__text weight-400">{{
                     $tc(`added {count} items`, addedProducts[currentCategory])
@@ -42,7 +42,7 @@
                     <div class="compare-nav__text weight-400">
                       {{ $tc(`added {count} items`, addedProducts[currentCategory]) }}
                     </div>
-                    <div class="compare-nav__link" @click="goBack()">{{ $t('add more to comapre') }}</div>
+                    <div class="compare-nav__link" @click="goBack()">{{ $t('add more to compare') }}</div>
                     <div class="compare-nav__text underline" @click="removeAll">
                       {{ $t('Remove all') }}
                     </div>
