@@ -25,7 +25,7 @@
 import ProductImage from 'theme/components/core/ProductImage'
 import ButtonFull from 'theme/components/theme/ButtonFull'
 import { currentStoreView } from '@vue-storefront/core/lib/multistore'
-import { formatProductLink } from '@vue-storefront/core/modules/url/helpers'
+import { formatProductLink, formatProductLinkNoSku } from '@vue-storefront/core/modules/url/helpers'
 import Pagination from 'theme/components/core/blocks/BrandPortal/Pagination.vue'
 import { getThumbnailForProduct } from '@vue-storefront/core/modules/cart/helpers'
 import { mapState } from 'vuex'
@@ -65,7 +65,7 @@ export default {
   methods: {
     formatLink(product) {
       if (product.url_path) {
-        return formatProductLink(product, currentStoreView().storeCode)
+        return formatProductLinkNoSku(product, currentStoreView().storeCode)
       }
       return {}
     },

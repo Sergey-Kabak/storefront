@@ -15,7 +15,7 @@
 
 <script>
 import { currentStoreView } from '@vue-storefront/core/lib/multistore'
-import { formatProductLink } from '@vue-storefront/core/modules/url/helpers'
+import { formatProductLink, formatProductLinkNoSku } from '@vue-storefront/core/modules/url/helpers'
 import config from 'config'
 import VueSlickCarousel from 'vue-slick-carousel'
 import 'vue-slick-carousel/dist/vue-slick-carousel.css'
@@ -88,7 +88,7 @@ export default {
     },
     formatLink(product) {
       if (product.url_path) {
-        return formatProductLink(product, currentStoreView().storeCode)
+        return formatProductLinkNoSku(product, currentStoreView().storeCode)
       }
     }
   }

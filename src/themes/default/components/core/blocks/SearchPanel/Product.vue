@@ -44,7 +44,7 @@
 
 import Product from '@vue-storefront/core/compatibility/components/blocks/Wishlist/Product';
 import { currentStoreView } from '@vue-storefront/core/lib/multistore';
-import { formatProductLink } from '@vue-storefront/core/modules/url/helpers';
+import { formatProductLink, formatProductLinkNoSku } from '@vue-storefront/core/modules/url/helpers';
 import { notifications } from '@vue-storefront/core/modules/cart/helpers';
 import ProductImage from 'theme/components/core/ProductImage';
 import i18n from '@vue-storefront/i18n';
@@ -79,7 +79,7 @@ export default {
   },
   computed: {
     productLink () {
-      return formatProductLink(this.product, currentStoreView().storeCode)
+      return formatProductLinkNoSku(this.product, currentStoreView().storeCode)
     },
     image () {
       return {

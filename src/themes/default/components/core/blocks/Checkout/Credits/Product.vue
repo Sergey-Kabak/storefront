@@ -22,7 +22,7 @@
 import ProductImage from '../../../ProductImage';
 import ProductCartPrice from 'theme/components/core/blocks/Product/ProductCartPrice';
 import { ProductTile } from '@vue-storefront/core/modules/catalog/components/ProductTile.ts';
-import { formatProductLink } from '@vue-storefront/core/modules/url/helpers';
+import { formatProductLink, formatProductLinkNoSku } from '@vue-storefront/core/modules/url/helpers';
 import { currentStoreView } from '@vue-storefront/core/lib/multistore';
 import { notifications, prepareProductsToAdd } from '@vue-storefront/core/modules/cart/helpers';
 import * as types from '@vue-storefront/core/modules/cart/store/mutation-types';
@@ -52,7 +52,7 @@ export default {
       }
     },
     productLink () {
-      return formatProductLink(this.product, currentStoreView().storeCode)
+      return formatProductLinkNoSku(this.product, currentStoreView().storeCode)
     },
     isInCart () {
       return !!this.productsInCart.find(it => it.sku === this.product.sku)

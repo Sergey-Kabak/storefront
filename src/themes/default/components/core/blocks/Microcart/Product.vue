@@ -130,7 +130,7 @@
 import { mapState } from 'vuex';
 import config from 'config';
 import { currentStoreView } from '@vue-storefront/core/lib/multistore';
-import { formatProductLink } from '@vue-storefront/core/modules/url/helpers';
+import { formatProductLink, formatProductLinkNoSku } from '@vue-storefront/core/modules/url/helpers';
 import Product from '@vue-storefront/core/compatibility/components/blocks/Microcart/Product';
 
 import ProductQuantity from 'theme/components/core/ProductQuantityNew';
@@ -209,7 +209,7 @@ export default {
         return getProductConfiguration(this.product)
       },
       productLink () {
-        return formatProductLink(this.product, currentStoreView().storeCode)
+        return formatProductLinkNoSku(this.product, currentStoreView().storeCode)
       },
       editMode () {
         return this.getEditingProductId === this.product.id
