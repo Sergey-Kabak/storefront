@@ -5,7 +5,6 @@
     </section>
     <!--<head-image />-->
 
-<<<<<<< HEAD
     <section class="v-container offer-gallery">
       <div class="gallery-title">
         {{ $t('Popular categories') }}
@@ -20,22 +19,6 @@
         </router-link>
       </div>
     </section>
-=======
-      <section class="v-container offer-gallery">
-        <div class="gallery-title">
-          {{ $t('Popular categories') }}
-        </div>
-        <div class="banner-group">
-          <router-link class="banner" :to="formatCategoryLink(category)"  v-for="(category, index) in categoriesData" :key="index">
-            <div class="text">
-              <div class="title">{{ $t(category.title) }}</div>
-              <div class="description">{{ $t(category.description) }}</div>
-            </div>
-            <img :src="category.image" alt="index" class="image">
-          </router-link>
-        </div>
-      </section>
->>>>>>> performance
     <!--<head-image />-->
     <!--<promoted-offers />-->
 
@@ -48,11 +31,7 @@
         </header>
       </div>
       <div class="center-xs">
-        <!-- <lazy-hydrate :trigger-hydration="!loading" v-if="isLazyHydrateEnabled"> -->
           <product-listing columns="4" :products="getStockGoods" gtm-list="home page" />
-        <!-- </lazy-hydrate> -->
-        <!-- <product-listing v-else columns="4" :products="getStockGoods" gtm-list="home page" /> -->
-
           <button-full
             class="mt35 show-all"
             type="submit"
@@ -71,12 +50,7 @@
         </h2>
       </header>
       <div class="center-xs">
-        <!-- <lazy-hydrate :trigger-hydration="!loading" v-if="isLazyHydrateEnabled"> -->
           <product-listing columns="4" :products="getSalesLeaders" gtm-list="home page" />
-          <!--<product-listing columns="4" :products="products" />-->
-        <!-- </lazy-hydrate> -->
-        <!-- <product-listing v-else columns="4" :products="getSalesLeaders" gtm-list="home page" /> -->
-        <!--<product-listing v-else columns="4" :products="products" />-->
           <button-full
             class="mt35 show-all"
             type="submit"
@@ -118,11 +92,7 @@
         </header>
       </div>
       <div class="center-xs">
-        <!-- <lazy-hydrate :trigger-hydration="!loading" v-if="isLazyHydrateEnabled"> -->
           <product-listing columns="4" :products="getNew" gtm-list="home page" />
-        <!-- </lazy-hydrate> -->
-        <!-- <product-listing v-else columns="4" :products="getNew" gtm-list="home page" /> -->
-
           <button-full
             class="mt35 show-all"
             type="submit"
@@ -142,12 +112,7 @@
         </header>
       </div>
       <div class="center-xs">
-        <!-- <lazy-hydrate :trigger-hydration="!loading" v-if="isLazyHydrateEnabled"> -->
-          <!--<product-listing columns="4" :products="getBestsellers" />-->
           <product-listing columns="4" :products="getRecommends" gtm-list="home page" />
-        <!-- </lazy-hydrate> -->
-        <!--<product-listing v-else columns="4" :products="getBestsellers" />-->
-        <!-- <product-listing v-else columns="4" :products="getRecommends" gtm-list="home page" /> -->
           <button-full
             class="mt35 show-all"
             type="submit"
@@ -176,7 +141,10 @@ import Home from '@vue-storefront/core/pages/Home';
 
 const ProductListing = hydrateWhenVisible(() => import('theme/components/core/ProductListing'))
 const Onboard = hydrateWhenVisible(() => import('theme/components/theme/blocks/Home/Onboard'))
-// const TileLinks = () => import('theme/components/theme/blocks/TileLinks/TileLinks')
+const ButtonFull = hydrateWhenVisible(() => import('theme/components/theme/ButtonFull.vue'))
+const HomeCarousel = hydrateWhenVisible(() => import('theme/components/theme/blocks/HomeCarousel'))
+
+const NoSSR = () => import('vue-no-ssr')
 
 import { Logger } from '@vue-storefront/core/lib/logger';
 import { mapGetters } from 'vuex';
@@ -184,12 +152,6 @@ import config from 'config';
 import { registerModule } from '@vue-storefront/core/lib/modules';
 import { RecentlyViewedModule } from '@vue-storefront/core/modules/recently-viewed';
 import { clearAllBodyScrollLocks } from 'body-scroll-lock';
-
-const ButtonFull = hydrateWhenVisible(() => import('theme/components/theme/ButtonFull.vue'))
-
-const NoSSR = () => import('vue-no-ssr')
-
-const HomeCarousel = hydrateWhenVisible(() => import('theme/components/theme/blocks/HomeCarousel'))
 
 import { formatCategoryLink } from '@vue-storefront/core/modules/url/helpers';
 import { ProductOption } from '@vue-storefront/core/modules/catalog/components/ProductOption.ts';
@@ -219,7 +181,6 @@ export default {
     HomeCarousel,
     Onboard,
     ProductListing,
-    // TileLinks,
     LazyHydrate,
     ButtonFull
   },
