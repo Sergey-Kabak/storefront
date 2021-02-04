@@ -140,7 +140,7 @@ import Home from '@vue-storefront/core/pages/Home';
 // Theme core components
 
 const ProductListing = hydrateWhenVisible(() => import('theme/components/core/ProductListing'))
-const Onboard = hydrateWhenVisible(() => import('theme/components/theme/blocks/Home/Onboard'))
+const Onboard = () => import('theme/components/theme/blocks/Home/Onboard')
 const ButtonFull = hydrateWhenVisible(() => import('theme/components/theme/ButtonFull.vue'))
 const HomeCarousel = hydrateWhenVisible(() => import('theme/components/theme/blocks/HomeCarousel'))
 
