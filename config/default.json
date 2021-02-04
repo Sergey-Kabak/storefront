@@ -323,6 +323,7 @@
     "productList": {
       "sort": "updated_at:desc",
       "includeFields": [
+        "coming_soon",
         "manufacturer",
         "breadcrumbs",
         "marketplace",
@@ -338,6 +339,8 @@
         "configurable_children.special_price",
         "configurable_children.stock.is_in_stock",
         "configurable_children.final_price",
+        "configurable_children.url_path",
+        "configurable_children.url_key",
         "category_ids",
         "id",
         "name",

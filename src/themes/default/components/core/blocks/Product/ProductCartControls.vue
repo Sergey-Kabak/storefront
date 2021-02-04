@@ -3,7 +3,7 @@
     <router-link :to="productLink" class="ml-auto">
       <button-full
         data-testid="addToCart" class="add-to-cart"
-        :class="{'pre_order': isPreorder, 'not-available': isNotAvailable}"
+        :class="{'pre_order': isPreorder, 'not-available': isNotAvailable || isComingSoon}"
         :aria-label="buttonName"
       >
         <svg class="basket-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -39,9 +39,14 @@ export default {
     isNotAvailable () {
       return !this.product.stock.is_in_stock && !this.product.preorder
     },
-    buttonName() {
+    isComingSoon () {
+      return !this.product.stock.is_in_stock && !!this.product.coming_soon
+    },
+    buttonName () {
       if (this.isPreorder) {
         return this.$t('pre order')
+      } else if (this.isComingSoon) {
+        return this.$t('coming_soon')
       } else if (this.isNotAvailable) {
         return this.$t('Not available')
       } else {
