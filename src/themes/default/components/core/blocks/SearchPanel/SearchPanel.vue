@@ -194,12 +194,13 @@ export default {
 
 .searchpanel {
   width: 100%;
-  overflow-y: auto;
+  height: 100%;
   -webkit-overflow-scrolling: touch;
 }
 
 .search-panel-wrapper {
   padding: 0 32px 32px;
+  height: 100%;
 }
 
 .close-searchpanel {
@@ -301,6 +302,8 @@ export default {
 }
 
 .search-content {
+  height: 90%;
+  overflow-y: auto;
   border: 1px solid #E0E0E0;
   border-radius: 4px;
   margin-top: 3px;
@@ -314,6 +317,8 @@ export default {
 //TODO rewrite product listing styles
 
 .product-listing {
+
+
   .product {
     border-radius: 0;
     padding: 16px 15px;
@@ -398,6 +403,7 @@ export default {
   .search-content {
     border-radius: 0;
     border: none;
+
   }
 
   .empty-header {

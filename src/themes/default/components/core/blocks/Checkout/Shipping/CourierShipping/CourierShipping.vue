@@ -8,12 +8,15 @@
         <div class="courier-row">
           <div class="autocomplete-wrapper base-input">
             <autocomplete
+              ref="autocomplete"
               :placeholder="$t('Choose your street *')"
               :defaultValue="courierShipping.address.Description"
               class="search-autocomplete"
               :class="{ 'invalid': $v.courierShipping.address.Description.$invalid && $v.courierShipping.address.Description.$dirty }"
               :search="getStreets"
               @submit="onChooseStreet"
+              @input="$emit('input', sanitize($event))"
+              @keyup.enter="$emit('keyup.enter', sanitize($event))"
               @blur="$v.courierShipping.address.Description.$touch()"
               :get-result-value="getResultValue"
               :debounce-time="300"
@@ -26,6 +29,7 @@
                   <span class="city-title">{{ result.Description }}</span>
                 </li>
               </template>
+              
             </autocomplete>
             <ValidationMessages :validations="[{
               condition: $v.courierShipping.address.Description.$invalid && $v.courierShipping.address.Description.$dirty && !$v.courierShipping.address.Description.required,
@@ -82,6 +86,7 @@ import { required } from 'vuelidate/lib/validators';
 import BaseInput from 'theme/components/core/blocks/Form/BaseInput'
 import ButtonFull from 'theme/components/theme/ButtonFull'
 import ValidationMessages from 'theme/components/core/blocks/Form/ValidationMessages';
+import DOMPurify from 'dompurify';
 
 export default {
   components: {
@@ -121,6 +126,12 @@ export default {
     this.value = this.courierShipping.address.Description
   },
   methods: {
+    sanitize(e) {
+      const v = DOMPurify.sanitize(e.target.value);
+      this.$refs.autocomplete.value = v
+      console.log(v)
+      // return DOMPurify.sanitize(v);
+    },
     validateData() {
       if (this.streets && this.streets.length) {
         const street = this.streets.find(it => it.Description.toLowerCase() === this.value.trim().toLowerCase())
