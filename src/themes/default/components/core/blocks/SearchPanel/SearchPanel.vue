@@ -302,11 +302,12 @@ export default {
 }
 
 .search-content {
-  height: 90%;
+  height: 83%;
   overflow-y: auto;
   border: 1px solid #E0E0E0;
   border-radius: 4px;
   margin-top: 3px;
+
 }
 
 .categories {
