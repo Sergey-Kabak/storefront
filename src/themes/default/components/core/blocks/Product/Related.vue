@@ -68,9 +68,10 @@ export default {
         key = 'category_ids'
       }
       let relatedProductsQuery = prepareRelatedQuery(key, sku)
-
+      const sort = 'stock.is_in_stock:desc'
       const response = await this.$store.dispatch('product/list', {
         query: relatedProductsQuery,
+        sort,
         size: 8,
         prefetchGroupProducts: false,
         updateState: false
