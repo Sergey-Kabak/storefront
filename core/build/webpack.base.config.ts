@@ -36,6 +36,9 @@ const postcssConfig = {
 const isProd = process.env.NODE_ENV === 'production'
 // todo: usemultipage-webpack-plugin for multistore
 export default {
+  optimization: {
+    concatenateModules: true,
+  },
   plugins: [
     new webpack.ContextReplacementPlugin(/dayjs[/\\]locale$/, buildLocaleIgnorePattern()),
     new webpack.ProgressPlugin(),
@@ -76,7 +79,7 @@ export default {
   ],
   devtool: 'source-map',
   entry: {
-    app: ['@babel/polyfill', './core/client-entry.ts']
+    app: ['./core/client-entry.ts']
   },
   output: {
     path: path.resolve(__dirname, '../../dist'),
