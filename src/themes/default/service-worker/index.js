@@ -1,7 +1,5 @@
 /* eslint-disable */
-const isGoogleSpeed = window && window.navigator && window.navigator.userAgent.indexOf('Speed Insights') === 0
 self.addEventListener("activate", event => {
-  if (isGoogleSpeed) return;
   console.info("clearing old cache");
   event
     .waitUntil(
@@ -27,7 +25,6 @@ self.addEventListener("activate", event => {
 });
 
 self.addEventListener("install", function(event) {
-  if (isGoogleSpeed) return;
   // The promise that skipWaiting() returns can be safely ignored.
   self.skipWaiting();
 
