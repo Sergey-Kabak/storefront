@@ -1,6 +1,6 @@
 <template>
   <div class="media-gallery">
-    <div v-if="isOnline" class="relative w-100">
+    <div v-if="isOnline" class="relative w-100 flex mobile-col-reverse">
       <product-gallery-overlay
         v-if="isZoomOpen"
         :current-slide="currentSlide"
@@ -8,7 +8,11 @@
         :gallery="gallery"
         @close="toggleZoom"
       />
-      <no-ssr>
+      <product-vertical-gallery
+        :gallery="gallery"
+        @toggle="openOverlay"
+      />
+      <div class="relative main-gallery-container">
         <product-gallery-carousel
           v-if="showProductGalleryCarousel"
           :gallery="gallery"
@@ -17,28 +21,29 @@
           @toggle="openOverlay"
           @close="onEscapePress"
           @loaded="carouselLoaded = true"
+          class="product-galley-wrapper"
         />
-      </no-ssr>
+      </div>
     </div>
     <product-image v-else :image="offline" />
   </div>
 </template>
 
 <script>
-import { ProductGallery } from '@vue-storefront/core/modules/catalog/components/ProductGallery.ts';
-import ProductGalleryOverlay from './ProductGalleryOverlay';
-import onEscapePress from '@vue-storefront/core/mixins/onEscapePress';
-import NoSSR from 'vue-no-ssr';
-import ProductImage from './ProductImage';
-import { onlineHelper } from '@vue-storefront/core/helpers';
-import ProductGalleryCarousel from './ProductGalleryCarousel.vue';
+import { ProductGallery } from '@vue-storefront/core/modules/catalog/components/ProductGallery.ts'
+import ProductGalleryOverlay from './ProductGalleryOverlay'
+import onEscapePress from '@vue-storefront/core/mixins/onEscapePress'
+import ProductImage from './ProductImage'
+import { onlineHelper } from '@vue-storefront/core/helpers'
+import ProductGalleryCarousel from './ProductGalleryCarousel.vue'
+import ProductVerticalGallery from './ProductVerticalGallery'
 
 export default {
   components: {
     ProductGalleryCarousel,
-    'no-ssr': NoSSR,
     ProductGalleryOverlay,
-    ProductImage
+    ProductImage,
+    ProductVerticalGallery
   },
   mixins: [
     ProductGallery,
@@ -84,12 +89,54 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.product-galley-wrapper{
+  @media (min-width : 768px){
+    margin-top: 40px;
+  }
+}
+/deep/ .media-zoom{
+  width: calc(100% - 48px);
+  height: calc(100% - 48px);
+  top: 24px;
+  left: 24px;
+  border-radius: 4px;
+}
+/deep/ .product-image-container{
+  background-color: #fff;
+}
+/deep/ .media-zoom-carousel__slide{
+  background-color: #fff;
+}
+.hide-mobile{
+  @media (max-width : 575px){
+    display: none;
+  }
+}
+.mobile-col-reverse{
+  @media (max-width : 1200px){
+    flex-direction: column-reverse;
+  }
+}
+.main-gallery-container{
+  @media (min-width : 1200px){
+    width: calc(100% - 56px);
+  }
+}
+.hot-actions{
+  @media (max-width : 767px){
+    position: static;
+    margin-bottom: 8px;
+    padding-left: 0;
+  }
+  padding-left: 22px;
+  z-index: 2
+}
 .media-gallery {
   text-align: center;
   width: 100%;
   height: 100%;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   min-height: calc(90vw * 1.1);
 
   @media only screen and (min-width:768px) {

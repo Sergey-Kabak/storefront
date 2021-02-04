@@ -6,26 +6,6 @@
           <div class="col-xs-12">
             <breadcrumbs class="pb20"/>
           </div>
-          <div class="mobile-header hidden-md mt10">
-            <h2
-              class="mb20 mt0 cl-mine-shaft product-name"
-              data-testid="productName"
-              itemprop="name"
-            >
-              {{ getCurrentProduct.name | htmlDecode }}
-              <web-share
-                :title="getCurrentProduct.name | htmlDecode"
-                text="Check this product!"
-                class="web-share"
-              />
-            </h2>
-            <div
-              class="product-in-stock"
-              :class="{ 'not-available': isAddToCartDisabled }"
-            >
-              {{ isAddToCartDisabled ? $t('Not available') : $t('In stock') }}
-            </div>
-          </div>
           <div class="col-xs-12 col-md-6 center-xs middle-xs image">
             <product-gallery
               :offline="getOfflineImage"
@@ -35,193 +15,70 @@
             />
           </div>
           <div class="col-xs-12 col-md-5 data">
-            <Promo v-if="isProductRma" :label-value="getLabelValue()" />
-            <div
-              class="product-in-stock hidden-xs block"
-              :class="productStatus.replace(/\s+/g , '')"
-            >
-              {{ $t(productStatus) }}
-            </div>
-            <h1
-              class="mb20 mt0 cl-mine-shaft product-name hidden-xs block"
-              data-testid="productName"
-              itemprop="name"
-            >
-              {{ getCurrentProduct.name | htmlDecode }}
-              <web-share
-                :title="getCurrentProduct.name | htmlDecode"
-                text="Check this product!"
-                class="web-share"
-              />
-            </h1>
-            <div
-              class="mb20 cl-secondary sku"
-              itemprop="sku"
-              :content="getCurrentProduct.sku"
-            >
-              {{ $t('SKU: {sku}', { sku: getCurrentProduct.sku }) }}
-            </div>
-            <div itemprop="offers" class="product-prices" itemscope itemtype="http://schema.org/Offer">
-              <meta itemprop="priceCurrency" :content="$store.state.storeView.i18n.currencyCode">
-              <meta itemprop="price" :content="parseFloat(getCurrentProduct.price_incl_tax).toFixed(2)">
-              <meta itemprop="availability" :content="structuredData.availability">
-              <meta itemprop="url" :content="getCurrentProduct.url_path">
-              <product-cart-price
-                v-if="getCurrentProduct.type_id !== 'grouped'"
-                :product="getCurrentProduct"
-                :nameVisibility="false"
-                class="product-item-price"/>
-              <div class="cl-primary variants" v-if="getCurrentProduct.type_id =='configurable'">
-                <div
-                  class="error"
-                  v-if="getCurrentProduct.errors && Object.keys(getCurrentProduct.errors).length > 0"
-                >
-                  {{ getCurrentProduct.errors | formatProductMessages }}
-                </div>
-                <div class="h5" v-for="option in getProductOptions" :key="option.id">
-                  <div class="variants-label" data-testid="variantsLabel">
-                    {{ option.label }}
-                    <span
-                      class="weight-700"
-                    >{{ $t(getOptionLabel(option)) }}</span>
-                  </div>
-                  <div class="row top-xs m0 pt15 pb40 variants-wrapper">
-                    <div v-if="option.attribute_code == 'color'">
-                      <color-selector
-                        v-for="filter in getAvailableFilters[option.attribute_code]"
-                        :key="filter.id"
-                        :variant="filter"
-                        :selected-filters="getSelectedFilters"
-                        @change="changeFilter"
-                      />
-                    </div>
-                    <div v-else>
-                      <button-selector
-                        context="product"
-                        :code="option.attribute_code"
-                        class="size-select mr10 mb10"
-                        v-for="filter in getAvailableFilters[option.attribute_code]"
-                        :key="filter.id"
-                        :variant="filter"
-                        :selected-filters="getSelectedFilters"
-                        @change="changeFilter"/>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <product-links
-              v-if="getCurrentProduct.type_id =='grouped'"
-              :products="getCurrentProduct.product_links"
-            />
-            <product-bundle-options
-              v-if="getCurrentProduct.bundle_options && getCurrentProduct.bundle_options.length > 0"
-              :product="getCurrentProduct"
-            />
-            <product-custom-options
-              v-else-if="getCurrentProduct.custom_options && getCurrentProduct.custom_options.length > 0"
-              :product="getCurrentProduct"
-            />
-            <product-quantity-new
-              class="row m0 mb35"
-              v-model="getCurrentProduct.qty"
-              :max-quantity="maxQuantity"
-              :loading="isStockInfoLoading"
-              :show-quantity="manageQuantity"
-              :check-max-quantity="manageQuantity"
-              @error="handleQuantityError"
-            />
-            <div
-              v-if="getCurrentProduct.stock.is_in_stock"
-              class="row m0 action-block-buttons"
-            >
-              <add-to-cart
-                :product="getCurrentProduct"
-                class="col-xs-12 col-sm-4 col-md-6">
-              >
-                <template v-if="preorder" v-slot:text>{{$t('pre order')}}</template>
-              </add-to-cart>
-              <button-white v-if="getBanks.length" @click.native="showModalCredits" class="buy_in_credit h40 flex1">
-                <span>{{ $t('In credit') }}</span>
-              </button-white>
-            </div>
-            <div class="row py40 add-to-buttons">
-              <div class="col-xs-6 col-sm-3 col-md-6">
-                <AddToCompare :product="getCurrentProduct" showDescription />
-              </div>
-              <div class="col-xs-6 col-sm-3 col-md-6">
-                <AddToWishlist :product="getCurrentProduct" showDescription />
-              </div>
-            </div>
-            <div class="seller-name-row" @click="showCustomSeller" v-if="parseInt(getCurrentProduct.marketplace)">
-              <template v-if="customSeller">
-                <div class="seller-name-col">
-                  <div class="seller-name">
-                    {{ $t("Seller:") }} <span>{{ $t(customSeller.name) }}</span>
-                  </div>
-                  <div class="seller-rating">
-                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M13.6315 5.11934C13.5896 4.99592 13.5125 4.88747 13.4096 4.80738C13.3068 4.72729 13.1828 4.67908 13.0528 4.66868L9.25218 4.36668L7.60751 0.72601C7.55514 0.608751 7.46994 0.509157 7.36221 0.439248C7.25448 0.369339 7.12882 0.332102 7.0004 0.332031C6.87197 0.331961 6.74627 0.36906 6.63846 0.438851C6.53066 0.508642 6.44535 0.608142 6.39285 0.725343L4.74818 4.36668L0.947514 4.66868C0.819817 4.67879 0.697739 4.72548 0.595884 4.80316C0.494028 4.88084 0.416709 4.98622 0.373176 5.1067C0.329643 5.22717 0.321739 5.35763 0.35041 5.48248C0.379082 5.60733 0.443114 5.72127 0.534847 5.81068L3.34351 8.54868L2.35018 12.85C2.32002 12.9802 2.32969 13.1165 2.37793 13.2411C2.42617 13.3657 2.51076 13.473 2.62072 13.549C2.73067 13.6249 2.86093 13.6661 2.99457 13.6671C3.12821 13.6681 3.25908 13.629 3.37018 13.5547L7.00018 11.1347L10.6302 13.5547C10.7437 13.6301 10.8777 13.6689 11.0139 13.6659C11.1502 13.6629 11.2823 13.6183 11.3924 13.538C11.5026 13.4577 11.5855 13.3456 11.63 13.2167C11.6746 13.0879 11.6786 12.9485 11.6415 12.8173L10.4222 8.55068L13.4462 5.82934C13.6442 5.65068 13.7168 5.37201 13.6315 5.11934Z" fill="#FFCA41"/>
-                    </svg>
-                    <span class="seller-data">{{ customSeller.rate }} ({{ customSeller.marks }} {{ $t("marks") }})</span>
-                  </div>
-                </div>
-                <div class="seller-logo">
-                  <img v-lazy="customSeller.logo" alt="custom-seller-logo">
-                </div>
-              </template>
-            </div>
+<!--            <Promo v-if="getCurrentProduct.type_id === 'bundle'" />-->
+            <product-info/>
+            <product-filters v-if="getCurrentProduct.type_id === 'configurable'" @change="changeFilter"/>
+            <product-trade />
+            <product-seller v-if="parseInt(getCurrentProduct.marketplace)" @click.native="showCustomSeller"/>
+            <product-instruction v-if="getCurrentProduct.instruction" />
+            <product-delivery />
+<!--            <div itemprop="offers" class="product-prices" itemscope itemtype="http://schema.org/Offer">-->
+<!--              <meta itemprop="priceCurrency" :content="$store.state.storeView.i18n.currencyCode">-->
+<!--              <meta itemprop="price" :content="parseFloat(getCurrentProduct.price_incl_tax).toFixed(2)">-->
+<!--              <meta itemprop="availability" :content="structuredData.availability">-->
+<!--              <meta itemprop="url" :content="getCurrentProduct.url_path">-->
+<!--            </div>-->
           </div>
         </section>
       </div>
     </section>
-    <section class="container px15 pt50 pb35 cl-accent details">
-      <h2 class="h3 m0 mb10 serif lh20 details-title">
-        {{ $t('Product details') }}
-      </h2>
-      <div class="h4 details-wrapper" :class="{'details-wrapper--open': detailsOpen}">
-        <div class="row between-md m0">
-          <div class="col-xs-12 col-sm-6">
-            <div class="lh30 h5" itemprop="description" v-html="getCurrentProduct.description" />
-          </div>
-          <div class="col-xs-12 col-sm-5">
-            <ul class="attributes p0 pt5 m0">
-              <product-attribute
-                :key="attr.attribute_code"
-                v-for="attr in getCustomAttributes"
-                :product="getCurrentProduct"
-                :attribute="attr"
-                empty-placeholder="N/A"
-              />
-            </ul>
-          </div>
-          <div class="details-overlay" @click="showDetails" />
-        </div>
-      </div>
-    </section>
-    <lazy-hydrate when-idle>
-      <reviews
-        :product-name="getOriginalProduct.name"
-        :product-id="getOriginalProduct.id"
-        v-show="isOnline"
-      />
-    </lazy-hydrate>
-    <lazy-hydrate when-idle>
-      <related-products type="upsell" :heading="$t('We found other products you might like')" />
-    </lazy-hydrate>
+<!--    <section class="container px15 pt50 pb35 cl-accent details">-->
+<!--      <h2 class="h3 m0 mb10 serif lh20 details-title">-->
+<!--        {{ $t('Product details') }}-->
+<!--      </h2>-->
+<!--      <div class="h4 details-wrapper" :class="{'details-wrapper&#45;&#45;open': detailsOpen}">-->
+<!--        <div class="row between-md m0">-->
+<!--          <div class="col-xs-12 col-sm-6">-->
+<!--            <div class="lh30 h5" itemprop="description" v-html="getCurrentProduct.description" />-->
+<!--          </div>-->
+<!--          <div class="col-xs-12 col-sm-5">-->
+<!--            <ul class="attributes p0 pt5 m0">-->
+<!--              <product-attribute-->
+<!--                :key="attr.attribute_code"-->
+<!--                v-for="attr in getCustomAttributes"-->
+<!--                :product="getCurrentProduct"-->
+<!--                :attribute="attr"-->
+<!--                empty-placeholder="N/A"-->
+<!--              />-->
+<!--            </ul>-->
+<!--          </div>-->
+<!--          <div class="details-overlay" @click="showDetails" />-->
+<!--        </div>-->
+<!--      </div>-->
+<!--    </section>-->
 <!--    <lazy-hydrate when-idle>-->
-<!--      <promoted-offers single-banner />-->
+<!--      <reviews-->
+<!--        :product-name="getOriginalProduct.name"-->
+<!--        :product-id="getOriginalProduct.id"-->
+<!--        v-show="isOnline"-->
+<!--      />-->
 <!--    </lazy-hydrate>-->
-    <div class="banner flex my30">
-      <picture>
-        <source srcset="/assets/promo/delivery_promo_288x260.jpg" media="(max-width: 400px)">
-        <source srcset="/assets/promo/delivery_promo_1324x260.jpg">
-        <img src="/assets/promo/delivery_promo_1324x260.jpg" class="promo-image">
-      </picture>
-    </div>
-    <lazy-hydrate when-idle>
-      <related-products type="related" />
-    </lazy-hydrate>
+<!--    <lazy-hydrate when-idle>-->
+<!--      <related-products type="upsell" :heading="$t('We found other products you might like')" />-->
+<!--    </lazy-hydrate>-->
+<!--&lt;!&ndash;    <lazy-hydrate when-idle>&ndash;&gt;-->
+<!--&lt;!&ndash;      <promoted-offers single-banner />&ndash;&gt;-->
+<!--&lt;!&ndash;    </lazy-hydrate>&ndash;&gt;-->
+<!--    <div class="banner flex my30">-->
+<!--      <picture>-->
+<!--        <source srcset="/assets/promo/delivery_promo_288x260.jpg" media="(max-width: 400px)">-->
+<!--        <source srcset="/assets/promo/delivery_promo_1324x260.jpg">-->
+<!--        <img src="/assets/promo/delivery_promo_1324x260.jpg" class="promo-image">-->
+<!--      </picture>-->
+<!--    </div>-->
+<!--    <lazy-hydrate when-idle>-->
+<!--      <related-products type="related" />-->
+<!--    </lazy-hydrate>-->
   </div>
 </template>
 
@@ -229,31 +86,14 @@
 import config from 'config';
 import RelatedProducts from 'theme/components/core/blocks/Product/Related.vue';
 import Reviews from 'theme/components/core/blocks/Reviews/Reviews.vue';
-import AddToCart from 'theme/components/core/AddToCart.vue';
-import GenericSelector from 'theme/components/core/GenericSelector';
-import ColorSelector from 'theme/components/core/ColorSelector.vue';
 import Breadcrumbs from 'theme/components/core/Breadcrumbs.vue';
 import ProductAttribute from 'theme/components/core/ProductAttribute.vue';
-import ProductQuantityNew from 'theme/components/core/ProductQuantityNew.vue';
-import ProductLinks from 'theme/components/core/ProductLinks.vue';
-import ProductCustomOptions from 'theme/components/core/ProductCustomOptions.vue';
-import ProductBundleOptions from 'theme/components/core/ProductBundleOptions.vue';
 import ProductGallery from 'theme/components/core/ProductGallery';
-import PromotedOffers from 'theme/components/theme/blocks/PromotedOffers/PromotedOffers';
 import focusClean from 'theme/components/theme/directives/focusClean';
 import WebShare from 'theme/components/theme/WebShare';
-import AddToWishlist from 'theme/components/core/blocks/Wishlist/AddToWishlist';
-import AddToCompare from 'theme/components/core/blocks/Compare/AddToCompare';
-import ButtonWhite from 'theme/components/core/blocks/Product/ButtonWhite';
-import ButtonSelector from 'theme/components/core/ButtonSelector';
 import { mapGetters } from 'vuex';
 import LazyHydrate from 'vue-lazy-hydration';
 import { ProductOption } from '@vue-storefront/core/modules/catalog/components/ProductOption.ts';
-import {
-  getAvailableFiltersByProduct,
-  getSelectedFiltersByProduct
-} from '@vue-storefront/core/modules/catalog/helpers/filters';
-import { isOptionAvailableAsync } from '@vue-storefront/core/modules/catalog/helpers/index';
 import {
   currentStoreView,
   localizedRoute
@@ -267,38 +107,31 @@ import {
   onlineHelper
 } from '@vue-storefront/core/helpers';
 import { catalogHooksExecutors } from '@vue-storefront/core/modules/catalog-next/hooks';
-import ProductPrice from 'theme/components/core/ProductPrice.vue';
-import ProductCartPrice from "../components/core/blocks/Product/ProductCartPrice";
-import Promo from "../components/core/blocks/Product/Promo";
-import Spinner from "../components/core/Spinner";
+import Promo from "../components/core/blocks/Product/Components/Promo";
 import { filterChangedProduct } from '@vue-storefront/core/modules/catalog/events'
 import GTM from 'theme/mixins/GTM/dataLayer'
-
+import ProductInfo from '../components/core/blocks/Product/Components/ProductInfo';
+import ProductFilters from '../components/core/blocks/Product/Components/ProductFilters';
+import ProductTrade from '../components/core/blocks/Product/Components/ProductTrade';
+import ProductSeller from '../components/core/blocks/Product/Components/ProductSeller';
+import ProductInstruction from '../components/core/blocks/Product/Components/ProductInstruction';
+import ProductDelivery from '../components/core/blocks/Product/Components/ProductDelivery';
 export default {
   components: {
-    AddToCart,
-    AddToCompare,
-    AddToWishlist,
     Breadcrumbs,
-    ColorSelector,
-    GenericSelector,
     ProductAttribute,
-    ProductBundleOptions,
-    ProductCustomOptions,
     ProductGallery,
-    ProductLinks,
-    PromotedOffers,
     RelatedProducts,
     Reviews,
     WebShare,
     LazyHydrate,
-    ProductQuantityNew,
-    ProductPrice,
     Promo,
-    ButtonWhite,
-    Spinner,
-    ProductCartPrice,
-    ButtonSelector
+    ProductInfo,
+    ProductFilters,
+    ProductTrade,
+    ProductSeller,
+    ProductInstruction,
+    ProductDelivery
   },
   mixins: [ProductOption, GTM],
   directives: { focusClean },
@@ -329,44 +162,8 @@ export default {
       getCurrentCustomOptions: 'product/getCurrentCustomOptions',
       getBanks: 'themeCredit/getBanks'
     }),
-    productStatus () {
-      if (this.getCurrentProduct.stock.is_in_stock && !!this.getCurrentProduct.preorder) {
-        return 'pending delivery'
-      } else if (this.getCurrentProduct.stock.is_in_stock && !this.getCurrentProduct.preorder) {
-        return 'In stock'
-      } else {
-        return 'Not available'
-      }
-    },
-    preorder () {
-      return !!this.getCurrentProduct.preorder
-    },
-    isProductRma () {
-      return this.getCurrentProduct.hasOwnProperty("rma") && config.rma[this.getLabelValue()]
-    },
-    getOptionLabel () {
-      return (option) => {
-        const configName = option.attribute_code ? option.attribute_code : option.label.toLowerCase()
-        return this.getCurrentProductConfiguration[configName] ? this.getCurrentProductConfiguration[configName].label : configName
-      }
-    },
     isOnline (value) {
       return onlineHelper.isOnline
-    },
-    structuredData () {
-      return {
-        availability: this.getCurrentProduct.stock && this.getCurrentProduct.stock.is_in_stock ? 'InStock' : 'OutOfStock'
-      }
-    },
-    getProductOptions () {
-      if (
-        this.getCurrentProduct.errors &&
-        Object.keys(this.getCurrentProduct.errors).length &&
-        Object.keys(this.getCurrentProductConfiguration).length
-      ) {
-        return []
-      }
-      return this.getCurrentProduct.configurable_options
     },
     getOfflineImage () {
       return {
@@ -380,21 +177,10 @@ export default {
         return a.is_visible && a.is_user_defined && (parseInt(a.is_visible_on_front) || a.is_visible_on_front === true) && this.getCurrentProduct[a.attribute_code]
       })
     },
-    getAvailableFilters () {
-      return getAvailableFiltersByProduct(this.getCurrentProduct)
-    },
-    getSelectedFilters () {
-      return getSelectedFiltersByProduct(this.getCurrentProduct, this.getCurrentProductConfiguration)
-    },
-    isAddToCartDisabled () {
-      if (this.quantityError || this.isStockInfoLoading) {
-        return false
+    structuredData () {
+      return {
+        availability: this.getCurrentProduct.stock && this.getCurrentProduct.stock.is_in_stock ? 'InStock' : 'OutOfStock'
       }
-
-      return this.isOnline && !this.maxQuantity && this.manageQuantity
-    },
-    customSeller () {
-      return config && config.customSeller
     }
   },
   async beforeMount () {
@@ -404,6 +190,7 @@ export default {
   },
   async mounted () {
     await this.$store.dispatch('recently-viewed/addItem', this.getCurrentProduct);
+    console.log(this.getCurrentProduct);
   },
   async asyncData ({ store, route, context }) {
     if (context) context.output.cacheTags.add('product')
@@ -438,51 +225,21 @@ export default {
     }
   },
   methods: {
+    showCustomSeller () {
+      this.$bus.$emit('modal-show', 'modal-custom-seller-product')
+    },
     showModalCredits () {
       this.$bus.$emit('modal-show', 'modal-credits')
-    },
-    getLabelValue () {
-      let attributes = this.getCurrentProduct.attributes_metadata;
-      let attribute = attributes.find((attr) => {
-        return attr.attribute_code === 'rma';
-      });
-      if (!(attribute && attribute.options && attribute.options.length)) {
-        return false;
-      }
-      return attribute.options[0].label;
     },
     showDetails (event) {
       this.detailsOpen = true
       event.target.classList.add('hidden')
-    },
-    notifyOutStock () {
-      this.$store.dispatch('notification/spawnNotification', {
-        type: 'error',
-        message: this.$t(
-          'The product is out of stock and cannot be added to the cart!'
-        ),
-        action1: { label: this.$t('OK') }
-      })
-    },
-    notifyWrongAttributes () {
-      this.$store.dispatch('notification/spawnNotification', {
-        type: 'warning',
-        message: this.$t(
-          'No such configuration for the product. Please do choose another combination of attributes.'
-        ),
-        action1: { label: this.$t('OK') }
-      })
     },
     async changeFilter (variant) {
       const selectedConfiguration = Object.assign({ attribute_code: variant.type }, variant)
       await filterChangedProduct(selectedConfiguration, this.$store, this.$router)
       this.$bus.$emit( 'filter-changed-product', Object.assign({ attribute_code: variant.type }, variant))
       this.getQuantity();
-    },
-    isOptionAvailable (option) { // check if the option is available
-      const currentConfig = Object.assign({}, this.getCurrentProductConfiguration)
-      currentConfig[option.type] = option
-      return isOptionAvailableAsync(this.$store, { product: this.getCurrentProduct, configuration: currentConfig })
     },
     async getQuantity () {
       if (this.isStockInfoLoading) return // stock info is already loading
@@ -500,12 +257,6 @@ export default {
         await this.$store.dispatch('themeCredit/fetchBanks', this.getCurrentProduct.sku)
       }
     },
-    handleQuantityError (error) {
-      this.quantityError = error
-    },
-    showCustomSeller () {
-      this.$bus.$emit('modal-show', 'modal-custom-seller-product')
-    }
   },
   metaInfo () {
     const storeView = currentStoreView()
@@ -581,50 +332,6 @@ $color-tertiary: color(tertiary);
 $color-secondary: color(secondary);
 $color-white: color(white);
 $bg-secondary: color(secondary, $colors-background);
-.seller-name-row {
-  cursor: pointer;
-  border: 1px solid #E0E0E0;
-  border-radius: 4px;
-  padding: 16px;
-  align-items: center;
-
-  .seller-name-col {
-    display: flex;
-    align-items: center;
-  }
-  .seller-name span {
-    border-bottom: 1px dashed #1A1919;
-    padding-bottom: 4px;
-  }
-  .seller-rating {
-    margin-top: 0!important;
-    margin-left: 10px;
-  }
-  .seller-data {
-    margin-left: 10px;
-    padding-bottom: 0;
-    border-bottom: none;
-  }
-  .seller-logo {
-    max-width: 50%;
-    max-height: 60px;
-    width: auto;
-    img {
-      display: block;
-      width: auto;
-      height: 100%;
-      max-height: 60px;
-    }
-  }
-}
-
-.Notavailable {
-  color: #ee2c39 !important;
-}
-.pendingdelivery {
-  color: orange !important;
-}
-
 .product {
   &__add-to-compare {
     display: none;
@@ -633,22 +340,12 @@ $bg-secondary: color(secondary, $colors-background);
     }
   }
 }
-
-.product-item-price ::v-deep {
-  .product-price-wrapper {
-    justify-content: flex-start;
-    margin: -4px 0 0 0;
-  }
-
-}
-
 .breadcrumbs {
   @media (max-width: 767px) {
     margin: 15px 0;
     padding: 15px 0 0 15px;
   }
 }
-
 .error {
   color: red;
   font-weight: bold;
@@ -665,67 +362,6 @@ $bg-secondary: color(secondary, $colors-background);
     margin-bottom: 20px;
   }
 }
-.product-prices {
-  .price {
-    font-family: 'DIN Pro';
-    font-size: 24px;
-    line-height: 30px;
-    color: #1A1919;
-  }
-}
-
-.product-in-stock {
-  font-family: 'DIN Pro';
-  font-style: normal;
-  font-weight: normal;
-  font-size: 14px;
-  line-height: 16px;
-  color: #23BE20;
-}
-
-.product-name {
-  font-family: 'DIN Pro';
-  font-weight: 800;
-  font-size: 24px;
-  line-height: 30px;
-  color: #1A1919;
-  @media (max-width: 767px) {
-    font-size: 36px;
-  }
-}
-
-.variants-label {
-  font-family: 'DIN Pro';
-  font-style: normal;
-  font-weight: normal;
-  font-size: 16px;
-  line-height: 24px;
-  color: #4F4F4F;
-  @media (max-width: 767px) {
-    font-size: 14px;
-  }
-}
-
-.variants-wrapper {
-  @media (max-width: 767px) {
-    padding-bottom: 30px;
-  }
-
-  .sizes {
-    @media (max-width: 767px) {
-      width: 100%;
-    }
-  }
-
-  .size-guide {
-    height: 40px;
-    @media (max-width: 767px) {
-      width: 100%;
-      margin-left: 0;
-    }
-  }
-}
-
 .product-top-section {
   @media (max-width: 767px) {
     padding: 0;

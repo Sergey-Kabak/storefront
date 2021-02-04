@@ -7,18 +7,18 @@
       <div class="product-price-wrapper">
         <div class="main-price">
           <span
-            class="price-original mr5 lh30 cl-secondary"
+            class="price-original mr5"
           >
             {{ originalPrice | price(storeView) }}
           </span>
           <span
-            class="price-special lh30 cl-accent weight-700">
+            class="price-special">
             {{ specialPrice | price(storeView) }}
           </span>
         </div>
         <span
           v-if="isDiscount"
-          class="price-sale not-mobile"
+          class="price-sale"
         >
         -{{ discount }} %
       </span>
@@ -26,7 +26,7 @@
     </template>
     <template v-else-if="!onlyImage">
       <div class="product-price-wrapper">
-        <span class="lh30 cl-secondary price-special">
+        <span class="price-special">
           {{ originalPrice | price(storeView) }}
         </span>
       </div>
@@ -85,36 +85,29 @@ export default {
 
 <style lang="scss" scoped>
 .product-item-price{
+  .product-price-wrapper{
+    flex-direction: column;
+    align-items: flex-end;
+  }
+  .price-sale{
+    order: -1;
+    margin: 0;
+  }
   .price-original{
-    font-size: 24px;
+    font-size: 18px;
     line-height: 20px;
     color: #5F5E5E;
     position: relative;
   }
   .price-special{
-    font-size: 36px;
+    font-size: 30px;
     line-height: 1;
     font-weight: 900;
   }
+  .main-price{
+    margin-top: 0;
+  }
 }
-// .only-mobile {
-//   @media (min-width: 768px) {
-//     display: none;
-//   }
-// }
-
-// .not-mobile {
-//   @media (max-width: 767px) {
-//     display: none !important;
-//   }
-// }
-
-// .price-sale.only-mobile {
-//   position: absolute;
-//   top: 25px;
-//   left: 0;
-// }
-
 .main-price {
   display: flex;
   align-items: baseline;
