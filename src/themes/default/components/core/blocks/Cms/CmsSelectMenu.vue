@@ -7,11 +7,6 @@
     v-model="activeMenu"
     @input="changeRoute($event)"
   >
-    <!-- <template #selected-option="{ title }">
-      <div class="option selected">
-        <span class="option-name">{{ title }}</span>
-      </div>
-    </template> -->
     <template #option="{ title }">
       <div class="option">
         <span class="option-name">{{ title }}</span>
@@ -64,91 +59,6 @@ export default {
   margin-bottom: 16px;
 }
 
-// ::v-deep  {
-//   .vs__selected {
-//     position: relative!important;
-//   }
-
-//   .vs__dropdown-menu {
-//     border-radius: 4px;
-//     top: calc(100% + 3px);
-//   }
-
-//   .vs__dropdown-toggle {
-//     border-color: #e0e0e0;
-//   }
-
-//   &.vs--open {
-//     .vs__dropdown-toggle {
-//       border-radius: 4px;
-//       border-color: #23BE20!important;
-//     }
-//   }
-
-//   .vs__actions {
-//     padding: 0 16px;
-//   }
-
-//   .vs__dropdown-toggle,
-//   .vs__search,
-//   .vs__selected-options,
-//   .vs__selected {
-//     height: 40px;
-//     margin: 0;
-//     padding: 0;
-//   }
-
-//   .vs__selected {
-//     opacity: 1!important;
-//   }
-
-//   .vs__dropdown-option {
-//     margin: 0!important;
-//     &:hover,
-//     &:active {
-//       background: #E4F9E4;
-//     }
-
-//     &--selected,
-//     &--highlight {
-//       background: #E4F9E4;
-//     }
-
-//     &--selected {
-//       .selected-option-image {
-//         display: block!important;
-//       }
-//     }
-//   }
-
-// }
-
-// .option {
-//   display: flex;
-//   padding: 4px 0;
-//   align-items: center;
-
-//   &.selected {
-//     padding: 0 16px;
-//   }
-
-//   .option-image {
-//     max-width: 24px;
-//     margin-right: 12px;
-//   }
-
-//   .option-name {
-//     font-family: DIN Pro;
-//     font-size: 14px;
-//     line-height: 16px;
-//     color: #1A1919;
-//   }
-
-//   .selected-option-image {
-//     display: none;
-//     margin-left: auto;
-//   }
-// }
 .vs__search {
   width:  100%;
   height: 40px;

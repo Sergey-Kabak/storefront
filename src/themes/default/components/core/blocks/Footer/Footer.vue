@@ -103,9 +103,7 @@ export default {
   },
   methods: {
     fold(column) {
-      console.log(column);
       column.folded = !column.folded
-      console.log(column);
     },
     goToAccount () {
       this.$bus.$emit('modal-toggle', 'modal-signup')
@@ -369,9 +367,6 @@ $color-secondary: color(secondary);
 .payment {
   display: flex;
 
-  // @media only screen and (max-width: 992px) {
-  //   flex-direction: column;
-  // }
   &-icon {
     margin-right: 20px;
 
@@ -386,10 +381,8 @@ footer {
   border-top: $border;
   background-color: #1A1919;
 
-
   .color-white {
     color: white;
-
   }
 
   .copyright {
@@ -532,8 +525,5 @@ footer {
     margin-top: 0;
   }
 
-  .footer-links {
-    // padding-bottom: 30px;
-  }
 }
 </style>

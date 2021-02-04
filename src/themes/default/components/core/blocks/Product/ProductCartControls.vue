@@ -19,7 +19,6 @@
 
 <script>
 import ButtonFull from '../../../theme/ButtonFull';
-import ButtonUnderline from '../../../theme/ButtonUnderline';
 import { ProductTile } from '@vue-storefront/core/modules/catalog/components/ProductTile.ts';
 import { mapGetters } from 'vuex';
 export default {
@@ -32,7 +31,6 @@ export default {
   mixins: [ProductTile],
   components: {
     ButtonFull,
-    ButtonUnderline
   },
   methods: {
     showModalCredits () {

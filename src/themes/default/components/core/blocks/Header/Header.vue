@@ -289,7 +289,6 @@ header {
   }
 }
 .header-wrap {
-  // margin-bottom: 16px;
   height: 142px;
 }
 .minimal {

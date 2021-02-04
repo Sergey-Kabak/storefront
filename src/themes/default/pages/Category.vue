@@ -18,10 +18,6 @@
               <div class="next-button" v-if="!isDescriptionActive" @click="isDescriptionActive = true">{{ $t('more than') }}</div>
               <div class="next-button next-button--close" v-else @click="isDescriptionActive = false">{{ $t('less than') }}</div>
             </div>
-            <!-- <div class="banner-description__timer">
-              <h3>{{ $t('Until the end of the promotion') }}</h3>
-              <CountDown :end-time="getEndTime()" />
-            </div> -->
             <div class="banner-description__timer" v-if="!timeExpired">
               <div class="banner-description__timer--only-today" v-if="onlyToday">
                 {{ $t('Only today') }}
@@ -31,9 +27,6 @@
                   {{ $t('From date') }} {{ startTime }} {{ $t('To date') }} {{ endTime }} 
                 </span>
                 <div class="banner-description__timer--days-left-wrapper" v-html="daysLeftHTML">
-                  <!-- <span class="banner-description__timer--days-left banner-description__timer--secondary">Залишився</span>
-                  <span class="banner-description__timer--days-left banner-description__timer--primary">{{ daysLeft }} день</span> -->
-
                 </div>
               </template>
             </div>
@@ -360,13 +353,7 @@ export default {
         window.scrollTo(0, scrollBarPosition)
         this.loadingProducts = false
       }
-    },
-    // getEndTime () {
-    //   return new Date(this.getCurrentCategory && this.getCurrentCategory.custom_design_to && this.getCurrentCategory.custom_design_to.replace(' ', 'T')).getTime();
-    // },
-    // getStartTime() {
-    //   return new Date(this.getCurrentCategory && this.getCurrentCategory.custom_design_to && this.getCurrentCategory.custom_design_from.replace(' ', 'T')).getTime();
-    // }
+    }
   },
   beforeDestroy () {
     this.closeFilters()
@@ -807,7 +794,6 @@ $mobile_screen : 768px;
   display: flex;
   flex-direction: column;
   @media only screen and (max-width: 1024px) {
-    // min-width: 370px;
     width: 100%;
   }
 }
@@ -844,19 +830,12 @@ $mobile_screen : 768px;
       display: none !important;
     }
   }
-  @media (max-width: 1200px) {
-    .banner-description__block {
-      & > h3 {
-        // margin: 16;
-      }
-    }
-  }
+
   &__block {
     background: #FFFFFF;
     border: 1px solid #E0E0E0;
     box-sizing: border-box;
     border-radius: 4px;
-    // width: 100%;
     padding: 0 16px 16px 16px;
     @media only screen and (max-width: 1200px) {
       padding: 0 8px 8px 8px;
@@ -887,25 +866,13 @@ $mobile_screen : 768px;
     font-family: DIN Pro;
     font-size: 15px;
     line-height: 24px;
-    // color: #595858;
     color: #5f5e5e;
     margin-bottom: 8px;
     margin: 0;
   }
-  // &__timer {
-  //   position: relative;
-  //   bottom: 16px;
-  //   left: 16px;
-  //   right: 16px;
-  //   padding-top: 30px;
-  //   width: calc(100% - 32px);
-  //   background: rgb(255,255,255);
-  //   background: linear-gradient(0deg, rgba(255,255,255,1) 0%, rgba(255,255,255,1) 65%, rgba(255,255,255,0) 100%);
-  // }
   &__timer {
     display: flex;
     align-items: center;
-    // margin-top: 24px;
     margin-top: auto;
     font-family: DIN Pro;
     &--from-to {

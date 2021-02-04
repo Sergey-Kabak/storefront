@@ -251,7 +251,6 @@ export default {
     &-top {
       padding: 50px 32px 0 32px;
       display: flex;
-      // align-items: center;
       justify-content: space-between;
       flex-direction: column;
       margin-bottom: 32px;
@@ -447,10 +446,6 @@ export default {
         padding: 0 16px;
       }
 
-      &-right {
-        // display: none;
-      }
-
       .close {
         i {
           padding: 21px;
@@ -465,9 +460,6 @@ export default {
         padding: 0 16px;
       }
 
-      .more {
-        // display: block;
-      }
     }
 
     ::v-deep .promo-code {

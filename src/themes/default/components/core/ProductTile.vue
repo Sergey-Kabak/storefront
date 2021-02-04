@@ -462,11 +462,6 @@ export default {
         opacity: 1;
       }
     }
-    // &:hover {
-    //   .product__icon {
-    //     opacity: 1;
-    //   }
-    // }
     .btw {
       justify-content: space-between;
       text-align: right;

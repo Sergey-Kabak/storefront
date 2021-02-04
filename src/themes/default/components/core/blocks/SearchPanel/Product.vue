@@ -131,7 +131,6 @@ export default {
 .product-left {
   display: flex;
   align-items: center;
-  // margin-right: 12px;
 
   .remove-icon {
     cursor: pointer;

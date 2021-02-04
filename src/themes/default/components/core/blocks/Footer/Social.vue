@@ -9,7 +9,6 @@
       :aria-label="$t(social.label)"
     >
       <span v-html="social.svg"></span>
-      <!-- <img :src="social.path" :alt="$t(social.label)"> -->
     </a>
   </div>
 </template>
