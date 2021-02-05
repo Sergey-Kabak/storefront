@@ -10,27 +10,38 @@
           <social></social>
         </div>
         <div class="start-md footer__category" :class="{'footer__category--last': index===footerColumns.length-1}" v-for="(footerColumn, index) in footerColumns" :key="index">
-          <div class="footer-title footer__category-title-wrapper"  :role="notDesktop ? 'button': 'presentation'" @click="catalogToggleState[footerColumn.title] = !catalogToggleState[footerColumn.title]">
-            <template v-if="notDesktop">
-              <span class="footer__category-title" :class="{ unfolded: !catalogToggleState[footerColumn.title] }">{{ $t(footerColumn.title) }}</span>
-              <svg v-if="catalogToggleState[footerColumn.title]" class="footer__category-btn" :class="{ folded: catalogToggleState[footerColumn.title] }" width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M14 8H8V14H6V8H0V6H6V0H8V6H14V8Z" fill="#E0E0E0"/>
-              </svg>
-              <svg v-else class="footer__category-btn" :class="{ folded: catalogToggleState[footerColumn.title] }" width="14" height="2" viewBox="0 0 14 2" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M14 2H0V0H14V2Z" fill="#E0E0E0"/>
-              </svg>
-            </template>
-            <span v-else class="footer__category-title">{{ $t(footerColumn.title) }}</span>
-          </div>
-          <transition name="slide">
-            <div class="footer-routes" v-if="!catalogToggleState[footerColumn.title]">
+          <template v-if="!isMobile">
+            <h2 class="footer-title">
+              {{ $t(footerColumn.title) }}
+            </h2>
+            <div class="footer-routes">
               <div :key="index" v-for="(cat, index) in footerColumn.routes" class="route">
                 <router-link class="cl-secondary" :to="localizedRoute(`${cat.url_path}`)" exact>
                   {{ $t(cat.name) }}
                 </router-link>
               </div>
             </div>
-          </transition>
+          </template>
+          <CategoryFilter
+            v-else
+            class="footer-title"
+            :label="$t(footerColumn.title)"
+            noscroll
+            :openByDefault="false"
+          >
+            <template #label="{ isActive }">
+               <h2 class="footer-title" :class="{ open:isActive }" >
+                {{ $t(footerColumn.title) }}
+              </h2> 
+            </template>
+            <div class="footer-routes">
+              <div :key="index" v-for="(cat, index) in footerColumn.routes" class="route">
+                <router-link class="cl-secondary" :to="localizedRoute(`${cat.url_path}`)" exact>
+                  {{ $t(cat.name) }}
+                </router-link>
+              </div>
+            </div>  
+          </CategoryFilter>
         </div>
         <div class="start-md">
           <h2 class="footer-title footer-title--contact">
@@ -59,7 +70,7 @@
         </div>
       </div>
       <div class="v-container">
-        <div class="copyright">{{ $t('All rights reserved.') }} “ringoo” Copyright © {{ new Date().getFullYear() }}</div>
+        <div class="start-md copyright">{{ $t('All rights reserved.') }} “ringoo” Copyright © {{ new Date().getFullYear() }}</div>
       </div>
     </div>
     <back-to-top bottom="60px" right="20px" visibleoffset="200">
@@ -79,32 +90,20 @@ import BackToTop from 'theme/components/core/BackToTop';
 import config from 'config';
 import Logo from 'theme/components/core/Logo';
 import Social from 'theme/components/core/blocks/Footer/Social'
-import { mapGetters } from 'vuex';
 import mobileResolution from 'theme/mixins/mobileResolution'
-
-const CATALOG = "Catalog"
-const HELP = "Help"
+import { mapGetters } from 'vuex';
+import CategoryFilter from 'theme/components/core/blocks/Category/CategoryFilter';
 
 export default {
   mixins: [CurrentPage, mobileResolution],
   components: {
     Logo,
     BackToTop,
-    Social
+    Social,
+    CategoryFilter
   },
   name: 'MainFooter',
-  data() {
-    return {
-      catalogToggleState: {
-        [CATALOG]: true,
-        [HELP]: true
-      }
-    }
-  },
   methods: {
-    fold(column) {
-      column.folded = !column.folded
-    },
     goToAccount () {
       this.$bus.$emit('modal-toggle', 'modal-signup')
     }
@@ -114,9 +113,6 @@ export default {
     ...mapGetters({
       isLogged: 'user/isLoggedIn'
     }),
-    notDesktop() {
-      return !this.isDesktop
-    },
     multistoreEnabled () {
       return config.storeViews.multistore
     },
@@ -134,57 +130,71 @@ export default {
       })
     },
     footerColumns () {
-      return [{
-        title: CATALOG,
-        routes: this.visibleCategories
-      }, {
-        title: HELP,
-        routes: [{
-          name: 'Payment and delivery',
-          url_path: '/info/delivery'
-        }, {
-          name: 'Payments and loans',
-          url_path: '/info/payments-and-loans'
-        }, {
-          name: 'Warranty, Exchange, Return',
-          url_path: '/info/warranty-exchange-return'
-        }, {
-          name: 'Service centres',
-          url_path: '/info/service-centers'
-        }, {
-          name: 'Use promotional code',
-          url_path: '/info/using-a-promo-code'
-        }, {
-          name: 'Public offer',
-          url_path: '/info/public-offer'
-        }, {
-          name: 'The shops',
-          url_path: '/info/shops'
-        }, {
-          name: 'Company',
-          url_path: '/info/company'
-        }, {
-          name: 'Vacancies',
-          url_path: '/info/vacancy'
-        }, {
-          name: 'Own account',
-          url_path: '/info/own-account'
-        }, {
-          name: 'To landlords',
-          url_path: '/info/landlords'
-        }]
-      }]
-    }
-  },
-  mounted() {
-    for (const key in this.catalogToggleState) {
-      this.catalogToggleState[key] = this.notDesktop
+      return [
+        {
+          title: 'Catalog',
+          routes: this.visibleCategories
+        },
+        {
+          title: 'To customers',
+          routes: [
+            {
+              name: 'Payment and delivery',
+              url_path: '/info/delivery'
+            },
+            {
+              name: 'Payments and loans',
+              url_path: '/info/payments-and-loans'
+            },
+            {
+              name: 'Warranty, Exchange, Return',
+              url_path: '/info/warranty-exchange-return'
+            },
+            {
+              name: 'Use promotional code',
+              url_path: '/info/using-a-promo-code'
+            },
+            {
+              name: 'Public offer',
+              url_path: '/info/public-offer'
+            },
+            {
+              name: 'The shops',
+              url_path: '/info/shops'
+            },
+            {
+              name: 'Company',
+              url_path: '/info/company'
+            },
+            {
+              name: 'Vacancies',
+              url_path: '/info/vacancy'
+            },
+            {
+              name: 'Own account',
+              url_path: '/info/own-account'
+            },
+            {
+              name: 'To landlords',
+              url_path: '/info/landlords'
+            }
+          ]
+        }
+      ]
     }
   }
 }
 </script>
 
 <style lang="scss" scoped>
+@import '~theme/css/variables/colors';
+@import '~theme/css/helpers/functions/color';
+@import '~theme/css/helpers/mixins';
+::v-deep {
+ .filter-header {
+   padding: 0;
+ }
+}
 %reset-button {
     border: none;
     margin: 0;
@@ -200,10 +210,6 @@ export default {
     -moz-osx-font-smoothing: inherit;
     -webkit-appearance: none;
 }
-
-@import '~theme/css/variables/colors';
-@import '~theme/css/helpers/functions/color';
-@import '~theme/css/helpers/mixins';
 $grey: #E0E0E0;
 $border: 1px solid $grey;
 
@@ -213,7 +219,7 @@ $color-secondary: color(secondary);
   width: 92%;
   padding: 32px 0;
 
-  @include tablet-view {
+  @media only screen and (max-width: 576px) {
     padding: 16px 0;
     width: 100%
   }
@@ -232,7 +238,7 @@ $color-secondary: color(secondary);
     margin-right: 0;
   }
 
-  @include tablet-view {
+  @media only screen and (max-width: 576px) {
     margin-bottom: 0;
     flex-direction: column;
     
@@ -240,39 +246,43 @@ $color-secondary: color(secondary);
       margin-right: 0;
     }
   }
-
 }
 
 .start-md {
   display: flex;
   flex-direction: column;
-
-  @include tablet-view {
+  min-width: 250px;
+  @media only screen and (max-width: 576px) {
     padding: 0 16px;
   }
 }
 
+
 .footer {
   &__cta-section {
-    @include tablet-view {
+    @media only screen and (max-width: 768px) {
       flex-direction: row;
       justify-content: space-between;
       align-items: flex-start;
+      flex: 0 0 100%;
     }
   }
 
   &__category {
-
-    @include tablet-view {
+    @media only screen and (max-width: 768px) {
+      margin-bottom: 24px;
+    }
+    @media only screen and (max-width: 576px) {
       cursor: pointer;
+      margin-bottom: 0;
     }
     &--last {
-      @include tablet-view {
+      @media only screen and (max-width: 576px) {
         margin-bottom: 24px;
       }
     }
 
-    @include tablet-view {
+    @media only screen and (max-width: 576px) {
       border-top: $border;
       border-bottom: $border;
       padding-top: 12px;
@@ -305,21 +315,14 @@ $color-secondary: color(secondary);
     }
   }
 }
+
 .custom-logo {
   max-width: 89px;
   margin: 0 0 32px 0px;
-
-  @include tablet-view {
-    margin: 0;
-  }
 }
 
 .copyright {
   margin-top: auto;
-
-  @media only screen and (max-width: 768px) {
-    margin-top: 0;
-  }
 }
 
 .footer-routes {
@@ -345,22 +348,25 @@ $color-secondary: color(secondary);
   margin: 0 0 16px 0;
   color: #FFFFFF;
 
+  &.open {
+    margin-bottom: 16px;
+  }
   &--contact {
-    @include tablet-view {
+    @media only screen and (max-width: 576px) {
       margin-bottom: 16px !important;
     }
   }
   &--accept {
-    @include tablet-view {
+    @media only screen and (max-width: 576px) {
       margin-bottom: 16px !important;
     }
   }
-  &.unfolded {
-    margin: 0 0 16px 0;
-  }
-  @include tablet-view {
+
+  @media only screen and (max-width: 576px) {
     margin: 0;
-    // margin-bottom: 16px;
+  }
+  @include mobile-view {
+    font-size: 15px;
   }
 }
 
@@ -378,11 +384,13 @@ $color-secondary: color(secondary);
 
 footer {
   margin-top: auto;
-  border-top: $border;
+  border-top: 1px solid #E0E0E0;
   background-color: #1A1919;
+
 
   .color-white {
     color: white;
+
   }
 
   .copyright {
@@ -394,10 +402,6 @@ footer {
     line-height: 16px;
     color: #fff;
     text-align: left;
-
-    @media only screen and (max-width: 768px) {
-      padding: 0 16px;
-    }
   }
   h3 {
     font-family: 'DIN Pro';
@@ -432,8 +436,8 @@ footer {
       display: block;
       font-family: 'DIN Pro';
       font-weight: 600;
-      font-size: 15px;
-      line-height: 16px;
+      font-size: 18px;
+      line-height: 24px;
       color: #23BE20;
       margin-bottom: 12px;
 
@@ -457,7 +461,7 @@ footer {
     color: #BDBDBD;
     padding-bottom: 16px;
     margin-bottom: 24px;
-    border-bottom: $border;
+    border-bottom: 1px solid #fff;
   }
 }
 
@@ -525,5 +529,8 @@ footer {
     margin-top: 0;
   }
 
+  .footer-links {
+    padding-bottom: 30px;
+  }
 }
 </style>

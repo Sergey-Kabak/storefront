@@ -558,7 +558,6 @@ export default {
   opacity: 1;
   margin-bottom: 8px;
   border-radius: 4px;
-  box-shadow: 1px 1px 3px rgba(255,255,255, 0.2), 1px 1px 3px rgba(0, 0, 0, 0.2);
 
   &:hover {
     @media only screen and (max-width: 768px) {

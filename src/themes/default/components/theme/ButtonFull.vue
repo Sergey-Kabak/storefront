@@ -55,7 +55,6 @@ $hover : #20af1d;
 $focus : #1fa71c;
 $active : #1d9f1b;
 .button-full {
-  box-shadow: 1px 1px 3px rgba(255,255,255, 0.2), 1px 1px 3px rgba(0, 0, 0, 0.2);
   transition: background-color ease-in 0.2s;
   display: flex;
   justify-content: center;
