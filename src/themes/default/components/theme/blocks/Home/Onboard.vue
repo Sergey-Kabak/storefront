@@ -46,7 +46,6 @@ export default {
   data () {
     const storeView = currentStoreView()
     return {
-      a: 0,
       defaultTitle: storeView.seo.defaultTitle ? storeView.seo.defaultTitle : config.seo.defaultTitle
     }
   },

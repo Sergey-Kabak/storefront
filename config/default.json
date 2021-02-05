@@ -89,8 +89,8 @@
       "onload": false
     },
     {
-        "filters": ["dayjs-locales-.*"],
-        "onload": false
+      "filters": ["dayjs-locales-.*"],
+      "onload": false
     }
   ],
   "staticPages": {
