@@ -518,7 +518,6 @@ export default {
         .banner {
           .image {
             width: auto;
-            // max-height: 100px;
             height: 100px;
             margin-bottom: 32px;
           }
