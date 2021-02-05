@@ -41,6 +41,7 @@ export default {
       crossorigin: 'anonymous'
     },
     {
+      async: true,
       innerHTML: `!function(e,t,d,s,a,n,c){e[a]={},e[a].date=(new Date).getTime(),n=t.createElement(d),c=t.getElementsByTagName(d)[0],n.type="text/javascript",n.async=!0,n.src=s,c.parentNode.insertBefore(n,c)}(window,document,"script","https://ringooua.push.world/https.embed.js","pw"),pw.websiteId="abf442cf0a6f1750efd4852147bc6c33df27a98e0c984c693e2c00ee264d9caf";`
     }
   ],
