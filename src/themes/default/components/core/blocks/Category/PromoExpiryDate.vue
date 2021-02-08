@@ -45,9 +45,7 @@ export default {
       return this.$d(new Date(this.to).getTime(), 'longWithMonth')
     },
     daysLeft () {
-      let DateTo = Number(new Date(this.to && this.to.replace(' ', 'T')).getTime());
-      let DateNow = Date.now();
-      let DateDiff = DateTo - DateNow;
+      const DateDiff = new Date(this.to).getTime() - Date.now();
       return Math.floor(DateDiff / (1000 * 60 * 60 * 24)) + 1;
     }
   }
