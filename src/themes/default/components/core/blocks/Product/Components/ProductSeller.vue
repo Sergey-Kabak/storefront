@@ -46,6 +46,7 @@ export default {
   border-radius: 4px;
   padding: 16px;
   align-items: center;
+  margin-bottom: 20px;
   .seller-name-col {
     display: flex;
     align-items: center;

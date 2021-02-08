@@ -46,7 +46,7 @@
       <custom-seller-product />
 
       <credit-modal />
-
+      <city-picker />
       <cookie-notification/>
       <offline-badge/>
       <city-shop-picker />
@@ -68,7 +68,7 @@ import CreditModal from 'theme/components/core/blocks/CreditModal.vue';
 import { isServer } from '@vue-storefront/core/helpers';
 import Head from 'theme/head';
 import config from 'config';
-
+const CityPicker = () => import(/* webpackChunkName: "vsf-custom-city-picker-modal" */ 'theme/components/core/blocks/CityPicker/CityPicker.vue');
 const SidebarMenu = () => import(/* webpackChunkName: "vsf-sidebar-menu" */ 'theme/components/core/blocks/SidebarMenu/SidebarMenu.vue');
 const Microcart = () => import(/* webpackChunkName: "vsf-microcart" */ 'theme/components/core/blocks/Microcart/Microcart.vue');
 const Wishlist = () => import(/* webpackChunkName: "vsf-wishlist" */ 'theme/components/core/blocks/Wishlist/Wishlist.vue');
@@ -141,7 +141,8 @@ export default {
     AsyncSidebar,
     CustomSellerProduct,
     CityShopPicker,
-    CreditModal
+    CreditModal,
+    CityPicker
   }
 };
 </script>
