@@ -5,31 +5,7 @@
         <breadcrumbs withHomepage />
         <mobile-breadcrumbs withHomepage />
 
-        <div class="banner-description" v-if="getCurrentCategory.image || getCurrentCategory.description">
-          <div v-if="getCurrentCategory.image" :class="{full: !getCurrentCategory.description}">
-            <img class="desk" v-lazy="`https://magento.ringoo.ua/${getCurrentCategory.image}`" alt="banner">
-          </div>
-          <div class="banner-description__block" v-if="getCurrentCategory.description">
-            <h3>{{ $t('Description of the action') }}</h3>
-            <div class="banner-description-info">
-              <div class="banner-description__text-wrapper" :class="{'active': isDescriptionActive}" >
-                <div class="banner-description__text" :class="{'active': isDescriptionActive}" v-html="getCurrentCategory.description"></div>
-              </div>
-            </div>
-            <div class="banner-description__timer" v-if="!timeExpired">
-              <div class="banner-description__timer--only-today" v-if="onlyToday">
-                {{ $t('Only today') }}
-              </div>
-              <template v-else>
-                <span class="banner-description__timer--from-to">
-                  {{ $t('From date') }} {{ startTime }} {{ $t('To date') }} {{ endTime }} 
-                </span>
-                <div class="banner-description__timer--days-left-wrapper" v-html="daysLeftHTML">
-                </div>
-              </template>
-            </div>
-          </div>
-        </div>
+        <category-promo v-if="getCurrentCategory.image || getCurrentCategory.description" />
 
         <div class="title">
           <h1 class="category-title">
@@ -162,6 +138,7 @@ import GTM from '../mixins/GTM/dataLayer'
 import Description from "../components/core/blocks/Category/Description";
 import ButtonWhite from "../components/core/blocks/Product/ButtonWhite";
 import NoSSR from 'vue-no-ssr';
+import CategoryPromo from '../components/core/blocks/Category/CategoryPromo';
 const THEME_PAGE_SIZE = 32
 const composeInitialPageState = async (store, route, forceLoad = false) => {
   try {
@@ -197,7 +174,8 @@ export default {
     Spinner,
     Description,
     ButtonWhite,
-    'no-ssr': NoSSR
+    'no-ssr': NoSSR,
+    CategoryPromo
   },
   mixins: [onBottomScroll, GTM],
   data () {
@@ -212,8 +190,7 @@ export default {
         seconds: 0
       },
       expired: null,
-      interval: null,
-      isDescriptionActive: false
+      interval: null
     }
   },
   computed: {
@@ -239,68 +216,6 @@ export default {
     },
     filterLength () {
       return Object.keys(this.getCurrentSearchQuery && this.getCurrentSearchQuery.filters).length
-    },
-    daysLeftHTML() {
-      const [word, ...days] = this.$tc('{count} days left', this.daysLeft, { count: this.daysLeft } ).split(' ');
-      return `
-        <span class="banner-description__timer--days-left-word">${word}</span>
-        <span class="banner-description__timer--days-left-days">${days.join(' ')}</span>
-      `
-    },
-    timeExpired() {
-      if (!this.getCurrentCategory && this.getCurrentCategory.custom_design_to) return false
-      let countDownDate = Number(new Date(this.getCurrentCategory && this.getCurrentCategory.custom_design_to && this.getCurrentCategory.custom_design_to.replace(' ', 'T')).getTime());
-      let now = new Date().getTime();
-      let diff = countDownDate - now;
-      if (diff < 0) return true
-    },
-    onlyToday() {
-      if (!this.getCurrentCategory && this.getCurrentCategory.custom_design_from) return false
-      const [year, month, day] = this.getCurrentCategory.custom_design_from.split(' ')[0].split('-')
-      const [endYear, endMonth, endDay] = this.getCurrentCategory.custom_design_to.split(' ')[0].split('-')
-      if (endYear === year && endMonth === month && day === endDay) {
-        return true
-      }
-    },
-    startTime() {
-      if (!this.getCurrentCategory && this.getCurrentCategory.custom_design_from) return false
-      const [startYear, startMonth, startDay] = this.getCurrentCategory.custom_design_from.split(' ')[0].split('-')
-      const [endYear, endMonth, endDay] = this.getCurrentCategory.custom_design_to.split(' ')[0].split('-')
-      const countDownDate = Number(new Date(this.getCurrentCategory.custom_design_from.replace(' ', 'T')).getTime());
-      const day = startDay.replace('0', '')
-      if (+startMonth === +endMonth) {
-        return `${day}`
-      } else {
-        if (startYear === endYear) {
-          return this.$d(countDownDate, 'longWithMonth')
-        } else {
-          return this.$d(countDownDate, 'longWithMonthYear')
-        }
-      }
-    },
-    endTime() {
-      if (!this.getCurrentCategory && this.getCurrentCategory.custom_design_from) return false
-      const [startYear, startMonth, startDay] = this.getCurrentCategory.custom_design_from.split(' ')[0].split('-')
-      const [endYear, endMonth, endDay] = this.getCurrentCategory.custom_design_to.split(' ')[0].split('-')
-      const countDownDate = Number(new Date(this.getCurrentCategory.custom_design_to.replace(' ', 'T')).getTime());
-      const day = endDay.replace('0', '')
-      
-      if (+startMonth === +endMonth) {
-        return this.$d(countDownDate, 'longWithMonth')
-      } else {
-        if (startYear === endYear) {
-          return this.$d(countDownDate, 'longWithMonth')
-        } else {
-          return this.$d(countDownDate, 'longWithMonthYear')
-
-        }
-      }
-    },
-    daysLeft() {
-      let countDownDate = Number(new Date(this.getCurrentCategory && this.getCurrentCategory.custom_design_to && this.getCurrentCategory.custom_design_to.replace(' ', 'T')).getTime());
-      let now = new Date().getTime();
-      let diff = countDownDate - now;
-      return Math.floor(diff / (1000 * 60 * 60 * 24)) + 1;
     }
   },
   async asyncData ({ store, route, context }) { // this is for SSR purposes to prefetch data - and it's always executed before parent component methods
