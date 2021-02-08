@@ -1,6 +1,6 @@
 /* eslint-disable */
 self.addEventListener("activate", event => {
-  console.info("clearing old cache");
+  console.info("CLEARING OLD CACHE");
   event
     .waitUntil(
       caches
@@ -8,6 +8,7 @@ self.addEventListener("activate", event => {
         .then(keyList => {
           return Promise.all(
             keyList.map(key => {
+              console.log('delete ' + cacheName)
               return caches.delete(key);
             })
           );
@@ -15,9 +16,8 @@ self.addEventListener("activate", event => {
         .then(self.clients.claim())
         .then(async () => {
           const tabs = await self.clients.matchAll({ type: "window" });
-          console.log("refreshing sw in all tabs");
+          console.log("REFRESHING SW IN ALL TABS");
           tabs.forEach(tab => {
-            // ...and refresh each one of them
             tab.navigate(tab.url);
           });
         })
@@ -25,10 +25,5 @@ self.addEventListener("activate", event => {
 });
 
 self.addEventListener("install", function(event) {
-  // The promise that skipWaiting() returns can be safely ignored.
-  self.skipWaiting();
-
-  // Perform any other actions required for your
-  // service worker to install, potentially inside
-  // of event.waitUntil();
+  console.log('APPLICATION INSTALLING')
 });
