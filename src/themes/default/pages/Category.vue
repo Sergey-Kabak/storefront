@@ -15,8 +15,6 @@
               <div class="banner-description__text-wrapper" :class="{'active': isDescriptionActive}" >
                 <div class="banner-description__text" :class="{'active': isDescriptionActive}" v-html="getCurrentCategory.description"></div>
               </div>
-              <div class="next-button" v-if="!isDescriptionActive" @click="isDescriptionActive = true">{{ $t('more than') }}</div>
-              <div class="next-button next-button--close" v-else @click="isDescriptionActive = false">{{ $t('less than') }}</div>
             </div>
             <div class="banner-description__timer" v-if="!timeExpired">
               <div class="banner-description__timer--only-today" v-if="onlyToday">
@@ -555,7 +553,12 @@ $mobile_screen : 768px;
     }
   }
   .banner-description-info {
-   margin-bottom: 24px; 
+   margin-bottom: 24px;
+   height: 50%;
+
+   @media only screen and (max-width: 1024px) {
+     height: 100%;
+   }
   }
   .mobile-sorting {
     display: none;
@@ -732,7 +735,8 @@ $mobile_screen : 768px;
 
 .banner-description__text-wrapper {
   position: relative;
-  
+  height: 100%;
+
   &::before {
     z-index: 2;
     content: '';
@@ -742,20 +746,17 @@ $mobile_screen : 768px;
     height: 30%;
     width: 100%;
     background: linear-gradient(rgba(255, 255, 255, 0.02), white);
+
+    @media only screen and (max-width: 1024px) and (min-width: 600px) {
+      display: none;
+    }
   }
   &.active::before {
     height: 0;
   }
 }
 .banner-description__text {
-  /*! autoprefixer: off */
-  -webkit-box-orient: vertical;
-  display: -webkit-box;
-  -webkit-line-clamp: 5;
-  overflow: hidden;
-  @media only screen and (max-width: 1200px) {
-    -webkit-line-clamp: 3;
-  }
+  overflow-y: auto;
   height: 100%;
   &.active {
     display: block;
@@ -790,11 +791,16 @@ $mobile_screen : 768px;
   margin: 32px auto 0;
 }
 .banner-description__block {
-  width: 370px;
+  width: 315px;
   display: flex;
+  height: 335px;
   flex-direction: column;
   @media only screen and (max-width: 1024px) {
     width: 100%;
+    height: 100%;
+  }
+  @media only screen and (max-width: 600px) {
+    max-height: 335px;
   }
 }
 .banner-description {
@@ -807,7 +813,7 @@ $mobile_screen : 768px;
     &.desk {
       border-radius: 4px;
       margin-right: 20px;
-      height: 23.26vw;
+      height: 100%;
     }
     display: block;
     width: 100%;
@@ -836,13 +842,13 @@ $mobile_screen : 768px;
     border: 1px solid #E0E0E0;
     box-sizing: border-box;
     border-radius: 4px;
-    padding: 0 16px 16px 16px;
+    padding: 0 0 16px 16px;
     @media only screen and (max-width: 1200px) {
-      padding: 0 8px 8px 8px;
+      padding: 0 0 8px 8px;
     }
     position: relative;
     @media only screen and (max-width: 1024px) {
-      padding: 0 16px 16px 16px;
+      padding: 0 16 16px 16px;
       margin-top: 20px;
       width: 100%;
     }
@@ -851,6 +857,11 @@ $mobile_screen : 768px;
     }
     & > h3 {
       margin-top: 0;
+      padding-right: 16px;
+
+      @media only screen and (max-width: 1024px) {
+        padding-right: 0;
+      }
     }
   }
   h3 {
@@ -863,6 +874,8 @@ $mobile_screen : 768px;
     margin: 16px 0;
   }
   &__text {
+    overflow-y: auto;
+    height: 100%;
     font-family: DIN Pro;
     font-size: 15px;
     line-height: 24px;
@@ -875,6 +888,13 @@ $mobile_screen : 768px;
     align-items: center;
     margin-top: auto;
     font-family: DIN Pro;
+    margin-top: 0;
+    padding-right: 16px;
+
+    @media only screen and (max-width: 1024px) {
+      padding-right: 0;
+    }
+
     &--from-to {
       font-size: 12px;
       line-height: 16px;
