@@ -43,7 +43,8 @@ export default {
         </svg>
 
         `,
-        link: 'https://www.youtube.com/user/ringoo.ua',
+        path: '/assets/socials/youtube.svg',
+        link: 'https://www.youtube.com/user/ringooua',
         label: 'Go to Youtube'
       }]
     }

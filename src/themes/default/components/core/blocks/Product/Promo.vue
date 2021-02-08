@@ -12,11 +12,12 @@
       </span>
       <div class="promo-block-actions flex">
         <router-link
+          v-if="getCatLink()"
           class="no-underline super-link"
           :to="localizedRoute(getCatLink())"
           exact
         >
-          <button-grey v-if="!!getCurrentProduct.preorder" class="details">
+          <button-grey class="details">
             <span>{{ $t('Details') }}</span>
           </button-grey>
         </router-link>

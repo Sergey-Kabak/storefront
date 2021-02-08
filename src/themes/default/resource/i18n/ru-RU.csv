@@ -554,3 +554,73 @@ shipping cost,"Стоимость доставки:"
 success,"Успешно"
 to main,На главную
 work time,"Время работы"
+error,"Ошибка"
+failure,"Ошибка"
+success,"Успешно"
+shipping cost,"Стоимость доставки:"
+Services,Сервисы
+The requested qty is not available,"Желаемое количество товара недоступна"
+added {count} items,Товары не найдены | Добавлен {count} товар | Добавлено {count} товара | Добавлено {count} товаров
+add more to comapre,Добавить еще товар к сравнению
+indicate,Показывать
+All parameters,Все параметры
+Differences,Различия
+Compare Products,Сравнение товаров
+Products to comapre,Товары к сравнению
+compare,Сравнить
+Compare,Сравнение товаров
+No differences,Различий нет
+"Department","Отделение"
+"Number or address of New Post","Номер или адрес Новой Почты"
+"schedule","Пн-Пт: {mon}; Сб: {sat}; Вс: {sun}"
+"weekend","Выходной"
+"Remove from favorite",Удалить из избранного
+"Load more","Загрузить еще"
+"find product or brand","Найти продукт или бренд"
+"at your request","По Вашему запросу"
+"nothing found","ничего не найдено"
+"may suit you","Вам может подойти"
+"partial availability","Частичное наличие"
+"pre order", Предзаказ
+"pending delivery",Ожидается поставка
+"Calls according to the tariffs of your operator",Звонки согласно тарифов вашего оператора
+more,"Еще"
+collapse,"Свернуть"
+"Credit","Кредит"
+"Credit or installments","Кредит или рассрочка"
+"Credit offer","Кредитное предложение"
+"First installment","Первый взнос"
+"Suggestion","Предложение"
+"Number of payments","Количество платежей"
+"Monthly payment","Ежемесячный платеж"
+"Credit on delivery","Кредит или рассрочка"
+"only for pickup","Только при самовывозе"
+"Loan processing","Оформление кредита"
+"FIO","ФИО"
+"date of birth","Дата рождения"
+"INN","ИНН"
+"surname","Отчество"
+"{count} payment","{count} платежей | {count} платеж | {count} платежа | {count} платежей"
+"short month","мес"
+"additional services",Дополнительные услуги
+"Select products",Выбрать товары
+"Insurance",Страховка
+"To complete this credit offer, add product (s) and / or service (s)","Для оформления этого кредитного предложения, добавьте товар(ы) и/или услуг(и)"
+"To complete this credit offer, add product (s) and / or service (s) to the order in the amount of","Для оформления этого кредитного предложения добавьте к заказу товар(ы) и/или услугу(и) на сумму от "
+"still on",еще на
+"Condition is met","Условие выполнено"
+"product (s) and / or service (s) added to the order :)","товар(ы) и/или услуга(и) добавлены к заказу :)"
+"All stores","Все магазины"
+"Favorite stores","Любимые магазины"
+"Please change Your search criteria and try again. If still not finding anything relevant, please visit the Home page and try out some of our bestsellers!","Измените критерии поиска и попробуйте еще раз. Если по-прежнему ничего не найдено, посетите домашнюю страницу и попробуйте некоторые из наших бестселлеров!"
+"temabit_payparts","Оплата частями"
+"Recently viewed","Недавно просмотренные"
+"Recommend to buy","Рекомендуем приобрести"
+"Page not found","Страница не найдена"
+"Please check the spelling of the address in the browser bar","Пожалуйста, проверьте написание адреса в строке браузера",
+"Server error","Ошибка сервера"
+"Sorry, something went wrong","Сорри, что-то пошло не так"
+"We will fix it soon","Мы скоро это исправим"
+"We try hard:","мы очень стараемся:"
+"And will finish soon:","и скоро закончим:"
+"coming_soon",Скоро в наличии

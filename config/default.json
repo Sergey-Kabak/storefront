@@ -1,5 +1,5 @@
 {
-  "version": "1.04",
+  "version": "1.25",
   "server": {
     "host": "localhost",
     "port": 3000,
@@ -1048,6 +1048,24 @@
       "image_url": "https://ringoo.ua/img/600/744/resize/catalog/product/s/m/sm-t295nzkasek.png",
       "time": "2021-01-31 23:59:59",
       "category_link": "/planshet-samsung-sm-t295n-galaxy-tab-a8-2019-lte-2-32gb-black.html"
+    },
+    "2": {
+      "title": "Купуй Samsung Galaxy S21 та отримай подарунки!",
+      "image_url": "https://ringoo.ua/img/600/744/resize/catalog/product/s/m/sm-r190nzkasek.png",
+      "time": "2021-02-22 23:59:59",
+      "category_link": "/podarunki-vid-samsung"
+    },
+    "3": {
+      "title": "Купуй Samsung Galaxy S21 та отримай подарунки!",
+      "image_url": "https://ringoo.ua/img/600/744/resize/catalog/product/s/m/sm-r190nzkasek.png",
+      "time": "2021-02-22 23:59:59",
+      "category_link": "/sertifikat-vid-samsung"
+    },
+    "4": {
+      "title": "Вигідно разом! Розумні ваги Mi Body + Фітнес-браслет Mi Band 5",
+      "image_url": "https://ringoo.ua/img/600/744/resize/catalog/product/f/i/file_35_1.png",
+      "time": "2021-02-21 23:59:59",
+      "category_link": "/fitnes-braslet-mi-smart-band-5-black.html"
     }
   }
 }
