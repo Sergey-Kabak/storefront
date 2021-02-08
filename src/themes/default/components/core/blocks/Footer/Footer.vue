@@ -190,10 +190,8 @@ export default {
 @import '~theme/css/variables/colors';
 @import '~theme/css/helpers/functions/color';
 @import '~theme/css/helpers/mixins';
-::v-deep {
- .filter-header {
-   padding: 0;
- }
+::v-deep .filter-header {
+  padding: 0;
 }
 %reset-button {
     border: none;

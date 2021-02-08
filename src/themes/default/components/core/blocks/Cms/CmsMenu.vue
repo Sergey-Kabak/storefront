@@ -111,8 +111,6 @@ export default {
     .arrow {
       transform: rotate(-180deg)
     }
-    .menu-item-toggle .menu-item-icon {
-    }
   }
 }
 
@@ -138,7 +136,6 @@ export default {
   margin: 0;
   display: flex;
   align-items: center;
-  // padding: 8px 16px 8px 0;
 }
 
 .menu-item-title {

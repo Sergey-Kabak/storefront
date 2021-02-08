@@ -339,7 +339,6 @@ $screen-l: 1170px;
 }
 
 .compare-container {
-  // padding-top: 16px;
   @media (min-width: 768px) {
     padding-bottom: 68px;
   }

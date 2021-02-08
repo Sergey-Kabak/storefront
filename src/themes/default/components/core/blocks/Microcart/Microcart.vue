@@ -416,7 +416,6 @@ export default {
       &-top {
         padding: 56px 16px 0px 16px;
         flex-direction: column;
-        // align-items: flex-start;
         margin-bottom: 16px;
       }
 
