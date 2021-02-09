@@ -52,6 +52,64 @@ export default {
 }
 </script>
 
-<style scoped lang="scss">
+<style lang="scss">
+.banner-description {
+  &__text {
+    overflow-y: auto;
+    height: 100%;
+    font-family: DIN Pro;
+    font-size: 15px;
+    line-height: 24px;
+    color: #5f5e5e;
+    margin-bottom: 8px;
+    margin: 0;
+  }
+  &__timer {
+    display: flex;
+    align-items: baseline;
+    margin-top: auto;
+    font-family: DIN Pro;
+    margin-top: 0;
+    padding-right: 16px;
 
+    @media only screen and (max-width: 1024px) {
+      padding-right: 0;
+    }
+
+    &--from-to {
+      font-size: 12px;
+      line-height: 16px;
+      position: relative;
+      margin-right: 16px;
+      color: rgba(95, 94, 94, 0.6);
+      text-align: justify;
+
+      &::after {
+        content: '';
+        height: 100%;
+        width: 1px;
+        position: absolute;
+        right: -8px;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        background-color: #E0E0E0;
+      }
+    }
+    &--days-left-wrapper {
+      display: flex;
+      align-items: baseline;
+    }
+    &--days-left-days {
+      white-space: nowrap;
+      color: #EE2C39;
+      font-size: 14px;
+      line-height: 16px;
+    }
+    &--days-left-word {
+      font-size: 12px;
+      line-height: 12px;
+      margin-right: 4px;
+    }
+  }
+}
 </style>

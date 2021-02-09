@@ -467,14 +467,7 @@ $mobile_screen : 768px;
       margin-left: 7px;
     }
   }
-  .banner-description-info {
-   margin-bottom: 24px;
-   height: 50%;
 
-   @media only screen and (max-width: 1024px) {
-     height: 100%;
-   }
-  }
   .mobile-sorting {
     display: none;
   }
@@ -648,41 +641,6 @@ $mobile_screen : 768px;
     }
   }
 
-.banner-description__text-wrapper {
-  position: relative;
-  height: 100%;
-
-  &::before {
-    z-index: 2;
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    height: 30%;
-    width: 100%;
-    background: linear-gradient(rgba(255, 255, 255, 0.02), white);
-
-    @media only screen and (max-width: 1024px) and (min-width: 600px) {
-      display: none;
-    }
-  }
-  &.active::before {
-    height: 0;
-  }
-}
-.banner-description__text {
-  overflow-y: auto;
-  height: 100%;
-  &.active {
-    display: block;
-  }
-
-  ::v-deep {
-    p {
-      margin: 0;
-    }
-  }
-}
   @media (max-width: 576px) {
     .next-button {
       display: inline-block;
@@ -698,154 +656,14 @@ $mobile_screen : 768px;
   .close {
     margin-left: auto;
   }
+
 </style>
 <style lang="scss">
-@import '~theme/css/helpers/mixins';
 
 .load{
   margin: 32px auto 0;
 }
-.banner-description__block {
-  width: 315px;
-  display: flex;
-  height: 335px;
-  flex-direction: column;
-  @media only screen and (max-width: 1024px) {
-    width: 100%;
-    height: 100%;
-  }
-  @media only screen and (max-width: 600px) {
-    max-height: 335px;
-  }
-}
-.banner-description {
-  margin-bottom: 64px;;
-  display: flex;
-  @media only screen and (max-width: 1024px) {
-    flex-direction: column;
-  }
-  img {
-    &.desk {
-      border-radius: 4px;
-      margin-right: 20px;
-      height: 100%;
-    }
-    display: block;
-    width: 100%;
-    &.mob {
-      display: none;
-    }
-  }
-  .full {
-    width: 100%;
-    img.desk {
-      width: 100% !important;
-      height: auto !important;
-      min-width: 100%;
-      max-width: 100%;
-      min-height: 100%;
-      max-height: 100%;
-      display: block !important;
-    }
-    img.mob {
-      display: none !important;
-    }
-  }
 
-  &__block {
-    background: #FFFFFF;
-    border: 1px solid #E0E0E0;
-    box-sizing: border-box;
-    border-radius: 4px;
-    padding: 0 0 16px 16px;
-    @media only screen and (max-width: 1200px) {
-      padding: 0 0 8px 8px;
-    }
-    position: relative;
-    @media only screen and (max-width: 1024px) {
-      padding: 0 16 16px 16px;
-      margin-top: 20px;
-      width: 100%;
-    }
-    @include mobile-view {
-      margin-top: 16px;
-    }
-    & > h3 {
-      margin-top: 0;
-      padding-right: 16px;
-
-      @media only screen and (max-width: 1024px) {
-        padding-right: 0;
-      }
-    }
-  }
-  h3 {
-    font-family: DIN Pro;
-    font-style: normal;
-    font-weight: 600;
-    font-size: 18px;
-    line-height: 23px;
-    color: #1A1919;
-    margin: 16px 0;
-  }
-  &__text {
-    overflow-y: auto;
-    height: 100%;
-    font-family: DIN Pro;
-    font-size: 15px;
-    line-height: 24px;
-    color: #5f5e5e;
-    margin-bottom: 8px;
-    margin: 0;
-  }
-  &__timer {
-    display: flex;
-    align-items: center;
-    margin-top: auto;
-    font-family: DIN Pro;
-    margin-top: 0;
-    padding-right: 16px;
-
-    @media only screen and (max-width: 1024px) {
-      padding-right: 0;
-    }
-
-    &--from-to {
-      font-size: 12px;
-      line-height: 16px;
-      position: relative;
-      margin-right: 16px;
-      color: rgba(95, 94, 94, 0.6);
-      text-align: justify;
-
-      &::after {
-        content: '';
-        height: 100%;
-        width: 1px;
-        position: absolute;
-        right: -8px;
-        top: 50%;
-        transform: translate(-50%, -50%);
-        background-color: #E0E0E0;
-      }
-    }
-    &--days-left-wrapper {
-      display: flex;
-      align-items: center;
-    }
-    &--days-left-days {
-      white-space: nowrap;
-      color: #EE2C39;
-      font-size: 14px;
-      line-height: 16px;
-    }
-    &--days-left-word {
-      font-size: 12px;
-      line-height: 12px;
-      margin-right: 4px;
-    }
-  }
-}
 
 @media (max-width: 950px) {
   .product-listing {
@@ -856,11 +674,6 @@ $mobile_screen : 768px;
   }
 }
 
-@media (max-width: 768px) {
-  .banner-description {
-    margin-bottom: 46px;
-  }
-}
 
 @media (max-width: 500px) {
   #category {
