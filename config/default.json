@@ -341,6 +341,7 @@
         "configurable_children.final_price",
         "configurable_children.url_path",
         "configurable_children.url_key",
+        "configurable_children.coming_soon",
         "category_ids",
         "id",
         "name",
