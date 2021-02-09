@@ -79,6 +79,7 @@
 "INN","ІНН"
 "In credit","У кредит"
 "In stock","В наявності"
+"InStock","В наявності"
 "In the near future we will call you back to clarify the details. Have a nice day!)","Найближчим часом ми вам передзвонимо для уточнення деталей. Прекрасного дня!)"
 "Instant Checkout","Миттєве замовлення"
 "Insurance",Страховка
@@ -97,6 +98,7 @@
 "Name must have at least 2 letters.","Ім'я має складатися не менш ніж с двох букв"
 "No reviews have been posted yet. Please don't hesitate to share Your opinion and write the first review!","Відгуків ще не було опубліковано. Будь ласка, не соромтеся поділитися своєю думкою та написати перший відгук!"
 "Not available","Немає в наявності"
+"NotAvailable","Немає в наявності"
 "Nothing to show","магазинів не знайдено"
 "Novaya Pochta(Branch)","Нова Пошта(Відділення)"
 "Number of payments","Кількість платежів"
@@ -238,7 +240,7 @@
 "partial availability","Частково в наявності"
 "pc.","шт."
 "pending delivery",Очікується поставка
-"pending delivery",Очікується поставка
+"PendingDelivery",Очікується поставка
 "pre order", Передзамовлення
 "pre order", Передзамовлення
 "price by promotional code","ціна за промокодом"
@@ -642,3 +644,4 @@ No differences,Відмінностей немає
 "We try hard:","ми дуже стараємось:"
 "And will finish soon:","і скоро закінчимо:"
 "coming_soon",Скоро в наявності
+"ComingSoon",Скоро в наявності
