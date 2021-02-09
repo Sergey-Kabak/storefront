@@ -1,5 +1,5 @@
 <template>
-  <div @click="gtm" class="product w-100 pb20 d-flex-column btw" v-observe-visibility="visibilityChanged">
+  <div @click="gtm" class="product w-100 pb20 d-flex-column btw bg-white" v-observe-visibility="visibilityChanged">
     <div v-if="ValentainsDay" class="promo_img">
       <img :src="ValentainsDay" alt="valentines-day">
     </div>
@@ -372,6 +372,9 @@ export default {
   $bg-secondary: color(secondary, $colors-background);
   $border-secondary: color(secondary, $colors-border);
   $color-white: color(white);
+  .bg-white{
+    background-color: #fff;
+  }
   .promo_img{
     position: absolute;
     z-index: 2;

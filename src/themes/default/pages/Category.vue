@@ -1,11 +1,12 @@
 <template>
-  <div id="category">
+  <div id="category" :class="{march: isMarchPromo}">
+    <March8 v-if="isMarchPromo" />
     <header>
       <div class="v-container">
-        <breadcrumbs withHomepage />
-        <mobile-breadcrumbs withHomepage />
+        <breadcrumbs v-if="!isMarchPromo" withHomepage />
+        <mobile-breadcrumbs v-if="!isMarchPromo" withHomepage />
 
-        <div class="banner-description" v-if="getCurrentCategory.image || getCurrentCategory.description">
+        <div class="banner-description" v-if="!isMarchPromo && (getCurrentCategory.image || getCurrentCategory.description)">
           <div v-if="getCurrentCategory.image" :class="{full: !getCurrentCategory.description}">
             <img class="desk" v-lazy="`https://magento.ringoo.ua/${getCurrentCategory.image}`" alt="banner">
           </div>
@@ -56,6 +57,7 @@
             {{ $tc('{count} items', getCategoryProductsTotal) }}
           </p>
           <sidebar :filters="getAvailableFilters" @changeFilter="changeFilter" />
+          <img class="march-promo-image" src="/assets/promo/march-8-bg-image.jpg" alt="">
         </div>
         <div class="mobile-filters" v-show="mobileFilters">
           <div class="filter-overlay" :class="{'hasFilters' : Object.keys(getCurrentSearchQuery.filters).length > 0}">
@@ -153,6 +155,7 @@ import GTM from '../mixins/GTM/dataLayer'
 import Description from "../components/core/blocks/Category/Description";
 import ButtonWhite from "../components/core/blocks/Product/ButtonWhite";
 import NoSSR from 'vue-no-ssr';
+import March8 from '../components/core/blocks/Category/Promotions/March8';
 const THEME_PAGE_SIZE = 32
 const composeInitialPageState = async (store, route, forceLoad = false) => {
   try {
@@ -188,7 +191,8 @@ export default {
     Spinner,
     Description,
     ButtonWhite,
-    'no-ssr': NoSSR
+    'no-ssr': NoSSR,
+    March8
   },
   mixins: [onBottomScroll, GTM],
   data () {
@@ -216,6 +220,9 @@ export default {
       getAvailableFilters: 'category-next/getAvailableFilters',
       getCategorySearchProductsStats: 'category-next/getCategorySearchProductsStats'
     }),
+    isMarchPromo () {
+      return this.$route.path.search('/8-march') >= 0
+    },
     isDescription () {
       return !!this.getCurrentCategory
     },
@@ -314,6 +321,17 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.march{
+  background-image: url('/assets/promo/march-8-bg-dots.jpg');
+  background-repeat: no-repeat;
+  background-position: 97% 94%;
+  background-attachment: fixed;
+}
+.march-promo-image{
+  position: relative;
+  right: 57px;
+  margin-top: 100px;
+}
 $mobile_screen : 768px;
   ::v-deep .spinner{
     display: flex;
