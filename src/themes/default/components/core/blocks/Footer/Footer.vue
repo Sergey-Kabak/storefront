@@ -214,7 +214,7 @@ $border: 1px solid $grey;
 $color-secondary: color(secondary);
 
 .v-container {
-  width: 92%;
+  width: 95%;
   padding: 32px 0;
 
   @media only screen and (max-width: 576px) {
@@ -258,6 +258,10 @@ $color-secondary: color(secondary);
 
 .footer {
   &__cta-section {
+    flex: unset;
+    min-width: unset;
+    margin-right: 129px;
+
     @media only screen and (max-width: 768px) {
       flex-direction: row;
       justify-content: space-between;
@@ -434,8 +438,8 @@ footer {
       display: block;
       font-family: 'DIN Pro';
       font-weight: 600;
-      font-size: 18px;
-      line-height: 24px;
+      font-size: 15px;
+      line-height: 18px;
       color: #23BE20;
       margin-bottom: 12px;
 

@@ -253,7 +253,7 @@ export default {
       display: flex;
       justify-content: space-between;
       flex-direction: column;
-      margin-bottom: 32px;
+      margin-bottom: 24px;
 
       &-title {
         display: inline-block;

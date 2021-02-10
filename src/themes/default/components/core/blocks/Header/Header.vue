@@ -289,7 +289,7 @@ header {
   }
 }
 .header-wrap {
-  height: 142px;
+  height: 144px;
 }
 .minimal {
   height: 67px;
@@ -333,11 +333,14 @@ header {
         font-weight: 500;
         font-size: 13px;
         line-height: 16px;
-        margin: 0 25px;
+        margin-right: 47px;
         display: flex;
         align-items: center;
         position: relative;
         transform: rotate(0deg);
+        &:last-child {
+          margin-right: 0;
+        }
 
         &:hover {
           a {
@@ -415,8 +418,8 @@ header {
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-right: 14px;
-    padding: 8px;
+    margin-right: 23px;
+    // padding: 8px;
     border-radius: 4px;
     transition: .2s ease-in-out;
 
