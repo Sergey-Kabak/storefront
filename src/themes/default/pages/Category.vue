@@ -365,7 +365,7 @@ $mobile_screen : 768px;
   }
 
   .breadcrumbs {
-    margin-bottom: 24px;
+    margin: 15px 0;
     &.mobile {
       display: none;
     }
