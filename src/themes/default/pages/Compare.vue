@@ -924,7 +924,7 @@ $screen-l: 1170px;
     display: flex;
     justify-content: flex-start;
     @media (min-width: $screen-l) {
-      padding: 12px 17px;
+      padding: 12px 19px;
       line-height: 16px;
       font-size: 0.7rem;
     }

@@ -441,7 +441,7 @@ footer {
       font-size: 15px;
       line-height: 18px;
       color: #23BE20;
-      margin-bottom: 12px;
+      margin-bottom: 8px;
 
       &:last-child {
         margin-bottom: 0;

@@ -1,6 +1,6 @@
 <template>
   <div class="banner-description">
-    <div v-if="getCurrentCategory.image" :class="{full: !getCurrentCategory.description}">
+    <div v-if="getCurrentCategory.image" class="banner-description__image-wrapper" :class="{full: !getCurrentCategory.description}">
       <img class="desk" :src="thumbnail" alt="banner">
     </div>
     <div class="banner-description__block" v-if="getCurrentCategory.description">
@@ -86,7 +86,6 @@ export default {
       display: none !important;
     }
   }
-
   h3 {
     font-family: DIN Pro;
     font-style: normal;
@@ -96,7 +95,9 @@ export default {
     color: #1A1919;
     margin: 16px 0;
   }
-
+  &__image-wrapper {
+    flex: 1;
+  }
   &__block {
     margin-left: 20px;
     display: flex;
