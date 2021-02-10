@@ -349,7 +349,7 @@ $screen-l: 1170px;
 
 @media (max-width: 767px) {
   .compare__features-item.attr-name {
-    padding-left: 16px;
+    padding-left: 17px;
     font-family: DIN Pro;
     font-style: normal;
     //font-weight: 400 !important;
@@ -924,7 +924,7 @@ $screen-l: 1170px;
     display: flex;
     justify-content: flex-start;
     @media (min-width: $screen-l) {
-      padding: 16px;
+      padding: 12px 17px;
       line-height: 16px;
       font-size: 0.7rem;
     }
