@@ -253,10 +253,10 @@ export default {
 }
 
 .base-input {
-  margin-bottom: 16px;
+  margin-bottom: 18px;
 
   &:last-child {
-    margin-bottom: 24px;
+    margin-bottom: 32px;
   }
 }
 @media (max-width: 960px) {

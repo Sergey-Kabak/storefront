@@ -56,6 +56,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.arrow {
+  margin-right: 10px;
+}
 .header-wrapper {
   width: 100%;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.05);
@@ -68,8 +71,8 @@ export default {
   display: grid;
   align-items: center;
   grid-template-columns: 1fr 1fr 1fr;
-  width: 95%;
-  max-width: 1324px;
+  width: 90%;
+  max-width: 1157px;
   margin: auto;
 }
 
