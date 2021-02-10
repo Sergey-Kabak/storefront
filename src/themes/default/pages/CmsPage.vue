@@ -67,7 +67,7 @@ export default {
 
 <style lang="scss" scoped>
 .v-container {
-  width: 90%;
+  width: 92%;
 }
 
 header {
@@ -367,7 +367,7 @@ header {
 
   .title {
     display: flex;
-    align-items: flex-start;
+    align-items: center;
     position: relative;
     margin: 0 0 16px 0;
     font-family: DIN Pro;

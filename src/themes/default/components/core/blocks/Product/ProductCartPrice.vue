@@ -106,11 +106,11 @@ export default {
 //   }
 // }
 
-// .not-mobile {
-//   @media (max-width: 767px) {
-//     display: none !important;
-//   }
-// }
+.not-mobile {
+  @media (max-width: 767px) {
+    display: none !important;
+  }
+}
 
 // .price-sale.only-mobile {
 //   position: absolute;
@@ -172,6 +172,8 @@ export default {
   display: flex;
   align-items: flex-start;
   justify-content: flex-start;
+
+  margin-top: auto;
 }
 
 .price {
