@@ -339,7 +339,12 @@ header {
         position: relative;
         transform: rotate(0deg);
         &:last-child {
-          margin-right: 0;
+          @media only screen and (min-width: 1200px) {
+            margin-right: 0;
+          }
+          @media only screen and (max-width: 768px) {
+            margin-right: 0;
+          }
         }
 
         &:hover {
@@ -706,7 +711,7 @@ header {
 
   .header-right {
     .icon {
-      margin-right: 21px;
+      margin-right: 10px;
     }
   }
 
