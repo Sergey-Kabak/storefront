@@ -52,6 +52,7 @@ export default {
 
     @media (max-width: 1200px)
       width: 256px
+      padding: 0
 
     @media (max-width: 991px)
       width: 230px

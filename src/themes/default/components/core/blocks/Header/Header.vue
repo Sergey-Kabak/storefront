@@ -586,7 +586,11 @@ header {
 .header-placeholder {
   height: 54px;
 }
-
+.header-top-container {
+  @media only screen and (max-width: 1200px) {
+    max-width: 92%;
+  }
+}
 .account {
   &__text {
     display: block;
@@ -602,7 +606,6 @@ header {
 
 @media (max-width: 768px) {
   .header-top {
-    padding: 0 16px;
   }
 
   .header-black-line {
