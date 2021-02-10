@@ -115,6 +115,7 @@ export default {
 .product {
   display: flex;
   align-items: flex-start;
+  padding: 16px;
 
   &.out-of-stock {
     .product-name, .price-current {
@@ -130,7 +131,6 @@ export default {
 .product-left {
   display: flex;
   align-items: center;
-  margin-right: 12px;
 
   .remove-icon {
     cursor: pointer;
@@ -143,8 +143,9 @@ export default {
     }
 
     .product-image__thumb, .product-image {
-      max-width: 50px;
-      max-height: 50px;
+      max-width: 88px;
+      max-height: 88px;
+      margin-right: 16px;
     }
   }
 }
@@ -152,6 +153,9 @@ export default {
 .product-middle {
   margin-right: 12px;
   width: 100%;
+  & > *:first-child {
+    margin-bottom: 25px;
+  }
 }
 
 .product-right-data {
@@ -183,7 +187,7 @@ export default {
 
   .add-to-cart-button {
     max-width: 131px;
-    height: 32px;
+    height: 32px !important;
   }
 }
 
@@ -191,8 +195,8 @@ export default {
   display: inline-block;
   margin-bottom: 8px;
   font-family: DIN Pro;
-  font-size: 13px;
-  line-height: 16px;
+  font-size: 15px;
+  line-height: 18px;
   color: #1A1919;
   cursor: pointer;
 }

@@ -71,7 +71,7 @@
       </div>
     </section>
 
-    <section class="v-container pb60">
+    <section class="v-container section__banner">
       <div class="banner">
         <picture>
           <source srcset="/assets/promo/delivery_promo_288x260.jpg" media="(max-width: 400px)">
@@ -81,7 +81,7 @@
       </div>
     </section>
 
-    <section v-if="isOnline" class="v-container pb60 ">
+    <section v-if="isOnline" class="v-container section__shares">
       <header class="col-md-12">
         <h2 class="cl-accent">
           {{ $t('Our shares') }}
@@ -305,13 +305,16 @@ export default {
 }
 </script>
 
-<style lang="sass">
+<style lang="sass" scoped>
   #home
     h2
       font-family: 'DIN Pro'
       font-size: 24px
       line-height: 30px
       color: #1A1919
+      margin-top: 0;
+      margin-bottom: 33px;
+      padding-left: 0;
     .show-all
       min-width: 233px
       margin: 32px auto 68px auto
@@ -344,8 +347,8 @@ export default {
           .VueCarousel-dot-button
             background: #23BE20 !important
   .offer-gallery
-    &.v-container
-      width: 95%
+    margin-bottom: 68px;
+
   .gallery-title
     margin: 68px 0px 32px 0px
     font-family: 'DIN Pro'
@@ -357,8 +360,10 @@ export default {
 </style>
 
 <style lang="scss" scoped>
+@import '~theme/css/helpers/mixins';
+
   .v-container {
-    width: 90%;
+    width: 95%;
   }
 
   .promo-image {
@@ -378,12 +383,12 @@ export default {
       display: flex;
       justify-content: space-between;
       flex-wrap: wrap-reverse;
-      align-items: flex-end;
+      align-items: space-between;
       grid-column: span 2;
       box-sizing: border-box;
       background: #F6F7FA;
       border-radius: 4px;
-      padding: 32px;
+      padding: 24px;
       position: relative;
       height: 320px;
 
@@ -397,8 +402,9 @@ export default {
 
       .image {
         display: block;
-        width: 40%;
+        max-width: 50%;
         height: auto;
+        max-height: 270px;
       }
 
       .title {
@@ -414,10 +420,10 @@ export default {
         font-family: DIN Pro;
         font-style: normal;
         font-weight: normal;
-        font-size: 16px;
-        line-height: 24px;
+        font-size: 15px;
+        line-height: 18px;
         color: #595858;
-        margin-top: 16px;
+        margin-top: 8px;
       }
 
       .text {
@@ -439,7 +445,7 @@ export default {
         padding: 16px;
         flex-direction: column-reverse;
         align-items: center;
-        justify-content: flex-end;
+        justify-content: space-between;
         height: 100%;
 
         .text {
@@ -447,9 +453,9 @@ export default {
         }
 
         .image {
-          width: 100%;
-          max-width: 180px;
+          max-width: 100%;
           margin-bottom: 16px;
+          width: auto;
         }
       }
     }
@@ -460,16 +466,23 @@ export default {
       margin: 48px 0px 24px 0px;
     }
 
+    .text {
+      margin-top: auto;
+      height: 68px;
+    }
+    
     .banner-group {
       grid-gap: 16px;
       .banner {
         grid-column: span 3;
+        height: auto;
+        justify-content: flex-end;
 
         &:last-child {
           grid-column: span 6;
           flex-direction: row;
           align-items: center;
-          justify-content: space-between;
+          justify-content: flex-end;
           flex-wrap: nowrap;
 
           .text {
@@ -486,13 +499,15 @@ export default {
         .description {
           font-size: 13px;
           line-height: 16px;
+          @include maxLines(3);
         }
 
-        .image {
-          min-width: 100px;
-
-          &:last-child {
+        &:last-child {
+          .image {
             margin-bottom: 0;
+          }
+          .text {
+            width: 100%;
           }
         }
       }
@@ -502,7 +517,12 @@ export default {
       .banner-group {
         .banner {
           .image {
-            max-width: 120px;
+            width: auto;
+            height: 100px;
+            margin-bottom: 32px;
+          }
+          .text {
+            margin-top: unset;
           }
         }
       }
@@ -512,6 +532,19 @@ export default {
           max-width: 100%;
           width: 100%;
         }
+      }
+    }
+  }
+
+  .section {
+    &__shares {
+      padding-bottom: 30px;
+    }
+    &__banner {
+      margin-bottom: 68px;
+
+      @media only screen and (max-width: 768px) {
+        margin-bottom: 54px;
       }
     }
   }

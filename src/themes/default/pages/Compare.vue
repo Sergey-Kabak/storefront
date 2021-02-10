@@ -16,7 +16,7 @@
               </button>
             </h2>
             <div v-if="items.length" class="compare-nav-container--mobile">
-              <div class="compare-nav__link weight-700" @click="goBack()">{{ $t('add more to comapre') }}</div>
+              <div class="compare-nav__link weight-700" @click="goBack()">{{ $t('add more to compare') }}</div>
               <div class="flex">
                 <div class="compare-nav__text weight-400">{{
                     $tc(`added {count} items`, addedProducts[currentCategory])
@@ -31,7 +31,7 @@
         </div>
       </div>
     </div>
-    <div class="pt35 f-container container compare-container" ref="compare-container">
+    <div class="f-container container compare-container" ref="compare-container">
       <div class="row" v-if="items.length">
         <div class="col-xs-12 compare-col">
           <div class="compare__products-table" ref="compare__products-table">
@@ -42,7 +42,7 @@
                     <div class="compare-nav__text weight-400">
                       {{ $tc(`added {count} items`, addedProducts[currentCategory]) }}
                     </div>
-                    <div class="compare-nav__link" @click="goBack()">{{ $t('add more to comapre') }}</div>
+                    <div class="compare-nav__link" @click="goBack()">{{ $t('add more to compare') }}</div>
                     <div class="compare-nav__text underline" @click="removeAll">
                       {{ $t('Remove all') }}
                     </div>
@@ -339,7 +339,6 @@ $screen-l: 1170px;
 }
 
 .compare-container {
-  padding-top: 16px;
   @media (min-width: 768px) {
     padding-bottom: 68px;
   }
@@ -350,7 +349,7 @@ $screen-l: 1170px;
 
 @media (max-width: 767px) {
   .compare__features-item.attr-name {
-    padding-left: 16px;
+    padding-left: 17px;
     font-family: DIN Pro;
     font-style: normal;
     //font-weight: 400 !important;
@@ -483,7 +482,7 @@ $screen-l: 1170px;
     line-height: 16px;
     color: #1A1919;
     display: inline-block;
-    margin-bottom: 29px;
+    margin-bottom: 28px;
 
     &.underline {
       cursor: pointer;
@@ -925,7 +924,7 @@ $screen-l: 1170px;
     display: flex;
     justify-content: flex-start;
     @media (min-width: $screen-l) {
-      padding: 16px;
+      padding: 12px 19px;
       line-height: 16px;
       font-size: 0.7rem;
     }

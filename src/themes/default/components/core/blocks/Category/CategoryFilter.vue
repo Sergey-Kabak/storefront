@@ -1,9 +1,11 @@
 <template>
   <div>
     <div class="filter-header" @click="toggleFitler()">
-      <b class="filter-header__title">
-        {{ $t(label) }}
-      </b>
+      <slot name="label" :isActive="isActive">
+        <b class="filter-header__title">
+          {{ $t(label) }}
+        </b>
+      </slot>
       <div class="filter-button" :class="{ active: !isActive }">
         <span class="line-horizontal line" />
         <span class="line-vertical line" />
@@ -19,9 +21,11 @@
 
 <script>
 export default {
-  data: () => ({
-    isActive: true
-  }),
+  data() {
+    return {
+      isActive: this.openByDefault
+    }
+  },
   props: {
     label: {
       type: String,
@@ -30,6 +34,10 @@ export default {
     noscroll : {
       type: String,
       required: false
+    },
+    openByDefault: {
+      type: Boolean,
+      default: true
     }
   },
   methods: {
@@ -61,7 +69,7 @@ export default {
 .filter-body {
   box-sizing: border-box;
   max-height: 300px;
-  border-bottom: 20px solid transparent;
+  border-bottom: 23px solid transparent;
   overflow-y: auto;
 }
 

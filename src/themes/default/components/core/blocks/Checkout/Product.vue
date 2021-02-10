@@ -180,7 +180,7 @@ export default {
   img {
     display: block;
     max-width: 100%;
-    max-height: 100%;
+    // max-height: 100%;
     width: auto;
     height: auto;
   }
@@ -221,6 +221,11 @@ img {
   font-size: 15px;
   line-height: 18px;
   color: #1A1919;
+
+  @media only screen and (max-width: 520px) {
+    font-size: 13px;
+    line-height: 15px;
+  }
 }
 
 .product-data {
@@ -288,7 +293,12 @@ img {
     background-color: #F9F9F9;
   }
 }
-
+@media only screen and (max-width: 520px) {
+  .product-image {
+    width: 56px;
+    height: 56px;
+  }
+}
 @media (max-width: 768px) {
   .product {
     grid-template-areas:
@@ -298,11 +308,6 @@ img {
 
   .product-info-bottom {
     justify-content: space-between;
-  }
-
-  .product-image {
-    width: 56px;
-    height: 56px;
   }
 
   .product-info-top {
