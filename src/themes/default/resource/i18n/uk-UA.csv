@@ -642,3 +642,6 @@ No differences,Відмінностей немає
 "We try hard:","ми дуже стараємось:"
 "And will finish soon:","і скоро закінчимо:"
 "coming_soon",Скоро в наявності
+"{count} days left","Акція закінчилась | Залишився {count} день | Залишилось {count} дні | Залишилось {count} днів"
+From date, з
+To date, по
