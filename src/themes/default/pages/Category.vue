@@ -190,7 +190,10 @@ export default {
         seconds: 0
       },
       expired: null,
-      interval: null
+      interval: null,
+      isDescriptionActive: false,
+      touchX: 0,
+      touchY: 0
     }
   },
   computed: {
@@ -218,6 +221,10 @@ export default {
       return Object.keys(this.getCurrentSearchQuery && this.getCurrentSearchQuery.filters).length
     }
   },
+  mounted () {
+    window.addEventListener('touchstart', this.touchStart)
+    window.addEventListener('touchend', this.touchEnd)
+  },
   async asyncData ({ store, route, context }) { // this is for SSR purposes to prefetch data - and it's always executed before parent component methods
     if (context) context.output.cacheTags.add('category')
     await composeInitialPageState(store, route)
@@ -240,6 +247,15 @@ export default {
     }
   },
   methods: {
+    touchStart (e) {
+      this.touchX = e.targetTouches[0].clientX
+      this.touchY = e.targetTouches[0].clientY
+    },
+    touchEnd (e) {
+      if (e.changedTouches[0].clientX - this.touchX > 200 && (e.changedTouches[0].clientY + 75 > this.touchY && e.changedTouches[0].clientY - 75 < this.touchY)) {
+        this.mobileFilters = false
+      }
+    },
     resetAllFilters () {
       this.$store.dispatch('category-next/resetSearchFilters')
     },
@@ -270,6 +286,8 @@ export default {
   },
   beforeDestroy () {
     this.closeFilters()
+    window.removeEventListener('touchstart', this.touchStart)
+    window.removeEventListener('touchend', this.touchEnd)
   },
   metaInfo () {
     const storeView = currentStoreView()
