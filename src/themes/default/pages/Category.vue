@@ -306,7 +306,7 @@ $mobile_screen : 768px;
     top: 30px;
   }
   .v-container {
-    width: 92%;
+    width: 95%;
   }
   .active-filters-mobile{
     position: fixed;
@@ -365,7 +365,8 @@ $mobile_screen : 768px;
   }
 
   .breadcrumbs {
-    margin: 15px 0;
+    margin-bottom: 24px;
+    // margin: 15px 0;
     &.mobile {
       display: none;
     }
