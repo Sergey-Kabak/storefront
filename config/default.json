@@ -255,8 +255,7 @@
       "configurable_options",
       "description",
       "media_gallery",
-      "product_links",
-      "stock"
+      "product_links"
     ],
     "category": {
       "includeFields": [
