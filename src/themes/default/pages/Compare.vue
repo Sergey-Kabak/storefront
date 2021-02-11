@@ -262,6 +262,12 @@ export default {
 }
 </script>
 
+<style lang="scss">
+.header-wrap {
+  margin-bottom: 0;
+}
+</style>
+
 <style lang="scss" scoped>
 @import '~theme/css/variables/colors';
 @import '~theme/css/helpers/functions/color';
@@ -344,6 +350,7 @@ $screen-l: 1170px;
   }
   @media (max-width: 767px) {
     padding-bottom: 48px;
+    margin-top: 16px;
   }
 }
 
@@ -451,8 +458,8 @@ $screen-l: 1170px;
 
 .page-title {
   @media (max-width: 767px) {
-    margin: 16px 0;
     line-height: 30px;
+    margin: 23px 0 13px 0;
   }
   font-family: DIN Pro;
   font-style: normal;
@@ -916,7 +923,6 @@ $screen-l: 1170px;
   }
 
   &__attributes {
-    font-weight: bold;
     font-size: 0.6rem;
     line-height: 14px;
     padding: 15px 5px;
