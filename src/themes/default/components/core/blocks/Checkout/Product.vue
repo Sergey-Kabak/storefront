@@ -127,7 +127,7 @@ export default {
     "image bottom-info actions";
   align-items: flex-start;
   padding-bottom: 16px;
-  margin-bottom: 16px;
+  // margin-bottom: 16px;
   border-bottom: 1px solid #e0e0e0;
 }
 
@@ -248,7 +248,7 @@ img {
 
 .product-info-bottom {
   display: flex;
-  align-items: baseline;
+  align-items: center;
   justify-content: flex-start;
   grid-area: bottom-info;
   margin-top: auto;
@@ -285,7 +285,6 @@ img {
   cursor: pointer;
 
   svg {
-    padding: 4px;
     box-sizing: content-box;
   }
 
@@ -308,6 +307,7 @@ img {
 
   .product-info-bottom {
     justify-content: space-between;
+    align-items: flex-end;
   }
 
   .product-info-top {

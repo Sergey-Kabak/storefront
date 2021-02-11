@@ -317,7 +317,7 @@ export default {
       padding-left: 0;
     .show-all
       min-width: 233px
-      margin: 32px auto 68px auto
+      margin: 31px auto 68px auto
       width: auto
       background-color: transparent
       border: 1px solid #23BE20
@@ -364,6 +364,10 @@ export default {
 
   .v-container {
     width: 95%;
+
+    @media only screen and (max-width: 600px) {
+      width: 90%;
+    }
   }
 
   .promo-image {
@@ -389,9 +393,23 @@ export default {
       background: #F6F7FA;
       border-radius: 4px;
       padding: 24px;
+      padding-right: 40px;
       position: relative;
       height: 320px;
+      
+      &:last-child {
+        @media only screen and (max-width: 768px) {
+          padding-right: 64px;
+          padding: 10px 16px 26px 16px;
+        }
+      }
+      &:nth-child(4) {
+        padding-right: 64px;
 
+        @media only screen and (max-width: 768px) {
+          padding-right: unset;
+        }
+      }
       &:nth-child(3n + 2) {
         background: #E4F9E4;
       }
@@ -424,6 +442,11 @@ export default {
         line-height: 18px;
         color: #595858;
         margin-top: 8px;
+
+        @media only screen and (max-width: 768px) {
+          margin: 0;
+          margin-top: 8px;
+        }
       }
 
       .text {
@@ -468,7 +491,8 @@ export default {
 
     .text {
       margin-top: auto;
-      height: 68px;
+      // height: 68px;
+
     }
     
     .banner-group {
@@ -519,7 +543,7 @@ export default {
           .image {
             width: auto;
             height: 100px;
-            margin-bottom: 32px;
+            margin-bottom: 37px;
           }
           .text {
             margin-top: unset;
@@ -538,7 +562,7 @@ export default {
 
   .section {
     &__shares {
-      padding-bottom: 30px;
+      padding-bottom: 31px;
     }
     &__banner {
       margin-bottom: 68px;
@@ -548,4 +572,16 @@ export default {
       }
     }
   }
+
+  .offer-gallery {
+    @media only screen and (max-width: 768px) {
+      margin-bottom: 49px;
+    }
+  }
+  #home h2 {
+    @media only screen and (max-width: 768px) {
+      margin-bottom: 23px;
+    }
+  }
+
 </style>

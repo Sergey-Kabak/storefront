@@ -7,7 +7,7 @@
         </b>
       </slot>
       <div class="filter-button" :class="{ active: !isActive }">
-        <span class="line-horizontal line" />
+        <span class="line-horizontal line" :class="{ active: !isActive }" />
         <span class="line-vertical line" />
       </div>
     </div>
@@ -109,7 +109,11 @@ export default {
   .line-horizontal {
     width: 14px;
     height: 2px;
-    top: 50%;
+    top: 0;
+    
+    &.active {
+      top: 50%;
+    }
   }
 
   .line-vertical {

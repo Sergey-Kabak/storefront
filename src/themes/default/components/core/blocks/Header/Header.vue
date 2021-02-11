@@ -307,9 +307,6 @@ header {
       display: flex;
       align-items: center;
   }
-  @media (max-width : 575px){
-    padding-right: 6px !important;
-  }
 }
 .header {
   &-black-line {
@@ -390,7 +387,7 @@ header {
   justify-self: flex-start;
   @media only screen and (max-width: 768px) {
     width: unset;
-    margin-right: 20px;
+    margin-right: 15px;
   }
 }
 
@@ -401,9 +398,6 @@ header {
   .logo {
     height: 41px;
     margin-top: 7px;
-    @media only screen and (max-width: 768px) {
-      margin-top: 17px;
-    }
     img {
       width: 100%;
     }
@@ -423,7 +417,7 @@ header {
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-right: 23px;
+    margin-right: 24px;
     // padding: 8px;
     border-radius: 4px;
     transition: .2s ease-in-out;
@@ -656,7 +650,7 @@ header {
   .header-middle {
     .logo {
       height: 36px;
-      width: 80px;
+      width: 100%;
     }
   }
 
@@ -692,7 +686,7 @@ header {
     }
 
     &__icon {
-      margin-right: 10px;
+      margin-right: 7px;
     }
   }
 
@@ -718,11 +712,6 @@ header {
     }
   }
 
-  .header-middle {
-    .logo {
-      width: 80px;
-    }
-  }
 }
 @keyframes slide {
   from {

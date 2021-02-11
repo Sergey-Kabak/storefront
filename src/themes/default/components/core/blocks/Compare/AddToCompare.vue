@@ -86,7 +86,6 @@ export default {
 
 svg {
   box-sizing: content-box;
-  padding: 4px;
   border-radius: 4px;
 
   &:hover {

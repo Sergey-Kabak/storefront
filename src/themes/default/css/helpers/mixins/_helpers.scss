@@ -7,3 +7,31 @@
     line-height: $lineHeight;
     max-height: $lineHeight * $lines;
 }
+
+@mixin scrollBar {
+    &::-webkit-scrollbar {
+        width: 4px;
+        border-radius: 4px;
+    }
+    &::-webkit-scrollbar-thumb {
+        background: #E0E0E0;
+        height: 49px;
+    }
+
+    &::-webkit-scrollbar-track {
+        background-color: transparent;
+    }
+}
+
+@mixin borderBottomDashed {
+    position: relative;
+
+    &::before {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: 100%;
+      border-bottom: 1px dashed #23BE20;
+    }
+}

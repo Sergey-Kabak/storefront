@@ -411,7 +411,7 @@ export default {
     border: 1px solid #E0E0E0;
     box-sizing: border-box;
     border-radius: 4px;
-    padding: 16px;
+    padding: 19px 16px;
 
     &-tag {
       &-bottom {
@@ -511,7 +511,7 @@ export default {
 
   .product-cover {
     overflow: hidden;
-    height: 266px;
+    height: 259px;
     @media only screen and (max-width: 768px) {
       height: auto;
     }

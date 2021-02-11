@@ -57,13 +57,21 @@ export default {
 
 <style lang="scss" scoped>
 .arrow {
-  margin-right: 10px;
+  margin-right: 12px;
+
+  @media only screen and (max-width: 600px) {
+    margin-right: 2px;
+  }
 }
 .header-wrapper {
   width: 100%;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.05);
   height: 67px;
   margin-bottom: 16px;
+
+  @media only screen and (max-width: 600px) {
+    height: 56px;
+  }
 }
 
 .header {
@@ -123,6 +131,10 @@ export default {
     color: #595858;
     transition: .2s ease-in-out;
 
+    @media only screen and (max-width: 600px) {
+      font-size: 13px;
+      line-height: 16px;
+    }
     &:hover {
       color: #1A1919;
     }

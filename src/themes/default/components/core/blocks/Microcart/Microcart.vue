@@ -206,6 +206,8 @@ export default {
 
 <style lang="scss" scoped>
   @import "~theme/css/animations/transitions";
+  @import '~theme/css/helpers/mixins';
+
   .microcart {
     height: 100%;
     z-index: 0;
@@ -296,6 +298,10 @@ export default {
     }
     &-top-primary {
       margin-bottom: 32px;
+
+      @media only screen and (max-width: 768px) {
+        margin-bottom: 20px;
+      }
     }
     &-top-secondary {
       display: flex;
@@ -303,6 +309,7 @@ export default {
     }
 
     &-scroll-content {
+      @include scrollBar;
       @media (min-width: 600px) {
         overflow: auto;
         display: flex;
@@ -411,6 +418,10 @@ export default {
       &-left {
         padding: 9px 0px;
         width: 100%;
+
+        @media only screen and (max-width: 768px) {
+          padding: 7px 0;
+        }
       }
 
       &-top {
@@ -443,6 +454,10 @@ export default {
 
       &-scroll-content {
         padding: 0 16px;
+
+        @media only screen and (max-width: 768px) {
+          padding: 0 15px;
+        }
       }
 
       .close {

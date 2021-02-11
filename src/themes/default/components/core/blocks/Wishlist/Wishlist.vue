@@ -146,6 +146,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import '~theme/css/helpers/mixins';
+
 * {
   box-sizing: border-box;
 }
@@ -232,6 +234,7 @@ export default {
   overflow-y: auto;
   height: 100%;
   list-style-type: none;
+  @include scrollBar;
 }
 
 .wishlist-clear {
@@ -271,6 +274,10 @@ export default {
   justify-content: space-between;
   font-size: 13px;
   margin-top: 32px;
+
+  @media only screen and (max-width: 768px) {
+    margin-top: 25px;
+  }
 }
 
 .wishlist-footer-actions {
@@ -376,12 +383,22 @@ export default {
 
   .wishlist-list {
     padding: 0 16px;
+
+    @media only screen and (max-width: 768px) {
+      padding: 0 15px;
+    }
   }
 
   .wishlist-header {
     margin-bottom: 16px;
     padding: 9px 16px;
     display: flex;
+
+    @media only screen and (max-width: 768px) {
+      margin-bottom: 6px;
+      padding: 9px 15px;
+    }
+
     .more {
       margin-left: auto;
 
