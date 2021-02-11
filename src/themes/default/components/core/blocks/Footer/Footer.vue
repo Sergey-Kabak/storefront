@@ -300,7 +300,7 @@ $color-secondary: color(secondary);
     @media only screen and (max-width: 576px) {
       border-top: $border;
       border-bottom: $border;
-      padding-top: 12px;
+      padding-right: 21px;
     }
   }
   &__category-title-wrapper {
