@@ -301,8 +301,6 @@ $color-secondary: color(secondary);
       border-top: $border;
       border-bottom: $border;
       padding-top: 12px;
-      padding-bottom: 9px;
-      padding-right: 21px;
     }
   }
   &__category-title-wrapper {
