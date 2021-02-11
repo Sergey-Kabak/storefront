@@ -192,7 +192,7 @@ export default {
 @import '~theme/css/helpers/mixins';
 
 ::v-deep .filter-header {
-  padding: 0;
+  padding: 12px 0;
 }
 %reset-button {
     border: none;

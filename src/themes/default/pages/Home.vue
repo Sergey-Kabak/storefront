@@ -403,13 +403,6 @@ export default {
           padding: 10px 16px 26px 16px;
         }
       }
-      &:nth-child(4) {
-        padding-right: 64px;
-
-        @media only screen and (max-width: 768px) {
-          padding-right: unset;
-        }
-      }
       &:nth-child(3n + 2) {
         background: #E4F9E4;
       }
@@ -423,6 +416,7 @@ export default {
         max-width: 50%;
         height: auto;
         max-height: 270px;
+        object-fit: contain;
       }
 
       .title {
