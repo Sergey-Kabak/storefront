@@ -148,6 +148,10 @@ export default {
   flex-wrap: wrap-reverse;
   justify-content: flex-end;
   align-items: center;
+
+  @media only screen and (max-width: 520px) {
+    // flex-wrap: nowrap;
+  }
 }
 
 .name {

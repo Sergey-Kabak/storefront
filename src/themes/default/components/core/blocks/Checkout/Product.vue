@@ -127,7 +127,7 @@ export default {
     "image bottom-info actions";
   align-items: flex-start;
   padding-bottom: 16px;
-  margin-bottom: 16px;
+  // margin-bottom: 16px;
   border-bottom: 1px solid #e0e0e0;
 }
 
@@ -180,7 +180,7 @@ export default {
   img {
     display: block;
     max-width: 100%;
-    max-height: 100%;
+    // max-height: 100%;
     width: auto;
     height: auto;
   }
@@ -221,6 +221,11 @@ img {
   font-size: 15px;
   line-height: 18px;
   color: #1A1919;
+
+  @media only screen and (max-width: 520px) {
+    font-size: 13px;
+    line-height: 15px;
+  }
 }
 
 .product-data {
@@ -243,7 +248,7 @@ img {
 
 .product-info-bottom {
   display: flex;
-  align-items: baseline;
+  align-items: center;
   justify-content: flex-start;
   grid-area: bottom-info;
   margin-top: auto;
@@ -280,7 +285,6 @@ img {
   cursor: pointer;
 
   svg {
-    padding: 4px;
     box-sizing: content-box;
   }
 
@@ -288,7 +292,12 @@ img {
     background-color: #F9F9F9;
   }
 }
-
+@media only screen and (max-width: 520px) {
+  .product-image {
+    width: 56px;
+    height: 56px;
+  }
+}
 @media (max-width: 768px) {
   .product {
     grid-template-areas:
@@ -298,11 +307,7 @@ img {
 
   .product-info-bottom {
     justify-content: space-between;
-  }
-
-  .product-image {
-    width: 56px;
-    height: 56px;
+    align-items: flex-end;
   }
 
   .product-info-top {
