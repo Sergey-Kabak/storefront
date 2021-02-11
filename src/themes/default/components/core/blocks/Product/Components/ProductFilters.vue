@@ -81,7 +81,7 @@ export default {
   },
   methods: {
     changeFilter (variant) {
-      this.$emit('change', variant)
+      this.$bus.$emit('filter-on-change', variant)
     }
   }
 }
@@ -90,7 +90,7 @@ export default {
 <style lang="scss" scoped>
 .filter{
   &-container{
-    margin-bottom: 18px;
+    margin-top: 16px;
     flex-wrap: wrap;
     .filter-wrapper{
       &:first-child{

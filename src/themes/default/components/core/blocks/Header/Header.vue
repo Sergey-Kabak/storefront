@@ -2,7 +2,7 @@
   <div class="header-wrap" ref="headerWrap">
     <header
     ref="header"
-    :class="{ 'is-visible': navVisible, 'search-active': isSearchActive }"
+    :class="{ 'is-visible': (navVisible && !navBlocked), 'search-active': isSearchActive }"
   >
     <div class="promo" v-if="isShowHeader" :style="{'background-color': promo.background}">
       <router-link class="promo-link" :to="promo.link">
@@ -114,6 +114,7 @@ export default {
     return {
       isPromoLoaded: false,
       navVisible: true,
+      navBlocked: false,
       isScrolling: false,
       scrollTop: 0,
       lastScrollTop: 0,
@@ -176,6 +177,7 @@ export default {
     }
   },
   beforeMount () {
+    this.$bus.$on('top-header-blocked', (value) => this.navBlocked = value);
     window.addEventListener(
       'scroll',
       () => {
@@ -290,7 +292,7 @@ header {
 }
 .header-wrap {
   margin-bottom: 16px;
-  height: 142px;
+  height: 129px;
 }
 .minimal {
   height: 67px;

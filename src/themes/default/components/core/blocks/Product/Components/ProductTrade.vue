@@ -1,5 +1,5 @@
 <template>
-  <div class="trade-wrapper mb20">
+  <div class="trade-wrapper">
     <div class="flex trade-price-wrapper">
       <product-cart-price
         v-if="getCurrentProduct.type_id !== 'grouped'"
@@ -12,14 +12,11 @@
       </div>
     </div>
     <div>
-      <div
-        v-if="ProductStock !== 'NotAvailable'"
-        class="flex trade-actions"
-      >
+      <div v-if="ProductStock !== 'NotAvailable'" class="flex trade-actions">
         <add-to-cart :product="getCurrentProduct">
           <template v-if="ProductStock === 'PendingDelivery'" v-slot:text>{{$t('pre order')}}</template>
         </add-to-cart>
-        <button-white v-if="getBanks.length" @click.native="showModalCredits">
+        <button-white v-if="getBanks.length" @click.native="showModal">
           <span>{{ $t('In credit') }}</span>
         </button-white>
       </div>
@@ -51,18 +48,19 @@ export default {
     })
   },
   methods: {
-    showModalCredits () {
+    showModal () {
       this.$bus.$emit('modal-show', 'modal-credits')
     }
+  },
+  beforeDestroy () {
+    this.$bus.$emit('modal-hide', 'modal-credits')
   }
 }
 </script>
 
 <style scoped lang="scss">
 .trade-wrapper{
-  border: 1px solid #E0E0E0;
   box-sizing: border-box;
-  border-radius: 4px;
   padding: 16px;
 }
 .trade-price-wrapper{

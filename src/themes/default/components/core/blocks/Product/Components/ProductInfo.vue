@@ -1,61 +1,49 @@
 <template>
-  <div>
-    <div
-      class="product-in-stock hidden-xs block"
-      :class="ProductStock"
-    >
-      {{ $t(ProductStock) }}
+  <div class="product-wrapper">
+    <div class="product-meta">
+      <product-stock-status />
+      <h1
+        class="mt0 product-name block font"
+        data-testid="productName"
+        itemprop="name"
+      >
+        {{ getCurrentProduct.name | htmlDecode }}
+      </h1>
+      <div
+        class="product-block sku font"
+        itemprop="sku"
+        :content="getCurrentProduct.sku"
+      >
+        {{ $t('SKU: {sku}', { sku: getCurrentProduct.sku }) }}
+      </div>
     </div>
-    <h1
-      class="mt0 cl-mine-shaft product-name block font"
-      data-testid="productName"
-      itemprop="name"
-    >
-      {{ getCurrentProduct.name | htmlDecode }}
-    </h1>
-    <div
-      class="mb20 cl-secondary sku font"
-      itemprop="sku"
-      :content="getCurrentProduct.sku"
-    >
-      {{ $t('SKU: {sku}', { sku: getCurrentProduct.sku }) }}
-    </div>
+    <product-filters v-if="getCurrentProduct.type_id === 'configurable'" />
   </div>
 </template>
 
 <script>
 import ProductMixin from '../Mixins/ProductMixin';
+import ProductFilters from './ProductFilters';
+import ProductStockStatus from './ProductStockStatus';
 
 export default {
-  mixins: [ProductMixin]
+  mixins: [ProductMixin],
+  components: {
+    ProductFilters,
+    ProductStockStatus
+  }
 }
 </script>
 
 <style lang="scss" scoped>
-.NotAvailable {
-  color: #ee2c39;
-}
-.PendingDelivery {
-  color: orange;
-}
-.InStock{
-  color: #23BE20;
+.product-wrapper{
+  padding: 16px;
+  box-sizing: border-box;
 }
 .font {
   font-family: 'DIN Pro';
   font-style: normal;
 }
-.product-in-stock {
-  font-size: 14px;
-  line-height: 16px;
-  display: block;
-  margin-bottom: 8px;
-  &:before{
-    content: '●';
-    color: inherit;
-  }
-}
-
 .product-name {
   font-weight: 500;
   font-size: 24px;

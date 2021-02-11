@@ -52,13 +52,11 @@ export default {
 
 <style lang="scss" scoped>
 .instruction{
-  border: 1px solid #E0E0E0;
   box-sizing: border-box;
   border-radius: 4px;
   padding: 16px;
   display: flex;
   align-items: center;
-  margin-bottom: 20px;
 }
 svg{
   margin-right: 16px;

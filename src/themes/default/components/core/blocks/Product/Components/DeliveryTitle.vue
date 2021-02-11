@@ -36,6 +36,7 @@ export default {
 .delivery-title {
   display: flex;
   align-items: baseline;
+  margin-bottom: 16px;
 }
 .title {
   font-family: DIN Pro;

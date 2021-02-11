@@ -47,7 +47,6 @@ export default {
     opacity: 1
     color: #1A1919
     .icon
-      padding: 3px
       margin-right: 16px
 
     /*i.material-icons*/

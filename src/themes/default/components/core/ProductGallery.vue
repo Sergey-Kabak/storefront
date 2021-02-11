@@ -21,7 +21,7 @@
           @toggle="openOverlay"
           @close="onEscapePress"
           @loaded="carouselLoaded = true"
-          class="product-galley-wrapper"
+          class="product-galley-page-wrapper"
         />
       </div>
     </div>
@@ -89,22 +89,23 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.product-galley-wrapper{
-  @media (min-width : 768px){
-    margin-top: 40px;
-  }
+::v-deep .VueCarousel-slide{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  max-width: 682px;
 }
-/deep/ .media-zoom{
+::v-deep .media-zoom{
   width: calc(100% - 48px);
   height: calc(100% - 48px);
   top: 24px;
   left: 24px;
   border-radius: 4px;
 }
-/deep/ .product-image-container{
+::v-deep .product-image-container{
   background-color: #fff;
 }
-/deep/ .media-zoom-carousel__slide{
+::v-deep .media-zoom-carousel__slide{
   background-color: #fff;
 }
 .hide-mobile{
@@ -119,17 +120,8 @@ export default {
 }
 .main-gallery-container{
   @media (min-width : 1200px){
-    width: calc(100% - 56px);
+    max-width: 682px;
   }
-}
-.hot-actions{
-  @media (max-width : 767px){
-    position: static;
-    margin-bottom: 8px;
-    padding-left: 0;
-  }
-  padding-left: 22px;
-  z-index: 2
 }
 .media-gallery {
   text-align: center;

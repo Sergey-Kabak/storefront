@@ -2,32 +2,27 @@
   <div class="product-delivery">
     <delivery-title/>
 <!--    <shop-shipping />-->
-    <table>
-      <tr v-for="(type, name) in shippingTypes" :key="name" class="product-delivery__type">
-        <td>
-          <div class="delivery-label flex v-center">
-            <div v-html="type.icon"></div>
-            {{ $t(name) }}
-          </div>
-        </td>
-        <td>
-          <div class="delivery-info">
-            <strong v-if="type.methodInfo.actionField" @click="type.methodInfo.actionField.event">
-              {{type.methodInfo.actionField.text}}
-            </strong>
-            <span>
-              {{type.methodInfo.text}}
-            </span>
-          </div>
-        </td>
-        <td>
-          <div class="delivery-price">
-            <strong v-if="type.price.free">{{ $t('is free') }}</strong>
-            <span :class="{'line-through' : type.price.free}">{{type.price.base}}</span>
-          </div>
-        </td>
-      </tr>
-    </table>
+    <div v-for="(type, name) in shippingTypes" :key="name" class="product-delivery__type">
+      <div class="delivery-label flex v-center">
+        <div v-html="type.icon" class="delivery-label-icon"></div>
+        {{ $t(name) }}
+      </div>
+      <div class="delivery-info">
+        <strong
+          v-if="type.methodInfo.actionField"
+          @click="type.methodInfo.actionField.event"
+          class="font">
+          {{type.methodInfo.actionField.text}}
+        </strong>
+        <span class="font">
+          {{type.methodInfo.text}}
+        </span>
+      </div>
+      <div class="delivery-price">
+        <strong v-if="type.price.free">{{ $t('is free') }}</strong>
+        <span :class="{'line-through' : type.price.free}">{{type.price.base}}</span>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -119,12 +114,20 @@ export default {
     @media (max-width: 575px) {
       flex-direction: column;
     }
+    display: flex;
+    justify-content: space-between;
+    &:not(:last-child) {
+      margin-bottom: 20px;
+    }
     .delivery-label {
       display: flex;
       font-family: 'DIN Pro';
       font-size: 14px;
       line-height: 24px;
       color: #5F5E5E;
+      &-icon{
+        margin-right: 16px;
+      }
     }
   }
 }
@@ -134,6 +137,7 @@ export default {
   align-items: flex-end;
   font-family: DIN Pro;
   font-style: normal;
+  width: 100px;
   strong{
     font-weight: 700;
     font-size: 13px;
@@ -160,8 +164,27 @@ export default {
     text-decoration-line: line-through;
   }
 }
+.font{
+  font-family: DIN Pro;
+  font-style: normal;
+  font-size: 13px;
+  line-height: 16px;
+}
 .delivery-info{
   display: flex;
   flex-direction: column;
+  width: 144px;
+  text-align: right;
+  margin-left: auto;
+  strong{
+    font-weight: 400;
+    color: #23BE20;
+    border-bottom: 1px dashed #23BE20;
+    padding-bottom: 3px;
+    margin-bottom: 2px;
+  }
+  span{
+    color: rgba(95, 94, 94, 0.6);
+  }
 }
 </style>

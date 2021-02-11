@@ -1,5 +1,5 @@
 <template>
-  <div class="vertical-bar-wrapper pr20">
+  <div class="vertical-bar-wrapper">
     <div v-for="(item , index) in verticalGallery"
          :key="index"
          @click="navigate(index)"
@@ -8,7 +8,7 @@
       <img :src="item.src" alt="">
     </div>
     <div v-if="gallery.length > 5" class="vertical-bar__more" @click="openOverlay">
-      Еще {{ gallery.length - 5 }}
+      {{ $t('more') }} {{ gallery.length - 5 }}
     </div>
   </div>
 </template>
@@ -56,14 +56,17 @@ export default {
     @media (max-width: 1200px) {
       padding: 20px 0;
       display: flex;
+      margin-right: 0;
     }
     @media (max-width: 767px) {
       display: none;
     }
-    min-width: 36px;
+    min-width: 56px;
+    margin-right: 48px;
   }
 
   &__item {
+    margin-bottom: 16px;
     @media (max-width: 1200px) {
       width: 50px;
       margin-bottom: 0;
@@ -83,10 +86,10 @@ export default {
     opacity: 0.5;
 
     img {
-      max-height: 36px;
-      max-width: 36px;
+      max-height: 56px;
+      max-width: 56px;
       object-fit: contain;
-      max-width: 100%;
+      margin: 0 auto;
     }
   }
 
@@ -95,6 +98,7 @@ export default {
       display: flex;
       align-items: center;
     }
+    display: inline-block;
     font-family: 'DIN Pro';
     font-size: 13px;
     line-height: 16px;
