@@ -41,7 +41,7 @@
             </a>
             <phone-info v-show="navVisible"></phone-info>
           </div>
-          <svg width="8" height="6" viewBox="0 0 8 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <svg class="phone-wrap__arrow" width="8" height="6" viewBox="0 0 8 6" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M0.94 0.726667L4 3.78L7.06 0.726667L8 1.66667L4 5.66667L0 1.66667L0.94 0.726667Z"/>
           </svg>
         </li>
@@ -289,8 +289,7 @@ header {
   }
 }
 .header-wrap {
-  margin-bottom: 16px;
-  height: 142px;
+  height: 144px;
 }
 .minimal {
   height: 67px;
@@ -304,8 +303,9 @@ header {
   align-items: center;
   height: 67px;
   justify-content: center;
-  @media (max-width : 575px){
-    padding-right: 6px !important;
+  @media only screen and (max-width: 768px) {
+      display: flex;
+      align-items: center;
   }
 }
 .header {
@@ -330,11 +330,19 @@ header {
         font-weight: 500;
         font-size: 13px;
         line-height: 16px;
-        margin: 0 25px;
+        margin-right: 47px;
         display: flex;
         align-items: center;
         position: relative;
         transform: rotate(0deg);
+        &:last-child {
+          @media only screen and (min-width: 1200px) {
+            margin-right: 0;
+          }
+          @media only screen and (max-width: 768px) {
+            margin-right: 0;
+          }
+        }
 
         &:hover {
           a {
@@ -377,15 +385,19 @@ header {
   max-width: 260px;
   align-items: center;
   justify-self: flex-start;
+  @media only screen and (max-width: 768px) {
+    width: unset;
+    margin-right: 15px;
+  }
 }
 
 .header-middle {
   justify-self: center;
 
+
   .logo {
     height: 41px;
     margin-top: 7px;
-
     img {
       width: 100%;
     }
@@ -397,12 +409,16 @@ header {
   align-items: center;
   justify-self: flex-end;
 
+  @media only screen and (max-width: 768px) {
+    margin-left: auto;
+  }
+
   .icon {
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-right: 14px;
-    padding: 8px;
+    margin-right: 24px;
+    // padding: 8px;
     border-radius: 4px;
     transition: .2s ease-in-out;
 
@@ -500,6 +516,10 @@ header {
   z-index: 1;
   cursor: pointer;
 
+  &:hover &__arrow {
+    transform: rotate(180deg);
+  }
+  
   &:hover {
     .phone {
       color: #fff;
@@ -560,7 +580,11 @@ header {
 .header-placeholder {
   height: 54px;
 }
-
+.header-top-container {
+  @media only screen and (max-width: 1200px) {
+    max-width: 92%;
+  }
+}
 .account {
   &__text {
     display: block;
@@ -576,7 +600,6 @@ header {
 
 @media (max-width: 768px) {
   .header-top {
-    padding: 0 16px;
   }
 
   .header-black-line {
@@ -627,7 +650,7 @@ header {
   .header-middle {
     .logo {
       height: 36px;
-      width: 80px;
+      width: 100%;
     }
   }
 
@@ -636,7 +659,7 @@ header {
   }
 
   .header-wrap {
-    margin-bottom: 15px;
+    // margin-bottom: 15px;
   }
 
   .header-help-desktop {
@@ -663,7 +686,7 @@ header {
     }
 
     &__icon {
-      margin-right: 10px;
+      margin-right: 7px;
     }
   }
 
@@ -685,16 +708,10 @@ header {
 
   .header-right {
     .icon {
-      margin-right: 0;
+      margin-right: 10px;
     }
   }
 
-  .header-middle {
-    .logo {
-      margin-top: 12px;
-      width: 80px;
-    }
-  }
 }
 @keyframes slide {
   from {

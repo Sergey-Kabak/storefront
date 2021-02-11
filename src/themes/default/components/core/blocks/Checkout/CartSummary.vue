@@ -157,4 +157,13 @@ export default {
     color: #1A1919;
   }
 }
+.summary-quantity {
+  font-family: DIN Pro;
+  font-size: 13px;
+  font-style: normal;
+  line-height: 16px;
+  letter-spacing: 0em;
+  text-align: left;
+  color: #1A1919;
+}
 </style>

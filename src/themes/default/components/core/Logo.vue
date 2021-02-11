@@ -42,6 +42,11 @@ export default {
 
     img {
       width: 100%;
+
+      @media only screen and (max-width: 600px) {
+        transform: translate(4px, 6px);
+        width: 90%;
+      }
     }
   }
 </style>

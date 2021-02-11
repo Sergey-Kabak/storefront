@@ -51,7 +51,7 @@ export default {
 
 <style lang="scss" scoped>
 .cart-summary-mobile-details {
-  padding: 16px;
+  padding: 15px;
   border: 1px solid #E0E0E0;
   border-radius: 4px;
 }
