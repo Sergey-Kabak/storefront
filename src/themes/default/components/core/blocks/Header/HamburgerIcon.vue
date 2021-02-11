@@ -26,7 +26,7 @@ export default {
     display: flex
     align-items: center
     height: 100%
-    padding: 0 0 0 15px
+    padding: 0 0 0 12px
     border-right: 1px solid gainsboro
     border-bottom: none
     border-top: none

@@ -195,13 +195,14 @@ export default {
     position:absolute;
     left: 15px;
     top: 50%;
+    font-size: 14px;
     transform: translateY(-50%);
     transition: 0.2s ease all;
     pointer-events: none;
   }
   input:focus ~ label, input:not(.empty) ~ label{
     top: 0;
-    font-size:14px;
+    font-size: 13px;
     color:$color-puerto-rico;
   }
 
@@ -217,7 +218,7 @@ export default {
 .base-input {
   width: 100%;
   min-width: 40px;
-  max-width: 310px;
+  max-width: 316px;
 
   input {
     font-family: DIN Pro;
@@ -236,7 +237,8 @@ export default {
 
     &:focus ~ label,
     &:not(.empty) ~ label {
-      padding: 0 10px;
+      padding: 0 4px;
+      transform: translate(-3px, -50%);
       background: #ffffff;
       opacity: 1;
       margin-top: 0;
@@ -246,7 +248,7 @@ export default {
 
   label {
     font-family: 'DIN Pro';
-    font-size: 13px;
+    font-size: 14px;
     line-height: 16px;
     color: #9f9e9e;
   }

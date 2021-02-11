@@ -150,18 +150,7 @@ export default {
     margin: 0;
     height: 100%;
     max-height: 15vw;
-    &::-webkit-scrollbar {
-      width: 4px;
-      border-radius: 4px;
-    }
-    &::-webkit-scrollbar-thumb {
-      background: #E0E0E0;
-      height: 49px;
-    }
-
-    &::-webkit-scrollbar-track {
-      background-color: transparent;
-    }
+    @include scrollBar;
 
     @media only screen and (max-width: 1024) {
       max-height: 500px;

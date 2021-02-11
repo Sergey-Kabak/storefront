@@ -117,10 +117,10 @@ export default {
     position: static;
 
     & > li {
-      width: 10px;
+      width: 8px;
       border-radius: 50%;
       background-color: #efefef;
-      height: 10px;
+      height: 8px;
       margin: 0 4px;
 
       @media only screen and (max-width: 540px) {

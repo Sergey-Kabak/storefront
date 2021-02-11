@@ -69,7 +69,7 @@
           </div>
         </div>
       </div>
-      <div class="v-container">
+      <div class="v-container copyright__container">
         <div class="start-md copyright">{{ $t('All rights reserved.') }} “ringoo” Copyright © {{ new Date().getFullYear() }}</div>
       </div>
     </div>
@@ -190,6 +190,7 @@ export default {
 @import '~theme/css/variables/colors';
 @import '~theme/css/helpers/functions/color';
 @import '~theme/css/helpers/mixins';
+
 ::v-deep .filter-header {
   padding: 0;
 }
@@ -277,6 +278,7 @@ $color-secondary: color(secondary);
       justify-content: space-between;
       align-items: flex-start;
       flex: 0 0 100%;
+      margin-bottom: 12px;
     }
   }
 
@@ -287,6 +289,7 @@ $color-secondary: color(secondary);
     @media only screen and (max-width: 576px) {
       cursor: pointer;
       margin-bottom: 0;
+      padding-right: 21px;
     }
     &--last {
       @media only screen and (max-width: 576px) {
@@ -298,7 +301,8 @@ $color-secondary: color(secondary);
       border-top: $border;
       border-bottom: $border;
       padding-top: 12px;
-      padding-bottom: 12px;
+      padding-bottom: 9px;
+      padding-right: 21px;
     }
   }
   &__category-title-wrapper {
@@ -331,10 +335,20 @@ $color-secondary: color(secondary);
 .custom-logo {
   max-width: 89px;
   margin: 0 0 32px 0px;
+
+  @media only screen and (max-width: 768px) {
+    margin: 0;
+  }
 }
 
 .copyright {
   margin-top: auto;
+
+  &__container {
+    @media only screen and (max-width: 768px) {
+      padding: 8px 0;
+    }
+  }
 }
 
 .footer-routes {
@@ -348,6 +362,9 @@ $color-secondary: color(secondary);
   .route {
     margin-bottom: 2px;
 
+    @media only screen and (max-width: 768px) {
+      margin-bottom: 8px;
+    }
     &:last-child {
       margin-bottom: 0;
     }
@@ -356,6 +373,10 @@ $color-secondary: color(secondary);
 
 .social {
   margin-bottom: 20px;
+
+  @media only screen and (max-width: 768px) {
+    margin-bottom: 0;
+  }
 }
 
 .footer-title {

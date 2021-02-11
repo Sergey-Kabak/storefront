@@ -188,10 +188,14 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import '~theme/css/helpers/mixins';
+
 * {
   box-sizing: border-box;
 }
-
+::v-deep .icon-wishlist {
+  margin-right: 0;
+}
 .searchpanel {
   width: 100%;
   height: 100%;
@@ -307,6 +311,8 @@ export default {
   border: 1px solid #E0E0E0;
   border-radius: 4px;
   margin-top: 3px;
+  
+  @include scrollBar;
 
 }
 
@@ -352,8 +358,10 @@ export default {
 .best-sellers-title {
   font-family: DIN Pro;
   font-weight: 600;
-  font-size: 18px;
-  line-height: 24px;
+  // font-size: 18px;
+  // line-height: 24px;
+  font-size: 24px;
+  line-height: 30px;
   color: #1A1919;
   margin-bottom: 32px;
 }

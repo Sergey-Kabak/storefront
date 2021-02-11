@@ -1,11 +1,9 @@
 <template>
   <li @click="gtm" class="product" :class="{'out-of-stock': !inStock}">
     <div class="product-left">
-      <div class="product-img">
-        <router-link @click.native="closeSearchPanel()" :to="productLink">
-          <img v-lazy="image.src" :alt="product.name" class="product-image">
-        </router-link>
-      </div>
+      <router-link class="product-img" @click.native="closeSearchPanel()" :to="productLink">
+        <img v-lazy="image.src" :alt="product.name" class="product-image">
+      </router-link>
     </div>
     <div class="product-middle" >
       <router-link
@@ -112,6 +110,13 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+::v-deep .button-full.add-to-cart {
+  height: 32px;
+  margin-left: auto;
+}
+.product-price-block {
+  margin-bottom: 16px;
+}
 .product {
   display: flex;
   align-items: flex-start;
@@ -138,14 +143,17 @@ export default {
   }
 
   .product-img ::v-deep {
-    a {
-      display: block;
-    }
+    display: block;
+    width: 88px;
+    height: 88px;
+    margin-right: 27px;
 
     .product-image__thumb, .product-image {
-      max-width: 88px;
-      max-height: 88px;
-      margin-right: 16px;
+
+      display: block;
+      max-width: 100%;
+      width: auto;
+      height: auto;
     }
   }
 }
