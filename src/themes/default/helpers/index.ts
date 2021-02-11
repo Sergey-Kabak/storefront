@@ -45,10 +45,10 @@ export function price(product, priceType = null) {
 export function ProductStock (product) {
   console.log({ product })
   const status = {
-    InStock: (() => product.is_in_stock && !product.preorder)(),
-    PendingDelivery: (() => product.is_in_stock && !!product.preorder)(),
-    ComingSoon: (() => !product.is_in_stock && !!product.coming_soon)(),
-    NotAvailable: (() => !product.is_in_stock && !product.coming_soon)()
+    InStock: (() => product.stock.is_in_stock && !product.preorder)(),
+    PendingDelivery: (() => product.stock.is_in_stock && !!product.preorder)(),
+    ComingSoon: (() => !product.stock.is_in_stock && !!product.coming_soon)(),
+    NotAvailable: (() => !product.stock.is_in_stock && !product.coming_soon)()
   }
   return Object.keys(status).find(s => !!status[s])
 }
