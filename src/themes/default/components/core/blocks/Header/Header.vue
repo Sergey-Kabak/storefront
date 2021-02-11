@@ -659,7 +659,7 @@ header {
   }
 
   .header-wrap {
-    margin-bottom: 15px;
+    // margin-bottom: 15px;
   }
 
   .header-help-desktop {
