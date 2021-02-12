@@ -9,7 +9,7 @@
         navigation-next-label="<i class='material-icons cl-bg-tertiary pointer'>keyboard_arrow_right</i>"
         navigation-prev-label="<i class='material-icons cl-bg-tertiary pointer'>keyboard_arrow_left</i>"
         :navigation-enabled="true"
-        :paginationEnabled="true"
+        :paginationEnabled="false"
         ref="carousel"
         :speed="carouselTransitionSpeed"
         @pageChange="pageChange"
@@ -40,6 +40,7 @@
         </slide>
       </carousel>
     </no-ssr>
+    <product-gallery-pagination :gallery="gallery" />
   </div>
 </template>
 
@@ -50,6 +51,7 @@ import ProductVideo from './ProductVideo'
 import reduce from 'lodash-es/reduce'
 import map from 'lodash-es/map'
 import NoSSR from 'vue-no-ssr'
+import ProductGalleryPagination from './blocks/ProductGalleryPagination';
 
 export default {
   name: 'ProductGalleryCarousel',
@@ -59,6 +61,7 @@ export default {
     ProductImage,
     ProductVideo,
     'no-ssr': NoSSR,
+    ProductGalleryPagination
   },
   props: {
     gallery: {
@@ -83,11 +86,8 @@ export default {
       hideImageAtIndex: null
     }
   },
-  computed: {},
   beforeMount () {
-    this.$bus.$on('slide-index-from-vertical-bar' , (index) => {
-      this.currentPage = index
-    })
+    this.$bus.$on('slide-index-from-vertical-bar', index => this.currentPage = index)
     this.$bus.$on('filter-changed-product', this.selectVariant)
     this.$bus.$on('product-after-load', this.selectVariant)
   },
@@ -100,6 +100,7 @@ export default {
   },
   beforeDestroy () {
     document.onkeyup = null;
+    this.$bus.$off('slide-index-from-vertical-bar')
     this.$bus.$off('filter-changed-product', this.selectVariant)
     this.$bus.$off('product-after-load', this.selectVariant)
   },

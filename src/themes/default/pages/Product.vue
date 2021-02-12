@@ -156,11 +156,11 @@ export default {
         error: this.getThumbnail(this.getCurrentProduct.image, config.products.thumbnails.width, config.products.thumbnails.height),
         loading: this.getThumbnail(this.getCurrentProduct.image, config.products.thumbnails.width, config.products.thumbnails.height)
       }
-    },
+    }
   },
   async beforeMount () {
     this.$bus.$on('filter-on-change', (variant) => this.changeFilter(variant))
-    this.$bus.$on('change-tab', (tab) => this.ActiveTab = tab)
+    this.$bus.$on('change-tab', tab => this.ActiveTab = tab)
   },
   async mounted () {
     await this.$store.dispatch('recently-viewed/addItem', this.getCurrentProduct);

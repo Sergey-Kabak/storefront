@@ -56,12 +56,9 @@
       </div>
     </div>
     <div class="product-slider-footer">
-      <product-price
-        class="product-price h3 cl-mine-shaft weight-800"
-        v-if="getCurrentProduct.type_id !== 'grouped'"
-        :product="getCurrentProduct"
-        :custom-options="getCurrentCustomOptions"
-      />
+      <div class="product-price">
+        {{getCurrentProduct.final_price | price}}
+      </div>
 
       <add-to-cart
         class="add-to-card ml30"
@@ -79,6 +76,7 @@ import ProductVideo from './ProductVideo'
 import NoSSR from 'vue-no-ssr'
 import ProductPrice from 'theme/components/core/ProductPrice.vue'
 import AddToCart from 'theme/components/core/AddToCart.vue'
+import { currentStoreView } from '@vue-storefront/core/lib/multistore';
 
 export default {
   name: 'ProductGalleryZoomCarousel',
@@ -113,11 +111,14 @@ export default {
     ProductPrice,
     AddToCart
   },
-  computed : {
+  computed: {
     ...mapGetters({
       getCurrentProduct: 'product/getCurrentProduct',
       getCurrentCustomOptions: 'product/getCurrentCustomOptions',
-    }),
+    })
+  },
+  storeView () {
+    return currentStoreView()
   },
   mounted () {
     this.$bus.$on('gallery-page-change' , (index) => {
@@ -148,30 +149,22 @@ export default {
     increaseCarouselTransitionSpeed () {
       this.carouselTransitionSpeed = 500
     },
+    smoothScroll (offset) {
+      this.$refs.thumbs.scroll({
+        behavior: 'smooth',
+        left: 0,
+        top: offset
+      });
+    },
     pageChange (index) {
       this.currentPage = index;
       this.hideImageAtIndex = null
 
-      let list = this.$refs.thumbs,
-        listScrollHeight = list.scrollHeight,
-        listClientHeight = list.clientHeight,
-        listItem = list.querySelector('.product-image.sidebar__img.active').offsetTop + 67;
+      const list = this.$refs.thumbs;
+      const listClientHeight = list.clientHeight;
+      const listItem = list.querySelector('.product-image.sidebar__img.active').offsetTop + 67;
 
-      console.log(listItem - listClientHeight )
-
-      function scrollbar (offset) {
-        document.querySelector('.media-zoom-carousel__thumbs').scroll({
-          behavior: 'smooth',
-          left: 0,
-          top: offset
-        });
-      }
-
-      if ( listItem - listClientHeight > 0 ){
-        scrollbar(listItem - listClientHeight);
-      } else {
-        scrollbar(0);
-      }
+      listItem - listClientHeight > 0 ? this.smoothScroll(listItem - listClientHeight) : this.smoothScroll(0);
     },
     onVideoStarted (index) {
       this.hideImageAtIndex = index
@@ -206,17 +199,16 @@ ul.media-zoom-carousel__thumbs{
   display: flex;
   justify-content: flex-end;
   padding: 24px;
-  /deep/ .price {
-    margin: 0;
+  .product-price {
     display: flex;
     align-items: center;
-    div{
-      font-family: 'DIN Pro';
-      font-weight: 700;
-      font-size: 24px;
-      line-height: 30px;
-      color: #1A1919;
-    }
+    font-family: DIN Pro;
+    font-style: normal;
+    font-weight: 900;
+    font-size: 24px;
+    line-height: 30px;
+    color: #1A1919;
+    margin-right: 2px;
   }
   button{
     max-width: 131px;
@@ -287,52 +279,40 @@ ul.media-zoom-carousel__thumbs{
 
   &__thumbs{
     list-style: none;
-    padding-right: 20px;
+    padding-right: 16px;
     width:100%;
-    max-width: 140px;
+    max-width: 73px;
     height: 100%;
     overflow: auto;
     -ms-overflow-style: none;
-
     &::-webkit-scrollbar {
-      //display: none;
-
-    }
-    &::-webkit-scrollbar {
-      width: 4px; /* ширина для вертикального скролла */
+      width: 4px;
       background-color: transparent;
     }
-
-    /* ползунок скроллбара */
     &::-webkit-scrollbar-thumb {
       background-color: #E0E0E0;
       border-radius: 4px;
     }
-
     @media (max-width: 767px) {
       display: none;
     }
   }
 
   &__thumb{
-    margin-bottom: 20px;
+    margin-bottom: 16px;
     max-width: 100%;
     cursor: pointer;
-
     &:last-of-type {
       margin-bottom: 0;
     }
-
     & > *{
       will-change: opacity;
       transition: .3s opacity $motion-main;
-
       &:hover{
         opacity: 1;
       }
     }
   }
-
   &__gallery{
     margin: 0 auto;
     max-width: 600px;
@@ -342,11 +322,9 @@ ul.media-zoom-carousel__thumbs{
       height: auto;
     }
   }
-
   &__carousel {
     height: 100%;
   }
-
   &__slide{
     height: 100%;
     max-height: 100%;
