@@ -33,6 +33,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import '~theme/css/helpers/mixins';
+
 .checkout-title {
   display: flex;
   align-items: baseline;
@@ -68,19 +70,21 @@ export default {
     font-size: 18px;
     line-height: 23px;
     color: #23BE20;
-    border-bottom: 1px dashed #23BE20;
+
+    @include borderBottomDashed;
   }
 
   .arrow {
     transition: .1s ease-in;
-    margin-top: 5px;
+    margin-top: 4px;
+
   }
 }
 
 @media  (max-width: 600px) {
   .checkout-title {
     flex-direction: column;
-    margin-bottom: 16px;
+    margin-bottom: 19px;
 
     .title {
       margin-bottom: 16px;

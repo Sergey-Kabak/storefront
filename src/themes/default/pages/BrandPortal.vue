@@ -70,7 +70,7 @@ export default {
     ...mapState({
       brand: state => state.brand.brand
     }),
-    isShowSalesLeaders() {
+    isShowSalesLeaders () {
       return this.$route.params.brandId !== 'black-friday'
     }
   },
@@ -94,7 +94,7 @@ export default {
           vm.loading = false
         })
         vm.$store.dispatch('homepage/loadRecommends').then(res => {
-            vm.loading = false
+          vm.loading = false
         })
       })
     } else {

@@ -53,12 +53,12 @@ export default {
       cmsPageContent: (state) => state.cmsPage.current,
       shopCity: (state) => state.ui.shopCity
     }),
-    isShowCity() {
+    isShowCity () {
       return ['shops'].includes(this.$route.params.slug)
     }
   },
   methods: {
-    openCityModal() {
+    openCityModal () {
       this.$bus.$emit('modal-show', 'modal-city-shop-picker')
     }
   }
@@ -363,7 +363,7 @@ header {
 
   .title {
     display: flex;
-    align-items: flex-start;
+    align-items: center;
     position: relative;
     margin: 0 0 16px 0;
     font-family: DIN Pro;

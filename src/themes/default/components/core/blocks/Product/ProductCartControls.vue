@@ -3,7 +3,7 @@
     <router-link :to="productLink" class="ml-auto">
       <button-full
         data-testid="addToCart" class="add-to-cart"
-        :class="{'pre_order': isPreorder, 'not-available': isNotAvailable}"
+        :class="{'pre_order': isPreorder, 'not-available': isNotAvailable || isComingSoon}"
         :aria-label="buttonName"
       >
         <svg class="basket-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -20,7 +20,7 @@
 <script>
 import ButtonFull from '../../../theme/ButtonFull';
 import { ProductTile } from '@vue-storefront/core/modules/catalog/components/ProductTile.ts';
-
+import { mapGetters } from 'vuex';
 export default {
   props: {
     product: {
@@ -30,18 +30,31 @@ export default {
   },
   mixins: [ProductTile],
   components: {
-    ButtonFull
+    ButtonFull,
+  },
+  methods: {
+    showModalCredits () {
+      this.$bus.$emit('modal-show', 'modal-credits')
+    }
   },
   computed: {
+    ...mapGetters({
+      getBanks: 'themeCredit/getBanks'
+    }),
     isPreorder () {
       return this.product.stock.is_in_stock && !!this.product.preorder
     },
     isNotAvailable () {
       return !this.product.stock.is_in_stock && !this.product.preorder
     },
-    buttonName() {
+    isComingSoon () {
+      return !this.product.stock.is_in_stock && !!this.product.coming_soon
+    },
+    buttonName () {
       if (this.isPreorder) {
         return this.$t('pre order')
+      } else if (this.isComingSoon) {
+        return this.$t('coming_soon')
       } else if (this.isNotAvailable) {
         return this.$t('Not available')
       } else {
@@ -120,5 +133,10 @@ export default {
       }
     }
   }
+}
+.wishlist-link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 </style>

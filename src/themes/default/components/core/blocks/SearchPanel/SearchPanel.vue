@@ -188,18 +188,23 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import '~theme/css/helpers/mixins';
+
 * {
   box-sizing: border-box;
 }
-
+::v-deep .icon-wishlist {
+  margin-right: 0;
+}
 .searchpanel {
   width: 100%;
-  overflow-y: auto;
+  height: 100%;
   -webkit-overflow-scrolling: touch;
 }
 
 .search-panel-wrapper {
   padding: 0 32px 32px;
+  height: 100%;
 }
 
 .close-searchpanel {
@@ -301,9 +306,14 @@ export default {
 }
 
 .search-content {
+  height: 83%;
+  overflow-y: auto;
   border: 1px solid #E0E0E0;
   border-radius: 4px;
   margin-top: 3px;
+  
+  @include scrollBar;
+
 }
 
 .categories {
@@ -314,36 +324,14 @@ export default {
 //TODO rewrite product listing styles
 
 .product-listing {
+
+
   .product {
     border-radius: 0;
     padding: 16px 15px;
     border: none;
-    border-bottom: 1px solid #E0E0E0;
-
-    &:first-child {
-      padding-top: 0;
-    }
-
-    &:last-child {
-      border-bottom: none;
-    }
-  }
-}
-
-.empty-content {
-  .product-listing {
-    .product {
-      padding: 16px 0;
-
-      &:first-child {
-      padding-top: 0;
-      }
-
-      &:last-child {
-        border-bottom: none;
-        padding-bottom: 0;
-      }
-    }
+    border: 1px solid #E0E0E0;
+    margin-bottom: 20px;
   }
 }
 
@@ -370,8 +358,10 @@ export default {
 .best-sellers-title {
   font-family: DIN Pro;
   font-weight: 600;
-  font-size: 18px;
-  line-height: 24px;
+  // font-size: 18px;
+  // line-height: 24px;
+  font-size: 24px;
+  line-height: 30px;
   color: #1A1919;
   margin-bottom: 32px;
 }
@@ -398,6 +388,7 @@ export default {
   .search-content {
     border-radius: 0;
     border: none;
+
   }
 
   .empty-header {

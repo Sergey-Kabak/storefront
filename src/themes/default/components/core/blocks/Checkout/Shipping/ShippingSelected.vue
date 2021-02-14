@@ -50,7 +50,7 @@ export default {
 .shipping {
   border: 1px solid #E0E0E0;
   border-radius: 4px;
-  padding: 16px;
+  padding: 14px;
 }
 
 .title {

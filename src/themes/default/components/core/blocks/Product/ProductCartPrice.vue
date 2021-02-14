@@ -3,7 +3,7 @@
     <div class="mb0 name mt0 relative w-100" v-if="nameVisibility">
       {{ product.name | htmlDecode }} <span v-if="showProductColor">{{getColor}}</span>
     </div>
-    <template v-if="specialPrice && !onlyImage">
+    <template v-if="specialPrice && !onlyImage && getStockStatus !== 'ComingSoon'">
       <div class="product-price-wrapper">
         <div class="main-price">
           <span
@@ -24,7 +24,7 @@
       </span>
       </div>
     </template>
-    <template v-else-if="!onlyImage">
+    <template v-else-if="!onlyImage && getStockStatus !== 'ComingSoon'">
       <div class="product-price-wrapper">
         <span class="price-special">
           {{ originalPrice | price(storeView) }}
@@ -36,7 +36,7 @@
 
 <script>
 import { currentStoreView } from '@vue-storefront/core/lib/multistore';
-import { price } from 'theme/helpers';
+import { price, ProductStock } from 'theme/helpers';
 
 export default {
   props: {
@@ -58,6 +58,9 @@ export default {
     }
   },
   computed: {
+    getStockStatus () {
+      return ProductStock(this.product)
+    },
     getColor () {
       if (this.product.type_id === 'configurable' && this.showProductColor ) {
         return this.product.attributes_metadata.find(it => it.attribute_code === 'color').options.find(option => +option.value === this.product.color).label || null
@@ -138,6 +141,10 @@ export default {
   flex-wrap: wrap-reverse;
   justify-content: flex-end;
   align-items: center;
+
+  @media only screen and (max-width: 520px) {
+    // flex-wrap: nowrap;
+  }
 }
 
 .name {

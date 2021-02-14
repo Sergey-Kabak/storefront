@@ -60,7 +60,7 @@ export default {
   display: flex;
   align-items: flex-start;
   width: 100%;
-  padding: 16px;
+  padding: 14px;
   cursor: pointer;
 }
 
