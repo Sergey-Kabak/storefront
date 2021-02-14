@@ -391,7 +391,6 @@ export default {
     box-sizing: border-box;
     border-radius: 4px;
     padding: 16px;
-
     &-tag {
       &-bottom {
         z-index: 3;
@@ -403,26 +402,19 @@ export default {
         display: flex;
       }
     }
-
     &.d-flex-column {
       display: flex;
       flex-direction: column;
       justify-content: space-between;
     }
-
     .flex-column {
       flex-direction: column;
     }
-
     .product-link {
       align-items: flex-start;
       .mt-auto {
         margin-top: auto;
       }
-    }
-
-    @media (max-width: 767px) {
-      padding: 5px;
     }
     &__icons {
       position: absolute;

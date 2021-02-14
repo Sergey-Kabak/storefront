@@ -124,10 +124,6 @@ export default {
   margin-top: 40px;
 }
 
-.v-container {
-  width: 90%;
-}
-
 .error-page {
   display: flex;
   flex-direction: column;
@@ -252,7 +248,7 @@ export default {
   #page_not_found {
     margin-top: 0px;
   }
-  
+
   .error-info {
     padding: 12px;
   }

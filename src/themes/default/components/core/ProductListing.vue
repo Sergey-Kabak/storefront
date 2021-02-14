@@ -1,5 +1,5 @@
 <template>
-  <div class="product-listing">
+  <div class="product-listing" :style="{'grid-template-columns': `repeat(${columns}, 1fr)`}">
     <product-tile
       v-for="(product, key) in products"
       :key="key"
@@ -31,6 +31,10 @@ export default {
     gtmList: {
       type: String,
       default: 'category'
+    },
+    columns: {
+      type: Number | String,
+      default: () => 3
     }
   }
 }
@@ -38,10 +42,25 @@ export default {
 
 <style lang="scss" scoped>
   .product-listing {
+    @media (max-width: 767px){
+      grid-gap: 0;
+      ::v-deep :nth-child(even) {
+        border-right: none;
+        border-left: none;
+        padding-right: 0;
+      }
+      ::v-deep :nth-child(odd) {
+        border-left: none;
+        padding-left: 0;
+      }
+      ::v-deep .product{
+        border-radius: 0;
+        margin-bottom: -1px;
+      }
+    }
     width: 100%;
     display: grid;
     grid-gap: 20px;
-    grid-template-columns: repeat(auto-fill, minmax(250px,1fr));
   }
 
   ::v-deep .product-image__thumb {

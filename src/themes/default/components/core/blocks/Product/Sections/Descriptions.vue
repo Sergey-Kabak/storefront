@@ -1,7 +1,7 @@
 <template>
   <div class="content">
     <h3 class="tab-title">{{ $t('AboutTab') }}</h3>
-    <div class="product-description" v-html="getCurrentProduct.description"></div>
+    <div class="product-description" v-if="getCurrentProduct.description" v-html="getCurrentProduct.description"></div>
   </div>
 </template>
 

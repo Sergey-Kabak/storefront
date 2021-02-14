@@ -3,6 +3,7 @@
     <div class="product-meta">
       <product-stock-status />
       <h1
+        v-if="screenResolution !== 'mobile'"
         class="mt0 product-name block font"
         data-testid="productName"
         itemprop="name"
@@ -23,11 +24,12 @@
 
 <script>
 import ProductMixin from '../Mixins/ProductMixin';
+import ResizeMixin from '../Mixins/ResizeMixin';
 import ProductFilters from './ProductFilters';
 import ProductStockStatus from './ProductStockStatus';
 
 export default {
-  mixins: [ProductMixin],
+  mixins: [ProductMixin, ResizeMixin],
   components: {
     ProductFilters,
     ProductStockStatus

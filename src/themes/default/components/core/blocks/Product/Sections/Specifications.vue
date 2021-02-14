@@ -28,8 +28,7 @@ export default {
   props: {
     count: {
       type: String,
-      default: () => '',
-      required: false
+      default: () => ''
     }
   },
   computed: {

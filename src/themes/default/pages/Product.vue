@@ -3,10 +3,19 @@
     <div class="v-container">
       <div class="row">
         <div class="col-12">
-          <breadcrumbs class="breadcrumbs"/>
+          <breadcrumbs v-if="!['mobile'].includes(this.screenResolution)" class="breadcrumbs"/>
+          <mobile-breadcrumbs v-else />
         </div>
         <div class="col-12">
           <section class="product-top-info">
+            <h1
+              v-if="screenResolution === 'mobile'"
+              class="product-name-mobile"
+              data-testid="productName"
+              itemprop="name"
+            >
+              {{ getCurrentProduct.name | htmlDecode }}
+            </h1>
             <product-gallery
               :offline="getOfflineImage"
               :gallery="getProductGallery"
@@ -22,37 +31,28 @@
         </div>
       </div>
     </div>
-    <hr class="tab-underline">
+    <hr class="tab-underline" ref="separator">
     <product-tabs :class="{'fixed-row' : fixedContent}" />
     <div class="v-container">
       <div class="row">
         <div class="col-12 tab-row">
-          <component :is="ActiveTab" />
+          <component v-if="tabContainer" :is="tabContainer">
+            <component :is="ActiveTab" />
+          </component>
           <div class="carriage-wrapper" :class="{'carriage-fixed' : fixedContent, 'carriage-absolute' : absoluteContent > 112}">
             <component :is="activeCarriage" :style="{'top' : absoluteContent + 'px'}" />
           </div>
         </div>
       </div>
     </div>
-    <lazy-hydrate when-idle>
-      <related-products type="upsell" :heading="$t('We found other products you might like')" />
-    </lazy-hydrate>
-    <div class="banner flex my30">
-      <picture>
-        <source srcset="/assets/promo/delivery_promo_288x260.jpg" media="(max-width: 400px)">
-        <source srcset="/assets/promo/delivery_promo_1324x260.jpg">
-        <img src="/assets/promo/delivery_promo_1324x260.jpg" class="promo-image">
-      </picture>
-    </div>
-    <lazy-hydrate when-idle>
-      <related-products type="related" />
-    </lazy-hydrate>
+    <similar-products />
   </div>
 </template>
 
 <script>
 import config from 'config';
 import Breadcrumbs from 'theme/components/core/Breadcrumbs.vue';
+import MobileBreadcrumbs from '../components/core/MobileBreadcrumbs.vue';
 import ProductGallery from 'theme/components/core/ProductGallery';
 import Promo from '../components/core/blocks/Product/Components/Promo';
 import ProductInfo from '../components/core/blocks/Product/Components/ProductInfo';
@@ -67,10 +67,8 @@ import VideoReviewTab from '../components/core/blocks/Product/Tabs/VideoReviewTa
 import AccessoriesTab from '../components/core/blocks/Product/Tabs/AccessoriesTab';
 import ReviewsTab from '../components/core/blocks/Product/Tabs/ReviewsTab';
 import SmallProductCart from '../components/core/blocks/Product/Tabs/SmallProductCart';
-import RelatedProducts from 'theme/components/core/blocks/Product/Related.vue';
 import GTM from 'theme/mixins/GTM/dataLayer'
 import { mapGetters } from 'vuex';
-import LazyHydrate from 'vue-lazy-hydration';
 import { ProductOption } from '@vue-storefront/core/modules/catalog/components/ProductOption.ts';
 import {
   currentStoreView,
@@ -87,13 +85,17 @@ import {
 import { catalogHooksExecutors } from '@vue-storefront/core/modules/catalog-next/hooks';
 import { filterChangedProduct } from '@vue-storefront/core/modules/catalog/events'
 import ProductScrolls from 'theme/components/core/blocks/Product/Mixins/ProductScrolls';
+import SimilarProducts from 'theme/components/core/blocks/Product/Sections/SimilarProducts';
+import ResizeMixin from '../components/core/blocks/Product/Mixins/ResizeMixin';
+import TabContainer from '../components/core/blocks/Product/Tabs/TabContainer';
+import TabContainerMobile from '../components/core/blocks/Product/Tabs/TabContainerMobile';
 
 export default {
+  mixins: [ProductOption, GTM, ProductScrolls, ResizeMixin],
   components: {
     Breadcrumbs,
+    MobileBreadcrumbs,
     ProductGallery,
-    RelatedProducts,
-    LazyHydrate,
     Promo,
     ProductInfo,
     ProductTrade,
@@ -106,12 +108,10 @@ export default {
     VideoReviewTab,
     AccessoriesTab,
     ReviewsTab,
-    SmallProductCart
-  },
-  mixins: [ProductOption, GTM, ProductScrolls],
-  beforeCreate () {
-    registerModule(ReviewModule)
-    registerModule(RecentlyViewedModule)
+    SmallProductCart,
+    SimilarProducts,
+    TabContainer,
+    TabContainerMobile
   },
   data () {
     return {
@@ -122,9 +122,10 @@ export default {
       manageQuantity: true,
       show_modal_credits_loading: false,
       prevRoute: null,
-      ActiveTab: 'AboutTab',
+      ActiveTab: 'about-tab',
       fixedContent: false,
-      absoluteContent: 112
+      absoluteContent: 112,
+      isMobileSidebar: false
     }
   },
   computed: {
@@ -132,7 +133,7 @@ export default {
       getCurrentCategory: 'category-next/getCurrentCategory',
       getCurrentProduct: 'product/getCurrentProduct',
       getProductGallery: 'product/getProductGallery',
-      getCurrentProductConfiguration: 'product/getCurrentProductConfiguration',
+      getCurrentProductConfiguration: 'product/getCurrentProductConfiguration'
     }),
     visibleBlocks () {
       const blocks = {
@@ -142,7 +143,14 @@ export default {
         'product-instruction': this.getCurrentProduct.instruction,
         'product-delivery': true
       }
-      return Object.keys(blocks).filter(block => !!blocks[block])
+      return Object.keys(blocks).filter(it => !!blocks[it])
+    },
+    tabContainer () {
+      const blocks = {
+        'tab-container': !['mobile'].includes(this.screenResolution),
+        'tab-container-mobile': ['mobile'].includes(this.screenResolution) && this.isMobileSidebar
+      }
+      return Object.keys(blocks).find(it => !!blocks[it])
     },
     activeCarriage () {
       return 'small-product-cart'
@@ -155,45 +163,6 @@ export default {
         src: this.getThumbnail(this.getCurrentProduct.image, config.products.thumbnails.width, config.products.thumbnails.height),
         error: this.getThumbnail(this.getCurrentProduct.image, config.products.thumbnails.width, config.products.thumbnails.height),
         loading: this.getThumbnail(this.getCurrentProduct.image, config.products.thumbnails.width, config.products.thumbnails.height)
-      }
-    }
-  },
-  async beforeMount () {
-    this.$bus.$on('filter-on-change', (variant) => this.changeFilter(variant))
-    this.$bus.$on('change-tab', tab => this.ActiveTab = tab)
-  },
-  async mounted () {
-    await this.$store.dispatch('recently-viewed/addItem', this.getCurrentProduct);
-  },
-  async asyncData ({ store, route, context }) {
-    if (context) context.output.cacheTags.add('product')
-    const product = await store.dispatch('product/loadProduct', { parentSku: route.params.parentSku, childSku: route && route.params && route.params.childSku ? route.params.childSku : null })
-    const loadBreadcrumbsPromise = store.dispatch('product/loadProductBreadcrumbs', { product })
-    if (isServer) await loadBreadcrumbsPromise
-    catalogHooksExecutors.productPageVisited(product)
-  },
-  beforeRouteEnter (to, from, next) {
-    if (isServer) {
-      next((vm) => {
-        vm.prevRoute = from;
-      })
-    } else {
-      next((vm) => {
-        vm.getQuantity();
-        vm.prevRoute = from;
-      })
-    }
-  },
-  watch: {
-    prevRoute: function (val) {
-      let page = val.meta.name || 'product page';
-      this.GTM_PRODUCT_VIEW([this.getCurrentProduct], page)
-    },
-    isOnline: {
-      handler (isOnline) {
-        if (isOnline) {
-          this.getQuantity()
-        }
       }
     }
   },
@@ -215,6 +184,58 @@ export default {
       } finally {
         this.isStockInfoLoading = false
         await this.$store.dispatch('themeCredit/fetchBanks', this.getCurrentProduct.sku)
+      }
+    }
+  },
+  async asyncData ({ store, route, context }) {
+    if (context) context.output.cacheTags.add('product')
+    const product = await store.dispatch('product/loadProduct', { parentSku: route.params.parentSku, childSku: route && route.params && route.params.childSku ? route.params.childSku : null })
+    const loadBreadcrumbsPromise = store.dispatch('product/loadProductBreadcrumbs', { product })
+    if (isServer) await loadBreadcrumbsPromise
+    catalogHooksExecutors.productPageVisited(product)
+  },
+  beforeRouteEnter (to, from, next) {
+    if (isServer) {
+      next((vm) => {
+        vm.prevRoute = from;
+      })
+    } else {
+      next((vm) => {
+        vm.getQuantity();
+        vm.prevRoute = from;
+      })
+    }
+  },
+  beforeCreate () {
+    registerModule(ReviewModule)
+    registerModule(RecentlyViewedModule)
+  },
+  async beforeMount () {
+    this.$bus.$on('filter-on-change', (variant) => this.changeFilter(variant))
+    this.$bus.$on('change-tab', (tab) => {
+      this.ActiveTab = tab
+      if (['mobile'].includes(this.screenResolution)) {
+        this.isMobileSidebar = true
+      }
+    })
+  },
+  async mounted () {
+    await this.$store.dispatch('recently-viewed/addItem', this.getCurrentProduct);
+  },
+  beforeDestroy () {
+    this.$bus.$off('filter-on-change')
+    this.$bus.$off('change-tab')
+  },
+  watch: {
+    prevRoute: function (val) {
+      let page = val.meta.name || 'product page';
+      this.GTM_PRODUCT_VIEW([this.getCurrentProduct], page)
+    },
+    isOnline: {
+      handler (isOnline) {
+        if (isOnline) {
+          this.getQuantity()
+        }
       }
     }
   },
@@ -245,11 +266,7 @@ export default {
       title: htmlDecode(this.getCurrentProduct.meta_title || this.getCurrentProduct.name),
       meta: this.getCurrentProduct.meta_description ? [{ vmid: 'description', name: 'description', content: htmlDecode(this.getCurrentProduct.meta_description) }] : []
     }
-  },
-  beforeDestroy () {
-    this.$bus.$off('filter-on-change')
-    this.$bus.$off('change-tab')
-  },
+  }
 }
 </script>
 

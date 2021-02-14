@@ -43,8 +43,16 @@ export default {
 
 <style lang="scss" scoped>
 .small-product{
-  width: 490px;
-  min-width: 490px;
+  @media (min-width: 1025px) {
+    max-width: 490px;
+  }
+  @media (min-width: 768px) and (max-width: 1024px) {
+    max-width: 320px;
+  }
+  @media (max-width: 767px) {
+    margin-bottom: 48px;
+  }
+  width: 100%;
   &-carriage{
     border-top: 1px solid #E0E0E0;
     border-left: 1px solid #E0E0E0;

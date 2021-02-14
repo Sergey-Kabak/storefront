@@ -8,7 +8,7 @@
         pagination-color="transparent"
         navigation-next-label="<i class='material-icons cl-bg-tertiary pointer'>keyboard_arrow_right</i>"
         navigation-prev-label="<i class='material-icons cl-bg-tertiary pointer'>keyboard_arrow_left</i>"
-        :navigation-enabled="true"
+        :navigation-enabled="['desktop', 'table'].includes(screenResolution)"
         :paginationEnabled="false"
         ref="carousel"
         :speed="carouselTransitionSpeed"
@@ -40,7 +40,7 @@
         </slide>
       </carousel>
     </no-ssr>
-    <product-gallery-pagination :gallery="gallery" />
+    <product-gallery-pagination v-if="['mobile'].includes(screenResolution)" :gallery="gallery" />
   </div>
 </template>
 
@@ -52,9 +52,11 @@ import reduce from 'lodash-es/reduce'
 import map from 'lodash-es/map'
 import NoSSR from 'vue-no-ssr'
 import ProductGalleryPagination from './blocks/ProductGalleryPagination';
+import ResizeMixin from 'theme/components/core/blocks/Product/Mixins/ResizeMixin';
 
 export default {
   name: 'ProductGalleryCarousel',
+  mixins: [ResizeMixin],
   components: {
     'Carousel': () => import('vue-carousel').then(Slider => Slider.Carousel),
     'Slide': () => import('vue-carousel').then(Slider => Slider.Slide),
@@ -183,7 +185,12 @@ export default {
 
 <style lang="scss" scoped>
 @import '~theme/css/animations/transitions';
-/deep/ .VueCarousel-navigation-button{
+.VueCarousel{
+  @media (max-width: 767px) {
+    margin-bottom: 8px;
+  }
+}
+::v-deep .VueCarousel-navigation-button{
   max-height: 40px;
   border-radius: 50%;
   border: 1px solid #E0E0E0 !important;
@@ -197,7 +204,6 @@ export default {
   text-align: center;
   height: 100%;
   width : 100%;
-  margin-bottom: 9px;
 }
 .zoom-in {
   position: absolute;
@@ -242,10 +248,16 @@ export default {
     transform: translateY(-50%) !important;
   }
   .VueCarousel-slide {
+    @media (max-width: 575px) {
+      max-height: 380px;
+      img{
+        height: 380px !important;
+        object-fit: cover !important;
+      }
+    }
     backface-visibility: unset;
   }
   .VueCarousel-navigation {
-    //opacity: 0;
     &--disabled {
       display: none;
     }

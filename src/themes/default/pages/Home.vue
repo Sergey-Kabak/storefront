@@ -3,8 +3,6 @@
     <section class="v-container">
       <home-carousel />
     </section>
-    <!--<head-image />-->
-
     <section class="v-container offer-gallery">
       <div class="gallery-title">
         {{ $t('Popular categories') }}
@@ -19,9 +17,6 @@
         </router-link>
       </div>
     </section>
-    <!--<head-image />-->
-    <!--<promoted-offers />-->
-
     <section class="v-container ">
       <div>
         <header class="col-md-12">
@@ -343,9 +338,6 @@ export default {
         &--active
           .VueCarousel-dot-button
             background: #23BE20 !important
-  .offer-gallery
-    &.v-container
-      width: 95%
   .gallery-title
     margin: 68px 0px 32px 0px
     font-family: 'DIN Pro'
@@ -357,10 +349,6 @@ export default {
 </style>
 
 <style lang="scss" scoped>
-  .v-container {
-    width: 90%;
-  }
-
   .promo-image {
     width: 100%;
 

@@ -3,32 +3,35 @@
     <delivery-title/>
 <!--    <shop-shipping />-->
     <div v-for="(type, name) in shippingTypes" :key="name" class="product-delivery__type">
-      <div class="delivery-label flex v-center">
-        <div v-html="type.icon" class="delivery-label-icon"></div>
-        {{ $t(name) }}
-      </div>
-      <div class="delivery-info">
-        <strong
-          v-if="type.methodInfo.actionField"
-          @click="type.methodInfo.actionField.event"
-          class="font">
-          {{type.methodInfo.actionField.text}}
-        </strong>
-        <span class="font">
+      <div v-html="type.icon" class="product-delivery__type-icon"></div>
+      <div class="product-delivery__type-row flex">
+        <div class="delivery-label flex v-center">
+          {{ $t(name) }}
+        </div>
+        <div class="delivery-info">
+          <strong
+            v-if="type.methodInfo.actionField"
+            @click="type.methodInfo.actionField.event"
+            class="font">
+            {{type.methodInfo.actionField.text}}
+          </strong>
+          <span class="font">
           {{type.methodInfo.text}}
         </span>
-      </div>
-      <div class="delivery-price">
-        <strong v-if="type.price.free">{{ $t('is free') }}</strong>
-        <span :class="{'line-through' : type.price.free}">{{type.price.base}}</span>
+        </div>
+        <div class="delivery-price">
+          <strong v-if="type.price.free">{{ $t('is free') }}</strong>
+          <span v-if="!!type.price.base" :class="{'line-through' : type.price.free}">{{type.price.base | price}}</span>
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import DeliveryTitle from "./DeliveryTitle";
-import ShopShipping from "../../Checkout/Shipping/ShopShipping/ShopShipping";
+import DeliveryTitle from './DeliveryTitle';
+import ShopShipping from '../../Checkout/Shipping/ShopShipping/ShopShipping';
+import { currentStoreView } from '@vue-storefront/core/lib/multistore';
 
 export default {
   components: {
@@ -99,7 +102,12 @@ export default {
         }
       }
     }
-  })
+  }),
+  computed: {
+    storeView () {
+      return currentStoreView()
+    }
+  }
 }
 </script>
 
@@ -111,13 +119,47 @@ export default {
   border-radius: 4px;
   padding: 16px;
   &__type {
-    @media (max-width: 575px) {
-      flex-direction: column;
-    }
     display: flex;
     justify-content: space-between;
+    align-items: flex-start;
     &:not(:last-child) {
       margin-bottom: 20px;
+    }
+    &-icon{
+      margin-right: 16px;
+    }
+    &-row{
+      @media (min-width: 768px) and (max-width: 1024px) {
+        flex-direction: column;
+        .delivery{
+          &-info{
+            margin-left: 0;
+            margin-bottom: 8px;
+            .font{
+              text-align: left;
+            }
+          }
+          &-price{
+            align-items: flex-start;
+          }
+        }
+      }
+      @media (max-width: 575px) {
+        flex-direction: column;
+        .delivery{
+          &-info{
+            margin-left: 0;
+            margin-bottom: 8px;
+            .font{
+              text-align: left;
+            }
+          }
+          &-price{
+            align-items: flex-start;
+          }
+        }
+      }
+      flex: 1;
     }
     .delivery-label {
       display: flex;
@@ -125,9 +167,6 @@ export default {
       font-size: 14px;
       line-height: 24px;
       color: #5F5E5E;
-      &-icon{
-        margin-right: 16px;
-      }
     }
   }
 }

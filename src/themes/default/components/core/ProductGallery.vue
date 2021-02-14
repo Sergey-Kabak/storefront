@@ -129,12 +129,6 @@ export default {
   height: 100%;
   display: flex;
   align-items: flex-start;
-  min-height: calc(90vw * 1.1);
-
-  @media only screen and (min-width:768px) {
-    min-height: inherit;
-  }
-
   &--loaded {
     background-image: none;
   }

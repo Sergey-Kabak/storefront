@@ -95,10 +95,6 @@ export default {
   margin-top: 40px;
 }
 
-.v-container {
-  width: 90%;
-}
-
 .error-info {
   display: flex;
   flex-direction: column;
@@ -118,7 +114,7 @@ export default {
   margin-bottom: 16px;
 
   .highlighted {
-    color: #ee2c39; 
+    color: #ee2c39;
   }
 }
 
