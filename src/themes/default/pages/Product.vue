@@ -8,14 +8,11 @@
         </div>
         <div class="col-12">
           <section class="product-top-info">
-            <h1
-              v-if="screenResolution === 'mobile'"
-              class="product-name-mobile"
-              data-testid="productName"
-              itemprop="name"
-            >
-              {{ getCurrentProduct.name | htmlDecode }}
-            </h1>
+            <no-ssr>
+              <h1 v-if="screenResolution === 'mobile'" class="product-name-mobile" data-testid="productName" itemprop="name">
+                {{ getCurrentProduct.name | htmlDecode }}
+              </h1>
+            </no-ssr>
             <product-gallery
               :offline="getOfflineImage"
               :gallery="getProductGallery"
@@ -69,19 +66,12 @@ import ReviewsTab from '../components/core/blocks/Product/Tabs/ReviewsTab';
 import SmallProductCart from '../components/core/blocks/Product/Tabs/SmallProductCart';
 import GTM from 'theme/mixins/GTM/dataLayer'
 import { mapGetters } from 'vuex';
-import { ProductOption } from '@vue-storefront/core/modules/catalog/components/ProductOption.ts';
-import {
-  currentStoreView,
-  localizedRoute
-} from '@vue-storefront/core/lib/multistore';
+import { currentStoreView, localizedRoute } from '@vue-storefront/core/lib/multistore';
 import { htmlDecode } from '@vue-storefront/core/filters';
 import { ReviewModule } from '@vue-storefront/core/modules/review';
 import { RecentlyViewedModule } from '@vue-storefront/core/modules/recently-viewed';
 import { registerModule } from '@vue-storefront/core/lib/modules';
-import {
-  isServer,
-  onlineHelper
-} from '@vue-storefront/core/helpers';
+import { isServer, onlineHelper } from '@vue-storefront/core/helpers';
 import { catalogHooksExecutors } from '@vue-storefront/core/modules/catalog-next/hooks';
 import { filterChangedProduct } from '@vue-storefront/core/modules/catalog/events'
 import ProductScrolls from 'theme/components/core/blocks/Product/Mixins/ProductScrolls';
@@ -89,9 +79,10 @@ import SimilarProducts from 'theme/components/core/blocks/Product/Sections/Simil
 import ResizeMixin from '../components/core/blocks/Product/Mixins/ResizeMixin';
 import TabContainer from '../components/core/blocks/Product/Tabs/TabContainer';
 import TabContainerMobile from '../components/core/blocks/Product/Tabs/TabContainerMobile';
+import NoSSR from 'vue-no-ssr'
 
 export default {
-  mixins: [ProductOption, GTM, ProductScrolls, ResizeMixin],
+  mixins: [GTM, ProductScrolls, ResizeMixin],
   components: {
     Breadcrumbs,
     MobileBreadcrumbs,
@@ -111,7 +102,8 @@ export default {
     SmallProductCart,
     SimilarProducts,
     TabContainer,
-    TabContainerMobile
+    TabContainerMobile,
+    'no-ssr': NoSSR
   },
   data () {
     return {
@@ -137,6 +129,7 @@ export default {
     }),
     visibleBlocks () {
       const blocks = {
+        'promo': this.getCurrentProduct.type_id === 'bundle',
         'product-info': true,
         'product-trade': true,
         'product-seller': parseInt(this.getCurrentProduct.marketplace),

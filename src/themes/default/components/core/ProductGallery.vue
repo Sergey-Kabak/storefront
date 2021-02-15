@@ -12,18 +12,16 @@
         :gallery="gallery"
         @toggle="openOverlay"
       />
-      <div class="relative main-gallery-container">
-        <product-gallery-carousel
-          v-if="showProductGalleryCarousel"
-          :gallery="gallery"
-          :configuration="configuration"
-          :product-name="product.name"
-          @toggle="openOverlay"
-          @close="onEscapePress"
-          @loaded="carouselLoaded = true"
-          class="product-galley-page-wrapper"
-        />
-      </div>
+      <product-gallery-carousel
+        v-if="showProductGalleryCarousel"
+        :gallery="gallery"
+        :configuration="configuration"
+        :product-name="product.name"
+        @toggle="openOverlay"
+        @close="onEscapePress"
+        @loaded="carouselLoaded = true"
+        class="product-galley-page-wrapper"
+      />
     </div>
     <product-image v-else :image="offline" />
   </div>

@@ -1,5 +1,5 @@
 <template>
-  <div class="pagination-row">
+  <div v-if="gallery && gallery.length > 1" class="pagination-row">
     <button class="small-dot" v-if="subButtons.left" @click="selectSlide(list[0] - 1)"></button>
     <template v-for="(dot, index) in dots">
       <button :key="index" :class="{'active': dot === page}" @click="selectSlide(dot)"></button>

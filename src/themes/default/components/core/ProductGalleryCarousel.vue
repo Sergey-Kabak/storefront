@@ -24,7 +24,7 @@
             :class="{'video-container w-100 h-100 flex relative': images.video}"
           >
             <product-image
-              v-show="hideImageAtIndex !== index"
+              v-if="hideImageAtIndex !== index"
               @dblclick="openOverlay"
               class="pointer image"
               :image="images"
@@ -212,7 +212,6 @@ export default {
 }
 .image{
   opacity: 1;
-  will-change: opacity;
   transition: .3s opacity $motion-main;
   &:hover{
     opacity: .9;

@@ -35,9 +35,20 @@
 .tab-row{
   display: flex;
   grid-gap: 48px;
-  margin-bottom: 68px;
+  @media (min-width: 768px) {
+    margin-bottom: 68px;
+  }
+  @media (max-width: 767px) {
+    margin-bottom: 48px;
+  }
 }
 .product-block-wrapper{
+  &.promo-block{
+    border: 1px dashed #EE2C39;
+    border-bottom: 1px dashed #EE2C39 !important;
+    margin-bottom: -1px;
+    position: relative;
+  }
   &.trade-wrapper{
     border-color: #23BE20;
     border-bottom: 1px solid #23BE20 !important;

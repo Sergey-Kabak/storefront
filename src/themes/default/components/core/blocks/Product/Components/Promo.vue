@@ -40,25 +40,12 @@
 </template>
 
 <script>
-import { mapGetters, mapMutations } from 'vuex'
+import { mapGetters } from 'vuex'
 import PromoProducts from './PromoProducts';
-import * as types from '@vue-storefront/core/modules/catalog/store/product/mutation-types';
-import i18n from '@vue-storefront/i18n';
-
-function _fieldName (co) {
-  return ['bundleOption_' + co.option_id, 'bundleOptionQty_' + co.option_id]
-}
 
 export default {
   components: {
     PromoProducts
-  },
-  data () {
-    return {
-      selectedOptions: {},
-      validationRules: {},
-      validationResults: {}
-    }
   },
   computed: {
     ...mapGetters({
@@ -80,60 +67,6 @@ export default {
         }, []).join(' ' + this.$t('and') + ' ') + end
       }
       return start + this.getBundleOptions[0].title + end
-    }
-  },
-  beforeMount () {
-    this.getBundleOptions.forEach(el => {
-      this.setBundleOptions({
-        fieldName: 'bundleOption_' + el.option_id,
-        option: el,
-        qty: 1,
-        value: el.product_links[0] })
-    })
-  },
-  methods: {
-    ...mapMutations('product', {
-      setBundleOptionValue: types.PRODUCT_SET_BUNDLE_OPTION // map `this.add()` to `this.$store.commit('increment')`
-    }),
-    setBundleOptions ({ fieldName, option, qty, value }) {
-      if (!fieldName) return
-      this.setBundleOptionValue({ optionId: option.option_id, optionQty: parseInt(qty), optionSelections: [parseInt(value.id)] })
-      this.$store.dispatch('product/setBundleOptions', { product: this.getCurrentProduct, bundleOptions: this.$store.state.product.current_bundle_options }) // TODO: move it to "AddToCart"
-      this.selectedOptions[fieldName] = { qty, value }
-      const valueId = value ? value.id : null
-      if (this.validateField(option, qty, valueId, this.getCurrentProduct)) {
-        this.$bus.$emit('product-after-bundleoptions', { product: this.getCurrentProduct, option: option, optionValues: this.selectedOptions })
-      }
-    },
-    validateField (option, qty, optionId) {
-      let result = true
-      let validationResult = { error: false, message: '' }
-      for (let fieldName of _fieldName(option)) {
-        const validationRule = this.validationRules[fieldName]
-        this.getCurrentProduct.errors.custom_options = null
-        if (validationRule) {
-          const validator = this.$store.state.product.custom_options_validators[validationRule]
-          if (typeof validator === 'function') {
-            const quantityValidationResult = validator(qty)
-            if (quantityValidationResult.error) validationResult = quantityValidationResult
-            const optionValidationResult = validator(optionId)
-            if (optionValidationResult.error) validationResult = optionValidationResult
-            this.$set(this.validationResults, fieldName, validationResult)
-            if (validationResult.error) {
-              this.getCurrentProduct.errors['bundle_options_' + fieldName] = i18n.t('Please configure product bundle options and fix the validation errors')
-              result = false
-            } else {
-              this.getCurrentProduct.errors['bundle_options_' + fieldName] = null
-            }
-          } else {
-            Logger.error('No validation rule found for ' + validationRule, 'components-product-bundle-options')()
-            this.$set(this.validationResults, fieldName, validationResult)
-          }
-        } else {
-          this.$set(this.validationResults, fieldName, validationResult)
-        }
-      }
-      return result
     }
   }
 }
@@ -163,11 +96,8 @@ export default {
     }
   }
   .promo-block{
-    margin-bottom: 25px;
     background: #FFFFFF;
-    border: 1px dashed #EE2C39;
     box-sizing: border-box;
-    border-radius: 4px;
     &-description{
       background: #F9F9F8;
       padding: 15px;
