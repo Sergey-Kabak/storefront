@@ -475,7 +475,6 @@ export default {
         .description {
           font-size: 13px;
           line-height: 16px;
-          @include maxLines(3);
         }
         &:last-child {
           .image {

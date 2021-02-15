@@ -215,6 +215,9 @@ $border: 1px solid $grey;
 $color-secondary: color(secondary);
 
 .v-container {
+  @media (max-width: 575px) {
+    padding: 16px 0;
+  }
   padding: 16px;
 }
 
