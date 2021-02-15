@@ -409,11 +409,6 @@ export default {
       return config && config.customSeller
     }
   },
-  async beforeMount () {
-    this.$bus.$on('product-after-configure', (data) => {
-      this.getQuantity()
-    });
-  },
   async mounted () {
     await this.$store.dispatch('recently-viewed/addItem', this.getCurrentProduct);
     console.log(this.getCurrentProduct);
@@ -422,6 +417,7 @@ export default {
     if (context) context.output.cacheTags.add('product')
     const product = await store.dispatch('product/loadProduct', { parentSku: route.params.parentSku, childSku: route && route.params && route.params.childSku ? route.params.childSku : null })
     const loadBreadcrumbsPromise = store.dispatch('product/loadProductBreadcrumbs', { product })
+    await store.dispatch('themeCredit/fetchBanks', product.sku)
     if (isServer) await loadBreadcrumbsPromise
     catalogHooksExecutors.productPageVisited(product)
   },
@@ -489,8 +485,8 @@ export default {
     async changeFilter (variant) {
       const selectedConfiguration = Object.assign({ attribute_code: variant.type }, variant)
       await filterChangedProduct(selectedConfiguration, this.$store, this.$router)
-      this.$bus.$emit( 'filter-changed-product', Object.assign({ attribute_code: variant.type }, variant))
-      this.getQuantity();
+      await this.getQuantity();
+      await this.$store.dispatch('themeCredit/fetchBanks', this.getCurrentProduct.sku)
     },
     isOptionAvailable (option) { // check if the option is available
       const currentConfig = Object.assign({}, this.getCurrentProductConfiguration)
@@ -510,7 +506,6 @@ export default {
         this.maxQuantity = res.isManageStock ? res.qty : null
       } finally {
         this.isStockInfoLoading = false
-        await this.$store.dispatch('themeCredit/fetchBanks', this.getCurrentProduct.sku)
       }
     },
     handleQuantityError (error) {
