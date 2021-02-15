@@ -8,7 +8,7 @@
               v-for="(tab , key) in tabs" :key="key"
               @click="selectTab(tab.component)"
               class="product-tabs_list_item"
-              :class="{'active' : ActiveTab == tab.component}"
+              :class="{'active' : activeTab == tab.component}"
             >
               <div class="product-tabs_list-icon" v-html="tab.icon"></div>
               <span class="product-tabs_list-name">{{tab.title}}</span>
@@ -39,12 +39,17 @@ import { currentStoreView } from '@vue-storefront/core/lib/multistore';
 
 export default {
   mixins: [ProductMixin, ResizeMixin],
+  props: {
+    activeTab: {
+      type: String,
+      default: () => 'about-tab'
+    }
+  },
   components: {
     AddToCart
   },
   data () {
     return {
-      ActiveTab: 'about-tab',
       tabs: [
         {
           title: this.$t('AboutTab'),

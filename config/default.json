@@ -767,13 +767,15 @@
   "images": {
     "useExactUrlsNoProxy": false,
     "baseUrl": "https://ringoo.ua/img/",
+    "uploadsUrl": "https://ringoo.ua/uploads/",
     "useSpecificImagePaths": true,
     "paths": {
       "product": "/catalog/product",
       "category": "/catalog/category/",
       "brand": "/temabit/brands/",
       "slider": "/bannerslider/upload/",
-      "credit": "/temabit/credit/"
+      "credit": "/temabit/credit/",
+      "instruction": "/temabit/instruction/"
     },
     "productPlaceholder": "/assets/placeholder.jpg"
   },
@@ -1036,6 +1038,7 @@
     "rate": 4.9,
     "marks": 24,
     "logo": "https://i1.rozetka.ua/sellers/1635/1635253.jpg",
+    "logo_small": "/assets/s-digit.jpg",
     "description": "Великий вибір товарів за найкращими цінами, актуальність ціни та наявності, швидка доставка / термін до 2-х днів, висока якість обслуговування.",
     "email": "infosales.sdigit@gmail.com",
     "phones": ["+38 050 340 72 53"],

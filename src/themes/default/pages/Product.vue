@@ -32,7 +32,7 @@
       </div>
     </div>
     <hr class="tab-underline" ref="separator">
-    <product-tabs :class="{'fixed-row' : fixedContent}" />
+    <product-tabs :class="{'fixed-row' : fixedContent}" :active-tab="ActiveTab" ref="pageTabs" />
     <div class="v-container">
       <div class="row">
         <div class="col-12 tab-row">
@@ -213,6 +213,7 @@ export default {
   async beforeMount () {
     this.$bus.$on('filter-on-change', (variant) => this.changeFilter(variant))
     this.$bus.$on('change-tab', (tab) => {
+      console.log(this)
       this.ActiveTab = tab
       if (['mobile'].includes(this.screenResolution)) {
         this.isMobileSidebar = true

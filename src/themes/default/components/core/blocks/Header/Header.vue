@@ -586,11 +586,6 @@ header {
 .header-placeholder {
   height: 54px;
 }
-.header-top-container {
-  @media only screen and (max-width: 1200px) {
-    max-width: 92%;
-  }
-}
 .account {
   &__text {
     display: block;

@@ -47,7 +47,7 @@ export default {
   },
   methods: {
     changeTab () {
-      this.$bus.$emit('change-tab', 'SpecificationsTab')
+      this.$bus.$emit('change-tab', 'specifications-tab')
     }
   }
 }

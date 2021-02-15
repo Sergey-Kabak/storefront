@@ -11,7 +11,8 @@
         </defs>
       </svg>
       <div class="seller-name flex">
-        <div>{{ $t("Seller:") }}</div> <span class="weight-700">{{ $t(customSeller.name) }}</span>
+        <div>{{ $t("Seller:") }}</div>
+        <span class="weight-700">{{ $t(customSeller.name) }}</span>
       </div>
     </div>
     <div class="seller-rating">

@@ -35,6 +35,7 @@
 .tab-row{
   display: flex;
   grid-gap: 48px;
+  margin-bottom: 68px;
 }
 .product-block-wrapper{
   &.trade-wrapper{
@@ -78,7 +79,7 @@
   top: 0;
   width: 100%;
   background-color: #fff;
-  z-index: 2;
+  z-index: 3;
 }
 .carriage-wrapper{
   @media (min-width: 1025px) {
