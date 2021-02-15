@@ -1,7 +1,7 @@
 <template>
   <router-link :to="localizedRoute(accessory.url)" class="accessory-link">
     <div class="accessory-body">
-      <img class="accessory-image" v-lazy="accessoryImage" :alt="accessory.name">
+      <img class="accessory-image" :src="accessoryImage" :alt="accessory.name">
       <span class="accessory-name">{{ accessory.name }}</span>
     </div>
     <div class="accessory-arrow">

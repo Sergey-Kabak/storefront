@@ -1,11 +1,6 @@
 <template>
   <li class="product" :class="{'out-of-stock': !inStock}">
     <div class="product-left">
-      <div class="remove-icon" @click="removeProductFromWhishList(product)">
-        <svg width="14" height="18" viewBox="0 0 14 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M1 16C1 17.1 1.9 18 3 18H11C12.1 18 13 17.1 13 16V4H1V16ZM3.5 8.9L4.9 7.5L7 9.6L9.1 7.5L10.5 8.9L8.4 11L10.5 13.1L9.1 14.5L7 12.4L4.9 14.5L3.5 13.1L5.6 11L3.5 8.9ZM10.5 1L9.5 0H4.5L3.5 1H0V3H14V1H10.5Z" fill="#BDBDBD"/>
-        </svg>
-      </div>
       <div class="product-img" @click="closeWishlist">
         <router-link :to="productLink">
           <img v-lazy="image.src" :alt="product.name" class="product-image">
@@ -25,35 +20,27 @@
 
       <div class="product-actions" >
         <product-cart-controls :product="product" class="cart-wishlist" />
-<!--        <div class="actions" v-if="inStock">-->
-<!--          &lt;!&ndash; <button-text class="credit">{{ $t('Buy in credit') }}</button-text> &ndash;&gt;-->
-<!--          &lt;!&ndash; <button-text class="credit mobile">{{ $t('In credit') }}</button-text> &ndash;&gt;-->
-<!--          <button-full-->
-<!--            @click.native="addToCart(product)"-->
-<!--            :product="product"-->
-<!--            :showIcon="isMobile"-->
-<!--            class="add-to-cart-button"-->
-<!--          >-->
-<!--            <span class="add-to-cart-info"> {{ $t('Buy') }} </span>-->
-<!--            <svg class="add-to-cart-info mobile" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">-->
-<!--              <path d="M21 4H2V6H4.3L7.582 15.025C7.79362 15.6029 8.1773 16.1021 8.68134 16.4552C9.18539 16.8083 9.78556 16.9985 10.401 17H19V15H10.401C9.982 15 9.604 14.735 9.461 14.342L8.973 13H18.246C19.136 13 19.926 12.402 20.169 11.549L21.962 5.275C22.0039 5.12615 22.0109 4.96962 21.9823 4.81763C21.9537 4.66565 21.8904 4.52234 21.7973 4.39889C21.7041 4.27544 21.5837 4.1752 21.4454 4.106C21.3071 4.0368 21.1546 4.00053 21 4ZM18.246 11H8.246L6.428 6H19.675L18.246 11Z" fill="white"/>-->
-<!--              <path d="M10.5 21C11.3284 21 12 20.3284 12 19.5C12 18.6716 11.3284 18 10.5 18C9.67157 18 9 18.6716 9 19.5C9 20.3284 9.67157 21 10.5 21Z" fill="white"/>-->
-<!--              <path d="M16.5 21C17.3284 21 18 20.3284 18 19.5C18 18.6716 17.3284 18 16.5 18C15.6716 18 15 18.6716 15 19.5C15 20.3284 15.6716 21 16.5 21Z" fill="white"/>-->
-<!--            </svg>-->
-<!--          </button-full>-->
-<!--        </div>-->
-<!--        <div class="product-out-of-stock" v-else>-->
-<!--          {{ $t('Not available') }}-->
-<!--        </div>-->
       </div>
     </div>
     <div class="product-right">
       <div class="product-right-data">
         <AddToCompare :product="product"> </AddToCompare>
+        <button class="remove-icon p0 inline-flex middle-xs bg-cl-transparent brdr-none action h5 pointer cl-secondary" @click="removeProductFromWhishList(product)">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M16 9V19H8V9H16ZM14.5 3H9.5L8.5 4H5V6H19V4H15.5L14.5 3ZM18 7H6V19C6 20.1 6.9 21 8 21H16C17.1 21 18 20.1 18 19V7Z" fill="#BDBDBD"/>
+          </svg>
+        </button>
       </div>
       <div class="product-right-data mobile">
         <more-icon class="more">
           <AddToCompare :product="product" class="more-item" showDescription />
+          <button @click="removeProductFromWhishList(product)" class="remove-icon remove-icon-mobile p0 inline-flex middle-xs bg-cl-transparent brdr-none action h5 pointer cl-secondary" >
+            <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect width="32" height="32" rx="4" fill="white" fill-opacity="0.95"/>
+              <path d="M20 13V23H12V13H20ZM18.5 7H13.5L12.5 8H9V10H23V8H19.5L18.5 7ZM22 11H10V23C10 24.1 10.9 25 12 25H20C21.1 25 22 24.1 22 23V11Z" fill="#BDBDBD"/>
+            </svg>
+            <span class="remove-from-wishlist-text">{{ $t('Remove from wishlist?') }}</span>
+          </button>       
         </more-icon>
       </div>
     </div>
@@ -97,6 +84,9 @@ export default {
   computed: {
     productLink () {
       return formatProductLink(this.product, currentStoreView().storeCode)
+    },
+    removeFromWishlistText() {
+      return this.$t('Remove {productName} from wishlist?', { productName: htmlDecode(this.product.name) })
     },
     image () {
       return {
@@ -142,10 +132,16 @@ export default {
 
 <style lang="scss" scoped>
 .product {
-  padding: 16px 0;
+  padding: 16px 12px 16px 16px;
+
+  @media only screen and (max-width: 500px) {
+    padding: 10px;
+  }
   display: flex;
   align-items: flex-start;
-  border-bottom: 1px solid #e0e0e0;
+  border: 1px solid #E0E0E0;
+  margin-bottom: 20px;
+  border-radius: 4px;
 
   &.out-of-stock {
     .product-name, .price-current {
@@ -157,29 +153,45 @@ export default {
     }
   }
 
-  &:first-child {
-    padding-top: 0;
+}
+.remove-icon {
+  cursor: pointer;
+  
+  & svg:hover {
+    background-color: #F9F9F9;
   }
 }
-
+.remove-icon-mobile {
+  width: 100%;
+  padding: 8px 16px;
+}
+  .product-img {
+    width: 88px;
+    height: 88px;
+  }
+  
 .product-left {
   display: flex;
   align-items: center;
-  margin-right: 12px;
+  margin-right: 17px;
 
-  .remove-icon {
-    cursor: pointer;
-    margin-right: 12px;
+
+  
+  @media only screen and (max-width: 520px) {
+    margin-right: 19px;
   }
-
   .product-img ::v-deep {
+      
+    @media only screen and (max-width: 520px) {
+      width: 56px;
+      height: 56px;
+    }
     a {
       display: block;
     }
 
     .product-image__thumb, .product-image {
-      max-width: 50px;
-      max-height: 50px;
+      max-width: 100%;
     }
   }
 }
@@ -194,6 +206,22 @@ export default {
 
   .more {
     display: none;
+
+    @media only screen and (max-width: 500px) {
+      display: block;
+    }
+  }
+}
+
+.product-right-data {
+  display: flex;
+  align-items: center;
+  & > *:first-child {
+    margin-right: 14px;
+
+    @media only screen and (max-width: 520px) {
+      margin-right: 0;
+    }
   }
 }
 
@@ -220,10 +248,15 @@ export default {
   display: inline-block;
   margin-bottom: 8px;
   font-family: DIN Pro;
-  font-size: 13px;
-  line-height: 16px;
+  font-size: 15px;
+  line-height: 18px;
   color: #1A1919;
   cursor: pointer;
+
+  @media only screen and (max-width: 520px) {
+    font-size: 13px;
+    line-height: 16px;
+  }
 }
 
 .product-prices {
@@ -257,8 +290,8 @@ export default {
 
 .product-right {
   .more {
+    margin-top: 5px;
     margin-left: auto;
-
     .more-item {
       padding: 8px 16px;
       display: flex;
@@ -279,6 +312,14 @@ export default {
   &.mobile {
     display: none;
   }
+}
+.remove-from-wishlist-text {
+  display: inline-block;
+  font-family: DIN Pro;
+  font-size: 14px;
+  line-height: 24px;
+  color: #595858;
+  margin-left: 20px;
 }
 
 </style>

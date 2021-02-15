@@ -5,6 +5,7 @@
       :key="key"
       :product="product"
       :isShowCompareAndFavorite="isShowCompareAndFavorite"
+      :gtm-list="gtmList"
     />
   </div>
 </template>
@@ -26,6 +27,10 @@ export default {
     products: {
       type: null,
       required: true
+    },
+    gtmList: {
+      type: String,
+      default: 'category'
     }
   }
 }
@@ -37,9 +42,17 @@ export default {
     display: grid;
     grid-gap: 20px;
     grid-template-columns: repeat(auto-fill, minmax(250px,1fr));
+
+    @media only screen and (max-width: 768px) {
+      grid-template-columns: repeat(auto-fill, minmax(45% ,1fr));
+      grid-gap: 16px;
+    }
+    @media only screen and (max-width: 540px) {
+      grid-gap: 0;
+    }
   }
 
   ::v-deep .product-image__thumb {
-    max-height: 200px!important;
+    max-height: 250px!important;
   }
 </style>
