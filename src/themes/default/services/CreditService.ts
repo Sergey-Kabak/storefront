@@ -34,7 +34,7 @@ const PartPaymentStatus = async (data: any): Promise<Task> => {
 
 const getCredits = async (sku: any): Promise<Task> => {
   return TaskQueue.execute({
-    url: `${getApiEndpointUrl({ endpoint: '/api/ext/credits?sku=' + sku }, 'endpoint')}`,
+    url: `${getApiEndpointUrl({ endpoint: '/api/ext/credits?sku=' + encodeURI(sku) }, 'endpoint')}`,
     payload: {
       method: 'GET',
       headers,
