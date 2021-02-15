@@ -12,6 +12,11 @@ const calculateTotals = (shippingMethod: ShippingMethod, paymentMethod: PaymentM
       code: 'grand_total',
       title: i18n.t('Grand total'),
       value: sumBy(cartItems, (p) => p.qty * price(p))
+    },
+    {
+      code: 'subtotal_original',
+      title: i18n.t('Subtotal'),
+      value: sumBy(cartItems, (p) => p.qty * price(p, 'original_price'))
     }
   ]
 

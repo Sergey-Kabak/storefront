@@ -55,6 +55,10 @@ export default {
     showProductColor: {
       type: Boolean,
       default: false
+    },
+    calculateWithPromo: {
+      type: Boolean,
+      default: true
     }
   },
   computed: {
@@ -77,10 +81,10 @@ export default {
       return this.product.original_price && this.product.special_price && this.discount > 0
     },
     originalPrice() {
-      return price(this.product, 'original_price')
+      return this.calculateWithPromo ? price(this.product, 'original_price') : this.product.original_price
     },
     specialPrice() {
-      return price(this.product, 'special_price')
+      return this.calculateWithPromo ? price(this.product, 'special_price') : this.product.special_price
     }
   }
 }

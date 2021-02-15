@@ -129,20 +129,6 @@ export default {
           imgMobile: '/assets/promo/samsung/md.jpg',
           link: '/samsung-s21',
           background: '#fff'
-        },
-        keepInTouch: {
-          img: '/assets/promo/iphone-desktop.jpg',
-          imgTablet: '/assets/promo/iphone-tablet.jpg',
-          imgMobile: '/assets/promo/iphone-mobile.jpg',
-          link: '/smartfoni-i-telefoni/smartfoni?manufacturer=Apple',
-          background: '#08101b'
-        },
-        ValentinesDay: {
-          img: '/assets/promo/ValentinesDay/desktop.jpg',
-          imgTablet: '/assets/promo/ValentinesDay/laptop.jpg',
-          imgMobile: '/assets/promo/ValentinesDay/mobile.jpg',
-          link: '/valentines-day',
-          background: '#47bdef'
         }
       }
     }
@@ -166,15 +152,11 @@ export default {
         {
           path: '/',
           options: this.promos.samsung
-        },
-        {
-          path: '/valentines-day',
-          options: this.promos.keepInTouch
         }
       ]
     },
     promo () {
-      const defaultPromo = this.promos.ValentinesDay
+      const defaultPromo = this.promos.samsung
       const promo = this.promoPages.find(promo => this.$route.path === promo.path)
       return (promo && promo.options) || defaultPromo;
     }

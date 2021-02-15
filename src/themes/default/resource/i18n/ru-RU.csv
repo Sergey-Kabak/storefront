@@ -637,5 +637,21 @@ VideoReviewTab,Видеообзор
 AccessoriesTab,Аксессуары
 ReviewsTab,Отзывы
 All Specifications,Все характеристики
+"Left {count} day","Акция закончилась | {count} день | {count} дня | {count} дней"
+"From","с"
+"To","по"
+"Gift","Подарок"
+"January {count}","январь | января | января"
+"February {count}","февраль | февраля | февраля"
+"March {count}","март | марта | марта"
+"April {count}","апрель | апреля | апреля"
+"May {count}"," май| мая | мая"
+"June {count}","июнь | июня | июня"
+"July {count}","июль | июля | июля"
+"August {count}","август | августа | августа"
+"September {count}","сентябрь | сентября | сентября"
+"October {count}","октябрь | октября | октября"
+"November {count}","ноябрь | ноября | ноября"
+"December {count}","декабрь | декабря | декабря"
 TVs,Телевизоры
 Pick up today from, Забрать сегодня с

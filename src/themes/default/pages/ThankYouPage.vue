@@ -102,7 +102,7 @@ export default {
       cartServerToken: (state) => state.cart.cartServerToken
     }),
     products () {
-      return this.order.items.filter(it => !it.parent_item_id)
+      return this.order.items.filter(it => it.parent_item && it.parent_item.product_type === 'bundle' || !it.parent_item)
     },
     isMarketplace () {
       return this.products.some(it => it.extension_attributes.marketplace)

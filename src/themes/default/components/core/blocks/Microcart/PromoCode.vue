@@ -81,9 +81,11 @@ export default {
     }),
     async setCoupon () {
       this.isPromocodeInvalid = false
-      const res = await this.applyCoupon(this.couponCode);
-      if (res !== true) {
-        this.isPromocodeInvalid = true
+      if (this.couponCode) {
+        const res = await this.applyCoupon(this.couponCode);
+        if (res !== true) {
+          this.isPromocodeInvalid = true
+        }
       }
     },
     async deleteCoupon () {
@@ -112,12 +114,12 @@ export default {
 
   &-title {
     width: fit-content;
-    padding-bottom: 20px;
+    margin-bottom: 16px;
   }
 
   &-left {
     width: 100%;
-    margin-right: 20px;
+    margin-right: 16px;
     min-width: 174px;
   }
 
@@ -134,7 +136,7 @@ export default {
   &-right {
     height: 40px;
     width: 100%;
-    max-width: 150px;
+    max-width: 153px;
   }
 
   &-input {
@@ -165,6 +167,7 @@ export default {
   font-size: 13px;
   line-height: 16px;
   color: #EE2C39;
+
   padding-left: 16px;
 }
 
@@ -196,9 +199,5 @@ export default {
 .promocode-invalid {
   cursor: pointer;
   background: #EE2C39;
-
-  img {
-    fill: white;
-  }
 }
 </style>

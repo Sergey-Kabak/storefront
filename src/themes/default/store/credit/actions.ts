@@ -3,8 +3,8 @@ import { CreditService } from '../../services/index';
 import { quickSearchByQuery } from '@vue-storefront/core/lib/search';
 
 const actions = {
-  fetchBanks ({ commit, dispatch }, sku) {
-    CreditService.getCredits(sku)
+  async fetchBanks ({ commit, dispatch }, sku) {
+    await CreditService.getCredits(sku)
       .then(res => {
         commit(types.CREDIT_SET_BANKS, { banks: res.result })
       })

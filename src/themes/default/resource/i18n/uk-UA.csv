@@ -654,3 +654,19 @@ ReviewsTab,Відгуки
 All Specifications,Всі характеристики
 TVs,Телевізори,
 Pick up today from, Забрати сьогодні з
+"Left {count} day","Акція закінчилась | {count} день | {count} дні | {count} днів"
+"From","з"
+"To","по"
+"Gift","Подарунок"
+"January {count}","січень | січня | січня"
+"February {count}","лютий | лютого | лютого"
+"March {count}","березень | березня | березня"
+"April {count}","квітень | квітня | квітня"
+"May {count}","травень | травня | травня"
+"June {count}","червень | червня | червня"
+"July {count}","липень | липня | липня"
+"August {count}","серпень | серпня | серпня"
+"September {count}","вересень | вересня | вересня"
+"October {count}","жовтень | жовтня | жовтня"
+"November {count}","листопад | листопада | листопада"
+"December {count}","грудень | грудня | грудня"
