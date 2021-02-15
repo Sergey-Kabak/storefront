@@ -40,15 +40,12 @@ export default {
   },
   methods: {
     async addProductToWhishlist (product) {
-      const childSku = product.configurable_children && product.configurable_children[0] && product.configurable_children[0].sku || null
-      const wishlistProduct = await this.$store.dispatch('product/loadProduct', { parentSku: product.parentSku, childSku})
-
-      this.addToWishlist(wishlistProduct)
       this.$store.dispatch('notification/spawnNotification', {
         type: 'success',
         message: i18n.t('Product {productName} has been added to wishlist!', { productName: htmlDecode(product.name) }),
         action1: { label: i18n.t('OK') }
       }, { root: true })
+      this.addToWishlist(product)
     },
     removeProductFromWhishList (product) {
       this.$store.dispatch('notification/spawnNotification', {
@@ -64,6 +61,7 @@ export default {
 
 <style lang="scss" scoped>
 .add-to-wishlist {
+  margin-right: 15px;
   font-family: DIN Pro;
   font-style: normal;
   font-size: 12px !important;
@@ -76,7 +74,6 @@ export default {
 .icon-wishlist {
   box-sizing: content-box;
   border-radius: 4px;
-  margin-right: 15px;
 
   &:hover {
     background-color: #F9F9F9;

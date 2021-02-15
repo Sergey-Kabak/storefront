@@ -19,7 +19,6 @@ export function unmask(maskedValue, mask){
 }
 
 export function price(product, priceType = null) {
-
   const bundlePrice = () => {
     if (product.bundle_options) {
       const price = product.bundle_options.reduce((acc, it) => acc += it.product_links.reduce((acc, it) => acc += it.price, 0), 0);

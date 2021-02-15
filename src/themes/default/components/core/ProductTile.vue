@@ -340,6 +340,7 @@ export default {
   z-index: 1;
   opacity: 1;
   margin-bottom: 8px;
+  margin-right: 0px;
   border-radius: 4px;
 
   &:hover {

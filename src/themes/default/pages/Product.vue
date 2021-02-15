@@ -35,7 +35,12 @@
             />
           </div>
           <div class="col-xs-12 col-md-5 data">
-            <Promo v-if="isProductRma" :label-value="getLabelValue()" />
+            <!-- <Promo v-if="isProductRma" :label-value="getLabelValue()" /> -->
+            <product-bundle-options
+              v-if="getCurrentProduct.bundle_options && getCurrentProduct.bundle_options.length > 0"
+              :product="getCurrentProduct"
+              class="product-bundle-options"
+            />
             <div
               class="product-in-stock hidden-xs block"
             >
@@ -114,10 +119,6 @@
               v-if="getCurrentProduct.type_id =='grouped'"
               :products="getCurrentProduct.product_links"
             />
-            <product-bundle-options
-              v-if="getCurrentProduct.bundle_options && getCurrentProduct.bundle_options.length > 0"
-              :product="getCurrentProduct"
-            />
             <product-custom-options
               v-else-if="getCurrentProduct.custom_options && getCurrentProduct.custom_options.length > 0"
               :product="getCurrentProduct"
@@ -132,7 +133,7 @@
               @error="handleQuantityError"
             />
             <div
-              v-if="getCurrentProduct.stock.is_in_stock"
+              v-if="getCurrentProduct.stock.is_in_stock && isPromoDaysLeft"
               class="row m0 action-block-buttons"
             >
               <add-to-cart
@@ -237,7 +238,7 @@ import ProductAttribute from 'theme/components/core/ProductAttribute.vue';
 import ProductQuantityNew from 'theme/components/core/ProductQuantityNew.vue';
 import ProductLinks from 'theme/components/core/ProductLinks.vue';
 import ProductCustomOptions from 'theme/components/core/ProductCustomOptions.vue';
-import ProductBundleOptions from 'theme/components/core/ProductBundleOptions.vue';
+import ProductBundleOptions from 'theme/components/core/blocks/Product/ProductBundleOptions.vue';
 import ProductGallery from 'theme/components/core/ProductGallery';
 import PromotedOffers from 'theme/components/theme/blocks/PromotedOffers/PromotedOffers';
 import focusClean from 'theme/components/theme/directives/focusClean';
@@ -407,6 +408,12 @@ export default {
     },
     customSeller () {
       return config && config.customSeller
+    },
+    isPromoDaysLeft () {
+      if (this.getCurrentProduct.bundle_gift_date_to) {
+        return Math.ceil(new Date(new Date(this.getCurrentProduct.bundle_gift_date_to) - new Date()) / (1000 * 60 * 60 * 24)) > 0
+      }
+      return true
     }
   },
   async mounted () {
@@ -689,6 +696,7 @@ $bg-secondary: color(secondary, $colors-background);
   .product-price-wrapper {
     justify-content: flex-start;
     margin: -4px 0 0 0;
+    margin-bottom: 16px;
   }
 
 }
@@ -734,6 +742,10 @@ $bg-secondary: color(secondary, $colors-background);
   @media (max-width: 767px) {
     font-size: 36px;
   }
+}
+
+.product-bundle-options {
+  margin-bottom: 16px;
 }
 
 .variants-label {
