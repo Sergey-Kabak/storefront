@@ -10,7 +10,7 @@ import { ProductOption } from '@vue-storefront/core/modules/catalog/components/P
 import omit from 'lodash-es/omit';
 import Composite from '@vue-storefront/core/mixins/composite';
 import { Logger } from '@vue-storefront/core/lib/logger';
-import { formatProductLink, formatProductLinkNoSku } from '@vue-storefront/core/modules/url/helpers';
+import { formatProductLink } from '@vue-storefront/core/modules/url/helpers';
 
 export default {
   name: 'Product',
@@ -161,7 +161,7 @@ export default {
     onStateCheck () {
       if (this.parentProduct && this.parentProduct.id !== this.product.id) {
         Logger.log('Redirecting to parent, configurable product', this.parentProduct.sku)()
-        const parentUrl = formatProductLinkNoSku(this.parentProduct, currentStoreView().storeCode)
+        const parentUrl = formatProductLink(this.parentProduct, currentStoreView().storeCode)
         this.$router.replace(parentUrl)
       }
     },

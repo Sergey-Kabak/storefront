@@ -1,6 +1,6 @@
 import { productThumbnailPath } from '@vue-storefront/core/helpers'
 import { currentStoreView } from '@vue-storefront/core/lib/multistore'
-import { formatProductLink, formatProductLinkNoSku } from '@vue-storefront/core/modules/url/helpers'
+import { formatProductLink } from '@vue-storefront/core/modules/url/helpers'
 import config from 'config'
 
 export const ProductTile = {
@@ -19,7 +19,7 @@ export const ProductTile = {
   },
   computed: {
     productLink () {
-      return formatProductLinkNoSku(this.product, currentStoreView().storeCode)
+      return formatProductLink(this.product, currentStoreView().storeCode)
     },
     thumbnail () {
       // todo: play with the image based on category page filters - eg. when 'red' color is chosen, the image is going to be 'red'

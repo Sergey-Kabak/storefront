@@ -25,7 +25,7 @@ import {
   processURLAddress
 } from '@vue-storefront/core/helpers';
 import { currentStoreView } from '@vue-storefront/core/lib/multistore'
-import { formatProductLink, formatProductLinkNoSku } from '@vue-storefront/core/modules/url/helpers'
+import { formatProductLink } from '@vue-storefront/core/modules/url/helpers'
 import { getThumbnailForProduct } from '@vue-storefront/core/modules/cart/helpers'
 import ProductCartPrice from 'theme/components/core/blocks/Product/ProductCartPrice'
 
@@ -52,7 +52,7 @@ export default {
   methods: {
     formatLink(product) {
       if (product.url_path) {
-        return formatProductLinkNoSku(product, currentStoreView().storeCode)
+        return formatProductLink(product, currentStoreView().storeCode)
       }
       return {}
     }

@@ -6,7 +6,7 @@ import i18n from '@vue-storefront/core/i18n';
 import { SearchQuery } from 'storefront-query-builder'
 import { AsyncDataLoader } from '@vue-storefront/core/lib/async-data-loader';
 import { currentStoreView } from '@vue-storefront/core/lib/multistore';
-import { formatProductLink, formatProductLinkNoSku } from '@vue-storefront/core/modules/url/helpers';
+import { formatProductLink } from '@vue-storefront/core/modules/url/helpers';
 import { Logger } from '@vue-storefront/core/lib/logger';
 import { isServer } from '@vue-storefront/core/helpers';
 import { router } from '@vue-storefront/core/app'
@@ -132,7 +132,7 @@ export const checkParentRedirection = (currentProduct, parentProduct) => {
     Logger.log('Redirecting to parent, configurable product', parentProduct.sku)()
     parentProduct.parentSku = parentProduct.sku
     parentProduct.sku = currentProduct.sku
-    const parentUrl = formatProductLinkNoSku(parentProduct, currentStoreView().storeCode)
+    const parentUrl = formatProductLink(parentProduct, currentStoreView().storeCode)
     if (isServer) {
       AsyncDataLoader.push({
         execute: async ({ context }) => {
