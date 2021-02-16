@@ -9,23 +9,11 @@
       <source :srcset="baseUrl('xs')" media="(min-width: 576px) and (max-width: 768px)">
       <img :src="baseUrl('mob')" alt="promo">
     </picture>
-    <div class="promo-description-wrapper" v-if="getCurrentCategory.description">
-      <h3 class="promo-title font">{{ $t('Description of the action') }}</h3>
-      <div class="promo-description font">
-        <div class="" v-html="getCurrentCategory.description"></div>
-      </div>
-      <promo-expiry-date
-        class="promo-expiry-date"
-        v-if="getCurrentCategory.custom_design_from && getCurrentCategory.custom_design_from"
-        :to="getCurrentCategory.custom_design_to"
-        :from="getCurrentCategory.custom_design_from" />
-    </div>
     <div class="carousel-wrapper">
       <VueSlickCarousel
         v-if="categories.length"
         v-bind="settings"
         :responsive="isClient ? responsive : null"
-        @afterChange="slickChange"
         class="carousel">
         <div
           v-for="(category, index) in categories" :key="index"
@@ -33,16 +21,10 @@
           class="slide-link"
         >
           <category-slider-item
-            :key="index"
             :variant="category"
             :selected-filters="getCurrentFilters"
           />
         </div>
-<!--        <template #customPaging="page">-->
-<!--          <div class="custom-dot">-->
-<!--            {{ page }} {{ dots(page) }} {{  currentPage }}-->
-<!--          </div>-->
-<!--        </template>-->
       </VueSlickCarousel>
     </div>
   </div>
@@ -50,7 +32,6 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import PromoExpiryDate from '../PromoExpiryDate';
 import VueSlickCarousel from 'vue-slick-carousel'
 import 'vue-slick-carousel/dist/vue-slick-carousel.css'
 import 'vue-slick-carousel/dist/vue-slick-carousel-theme.css'
@@ -58,7 +39,6 @@ import categorySliderItem from './categorySliderItem';
 
 export default {
   components: {
-    PromoExpiryDate,
     VueSlickCarousel,
     categorySliderItem
   },
@@ -113,18 +93,6 @@ export default {
     }),
     categories () {
       if (!!this.getAvailableFilters.kategorija_akcija && this.getAvailableFilters.kategorija_akcija.length) {
-
-        let temp = {
-          count: 4,
-          id: '8269',
-          label: 'Apple',
-          name: 'Категорія',
-          type: 'kategorija_akcija'
-        }
-        for (let k = 0; k < 10; k++) {
-          this.getAvailableFilters.kategorija_akcija.push(temp)
-        }
-
         return this.getAvailableFilters.kategorija_akcija
       }
       return []
@@ -136,15 +104,6 @@ export default {
   methods: {
     baseUrl (resolution) {
       return `/assets/promo/march-8-${resolution}.jpg`
-    },
-    slickChange (slideIndex) {
-      console.log(slideIndex);
-    },
-    dots (page) {
-      // console.log(this.categories.length, page)
-      console.log(this)
-      console.log(this.$children[1].$children[0].$children[3].currentSlide)
-      // return '.'
     }
   }
 }
@@ -202,42 +161,11 @@ export default {
     margin-bottom: 68px;
   }
   &-image{
-    margin-bottom: 24px;
+    margin-bottom: 66px;
     display: block;
     img{
       max-width: 100%;
     }
-  }
-  &-description{
-    &-wrapper{
-      margin: 0 auto 68px;
-      max-width: 988px;
-      padding: 0 15px;
-      box-sizing: border-box;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-    }
-    font-size: 15px;
-    line-height: 24px;
-    text-align: center;
-    color: #5F5E5E;
-    ::v-deep p {
-      margin: 0 !important;
-    }
-  }
-  &-title{
-    font-weight: 700;
-    font-size: 24px;
-    line-height: 30px;
-    color: #1A1919;
-    margin-top: 0;
-  }
-  &-expiry-date{
-    width: auto;
-    padding: 0;
-    position: static;
   }
 }
 .font{

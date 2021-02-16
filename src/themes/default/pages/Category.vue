@@ -123,6 +123,17 @@
             {{ $t('Load more') }}
             <spinner class="spinner" v-if="loadingProducts && !allProductsLoaded" />
           </button-white>
+          <div class="march-description-wrapper promo-description-wrapper" v-if="isMarchPromo && getCurrentCategory.description">
+            <h3 class="march-title promo-title font">{{ $t('Description of the action') }}</h3>
+            <div class="march-description promo-description font">
+              <div class="" v-html="getCurrentCategory.description"></div>
+            </div>
+            <promo-expiry-date
+              class="march-expiry-date promo-expiry-date"
+              v-if="getCurrentCategory.custom_design_from && getCurrentCategory.custom_design_from"
+              :to="getCurrentCategory.custom_design_to"
+              :from="getCurrentCategory.custom_design_from" />
+          </div>
           <no-ssr>
             <description v-if="isDescription" />
           </no-ssr>
@@ -133,6 +144,7 @@
 </template>
 
 <script>
+import PromoExpiryDate from '../components/core/blocks/Category/PromoExpiryDate';
 import LazyHydrate from 'vue-lazy-hydration';
 import Sidebar from '../components/core/blocks/Category/Sidebar.vue';
 import ProductListing from '../components/core/ProductListing.vue';
@@ -197,7 +209,8 @@ export default {
     Description,
     ButtonWhite,
     'no-ssr': NoSSR,
-    March8
+    March8,
+    PromoExpiryDate
   },
   mixins: [onBottomScroll, GTM],
   data () {
@@ -326,16 +339,51 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.font{
+  font-family: 'DIN Pro';
+  font-style: normal;
+  display: block;
+  margin-bottom: 16px;
+}
 .march{
   background-image: url('/assets/promo/march-8-bg-dots.jpg');
   background-repeat: no-repeat;
   background-position: 97% 94%;
   background-attachment: fixed;
+  &-description{
+    &-wrapper{
+      margin: 68px auto 68px;
+      max-width: 988px;
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+    }
+    font-size: 15px;
+    line-height: 24px;
+    text-align: center;
+    color: #5F5E5E;
+    ::v-deep p {
+      margin: 0 !important;
+    }
+  }
+  &-title{
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 30px;
+    color: #1A1919;
+    margin-top: 0;
+  }
+  &-expiry-date{
+    width: auto;
+    padding: 0;
+    position: static;
+  }
 }
 .march-promo-image{
   position: relative;
-  right: 57px;
-  margin-top: 100px;
+  right: -22px;
+  margin-top: 68px;
 }
 $mobile_screen : 768px;
   ::v-deep .spinner{
