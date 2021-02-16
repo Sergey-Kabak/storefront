@@ -22,7 +22,7 @@ const totalsActions = {
 
     if (resultCode === 200) {
       const totals = result.totals || result
-      const extenstionTotals = (result && result.extension_attributes && result.extension_attributes.totals) || []
+      const extenstionTotals = (totals && totals.extension_attributes && totals.extension_attributes.totals) || []
       Logger.info('Overriding server totals. ', 'cart', totals)()
       const itemsAfterTotal = prepareShippingInfoForUpdateTotals(totals.items)
 
