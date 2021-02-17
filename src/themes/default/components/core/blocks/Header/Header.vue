@@ -130,7 +130,7 @@ export default {
           img: '/assets/promo/march-8-banner-xl.jpg',
           imgTablet: '/assets/promo/march-8-banner-lg.jpg',
           imgMobile: '/assets/promo/march-8-banner-sm.jpg',
-          link: '/valentines-day',
+          link: '/8-march',
           background: 'linear-gradient(45deg, #f8cad4, #f1bccc)'
         }
       }
