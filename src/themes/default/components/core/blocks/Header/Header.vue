@@ -4,7 +4,7 @@
     ref="header"
     :class="{ 'is-visible': navVisible, 'search-active': isSearchActive }"
   >
-    <div class="promo" v-if="isShowHeader" :style="{'background-color': promo.background}">
+    <div class="promo" v-if="isShowHeader" :style="{'background': promo.background}">
       <router-link class="promo-link" :to="promo.link">
         <picture class="flex">
           <source :srcset="promo.imgTablet" media="(min-width: 567px) and (max-width: 768px)">
@@ -125,6 +125,13 @@ export default {
           imgMobile: '/assets/promo/samsung/md.jpg',
           link: '/samsung-s21',
           background: '#fff'
+        },
+        March8: {
+          img: '/assets/promo/march-8-banner-xl.jpg',
+          imgTablet: '/assets/promo/march-8-banner-lg.jpg',
+          imgMobile: '/assets/promo/march-8-banner-sm.jpg',
+          link: '/valentines-day',
+          background: 'linear-gradient(45deg, #f8cad4, #f1bccc)'
         }
       }
     }
@@ -148,6 +155,10 @@ export default {
         {
           path: '/',
           options: this.promos.samsung
+        },
+        {
+          path: '/8-march',
+          options: this.promos.March8
         }
       ]
     },

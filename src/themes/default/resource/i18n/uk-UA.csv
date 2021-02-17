@@ -640,6 +640,7 @@ No differences,Відмінностей немає
 "Page under construction.","Сторінка в розробці."
 "We try hard:","ми дуже стараємось:"
 "And will finish soon:","і скоро закінчимо:"
+"{count} days left","Акція закінчилась | Залишився {count} день | Залишилось {count} дні | Залишилось {count} днів"
 "Left {count} day","Акція закінчилась | {count} день | {count} дні | {count} днів"
 "Left {count}","Акція закінчилась | Залишився | Залишилось"
 "From","з"
