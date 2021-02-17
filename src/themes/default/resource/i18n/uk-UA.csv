@@ -240,10 +240,10 @@
 "nova_poshta_to_door","Доставка курьером"
 "nova_poshta_to_warehouse","Нова Пошта (Відділення)"
 "only for pickup","тільки при самовивозі"
-
 "partial availability","Частково в наявності"
 "pc.","шт."
 "pending delivery",Очікується поставка
+"PendingDelivery",Очікується поставка
 "pre order", Передзамовлення
 "price by promotional code","ціна за промокодом"
 "product (s) and / or service (s) added to the order :)","товар(и) і/або послуга(и) додані до замовлення :)"
@@ -448,7 +448,7 @@ Return to shopping,Назад до покупок
 Returns,Повернення
 Review order,Переглянути замовлення
 SKU,Ідентифікаційний номер товару
-SKU: {sku},ID ТОВАРУ: {sku}
+SKU: {sku},Код: {sku}
 Safety,Безпека
 Sale,Розпродаж
 Search,Пошук
@@ -640,8 +640,21 @@ No differences,Відмінностей немає
 "Page under construction.","Сторінка в розробці."
 "We try hard:","ми дуже стараємось:"
 "And will finish soon:","і скоро закінчимо:"
+"Gift!",Подарунок!
+"and",і
+"as a gift",у подарунок!
+"buy",Купуй
+"and get",та отримуй
+"delivery to",Доставка в
+AboutTab,Про товар
+SpecificationsTab,Характеристики
+VideoReviewTab,Відео
+AccessoriesTab,Aксесуари
+ReviewsTab,Відгуки
+All Specifications,Всі характеристики
+TVs,Телевізори,
+Pick up today from, Забрати сьогодні з
 "Left {count} day","Акція закінчилась | {count} день | {count} дні | {count} днів"
-"Left {count}","Акція закінчилась | Залишився | Залишилось"
 "From","з"
 "To","по"
 "Gift","Подарунок"
@@ -657,4 +670,3 @@ No differences,Відмінностей немає
 "October {count}","жовтень | жовтня | жовтня"
 "November {count}","листопад | листопада | листопада"
 "December {count}","грудень | грудня | грудня"
-TVs,Телевізори

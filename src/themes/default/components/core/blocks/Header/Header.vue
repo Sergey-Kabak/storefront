@@ -1,81 +1,83 @@
 <template>
   <div class="header-wrap" ref="headerWrap">
     <header
-    ref="header"
-    :class="{ 'is-visible': navVisible, 'search-active': isSearchActive }"
-  >
-    <div class="promo" v-if="isShowHeader" :style="{'background-color': promo.background}">
-      <router-link class="promo-link" :to="promo.link">
-        <picture class="flex">
-          <source :srcset="promo.imgTablet" media="(min-width: 567px) and (max-width: 768px)">
-          <source :srcset="promo.imgMobile" media="(max-width: 567px)">
-          <source :srcset="promo.img">
-          <img v-lazy="promo.img" alt="promo" class="promo-image">
-        </picture>
-      </router-link>
-    </div>
-    <div class="header-black-line" v-if="isShowHeader">
-      <ul>
-        <li>
-          <router-link class="cl-secondary" :to="localizedRoute('/info/shops')" exact>
-            {{ $t('The shops') }}
-          </router-link>
-        </li>
-        <li>
-          <router-link class="cl-secondary" :to="localizedRoute('/info/payment')" exact>
-            {{ $t('the Payment') }}
-          </router-link>
-        </li>
-        <li>
-          <router-link class="cl-secondary" :to="localizedRoute('/info/delivery')" exact>
-            {{ $t('Delivery') }}
-          </router-link>
-        </li>
-        <li class="phone-wrap">
-          <svg width="12" height="12" viewBox="0 0 12 12" xmlns="http://www.w3.org/2000/svg">
-            <path d="M2.36 1.33333C2.4 1.92667 2.5 2.50667 2.66 3.06L1.86 3.86C1.58667 3.06 1.41333 2.21333 1.35333 1.33333H2.36ZM8.93333 9.34667C9.5 9.50667 10.08 9.60667 10.6667 9.64667V10.64C9.78667 10.58 8.94 10.4067 8.13333 10.14L8.93333 9.34667ZM3 0H0.666667C0.3 0 0 0.3 0 0.666667C0 6.92667 5.07333 12 11.3333 12C11.7 12 12 11.7 12 11.3333V9.00667C12 8.64 11.7 8.34 11.3333 8.34C10.5067 8.34 9.7 8.20667 8.95333 7.96C8.88667 7.93333 8.81333 7.92667 8.74667 7.92667C8.57333 7.92667 8.40667 7.99333 8.27333 8.12L6.80667 9.58667C4.92 8.62 3.37333 7.08 2.41333 5.19333L3.88 3.72667C4.06667 3.54 4.12 3.28 4.04667 3.04667C3.8 2.3 3.66667 1.5 3.66667 0.666667C3.66667 0.3 3.36667 0 3 0Z"/>
-          </svg>
-          <div class="phone">
-            <a href="tel:+380674666111">
-              +38 073 090 87 07
-            </a>
-            <phone-info v-show="navVisible"></phone-info>
-          </div>
-          <svg class="phone-wrap__arrow" width="8" height="6" viewBox="0 0 8 6" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M0.94 0.726667L4 3.78L7.06 0.726667L8 1.66667L4 5.66667L0 1.66667L0.94 0.726667Z"/>
-          </svg>
-        </li>
-      </ul>
-    </div>
-    <div class="header-container-wrap border" v-if="!isCheckoutPage || isThankYouPage">
-      <div class="v-container header-top-container">
-        <div class="header-top">
-          <div class="header-left">
-            <hamburger-icon class="icon menu" />
-            <mobile-hamburger-icon class="mobile-menu" />
-          </div>
+      ref="header"
+      :class="{ 'is-visible': (navVisible && !navBlocked), 'search-active': isSearchActive }"
+    >
+      <div class="promo" v-if="isShowHeader" :style="{'background-color': promo.background}">
+        <router-link class="promo-link" :to="promo.link">
+          <picture class="flex">
+            <source :srcset="promo.imgTablet" media="(min-width: 567px) and (max-width: 768px)">
+            <source :srcset="promo.imgMobile" media="(max-width: 567px)">
+            <source :srcset="promo.img">
+            <img v-lazy="promo.img" alt="promo" class="promo-image">
+          </picture>
+        </router-link>
+      </div>
+      <div class="header-black-line" v-if="isShowHeader">
+        <ul>
+          <li>
+            <router-link class="cl-secondary" :to="localizedRoute('/info/shops')" exact>
+              {{ $t('The shops') }}
+            </router-link>
+          </li>
+          <li>
+            <router-link class="cl-secondary" :to="localizedRoute('/info/payment')" exact>
+              {{ $t('the Payment') }}
+            </router-link>
+          </li>
+          <li>
+            <router-link class="cl-secondary" :to="localizedRoute('/info/delivery')" exact>
+              {{ $t('Delivery') }}
+            </router-link>
+          </li>
+          <li class="phone-wrap">
+            <svg width="12" height="12" viewBox="0 0 12 12" xmlns="http://www.w3.org/2000/svg">
+              <path
+                d="M2.36 1.33333C2.4 1.92667 2.5 2.50667 2.66 3.06L1.86 3.86C1.58667 3.06 1.41333 2.21333 1.35333 1.33333H2.36ZM8.93333 9.34667C9.5 9.50667 10.08 9.60667 10.6667 9.64667V10.64C9.78667 10.58 8.94 10.4067 8.13333 10.14L8.93333 9.34667ZM3 0H0.666667C0.3 0 0 0.3 0 0.666667C0 6.92667 5.07333 12 11.3333 12C11.7 12 12 11.7 12 11.3333V9.00667C12 8.64 11.7 8.34 11.3333 8.34C10.5067 8.34 9.7 8.20667 8.95333 7.96C8.88667 7.93333 8.81333 7.92667 8.74667 7.92667C8.57333 7.92667 8.40667 7.99333 8.27333 8.12L6.80667 9.58667C4.92 8.62 3.37333 7.08 2.41333 5.19333L3.88 3.72667C4.06667 3.54 4.12 3.28 4.04667 3.04667C3.8 2.3 3.66667 1.5 3.66667 0.666667C3.66667 0.3 3.36667 0 3 0Z"/>
+            </svg>
+            <div class="phone">
+              <a href="tel:+380674666111">
+                +38 073 090 87 07
+              </a>
+              <phone-info v-show="navVisible"></phone-info>
+            </div>
+            <svg class="phone-wrap__arrow" width="8" height="6" viewBox="0 0 8 6" fill="none"
+                 xmlns="http://www.w3.org/2000/svg">
+              <path d="M0.94 0.726667L4 3.78L7.06 0.726667L8 1.66667L4 5.66667L0 1.66667L0.94 0.726667Z"/>
+            </svg>
+          </li>
+        </ul>
+      </div>
+      <div class="header-container-wrap border" v-if="!isCheckoutPage || isThankYouPage">
+        <div class="v-container header-top-container">
+          <div class="header-top">
+            <div class="header-left">
+              <hamburger-icon class="icon menu"/>
+              <mobile-hamburger-icon class="mobile-menu"/>
+            </div>
 
-          <div class="header-middle">
-            <logo width="auto" class="logo"/>
-          </div>
-          <div class="header-right">
-            <consultation-icon class="icon icon-consultation" />
-            <search-icon class="icon pointer icon-search" />
-            <compare-icon class="icon pointer icon-compare" />
-            <microcart-icon class="icon pointer icon-microcart" />
-            <wishlist-icon class="icon pointer icon-wishlist" />
-            <account-icon class="icon pointer icon-account" />
+            <div class="header-middle">
+              <logo width="auto" class="logo"/>
+            </div>
+            <div class="header-right">
+              <consultation-icon class="icon icon-consultation"/>
+              <search-icon class="icon pointer icon-search"/>
+              <compare-icon class="icon pointer icon-compare"/>
+              <microcart-icon class="icon pointer icon-microcart"/>
+              <wishlist-icon class="icon pointer icon-wishlist"/>
+              <account-icon class="icon pointer icon-account"/>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-    <div class="header-container-wrap" v-if="!isCheckoutPage || isThankYouPage">
-      <div class="header-container">
-        <div class="header-bottom" v-if="isShowHeader">
-          <search-panel mobile class="mobile"/>
+      <div class="header-container-wrap" v-if="!isCheckoutPage || isThankYouPage">
+        <div class="header-container">
+          <div class="header-bottom" v-if="isShowHeader">
+            <search-panel mobile class="mobile"/>
+          </div>
         </div>
       </div>
-    </div>
     </header>
   </div>
 </template>
@@ -94,6 +96,7 @@ import SearchPanel from 'theme/components/core/blocks/SearchPanel/SearchPanel';
 import MobileHamburgerIcon from 'theme/components/core/blocks/Header/MobileHamburgerIcon';
 import PhoneInfo from 'theme/components/core/PhoneInfo';
 import ConsultationIcon from 'theme/components/core/blocks/Header/ConsultationIcon';
+
 export default {
   name: 'Header',
   components: {
@@ -114,6 +117,7 @@ export default {
     return {
       isPromoLoaded: false,
       navVisible: true,
+      navBlocked: false,
       isScrolling: false,
       scrollTop: 0,
       lastScrollTop: 0,
@@ -158,6 +162,7 @@ export default {
     }
   },
   beforeMount () {
+    this.$bus.$on('top-header-blocked', (value) => this.navBlocked = value);
     window.addEventListener(
       'scroll',
       () => {
@@ -271,7 +276,8 @@ header {
   }
 }
 .header-wrap {
-  height: 144px;
+  margin-bottom: 16px;
+  height: 129px;
 }
 .minimal {
   height: 67px;
@@ -561,11 +567,6 @@ header {
 
 .header-placeholder {
   height: 54px;
-}
-.header-top-container {
-  @media only screen and (max-width: 1200px) {
-    max-width: 92%;
-  }
 }
 .account {
   &__text {

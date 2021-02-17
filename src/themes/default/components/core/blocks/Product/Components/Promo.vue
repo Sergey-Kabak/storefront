@@ -1,0 +1,106 @@
+<template>
+  <div class="promo-block w-100">
+    <div class="promo-block-description w-100">
+      <div class="flex align-center mb10">
+        <span class="text-red mr10">{{ $t('Gift!') }}</span>
+        <svg width="20" height="19" viewBox="0 0 20 19" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M17.8038 5.83235L17.848 16.0266L9.21629 17.2148L9.2002 6.90126L17.8038 5.83235Z" fill="#EA0010"/>
+          <path d="M14.2302 16.5245L12.8193 16.719V6.45238L14.2302 6.27669V16.5245Z" fill="#FFBB0B"/>
+          <path d="M9.21724 17.2145L2.15332 15.0204L2.21367 4.89323L9.20115 6.90096L9.21724 17.2145Z" fill="#D5000E"/>
+          <path d="M6.33762 16.3201L4.68262 15.8064V5.60286L6.33762 6.07763V16.3201Z" fill="#FFBB0B"/>
+          <g style="mix-blend-mode:multiply" opacity="0.1">
+            <path d="M17.8036 5.83205L9.19999 6.90096L2.21251 4.89323L2.20312 6.57237L9.1678 9.50014L17.8103 7.4267L17.8036 5.83205Z" fill="black"/>
+          </g>
+          <path d="M9.15077 5.65571L18.2868 4.52108L10.8675 2.38997L1.73145 3.5246L9.15077 5.65571Z" fill="#FF5B66"/>
+          <path d="M18.2864 4.52376L18.3334 6.63878L9.16783 7.90081L9.15039 5.65838L18.2864 4.52376Z" fill="#EE2C39"/>
+          <path d="M9.16813 7.89959L1.66699 5.56998L1.73137 3.52605L9.1507 5.65716L9.16813 7.89959Z" fill="#EA0010"/>
+          <path d="M13.0195 7.36964L14.4734 7.16846V4.99577L13.0195 5.17683V7.36964Z" fill="#FFCA41"/>
+          <path d="M6.22266 2.96819L13.0183 5.17709L14.4722 4.99603L8.04798 2.74153L6.22266 2.96819Z" fill="#FFDC81"/>
+          <path d="M6.18407 6.97324V4.80592L4.44727 4.30566V6.43409L6.18407 6.97324Z" fill="#FFCA41"/>
+          <path d="M15.0626 3.59586L6.18408 4.80559L4.44727 4.30534L13.256 3.07683L15.0626 3.59586Z" fill="#FFDC81"/>
+          <path d="M9.11504 4.34294C9.11504 4.34294 6.59365 4.4556 5.69104 3.67906C4.78844 2.90253 5.17335 1.66731 5.17335 1.66731C5.17335 1.66731 5.42281 3.85341 9.31219 3.50471L9.11504 4.34294Z" fill="#D29700"/>
+          <path d="M5.12019 2.69513C5.12019 2.69513 5.26369 1.87568 6.36077 1.97358C7.45784 2.07149 9.2094 4.11945 9.2094 4.11945L8.94117 3.12296C8.94117 3.12296 7.90847 1.02001 6.36077 1.01465C5.29588 1.01465 5.12287 1.57391 5.1041 1.96688C5.09337 2.14927 5.12019 2.69513 5.12019 2.69513Z" fill="#FFBB0B"/>
+          <path d="M11.5432 4.06794C11.5432 4.06794 13.6582 3.93382 14.4106 3.29811C15.0302 2.77371 14.5447 1.6136 14.5447 1.6136C14.5447 1.6136 14.2885 2.9266 12.9326 3.17874C11.5767 3.43088 11.2012 3.17874 11.2012 3.17874L11.5432 4.06794Z" fill="#D29700"/>
+          <path d="M11.371 3.57799C11.371 3.57799 12.3098 2.32132 13.3157 1.93774C14.3216 1.55417 14.728 2.51981 14.677 2.90204C14.8057 2.63976 14.8677 2.34974 14.8574 2.05776C14.8471 1.76577 14.7649 1.48084 14.618 1.22827C14.1057 0.357852 12.4252 0.903706 10.7031 3.11395L11.371 3.57799Z" fill="#FFBB0B"/>
+          <path d="M10.8161 2.90105C10.1959 3.0177 9.56866 3.09297 8.93848 3.12636C9.0893 3.51266 9.15118 3.92797 9.11953 4.34146C9.11953 4.34146 10.6163 4.67541 11.6812 4.19795C11.7485 4.16725 11.8077 4.1212 11.854 4.06349C11.9003 4.00578 11.9324 3.93803 11.9478 3.86565C11.9632 3.79328 11.9614 3.7183 11.9426 3.64675C11.9238 3.57519 11.8884 3.50904 11.8394 3.45361C11.5913 3.18806 11.2399 2.90105 10.8161 2.90105Z" fill="#FFCA41"/>
+        </svg>
+      </div>
+      <div>
+        {{getTitle}}
+      </div>
+    </div>
+    <div class="promo-block-products">
+      <div v-for="(links, key) in getBundleOptions" :key="key">
+        <div v-for="(product, index) in links.product_links" :key="'product-' + key + '-' + index">
+          <promo-products :options="product" class="product relative" />
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+import { mapGetters } from 'vuex'
+import PromoProducts from './PromoProducts';
+
+export default {
+  components: {
+    PromoProducts
+  },
+  computed: {
+    ...mapGetters({
+      getCurrentProduct: 'product/getCurrentProduct'
+    }),
+    getBundleOptions () {
+      return this.getCurrentProduct.bundle_options.reduce((acc, option) => {
+        acc.push(option)
+        return acc
+      }, [])
+    },
+    getTitle () {
+      const start = `${this.$t('buy')} ${this.getCurrentProduct.name} ${this.$t('and get')} `;
+      const end = ` ${this.$t('as a gift')}`;
+      if (this.getBundleOptions.length > 1) {
+        return start + this.getBundleOptions.reduce((acc, it) => {
+          acc.push(it.title)
+          return acc
+        }, []).join(' ' + this.$t('and') + ' ') + end
+      }
+      return start + this.getBundleOptions[0].title + end
+    }
+  }
+}
+</script>
+
+<style lang="scss" scoped>
+.product{
+  &:after{
+    position: absolute;
+    content: '';
+    bottom: 0;
+    left: 16px;
+    width: calc(100% - 32px);
+    height: 1px;
+    background: #e8e8e8;
+  }
+}
+  $red: #EE2C39;
+  .text{
+    font-family: DIN Pro;
+    font-style: normal;
+    font-size: 15px;
+    &-red{
+      color: $red;
+      font-weight: 700;
+      line-height: 16px;
+    }
+  }
+  .promo-block{
+    background: #FFFFFF;
+    box-sizing: border-box;
+    &-description{
+      background: #F9F9F8;
+      padding: 15px;
+    }
+  }
+</style>

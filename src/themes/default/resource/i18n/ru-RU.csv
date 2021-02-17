@@ -95,6 +95,7 @@
 "Name must have at least 2 letters.","Имя должно состоять минимум из 2-х букв"
 "No reviews have been posted yet. Please don't hesitate to share Your opinion and write the first review!","Пока нет ни одного отзыва. Пожалуйста, не стесняйтесь поделиться своим мнением и написать первый отзыв!"
 "Not available","Нет в наличии"
+"NotAvailable","Нет в наличии"
 "Nothing to show","магазинов не найдено"
 "Novaya Pochta(Branch)","Новая Почта(Отделение)"
 "Number of payments","Количество платежей"
@@ -460,7 +461,7 @@ Return to shopping,Вернуться к покупкам
 Returns,Возвраты
 Review order,Просмотреть заказ
 SKU,Идентификационный номер товара
-SKU: {sku},ID ТОВАРА: {sku}
+SKU: {sku},Код: {sku}
 Safety,Безопасность
 Sale,Распродажа
 Search,Поиск
@@ -624,8 +625,19 @@ collapse,"Свернуть"
 "We will fix it soon","Мы скоро это исправим"
 "We try hard:","мы очень стараемся:"
 "And will finish soon:","и скоро закончим:"
+"Gift!",Подарок!
+"and",и
+"as a gift",в подарок!
+"buy",Покупай
+"and get",и получи
+"delivery to",Доставка в
+AboutTab,О товаре
+SpecificationsTab,Характеристики
+VideoReviewTab,Видеообзор
+AccessoriesTab,Аксессуары
+ReviewsTab,Отзывы
+All Specifications,Все характеристики
 "Left {count} day","Акция закончилась | {count} день | {count} дня | {count} дней"
-"Left {count}","Акция закончилась | Остался | Осталось"
 "From","с"
 "To","по"
 "Gift","Подарок"
@@ -642,3 +654,4 @@ collapse,"Свернуть"
 "November {count}","ноябрь | ноября | ноября"
 "December {count}","декабрь | декабря | декабря"
 TVs,Телевизоры
+Pick up today from, Забрать сегодня с

@@ -121,7 +121,32 @@ export default {
   },
 }
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
+.seller-name-row {
+  cursor: pointer;
+  border: 1px solid #E0E0E0;
+  border-radius: 4px;
+  padding: 16px;
+  align-items: center;
+
+  .seller-name-col {
+    display: flex;
+    align-items: center;
+  }
+  .seller-name span {
+    border-bottom: 1px dashed #1A1919;
+    padding-bottom: 4px;
+  }
+  .seller-rating {
+    margin-top: 0!important;
+    margin-left: 10px;
+  }
+  .seller-data {
+    margin-left: 10px;
+    padding-bottom: 0;
+    border-bottom: none;
+  }
+}
   .modal-seller-content {
     border-radius: 4px;
     background: #fff;

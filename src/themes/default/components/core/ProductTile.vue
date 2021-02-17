@@ -194,8 +194,7 @@ export default {
     border: 1px solid #E0E0E0;
     box-sizing: border-box;
     border-radius: 4px;
-    padding: 19px 16px;
-
+    padding: 16px;
     &-tag {
       &-bottom {
         z-index: 3;
@@ -207,17 +206,14 @@ export default {
         display: flex;
       }
     }
-
     &.d-flex-column {
       display: flex;
       flex-direction: column;
       justify-content: space-between;
     }
-
     .flex-column {
       flex-direction: column;
     }
-
     .product-link {
       height: 100%;
       align-items: flex-start;
@@ -225,7 +221,6 @@ export default {
         margin-top: auto;
       }
     }
-
     &__icons {
       position: absolute;
       top: 12px;
