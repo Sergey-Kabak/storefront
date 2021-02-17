@@ -170,6 +170,7 @@ export default {
   }
   $border: 1px solid #E0E0E0;
   .product {
+    background-color: #fff;
     @media (max-width: 540px){
       min-width: 50% !important;
       border: none;
