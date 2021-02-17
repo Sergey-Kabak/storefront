@@ -157,6 +157,9 @@ export default {
 }
 .promo{
   &-block{
+    @media (max-width: 575px) {
+      margin-top: -11px;
+    }
     margin-top: -28px;
     margin-bottom: 68px;
   }
