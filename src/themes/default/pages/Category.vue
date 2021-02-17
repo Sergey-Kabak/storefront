@@ -277,6 +277,7 @@ export default {
     touchEnd (e) {
       if (e.changedTouches[0].clientX - this.touchX > 200 && (e.changedTouches[0].clientY + 75 > this.touchY && e.changedTouches[0].clientY - 75 < this.touchY)) {
         this.mobileFilters = false
+        document.querySelector('body').style.overflow = ''
       }
     },
     resetAllFilters () {
