@@ -614,7 +614,7 @@
     "applycoupon_endpoint": "/api/cart/apply-coupon?token={{token}}&cartId={{cartId}}&coupon={{coupon}}"
   },
   "attributes": {
-    "disablePersistentAttributesCache": false
+    "disablePersistentAttributesCache": true
   },
   "products": {
     "fieldsToCompact": {

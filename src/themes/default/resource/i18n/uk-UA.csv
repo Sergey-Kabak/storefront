@@ -570,4 +570,92 @@ to main,На головну
 warranty,"Гарантія"
 why justin,"Чому Justin?"
 work time,"Час роботи"
+success,"Успiшно"
+error,"Помилка"
+failure,"Помилка"
+shipping cost,"Вартість доставки"
+Services,Сервіси
+more,"Ще"
+collapse,"Згорнути"
+The requested qty is not available,"Бажана кількість товару недоступна"
+"Department","Відділення"
+"schedule","Пн-Пт: {mon}; Сб: {sat}; Нд: {sun}"
+"weekend","Вихідний"
+"Remove from favorite","Видалити з обраного"
+"Add to favorite","Додати в обране"
+"Load more","Завантажити ще"
+"find product or brand","Знайти продукт або бренд"
+"at your request","За вашим запитом"
+"nothing found","нічого не знайдено"
+"may suit you","Вам може підійти"
+"pre order", Передзамовлення
+added {count} items,Товари не знайдені | Додано {count} товар | Додано {count} товари | Додано {count} товарів
+add more to comapre,Додати ще товар до порівняння
+indicate,Показувати
+All parameters,Всі параметры
+Differences,Відмінності
+Compare Products,Порівняння товарів
+compare,Порiвняти
+Compare,Порівняння товарів
+Products to comapre,Товари до порівняння,
+No differences,Відмінностей немає
+"partial availability","Частково в наявності"
+"pending delivery",Очікується поставка
+"Calls according to the tariffs of your operator",Дзвінки згідно тарифів вашого оператора
+"Credit","Кредит"
+"Credit or installments","Кредит або розстрочка"
+"Credit offer","Кредитна пропозиція"
+"First installment","Перший внесок"
+"Suggestion","Пропозиція"
+"Number of payments","Кількість платежів"
+"Monthly payment","Щомісячний платіж"
+"Credit on delivery","Кредит або розстрочка"
+"only for pickup","тільки при самовивозі"
+"Loan processing","Оформлення кредиту"
+"FIO","ФІО"
+"date of birth","Дата народження"
+"INN","ІНН"
+"surname",По батькові
+"{count} payment","{count} платежів | {count} платіж | {count} платежа | {count} платежів"
+"short month","міс"
+"credit","Кредит"
+"additional services",Додаткові послуги
+"Select products",Вибрати товари
+"Insurance",Страховка
+"To complete this credit offer, add product (s) and / or service (s)","Для оформлення цієї кредитної пропозиції, додайте товар(и) та / або послуг(и)"
+"To complete this credit offer, add product (s) and / or service (s) to the order in the amount of","Для оформлення цієї кредитної пропозиції, додайте до замовлення товар(и) та / або послугу(и) на суму від "
+"still on",ще на
+"Condition is met","Умову виконано"
+"product (s) and / or service (s) added to the order :)","товар(и) і/або послуга(и) додані до замовлення :)"
+"All stores","Усі магазини"
+"Favorite stores","Улюблені магазини"
+"temabit_payparts","Оплата частинами"
+"Recently viewed","Нещодавно переглянуті"
+"Recommend to buy","Рекомендуємо придбати"
+"Page not found","Сторінку не знайдено"
+"Please check the spelling of the address in the browser bar","Будь-ласка, перевірте написання адреси в рядку браузера",
+"Server error","Помилка серверу"
+"Sorry, something went wrong","Cорі, щось пішло не так"
+"We will fix it soon","Ми скоро це виправимо"
+"Page under construction.","Сторінка в розробці."
+"We try hard:","ми дуже стараємось:"
+"And will finish soon:","і скоро закінчимо:"
+"{count} days left","Акція закінчилась | Залишився {count} день | Залишилось {count} дні | Залишилось {count} днів"
+"Left {count} day","Акція закінчилась | {count} день | {count} дні | {count} днів"
+"Left {count}","Акція закінчилась | Залишився | Залишилось"
+"From","з"
+"To","по"
+"Gift","Подарунок"
+"January {count}","січень | січня | січня"
+"February {count}","лютий | лютого | лютого"
+"March {count}","березень | березня | березня"
+"April {count}","квітень | квітня | квітня"
+"May {count}","травень | травня | травня"
+"June {count}","червень | червня | червня"
+"July {count}","липень | липня | липня"
+"August {count}","серпень | серпня | серпня"
+"September {count}","вересень | вересня | вересня"
+"October {count}","жовтень | жовтня | жовтня"
+"November {count}","листопад | листопада | листопада"
+"December {count}","грудень | грудня | грудня"
 TVs,Телевізори
