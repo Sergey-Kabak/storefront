@@ -5,24 +5,7 @@
       <div class="v-container">
         <breadcrumbs v-if="!isMarchPromo" withHomepage />
         <mobile-breadcrumbs v-if="!isMarchPromo" withHomepage />
-
-        <div class="banner-description" v-if="!isMarchPromo && (getCurrentCategory.image || getCurrentCategory.description)">
-          <div v-if="getCurrentCategory.image" :class="{full: !getCurrentCategory.description}">
-            <img class="desk" v-lazy="`https://magento.ringoo.ua/${getCurrentCategory.image}`" alt="banner">
-          </div>
-          <div class="banner-description__block" v-if="getCurrentCategory.description">
-            <h3>{{ $t('Description of the action') }}</h3>
-            <div class="banner-description-info">
-              <div class="banner-description__text" :class="{'active': isDescriptionActive}" v-html="getCurrentCategory.description"></div>
-              <div class="next-button" v-if="!isDescriptionActive" @click="isDescriptionActive = true">{{ $t('next') }}</div>
-            </div>
-            <div class="banner-description__timer">
-              <h3>{{ $t('Until the end of the promotion') }}</h3>
-              <CountDown :end-time="getEndTime()" />
-            </div>
-          </div>
-        </div>
-
+        <category-promo v-if="!isMarchPromo && getCurrentCategory.image || getCurrentCategory.description" />
         <div class="title">
           <h1 class="category-title">
             {{ getCurrentCategory.name }}
@@ -54,7 +37,7 @@
       <div class="category">
         <div class="category-filters">
           <p class="products-count">
-            {{ $tc('{count} items', getCategoryProductsTotal) }}
+            {{ $tc('{count} items chosen', getCategoryProductsTotal) }}
           </p>
           <sidebar :filters="getAvailableFilters" @changeFilter="changeFilter" />
           <img class="march-promo-image" src="/assets/promo/march-8-bg-image.jpg" alt="">
@@ -168,6 +151,7 @@ import Description from "../components/core/blocks/Category/Description";
 import ButtonWhite from "../components/core/blocks/Product/ButtonWhite";
 import NoSSR from 'vue-no-ssr';
 import March8 from '../components/core/blocks/Category/Promotions/March8';
+import CategoryPromo from '../components/core/blocks/Category/CategoryPromo';
 const THEME_PAGE_SIZE = 32
 const composeInitialPageState = async (store, route, forceLoad = false) => {
   try {
@@ -210,7 +194,8 @@ export default {
     ButtonWhite,
     'no-ssr': NoSSR,
     March8,
-    PromoExpiryDate
+    PromoExpiryDate,
+    CategoryPromo
   },
   mixins: [onBottomScroll, GTM],
   data () {
@@ -226,7 +211,9 @@ export default {
       },
       expired: null,
       interval: null,
-      isDescriptionActive: false
+      isDescriptionActive: false,
+      touchX: 0,
+      touchY: 0
     }
   },
   computed: {
@@ -257,6 +244,10 @@ export default {
       return Object.keys(this.getCurrentSearchQuery && this.getCurrentSearchQuery.filters).length
     }
   },
+  mounted () {
+    window.addEventListener('touchstart', this.touchStart)
+    window.addEventListener('touchend', this.touchEnd)
+  },
   async asyncData ({ store, route, context }) { // this is for SSR purposes to prefetch data - and it's always executed before parent component methods
     if (context) context.output.cacheTags.add('category')
     await composeInitialPageState(store, route)
@@ -279,6 +270,15 @@ export default {
     }
   },
   methods: {
+    touchStart (e) {
+      this.touchX = e.targetTouches[0].clientX
+      this.touchY = e.targetTouches[0].clientY
+    },
+    touchEnd (e) {
+      if (e.changedTouches[0].clientX - this.touchX > 200 && (e.changedTouches[0].clientY + 75 > this.touchY && e.changedTouches[0].clientY - 75 < this.touchY)) {
+        this.mobileFilters = false
+      }
+    },
     resetAllFilters () {
       this.$store.dispatch('category-next/resetSearchFilters')
     },
@@ -305,13 +305,12 @@ export default {
         window.scrollTo(0, scrollBarPosition)
         this.loadingProducts = false
       }
-    },
-    getEndTime () {
-      return new Date(this.getCurrentCategory && this.getCurrentCategory.custom_design_to && this.getCurrentCategory.custom_design_to.replace(' ', 'T')).getTime();
     }
   },
   beforeDestroy () {
     this.closeFilters()
+    window.removeEventListener('touchstart', this.touchStart)
+    window.removeEventListener('touchend', this.touchEnd)
   },
   metaInfo () {
     const storeView = currentStoreView()
@@ -624,6 +623,7 @@ $mobile_screen : 768px;
 
     .mobile-sorting {
       display: block;
+      flex: 0 0 40%;
     }
 
     .category-filters {
@@ -688,9 +688,11 @@ $mobile_screen : 768px;
     }
 
     .mobile-actions {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      grid-gap: 16px;
+      justify-content: space-around;
+      display: flex;
+      & > * {
+        flex: 0 0 48%;
+      }
     }
 
     .category-sort {
@@ -710,38 +712,27 @@ $mobile_screen : 768px;
   }
 
   .next-button {
+    display: inline-block;
+    margin-top: 16px;
     cursor: pointer;
     padding: 4px 0px;
-    display: none;
     font-family: DIN Pro;
     font-size: 13px;
     line-height: 16px;
     color: #1A1919;
     border-bottom: 1px dashed #1A1919;
-  }
 
+    &--close {
+      margin-top: 24px;
+    }
+  }
 
   @media (max-width: 576px) {
     .next-button {
       display: inline-block;
     }
-    .banner-description__text {
-      /*! autoprefixer: off */
-      -webkit-box-orient: vertical;
-      display: -webkit-box;
-      -webkit-line-clamp: 3;
-      overflow: hidden;
 
-      &.active {
-        display: block;
-      }
 
-      ::v-deep {
-        p {
-          margin: 0;
-        }
-      }
-    }
   }
 
   .close-container {
@@ -751,82 +742,14 @@ $mobile_screen : 768px;
   .close {
     margin-left: auto;
   }
+
 </style>
 <style lang="scss">
+
 .load{
   margin: 32px auto 0;
 }
-.banner-description {
-  margin-bottom: 64px;;
-  display: flex;
-  flex-direction: column;
-  img {
-    display: block;
-    width: 100%;
-    &.mob {
-      display: none;
-    }
-  }
-  .full {
-    width: 100%;
-    img.desk {
-      width: 100% !important;
-      height: auto !important;
-      min-width: 100%;
-      max-width: 100%;
-      min-height: 100%;
-      max-height: 100%;
-      display: block !important;
-    }
-    img.mob {
-      display: none !important;
-    }
-  }
-  @media (max-width: 1200px) {
-    .banner-description__block {
-      & > h3 {
-        margin: 0;
-      }
-    }
-  }
-  &__block {
-    margin-top: 25px;
-    background: #FFFFFF;
-    border: 1px solid #E0E0E0;
-    box-sizing: border-box;
-    border-radius: 4px;
-    width: 100%;
-    padding: 16px;
-    position: relative;
-  }
-  h3 {
-    font-family: DIN Pro;
-    font-style: normal;
-    font-weight: 600;
-    font-size: 18px;
-    line-height: 23px;
-    color: #1A1919;
-    margin: 16px 0;
-  }
-  &__text {
-    font-family: DIN Pro;
-    font-size: 15px;
-    line-height: 24px;
-    color: #595858;
-    overflow: auto;
-    margin-bottom: 8px;
-  }
-  &__timer {
-    position: relative;
-    bottom: 16px;
-    left: 16px;
-    right: 16px;
-    padding-top: 30px;
-    width: calc(100% - 32px);
-    background: rgb(255,255,255);
-    background: linear-gradient(0deg, rgba(255,255,255,1) 0%, rgba(255,255,255,1) 65%, rgba(255,255,255,0) 100%);
-  }
-}
+
 
 @media (max-width: 950px) {
   .product-listing {
@@ -837,11 +760,6 @@ $mobile_screen : 768px;
   }
 }
 
-@media (max-width: 768px) {
-  .banner-description {
-    margin-bottom: 46px;
-  }
-}
 
 @media (max-width: 500px) {
   #category {

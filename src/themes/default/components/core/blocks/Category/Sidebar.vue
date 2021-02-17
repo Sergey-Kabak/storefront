@@ -181,8 +181,8 @@ $mobile_screen : 767px;
     margin-right: 6px;
 }
 /deep/ .color-inside {
-  width: 30px;
-  height: 30px;
+  width: 32px;
+  height: 32px;
 }
 /deep/ .checkbox-selector{
   span.checkbox{

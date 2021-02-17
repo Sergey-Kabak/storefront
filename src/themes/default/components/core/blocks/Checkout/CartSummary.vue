@@ -103,7 +103,7 @@ export default {
 <style lang="scss" scoped>
 .cart-summary {
   width: 100%;
-  border: 1px solid #ededed;
+  border: 1px solid #E0E0E0;
   border-radius: 4px;
 }
 
@@ -156,5 +156,10 @@ export default {
     line-height: 16px;
     color: #1A1919;
   }
+}
+
+.product-wrap {
+  border: none;
+  border-bottom: 1px solid #E0E0E0;
 }
 </style>

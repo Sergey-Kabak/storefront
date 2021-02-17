@@ -68,9 +68,11 @@ export default {
 }
 </script>
 
-<style lang="sass">
-  .main-green-color
-    &:hover
-      background-color: transparent !important
-      color: #23BE20
+<style lang="scss">
+.main-green-color {
+  &:hover {
+    background-color: transparent !important;
+    color: #23BE20;
+  }
+}
 </style>

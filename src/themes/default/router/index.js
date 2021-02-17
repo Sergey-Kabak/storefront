@@ -11,7 +11,6 @@ const Compare = () => import(/* webpackChunkName: "vsf-compare" */ 'theme/pages/
 const MyAccount = () => import(/* webpackChunkName: "vsf-my-account" */ 'theme/pages/MyAccount.vue');
 const BrandPortal = () => import(/* webpackChunkName: "vsf-static" */ 'theme/pages/BrandPortal.vue');
 const ThankYouPage = () => import(/* webpackChunkName: "vsf-static" */ 'theme/pages/ThankYouPage.vue');
-const Shops = () => import(/* webpackChunkName: "vsf-static" */ 'theme/pages/Shops.vue');
 const UnderConstruction = () => import(/* webpackChunkName: "vsf-static" */ 'theme/pages/UnderConstruction.vue');
 // const ThankYouPage = () => import(/* webpackChunkName: "vsf-static" */ 'src/themes/default/components/core/blocks/Checkout/ThankYouPage.vue')
 

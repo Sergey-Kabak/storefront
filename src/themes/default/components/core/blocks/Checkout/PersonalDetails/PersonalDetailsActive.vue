@@ -4,10 +4,10 @@
       <span class="section-title">1. {{ $t("Contact information") }} </span>
     </div>
     <div class="personal-details-row">
-      <div class="personal-details-column">
+      <div class="personal-details-column personal-details-column--left">
         <span class="column-title">{{ $t("Your name") }}</span>
       </div>
-      <div class="personal-details-column">
+      <div class="personal-details-column personal-details-column--right">
         <div class="inputs">
           <base-input
             class="custom-input"
@@ -61,10 +61,10 @@
       </div>
     </div>
     <div class="personal-details-row">
-      <div class="personal-details-column">
+      <div class="personal-details-column personal-details-column--left">
         <span class="column-title">{{ $t("Your contacts") }}</span>
       </div>
-      <div class="personal-details-column">
+      <div class="personal-details-column personal-details-column--right">
         <base-input
           class="custom-input"
           type="tel"
@@ -111,7 +111,7 @@
     </div>
     <div class="personal-details-row">
       <div class="personal-details-column"/>
-      <div class="personal-details-column">
+      <div class="personal-details-column personal-details-column--right">
         <button-full
           class="button-next"
           data-testid="personalDetailsSubmit"
@@ -216,8 +216,25 @@ export default {
 }
 
 .personal-details-column {
-  padding: 0 16px;
-  width: 100%;
+
+  &--left {
+    flex: 1;
+    padding: 0 16px;
+  }
+  &--right {
+    flex: 0 1 316px;
+    margin-right: 16px;
+    @media only screen and (max-width: 1200px) {
+      flex: 0 1 250px;
+    }
+    @media only screen and (max-width: 960px) {
+      flex: 1;
+    }
+    @media only screen and (max-width: 576px) {
+      flex: 1;
+      margin-right: 0;
+    }
+  }
 }
 
 .column-title {
@@ -253,10 +270,14 @@ export default {
 }
 
 .base-input {
-  margin-bottom: 16px;
+  margin-bottom: 18px;
 
   &:last-child {
-    margin-bottom: 24px;
+    margin-bottom: 34px;
+
+    @media only screen and (max-width: 600px) {
+      margin-bottom: 22px;
+    }
   }
 }
 @media (max-width: 960px) {

@@ -117,12 +117,16 @@ export default {
     position: static;
 
     & > li {
-      width: 10px;
+      width: 8px;
       border-radius: 50%;
       background-color: #efefef;
-      height: 10px;
+      height: 8px;
       margin: 0 4px;
 
+      @media only screen and (max-width: 540px) {
+        height: 8px;
+        width: 8px;
+      }
       button {
         padding: 0;
         width: auto;
@@ -153,9 +157,12 @@ export default {
 
 img {
   width: 100%;
-  max-width: 260px;
   height: 100%;
   max-height: 434px;
+
+  @media only screen and (min-width: 1440px) {
+    height: 434px;
+  }
 
   &:focus,
   &:active {

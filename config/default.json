@@ -1,5 +1,5 @@
 {
-  "version": "1.25",
+  "version": "1.27",
   "server": {
     "host": "localhost",
     "port": 3000,
@@ -255,8 +255,7 @@
       "configurable_options",
       "description",
       "media_gallery",
-      "product_links",
-      "stock"
+      "product_links"
     ],
     "category": {
       "includeFields": [
@@ -341,6 +340,7 @@
         "configurable_children.final_price",
         "configurable_children.url_path",
         "configurable_children.url_key",
+        "configurable_children.coming_soon",
         "category_ids",
         "id",
         "name",
@@ -988,10 +988,10 @@
     },
     {
       "slug": "men-11",
-      "url_path": "elektronika",
-      "title": "Electronics",
-      "description": "PC, notebooks, tablets",
-      "image": "/assets/actual-categories/electronics.png"
+      "url_path": "apple",
+      "title": "Apple",
+      "description": "MacBook, iPhone 12, Apple Watch 6, iPhone SE 2020, iPad",
+      "image": "/assets/actual-categories/apple.png"
     },
     {
       "slug": "women-20",
@@ -999,15 +999,13 @@
       "title": "Gadgets",
       "description": "Smart watches, Cameras, Fitness bracelets",
       "image": "/assets/actual-categories/gadgets.png"
-
     },
     {
       "slug": "men-11",
-      "url_path": "apple",
-      "title": "Apple",
-      "description": "MacBook, iPhone 12, Apple Watch 6, iPhone SE 2020, iPad",
-      "image": "/assets/actual-categories/apple.png"
-
+      "url_path": "televizori-ta-video/televizori",
+      "title": "TVs",
+      "description": "PCs, computers, accessories, monitors",
+      "image": "/assets/actual-categories/electronics.png"
     },
     {
       "slug": "women-20",

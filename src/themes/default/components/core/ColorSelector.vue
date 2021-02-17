@@ -57,8 +57,8 @@ export default {
   }
 
   .color-inside {
-    width: 30px;
-    height: 30px;
+    width: 32px;
+    height: 32px;
     left: 50%;
     top: 50%;
     border: 1px solid #fff;

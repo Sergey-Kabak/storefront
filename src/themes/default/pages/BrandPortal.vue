@@ -106,7 +106,7 @@ export default {
 
 <style lang="scss" scoped>
 .v-container {
-  width: 90%;
+  width: 92%;
 }
 
 .breadcrumbs-wrapper  {
