@@ -42,7 +42,6 @@ export function price(product, priceType = null) {
 }
 
 export function ProductStock (product) {
-  console.log({ product })
   const status = {
     InStock: (() => product.stock.is_in_stock && !product.preorder)(),
     PendingDelivery: (() => product.stock.is_in_stock && !!product.preorder)(),
