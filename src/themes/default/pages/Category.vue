@@ -5,7 +5,7 @@
       <div class="v-container">
         <breadcrumbs v-if="!isMarchPromo" withHomepage />
         <mobile-breadcrumbs v-if="!isMarchPromo" withHomepage />
-        <category-promo v-if="!isMarchPromo && getCurrentCategory.image || getCurrentCategory.description" />
+        <category-promo v-if="!isMarchPromo && (getCurrentCategory.image || getCurrentCategory.description)" />
         <div class="title">
           <h1 class="category-title">
             {{ getCurrentCategory.name }}
@@ -40,7 +40,7 @@
             {{ $tc('{count} items chosen', getCategoryProductsTotal) }}
           </p>
           <sidebar :filters="getAvailableFilters" @changeFilter="changeFilter" />
-          <img class="march-promo-image" src="/assets/promo/march-8-bg-image.jpg" alt="">
+          <img v-if="isMarchPromo" class="march-promo-image" src="/assets/promo/march-8-bg-image.jpg" alt="">
         </div>
         <div class="mobile-filters" v-show="mobileFilters">
           <div class="filter-overlay" :class="{'hasFilters' : Object.keys(getCurrentSearchQuery.filters).length > 0}">
