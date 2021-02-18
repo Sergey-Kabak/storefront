@@ -18,7 +18,7 @@ export default {
       return product.color ? attr.color.find(it => +it.value === product.color).label : undefined;
     },
     getCategory (product) {
-      return product.breadcrumbs[product.breadcrumbs.length - 1].name;
+      return product.breadcrumbs && [product.breadcrumbs.length - 1].name;
     },
     getPage (page) {
       if (!page) {
