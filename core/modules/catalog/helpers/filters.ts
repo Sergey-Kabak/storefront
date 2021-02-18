@@ -12,6 +12,7 @@ const getAvailableFiltersByProduct = (product: Product) => {
       filtersMap[type] = filterVariants
     })
   }
+  console.log(filtersMap);
   return filtersMap
 }
 

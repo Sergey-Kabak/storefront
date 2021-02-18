@@ -1,8 +1,10 @@
 <template>
   <button
     class="button-selector"
-    :class="{ 'active': isActive }"
+    ref="buttonOption"
+    :class="{ 'active': isActive, 'disabled': isDisabled }"
     @click="$emit('change', variant)"
+    :disabled="isDisabled"
   >
     {{ variant.label }}
   </button>
@@ -12,11 +14,37 @@
 import filterMixin from 'theme/mixins/filterMixin.ts';
 
 export default {
-  mixins: [filterMixin]
+  mixins: [filterMixin],
+  props: {
+    activeFilters: {
+      type: Array,
+      default: () => []
+    }
+  },
+  computed: {
+    isDisabled () {
+      return !!this.activeFilters.length && !this.activeFilters.includes(+this.variant.id)
+    }
+  }
 }
 </script>
 
 <style lang="scss" scoped>
+  .disabled{
+  position: relative;
+  cursor: no-drop;
+  &:before{
+    position: absolute;
+    left: 33px;
+    top: -16px;
+    content: '';
+    width: 1px;
+    height: 65px;
+    background: #E0E0E0;
+    transform: rotate(-56deg);
+    z-index: 1;
+  }
+}
   .button-selector {
     background-color: #F2F2F2;
     color: #1A1919;
