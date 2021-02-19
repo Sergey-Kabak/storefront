@@ -79,6 +79,7 @@ import SimilarProducts from 'theme/components/core/blocks/Product/Sections/Simil
 import ResizeMixin from '../components/core/blocks/Product/Mixins/ResizeMixin';
 import TabContainer from '../components/core/blocks/Product/Tabs/TabContainer';
 import TabContainerMobile from '../components/core/blocks/Product/Tabs/TabContainerMobile';
+import ProductKits from '../components/core/blocks/Product/Components/ProductKits';
 import NoSSR from 'vue-no-ssr'
 
 export default {
@@ -103,6 +104,7 @@ export default {
     SimilarProducts,
     TabContainer,
     TabContainerMobile,
+    ProductKits,
     'no-ssr': NoSSR
   },
   data () {
@@ -146,7 +148,12 @@ export default {
       return Object.keys(blocks).find(it => !!blocks[it])
     },
     activeCarriage () {
-      return 'small-product-cart'
+      const condition = this.getCurrentProduct.product_kits && this.getCurrentProduct.product_kits.length && this.ActiveTab === 'about-tab'
+      const blocks = {
+        'product-kits': condition,
+        'small-product-cart': !condition
+      }
+      return Object.keys(blocks).find(it => !!blocks[it])
     },
     isOnline (value) {
       return onlineHelper.isOnline
@@ -185,6 +192,12 @@ export default {
     const product = await store.dispatch('product/loadProduct', { parentSku: route.params.parentSku, childSku: route && route.params && route.params.childSku ? route.params.childSku : null })
     const loadBreadcrumbsPromise = store.dispatch('product/loadProductBreadcrumbs', { product })
     await store.dispatch('themeCredit/fetchBanks', product.sku)
+    if (product.product_kits && product.product_kits.length) {
+      const kitProducts = product.product_kits.reduce((acc, kit) => {
+        return acc.concat([...kit.items].map(p => p.sku))
+      }, []);
+      await store.dispatch('kits/fetchKitProducts', { products: kitProducts })
+    }
     if (isServer) await loadBreadcrumbsPromise
     catalogHooksExecutors.productPageVisited(product)
   },
@@ -207,7 +220,6 @@ export default {
   async beforeMount () {
     this.$bus.$on('filter-on-change', (variant) => this.changeFilter(variant))
     this.$bus.$on('change-tab', (tab) => {
-      console.log(this)
       this.ActiveTab = tab
       if (['mobile'].includes(this.screenResolution)) {
         this.isMobileSidebar = true
