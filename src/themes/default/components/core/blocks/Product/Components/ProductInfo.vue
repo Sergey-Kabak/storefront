@@ -1,7 +1,7 @@
 <template>
   <div class="product-wrapper">
     <div class="product-meta">
-      <product-stock-status />
+      <product-stock-status v-if="screenResolution !== 'mobile'" />
       <h1
         v-if="screenResolution !== 'mobile'"
         class="mt0 product-name block font"

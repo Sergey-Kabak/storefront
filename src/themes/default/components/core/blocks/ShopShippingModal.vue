@@ -3,7 +3,7 @@
     <h3 slot="header" class="modal-shop-shipping_header">
       {{$t('All stores')}}
     </h3>
-    <div slot="content" class="modal-credits_content">
+    <div slot="content" class="modal-shop-shipping">
       <shop-shipping :button-visible="false" />
     </div>
   </modal>
@@ -22,6 +22,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+  ::v-deep .modal-container{
+    position: relative;
+    z-index: 4;
+  }
   h3{
     margin: 16px 0 4px;
     padding: 0 16px;
