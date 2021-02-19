@@ -98,6 +98,7 @@
                         :variant="filter"
                         :selected-filters="getSelectedFilters"
                         @change="changeFilter"
+                        :active-filters="getActiveFilters && getActiveFilters.memory || []"
                       />
                     </div>
                     <div v-else>
@@ -109,7 +110,8 @@
                         :key="filter.id"
                         :variant="filter"
                         :selected-filters="getSelectedFilters"
-                        @change="changeFilter"/>
+                        @change="changeFilter"
+                        :active-filters="getActiveFilters && getActiveFilters.color || []" />
                     </div>
                   </div>
                 </div>
@@ -330,7 +332,9 @@ export default {
         </svg>`,
         'NotAvailable': `<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M10.072 4.8L8 6.872L5.928 4.8L4.8 5.928L6.872 8L4.8 10.072L5.928 11.2L8 9.128L10.072 11.2L11.2 10.072L9.128 8L11.2 5.928L10.072 4.8ZM8 0C3.576 0 0 3.576 0 8C0 12.424 3.576 16 8 16C12.424 16 16 12.424 16 8C16 3.576 12.424 0 8 0ZM8 14.4C4.472 14.4 1.6 11.528 1.6 8C1.6 4.472 4.472 1.6 8 1.6C11.528 1.6 14.4 4.472 14.4 8C14.4 11.528 11.528 14.4 8 14.4Z" fill="#EE2C39"/>
-        </svg>`
+        </svg>`,
+        colorMatrix: null,
+        memoryMatrix: null
       }
     }
   },
@@ -396,6 +400,14 @@ export default {
     getAvailableFilters () {
       return getAvailableFiltersByProduct(this.getCurrentProduct)
     },
+    getActiveFilters () {
+      if (!!this.colorMatrix && !!this.memoryMatrix) {
+        return {
+          color: this.colorMatrix[this.getSelectedFilters.color.id],
+          memory: this.memoryMatrix[this.getSelectedFilters.obem_vstroennoj_pamyaty.id]
+        }
+      } return false
+    },
     getSelectedFilters () {
       return getSelectedFiltersByProduct(this.getCurrentProduct, this.getCurrentProductConfiguration)
     },
@@ -416,9 +428,33 @@ export default {
       return true
     }
   },
+  created () {
+    let product = this.getCurrentProduct
+    let condition = product.type_id === 'configurable' && product.color_options && product.color_options.length && product.obem_vstroennoj_pamyaty_options && product.obem_vstroennoj_pamyaty_options.length;
+    if (condition) {
+      const children = [...product.configurable_children]
+      const colors = {}
+      const memory = {}
+      children.forEach(it => {
+        const colorVariants = children.filter(c => c.color === it.color);
+        const memoryVariants = children.filter(c => c.obem_vstroennoj_pamyaty === it.obem_vstroennoj_pamyaty);
+        Object.defineProperty(colors, it.color, {
+          value: [...colorVariants].map(m => m.obem_vstroennoj_pamyaty),
+          writable: true,
+          enumerable: true
+        });
+        Object.defineProperty(memory, it.obem_vstroennoj_pamyaty, {
+          value: [...memoryVariants].map(m => m.color),
+          writable: true,
+          enumerable: true
+        });
+      })
+      this.colorMatrix = colors
+      this.memoryMatrix = memory
+    }
+  },
   async mounted () {
     await this.$store.dispatch('recently-viewed/addItem', this.getCurrentProduct);
-    console.log(this.getCurrentProduct);
   },
   async asyncData ({ store, route, context }) {
     if (context) context.output.cacheTags.add('product')

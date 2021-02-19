@@ -1,9 +1,10 @@
 <template>
   <div class="input-color-wrapper relative inline-flex">
     <button
-    :class="['bg-cl-transparent brdr-1 brdr-circle brdr-cl-transparent :brdr-cl-bg-primary pointer color', isActive ? 'active' : '']"
+    :class="['bg-cl-transparent brdr-1 brdr-circle brdr-cl-transparent :brdr-cl-bg-primary pointer color', isActive ? 'active' : '', {'disabled': isDisabled}]"
     @click="$emit('change', variant)"
     :aria-label="$t('Select color ') + variant.label"
+    :disabled="isDisabled"
   >
     <span
       class="absolute brdr-circle brdr-1 brdr-cl-secondary block color-inside"
@@ -21,6 +22,17 @@ import filterMixin from 'theme/mixins/filterMixin.ts';
 
 export default {
   mixins: [filterMixin],
+  props: {
+    activeFilters: {
+      type: Array,
+      default: () => []
+    }
+  },
+  computed: {
+    isDisabled () {
+      return !!this.activeFilters.length && !this.activeFilters.includes(+this.variant.id)
+    }
+  },
   methods: {
     colorFrom (label) {
       if (!label) return ''
@@ -46,7 +58,21 @@ export default {
   @import '~theme/css/variables/colors';
   @import '~theme/css/helpers/functions/color';
   $color-active: color(primary);
-
+  .disabled{
+    position: relative;
+    cursor: no-drop;
+    &:before{
+      position: absolute;
+      left: 50%;
+      top: 0;
+      content: '';
+      width: 1px;
+      height: 100%;
+      background: #E0E0E0;
+      transform: rotate(-45deg);
+      z-index: 1;
+    }
+  }
   .color {
     width: 38px;
     height: 38px;
