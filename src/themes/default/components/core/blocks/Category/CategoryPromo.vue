@@ -42,17 +42,18 @@ export default {
 
 .banner-description-info {
   margin-bottom: 24px;
-
-  @media only screen and (max-width: 1024px) {
-    height: 100%;
-  }
+  height: 100%;
 }
 
 .banner-description {
   margin-bottom: 64px;;
   display: flex;
+  height: 23.26vw;
+  max-height: 335px;
   @media only screen and (max-width: 1024px) {
     flex-direction: column;
+    height: unset;
+    max-height: unset;
   }
   @media only screen and (max-width: 1024px) {
     margin-bottom: 46px;
@@ -63,7 +64,6 @@ export default {
       border-radius: 4px;
       margin-right: 20px;
       height: 100%;
-      object-fit: cover;
     }
     display: block;
     width: 100%;
@@ -101,19 +101,18 @@ export default {
   &__block {
     margin-left: 20px;
     display: flex;
-    flex: 0 0 294px;
+    flex: 0 0 316px;
     flex-direction: column;
-    max-height: 24vw;
-
     background: #FFFFFF;
     border: 1px solid #E0E0E0;
     box-sizing: border-box;
     border-radius: 4px;
     padding: 16px 0 16px 16px;
+    position: relative;
+
     @media only screen and (max-width: 1200px) {
       padding: 8px 0 8px 8px;
     }
-    position: relative;
     @media only screen and (max-width: 1024px) {
       flex: 1;
       margin-left: 0;
@@ -149,10 +148,12 @@ export default {
     margin-bottom: 8px;
     margin: 0;
     height: 100%;
-    max-height: 15vw;
+    max-height: 13.8vw;
     @include scrollBar;
-
-    @media only screen and (max-width: 1024) {
+    @media only screen and (min-width: 1440px) {
+      max-height: 216px;
+    }
+    @media only screen and (max-width: 1024px) {
       max-height: 500px;
     }
     @media only screen and (max-width: 600px) {
@@ -172,7 +173,7 @@ export default {
       position: absolute;
       bottom: 0;
       left: 0;
-      height: 17%;
+      height: 20%;
       width: 100%;
       background: linear-gradient(rgba(255, 255, 255, 0.02), white);
 

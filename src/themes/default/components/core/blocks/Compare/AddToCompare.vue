@@ -87,7 +87,7 @@ export default {
 svg {
   box-sizing: content-box;
   border-radius: 4px;
-
+  padding: 4px;
   &:hover {
     background-color: #F9F9F9;
   }

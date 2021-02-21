@@ -61,7 +61,6 @@ export default {
 
 <style lang="scss" scoped>
 .add-to-wishlist {
-  margin-right: 15px;
   font-family: DIN Pro;
   font-style: normal;
   font-size: 12px !important;
@@ -69,6 +68,9 @@ export default {
   display: flex;
   align-items: center;
   color: #595858;
+  svg{
+    padding: 4px;
+  }
 }
 
 .icon-wishlist {

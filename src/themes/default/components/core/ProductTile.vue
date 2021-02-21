@@ -155,6 +155,9 @@ export default {
   $bg-secondary: color(secondary, $colors-background);
   $border-secondary: color(secondary, $colors-border);
   $color-white: color(white);
+  .bg-white{
+    background-color: #fff;
+  }
   .promo_img{
     position: absolute;
     z-index: 2;
@@ -167,6 +170,7 @@ export default {
   }
   $border: 1px solid #E0E0E0;
   .product {
+    background-color: #fff;
     @media (max-width: 540px){
       min-width: 50% !important;
       border: none;
