@@ -158,7 +158,7 @@ const actions: ActionTree<CategoryState, RootState> = {
     const categories: Category[] = await CategoryService.getCategories(categorySearchOptions)
     // костыль для категори /valentines-day
     const customFilterIndex = categories[0]['filterable_attributes'].indexOf('kategorija_akcija')
-    if (categories[0]['id'] === 956 && customFilterIndex >= 0) {
+    if (categories[0]['id'] === 961 && customFilterIndex >= 0) {
       categories[0]['filterable_attributes'].unshift(categories[0]['filterable_attributes'].splice(customFilterIndex, 1)[0])
       categories[0]['filterable_attributes'].unshift(categories[0]['filterable_attributes'].splice(1, 1)[0])
     }
