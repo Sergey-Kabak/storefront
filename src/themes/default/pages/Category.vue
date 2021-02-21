@@ -168,7 +168,7 @@ const composeInitialPageState = async (store, route, forceLoad = false) => {
     if (currentCategory.id === 961) {
       options.concat(['category_ids', 'kategorija'])
     }
-    await store.dispatch('attribute/list', { filterValues: [...currentCategory.filterable_attributes, ...options] })
+    await store.dispatch('attribute/list', { filterValues: [...currentCategory.filterable_attributes, ...options], size: [...currentCategory.filterable_attributes, ...options].length })
     await store.dispatch('category-next/loadCategoryProducts', { route, category: currentCategory, pageSize })
     const breadCrumbsLoader = store.dispatch('category-next/loadCategoryBreadcrumbs', { category: currentCategory, currentRouteName: currentCategory.name, omitCurrent: true })
     if (isServer) await breadCrumbsLoader
