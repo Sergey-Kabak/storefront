@@ -83,6 +83,14 @@
       "type": "script",
       "onload": true,
       "rel": "prefetch"
+    },
+    {
+      "filters": ["lang-.*"],
+      "onload": false
+    },
+    {
+      "filters": ["dayjs-locales-.*"],
+      "onload": false
     }
   ],
   "staticPages": {

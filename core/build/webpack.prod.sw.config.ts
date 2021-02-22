@@ -3,6 +3,8 @@ import merge from 'webpack-merge';
 import base from './webpack.base.config';
 import SWPrecachePlugin from 'sw-precache-webpack-plugin';
 
+const VERSION = Date.now();
+
 module.exports = merge(base, {
   mode: 'production',
   target: 'web',
@@ -16,8 +18,10 @@ module.exports = merge(base, {
     }),
     // auto generate service worker
     new SWPrecachePlugin({
-      cacheId: 'vue-sfr',
+      cacheId: `vue-sfr-${VERSION}`,
       filename: 'service-worker.js',
+      skipWaiting: true,
+      clientsClaim: true,
       staticFileGlobsIgnorePatterns: [/\.map$/],
       staticFileGlobs: [
         'dist/**.*.js',
@@ -97,7 +101,7 @@ module.exports = merge(base, {
           urlPattern: '/*', /** this is new category URL format  */
           handler: 'networkFirst'
         }],
-      'importScripts': ['/dist/core-service-worker.js'] /* custom logic */
+      'importScripts': [`/dist/core-service-worker.js?v=${VERSION}`] /* custom logic */
     })
   ]
 })
