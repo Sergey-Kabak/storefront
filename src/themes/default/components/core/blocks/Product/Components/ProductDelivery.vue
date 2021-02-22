@@ -1,29 +1,33 @@
 <template>
   <div class="product-delivery">
     <delivery-title/>
-    <div v-for="(type, name) in shippingTypes" :key="name" class="product-delivery__type">
-      <div v-html="type.icon" class="product-delivery__type-icon"></div>
-      <div class="product-delivery__type-row flex">
-        <div class="delivery-label flex v-center">
-          {{ $t(name) }}
-        </div>
-        <div class="delivery-info">
-          <strong
-            v-if="type.methodInfo.actionField"
-            @click="type.methodInfo.actionField.event"
-            class="font">
-            {{name === 'freeshipping' ? availableShops : type.methodInfo.actionField.text}}
-          </strong>
-          <span class="font">
+    <no-ssr>
+      <div>
+        <div v-for="(type, name) in shippingTypes" :key="name" class="product-delivery__type">
+          <div v-html="type.icon" class="product-delivery__type-icon"></div>
+          <div class="product-delivery__type-row flex">
+            <div class="delivery-label flex v-center">
+              {{ $t(name) }}
+            </div>
+            <div class="delivery-info">
+              <strong
+                v-if="type.methodInfo.actionField"
+                @click="type.methodInfo.actionField.event"
+                class="font">
+                {{name === 'freeshipping' ? availableShops : type.methodInfo.actionField.text}}
+              </strong>
+              <span class="font">
             {{type.methodInfo.text}}
           </span>
-        </div>
-        <div class="delivery-price">
-          <strong v-if="type.price.free">{{ $t('is free') }}</strong>
-          <span v-if="!!type.price.base" :class="{'line-through' : type.price.free}">{{type.price.base | price}}</span>
+            </div>
+            <div class="delivery-price">
+              <strong v-if="type.price.free">{{ $t('is free') }}</strong>
+              <span v-if="!!type.price.base" :class="{'line-through' : type.price.free}">{{type.price.base | price}}</span>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
+    </no-ssr>
   </div>
 </template>
 
@@ -32,10 +36,12 @@ import DeliveryTitle from './DeliveryTitle';
 import ShopShipping from '../../Checkout/Shipping/ShopShipping/ShopShipping';
 import { currentStoreView } from '@vue-storefront/core/lib/multistore';
 import { mapState, mapGetters } from 'vuex';
+import NoSSR from 'vue-no-ssr'
 export default {
   components: {
     DeliveryTitle,
-    ShopShipping
+    ShopShipping,
+    'no-ssr': NoSSR
   },
   data () {
     return {

@@ -88,7 +88,7 @@ export default {
       }
     },
     getActiveFilters () {
-      if (!!this.colorMatrix && !!this.memoryMatrix) {
+      if (!!this.colorMatrix && !!this.memoryMatrix && this.getSelectedFilters.obem_vstroennoj_pamyaty) {
         return {
           color: this.colorMatrix[this.getSelectedFilters.color.id],
           memory: this.memoryMatrix[this.getSelectedFilters.obem_vstroennoj_pamyaty.id]

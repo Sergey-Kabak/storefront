@@ -3,7 +3,7 @@
     <div class="v-container">
       <div class="row">
         <div class="col-12">
-          <breadcrumbs v-if="!['mobile'].includes(this.screenResolution)" class="breadcrumbs"/>
+          <breadcrumbs v-if="!['mobile'].includes(screenResolution)" class="breadcrumbs"/>
           <mobile-breadcrumbs v-else />
         </div>
         <div class="col-12">
@@ -207,8 +207,11 @@ export default {
   async beforeMount () {
     this.$bus.$on('filter-on-change', (variant) => this.changeFilter(variant))
     this.$bus.$on('change-tab', (tab) => {
-      console.log(this)
       this.ActiveTab = tab
+      const separator = this.$refs.separator.offsetTop
+      if (this.screenResolution !== 'mobile' && window.pageYOffset > separator) {
+        window.scrollTo(0, separator - 65)
+      }
       if (['mobile'].includes(this.screenResolution)) {
         this.isMobileSidebar = true
       }

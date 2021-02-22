@@ -82,12 +82,7 @@ export default {
   },
   methods: {
     selectTab (tab) {
-      const separator = this.$parent.$refs.separator.offsetTop
-      this.ActiveTab = tab;
       this.$bus.$emit('change-tab', tab)
-      if (this.screenResolution !== 'mobile' && window.pageYOffset > separator) {
-        window.scrollTo(0, separator - 65)
-      }
     }
   }
 }

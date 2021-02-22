@@ -219,6 +219,8 @@ export default {
       flex-direction: column;
     }
     .product-link {
+      position: relative;
+      z-index: 1;
       height: 100%;
       align-items: flex-start;
       .mt-auto {
@@ -227,6 +229,7 @@ export default {
     }
     &__icons {
       position: absolute;
+      z-index: 2;
       top: 12px;
       right: 12px;
       display: flex;

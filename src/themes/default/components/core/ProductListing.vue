@@ -1,5 +1,5 @@
 <template>
-  <div class="product-listing" :style="{'grid-template-columns': `repeat(${columns}, 1fr)`}">
+  <div class="product-listing" :style="{'grid-template-columns': `repeat(${cols}, 1fr)`}">
     <product-tile
       v-for="(product, key) in products"
       :key="key"
@@ -12,9 +12,11 @@
 
 <script>
 import ProductTile from 'theme/components/core/ProductTile'
+import ResizeMixin from './blocks/Product/Mixins/ResizeMixin';
 
 export default {
   name: 'ProductListing',
+  mixins: [ResizeMixin],
   components: {
     ProductTile
   },
@@ -36,6 +38,16 @@ export default {
       type: Number | String,
       default: () => 3
     }
+  },
+  computed: {
+    cols () {
+      const cols = {
+        'desktop': this.columns,
+        'table': 3,
+        'mobile': 2
+      }
+      return cols[this.screenResolution]
+    }
   }
 }
 </script>
@@ -55,7 +67,6 @@ export default {
       }
       ::v-deep .product{
         border-radius: 0;
-        margin-bottom: -1px;
       }
     }
     width: 100%;
