@@ -93,7 +93,20 @@ export default {
     }),
     categories () {
       if (!!this.getAvailableFilters.kategorija_akcija && this.getAvailableFilters.kategorija_akcija.length) {
-        return this.getAvailableFilters.kategorija_akcija
+        const orders = [
+          'Apple',
+          'Смартфони',
+          'Гаджети',
+          'Навушники',
+          'Акустика',
+          'Аксесуари',
+          `Краса та здоров'я`,
+          'Товари для дому'
+        ]
+        const NotSorted = this.getAvailableFilters.kategorija_akcija.filter(it => !orders.find(o => o === it.label))
+        const Sorted = orders.map(it => this.getAvailableFilters.kategorija_akcija.find(o => o.label === it))
+        console.log([...Sorted, ...NotSorted])
+        return [...Sorted, ...NotSorted]
       }
       return []
     }
