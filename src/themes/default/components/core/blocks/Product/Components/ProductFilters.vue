@@ -19,6 +19,7 @@
             :variant="filter"
             :selected-filters="getSelectedFilters"
             @change="changeFilter"
+            :active-filters="getActiveFilters && getActiveFilters.memory || []"
           />
         </div>
         <div v-else>
@@ -30,7 +31,9 @@
             :key="filter.id"
             :variant="filter"
             :selected-filters="getSelectedFilters"
-            @change="changeFilter"/>
+            @change="changeFilter"
+            :active-filters="getActiveFilters && getActiveFilters.color || []"
+          />
         </div>
       </div>
     </div>
@@ -50,6 +53,12 @@ export default {
   components: {
     ColorSelector,
     ButtonSelector
+  },
+  data () {
+    return {
+      colorMatrix: null,
+      memoryMatrix: null
+    }
   },
   computed: {
     ...mapGetters({
@@ -77,6 +86,39 @@ export default {
         const configName = option.attribute_code ? option.attribute_code : option.label.toLowerCase()
         return this.getCurrentProductConfiguration[configName] ? this.getCurrentProductConfiguration[configName].label : configName
       }
+    },
+    getActiveFilters () {
+      if (!!this.colorMatrix && !!this.memoryMatrix && this.getSelectedFilters.obem_vstroennoj_pamyaty) {
+        return {
+          color: this.colorMatrix[this.getSelectedFilters.color.id],
+          memory: this.memoryMatrix[this.getSelectedFilters.obem_vstroennoj_pamyaty.id]
+        }
+      } return false
+    }
+  },
+  created () {
+    const product = this.getCurrentProduct
+    const condition = product.type_id === 'configurable' && product.color_options && product.color_options.length && product.obem_vstroennoj_pamyaty_options && product.obem_vstroennoj_pamyaty_options.length;
+    if (condition) {
+      const children = [...product.configurable_children]
+      const colors = {}
+      const memory = {}
+      children.forEach(it => {
+        const colorVariants = children.filter(c => c.color === it.color);
+        const memoryVariants = children.filter(c => c.obem_vstroennoj_pamyaty === it.obem_vstroennoj_pamyaty);
+        Object.defineProperty(colors, it.color, {
+          value: [...colorVariants].map(m => m.obem_vstroennoj_pamyaty),
+          writable: true,
+          enumerable: true
+        });
+        Object.defineProperty(memory, it.obem_vstroennoj_pamyaty, {
+          value: [...memoryVariants].map(m => m.color),
+          writable: true,
+          enumerable: true
+        });
+      })
+      this.colorMatrix = colors
+      this.memoryMatrix = memory
     }
   },
   methods: {

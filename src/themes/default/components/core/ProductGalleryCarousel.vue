@@ -251,7 +251,6 @@ export default {
       max-height: 380px;
       img{
         height: 380px !important;
-        object-fit: cover !important;
       }
     }
     backface-visibility: unset;

@@ -35,6 +35,9 @@
           <promo-products :options="product" class="product relative" />
         </div>
       </div>
+      <promo-expiry-date v-if="getCurrentProduct.bundle_gift_date_from && getCurrentProduct.bundle_gift_date_to"
+                         :to="getCurrentProduct.bundle_gift_date_to"
+                         :from="getCurrentProduct.bundle_gift_date_from" />
     </div>
   </div>
 </template>
@@ -42,10 +45,12 @@
 <script>
 import { mapGetters } from 'vuex'
 import PromoProducts from './PromoProducts';
+import PromoExpiryDate from '../../Category/PromoExpiryDate';
 
 export default {
   components: {
-    PromoProducts
+    PromoProducts,
+    PromoExpiryDate
   },
   computed: {
     ...mapGetters({
@@ -68,11 +73,17 @@ export default {
       }
       return start + this.getBundleOptions[0].title + end
     }
+  },
+  mounted () {
+    console.log(this.getCurrentProduct);
   }
 }
 </script>
 
 <style lang="scss" scoped>
+::v-deep .banner-description__timer {
+  padding: 16px;
+}
 .product{
   &:after{
     position: absolute;

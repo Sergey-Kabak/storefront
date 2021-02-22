@@ -69,7 +69,6 @@ export default {
     align-items: baseline;
     margin-top: auto;
     font-family: DIN Pro;
-    margin-top: 0;
     padding-right: 16px;
 
     @media only screen and (max-width: 1024px) {

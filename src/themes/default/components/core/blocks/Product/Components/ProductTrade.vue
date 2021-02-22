@@ -1,5 +1,6 @@
 <template>
   <div class="trade-wrapper">
+    <product-stock-status v-if="screenResolution === 'mobile'" class="mb10" />
     <div class="flex trade-price-wrapper">
       <product-cart-price
         v-if="getCurrentProduct.type_id !== 'grouped'"
@@ -32,15 +33,18 @@ import ButtonWhite from '../ButtonWhite';
 import ProductMixin from '../Mixins/ProductMixin';
 import AddToCart from 'theme/components/core/AddToCart.vue';
 import { mapGetters } from 'vuex';
+import ProductStockStatus from './ProductStockStatus';
+import ResizeMixin from '../Mixins/ResizeMixin';
 
 export default {
-  mixins: [ProductMixin],
+  mixins: [ProductMixin, ResizeMixin],
   components: {
     ProductCartPrice,
     AddToCompare,
     AddToWishlist,
     ButtonWhite,
-    AddToCart
+    AddToCart,
+    ProductStockStatus
   },
   computed: {
     ...mapGetters({
