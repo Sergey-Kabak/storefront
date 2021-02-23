@@ -94,11 +94,20 @@ export default {
   max-width: 682px;
 }
 ::v-deep .media-zoom{
-  width: calc(100% - 48px);
-  height: calc(100% - 48px);
-  top: 24px;
-  left: 24px;
-  border-radius: 4px;
+  margin: auto;
+  @media (min-width: 576px) {
+    width: calc(100% - 48px);
+    height: calc(100% - 48px);
+    border-radius: 4px;
+    top: 24px;
+    left: 24px;
+  }
+  @media (max-width: 575px) {
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+  }
 }
 ::v-deep .product-image-container{
   background-color: #fff;
