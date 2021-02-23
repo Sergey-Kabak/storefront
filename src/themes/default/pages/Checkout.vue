@@ -91,9 +91,7 @@ export default {
 
 <style lang="scss" scoped>
 .v-container {
-  width: 90%;
   padding-bottom: 48px;
-  max-width: 1157px;
 }
 
 .checkout {

@@ -3,8 +3,6 @@
     <section class="v-container">
       <home-carousel />
     </section>
-    <!--<head-image />-->
-
     <section class="v-container offer-gallery">
       <div class="gallery-title">
         {{ $t('Popular categories') }}
@@ -19,9 +17,6 @@
         </router-link>
       </div>
     </section>
-    <!--<head-image />-->
-    <!--<promoted-offers />-->
-
     <section class="v-container ">
       <div>
         <header class="col-md-12">
@@ -56,15 +51,13 @@
       <div class="center-xs">
         <lazy-hydrate :trigger-hydration="!loading" v-if="isLazyHydrateEnabled">
           <product-listing columns="4" :products="getSalesLeaders" gtm-list="home page" />
-          <!--<product-listing columns="4" :products="products" />-->
         </lazy-hydrate>
         <product-listing v-else columns="4" :products="getSalesLeaders" gtm-list="home page" />
-        <!--<product-listing v-else columns="4" :products="products" />-->
         <button-full
-            class="mt35 show-all"
-            type="submit"
-            @click.native="goToCategory('salesLeaders')"
-            :aria-label="$t('See all')"
+          class="mt35 show-all"
+          type="submit"
+          @click.native="goToCategory('salesLeaders')"
+          :aria-label="$t('See all')"
         >
           {{ $t('See all') }}
         </button-full>
@@ -107,10 +100,10 @@
         <product-listing v-else columns="4" :products="getNew" gtm-list="home page" />
 
         <button-full
-            class="mt35 show-all"
-            type="submit"
-            @click.native="goToCategory('new')"
-            :aria-label="$t('See all')"
+          class="mt35 show-all"
+          type="submit"
+          @click.native="goToCategory('new')"
+          :aria-label="$t('See all')"
         >
           {{ $t('See all') }}
         </button-full>
@@ -127,16 +120,14 @@
       </div>
       <div class="center-xs">
         <lazy-hydrate :trigger-hydration="!loading" v-if="isLazyHydrateEnabled">
-          <!--<product-listing columns="4" :products="getBestsellers" />-->
           <product-listing columns="4" :products="getRecommends" gtm-list="home page" />
         </lazy-hydrate>
-        <!--<product-listing v-else columns="4" :products="getBestsellers" />-->
         <product-listing v-else columns="4" :products="getRecommends" gtm-list="home page" />
         <button-full
-            class="mt35 show-all"
-            type="submit"
-            @click.native="goToCategory('recommends')"
-            :aria-label="$t('See all')"
+          class="mt35 show-all"
+          type="submit"
+          @click.native="goToCategory('recommends')"
+          :aria-label="$t('See all')"
         >
           {{ $t('See all') }}
         </button-full>
@@ -147,18 +138,14 @@
 </template>
 
 <script>
-// query constructor
 import {
   isServer,
   onlineHelper
 } from '@vue-storefront/core/helpers';
 import LazyHydrate from 'vue-lazy-hydration';
 
-// Core pages
 import Home from '@vue-storefront/core/pages/Home';
-// Theme core components
 import ProductListing from 'theme/components/core/ProductListing';
-// Theme local components
 import Onboard from 'theme/components/theme/blocks/Home/Onboard';
 import TileLinks from 'theme/components/theme/blocks/TileLinks/TileLinks';
 import { Logger } from '@vue-storefront/core/lib/logger';
@@ -346,9 +333,6 @@ export default {
         &--active
           .VueCarousel-dot-button
             background: #23BE20 !important
-  .offer-gallery
-    margin-bottom: 68px;
-
   .gallery-title
     margin: 68px 0px 32px 0px
     font-family: 'DIN Pro'
@@ -360,16 +344,6 @@ export default {
 </style>
 
 <style lang="scss" scoped>
-@import '~theme/css/helpers/mixins';
-
-  .v-container {
-    width: 95%;
-
-    @media only screen and (max-width: 600px) {
-      width: 90%;
-    }
-  }
-
   .promo-image {
     width: 100%;
 
@@ -396,7 +370,6 @@ export default {
       padding-right: 40px;
       position: relative;
       height: 320px;
-      
       &:last-child {
         @media only screen and (max-width: 768px) {
           padding-right: 64px;
@@ -406,11 +379,9 @@ export default {
       &:nth-child(3n + 2) {
         background: #E4F9E4;
       }
-
       &:nth-child(n + 4) {
         grid-column: span 3;
       }
-
       .image {
         display: block;
         max-width: 50%;
@@ -427,7 +398,6 @@ export default {
         line-height: 23px;
         color: #1A1919;
       }
-
       .description {
         font-family: DIN Pro;
         font-style: normal;
@@ -442,20 +412,16 @@ export default {
           margin-top: 8px;
         }
       }
-
       .text {
         width: 50%;
       }
     }
   }
-
-
   .new-collection {
     @media (max-width: 767px) {
       padding-top: 0;
     }
   }
-
   @media (max-width: 1024px) {
     .banner-group {
       .banner {
@@ -477,7 +443,6 @@ export default {
       }
     }
   }
-
   @media (max-width: 768px) {
     .gallery-title {
       margin: 48px 0px 24px 0px;
@@ -485,41 +450,32 @@ export default {
 
     .text {
       margin-top: auto;
-      // height: 68px;
-
     }
-    
     .banner-group {
       grid-gap: 16px;
       .banner {
         grid-column: span 3;
         height: auto;
         justify-content: flex-end;
-
         &:last-child {
           grid-column: span 6;
           flex-direction: row;
           align-items: center;
           justify-content: flex-end;
           flex-wrap: nowrap;
-
           .text {
             width: auto;
             margin-right: 6px;
           }
         }
-
         .title {
           font-size: 15px;
           line-height: 19px;
         }
-
         .description {
           font-size: 13px;
           line-height: 16px;
-          @include maxLines(3);
         }
-
         &:last-child {
           .image {
             margin-bottom: 0;
@@ -530,7 +486,6 @@ export default {
         }
       }
     }
-
     @media (max-width: 540px) {
       .banner-group {
         .banner {
@@ -544,7 +499,6 @@ export default {
           }
         }
       }
-
       #home {
         .show-all {
           max-width: 100%;
@@ -553,7 +507,6 @@ export default {
       }
     }
   }
-
   .section {
     &__shares {
       padding-bottom: 31px;
@@ -566,7 +519,6 @@ export default {
       }
     }
   }
-
   .offer-gallery {
     @media only screen and (max-width: 768px) {
       margin-bottom: 49px;
@@ -577,5 +529,4 @@ export default {
       margin-bottom: 23px;
     }
   }
-
 </style>

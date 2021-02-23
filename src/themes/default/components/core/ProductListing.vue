@@ -1,5 +1,5 @@
 <template>
-  <div class="product-listing">
+  <div class="product-listing" :style="{'grid-template-columns': `repeat(${cols}, 1fr)`}">
     <product-tile
       v-for="(product, key) in products"
       :key="key"
@@ -12,9 +12,11 @@
 
 <script>
 import ProductTile from 'theme/components/core/ProductTile'
+import ResizeMixin from './blocks/Product/Mixins/ResizeMixin';
 
 export default {
   name: 'ProductListing',
+  mixins: [ResizeMixin],
   components: {
     ProductTile
   },
@@ -31,6 +33,20 @@ export default {
     gtmList: {
       type: String,
       default: 'category'
+    },
+    columns: {
+      type: Number | String,
+      default: () => 3
+    }
+  },
+  computed: {
+    cols () {
+      const cols = {
+        'desktop': this.columns,
+        'table': 3,
+        'mobile': 2
+      }
+      return cols[this.screenResolution]
     }
   }
 }
@@ -38,18 +54,24 @@ export default {
 
 <style lang="scss" scoped>
   .product-listing {
+    @media (max-width: 767px){
+      grid-gap: 0;
+      ::v-deep :nth-child(even) {
+        border-right: none;
+        border-left: none;
+        padding-right: 0;
+      }
+      ::v-deep :nth-child(odd) {
+        border-left: none;
+        padding-left: 0;
+      }
+      ::v-deep .product{
+        border-radius: 0;
+      }
+    }
     width: 100%;
     display: grid;
     grid-gap: 20px;
-    grid-template-columns: repeat(auto-fill, minmax(250px,1fr));
-
-    @media only screen and (max-width: 768px) {
-      grid-template-columns: repeat(auto-fill, minmax(45% ,1fr));
-      grid-gap: 16px;
-    }
-    @media only screen and (max-width: 540px) {
-      grid-gap: 0;
-    }
   }
 
   ::v-deep .product-image__thumb {

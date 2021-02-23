@@ -44,7 +44,7 @@ export default {
     async addToCart (product) {
       try {
         const diffLog = await this.$store.dispatch('cart/addItem', { productToAdd: product })
-        this.GTM_ADD_TO_CART([product], 'product page')
+        await this.GTM_ADD_TO_CART([product], 'product page')
         diffLog.clientNotifications.forEach(notificationData => {
           this.notifyUser(notificationData)
         })
@@ -61,6 +61,7 @@ export default {
       isAddingToCart: 'cart/getIsAdding',
       getCurrentCustomOptions: 'product/getCurrentCustomOptions',
       getCurrentProductConfiguration: 'product/getCurrentProductConfiguration',
+      getCartItems: ''
     }),
     isProductDisabled () {
       return this.disabled || formatProductMessages(this.product.errors) !== '' || this.isAddingToCart

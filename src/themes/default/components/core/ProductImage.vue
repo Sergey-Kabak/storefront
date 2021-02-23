@@ -108,7 +108,6 @@ export default {
 <style lang="scss" scoped>
   .product-image{
     position: relative;
-    width: 100%;
     max-width: 100%;
     height: 100%;
     mix-blend-mode: multiply;
@@ -124,10 +123,9 @@ export default {
     }
     &--width {
       .product-image__thumb {
-        max-width: 100%;
-        width: auto;
-        height: auto;
-        max-height: 500px;
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
       }
     }
   }

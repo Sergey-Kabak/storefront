@@ -79,8 +79,9 @@ export default {
   display: grid;
   align-items: center;
   grid-template-columns: 1fr 1fr 1fr;
-  width: 90%;
-  max-width: 1157px;
+  width: 95%;
+  max-width: 1340px;
+  padding: 0 8px;
   margin: auto;
 }
 

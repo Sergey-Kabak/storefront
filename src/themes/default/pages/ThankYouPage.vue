@@ -189,8 +189,6 @@ export default {
 
 <style lang="scss" scoped>
 .v-container {
-  width: 90%;
-  max-width: 1157px;
   padding-bottom: 24px;
 }
 
