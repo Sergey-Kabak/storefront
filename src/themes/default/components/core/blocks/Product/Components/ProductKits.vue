@@ -32,6 +32,9 @@
         </div>
       </div>
     </div>
+    <div>
+      <button @click="showModal">Собрать свой комплект</button>
+    </div>
   </div>
 </template>
 
@@ -64,6 +67,9 @@ export default {
     }
   },
   methods: {
+    showModal () {
+      this.$bus.$emit('modal-show', 'modal-kits')
+    },
     thumbnail (product) {
       // todo: play with the image based on category page filters - eg. when 'red' color is chosen, the image is going to be 'red'
       let thumbnail = productThumbnailPath(product)

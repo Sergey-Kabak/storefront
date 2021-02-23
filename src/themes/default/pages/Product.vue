@@ -196,7 +196,7 @@ export default {
       const kitProducts = product.product_kits.reduce((acc, kit) => {
         return acc.concat([...kit.items].map(p => p.sku))
       }, []);
-      await store.dispatch('kits/fetchKitProducts', { products: kitProducts })
+      await store.dispatch('kits/fetchKitProducts', { products: kitProducts, parentProduct: product })
     }
     if (isServer) await loadBreadcrumbsPromise
     catalogHooksExecutors.productPageVisited(product)

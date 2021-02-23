@@ -49,13 +49,14 @@
       <offline-badge/>
       <city-shop-picker />
       <shop-shipping-modal />
+      <kits-modal v-if="getCurrentProduct" />
     </div>
     <vue-progress-bar/>
   </div>
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { mapGetters, mapState } from 'vuex';
 import AsyncSidebar from 'theme/components/theme/blocks/AsyncSidebar/AsyncSidebar.vue';
 import MainHeader from 'theme/components/core/blocks/Header/Header.vue';
 import MainFooter from 'theme/components/core/blocks/Footer/Footer.vue';
@@ -68,6 +69,7 @@ import ShopShippingModal from '../components/core/blocks/ShopShippingModal';
 import { isServer } from '@vue-storefront/core/helpers';
 import Head from 'theme/head';
 import config from 'config';
+import KitsModal from '../components/core/blocks/Product/Modals/KitsModal';
 const CityPicker = () => import(/* webpackChunkName: "vsf-custom-city-picker-modal" */ 'theme/components/core/blocks/CityPicker/CityPicker.vue');
 const SidebarMenu = () => import(/* webpackChunkName: "vsf-sidebar-menu" */ 'theme/components/core/blocks/SidebarMenu/SidebarMenu.vue');
 const Microcart = () => import(/* webpackChunkName: "vsf-microcart" */ 'theme/components/core/blocks/Microcart/Microcart.vue');
@@ -90,6 +92,9 @@ export default {
     };
   },
   computed: {
+    ...mapGetters({
+      getCurrentProduct: 'product/getCurrentProduct'
+    }),
     ...mapState({
       overlayActive: state => state.ui.overlay,
       isSearchPanelOpen: state => state.ui.searchpanel,
@@ -143,7 +148,8 @@ export default {
     CityShopPicker,
     CreditModal,
     CityPicker,
-    ShopShippingModal
+    ShopShippingModal,
+    KitsModal
   }
 };
 </script>
