@@ -55,6 +55,11 @@ export default {
 
 <style lang="scss" scoped>
 @import "~theme/css/pages/Product/Tabs";
+tbody{
+  @media (max-width: 575px) {
+    display: block;
+  }
+}
 .attributes-table {
   width: 100%;
   border-collapse: collapse;
