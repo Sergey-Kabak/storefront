@@ -8,7 +8,7 @@
         <span v-if="showDescription">{{ $t('Add to favorite') }}</span>
       </div>
       <div class="item" v-if="isOnWishlist">
-        <svg class="icon-wishlist" width="24" height="24" viewBox="0 0 24 24" fill="#FFCA41" xmlns="http://www.w3.org/2000/svg">
+        <svg style="padding: 4px;" class="icon-wishlist" width="24" height="24" viewBox="0 0 24 24" fill="#FFCA41" xmlns="http://www.w3.org/2000/svg">
           <path d="M11.9731 4.558C10.8835 3.5561 9.45733 3.00005 7.97713 3C7.19366 3.00082 6.4181 3.15656 5.69506 3.45827C4.97203 3.75998 4.31579 4.20169 3.76413 4.758C1.41113 7.121 1.41213 10.817 3.76613 13.17L11.0981 20.502C11.2681 20.801 11.5961 20.994 11.9731 20.994C12.1279 20.9925 12.2802 20.9547 12.4178 20.8837C12.5553 20.8126 12.6743 20.7103 12.7651 20.585L20.1801 13.17C22.5341 10.816 22.5341 7.121 20.1781 4.754C19.6267 4.19872 18.971 3.7579 18.2487 3.45688C17.5264 3.15587 16.7517 3.0006 15.9691 3C14.489 3.00024 13.0628 3.55627 11.9731 4.558Z" />
         </svg>
         <span v-if="showDescription">{{ $t('Remove from favorite') }}</span>
