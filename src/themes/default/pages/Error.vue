@@ -57,11 +57,6 @@ export default {
   flex-grow: 1;
   margin-bottom: 16px;
 }
-
-.v-container {
-  width: 90%;
-}
-
 .error-page {
   display: flex;
   justify-content: center;
@@ -84,7 +79,7 @@ export default {
   margin-bottom: 24px;
 
   .highlighted {
-    color: #ee2c39; 
+    color: #ee2c39;
   }
 }
 
@@ -141,7 +136,7 @@ export default {
 
   &.top {
     svg {
-      transform: scale(-1, 1); 
+      transform: scale(-1, 1);
     }
 
     span {

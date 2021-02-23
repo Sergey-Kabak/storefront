@@ -32,7 +32,7 @@
             <template #label="{ isActive }">
                <h2 class="footer-title" :class="{ open:isActive }" >
                 {{ $t(footerColumn.title) }}
-              </h2> 
+              </h2>
             </template>
             <div class="footer-routes">
               <div :key="index" v-for="(cat, index) in footerColumn.routes" class="route">
@@ -40,7 +40,7 @@
                   {{ $t(cat.name) }}
                 </router-link>
               </div>
-            </div>  
+            </div>
           </CategoryFilter>
         </div>
         <div class="start-md">
@@ -48,8 +48,9 @@
             {{ $t('Contact') }}
           </h2>
           <div class="phone">
-            <a href="tel:380970908707">+38 097 090 87 07</a>
-            <a href="tel:380730908707">+38 073 090 87 07</a>
+            <template v-for="(phone, index) in phoneNumbers">
+              <a :key="index" :href="`tel:${phone}`">{{ phone }}</a>
+            </template>
           </div>
           <div class="work_time">
             {{$t('work_time')}}
@@ -103,6 +104,9 @@ export default {
     CategoryFilter
   },
   name: 'MainFooter',
+  data: () => ({
+    phoneNumbers: config.phoneNumbers
+  }),
   methods: {
     goToAccount () {
       this.$bus.$emit('modal-toggle', 'modal-signup')
@@ -215,19 +219,15 @@ $border: 1px solid $grey;
 $color-secondary: color(secondary);
 
 .v-container {
-  width: 95%;
-  padding: 32px 0;
-
-  @media only screen and (max-width: 576px) {
+  @media (max-width: 575px) {
     padding: 16px 0;
-    width: 100%
   }
+  padding: 16px;
 }
 
 .footer-wrap {
   display: flex;
   flex-wrap: wrap;
-  
   & > * {
     flex: 1;
     margin-right: 15px;
@@ -240,7 +240,7 @@ $color-secondary: color(secondary);
   @media only screen and (max-width: 576px) {
     margin-bottom: 0;
     flex-direction: column;
-    
+
     & > * {
       margin-right: 0;
     }

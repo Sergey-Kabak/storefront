@@ -1,0 +1,117 @@
+.breadcrumbs{
+  margin-bottom: 24px;
+}
+.product-name-mobile{
+  font-family: DIN Pro;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 30px;
+  color: #1A1919;
+  margin: 0 0 8px 0;
+}
+.product-top-info{
+  display: flex;
+  padding-bottom: 32px;
+  @media (min-width: 768px) {
+    grid-gap: 48px;
+  }
+  @media (max-width: 767px) {
+    flex-direction: column;
+    grid-gap: 24px;
+  }
+}
+.product-info-container{
+  @media (min-width: 1025px) {
+    max-width: 490px;
+  }
+  @media (min-width: 768px) and (max-width: 1024px) {
+    max-width: 320px;
+  }
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+.tab-row{
+  display: flex;
+  grid-gap: 48px;
+  @media (min-width: 768px) {
+    margin-bottom: 68px;
+  }
+  @media (max-width: 767px) {
+    margin-bottom: 48px;
+  }
+}
+.product-block-wrapper{
+  &.promo-block{
+    border: 1px dashed #EE2C39;
+    border-bottom: 1px dashed #EE2C39 !important;
+    margin-bottom: -1px;
+    position: relative;
+  }
+  &.trade-wrapper{
+    border-color: #23BE20;
+    border-bottom: 1px solid #23BE20 !important;
+    margin-bottom: -1px;
+    position: relative;
+  }
+  &:first-child{
+    border-radius: 4px 4px 0 0;
+  }
+  &:last-child{
+    border-radius: 0 0 4px 4px;
+  }
+  border-left: 1px solid #E0E0E0;
+  border-right: 1px solid #E0E0E0;
+  border-top: 1px solid #E0E0E0;
+  border-bottom: none;
+  &:last-child{
+    border-bottom: 1px solid #E0E0E0;
+  }
+}
+.banner.flex{
+  justify-content: center;
+  picture{
+    max-width: 1324px;
+    padding: 0 15px;
+  }
+  img{
+    width: 100%;
+  }
+}
+.tab-underline{
+  height: 0;
+  margin: 0;
+  border: none;
+}
+.fixed-row{
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  background-color: #fff;
+  z-index: 3;
+}
+.carriage-wrapper{
+  @media (min-width: 1025px) {
+    min-width: 490px;
+  }
+  @media (min-width: 768px) and (max-width: 1024px) {
+    min-width: 320px;
+    width: 320px;
+  }
+  @media (max-width: 767px) {
+    min-width: 100%;
+  }
+  &.carriage-fixed{
+    ::v-deep .small-product{
+      position: fixed;
+      top: 112px;
+    }
+  }
+  &.carriage-absolute{
+    ::v-deep .small-product{
+      position: absolute;
+    }
+  }
+}

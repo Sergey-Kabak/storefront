@@ -8,8 +8,9 @@
       <div class="total-price">
         <span class="total-price-label">{{ $t('grand_total') }}</span>
         <div class="price">
-          <span class="original-price" :class="{'old-price': subtotal > grandTotal}" >{{ subtotal | price(storeView) }}</span>
-          <span class="special-price" v-if="subtotal > grandTotal">{{ grandTotal | price(storeView) }}</span>
+<!--          <span class="original-price" :class="{'old-price': subtotal > grandTotal}" >{{ subtotal | price(storeView) }}</span>-->
+<!--          <span class="special-price" v-if="subtotal > grandTotal">{{ grandTotal | price(storeView) }}</span>-->
+          <span class="special-price">{{ grandTotal | price }}</span>
         </div>
       </div>
     </div>
@@ -17,33 +18,29 @@
 </template>
 
 <script>
-import NoSSR from 'vue-no-ssr';
 import { mapGetters } from 'vuex';
 import { currentStoreView } from '@vue-storefront/core/lib/multistore';
 
 export default {
-  components: {
-    'no-ssr': NoSSR
-  },
   computed: {
     ...mapGetters({
-      totals: "cart/getTotals"
+      totals: 'cart/getTotals'
     }),
-    subtotal() {
+    subtotal () {
       const subtotal = this.totals.find(it => it.code === 'subtotal_original')
       return subtotal && subtotal.value
     },
-    discount() {
+    discount () {
       const discount = this.totals.find(it => it.code === 'discount')
       return discount && discount.value
     },
-    grandTotal() {
+    grandTotal () {
       const grandTotal = this.totals.find(it => it.code === 'grand_total')
       return grandTotal && grandTotal.value
     },
-		storeView () {
+    storeView () {
       return currentStoreView()
-    },
+    }
   }
 };
 </script>

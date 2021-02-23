@@ -392,9 +392,6 @@ $mobile_screen : 768px;
     position: relative;
     top: 30px;
   }
-  .v-container {
-    width: 95%;
-  }
   .active-filters-mobile{
     position: fixed;
     bottom: 0;
@@ -763,16 +760,8 @@ $mobile_screen : 768px;
 
 
 @media (max-width: 500px) {
-  #category {
-    .v-container {
-      width: 90%!important;
-    }
-  }
-
   .products-list {
     .product-listing  {
-      grid-gap: 0!important;
-      grid-row-gap: 16px!important;
       .product {
         min-width: auto;
 

@@ -25,8 +25,8 @@ pre {
 }
 
 input:-webkit-autofill,
-input:-webkit-autofill:hover, 
-input:-webkit-autofill:focus, 
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
 input:-webkit-autofill:active  {
   box-shadow: 0 0 0 30px white inset !important;
   -webkit-box-shadow: 0 0 0 30px white inset !important;
@@ -44,7 +44,8 @@ input:-webkit-autofill:active  {
 }
 
 .v-container {
-  max-width: 1324px;
+  max-width: 1356px;
+  padding: 0 16px;
   width: 100%;
   margin: auto;
   box-sizing: border-box;

@@ -5,7 +5,7 @@
       <shop v-for="(shop, index) in shops" :key="shop.id" :shop="shop" :index="index" class="shop">
         <template v-slot:shop-actions>
           <div class="shop-actions">
-            <button-full @click.native="selectShop(shop)">{{ $t("Pick up here") }}</button-full>
+            <button-full v-if="buttonVisible" @click.native="selectShop(shop)">{{ $t("Pick up here") }}</button-full>
           </div>
         </template>
       </shop>
@@ -23,6 +23,12 @@ import ButtonFull from 'theme/components/theme/ButtonFull'
 import ShopTitle from 'theme/components/core/blocks/Shop/ShopTitle.vue'
 
 export default {
+  props: {
+    buttonVisible: {
+      type: Boolean,
+      default: () => true
+    }
+  },
   components: {
     ShopMap,
     Shop,

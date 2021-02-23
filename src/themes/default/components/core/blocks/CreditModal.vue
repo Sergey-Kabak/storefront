@@ -60,10 +60,8 @@ import BaseInputNumber from 'theme/components/core/blocks/Form/BaseInputNumber'
 import CustomSelect from 'theme/components/core/blocks/Form/CustomSelect'
 import ButtonActive from 'theme/components/core/blocks/Product/ButtonActive'
 import Modal from 'theme/components/core/Modal.vue'
-import { mapState, mapGetters, mapMutations } from 'vuex'
-import config from 'config'
+import { mapState, mapGetters } from 'vuex'
 import { currentStoreView, localizedRoute } from '@vue-storefront/core/lib/multistore'
-import { CREDIT_SET_BANKS, CREDIT_SET_SELECTED_BANK } from '../../../store/credit/mutation-types'
 import { price } from 'theme/helpers';
 
 export default {

@@ -9,7 +9,7 @@
       <h1 class="brand-portal-title">{{ brand.brand_name }}</h1>
       <brand-products class="brand-products" />
       <brand-accessories :accessories="brand.accessories" class="brand-accessories" v-if="brand.accessories"/>
-      <div class="best-sellers" v-if="isShowSalesLeaders"> 
+      <div class="best-sellers" v-if="isShowSalesLeaders">
         <h4 class="best-sellers-title">{{ $t('Sales leaders') }}</h4>
         <lazy-hydrate :trigger-hydration="!loading">
           <product-listing columns="4" :products="getRecommends" />
@@ -70,7 +70,7 @@ export default {
     ...mapState({
       brand: state => state.brand.brand
     }),
-    isShowSalesLeaders() {
+    isShowSalesLeaders () {
       return this.$route.params.brandId !== 'black-friday'
     }
   },
@@ -94,7 +94,7 @@ export default {
           vm.loading = false
         })
         vm.$store.dispatch('homepage/loadRecommends').then(res => {
-            vm.loading = false
+          vm.loading = false
         })
       })
     } else {
@@ -105,10 +105,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.v-container {
-  width: 92%;
-}
-
 .breadcrumbs-wrapper  {
   margin-bottom: 24px;
 }
