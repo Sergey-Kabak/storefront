@@ -61,7 +61,7 @@
               text: $t('Name must have at least 2 letters.')
             },
             {
-              condition: !$v.firstName.alp && $v.firstName.$error,
+              condition: !$v.firstName.alpha && $v.firstName.$error,
               text: $t('Accepts only alphabet characters.')
             }
           ]"
@@ -116,6 +116,10 @@
             {
               condition: !$v.password.hasUppercase && $v.password.$error,
               text: $t('Password must have at least 1 uppercase letter.')
+            },
+            {
+              condition: !hasLatinNumbersAndMethods && $v.password.$dirty,
+              text: $t('Password must contain only latin.')
             },
             {
               condition: !$v.password.hasNumbers && $v.password.$error,
@@ -220,9 +224,7 @@ import {
 } from 'vuelidate/lib/validators';
 
 const lettersOnly = value => (
-  /^[\u0400-\u04FF]+$/.test(value) ||
-  /^а-яА-Я]+$/.test(value) ||
-    value === ''
+  /^[А-Яа-яЁёЇїІіЄєҐґ]?[А-Яа-яЁёЇїІіЄєҐґ\'\-]+[А-Яа-яЁёЇїІіЄєҐґ]+$/.test(value)
 );
 const hasUppercase = value => (
   /[A-ZА-Я]/.test(value) || value === ''
