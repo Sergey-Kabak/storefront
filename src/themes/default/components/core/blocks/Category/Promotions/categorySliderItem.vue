@@ -179,6 +179,7 @@ export default {
   margin: 0 auto;
   cursor: pointer;
   width: 138px;
+  min-width: 138px;
   height: 100px;
 }
 .category-filter {
