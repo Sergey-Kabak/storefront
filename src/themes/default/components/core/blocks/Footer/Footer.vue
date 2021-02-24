@@ -48,8 +48,9 @@
             {{ $t('Contact') }}
           </h2>
           <div class="phone">
-            <a href="tel:380970908707">+38 097 090 87 07</a>
-            <a href="tel:380730908707">+38 073 090 87 07</a>
+            <template v-for="(phone, index) in phoneNumbers">
+              <a :key="index" :href="`tel:${phone}`">{{ phone }}</a>
+            </template>
           </div>
           <div class="work_time">
             {{$t('work_time')}}
@@ -103,6 +104,9 @@ export default {
     CategoryFilter
   },
   name: 'MainFooter',
+  data: () => ({
+    phoneNumbers: config.phoneNumbers
+  }),
   methods: {
     goToAccount () {
       this.$bus.$emit('modal-toggle', 'modal-signup')

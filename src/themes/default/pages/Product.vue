@@ -208,6 +208,8 @@ export default {
       })
     } else {
       next((vm) => {
+        vm.fixedContent = false
+        vm.absoluteContent = 112
         vm.getQuantity();
         vm.prevRoute = from;
       })

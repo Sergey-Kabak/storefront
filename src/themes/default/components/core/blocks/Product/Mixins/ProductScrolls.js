@@ -6,7 +6,7 @@ export default {
     window.addEventListener('scroll', this.scrollEvents, { passive: true });
   },
   beforeDestroy () {
-    window.removeEventListener('scroll', this.scrollEvents)
+    window.removeEventListener('scroll', this.scrollEvents);
   },
   methods: {
     scrollEvents () {
