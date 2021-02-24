@@ -43,14 +43,12 @@
 </template>
 
 <script>
-import {mapGetters, mapMutations} from 'vuex'
+import { mapGetters, mapMutations } from 'vuex'
 import PromoProducts from './PromoProducts';
 import PromoExpiryDate from '../../Category/PromoExpiryDate';
-import { ProductBundleOptions } from '@vue-storefront/core/modules/catalog/components/ProductBundleOptions.ts'
-import * as types from "@vue-storefront/core/modules/catalog/store/product/mutation-types";
+import * as types from '@vue-storefront/core/modules/catalog/store/product/mutation-types';
 
 export default {
-  // mixins: [ProductBundleOptions],
   components: {
     PromoProducts,
     PromoExpiryDate
