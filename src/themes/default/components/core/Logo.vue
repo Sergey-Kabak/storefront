@@ -1,12 +1,7 @@
 <template>
   <router-link :to="localizedRoute('/')" :title="$t('Home Page')" class="no-underline inline-flex custom-logo">
-    <!--<img-->
-      <!--:width="width"-->
-      <!--:height="height"-->
-      <!--src="http://i.imgur.com/MluLoAB.png"-->
-      <!--:alt="$t(defaultTitle)"-->
-    <!--&gt;-->
-    <img :width="width" src="/assets/custom/Ringo_logo_green.svg" :alt="$t(defaultTitle)">
+<!--    <img :width="width" src="/assets/custom/Ringo_logo_green.svg" :alt="$t(defaultTitle)">-->
+    <img :width="width" src="/assets/custom/Ringo_logo_green_promo.svg" :alt="$t(defaultTitle)">
   </router-link>
 </template>
 

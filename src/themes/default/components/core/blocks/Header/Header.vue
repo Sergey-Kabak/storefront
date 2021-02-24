@@ -254,7 +254,6 @@ $color-icon-hover: color(secondary, $colors-background);
   }
 
   .promo-image {
-    max-width: 1440px;
     margin: auto;
     width: 100%;
     display: block;
