@@ -19,7 +19,7 @@
       </router-link>
 
       <div class="kit-product-action">
-        <kit-action />
+        <kit-action :product="product"/>
       </div>
     </div>
     <div class="kit-product-icons">

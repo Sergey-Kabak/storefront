@@ -1,6 +1,6 @@
 <template>
   <div>
-    <button>Добавить в комплект</button>
+    <button @click="addToKit">Добавить в комплект</button>
     <button>Удалить из комплекта</button>
   </div>
 </template>
@@ -20,8 +20,12 @@ export default {
       getCurrentProduct: 'product/getCurrentProduct'
     }),
     isInKit () {
-      console.log(this.getCurrentProduct);
       return this.getCurrentProduct
+    }
+  },
+  methods: {
+    addToKit () {
+      console.log(this.isInKit);
     }
   }
 }

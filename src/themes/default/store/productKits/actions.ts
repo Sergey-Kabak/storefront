@@ -29,12 +29,7 @@ const actions = {
           'stock.is_in_stock'
         ]
       });
-      const FieldsToMerge = [
-        'final_price',
-        'original_price',
-        'special_price'
-      ]
-      const Kit = { ...parentProduct.product_kits[0] }
+      const Kit = { ...parentProduct.product_kits[0] };
       const kitProductsBySku = Kit.items.map(el => {
         const fields = {
           final_price: el.final_price,
@@ -43,19 +38,21 @@ const actions = {
           kit_id: Kit.id,
           kit_item_id: el.id,
           sku: el.sku
-        }
+        };
         return { [el.sku]: { ...fields } }
-      })
-      const items = [...res.items]
-      let res2 = items.map(it => {
-        [...FieldsToMerge].forEach(v => {
-          it[v] = kitProductsBySku[it.sku][v]
-          console.log(it[v], kitProductsBySku[it.sku])
-          debugger
-        })
-        return it
-      })
-      // product_kits[0].items
+      });
+      res.items.map(it => {
+        [
+          'final_price',
+          'original_price',
+          'special_price',
+          'kit_id',
+          'kit_item_id'
+        ].forEach(v => {
+          it[v] = kitProductsBySku.find(p => Object.keys(p)[0] === it.sku)[it.sku][v]
+        });
+        return it;
+      });
       state.products = res.items;
     }
   }
