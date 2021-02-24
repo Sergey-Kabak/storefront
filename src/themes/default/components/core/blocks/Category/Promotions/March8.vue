@@ -9,7 +9,7 @@
       <source :srcset="baseUrl('xs')" media="(min-width: 576px) and (max-width: 768px)">
       <img :src="baseUrl('mob')" alt="promo">
     </picture>
-    <div class="carousel-wrapper">
+    <div v-if="screenResolution !== 'mobile'" class="carousel-wrapper">
       <VueSlickCarousel
         v-if="categories.length"
         v-bind="settings"
@@ -27,6 +27,15 @@
         </div>
       </VueSlickCarousel>
     </div>
+    <div v-else class="mobile-horizontal-scroll">
+      <div>
+        <category-slider-item
+          v-for="(category, index) in categories" :key="index"
+          :variant="category"
+          :selected-filters="getCurrentFilters"
+        />
+      </div>
+    </div>
   </div>
 </template>
 
@@ -36,8 +45,10 @@ import VueSlickCarousel from 'vue-slick-carousel'
 import 'vue-slick-carousel/dist/vue-slick-carousel.css'
 import 'vue-slick-carousel/dist/vue-slick-carousel-theme.css'
 import categorySliderItem from './categorySliderItem';
+import ResizeMixin from '../../Product/Mixins/ResizeMixin';
 
 export default {
+  mixins: [ResizeMixin],
   components: {
     VueSlickCarousel,
     categorySliderItem
@@ -123,6 +134,16 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.mobile-horizontal-scroll{
+  padding: 0 16px;
+  &>div{
+    -webkit-overflow-scrolling: touch;
+    overflow-x: auto;
+    overflow-y: hidden;
+    display: flex;
+    grid-gap: 12px;
+  }
+}
 ::v-deep .slick-arrow {
   background: rgba(255, 255, 255, 0.95);
   border: 1px solid #E0E0E0;
@@ -161,19 +182,13 @@ export default {
   @media (min-width: 769px) and (max-width: 1024px) {
     max-width: 600px;
   }
-  @media (min-width: 577px) and (max-width: 768px) {
-    max-width: 450px;
-  }
-  @media (max-width: 576px) {
-    max-width: 292px;
-  }
 }
 .promo{
   &-block{
     @media (max-width: 575px) {
       margin-top: -11px;
     }
-    margin-top: -28px;
+    margin-top: -15px;
     margin-bottom: 68px;
   }
   &-image{

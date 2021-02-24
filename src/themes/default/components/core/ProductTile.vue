@@ -1,5 +1,8 @@
 <template>
   <div @click="gtm" class="product w-100 pb20 d-flex-column btw" v-observe-visibility="visibilityChanged">
+    <div v-if="isPromo" class="promo_img">
+      <img src="/assets/promo/march-8-small.png" alt="march promo">
+    </div>
     <div class="product__icons" v-if="isShowCompareAndFavorite">
       <AddToWishlist :product="product" class="product-icon" :class="{'active': isOnWishlist }" />
       <AddToCompare :product="product" class="product-icon" :class="{'active': isOnCompare }" />
@@ -83,6 +86,9 @@ export default {
     ...mapGetters({
       productsInCart: 'cart/getCartItems'
     }),
+    isPromo () {
+      return this.product.category_ids.includes(961)
+    },
     productIsInCart() {
       return !!(this.productsInCart.find(p => this.product.id === p.id))
     },
@@ -159,6 +165,9 @@ export default {
     background-color: #fff;
   }
   .promo_img{
+    @media (max-width: 767px) {
+      left: 16px;
+    }
     position: absolute;
     z-index: 2;
     top: 0;
