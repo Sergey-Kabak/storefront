@@ -346,12 +346,15 @@ export default {
   margin-bottom: 16px;
 }
 .march{
-  background-image: url('/assets/promo/march-8-bg-dots.jpg');
-  background-repeat: no-repeat;
-  background-position: 97% 94%;
-  background-attachment: fixed;
+  @media (min-width: 768px) {
+    background-image: url('/assets/promo/march-8-bg-dots.jpg');
+    background-repeat: no-repeat;
+    background-position: 97% 94%;
+    background-attachment: fixed;
+  }
   &-description{
     &-wrapper{
+      background: linear-gradient(0deg, transparent, #fff, transparent);
       margin: 68px auto 68px;
       max-width: 988px;
       box-sizing: border-box;
@@ -365,6 +368,7 @@ export default {
     color: #5F5E5E;
     ::v-deep p {
       margin: 0 !important;
+      text-align: left;
     }
   }
   &-title{
