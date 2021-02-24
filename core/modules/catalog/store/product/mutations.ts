@@ -78,6 +78,7 @@ const mutations: MutationTree<ProductState> = {
       state.current_bundle_options,
       { [optionId]: option }
     )
+    console.log(state.current_bundle_options);
   },
   [types.PRODUCT_SET_CUSTOM_OPTION_VALIDATOR] (state, { validationRule, validatorFunction }) {
     state.custom_options_validators = Object.assign(

@@ -43,11 +43,14 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import {mapGetters, mapMutations} from 'vuex'
 import PromoProducts from './PromoProducts';
 import PromoExpiryDate from '../../Category/PromoExpiryDate';
+import { ProductBundleOptions } from '@vue-storefront/core/modules/catalog/components/ProductBundleOptions.ts'
+import * as types from "@vue-storefront/core/modules/catalog/store/product/mutation-types";
 
 export default {
+  // mixins: [ProductBundleOptions],
   components: {
     PromoProducts,
     PromoExpiryDate
@@ -74,8 +77,22 @@ export default {
       return start + this.getBundleOptions[0].title + end
     }
   },
+  methods: {
+    ...mapMutations('product', {
+      setBundleOptionValue: types.PRODUCT_SET_BUNDLE_OPTION // map `this.add()` to `this.$store.commit('increment')`
+    })
+  },
   mounted () {
-    console.log(this.getCurrentProduct);
+    this.getBundleOptions.forEach(bundle => {
+      bundle.product_links.forEach(link => {
+        this.setBundleOptionValue({
+          optionId: bundle.option_id,
+          optionQty: link.product.qty,
+          optionSelections: [link.id]
+        })
+      })
+    })
+    this.$store.dispatch('product/setBundleOptions', { product: this.getCurrentProduct, bundleOptions: this.$store.state.product.current_bundle_options }) // TODO: move it to "AddToCart"
   }
 }
 </script>
