@@ -5,7 +5,7 @@ export function prepareQuickSearchQuery (queryText) {
         filter: {
           bool: {
             must: [
-              { terms: { visibility: [3, 4] } },
+              { terms: { visibility: [1, 3, 4] } },
               { terms: { status: [0, 1] } },
               { script: { script: 'doc["category_ids"].size() > 0' } }
             ]
