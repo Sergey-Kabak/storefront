@@ -217,13 +217,12 @@ export default {
   beforeCreate () {
     registerModule(RecentlyViewedModule)
   },
-  async beforeMount () {
-    if (this.$store.state.__DEMO_MODE__) {
-      const onboardingClaim = await this.$store.dispatch('claims/check', { claimCode: 'onboardingAccepted' })
-      if (!onboardingClaim) { // show onboarding info
-        this.$bus.$emit('modal-toggle', 'modal-onboard')
-        this.$store.dispatch('claims/set', { claimCode: 'onboardingAccepted', value: true })
-      }
+  beforeMount () {
+    if (config.homePageBanner.enabled && sessionStorage.getItem('isMainPromoActive') !== 'false') {
+      this.$nextTick(() => {
+        this.$bus.$emit('modal-toggle', 'modal-main')
+        sessionStorage.setItem('isMainPromoActive', false)
+      })
     }
   },
   methods: {
