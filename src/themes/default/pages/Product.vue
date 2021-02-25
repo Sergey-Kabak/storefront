@@ -148,7 +148,7 @@ export default {
       return Object.keys(blocks).find(it => !!blocks[it])
     },
     activeCarriage () {
-      const condition = this.getCurrentProduct.product_kits && this.getCurrentProduct.product_kits.length && this.ActiveTab === 'about-tab'
+      const condition = this.getCurrentProduct.product_kits && this.getCurrentProduct.product_kits.length
       const blocks = {
         'product-kits': condition,
         'small-product-cart': !condition
@@ -234,10 +234,13 @@ export default {
   },
   async mounted () {
     await this.$store.dispatch('recently-viewed/addItem', this.getCurrentProduct);
+    console.log(this.getCurrentProduct);
   },
   beforeDestroy () {
+    this.$bus.$emit('modal-hide', 'modal-kits')
     this.$bus.$off('filter-on-change')
     this.$bus.$off('change-tab')
+    this.$store.state.kits.products = []
   },
   watch: {
     prevRoute: function (val) {

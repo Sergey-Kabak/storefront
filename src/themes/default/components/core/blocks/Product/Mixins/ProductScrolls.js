@@ -21,7 +21,7 @@ export default {
       }
     },
     carriagePosition (top) {
-      const carriageBlock = document.querySelector('.small-product');
+      const carriageBlock = document.querySelector('.small-product') || document.querySelector('.product_kit');
       const carriageBlockHeight = carriageBlock.clientHeight;
       const tabBlock = document.querySelector('.tab-row');
       const tabBlockOffset = tabBlock.offsetTop;

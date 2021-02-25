@@ -136,13 +136,11 @@ $z-index-modal: map-get($z-index, modal);
   z-index: $z-index-modal;
   -webkit-overflow-scrolling: touch;
   .modal-container {
-    @media (min-width: 576px) {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      height: auto;
-    }
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    height: auto;
     margin: 0 auto;
     max-width: 100%;
     max-height: 100%;

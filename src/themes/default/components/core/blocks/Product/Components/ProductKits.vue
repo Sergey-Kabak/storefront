@@ -1,59 +1,39 @@
 <template>
-  <div class="product_kit">
-    <div class="product-list">
-      <div class="main_product product-row">
-        <div class="list_space">
-          Ваш товар
-        </div>
-        <div class="product-list-item">
-          <product-image
-            class="product-cover__thumb"
-            :image="thumbnailObj(getCurrentProduct)"
-            :alt="getCurrentProduct.name | htmlDecode"
-            :calc-ratio="false"
-            data-testid="productImage"
-          />
-          <product-cart-price :product="getCurrentProduct" />
-        </div>
-      </div>
-      <div v-for="(product, index) in selectedProducts" :key="index" class="product-row">
-        <div class="list_space">
-          circle
-        </div>
-        <div class="product-list-item">
-          <product-image
-            class="product-cover__thumb"
-            :image="thumbnailObj(product)"
-            :alt="product.name | htmlDecode"
-            :calc-ratio="false"
-            data-testid="productImage"
-          />
-          <product-cart-price :product="product" />
-        </div>
-      </div>
-    </div>
-    <div>
-      <button @click="showModal">Собрать свой комплект</button>
+  <div class="product_kit__block">
+    <h3 class="product_kit__block-title">{{ $t('Your kit') }}</h3>
+    <div class="product_kit">
+      <kit-selected-products :label="false" />
+      <kit-totals>
+        <template v-slot:nav>
+          <div class="flex kit-nav">
+            <button-white @click.native="showModal">
+              {{ $t('Assemble your kit') }}
+            </button-white>
+            <add-to-cart :product="getCurrentProduct" :show-icon="false">
+              <template v-slot:text>
+                <span>{{ $t('Buy kit') }}</span>
+              </template>
+            </add-to-cart>
+          </div>
+        </template>
+      </kit-totals>
     </div>
   </div>
 </template>
 
 <script>
-import { mapGetters, mapState } from 'vuex'
-import ProductCartPrice from '../ProductCartPrice';
-import ProductImage from '../../../ProductImage';
-import { productThumbnailPath } from '@vue-storefront/core/helpers';
-import { formatProductLink } from '@vue-storefront/core/modules/url/helpers';
+import KitSelectedProducts from '../Kits/KitSelectedProducts';
+import KitTotals from '../Kits/KitTotals';
+import ButtonWhite from '../ButtonWhite';
+import AddToCart from '../../../AddToCart';
+import { mapGetters, mapState } from 'vuex';
 
 export default {
   components: {
-    ProductCartPrice,
-    ProductImage
-  },
-  data () {
-    return {
-      selectedProducts: []
-    }
+    AddToCart,
+    ButtonWhite,
+    KitSelectedProducts,
+    KitTotals
   },
   computed: {
     ...mapGetters({
@@ -61,91 +41,85 @@ export default {
     }),
     ...mapState({
       kitProducts: (state) => state.kits.products
-    }),
-    selectedKitProducts () {
-      return this.selectedProducts
-    }
+    })
   },
   methods: {
     showModal () {
       this.$bus.$emit('modal-show', 'modal-kits')
     },
-    thumbnail (product) {
-      // todo: play with the image based on category page filters - eg. when 'red' color is chosen, the image is going to be 'red'
-      let thumbnail = productThumbnailPath(product)
-      return this.getThumbnail(thumbnail, 56, 56)
-    },
-    thumbnailObj (product) {
-      return {
-        src: this.thumbnail(product),
-        loading: this.placeholder,
-        error: this.placeholder
+    addProductToKit (product) {
+      const shortPath = this.getCurrentProduct.product_option.extension_attributes.product_kits
+      const kitOptions = {
+        KitGroup: shortPath.find(kit => kit.kit_id === product.kit_id),
+        kitGroupIndex: shortPath.findIndex(kit => kit.kit_id === product.kit_id)
+      }
+      if (kitOptions.KitGroup) {
+        this.getCurrentProduct.product_option.extension_attributes.product_kits[kitOptions.kitGroupIndex].items.push({ kit_item_id: product.kit_item_id });
+      } else {
+        this.getCurrentProduct.product_option.extension_attributes.product_kits.push({
+          kit_id: product.kit_id,
+          items: [{ kit_item_id: product.kit_item_id }]
+        });
       }
     }
   },
-  async mounted () {
-    this.getCurrentProduct.product_option.extension_attributes.product_kits.push({
-      'kit_id': this.getCurrentProduct.product_kits[0].id,
-      'items': [{'kit_item_id': 2 }]
-    })
-    // 'items': this.getCurrentProduct.product_kits[0].items.map(it => {
-    //   return { kit_item_id: it.id }
-    // })
-    console.log(this.getCurrentProduct)
-    console.log(this.kitProducts);
-    this.selectedProducts = this.kitProducts
-
-    // "product_option": {
-    //   "extension_attributes": {
-    //     "product_kits": [
-    //       {
-    //         "kit_id": 4,
-    //         "items": [
-    //           {
-    //             "kit_item_id": 5
-    //           },
-    //           {
-    //             "kit_item_id": 7
-    //           }
-    //         ]
-    //       }
-    //     ]
-    //   }
-    // }
+  mounted () {
+    if (this.kitProducts.length && !this.getCurrentProduct.product_option.extension_attributes.product_kits.length) {
+      this.kitProducts.filter(product => !!product.stock.is_in_stock)
+        .slice(0, 2)
+        .forEach(product => {
+          this.addProductToKit(product)
+        });
+    }
   }
 }
 </script>
 
 <style lang="scss" scoped>
+.kit-nav{
+  @media (min-width: 768px) and (max-width: 1024px) {
+    flex-direction: column-reverse;
+  }
+  @media (max-width: 440px) {
+    flex-direction: column-reverse;
+  }
+  grid-gap: 20px;
+  button{
+    @media (min-width: 768px) and (max-width: 1024px) {
+      max-width: 100%;
+      min-width: 100%;
+    }
+    @media (max-width: 440px) {
+      max-width: 100%;
+      min-width: 100%;
+    }
+    max-width: calc(50% - 10px);
+    min-width: calc(50% - 10px);
+    height: 40px;
+  }
+}
 .product_kit{
+  &__block{
+    @media (min-width: 1025px) {
+      max-width: 490px;
+    }
+    &-title{
+      font-family: DIN Pro;
+      font-style: normal;
+      font-weight: 0;
+      font-size: 24px;
+      line-height: 30px;
+      color: #1A1919;
+      margin: 0 0 32px 0;
+    }
+  }
   border: 1px solid #E0E0E0;
   box-sizing: border-box;
   border-radius: 4px;
-}
-.product-list{
-  padding: 16px 0 16px 16px;
-}
-.main_product{
-
-}
-.list_space{
-
-}
-.product-list-item{
-  display: flex;
-  ::v-deep .product-image{
-    width: 56px;
-    height: 56px;
-    margin-right: 12px;
+  ::v-deep .kits-selected-block{
+    width: 100%;
+    border-right: none;
+    border-bottom: 1px solid #E0E0E0;
   }
-  ::v-deep .product-price-block{
-    flex-direction: column;
-    .name{
-      font-size: 13px;
-    }
-  }
-}
-.product-row{
-  display: flex;
 }
 </style>

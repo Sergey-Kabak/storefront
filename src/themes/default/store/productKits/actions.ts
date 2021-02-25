@@ -32,9 +32,9 @@ const actions = {
       const Kit = { ...parentProduct.product_kits[0] };
       const kitProductsBySku = Kit.items.map(el => {
         const fields = {
-          final_price: el.final_price,
           original_price: el.price,
-          special_price: el.regular_price,
+          final_price: el.final_price !== el.price ? el.final_price : 0,
+          special_price: el.final_price !== el.price ? el.final_price : 0,
           kit_id: Kit.id,
           kit_item_id: el.id,
           sku: el.sku
@@ -43,8 +43,8 @@ const actions = {
       });
       res.items.map(it => {
         [
-          'final_price',
           'original_price',
+          'final_price',
           'special_price',
           'kit_id',
           'kit_item_id'

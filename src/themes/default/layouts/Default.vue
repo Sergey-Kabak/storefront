@@ -49,7 +49,7 @@
       <offline-badge/>
       <city-shop-picker />
       <shop-shipping-modal />
-      <kits-modal v-if="getCurrentProduct" />
+      <kits-modal v-if="kitProducts.length" class="kits-modal" />
     </div>
     <vue-progress-bar/>
   </div>
@@ -103,7 +103,8 @@ export default {
       isMicrocartOpen: state => state.ui.microcart,
       isWishlistOpen: state => state.ui.wishlist,
       isConsultationOpen: state => state.ui.consultation,
-      isCompareOpen: state => state.ui.compare_sidebar
+      isCompareOpen: state => state.ui.compare_sidebar,
+      kitProducts: (state) => state.kits.products
     })
   },
   methods: {
@@ -155,3 +156,37 @@ export default {
 </script>
 
 <style lang="scss" src="theme/css/main.scss"></style>
+<style lang="scss" scoped>
+.modal.kits-modal{
+  ::v-deep .modal-container{
+    display: flex;
+    flex-direction: column;
+    @media (min-width: 768px) {
+      max-height: calc(100% - 48px);
+      height: 100%;
+    }
+  }
+  ::v-deep .modal-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+  ::v-deep .modal-close{
+    margin-right: 0 !important;
+  }
+  ::v-deep .modal-header{
+    padding: 13px 29px 13px 24px;
+    box-sizing: border-box;
+    border-bottom: 1px solid #E0E0E0 !important;
+    h3{
+      margin: 0;
+      font-family: DIN Pro;
+      font-style: normal;
+      font-weight: 700;
+      font-size: 24px;
+      line-height: 30px;
+      color: #1A1919;
+    }
+  }
+}
+</style>

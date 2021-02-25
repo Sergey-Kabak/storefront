@@ -40,7 +40,7 @@
               <path d="M20 13V23H12V13H20ZM18.5 7H13.5L12.5 8H9V10H23V8H19.5L18.5 7ZM22 11H10V23C10 24.1 10.9 25 12 25H20C21.1 25 22 24.1 22 23V11Z" fill="#BDBDBD"/>
             </svg>
             <span class="remove-from-wishlist-text">{{ $t('Remove from wishlist?') }}</span>
-          </button>       
+          </button>
         </more-icon>
       </div>
     </div>
@@ -156,7 +156,7 @@ export default {
 }
 .remove-icon {
   cursor: pointer;
-  
+
   & svg:hover {
     background-color: #F9F9F9;
   }
@@ -169,19 +169,19 @@ export default {
     width: 88px;
     height: 88px;
   }
-  
+
 .product-left {
   display: flex;
   align-items: center;
   margin-right: 17px;
 
 
-  
+
   @media only screen and (max-width: 520px) {
     margin-right: 19px;
   }
   .product-img ::v-deep {
-      
+
     @media only screen and (max-width: 520px) {
       width: 56px;
       height: 56px;

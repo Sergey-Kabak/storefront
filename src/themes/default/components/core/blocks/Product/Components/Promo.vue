@@ -73,9 +73,6 @@ export default {
       }
       return start + this.getBundleOptions[0].title + end
     }
-  },
-  mounted () {
-    console.log(this.getCurrentProduct);
   }
 }
 </script>
