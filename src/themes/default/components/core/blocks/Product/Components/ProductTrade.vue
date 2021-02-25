@@ -55,9 +55,6 @@ export default {
     showModal () {
       this.$bus.$emit('modal-show', 'modal-credits')
     }
-  },
-  beforeDestroy () {
-    this.$bus.$emit('modal-hide', 'modal-credits')
   }
 }
 </script>

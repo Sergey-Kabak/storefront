@@ -112,8 +112,9 @@
 "PROMOCODE","ПРОМОКОД"
 "Page not found","Сторінку не знайдено"
 "Page under construction.","Сторінка в розробці."
+"Password must contain only latin.","Пароль має містити латинські літери та цифри"
 "Password must have at least 1 number.","Пароль має складати не менше 1 цифри."
-"Password must have at least 1 uppercase letter.","Пароль має складати не менше 1 великої літери."
+"Password must have at least 1 uppercase letter.","Пароль має містити не менше 1 великої літери."
 "Password must have at least 8 letters.","Довжина паролю має складати не менше 8 символів."
 "Payment and delivery","Оплата і доставка"
 "Payments and loans","Виплати і кредити"
@@ -411,7 +412,7 @@ Order ID,ID замовлення
 Order Summary,Підсумок замовлення
 Order informations,Інформація про замовлення
 Orders,Замовлення
-Password *,пароль *
+Password *,Пароль *
 Passwords must be identical,Паролі повинні збігатися
 Passwords must be identical.,Паролі повинні збігатися.
 Payment method,Спосіб оплати

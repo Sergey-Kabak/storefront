@@ -49,6 +49,7 @@
       <offline-badge/>
       <city-shop-picker />
       <shop-shipping-modal />
+      <main-modal />
     </div>
     <vue-progress-bar/>
   </div>
@@ -64,6 +65,7 @@ import SignUp from 'theme/components/core/blocks/Auth/SignUp.vue';
 import CookieNotification from 'theme/components/core/CookieNotification.vue';
 import OfflineBadge from 'theme/components/core/OfflineBadge.vue';
 import CreditModal from 'theme/components/core/blocks/CreditModal.vue';
+import MainModal from 'theme/components/core/blocks/MainModal.vue';
 import ShopShippingModal from '../components/core/blocks/ShopShippingModal';
 import { isServer } from '@vue-storefront/core/helpers';
 import Head from 'theme/head';
@@ -143,7 +145,8 @@ export default {
     CityShopPicker,
     CreditModal,
     CityPicker,
-    ShopShippingModal
+    ShopShippingModal,
+    MainModal
   }
 };
 </script>

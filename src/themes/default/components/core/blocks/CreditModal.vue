@@ -165,7 +165,6 @@ export default {
     },
     close () {
       this.$bus.$emit('modal-hide', 'modal-credits');
-      this.$router.push(localizedRoute('/'));
     },
     selectedPaymentCount (value, index, bank) {
       this.$set(this.selectedCreditProduct, index, value)
