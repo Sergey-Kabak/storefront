@@ -354,6 +354,7 @@ export default {
   }
   &-description{
     &-wrapper{
+      position: relative;
       background: linear-gradient(0deg, transparent, #fff, transparent);
       margin: 68px auto 68px;
       max-width: 988px;
