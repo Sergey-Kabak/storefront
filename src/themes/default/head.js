@@ -39,6 +39,11 @@ export default {
       async: true,
       integrity: 'sha384-GOaSLecPIMCJksN83HLuYf9FToOiQ2Df0+0ntv7ey8zjUHESXhthwvq9hXAZTifA',
       crossorigin: 'anonymous'
+    },
+    {
+      async: true,
+      type: 'text/javascript',
+      innerHTML: `!function (t, e, c, n) { var s = e.createElement(c); s.async = 1, s.src = 'https://statics.esputnik.com/scripts/' + n + '.js'; var r = e.scripts[0]; r.parentNode.insertBefore(s, r); var f = function () { f.c(arguments); }; f.q = []; f.c = function () { f.q.push(arguments); }; t['eS'] = t['eS'] || f; }(window, document, 'script', '5329D46FF7EB4D63A5CA2E048C5C6C4E'); </script><script>eS('init', {TRACKING: true, RECOMS: true});`
     }
   ],
   noscript: [
