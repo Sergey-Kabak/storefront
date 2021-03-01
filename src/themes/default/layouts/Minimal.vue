@@ -38,7 +38,7 @@ import CreditModal from 'theme/components/core/blocks/CreditModal.vue';
 
 const CityPicker = () => import(/* webpackChunkName: "vsf-custom-city-picker-modal" */ 'theme/components/core/blocks/CityPicker/CityPicker.vue');
 const Microcart = () => import(/* webpackChunkName: "vsf-microcart" */ 'theme/components/core/blocks/Microcart/Microcart.vue');
-const Consultation = () => import(/* webpackChunkName: "vsf-custom-city-picker-modal" */ 'theme/components/core/blocks/Consultation/Consultation.vue');
+const Consultation = () => import(/* webpackChunkName: "vsf-consultation" */ 'theme/components/core/blocks/Consultation/Consultation.vue');
 
 export default {
   data() {

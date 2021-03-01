@@ -4,6 +4,7 @@ import { Logger } from '@vue-storefront/core/lib/logger'
 
 if (process.env.NODE_ENV === 'production' || server.devServiceWorker) {
   register(`/service-worker.js`, {
+    updateViaCache: 'none',
     ready () {
       Logger.log(
         'App is being served from cache by a service worker.'

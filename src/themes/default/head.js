@@ -31,7 +31,7 @@ export default {
     { rel: 'preconnect', href: 'https://www.googletagmanager.com', crossorigin: 'anonymous' },
     { rel: 'preload', as: 'style', href: 'https://fonts.googleapis.com/css?family=Playfair+Display:400,700|Roboto:400,700|Material+Icons&display=swap' },
     { rel: 'stylesheet', media: 'print', onload: "this.media='all'", href: 'https://fonts.googleapis.com/css?family=Playfair+Display:400,700|Roboto:400,700|Material+Icons&display=swap' },
-    { rel: 'preload', as: 'script', href: `https://www.googletagmanager.com/gtag/js?id=${config.googleTagManager.id}` }
+    { rel: 'dns-prefetch', as: 'script', href: `https://www.googletagmanager.com/gtag/js?id=${config.googleTagManager.id}` }
   ],
   script: [
     {
