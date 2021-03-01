@@ -1,5 +1,8 @@
 <template>
   <div @click="gtm" class="product w-100 pb20 d-flex-column btw" v-observe-visibility="visibilityChanged">
+    <div v-if="isPromo" class="promo_img">
+      <img src="/assets/promo/march-8-small.png" alt="march promo">
+    </div>
     <div class="product__icons" v-if="isShowCompareAndFavorite">
       <AddToWishlist :product="product" class="product-icon" :class="{'active': isOnWishlist }" />
       <AddToCompare :product="product" class="product-icon" :class="{'active': isOnCompare }" />
@@ -23,7 +26,6 @@
       </div>
       <product-cart-price :product="product" />
     </router-link>
-
     <product-cart-controls
       v-if="product.stock"
       :product="product"
@@ -74,12 +76,19 @@ export default {
     onlyImage: {
       type: Boolean,
       default: false
+    },
+    gtmList: {
+      type: String,
+      default: 'Category'
     }
   },
   computed: {
     ...mapGetters({
       productsInCart: 'cart/getCartItems'
     }),
+    isPromo () {
+      return this.product.category_ids.includes(961)
+    },
     productIsInCart() {
       return !!(this.productsInCart.find(p => this.product.id === p.id))
     },
@@ -98,7 +107,8 @@ export default {
   },
   methods: {
     gtm () {
-      this.GTM_PRODUCT_CLICK([this.product], null)
+      console.log(this.gtmList);
+      this.GTM_PRODUCT_CLICK([this.product], this.gtmList)
     },
     toProduct () {
       this.$router.push(this.productLink)
@@ -151,17 +161,53 @@ export default {
   $bg-secondary: color(secondary, $colors-background);
   $border-secondary: color(secondary, $colors-border);
   $color-white: color(white);
-
+  .bg-white{
+    background-color: #fff;
+  }
+  .promo_img{
+    @media (max-width: 767px) {
+      left: 16px;
+    }
+    position: absolute;
+    z-index: 2;
+    top: 0;
+    left: 0;
+    padding: 16px;
+    img{
+      max-width: 50px;
+    }
+  }
+  $border: 1px solid #E0E0E0;
   .product {
-    @media (max-width: 575px){
+    background-color: #fff;
+    @media (max-width: 540px){
       min-width: 50% !important;
+      border: none;
+
+      border-bottom: $border;
+      border-radius: 0;
+      &:nth-child(2n-1) {
+        padding-left: 0;
+      }
+      &:nth-child(2n) {
+        padding-right: 0;
+      }
+      &:nth-child(1),
+      &:nth-child(2) {
+        border-top: $border;
+      }
+      &:nth-child(2n-1) {
+        border-right: $border;
+      }
+      &:nth-child(2n-1) {
+        border-right: $border;
+      }
     }
     position: relative;
     border: 1px solid #E0E0E0;
     box-sizing: border-box;
     border-radius: 4px;
     padding: 16px;
-
     &-tag {
       &-bottom {
         z-index: 3;
@@ -173,29 +219,25 @@ export default {
         display: flex;
       }
     }
-
     &.d-flex-column {
       display: flex;
       flex-direction: column;
       justify-content: space-between;
     }
-
     .flex-column {
       flex-direction: column;
     }
-
     .product-link {
+      z-index: 1;
+      height: 100%;
       align-items: flex-start;
       .mt-auto {
         margin-top: auto;
       }
     }
-
-    @media (max-width: 767px) {
-      padding: 5px;
-    }
     &__icons {
       position: absolute;
+      z-index: 2;
       top: 12px;
       right: 12px;
       display: flex;
@@ -210,11 +252,6 @@ export default {
         opacity: 1;
       }
       &--active {
-        opacity: 1;
-      }
-    }
-    &:hover {
-      .product__icon {
         opacity: 1;
       }
     }
@@ -267,7 +304,10 @@ export default {
 
   .product-cover {
     overflow: hidden;
-    height: 215px;
+    height: 259px;
+    @media only screen and (max-width: 768px) {
+      height: auto;
+    }
     width: 100%;
 
     &__thumb {
@@ -308,8 +348,19 @@ export default {
 
 .product-icon {
   z-index: 1;
-  opacity: 0;
+  opacity: 1;
+  margin-bottom: 8px;
+  margin-right: 0px;
+  border-radius: 4px;
 
+  &:hover {
+    @media only screen and (max-width: 768px) {
+      background: rgba(255, 255, 255, 1);
+    }
+  }
+  @media only screen and (max-width: 768px) {
+
+  }
   &.active {
     opacity: 1!important;
   }
@@ -325,6 +376,9 @@ export default {
     .product-icon {
       opacity: 1;
     }
+  }
+  @media only screen and (max-width: 768px) {
+    min-height: 350px;
   }
 }
 

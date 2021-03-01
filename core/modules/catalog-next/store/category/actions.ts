@@ -156,11 +156,19 @@ const actions: ActionTree<CategoryState, RootState> = {
   },
   async loadCategory ({ commit }, categorySearchOptions: DataResolver.CategorySearchOptions): Promise<Category> {
     const categories: Category[] = await CategoryService.getCategories(categorySearchOptions)
+    // костыль для категори /8-march
+    const customFilterIndex = categories[0]['filterable_attributes'].indexOf('kategorija_akcija')
+    if (categories[0]['id'] === 961 && customFilterIndex >= 0) {
+      categories[0]['filterable_attributes'].unshift(categories[0]['filterable_attributes'].splice(customFilterIndex, 1)[0])
+      categories[0]['filterable_attributes'].unshift(categories[0]['filterable_attributes'].splice(1, 1)[0])
+    }
+    // конец костыля
     const category: Category = categories && categories.length ? categories[0] : null
     if (Vue.prototype.$cacheTags) {
       Vue.prototype.$cacheTags.add(`C${category.id}`)
     }
     commit(types.CATEGORY_ADD_CATEGORY, category)
+
     return category
   },
   /**

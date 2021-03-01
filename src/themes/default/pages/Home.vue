@@ -3,8 +3,6 @@
     <section class="v-container">
       <home-carousel />
     </section>
-    <!--<head-image />-->
-
     <section class="v-container offer-gallery">
       <div class="gallery-title">
         {{ $t('Popular categories') }}
@@ -15,13 +13,10 @@
             <div class="title">{{ $t(category.title) }}</div>
             <div class="description">{{ $t(category.description) }}</div>
           </div>
-          <img v-lazy="category.image" alt="index" class="image">
+          <img :src="category.image" alt="index" class="image">
         </router-link>
       </div>
     </section>
-    <!--<head-image />-->
-    <!--<promoted-offers />-->
-
     <section class="v-container ">
       <div>
         <header class="col-md-12">
@@ -32,9 +27,9 @@
       </div>
       <div class="center-xs">
         <lazy-hydrate :trigger-hydration="!loading" v-if="isLazyHydrateEnabled">
-          <product-listing columns="4" :products="getStockGoods" />
+          <product-listing columns="4" :products="getStockGoods" gtm-list="home page" />
         </lazy-hydrate>
-        <product-listing v-else columns="4" :products="getStockGoods" />
+        <product-listing v-else columns="4" :products="getStockGoods" gtm-list="home page" />
 
         <button-full
             class="mt35 show-all"
@@ -55,23 +50,21 @@
       </header>
       <div class="center-xs">
         <lazy-hydrate :trigger-hydration="!loading" v-if="isLazyHydrateEnabled">
-          <product-listing columns="4" :products="getSalesLeaders" />
-          <!--<product-listing columns="4" :products="products" />-->
+          <product-listing columns="4" :products="getSalesLeaders" gtm-list="home page" />
         </lazy-hydrate>
-        <product-listing v-else columns="4" :products="getSalesLeaders" />
-        <!--<product-listing v-else columns="4" :products="products" />-->
+        <product-listing v-else columns="4" :products="getSalesLeaders" gtm-list="home page" />
         <button-full
-            class="mt35 show-all"
-            type="submit"
-            @click.native="goToCategory('salesLeaders')"
-            :aria-label="$t('See all')"
+          class="mt35 show-all"
+          type="submit"
+          @click.native="goToCategory('salesLeaders')"
+          :aria-label="$t('See all')"
         >
           {{ $t('See all') }}
         </button-full>
       </div>
     </section>
 
-    <section class="v-container pb60">
+    <section class="v-container section__banner">
       <div class="banner">
         <picture>
           <source srcset="/assets/promo/delivery_promo_288x260.jpg" media="(max-width: 400px)">
@@ -81,7 +74,7 @@
       </div>
     </section>
 
-    <section v-if="isOnline" class="v-container pb60 ">
+    <section v-if="isOnline" class="v-container section__shares">
       <header class="col-md-12">
         <h2 class="cl-accent">
           {{ $t('Our shares') }}
@@ -102,15 +95,15 @@
       </div>
       <div class="center-xs">
         <lazy-hydrate :trigger-hydration="!loading" v-if="isLazyHydrateEnabled">
-          <product-listing columns="4" :products="getNew" />
+          <product-listing columns="4" :products="getNew" gtm-list="home page" />
         </lazy-hydrate>
-        <product-listing v-else columns="4" :products="getNew" />
+        <product-listing v-else columns="4" :products="getNew" gtm-list="home page" />
 
         <button-full
-            class="mt35 show-all"
-            type="submit"
-            @click.native="goToCategory('new')"
-            :aria-label="$t('See all')"
+          class="mt35 show-all"
+          type="submit"
+          @click.native="goToCategory('new')"
+          :aria-label="$t('See all')"
         >
           {{ $t('See all') }}
         </button-full>
@@ -127,16 +120,14 @@
       </div>
       <div class="center-xs">
         <lazy-hydrate :trigger-hydration="!loading" v-if="isLazyHydrateEnabled">
-          <!--<product-listing columns="4" :products="getBestsellers" />-->
-          <product-listing columns="4" :products="getRecommends" />
+          <product-listing columns="4" :products="getRecommends" gtm-list="home page" />
         </lazy-hydrate>
-        <!--<product-listing v-else columns="4" :products="getBestsellers" />-->
-        <product-listing v-else columns="4" :products="getRecommends" />
+        <product-listing v-else columns="4" :products="getRecommends" gtm-list="home page" />
         <button-full
-            class="mt35 show-all"
-            type="submit"
-            @click.native="goToCategory('recommends')"
-            :aria-label="$t('See all')"
+          class="mt35 show-all"
+          type="submit"
+          @click.native="goToCategory('recommends')"
+          :aria-label="$t('See all')"
         >
           {{ $t('See all') }}
         </button-full>
@@ -147,18 +138,14 @@
 </template>
 
 <script>
-// query constructor
 import {
   isServer,
   onlineHelper
 } from '@vue-storefront/core/helpers';
 import LazyHydrate from 'vue-lazy-hydration';
 
-// Core pages
 import Home from '@vue-storefront/core/pages/Home';
-// Theme core components
 import ProductListing from 'theme/components/core/ProductListing';
-// Theme local components
 import Onboard from 'theme/components/theme/blocks/Home/Onboard';
 import TileLinks from 'theme/components/theme/blocks/TileLinks/TileLinks';
 import { Logger } from '@vue-storefront/core/lib/logger';
@@ -230,13 +217,12 @@ export default {
   beforeCreate () {
     registerModule(RecentlyViewedModule)
   },
-  async beforeMount () {
-    if (this.$store.state.__DEMO_MODE__) {
-      const onboardingClaim = await this.$store.dispatch('claims/check', { claimCode: 'onboardingAccepted' })
-      if (!onboardingClaim) { // show onboarding info
-        this.$bus.$emit('modal-toggle', 'modal-onboard')
-        this.$store.dispatch('claims/set', { claimCode: 'onboardingAccepted', value: true })
-      }
+  beforeMount () {
+    if (config.homePageBanner.enabled && sessionStorage.getItem('isMainPromoActive') !== 'false') {
+      this.$nextTick(() => {
+        this.$bus.$emit('modal-toggle', 'modal-main')
+        sessionStorage.setItem('isMainPromoActive', false)
+      })
     }
   },
   methods: {
@@ -305,16 +291,19 @@ export default {
 }
 </script>
 
-<style lang="sass">
+<style lang="sass" scoped>
   #home
     h2
       font-family: 'DIN Pro'
       font-size: 24px
       line-height: 30px
       color: #1A1919
+      margin-top: 0;
+      margin-bottom: 33px;
+      padding-left: 0;
     .show-all
       min-width: 233px
-      margin: 32px auto 68px auto
+      margin: 31px auto 68px auto
       width: auto
       background-color: transparent
       border: 1px solid #23BE20
@@ -343,9 +332,6 @@ export default {
         &--active
           .VueCarousel-dot-button
             background: #23BE20 !important
-  .offer-gallery
-    &.v-container
-      width: 95%
   .gallery-title
     margin: 68px 0px 32px 0px
     font-family: 'DIN Pro'
@@ -357,10 +343,6 @@ export default {
 </style>
 
 <style lang="scss" scoped>
-  .v-container {
-    width: 90%;
-  }
-
   .promo-image {
     width: 100%;
 
@@ -378,27 +360,33 @@ export default {
       display: flex;
       justify-content: space-between;
       flex-wrap: wrap-reverse;
-      align-items: flex-end;
+      align-items: space-between;
       grid-column: span 2;
       box-sizing: border-box;
       background: #F6F7FA;
       border-radius: 4px;
-      padding: 32px;
+      padding: 24px;
+      padding-right: 40px;
       position: relative;
       height: 320px;
-
+      &:last-child {
+        @media only screen and (max-width: 768px) {
+          padding-right: 64px;
+          padding: 10px 16px 26px 16px;
+        }
+      }
       &:nth-child(3n + 2) {
         background: #E4F9E4;
       }
-
       &:nth-child(n + 4) {
         grid-column: span 3;
       }
-
       .image {
         display: block;
-        width: 40%;
+        max-width: 50%;
         height: auto;
+        max-height: 270px;
+        object-fit: contain;
       }
 
       .title {
@@ -409,37 +397,37 @@ export default {
         line-height: 23px;
         color: #1A1919;
       }
-
       .description {
         font-family: DIN Pro;
         font-style: normal;
         font-weight: normal;
-        font-size: 16px;
-        line-height: 24px;
+        font-size: 15px;
+        line-height: 18px;
         color: #595858;
-        margin-top: 16px;
-      }
+        margin-top: 8px;
 
+        @media only screen and (max-width: 768px) {
+          margin: 0;
+          margin-top: 8px;
+        }
+      }
       .text {
         width: 50%;
       }
     }
   }
-
-
   .new-collection {
     @media (max-width: 767px) {
       padding-top: 0;
     }
   }
-
   @media (max-width: 1024px) {
     .banner-group {
       .banner {
         padding: 16px;
         flex-direction: column-reverse;
         align-items: center;
-        justify-content: flex-end;
+        justify-content: space-between;
         height: 100%;
 
         .text {
@@ -447,72 +435,97 @@ export default {
         }
 
         .image {
-          width: 100%;
-          max-width: 180px;
+          max-width: 100%;
           margin-bottom: 16px;
+          width: auto;
         }
       }
     }
   }
-
   @media (max-width: 768px) {
     .gallery-title {
       margin: 48px 0px 24px 0px;
     }
 
+    .text {
+      margin-top: auto;
+    }
     .banner-group {
       grid-gap: 16px;
       .banner {
         grid-column: span 3;
-
+        height: auto;
+        justify-content: flex-end;
         &:last-child {
           grid-column: span 6;
           flex-direction: row;
           align-items: center;
-          justify-content: space-between;
+          justify-content: flex-end;
           flex-wrap: nowrap;
-
           .text {
             width: auto;
             margin-right: 6px;
           }
         }
-
         .title {
           font-size: 15px;
           line-height: 19px;
         }
-
         .description {
           font-size: 13px;
           line-height: 16px;
         }
-
-        .image {
-          min-width: 100px;
-
-          &:last-child {
+        &:last-child {
+          .image {
             margin-bottom: 0;
+          }
+          .text {
+            width: 100%;
           }
         }
       }
     }
-
     @media (max-width: 540px) {
       .banner-group {
         .banner {
           .image {
-            max-width: 120px;
+            width: auto;
+            height: 100px;
+            margin-bottom: 37px;
+          }
+          .text {
+            margin-top: unset;
           }
         }
       }
-
       #home {
         .show-all {
           max-width: 100%;
           width: 100%;
         }
       }
+    }
+  }
+  .section {
+    &__shares {
+      padding-bottom: 31px;
+    }
+    &__banner {
+      margin-bottom: 68px;
+
+      @media only screen and (max-width: 768px) {
+        margin-bottom: 54px;
+      }
+    }
+  }
+  .offer-gallery {
+    @media only screen and (max-width: 768px) {
+      margin-bottom: 49px;
+    }
+  }
+  #home h2 {
+    @media only screen and (max-width: 768px) {
+      margin-bottom: 23px;
     }
   }
 </style>

@@ -1,5 +1,5 @@
 {
-  "version": "1.04",
+  "version": "1.27",
   "server": {
     "host": "localhost",
     "port": 3000,
@@ -110,6 +110,10 @@
   "api": {
     "url": "https://ringoo.ua",
     "saveBandwidthOverCache": true
+  },
+  "phoneNumbers": ["+38 073 090 87 07", "+38 097 090 87 07", "+38 050 340 74 00"],
+  "homePageBanner": {
+    "enabled": true
   },
   "admitad": {
     "campaignCode": "89a640b42b",
@@ -230,8 +234,7 @@
       "configurable_options",
       "description",
       "media_gallery",
-      "product_links",
-      "stock"
+      "product_links"
     ],
     "category": {
       "includeFields": [
@@ -298,7 +301,9 @@
     "productList": {
       "sort": "updated_at:desc",
       "includeFields": [
+        "coming_soon",
         "manufacturer",
+        "breadcrumbs",
         "marketplace",
         "rma",
         "preorder",
@@ -312,6 +317,9 @@
         "configurable_children.special_price",
         "configurable_children.stock.is_in_stock",
         "configurable_children.final_price",
+        "configurable_children.url_path",
+        "configurable_children.url_key",
+        "configurable_children.coming_soon",
         "category_ids",
         "id",
         "name",
@@ -585,7 +593,7 @@
     "applycoupon_endpoint": "/api/cart/apply-coupon?token={{token}}&cartId={{cartId}}&coupon={{coupon}}"
   },
   "attributes": {
-    "disablePersistentAttributesCache": false
+    "disablePersistentAttributesCache": true
   },
   "products": {
     "fieldsToCompact": {
@@ -704,7 +712,8 @@
       "claims": "LOCALSTORAGE",
       "syncTasks": "LOCALSTORAGE",
       "ordersHistory": "LOCALSTORAGE",
-      "checkout": "LOCALSTORAGE"
+      "checkout": "LOCALSTORAGE",
+      "gtm": "LOCALSTORAGE"
     },
     "preserveCollections": [
       "cart",
@@ -737,13 +746,15 @@
   "images": {
     "useExactUrlsNoProxy": false,
     "baseUrl": "https://ringoo.ua/img/",
+    "uploadsUrl": "https://ringoo.ua/uploads/",
     "useSpecificImagePaths": true,
     "paths": {
       "product": "/catalog/product",
       "category": "/catalog/category/",
       "brand": "/temabit/brands/",
       "slider": "/bannerslider/upload/",
-      "credit": "/temabit/credit/"
+      "credit": "/temabit/credit/",
+      "instruction": "/temabit/instruction/"
     },
     "productPlaceholder": "/assets/placeholder.jpg"
   },
@@ -955,37 +966,35 @@
       "url_path": "smartfoni-i-telefoni",
       "title": "Smartphones",
       "description": "Apple, Samsung, Huawei, Xiaomi",
-      "image": "/assets/actual-categories/tinified/smartphones.png"
-    },
-    {
-      "slug": "men-11",
-      "url_path": "elektronika",
-      "title": "Electronics",
-      "description": "PC, notebooks, tablets",
-      "image": "/assets/actual-categories/tinified/electronics.png"
-    },
-    {
-      "slug": "women-20",
-      "url_path": "gadzheti",
-      "title": "Gadgets",
-      "description": "Smart watches, Cameras, Fitness bracelets",
-      "image": "/assets/actual-categories/tinified/gadgets.png"
-
+      "image": "/assets/actual-categories/smartphones.png"
     },
     {
       "slug": "men-11",
       "url_path": "apple",
       "title": "Apple",
       "description": "MacBook, iPhone 12, Apple Watch 6, iPhone SE 2020, iPad",
-      "image": "/assets/actual-categories/tinified/apple.png"
-
+      "image": "/assets/actual-categories/apple.png"
+    },
+    {
+      "slug": "women-20",
+      "url_path": "gadzheti",
+      "title": "Gadgets",
+      "description": "Smart watches, Cameras, Fitness bracelets",
+      "image": "/assets/actual-categories/gadgets.png"
+    },
+    {
+      "slug": "men-11",
+      "url_path": "televizori-ta-video/televizori",
+      "title": "TVs",
+      "description": "PCs, computers, accessories, monitors",
+      "image": "/assets/actual-categories/electronics.png"
     },
     {
       "slug": "women-20",
       "url_path": "aksesuari",
       "title": "Accessories",
       "description": "Covers, protective glass, memory cards",
-      "image": "/assets/actual-categories/tinified/accessories.png"
+      "image": "/assets/actual-categories/accessories.png"
     }
   ],
   "stockGoods": {
@@ -1009,6 +1018,7 @@
     "rate": 4.9,
     "marks": 24,
     "logo": "https://i1.rozetka.ua/sellers/1635/1635253.jpg",
+    "logo_small": "/assets/s-digit.jpg",
     "description": "Великий вибір товарів за найкращими цінами, актуальність ціни та наявності, швидка доставка / термін до 2-х днів, висока якість обслуговування.",
     "email": "infosales.sdigit@gmail.com",
     "phones": ["+38 050 340 72 53"],
@@ -1021,6 +1031,24 @@
       "image_url": "https://ringoo.ua/img/600/744/resize/catalog/product/s/m/sm-t295nzkasek.png",
       "time": "2021-01-31 23:59:59",
       "category_link": "/planshet-samsung-sm-t295n-galaxy-tab-a8-2019-lte-2-32gb-black.html"
+    },
+    "2": {
+      "title": "Купуй Samsung Galaxy S21 та отримай подарунки!",
+      "image_url": "https://ringoo.ua/img/600/744/resize/catalog/product/s/m/sm-r190nzkasek.png",
+      "time": "2021-02-22 23:59:59",
+      "category_link": "/podarunki-vid-samsung"
+    },
+    "3": {
+      "title": "Купуй Samsung Galaxy S21 та отримай подарунки!",
+      "image_url": "https://ringoo.ua/img/600/744/resize/catalog/product/s/m/sm-r190nzkasek.png",
+      "time": "2021-02-22 23:59:59",
+      "category_link": "/sertifikat-vid-samsung"
+    },
+    "4": {
+      "title": "Вигідно разом! Розумні ваги Mi Body + Фітнес-браслет Mi Band 5",
+      "image_url": "https://ringoo.ua/img/600/744/resize/catalog/product/f/i/file_35_1.png",
+      "time": "2021-02-21 23:59:59",
+      "category_link": "/fitnes-braslet-mi-smart-band-5-black.html"
     }
   }
 }

@@ -16,7 +16,7 @@
               </button>
             </h2>
             <div v-if="items.length" class="compare-nav-container--mobile">
-              <div class="compare-nav__link weight-700" @click="goBack()">{{ $t('add more to comapre') }}</div>
+              <div class="compare-nav__link weight-700" @click="goBack()">{{ $t('add more to compare') }}</div>
               <div class="flex">
                 <div class="compare-nav__text weight-400">{{
                     $tc(`added {count} items`, addedProducts[currentCategory])
@@ -31,7 +31,7 @@
         </div>
       </div>
     </div>
-    <div class="pt35 f-container container compare-container" ref="compare-container">
+    <div class="f-container container compare-container" ref="compare-container">
       <div class="row" v-if="items.length">
         <div class="col-xs-12 compare-col">
           <div class="compare__products-table" ref="compare__products-table">
@@ -42,7 +42,7 @@
                     <div class="compare-nav__text weight-400">
                       {{ $tc(`added {count} items`, addedProducts[currentCategory]) }}
                     </div>
-                    <div class="compare-nav__link" @click="goBack()">{{ $t('add more to comapre') }}</div>
+                    <div class="compare-nav__link" @click="goBack()">{{ $t('add more to compare') }}</div>
                     <div class="compare-nav__text underline" @click="removeAll">
                       {{ $t('Remove all') }}
                     </div>
@@ -79,8 +79,8 @@
                         :key="index"
                         class="compare__product compare__product-head"
                         data-testid="comparedProduct"
-                        v-if="currentCategory === product.category[0].name"
-                        :class="{'visible' : currentCategory === product.category[0].name}"
+                        v-if="currentCategory === product.breadcrumbs[0].name"
+                        :class="{'visible' : currentCategory === product.breadcrumbs[0].name}"
                       >
                         <div class="compare__top-info pt45"
                              :class="{'single-product' : addedProducts[currentCategory] === 1}">
@@ -109,7 +109,7 @@
             <div v-else class="relative flex container-js-width" ref="container-js-width">
               <div class="compare__features attributes-list flex mobile">
                 <ul class="compare__features-list">
-                  <template v-for="(attr, index) in getAvailibleAttributes">
+                  <template v-for="(attr, index) in getAvailableAttributes">
                     <li
                       :key="index"
                       class="compare__features-item attr-name"
@@ -127,10 +127,10 @@
                       :key="index"
                       class="compare__product"
                       data-testid="comparedProduct"
-                      v-if="currentCategory === product.category[0].name"
+                      v-if="currentCategory === product.breadcrumbs[0].name"
                     >
                       <ul class="compare__features-list">
-                        <template v-for="(attr, attIndex) in getAvailibleAttributes">
+                        <template v-for="(attr, attIndex) in getAvailableAttributes">
                           <li
                             :key="attIndex"
                             v-if="!(isDifference && attr.isUnique)"
@@ -247,7 +247,6 @@ export default {
   },
   watch: {
     getCompareItems: function (v) {
-      console.log(v);
       const attr = this.getCompareItems.map(el => el.attributes_metadata.filter(attr => attr.is_comparable && attr.is_visible_on_front)).flat();
       let uniqAttr = []
       attr.forEach(el => {
@@ -262,6 +261,12 @@ export default {
   }
 }
 </script>
+
+<style lang="scss">
+.header-wrap {
+  margin-bottom: 0;
+}
+</style>
 
 <style lang="scss" scoped>
 @import '~theme/css/variables/colors';
@@ -340,18 +345,18 @@ $screen-l: 1170px;
 }
 
 .compare-container {
-  padding-top: 16px;
   @media (min-width: 768px) {
     padding-bottom: 68px;
   }
   @media (max-width: 767px) {
     padding-bottom: 48px;
+    margin-top: 16px;
   }
 }
 
 @media (max-width: 767px) {
   .compare__features-item.attr-name {
-    padding-left: 16px;
+    padding-left: 17px;
     font-family: DIN Pro;
     font-style: normal;
     //font-weight: 400 !important;
@@ -453,8 +458,8 @@ $screen-l: 1170px;
 
 .page-title {
   @media (max-width: 767px) {
-    margin: 16px 0;
     line-height: 30px;
+    margin: 23px 0 13px 0;
   }
   font-family: DIN Pro;
   font-style: normal;
@@ -484,7 +489,7 @@ $screen-l: 1170px;
     line-height: 16px;
     color: #1A1919;
     display: inline-block;
-    margin-bottom: 29px;
+    margin-bottom: 28px;
 
     &.underline {
       cursor: pointer;
@@ -918,7 +923,6 @@ $screen-l: 1170px;
   }
 
   &__attributes {
-    font-weight: bold;
     font-size: 0.6rem;
     line-height: 14px;
     padding: 15px 5px;
@@ -926,7 +930,7 @@ $screen-l: 1170px;
     display: flex;
     justify-content: flex-start;
     @media (min-width: $screen-l) {
-      padding: 16px;
+      padding: 12px 19px;
       line-height: 16px;
       font-size: 0.7rem;
     }

@@ -86,7 +86,23 @@ export default {
   }
 }
 </script>
-<style>
+<style scoped lang="scss">
+  ::v-deep .btn-top{
+    border-radius: 50%;
+    height: 48px;
+    width: 48px;
+    box-sizing: border-box;
+    background-color: #1A1919;
+    &:hover{
+      background-color: #363535;
+    }
+    &:focus{
+      background-color: #3f3e3e;
+    }
+    &:active{
+      background-color: #484747;
+    }
+  }
   .back-to-top-fade-enter-active,
   .back-to-top-fade-leave-active {
     transition: opacity .7s;

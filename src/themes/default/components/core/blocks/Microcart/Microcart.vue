@@ -31,18 +31,11 @@
             <path d="M10.5 21C11.3284 21 12 20.3284 12 19.5C12 18.6716 11.3284 18 10.5 18C9.67157 18 9 18.6716 9 19.5C9 20.3284 9.67157 21 10.5 21Z" fill="#23BE20"/>
             <path d="M16.5 21C17.3284 21 18 20.3284 18 19.5C18 18.6716 17.3284 18 16.5 18C15.6716 18 15 18.6716 15 19.5C15 20.3284 15.6716 21 16.5 21Z" fill="#23BE20"/>
           </svg>
-          <more-icon class="more" v-if="productsInCart.length">
-            <div class="more-item" @click="clearCart()">
-              <svg width="14" height="18" viewBox="0 0 14 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M1 16C1 17.1 1.9 18 3 18H11C12.1 18 13 17.1 13 16V4H1V16ZM3.5 8.9L4.9 7.5L7 9.6L9.1 7.5L10.5 8.9L8.4 11L10.5 13.1L9.1 14.5L7 12.4L4.9 14.5L3.5 13.1L5.6 11L3.5 8.9ZM10.5 1L9.5 0H4.5L3.5 1H0V3H14V1H10.5Z" fill="#BDBDBD"/>
-              </svg>
-              <span>{{ $t('Remove all') }}</span>
-            </div>
-          </more-icon>
         </div>
-        <div class="microcart-right" v-if="productsInCart.length">
-          <button-text @click.native="clearCart()">{{ $t('Remove all') }}</button-text>
-        </div>
+      </div>
+      <div class="microcart-bottom" v-if="productsInCart.length">
+        <span class="product-count">{{ $tc("products", totalProducts) }}</span>
+        <button-text class="remove-button" @click.native="clearCart()">{{ $t('Remove all') }}</button-text>
       </div>
       <div class="microcart-empty" v-if="!productsInCart.length">
         <p>{{ $t('Add your favorite products to the basket!') }}</p>
@@ -101,6 +94,7 @@ import { InstantCheckoutModule } from 'src/modules/instant-checkout';
 import PromoCode from './PromoCode';
 import MoreIcon from 'theme/components/core/MoreIcon';
 import TotalPrice from 'theme/components/core/TotalPrice';
+import GTM from 'theme/mixins/GTM/dataLayer';
 
 export default {
   components: {
@@ -115,7 +109,8 @@ export default {
   mixins: [
     VueOfflineMixin,
     EditMode,
-    onEscapePress
+    onEscapePress,
+    GTM
   ],
   data () {
     return {
@@ -181,6 +176,9 @@ export default {
           action: async () => {
             // We just need to clear cart on frontend and backend.
             // but cart token can be reused
+            this.productsInCart.forEach(product => {
+              this.GTM_REMOVE_FROM_CART([product])
+            })
             await this.$store.dispatch('cart/clear', { disconnect: false })
           }
         },
@@ -192,308 +190,350 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  @import "~theme/css/animations/transitions";
-  .microcart {
-    min-height: 100vh;
-    height: 100%;
-    &-footer{
-      @media (max-width: 550px){
-        position: fixed;
-        bottom: 0;
-        right: 0;
-        width: 100%;
-        box-sizing: border-box;
-        background: #fff;
-        margin-top: 0;
-      }
+@import "~theme/css/animations/transitions";
+@import '~theme/css/helpers/mixins';
+
+.microcart {
+  height: 100%;
+  &-footer{
+    box-shadow: 0px -1px 4px #00000040;
+    margin-top: auto;
+
+    @media (max-width: 550px){
+      width: 100%;
+      background: #fff;
     }
-    .summary {
-      box-shadow: 0px -1px 4px rgba(0, 0, 0, 0.25);
-      margin-top: auto;
-      padding: 32px;
+  }
+  .summary {
+    z-index: 1;
+    margin-top: auto;
+    padding: 32px;
+  }
+
+  .close {
+    position: absolute;
+    right: 0;
+    top: 0;
+    background-color: #F9F9F9;
+
+    i {
+      color: #BDBDBD;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 50px;
+      height: 50px;
+      padding: 18px;
+      margin: 0;
     }
 
-    .close {
-      position: absolute;
-      right: 0;
-      top: 0;
-      background-color: #F9F9F9;
-
+    &:hover,
+    &:focus {
       i {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        width: 14px;
-        height: 14px;
-        opacity: 0.6;
-        padding: 18px;
-        margin: 0;
+        opacity: 1;
       }
+    }
+  }
 
-      &:hover,
-      &:focus {
-        i {
-          opacity: 1;
-        }
+  &-top {
+    padding: 50px 32px 0 32px;
+    margin-bottom: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    &-title {
+      display: inline-block;
+      margin: 0 16px 0 0;
+      font-family: DIN Pro;
+      font-style: normal;
+      font-weight: 600;
+      font-size: 24px;
+      color: #1A1919;
+      line-height: 32px;
+    }
+    &-top-primary {
+      margin-bottom: 32px;
+
+      @media only screen and (max-width: 768px) {
+        margin-bottom: 20px;
       }
+    }
+    &-top-secondary {
+      display: flex;
+      justify-content: space-between;
+    }
+
+    svg {
+      margin-right: 8px;
+      width: 24px;
+      height: 24px;
+    }
+
+    &-total-count {
+      box-sizing: border-box;
+      font-family: DIN Pro;
+      font-style: normal;
+      font-weight: 600;
+      font-size: 12px;
+      line-height: 13px;
+      background-color: #22be21;
+      padding: 5px;
+      min-width: 24px;
+      min-height: 24px;
+      color: white;
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 50%;
+    }
+
+    &-remove {
+      margin-left: auto;
+      cursor: pointer;
+      font-family: DIN Pro;
+      font-style: normal;
+      font-size: 13px;
+      line-height: 16px;
+      color: #1A1919;
+      padding-bottom: 4px;
+      border-bottom: 1px dashed #1A1919;;
+    }
+  }
+
+  &-bottom {
+    margin-bottom: 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding: 0 32px;
+  }
+
+  &-scroll-content {
+    padding: 0 32px;
+  }
+
+  &-left {
+    display: flex;
+    align-items: center;
+  }
+}
+
+.microcart-scroll-content {
+  @include scrollBar;
+  @media (min-width: 600px) {
+    overflow: auto;
+    display: flex;
+    flex-direction: column;
+    padding: 0 32px;
+  }
+  @media (max-width: 600px) {
+    overflow-y: scroll;
+    height: calc(100% - 244px);
+    padding: 0 16px;
+    position: relative;
+    z-index: 0;
+    -webkit-overflow-scrolling: touch;
+    overflow-anchor: none;
+    opacity: 0.9999;
+    will-change: transform;
+  }
+  overflow-y: auto;
+}
+
+.product-count {
+  font-family: DIN Pro;
+  font-size: 13px;
+  line-height: 16px;
+  color: #1A1919;
+}
+
+.microcart-empty {
+  padding: 0 32px;
+  p {
+    font-family: DIN Pro;
+    font-style: normal;
+    font-size: 15px;
+    line-height: 24px;
+    color: #1A1919;
+    margin: 0;
+  }
+}
+
+.scroll-bar {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.actions-button {
+  justify-content: space-between;
+  display: flex;
+  min-height: 40px;
+
+  .button {
+    box-sizing: border-box;
+    max-width: 100%;
+
+    // &:first-child {
+    //   margin-right: 2%;
+    // }
+  }
+}
+
+.clearcart {
+  &-col {
+    display: flex;
+    align-self: center;
+  }
+}
+
+.products {
+  padding-left: 0;
+  margin: 0;
+}
+
+.product {
+  border: 1px solid #E0E0E0;
+  border-radius: 4px;
+  margin-bottom: 20px;
+}
+
+.promo-code {
+  margin-bottom: 20px;
+}
+
+.overlay {
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  position: absolute;
+  z-index: 0;
+  height: 100%;
+  background:rgba(0, 0, 0, 0.4);
+}
+
+.fade-enter-active, .fade-leave-active {
+  transition: opacity .4s;
+}
+.fade-enter, .fade-leave-to {
+  opacity: 0;
+}
+
+.more {
+  display: none;
+}
+
+.total-prices {
+  margin-bottom: 24px;
+}
+
+@media (max-width: 500px) {
+  .microcart {
+    width: 100%;
+
+    &-left {
+      padding: 9px 0px;
+      width: 100%;
     }
 
     &-top {
-      padding: 50px 32px 0 32px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 32px;
+      padding: 56px 16px 0px 16px;
+      flex-direction: column-reverse;
+      align-items: flex-start;
+      margin-bottom: 16px;
+    }
 
-      &-title {
-        display: inline-block;
-        margin: 0 16px 0 0;
-        font-family: DIN Pro;
-        font-style: normal;
-        font-weight: 600;
-        font-size: 24px;
-        color: #1A1919;
-        line-height: 30px;
-      }
+    &-bottom {
+      padding: 0 16px;
+      margin-bottom: 16px;
+    }
 
-      svg {
-        margin-right: 8px;
-        width: 24px;
-        height: 24px;
-      }
+    .more {
+      margin-left: auto;
 
-      &-total-count {
-        box-sizing: border-box;
-        font-family: DIN Pro;
-        font-style: normal;
-        font-weight: 600;
-        font-size: 12px;
-        line-height: 13px;
-        background-color: #22be21;
-        padding: 5px;
-        min-width: 24px;
-        min-height: 24px;
-        color: white;
-        display: inline-flex;
-        justify-content: center;
+      &-item {
+        padding: 12px 16px;
+        display: flex;
         align-items: center;
-        border-radius: 50%;
-      }
 
-      &-remove {
-        margin-left: auto;
-        cursor: pointer;
-        font-family: DIN Pro;
-        font-style: normal;
-        font-size: 13px;
-        line-height: 16px;
-        color: #1A1919;
-        padding-bottom: 4px;
-        border-bottom: 1px dashed #1A1919;;
+        svg {
+          margin-right: 20px;
+        }
+
+        span {
+          font-family: DIN Pro;
+          font-style: normal;
+          font-size: 14px;
+          line-height: 24px;
+          color: #595858;
+        }
       }
     }
 
     &-scroll-content {
-      padding: 0 32px;
+      padding: 0 16px;
     }
+
+    &-right {
+      display: none;
+    }
+
+    .close {
+      i {
+        padding: 21px;
+      }
+    }
+
+    .summary {
+      padding: 16px;
+    }
+
+    &-empty {
+      padding: 0 16px;
+    }
+
+    .more {
+      display: block;
+    }
+  }
+
+  ::v-deep .promo-code {
 
     &-left {
-      display: flex;
-      align-items: center;
+      margin-right: 16px;
+    }
+
+    &-input {
+      min-width: 174px;
     }
   }
 
-  .microcart-empty {
-    padding: 0 32px;
-    p {
-      font-family: DIN Pro;
-      font-style: normal;
-      font-size: 15px;
-      line-height: 24px;
-      color: #1A1919;
+  .product ::v-deep {
+    align-items: flex-start;
+
+    &-left {
+      align-items: flex-start;
+      margin-bottom: 16px;
+    }
+
+    &-remove {
+      display: none;
+    }
+
+    &-right {
+      max-width: 100%;
+      justify-content: space-between;
+    }
+
+    &-qty {
       margin: 0;
     }
-  }
 
-  .scroll-bar {
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-    box-sizing: border-box;
-    transform: translateZ(0);
-  }
-
-  .actions-button {
-    justify-content: space-between;
-    display: flex;
-    min-height: 40px;
-
-    .button {
-      box-sizing: border-box;
-      max-width: 100%;
-
-      // &:first-child {
-      //   margin-right: 2%;
-      // }
+    .more {
+      display: block;
     }
   }
-
-  .clearcart {
-    &-col {
-      display: flex;
-      align-self: center;
-    }
-  }
-
-  .products {
-    padding-left: 0;
-    margin: 0;
-  }
-
-  .product {
-    border: 1px solid #E0E0E0;
-    border-radius: 4px;
-    margin-bottom: 20px;
-  }
-
-  .promo-code {
-    margin-bottom: 20px;
-  }
-
-  .overlay {
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    position: absolute;
-    z-index: 0;
-    height: 100%;
-    background:rgba(0, 0, 0, 0.4);
-  }
-
-  .fade-enter-active, .fade-leave-active {
-    transition: opacity .4s;
-  }
-  .fade-enter, .fade-leave-to {
-    opacity: 0;
-  }
-
-  .more {
-    display: none;
-  }
-
-  .total-prices {
-    margin-bottom: 24px;
-  }
-
-  @media (max-width: 500px) {
-    .microcart {
-      width: 100%;
-
-      &-left {
-        padding: 9px 0px;
-        width: 100%;
-      }
-
-      &-top {
-        padding: 56px 16px 0px 16px;
-        flex-direction: column-reverse;
-        align-items: flex-start;
-        margin-bottom: 16px;
-      }
-
-      .more {
-        margin-left: auto;
-
-        &-item {
-          padding: 12px 16px;
-          display: flex;
-          align-items: center;
-
-          svg {
-            margin-right: 20px;
-          }
-
-          span {
-            font-family: DIN Pro;
-            font-style: normal;
-            font-size: 14px;
-            line-height: 24px;
-            color: #595858;
-          }
-        }
-      }
-
-      &-scroll-content {
-        padding: 0 16px;
-      }
-
-      &-right {
-        display: none;
-      }
-
-      .close {
-        i {
-          padding: 21px;
-        }
-      }
-
-      .summary {
-        padding: 16px;
-      }
-
-      &-empty {
-        padding: 0 16px;
-      }
-
-      .more {
-        display: block;
-      }
-    }
-
-    ::v-deep .promo-code {
-
-      &-left {
-        margin-right: 16px;
-      }
-
-      &-input {
-        min-width: 174px;
-      }
-    }
-
-    .product ::v-deep {
-      align-items: flex-start;
-
-      &-left {
-        align-items: flex-start;
-        margin-bottom: 16px;
-      }
-
-      &-remove {
-        display: none;
-      }
-
-      &-right {
-        max-width: 100%;
-        justify-content: space-between;
-      }
-
-      &-qty {
-        margin: 0;
-      }
-
-      .more {
-        display: block;
-      }
-    }
-
-    .actions-button {
-      .button {
-        &:first-child {
-          margin-right: 16px;
-        }
-      }
-    }
-  }
+}
 </style>

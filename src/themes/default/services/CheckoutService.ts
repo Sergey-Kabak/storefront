@@ -10,7 +10,7 @@ import getApiEndpointUrl from '@vue-storefront/core/helpers/getApiEndpointUrl';
 
 const getCities = async ({
   city = null,
-  size = 1000,
+  size = 9999,
   sort = ''
 } = {}): Promise<Shop[]> => {
   let searchQuery = bodybuilder();
@@ -39,12 +39,18 @@ const getCities = async ({
 const getStreets = async ({
   city = null,
   street = null,
-  size = 1000,
+  size = 100,
   sort = ''
 } = {}): Promise<Street[]> => {
   let searchQuery = bodybuilder();
-
   searchQuery.query('match', 'CityDescription', city)
+  if (street) {
+    searchQuery = searchQuery.query('query_string', 
+    {
+      "query": `*${street}*`, 
+      "fields": ["Description"]
+    })
+  }
 
   const { items: streets } = await quickSearchByQuery({
     entityType: 'nova_poshta_city_street',
@@ -52,8 +58,12 @@ const getStreets = async ({
     size,
     sort
   })
-
-  return streets
+  return streets.map(it => {
+    if (!(it.Description.includes('Поштомат') || new RegExp('^вул.').test(it.Description) || new RegExp('^просп.').test(it.Description))) {
+      it.Description = it.StreetsType + ' ' + it.Description
+    }
+    return it
+  })
 }
 
 
@@ -88,7 +98,7 @@ const getNewPostDepartments = async ({
 const getJustinDepartments = async ({
   department = null,
   city = null,
-  size = 100,
+  size = 9999,
   sort = ''
 } = {}): Promise<any> => {
   let searchQuery = bodybuilder();

@@ -242,9 +242,9 @@ $white: color(white);
         right: 12px;
       }
 
-      input:focus ~ label, input:not(.empty) ~ label {
-        top: -8px!important;
-      }
+      // input:focus ~ label, input:not(.empty) ~ label {
+      //   top: -8px!important;
+      // }
 
       .auth-error {
         font-family: "DIN Pro"!important;
@@ -265,13 +265,13 @@ $white: color(white);
       font-family: "DIN Pro"!important;
     }
     .auth-label {
-      margin-left: 16px!important;
-      padding: 0 3px!important;
+      // margin-left: 16px!important;
+      // padding: 0 3px!important;
       background: #fff!important;
       font-size: 13px!important;
       line-height: 16px!important;
       font-family: "DIN Pro"!important;
-      top: 13px!important;
+      // top: 13px!important;
     }
     .auth-checkbox {
       label:before {

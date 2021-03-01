@@ -342,7 +342,14 @@ $color-white: color(white);
   @media (max-width: 767px) {
     padding: 16px;
   }
-
+ ::v-deep {
+    .icon-wishlist {
+      margin-right: 0;
+    }
+    .add-to-wishlist {
+      top: 0;
+    }
+ }
   &__icons {
     position: absolute;
     top: 0;
@@ -351,6 +358,7 @@ $color-white: color(white);
     flex-direction: column;
     padding-right: 12px;
     padding-top: 8px;
+
   }
 
   &__icon {
@@ -359,8 +367,15 @@ $color-white: color(white);
     z-index: 0;
     transition: 0.3s opacity $motion-main;
     @media (max-width: 767px) {
+      padding-top: 0;
       opacity: 1;
       z-index: 2;
+      padding: 4px;
+      margin-bottom: 8px;
+      width: 32px;
+      height: 32px;
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 4px;
     }
 
     &--active {

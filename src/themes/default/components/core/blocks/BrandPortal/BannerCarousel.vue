@@ -16,8 +16,8 @@
           class="banner-link"
         > -->
         <router-link :to="brand.banner_link || ''" :disable="!brand.banner_link" :event="brand.banner_link ? 'click' : ''">
-          <img v-if="!resolution" v-lazy="defaultImage" alt="banner-image" class="banner-image">
-          <img v-else v-lazy="bannerImage" alt="banner-image" class="banner-image">
+          <img v-if="!resolution" :src="defaultImage" alt="banner-image" class="banner-image">
+          <img v-else :src="bannerImage" alt="banner-image" class="banner-image">
         </router-link>
         <!-- </router-link> -->
       <!-- </slide> -->
@@ -40,24 +40,23 @@ export default {
     ...mapState({
       brand: state => state.brand.brand
     }),
-    bannerImage() {
+    bannerImage () {
       const banners = [{
-          type: 'banner_desktop',
-          isShow: this.isDesktop,
-          width: 1324,
-          height: 335
-        }, {
-          type: 'banner_table',
-          isShow: this.isTablet,
-          width: 768,
-          height: 250
-        }, {
-          type: 'banner_mobile',
-          isShow: this.isMobile,
-          width: 576,
-          height: 335
-        }
-      ]
+        type: 'banner_desktop',
+        isShow: this.isDesktop,
+        width: 1324,
+        height: 335
+      }, {
+        type: 'banner_table',
+        isShow: this.isTablet,
+        width: 768,
+        height: 250
+      }, {
+        type: 'banner_mobile',
+        isShow: this.isMobile,
+        width: 576,
+        height: 335
+      }]
       const banner = banners.find(it => it.isShow)
       return this.getThumbnail(this.brand[banner.type] || this.brand.banner_desktop, banner.width || 1324, banner.height || 335, 'brand')
     },

@@ -102,7 +102,7 @@ export default {
       cartServerToken: (state) => state.cart.cartServerToken
     }),
     products () {
-      return this.order.items.filter(it => !it.parent_item_id)
+      return this.order.items.filter(it => it.parent_item && it.parent_item.product_type === 'bundle' || !it.parent_item)
     },
     isMarketplace () {
       return this.products.some(it => it.extension_attributes.marketplace)
@@ -144,6 +144,7 @@ export default {
       })
       this.status = status.state && status.state.toLowerCase()
     }
+    this.initAdmitad()
   },
   methods: {
     image(product) {
@@ -155,6 +156,32 @@ export default {
       if (product.original_price > product.price) {
         return parseInt(((product.original_price - product.price) / (product.original_price / 100)))
       }
+    },
+    initAdmitad() {
+      ADMITAD = window.ADMITAD || {};
+      ADMITAD.Invoice = ADMITAD.Invoice || {};
+      ADMITAD.Invoice.category = '1';
+
+      const orderedItem = [];
+      this.products.map(it => {
+        orderedItem.push({
+          Product: {
+            productID: it.item_id,
+            category: '1',
+            price: it.price,
+            priceCurrency: 'UAH',
+          },
+          orderQuantity: it.qty_ordered,
+          additionalType: 'sale'
+        });
+      })
+      ADMITAD.Invoice.referencesOrder = ADMITAD.Invoice.referencesOrder || [];
+
+      ADMITAD.Invoice.referencesOrder.push({
+        orderNumber: this.order.increment_id,
+        orderedItem: orderedItem
+      });
+      ADMITAD.Tracking.processPositions();
     }
   }
 }
@@ -162,8 +189,6 @@ export default {
 
 <style lang="scss" scoped>
 .v-container {
-  width: 90%;
-  max-width: 1157px;
   padding-bottom: 24px;
 }
 

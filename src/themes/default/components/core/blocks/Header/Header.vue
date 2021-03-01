@@ -1,21 +1,17 @@
 <template>
   <div class="header-wrap" ref="headerWrap">
-    <header
-    ref="header"
-    :class="{ 'is-visible': navVisible, 'search-active': isSearchActive }"
-  >
-    <div class="promo" v-if="isShowHeader" :style="{'background-color': promo.background}">
-      <router-link class="promo-link" :to="promo.link">
-        <picture class="flex">
-          <source :srcset="promo.imgTablet" media="(min-width: 567px) and (max-width: 768px)">
-          <source :srcset="promo.imgMobile" media="(max-width: 567px)">
-          <source :srcset="promo.img">
-          <img v-lazy="promo.img" alt="promo" class="promo-image">
-        </picture>
-      </router-link>
-    </div>
-    <div class="header-black-line" v-if="isShowHeader">
-      <div class="v-container header-top-container relative">
+    <header ref="header" :class="{ 'is-visible': navVisible, 'search-active': isSearchActive }">
+      <div class="promo" v-if="isShowHeader" :style="{'background': promo.background}">
+        <router-link class="promo-link" :to="promo.link">
+          <picture class="flex">
+            <source :srcset="promo.imgTablet" media="(min-width: 567px) and (max-width: 768px)">
+            <source :srcset="promo.imgMobile" media="(max-width: 567px)">
+            <source :srcset="promo.img">
+            <img v-lazy="promo.img" alt="promo" class="promo-image">
+          </picture>
+        </router-link>
+      </div>
+      <div class="header-black-line" v-if="isShowHeader">
         <ul>
           <li>
             <router-link class="cl-secondary" :to="localizedRoute('/info/shops')" exact>
@@ -42,43 +38,42 @@
               </a>
               <phone-info v-show="navVisible"></phone-info>
             </div>
-            <svg width="8" height="6" viewBox="0 0 8 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <svg class="phone-wrap__arrow" width="8" height="6" viewBox="0 0 8 6" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M0.94 0.726667L4 3.78L7.06 0.726667L8 1.66667L4 5.66667L0 1.66667L0.94 0.726667Z"/>
             </svg>
           </li>
         </ul>
         <language-switcher />
       </div>
-    </div>
-    <div class="header-container-wrap border" v-if="!isCheckoutPage || isThankYouPage">
-      <div class="v-container header-top-container">
-        <div class="header-top">
-          <div class="header-left">
-            <hamburger-icon class="icon menu" />
-            <mobile-hamburger-icon class="mobile-menu" />
-          </div>
+      <div class="header-container-wrap border" v-if="!isCheckoutPage || isThankYouPage">
+        <div class="v-container header-top-container">
+          <div class="header-top">
+            <div class="header-left">
+              <hamburger-icon class="icon menu" />
+              <mobile-hamburger-icon class="mobile-menu" />
+            </div>
 
-          <div class="header-middle">
-            <logo width="auto" class="logo"/>
-          </div>
-          <div class="header-right">
-            <consultation-icon class="icon icon-consultation" />
-            <search-icon class="icon pointer icon-search" />
-            <compare-icon class="icon pointer icon-compare" />
-            <microcart-icon class="icon pointer icon-microcart" />
-            <wishlist-icon class="icon pointer icon-wishlist" />
-            <account-icon class="icon pointer icon-account" />
+            <div class="header-middle">
+              <logo width="auto" class="logo"/>
+            </div>
+            <div class="header-right">
+              <consultation-icon class="icon icon-consultation" />
+              <search-icon class="icon pointer icon-search" />
+              <compare-icon class="icon pointer icon-compare" />
+              <microcart-icon class="icon pointer icon-microcart" />
+              <wishlist-icon class="icon pointer icon-wishlist" />
+              <account-icon class="icon pointer icon-account" />
           </div>
         </div>
       </div>
-    </div>
-    <div class="header-container-wrap" v-if="!isCheckoutPage || isThankYouPage">
-      <div class="header-container">
-        <div class="header-bottom" v-if="isShowHeader">
-          <search-panel mobile class="mobile"/>
+        <div class="header-container-wrap" v-if="!isCheckoutPage || isThankYouPage">
+        <div class="header-container">
+          <div class="header-bottom" v-if="isShowHeader">
+            <search-panel mobile class="mobile"/>
+          </div>
         </div>
       </div>
-    </div>
+      </div>
     </header>
   </div>
 </template>
@@ -98,6 +93,7 @@ import MobileHamburgerIcon from 'theme/components/core/blocks/Header/MobileHambu
 import PhoneInfo from 'theme/components/core/PhoneInfo';
 import ConsultationIcon from 'theme/components/core/blocks/Header/ConsultationIcon';
 import LanguageSwitcher from '../../LanguageSwitcher'
+
 export default {
   name: 'Header',
   components: {
@@ -119,10 +115,27 @@ export default {
     return {
       isPromoLoaded: false,
       navVisible: true,
+      navBlocked: false,
       isScrolling: false,
       scrollTop: 0,
       lastScrollTop: 0,
-      navbarHeight: 142
+      navbarHeight: 142,
+      promos: {
+        samsung: {
+          img: '/assets/promo/samsung/md.jpg',
+          imgTablet: '/assets/promo/samsung/lg.jpg',
+          imgMobile: '/assets/promo/samsung/md.jpg',
+          link: '/samsung-s21',
+          background: '#fff'
+        },
+        March8: {
+          img: '/assets/promo/march-8-banner-xl.jpg',
+          imgTablet: '/assets/promo/march-8-banner-lg.jpg',
+          imgMobile: '/assets/promo/march-8-banner-sm.jpg',
+          link: '/8-march',
+          background: 'linear-gradient(45deg, #f8cad4, #f1bccc)'
+        }
+      }
     }
   },
   computed: {
@@ -140,46 +153,25 @@ export default {
       return this.$route.name !== 'checkout'
     },
     promoPages () {
-      const promos = {
-        samsung: {
-          img: '/assets/promo/samsung/md.jpg',
-          imgTablet: '/assets/promo/samsung/lg.jpg',
-          imgMobile: '/assets/promo/samsung/md.jpg',
-          link: '/samsung-s21',
-          background: '#fff'
-        },
-        keepInTouch: {
-          img: '/assets/promo/iphone-desktop.jpg',
-          imgTablet: '/assets/promo/iphone-tablet.jpg',
-          imgMobile: '/assets/promo/iphone-mobile.jpg',
-          link: '/smartfoni?manufacturer=Apple',
-          background: '#08101b'
-        }
-      }
       return [
         {
           path: ['/', '/ru/'],
-          options: promos.samsung
+          options: this.promos.samsung
         },
         {
-          path: ['/bud-na-zv-jazku'],
-          options: promos.keepInTouch
+          path: '/8-march',
+          options: this.promos.March8
         }
       ]
     },
     promo () {
-      const defaultPromo = {
-        img: '/assets/promo/keepInTouch/xl.jpg',
-        imgTablet: '/assets/promo/keepInTouch/lg.jpg',
-        imgMobile: '/assets/promo/keepInTouch/md.jpg',
-        link: '/bud-na-zv-jazku',
-        background: '#97b6e2'
-      }
-      const promo = this.promoPages.find(promo => promo.path.includes(this.$route.path))
+      const defaultPromo = this.promos.samsung
+      const promo = this.promoPages.find(promo => this.$route.path === promo.path)
       return (promo && promo.options) || defaultPromo;
     }
   },
   beforeMount () {
+    this.$bus.$on('top-header-blocked', (value) => this.navBlocked = value);
     window.addEventListener(
       'scroll',
       () => {
@@ -198,7 +190,7 @@ export default {
   mounted: function() {
     window.addEventListener('resize', this.onResize)
   },
-  beforeDestroy() {
+  beforeDestroy () {
     window.removeEventListener('resize', this.onResize)
   },
   methods: {
@@ -266,7 +258,6 @@ $color-icon-hover: color(secondary, $colors-background);
   }
 
   .promo-image {
-    max-width: 1440px;
     margin: auto;
     width: 100%;
     display: block;
@@ -298,7 +289,7 @@ header {
 }
 .header-wrap {
   margin-bottom: 16px;
-  height: 142px;
+  height: 129px;
 }
 .minimal {
   height: 67px;
@@ -312,8 +303,9 @@ header {
   align-items: center;
   height: 67px;
   justify-content: center;
-  @media (max-width : 575px){
-    padding-right: 6px !important;
+  @media only screen and (max-width: 768px) {
+      display: flex;
+      align-items: center;
   }
 }
 .header {
@@ -338,11 +330,19 @@ header {
         font-weight: 500;
         font-size: 13px;
         line-height: 16px;
-        margin: 0 25px;
+        margin-right: 47px;
         display: flex;
         align-items: center;
         position: relative;
         transform: rotate(0deg);
+        &:last-child {
+          @media only screen and (min-width: 1200px) {
+            margin-right: 0;
+          }
+          @media only screen and (max-width: 768px) {
+            margin-right: 0;
+          }
+        }
 
         &:hover {
           a {
@@ -385,15 +385,19 @@ header {
   max-width: 260px;
   align-items: center;
   justify-self: flex-start;
+  @media only screen and (max-width: 768px) {
+    width: unset;
+    margin-right: 15px;
+  }
 }
 
 .header-middle {
   justify-self: center;
 
+
   .logo {
     height: 41px;
     margin-top: 7px;
-
     img {
       width: 100%;
     }
@@ -405,12 +409,16 @@ header {
   align-items: center;
   justify-self: flex-end;
 
+  @media only screen and (max-width: 768px) {
+    margin-left: auto;
+  }
+
   .icon {
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-right: 14px;
-    padding: 8px;
+    margin-right: 24px;
+    // padding: 8px;
     border-radius: 4px;
     transition: .2s ease-in-out;
 
@@ -508,6 +516,10 @@ header {
   z-index: 1;
   cursor: pointer;
 
+  &:hover &__arrow {
+    transform: rotate(180deg);
+  }
+
   &:hover {
     .phone {
       color: #fff;
@@ -568,7 +580,6 @@ header {
 .header-placeholder {
   height: 54px;
 }
-
 .account {
   &__text {
     display: block;
@@ -584,7 +595,6 @@ header {
 
 @media (max-width: 768px) {
   .header-top {
-    padding: 0 16px;
   }
 
   .header-black-line {
@@ -635,7 +645,7 @@ header {
   .header-middle {
     .logo {
       height: 36px;
-      width: 80px;
+      width: 100%;
     }
   }
 
@@ -644,7 +654,7 @@ header {
   }
 
   .header-wrap {
-    margin-bottom: 15px;
+    // margin-bottom: 15px;
   }
 
   .header-help-desktop {
@@ -671,7 +681,7 @@ header {
     }
 
     &__icon {
-      margin-right: 10px;
+      margin-right: 7px;
     }
   }
 
@@ -693,16 +703,10 @@ header {
 
   .header-right {
     .icon {
-      margin-right: 0;
+      margin-right: 10px;
     }
   }
 
-  .header-middle {
-    .logo {
-      margin-top: 12px;
-      width: 80px;
-    }
-  }
 }
 @keyframes slide {
   from {

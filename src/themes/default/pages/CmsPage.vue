@@ -53,12 +53,12 @@ export default {
       cmsPageContent: (state) => state.cmsPage.current,
       shopCity: (state) => state.ui.shopCity
     }),
-    isShowCity() {
+    isShowCity () {
       return ['shops'].includes(this.$route.params.slug)
     }
   },
   methods: {
-    openCityModal() {
+    openCityModal () {
       this.$bus.$emit('modal-show', 'modal-city-shop-picker')
     }
   }
@@ -66,10 +66,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.v-container {
-  width: 90%;
-}
-
 header {
   display: flex;
   align-items: center;
@@ -187,7 +183,7 @@ header {
   * {
     box-sizing: border-box;
   }
-  
+
   .width-full {
     width: 100%
   }
@@ -215,7 +211,7 @@ header {
     height: 1px;
     margin-bottom: 32px;
   }
-  
+
   ul {
     padding: 0;
     margin: 0;
@@ -282,7 +278,7 @@ header {
       border-bottom: 1px dashed currentColor;
     }
   }
-  
+
   .bold {
     font-weight: 600;
     color: #1A1919;
@@ -367,7 +363,7 @@ header {
 
   .title {
     display: flex;
-    align-items: flex-start;
+    align-items: center;
     position: relative;
     margin: 0 0 16px 0;
     font-family: DIN Pro;

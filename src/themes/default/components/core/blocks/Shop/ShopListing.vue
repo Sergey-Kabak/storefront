@@ -38,7 +38,9 @@ export default {
   background-color: #bfbfbf;
 }
 
-.shop {
+.shop.shop-items {
+  display: grid;
+  grid-template-columns: 1fr;
   border-bottom: 1px solid #E0E0E0;
 
   &:last-child {

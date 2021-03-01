@@ -5,7 +5,7 @@
       <span>{{ $t('Back') }}</span>
     </div>
     <div class="sidebar-body">
-      <h2 class="body-header">{{ $t('Products to comapre') }}</h2>
+      <h2 class="body-header">{{ $t('Products to compare') }}</h2>
       <div class="body-container">
         <div v-for="(category , index) in categories" :key="index"
              class="item"

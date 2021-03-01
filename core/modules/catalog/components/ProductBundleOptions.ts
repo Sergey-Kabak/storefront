@@ -76,12 +76,14 @@ export const ProductBundleOptions = {
       this.validationResults.map((res) => { if (res.error) isValid = false })
       return isValid
     },
-    validateField (option, qty, optionId) {
+    validateField (option, qty, optionId, _product = null) {
+      const product = _product || this.product
+      console.log(option, qty, optionId, product);
       let result = true
       let validationResult = { error: false, message: '' }
       for (let fieldName of _fieldName(option)) {
         const validationRule = this.validationRules[fieldName]
-        this.product.errors.custom_options = null
+        product.errors.custom_options = null
         if (validationRule) {
           const validator = this.$store.state.product.custom_options_validators[validationRule]
           if (typeof validator === 'function') {
@@ -91,10 +93,10 @@ export const ProductBundleOptions = {
             if (optionValidationResult.error) validationResult = optionValidationResult
             this.$set(this.validationResults, fieldName, validationResult)
             if (validationResult.error) {
-              this.product.errors['bundle_options_' + fieldName] = i18n.t('Please configure product bundle options and fix the validation errors')
+              product.errors['bundle_options_' + fieldName] = i18n.t('Please configure product bundle options and fix the validation errors')
               result = false
             } else {
-              this.product.errors['bundle_options_' + fieldName] = null
+              product.errors['bundle_options_' + fieldName] = null
             }
           } else {
             Logger.error('No validation rule found for ' + validationRule, 'components-product-bundle-options')()

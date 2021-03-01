@@ -36,6 +36,7 @@
 @media only screen and (min-width: 1200px) {
   .container {
     //width: 1184px;
+    // width: 1324px;
     width: 1324px;
     max-width: 100%;
   }
@@ -605,6 +606,7 @@
     -ms-flex-preferred-size: 100%;
     flex-basis: 100%;
     max-width: 100%;
+    padding-left: 0;
   }
 
   .col-md-offset-0 {

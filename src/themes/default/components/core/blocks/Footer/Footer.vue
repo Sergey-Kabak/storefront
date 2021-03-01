@@ -5,30 +5,52 @@
       v-if="!isCheckoutPage"
     >
       <div class="v-container footer-wrap">
-        <div class="start-md">
+        <div class="start-md footer__cta-section">
           <logo width="89" height="auto"/>
           <social></social>
-          <div class="copyright">{{ $t('All rights reserved.') }} <br> “ringoo” Copyright {{ new Date().getFullYear() }}</div>
         </div>
-        <div class="start-md" v-for="(footerColumn, index) in footerColumns" :key="index">
-          <h2 class="footer-title">
-            {{ $t(footerColumn.title) }}
-          </h2>
-          <div class="footer-routes">
-            <div :key="index" v-for="(cat, index) in footerColumn.routes" class="route">
-              <router-link class="cl-secondary" :to="localizedRoute(`${cat.url_path}`)" exact>
-                {{ $t(cat.name) }}
-              </router-link>
+        <div class="start-md footer__category" :class="{'footer__category--last': index===footerColumns.length-1}" v-for="(footerColumn, index) in footerColumns" :key="index">
+          <template v-if="!isMobile">
+            <h2 class="footer-title">
+              {{ $t(footerColumn.title) }}
+            </h2>
+            <div class="footer-routes">
+              <div :key="index" v-for="(cat, index) in footerColumn.routes" class="route">
+                <router-link class="cl-secondary" :to="localizedRoute(`${cat.url_path}`)" exact>
+                  {{ $t(cat.name) }}
+                </router-link>
+              </div>
             </div>
-          </div>
+          </template>
+          <CategoryFilter
+            v-else
+            class="footer-title"
+            :label="$t(footerColumn.title)"
+            noscroll
+            :openByDefault="false"
+          >
+            <template #label="{ isActive }">
+               <h2 class="footer-title" :class="{ open:isActive }" >
+                {{ $t(footerColumn.title) }}
+              </h2>
+            </template>
+            <div class="footer-routes">
+              <div :key="index" v-for="(cat, index) in footerColumn.routes" class="route">
+                <router-link class="cl-secondary" :to="localizedRoute(`${cat.url_path}`)" exact>
+                  {{ $t(cat.name) }}
+                </router-link>
+              </div>
+            </div>
+          </CategoryFilter>
         </div>
         <div class="start-md">
-          <h2 class="footer-title">
+          <h2 class="footer-title footer-title--contact">
             {{ $t('Contact') }}
           </h2>
           <div class="phone">
-            <a href="tel:380970908707">+38 097 090 87 07</a>
-            <a href="tel:380730908707">+38 073 090 87 07</a>
+            <template v-for="(phone, index) in phoneNumbers">
+              <a :key="index" :href="`tel:${phone}`">{{ phone }}</a>
+            </template>
           </div>
           <div class="work_time">
             {{$t('work_time')}}
@@ -36,23 +58,26 @@
           <div class="info">
             <span>{{ $t('Calls according to the tariffs of your operator') }}</span>
           </div>
-          <h2 class="footer-title">
+          <h2 class="footer-title footer-title--accept">
             {{ $t('We accept') }}
           </h2>
           <div>
             <div class="payment">
-              <img src="/assets/payments/mastercard.svg" alt="mastercard" class="payment-icon">
-              <img src="/assets/payments/visa.svg" alt="visa" class="payment-icon">
-              <img src="/assets/payments/liqpay.svg" alt="liqpay" class="payment-icon">
+              <img v-lazy="'/assets/payments/mastercard.svg'" alt="mastercard" class="payment-icon">
+              <img v-lazy="'/assets/payments/visa.svg'" alt="visa" class="payment-icon">
+              <img v-lazy="'/assets/payments/liqpay.svg'" alt="liqpay" class="payment-icon">
             </div>
           </div>
         </div>
       </div>
+      <div class="v-container copyright__container">
+        <div class="start-md copyright">{{ $t('All rights reserved.') }} “ringoo” Copyright © {{ new Date().getFullYear() }}</div>
+      </div>
     </div>
     <back-to-top bottom="60px" right="20px" visibleoffset="200">
-      <button type="button" class="btn-top button no-outline brdr-none cl-white bg-cl-mine-shaft :bg-cl-th-secondary py10 px10" aria-label="back-to-top">
-        <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg" fill-rule="evenodd" clip-rule="evenodd">
-          <path d="M23.245 20l-11.245-14.374-11.219 14.374-.781-.619 12-15.381 12 15.391-.755.609z" fill="white" />
+      <button type="button" class="btn-top button no-outline brdr-none cl-white py10 px10" aria-label="back-to-top">
+        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 28 28" fill="none">
+        <path d="M5.83301 10.5L7.47801 12.145L12.833 6.80162V25.6666H15.1663V6.80162L20.5213 12.1566L22.1663 10.5L13.9997 2.33329L5.83301 10.5Z" fill="#23BE20"/>
         </svg>
       </button>
     </back-to-top>
@@ -66,16 +91,22 @@ import BackToTop from 'theme/components/core/BackToTop';
 import config from 'config';
 import Logo from 'theme/components/core/Logo';
 import Social from 'theme/components/core/blocks/Footer/Social'
+import mobileResolution from 'theme/mixins/mobileResolution'
 import { mapGetters } from 'vuex';
+import CategoryFilter from 'theme/components/core/blocks/Category/CategoryFilter';
 
 export default {
-  mixins: [CurrentPage],
+  mixins: [CurrentPage, mobileResolution],
   components: {
     Logo,
     BackToTop,
-    Social
+    Social,
+    CategoryFilter
   },
   name: 'MainFooter',
+  data: () => ({
+    phoneNumbers: config.phoneNumbers
+  }),
   methods: {
     goToAccount () {
       this.$bus.$emit('modal-toggle', 'modal-signup')
@@ -103,49 +134,57 @@ export default {
       })
     },
     footerColumns () {
-      return [{
-        title: 'Catalog',
-        routes: this.visibleCategories
-      }, {
-        title: 'To customers',
-        routes: [{
-          name: 'Payment and delivery',
-          url_path: '/info/delivery'
-        }, {
-          name: 'Payments and loans',
-          url_path: '/info/payments-and-loans'
-        }, {
-          name: 'Warranty, Exchange, Return',
-          url_path: '/info/warranty-exchange-return'
-        }, {
-          name: 'Service centres',
-          url_path: '/info/service-centers'
-        }, {
-          name: 'Use promotional code',
-          url_path: '/info/using-a-promo-code'
-        }, {
-          name: 'Public offer',
-          url_path: '/info/public-offer'
-        }]
-      }, {
-        title: 'About Us',
-        routes: [{
-          name: 'The shops',
-          url_path: '/info/shops'
-        }, {
-          name: 'Company',
-          url_path: '/info/company'
-        }, {
-          name: 'Vacancies',
-          url_path: '/info/vacancy'
-        }, {
-          name: 'Own account',
-          url_path: '/info/own-account'
-        }, {
-          name: 'To landlords',
-          url_path: '/info/landlords'
-        }]
-      }]
+      return [
+        {
+          title: 'Catalog',
+          routes: this.visibleCategories
+        },
+        {
+          title: 'To customers',
+          routes: [
+            {
+              name: 'Payment and delivery',
+              url_path: '/info/delivery'
+            },
+            {
+              name: 'Payments and loans',
+              url_path: '/info/payments-and-loans'
+            },
+            {
+              name: 'Warranty, Exchange, Return',
+              url_path: '/info/warranty-exchange-return'
+            },
+            {
+              name: 'Use promotional code',
+              url_path: '/info/using-a-promo-code'
+            },
+            {
+              name: 'Public offer',
+              url_path: '/info/public-offer'
+            },
+            {
+              name: 'The shops',
+              url_path: '/info/shops'
+            },
+            {
+              name: 'Company',
+              url_path: '/info/company'
+            },
+            {
+              name: 'Vacancies',
+              url_path: '/info/vacancy'
+            },
+            {
+              name: 'Own account',
+              url_path: '/info/own-account'
+            },
+            {
+              name: 'To landlords',
+              url_path: '/info/landlords'
+            }
+          ]
+        }
+      ]
     }
   }
 }
@@ -154,37 +193,176 @@ export default {
 <style lang="scss" scoped>
 @import '~theme/css/variables/colors';
 @import '~theme/css/helpers/functions/color';
+@import '~theme/css/helpers/mixins';
+
+::v-deep .filter-header {
+  padding: 12px 0;
+}
+%reset-button {
+    border: none;
+    margin: 0;
+    padding: 0;
+    width: auto;
+    overflow: visible;
+
+    background: transparent;
+    color: inherit;
+    font: inherit;
+    line-height: normal;
+    -webkit-font-smoothing: inherit;
+    -moz-osx-font-smoothing: inherit;
+    -webkit-appearance: none;
+}
+$grey: #E0E0E0;
+$border: 1px solid $grey;
+
 $color-secondary: color(secondary);
 
 .v-container {
-  width: 90%;
-  padding: 16px 0;
+  @media (max-width: 575px) {
+    padding: 16px 0;
+  }
+  padding: 16px;
 }
 
 .footer-wrap {
-  display: grid;
-  grid-gap: 48px;
-  grid-template-columns: repeat(auto-fill, minmax(205px, 1fr));
+  display: flex;
+  flex-wrap: wrap;
+  & > * {
+    flex: 1;
+    margin-right: 15px;
+  }
+  & > *:last-child {
+    flex: 1.3;
+    margin-right: 0;
+  }
+
+  @media only screen and (max-width: 576px) {
+    margin-bottom: 0;
+    flex-direction: column;
+
+    & > * {
+      margin-right: 0;
+    }
+  }
 }
 
 .start-md {
   display: flex;
   flex-direction: column;
+  min-width: 250px;
+  @media only screen and (max-width: 1200px) {
+    min-width: 200px;
+  }
+  @media only screen and (max-width: 768px) {
+    min-width: unset;
+  }
+  @media only screen and (max-width: 576px) {
+    padding: 0 16px;
+  }
+}
+
+
+.footer {
+  &__cta-section {
+    flex: unset;
+    min-width: unset;
+    margin-right: 129px;
+    @media only screen and (max-width: 1200px) {
+      margin-right: 0;
+      min-width: 250px;
+      flex: 1;
+    }
+    @media only screen and (max-width: 768px) {
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: flex-start;
+      flex: 0 0 100%;
+      margin-bottom: 12px;
+    }
+  }
+
+  &__category {
+    @media only screen and (max-width: 768px) {
+      margin-bottom: 24px;
+    }
+    @media only screen and (max-width: 576px) {
+      cursor: pointer;
+      margin-bottom: 0;
+      padding-right: 21px;
+    }
+    &--last {
+      @media only screen and (max-width: 576px) {
+        margin-bottom: 24px;
+      }
+    }
+
+    @media only screen and (max-width: 576px) {
+      border-top: $border;
+      border-bottom: $border;
+      padding-right: 21px;
+    }
+  }
+  &__category-title-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  &__category-title {
+    &.unfolded {
+      margin-bottom: 16px;
+    }
+  }
+  &__category-btn {
+    @extend %reset-button;
+
+    font-size: 14px;
+    color: $grey;
+
+    &.folded {
+      color: #23BE20;
+    }
+
+    &:hover path {
+      color: #23BE20;
+    }
+  }
 }
 
 .custom-logo {
   max-width: 89px;
   margin: 0 0 32px 0px;
+
+  @media only screen and (max-width: 768px) {
+    margin: 0;
+  }
 }
 
 .copyright {
   margin-top: auto;
+
+  &__container {
+    @media only screen and (max-width: 768px) {
+      padding: 8px 0;
+    }
+  }
 }
 
 .footer-routes {
+
+  @media only screen and (max-width: 1200px) {
+    margin-bottom: 20px;
+  }
+  @media only screen and (max-width: 768px) {
+    margin-bottom: 0;
+  }
   .route {
     margin-bottom: 2px;
 
+    @media only screen and (max-width: 768px) {
+      margin-bottom: 8px;
+    }
     &:last-child {
       margin-bottom: 0;
     }
@@ -193,6 +371,10 @@ $color-secondary: color(secondary);
 
 .social {
   margin-bottom: 20px;
+
+  @media only screen and (max-width: 768px) {
+    margin-bottom: 0;
+  }
 }
 
 .footer-title {
@@ -203,6 +385,27 @@ $color-secondary: color(secondary);
   line-height: 24px;
   margin: 0 0 16px 0;
   color: #FFFFFF;
+
+  &.open {
+    margin-bottom: 16px;
+  }
+  &--contact {
+    @media only screen and (max-width: 576px) {
+      margin-bottom: 16px !important;
+    }
+  }
+  &--accept {
+    @media only screen and (max-width: 576px) {
+      margin-bottom: 16px !important;
+    }
+  }
+
+  @media only screen and (max-width: 576px) {
+    margin: 0;
+  }
+  @include mobile-view {
+    font-size: 15px;
+  }
 }
 
 .payment {
@@ -271,10 +474,10 @@ footer {
       display: block;
       font-family: 'DIN Pro';
       font-weight: 600;
-      font-size: 18px;
-      line-height: 24px;
+      font-size: 15px;
+      line-height: 18px;
       color: #23BE20;
-      margin-bottom: 12px;
+      margin-bottom: 8px;
 
       &:last-child {
         margin-bottom: 0;

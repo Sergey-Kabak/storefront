@@ -1,45 +1,52 @@
 <template>
-  <div class="product">
-    <div class="product-image">
-      <img :src="image.src" alt="product" />
-    </div>
-    <div class="product-info-top">
-      <span class="product-name">{{ product.name }}</span>
-    </div>
-    <div class="product-info-bottom">
-      <div class="product-qty">
-        <product-quantity-new
-          v-model.number="product.qty"
-          @input="udpateQty($event)"
-          :show-quantity="manageQuantity"
-          :check-max-quantity="manageQuantity"
-          :loading="isQtyUpdating"
-        />
-      </div>
-      <product-cart-price :product="product" :nameVisibility="false"/>
-    </div>
-    <div class="product-actions">
-      <div class="actions">
-        <AddToWishlist :product="product" class="product-icon" />
-        <div class="remove" @click="removeFromCart()">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M16 9V19H8V9H16ZM14.5 3H9.5L8.5 4H5V6H19V4H15.5L14.5 3ZM18 7H6V19C6 20.1 6.9 21 8 21H16C17.1 21 18 20.1 18 19V7Z" fill="#BDBDBD"/>
-          </svg>
+  <div class="product-wrap">
+    <div class="product">
+      <router-link :to="productLink" class="product-image">
+        <img :src="image.src" alt="product" />
+      </router-link>
+      <router-link :to="productLink" class="product-info-top">
+        <span class="product-name">{{ product.name }}</span>
+      </router-link>
+      <div class="product-info-bottom">
+        <div class="product-qty">
+          <product-quantity-new
+            v-model.number="product.qty"
+            @input="udpateQty($event)"
+            :show-quantity="manageQuantity"
+            :check-max-quantity="manageQuantity"
+            :loading="isQtyUpdating"
+          />
         </div>
+        <product-cart-price :calculateWithPromo="false" :product="product" :nameVisibility="false"/>
       </div>
-      <more-icon>
-        <div class="more-item" @click="removeFromCart()">
-          <svg width="14" height="18" viewBox="0 0 14 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M1 16C1 17.1 1.9 18 3 18H11C12.1 18 13 17.1 13 16V4H1V16ZM3.5 8.9L4.9 7.5L7 9.6L9.1 7.5L10.5 8.9L8.4 11L10.5 13.1L9.1 14.5L7 12.4L4.9 14.5L3.5 13.1L5.6 11L3.5 8.9ZM10.5 1L9.5 0H4.5L3.5 1H0V3H14V1H10.5Z" fill="#BDBDBD"/>
-          </svg>
-          <span>{{ $t('Remove') }}</span>
+      <div class="product-actions">
+        <div class="actions">
+          <AddToWishlist :product="product" class="product-icon" />
+          <div class="remove" @click="removeFromCart()">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M16 9V19H8V9H16ZM14.5 3H9.5L8.5 4H5V6H19V4H15.5L14.5 3ZM18 7H6V19C6 20.1 6.9 21 8 21H16C17.1 21 18 20.1 18 19V7Z" fill="#BDBDBD"/>
+            </svg>
+          </div>
         </div>
-      </more-icon>
+        <more-icon>
+          <div class="more-item">
+            <AddToWishlist :product="product" showDescription />
+          </div>
+          <div class="more-item" @click="removeFromCart()">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M16 9V19H8V9H16ZM14.5 3H9.5L8.5 4H5V6H19V4H15.5L14.5 3ZM18 7H6V19C6 20.1 6.9 21 8 21H16C17.1 21 18 20.1 18 19V7Z" fill="#BDBDBD"/>
+            </svg>
+            <span>{{ $t('Remove') }}</span>
+          </div>
+        </more-icon>
+      </div>
     </div>
+    <microcart-product-bundle-options v-if="product.bundle_options" :product="product" class="product-bundle-options" />
   </div>
 </template>
 
 <script>
+import MicrocartProductBundleOptions from 'theme/components/core/blocks/Microcart/MicrocartProductBundleOptions.vue';
 import ProductQuantityNew from 'theme/components/core/ProductQuantityNew.vue';
 import { onlineHelper } from '@vue-storefront/core/helpers';
 import { currentStoreView } from '@vue-storefront/core/lib/multistore';
@@ -49,6 +56,7 @@ import MoreIcon from 'theme/components/core/MoreIcon';
 import ProductCartPrice from "../Product/ProductCartPrice";
 import GTM from 'theme/mixins/GTM/dataLayer'
 import AddToWishlist from 'theme/components/core/blocks/Wishlist/AddToWishlist';
+import { formatProductLink } from '@vue-storefront/core/modules/url/helpers';
 
 export default {
   mixins: [Product, ProductCartPrice, GTM],
@@ -56,7 +64,8 @@ export default {
     ProductQuantityNew,
     MoreIcon,
     ProductCartPrice,
-    AddToWishlist
+    AddToWishlist,
+    MicrocartProductBundleOptions
   },
   data: () => ({
     maxQuantity: 0,
@@ -85,6 +94,9 @@ export default {
     },
     storeView () {
       return currentStoreView();
+    },
+    productLink() {
+      return formatProductLink(this.product, currentStoreView().storeCode)
     }
   },
   methods: {
@@ -97,11 +109,11 @@ export default {
           action2: { label: i18n.t('OK'),
             action: async () => {
               this.$store.dispatch('cart/removeItem', { product: this.product })
+              await this.GTM_REMOVE_FROM_CART([this.product])
             }
           },
           hasNoTimeout: true
         })
-        this.GTM_REMOVE_FROM_CART([this.product], null, null, { color: this.product.color, quantity: this.product.qty })
       } catch (e) {
         console.log(e);
       }
@@ -116,19 +128,21 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.product-wrap {
+  margin-bottom: 16px;
+  border: 1px solid #E0E0E0;
+}
+
 .product {
-  padding: 16px 12px 16px 16px;
+  padding: 15px 12px 15px 15px;
   display: grid;
+  grid-row-gap: 8px;
   grid-template-columns: auto 1fr auto;
   grid-template-rows: auto auto;
-  grid-row-gap: 16px;
   grid-template-areas:
     "image top-info actions"
     "image bottom-info actions";
   align-items: flex-start;
-  padding-bottom: 16px;
-  margin-bottom: 16px;
-  border-bottom: 1px solid #e0e0e0;
 }
 
 .more {
@@ -175,7 +189,7 @@ export default {
   height: 88px;
   font-family: DIN Pro;
   font-style: normal;
-  margin-right: 14px;
+  margin-right: 16px;
 
   img {
     display: block;
@@ -197,7 +211,7 @@ export default {
 }
 
 .product-qty {
-  margin-right: 12px;
+  margin-right: 8px;
 }
 
 img {
@@ -221,6 +235,11 @@ img {
   font-size: 15px;
   line-height: 18px;
   color: #1A1919;
+
+  @media only screen and (max-width: 520px) {
+    font-size: 13px;
+    line-height: 15px;
+  }
 }
 
 .product-data {
@@ -239,22 +258,23 @@ img {
   align-items: flex-start;
   grid-area: top-info;
   padding-right: 20px;
+  margin-bottom: 5px;
 }
 
 .product-info-bottom {
   display: flex;
-  align-items: baseline;
+  align-items: center;
   justify-content: flex-start;
   grid-area: bottom-info;
-  margin-top: auto;
 }
 
 .more-item {
   display: flex;
   align-items: center;
-  padding: 12px 16px;
+  padding: 8px 16px;
 
   svg {
+    box-sizing: content-box;
     margin-right: 20px;
   }
 
@@ -280,12 +300,33 @@ img {
   cursor: pointer;
 
   svg {
-    padding: 4px;
     box-sizing: content-box;
   }
 
   &:hover {
     background-color: #F9F9F9;
+  }
+}
+
+.product-bundle-options ::v-deep {
+  .bundle-option {
+    .options {
+      .option {
+        padding-bottom: 15px;
+      }
+    }
+
+    &:last-child {
+      .options {
+        padding: 16px;
+
+        .option {
+          border-bottom: none;
+          padding-bottom: 0;
+        }
+      }
+    }
+
   }
 }
 
@@ -298,11 +339,7 @@ img {
 
   .product-info-bottom {
     justify-content: space-between;
-  }
-  
-  .product-image {
-    width: 56px;
-    height: 56px;
+    align-items: flex-end;
   }
 
   .product-info-top {
@@ -315,6 +352,11 @@ img {
 
   .more {
     display: block;
+  }
+
+  .product-image {
+    width: 56px;
+    height: 56px;
   }
 }
 

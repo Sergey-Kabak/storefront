@@ -47,6 +47,18 @@ export function slugify (text) {
  * @param {string} pathType
  * @returns {string}
  */
+export function getFilePath (relativeUrl: string, pathType: string): string {
+  if (config.images.useSpecificImagePaths) {
+    const path = config.images.paths[pathType] !== undefined ? config.images.paths[pathType] : ''
+    relativeUrl = path + relativeUrl
+  }
+  if (relativeUrl && (relativeUrl.indexOf('://') > 0 || relativeUrl.indexOf('?') > 0 || relativeUrl.indexOf('&') > 0)) relativeUrl = encodeURIComponent(relativeUrl)
+  // proxyUrl is not a url base path but contains {{url}} parameters and so on to use the relativeUrl as a template value and then do the image proxy opertions
+  let baseUrl = processURLAddress(config.images.uploadsUrl)
+
+  return `${baseUrl}/${relativeUrl}`.replace('///', '/')
+}
+
 export function getThumbnailPath (relativeUrl: string, width: number = 0, height: number = 0, pathType: string = 'product'): string {
   if (config.images.useSpecificImagePaths) {
     const path = config.images.paths[pathType] !== undefined ? config.images.paths[pathType] : ''

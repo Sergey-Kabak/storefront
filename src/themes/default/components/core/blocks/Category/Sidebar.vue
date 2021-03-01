@@ -24,7 +24,7 @@
       </span>
     </h3>
     <div
-      v-for="(filter, filterIndex) in availableFilters"
+      v-for="(filter, filterIndex) in sortedFilters"
       :key="filterIndex"
       class="filter"
     >
@@ -125,13 +125,23 @@ export default {
         if (condition){
           res.push(condition)
         }
-
       })
 
       return this.isEdge ? this.flattenDeep(res) : res.flat(2)
     },
     availableFilters () {
       return pickBy(this.filters, (filter, filterType) => { return (filter.length && !this.$store.getters['category-next/getSystemFilterNames'].includes(filterType)) })
+    },
+    sortedFilters () {
+      if (!this.getActiveFilters.length && this.$route.path === '/8-march') {
+        return {
+          price: this.availableFilters.price,
+          kategorija_akcija: this.availableFilters.kategorija_akcija,
+          manufacturer: this.availableFilters.manufacturer
+        }
+      } else {
+        return this.availableFilters
+      }
     }
   },
   methods: {
@@ -181,8 +191,8 @@ $mobile_screen : 767px;
     margin-right: 6px;
 }
 /deep/ .color-inside {
-  width: 30px;
-  height: 30px;
+  width: 32px;
+  height: 32px;
 }
 /deep/ .checkbox-selector{
   span.checkbox{

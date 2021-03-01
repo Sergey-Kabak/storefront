@@ -1,49 +1,46 @@
 <template>
   <div class="total-prices">
-    <div
-      class="total-price"
-      v-for="(segment, index) in totalsUsed"
-      :key="index"
-    >
-      <div
-        class="total-price-label"
-        :class="{ discount: segment.code === 'discount' }"
-      >
-        {{ $t(segment.code) }}:
-      </div>
-      <no-ssr>
-        <div
-          class="total-price-value"
-          :class="{ discount: segment.code === 'discount' }"
-        >
-          {{ Math.abs(segment.value) | price(storeView) }}
+    <div class="total-price discount" v-if="discount">
+      <span class="total-price-label discount">{{ $t('discount') }}</span>
+      <span class="total-price-value discount">{{ Math.abs(discount) | price(storeView) }}</span>
+    </div>
+    <div class="grand-total">
+      <div class="total-price">
+        <span class="total-price-label">{{ $t('grand_total') }}</span>
+        <div class="price">
+<!--          <span class="original-price" :class="{'old-price': subtotal > grandTotal}" >{{ subtotal | price(storeView) }}</span>-->
+<!--          <span class="special-price" v-if="subtotal > grandTotal">{{ grandTotal | price(storeView) }}</span>-->
+          <span class="special-price">{{ grandTotal | price }}</span>
         </div>
-      </no-ssr>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
-import NoSSR from 'vue-no-ssr';
 import { mapGetters } from 'vuex';
 import { currentStoreView } from '@vue-storefront/core/lib/multistore';
 
 export default {
-  components: {
-    'no-ssr': NoSSR
-  },
   computed: {
     ...mapGetters({
-      totals: "cart/getTotals"
+      totals: 'cart/getTotals'
     }),
-    totalsUsed() {
-      return this.totals.filter(it =>
-        ["grand_total", "discount"].includes(it.code)
-      );
-		},
-		storeView () {
-      return currentStoreView()
+    subtotal () {
+      const subtotal = this.totals.find(it => it.code === 'subtotal_original')
+      return subtotal && subtotal.value
     },
+    discount () {
+      const discount = this.totals.find(it => it.code === 'discount')
+      return discount && discount.value
+    },
+    grandTotal () {
+      const grandTotal = this.totals.find(it => it.code === 'grand_total')
+      return grandTotal && grandTotal.value
+    },
+    storeView () {
+      return currentStoreView()
+    }
   }
 };
 </script>
@@ -91,4 +88,36 @@ export default {
     color: #23be20;
   }
 }
+
+.price {
+  display: flex;
+  align-items: baseline;
+}
+
+.original-price {
+  font-family: DIN Pro;
+  font-weight: 600;
+  font-size: 24px;
+  line-height: 30px;
+  color: #1A1919;
+
+  &.old-price {
+    font-size: 15px;
+    line-height: 16px;
+    font-weight: 400;
+    text-decoration-line: line-through;
+    color: #5F5E5E;
+    margin-right: 4px;
+  }
+}
+
+.special-price {
+  font-family: DIN Pro;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 24px;
+  line-height: 30px;
+  color: #1A1919;
+}
+
 </style>

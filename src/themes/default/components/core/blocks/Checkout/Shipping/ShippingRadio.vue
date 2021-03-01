@@ -11,7 +11,7 @@
       </div>
       <div class="price">
         <div class="shipping-price">
-          <span v-if="shipping.amount" class="shipping-cost">{{ $t("From") }} {{ shipping.amount | price(storeView) }}</span>
+          <span v-if="shipping.amount" class="shipping-cost">{{ shipping.amount | price(storeView) }}</span>
           <span class="shipping-free" v-else>{{ $t("is free") }}</span>
         </div>
       </div>
@@ -60,7 +60,7 @@ export default {
   display: flex;
   align-items: flex-start;
   width: 100%;
-  padding: 16px;
+  padding: 14px;
   cursor: pointer;
 }
 

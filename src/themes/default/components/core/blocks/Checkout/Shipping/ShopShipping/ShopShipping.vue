@@ -5,7 +5,7 @@
       <shop v-for="(shop, index) in shops" :key="shop.id" :shop="shop" :index="index" class="shop">
         <template v-slot:shop-actions>
           <div class="shop-actions">
-            <button-full @click.native="selectShop(shop)">{{ $t("Pick up here") }}</button-full>
+            <button-full v-if="buttonVisible" @click.native="selectShop(shop)">{{ $t("Pick up here") }}</button-full>
           </div>
         </template>
       </shop>
@@ -23,6 +23,12 @@ import ButtonFull from 'theme/components/theme/ButtonFull'
 import ShopTitle from 'theme/components/core/blocks/Shop/ShopTitle.vue'
 
 export default {
+  props: {
+    buttonVisible: {
+      type: Boolean,
+      default: () => true
+    }
+  },
   components: {
     ShopMap,
     Shop,
@@ -68,6 +74,8 @@ export default {
 }
 
 .shop {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
   border-bottom: 1px solid #E0E0E0;
 
   &:last-child {
@@ -105,6 +113,7 @@ export default {
   max-width: 131px;
   width: 100%;
   margin-top: auto;
+  margin-left: auto;
 
   .button-full {
     height: 31px;
@@ -133,7 +142,7 @@ export default {
 
 @media  (max-width: 460px) {
   .shop {
-    flex-direction: column;
+    grid-template-columns: 1fr;
   }
 
   .shop-actions {

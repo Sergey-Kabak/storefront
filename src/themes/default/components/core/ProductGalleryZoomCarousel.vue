@@ -1,9 +1,14 @@
 <template>
   <div class="media-zoom-carousel">
+    <div class="product-title flex v-center">
+      Мобильный телефон Apple iPhone 11 64GB Black
+    </div>
     <div class="media-zoom-carousel__container row flex">
       <ul class="media-zoom-carousel__thumbs m0 p0" ref="thumbs">
         <li class="media-zoom-carousel__thumb bg-cl-secondary" v-for="(images, index) in gallery" :key="images.src">
           <product-image
+            class="sidebar__img"
+            :class="{'active' : currentPage === index}"
             @click="navigate(index)"
             :image="images"
             :alt="productName | htmlDecode"
@@ -18,8 +23,8 @@
             :navigation-enabled="true"
             pagination-active-color="#828282"
             pagination-color="transparent"
-            navigation-next-label="<i class='material-icons p15 cl-bg-tertiary pointer'>keyboard_arrow_right</i>"
-            navigation-prev-label="<i class='material-icons p15 cl-bg-tertiary pointer'>keyboard_arrow_left</i>"
+            navigation-next-label="<i class='material-icons cl-bg-tertiary pointer'>keyboard_arrow_right</i>"
+            navigation-prev-label="<i class='material-icons cl-bg-tertiary pointer'>keyboard_arrow_left</i>"
             ref="zoomCarousel"
             class="media-zoom-carousel__carousel"
             :speed="carouselTransitionSpeed"
@@ -50,14 +55,28 @@
         </no-ssr>
       </div>
     </div>
+    <div class="product-slider-footer">
+      <div class="product-price">
+        {{getCurrentProduct.final_price | price}}
+      </div>
+
+      <add-to-cart
+        class="add-to-card ml30"
+        :product="getCurrentProduct"
+      />
+    </div>
   </div>
 </template>
 
 <script>
+import { mapGetters} from 'vuex'
 import { disableBodyScroll, clearAllBodyScrollLocks } from 'body-scroll-lock'
 import ProductImage from './ProductImage'
 import ProductVideo from './ProductVideo'
 import NoSSR from 'vue-no-ssr'
+import ProductPrice from 'theme/components/core/ProductPrice.vue'
+import AddToCart from 'theme/components/core/AddToCart.vue'
+import { currentStoreView } from '@vue-storefront/core/lib/multistore';
 
 export default {
   name: 'ProductGalleryZoomCarousel',
@@ -89,8 +108,22 @@ export default {
     ProductImage,
     ProductVideo,
     'no-ssr': NoSSR,
+    ProductPrice,
+    AddToCart
+  },
+  computed: {
+    ...mapGetters({
+      getCurrentProduct: 'product/getCurrentProduct',
+      getCurrentCustomOptions: 'product/getCurrentCustomOptions',
+    })
+  },
+  storeView () {
+    return currentStoreView()
   },
   mounted () {
+    this.$bus.$on('gallery-page-change' , (index) => {
+      this.pageChange(index)
+    })
     this.$nextTick(() => {
       disableBodyScroll(this.$refs.thumbs)
     })
@@ -116,8 +149,22 @@ export default {
     increaseCarouselTransitionSpeed () {
       this.carouselTransitionSpeed = 500
     },
+    smoothScroll (offset) {
+      this.$refs.thumbs.scroll({
+        behavior: 'smooth',
+        left: 0,
+        top: offset
+      });
+    },
     pageChange (index) {
+      this.currentPage = index;
       this.hideImageAtIndex = null
+
+      const list = this.$refs.thumbs;
+      const listClientHeight = list.clientHeight;
+      const listItem = list.querySelector('.product-image.sidebar__img.active').offsetTop + 67;
+
+      listItem - listClientHeight > 0 ? this.smoothScroll(listItem - listClientHeight) : this.smoothScroll(0);
     },
     onVideoStarted (index) {
       this.hideImageAtIndex = index
@@ -129,6 +176,81 @@ export default {
 <style lang="scss" scoped>
 @import '~theme/css/base/global_vars';
 @import '~theme/css/animations/transitions';
+ul.media-zoom-carousel__thumbs{
+  @media (min-width : 768px) and (max-width : 1366px){
+    max-height: 80%;
+    margin: auto 0;
+  }
+}
+.media-zoom-carousel__gallery{
+  @media (min-width : 768px) and (max-width : 1366px){
+    max-height: 80%;
+    margin: auto !important;
+  }
+}
+.product-slider-footer{
+  @media (max-width : 767px){
+    display: none;
+  }
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  padding: 24px;
+  .product-price {
+    display: flex;
+    align-items: center;
+    font-family: DIN Pro;
+    font-style: normal;
+    font-weight: 900;
+    font-size: 24px;
+    line-height: 30px;
+    color: #1A1919;
+    margin-right: 2px;
+  }
+  button{
+    max-width: 131px;
+    min-width: auto;
+  }
+}
+/deep/ .media-zoom-carousel__thumb{
+  background-color: #fff;
+}
+/deep/ .sidebar__img{
+  opacity: 0.5;
+  transition : ease-in 0.2s;
+  &.active{
+    opacity: 1;
+  }
+  img{
+    max-width: 57px;
+    max-height: 57px;
+    object-fit: contain;
+  }
+
+}
+.product-title{
+  min-height: 54px;
+  border-bottom : 1px solid #E0E0E0;
+  padding: 13px 54px 13px 24px;
+  font-family: 'DIN Pro';
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 30px;
+  color: #1A1919;
+  box-sizing: border-box;
+}
+/deep/ .VueCarousel-navigation-button{
+  max-height: 40px;
+  border-radius: 50%;
+  border: 1px solid #E0E0E0 !important;
+  background-color: #fff !important;
+  &:focus{
+    outline: none !important;
+  }
+}
 .media-zoom-carousel {
   * {
     box-sizing: border-box;
@@ -145,7 +267,7 @@ export default {
     padding: 20px;
     height: 750px;
     max-height: 100%;
-    justify-content: space-evenly;
+    //justify-content: space-evenly;
 
     @media (max-width: 767px){
       top: 50%;
@@ -157,43 +279,42 @@ export default {
 
   &__thumbs{
     list-style: none;
-    padding-right: 20px;
+    padding-right: 16px;
     width:100%;
-    max-width: 140px;
+    max-width: 73px;
     height: 100%;
     overflow: auto;
     -ms-overflow-style: none;
-
     &::-webkit-scrollbar {
-      display: none;
+      width: 4px;
+      background-color: transparent;
     }
-
+    &::-webkit-scrollbar-thumb {
+      background-color: #E0E0E0;
+      border-radius: 4px;
+    }
     @media (max-width: 767px) {
       display: none;
     }
   }
 
   &__thumb{
-    margin-bottom: 20px;
+    margin-bottom: 16px;
     max-width: 100%;
     cursor: pointer;
-
     &:last-of-type {
       margin-bottom: 0;
     }
-
     & > *{
-      opacity: .9;
       will-change: opacity;
       transition: .3s opacity $motion-main;
-
       &:hover{
         opacity: 1;
       }
     }
   }
-
   &__gallery{
+    margin: 0 auto;
     max-width: 600px;
     height: 100%;
     flex: 1;
@@ -201,11 +322,9 @@ export default {
       height: auto;
     }
   }
-
   &__carousel {
     height: 100%;
   }
-
   &__slide{
     height: 100%;
     max-height: 100%;
@@ -226,6 +345,9 @@ export default {
   .VueCarousel-inner,
   .VueCarousel-slide {
     height: 100%;
+  }
+  .VueCarousel-inner{
+    height: 100% !important;
   }
 }
 </style>

@@ -42,14 +42,14 @@
       <slot/>
       <main-footer/>
       <sign-up/>
-
       <custom-seller-product />
-
       <credit-modal />
-
+      <city-picker />
       <cookie-notification/>
       <offline-badge/>
       <city-shop-picker />
+      <shop-shipping-modal />
+      <main-modal />
     </div>
     <vue-progress-bar/>
   </div>
@@ -65,10 +65,12 @@ import SignUp from 'theme/components/core/blocks/Auth/SignUp.vue';
 import CookieNotification from 'theme/components/core/CookieNotification.vue';
 import OfflineBadge from 'theme/components/core/OfflineBadge.vue';
 import CreditModal from 'theme/components/core/blocks/CreditModal.vue';
+import MainModal from 'theme/components/core/blocks/MainModal.vue';
+import ShopShippingModal from '../components/core/blocks/ShopShippingModal';
 import { isServer } from '@vue-storefront/core/helpers';
 import Head from 'theme/head';
 import config from 'config';
-
+const CityPicker = () => import(/* webpackChunkName: "vsf-custom-city-picker-modal" */ 'theme/components/core/blocks/CityPicker/CityPicker.vue');
 const SidebarMenu = () => import(/* webpackChunkName: "vsf-sidebar-menu" */ 'theme/components/core/blocks/SidebarMenu/SidebarMenu.vue');
 const Microcart = () => import(/* webpackChunkName: "vsf-microcart" */ 'theme/components/core/blocks/Microcart/Microcart.vue');
 const Wishlist = () => import(/* webpackChunkName: "vsf-wishlist" */ 'theme/components/core/blocks/Wishlist/Wishlist.vue');
@@ -141,7 +143,10 @@ export default {
     AsyncSidebar,
     CustomSellerProduct,
     CityShopPicker,
-    CreditModal
+    CreditModal,
+    CityPicker,
+    ShopShippingModal,
+    MainModal
   }
 };
 </script>
