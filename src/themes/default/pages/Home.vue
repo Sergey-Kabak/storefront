@@ -82,7 +82,7 @@
       <section>
         <home-carousel />
       </section>
-
+    </section>
     <section class="v-container ">
       <div>
         <header class="col-md-12">
