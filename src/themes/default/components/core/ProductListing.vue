@@ -48,7 +48,7 @@ export default {
       }
       return cols[this.screenResolution]
     }
-  }
+  },
 }
 </script>
 
