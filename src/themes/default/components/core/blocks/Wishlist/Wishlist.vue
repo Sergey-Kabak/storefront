@@ -79,6 +79,7 @@ import ButtonText from 'theme/components/theme/ButtonText';
 import { notifications } from '@vue-storefront/core/modules/cart/helpers';
 import MoreIcon from 'theme/components/core/MoreIcon';
 import { mapGetters } from 'vuex';
+import { price } from 'theme/helpers';
 
 export default {
   mixins: [Wishlist],
@@ -104,7 +105,7 @@ export default {
       return currentStoreView()
     },
     price () {
-      return this.totals.find(it => it.code === 'grand_total').value
+      return this.productsInWishlist.reduce((acc, it) => acc + price(it), 0)
     }
   },
   methods: {
