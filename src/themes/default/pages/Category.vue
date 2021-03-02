@@ -354,6 +354,9 @@ export default {
   }
   &-description{
     &-wrapper{
+      @media (max-width: 575px){
+        margin-bottom: 0 !important;
+      }
       background: linear-gradient(0deg, transparent, #fff, transparent);
       margin: 68px auto 68px;
       max-width: 988px;
@@ -385,9 +388,7 @@ export default {
   }
 }
 .march-promo-image{
-  position: relative;
-  right: -22px;
-  margin-top: 68px;
+  max-width: 100%;
 }
 $mobile_screen : 768px;
   ::v-deep .spinner{
@@ -690,7 +691,7 @@ $mobile_screen : 768px;
     }
 
     .mobile-actions {
-      justify-content: space-around;
+      justify-content: space-between;
       display: flex;
       & > * {
         flex: 0 0 48%;
@@ -749,6 +750,9 @@ $mobile_screen : 768px;
 <style lang="scss">
 
 .load{
+  @media(max-width: 575px) {
+    width: 100% !important;
+  }
   margin: 32px auto 0;
 }
 
