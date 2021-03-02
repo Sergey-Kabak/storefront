@@ -174,7 +174,9 @@ export default {
 .carousel-wrapper{
   margin: 0 auto;
   @media (min-width: 1361px) {
-    max-width: 1216px;
+    position: relative;
+    left: -4px;
+    max-width: 1337px;
   }
   @media (min-width: 1025px) and (max-width: 1360px) {
     max-width: 894px;
