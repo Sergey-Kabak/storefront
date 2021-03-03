@@ -163,6 +163,14 @@ export default {
     async changeFilter (variant) {
       const selectedConfiguration = Object.assign({ attribute_code: variant.type }, variant)
       await filterChangedProduct(selectedConfiguration, this.$store, this.$router)
+      const newUrl = this.getCurrentProduct.configurable_children.find(p => p.sku === this.getCurrentProduct.sku).url_path
+      if (newUrl) {
+        history.pushState(
+          {},
+          null,
+          newUrl
+        )
+      }
       this.$bus.$emit('filter-changed-product', Object.assign({ attribute_code: variant.type }, variant))
       this.getQuantity();
     },
