@@ -142,11 +142,8 @@ const invalidINN = (value) => {
     (strValue[7] * 5) +
     (strValue[8] * 7);
   let check = total % 11;
-  if (check === 10) {
-    check = check[1];
-  }
-  if (check !== (strValue[9] * 1)) return false;
-  return true;
+  check === 10 && (check = check[1]);
+  return check === +strValue[9]
 }
 export default {
   name: 'CreditForm',
