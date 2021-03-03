@@ -77,7 +77,7 @@ export default {
     showExpireDate () {
       return this.getCurrentProduct.bundle_gift_date_from &&
         this.getCurrentProduct.bundle_gift_date_to &&
-        new Date(this.getCurrentProduct.bundle_gift_date_to) >= new Date(this.getCurrentProduct.bundle_gift_date_from)
+        new Date(this.getCurrentProduct.bundle_gift_date_to) > new Date(this.getCurrentProduct.bundle_gift_date_from)
     }
   },
   methods: {
