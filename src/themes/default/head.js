@@ -43,12 +43,12 @@ export default {
     {
       async: true,
       type: 'text/javascript',
-      innerHTML: `<script> (function(i,s,o,g,r,a,m){ i["esSdk"] = r; i[r] = i[r] || function() { (i[r].q = i[r].q || []).push(arguments) }, a=s.createElement(o), m=s.getElementsByTagName(o)[0]; a.async=1; a.src=g; m.parentNode.insertBefore(a,m)} ) (window, document, "script", "https://esputnik.com/scripts/v1/public/scripts?apiKey=eyJhbGciOiJSUzI1NiJ9.eyJzdWIiOiI0NTI0ZWZhYTJkYzI2MGRmYTM4YTE1NDBlMWI3ZjE1MWQzYjQyMjA3MmU0NmRmOWQwMGIzNDk1ZmM2ODY0MTBjMjRhOGU3NzY0ZmI4YTA2MjZmNDU3YWY5YzcyMWM3MGQwOGU4Yzg1NzQxM2E3NGIxYjQzNTQ3OGQ3MjE4ZmMxNWUzYjNmYjI2M2M3ZDY0NTJhMTY2YWMzNGY2ZDgxZTQ1MTU4MWU1OTI5OTFlNjE1Y2Y1MDBhYTljOTNhYjgwY2IifQ.QxUsylpg7vhO6c7YJ_actNXZFdd7RsSxj_-BWpq0osTK5ZStBb6xQC_xBEn4wUtef5kBkaMW0zSZfOcZDh5x8g&domain=3950D64D-15B2-4D41-89D8-A9051B28BC2F", "es"); es("pushOn"); </script>`
+      innerHTML: `(function(i,s,o,g,r,a,m){ i["esSdk"] = r; i[r] = i[r] || function() { (i[r].q = i[r].q || []).push(arguments) }, a=s.createElement(o), m=s.getElementsByTagName(o)[0]; a.async=1; a.src=g; m.parentNode.insertBefore(a,m)} ) (window, document, "script", "https://esputnik.com/scripts/v1/public/scripts?apiKey=eyJhbGciOiJSUzI1NiJ9.eyJzdWIiOiI0NTI0ZWZhYTJkYzI2MGRmYTM4YTE1NDBlMWI3ZjE1MWQzYjQyMjA3MmU0NmRmOWQwMGIzNDk1ZmM2ODY0MTBjMjRhOGU3NzY0ZmI4YTA2MjZmNDU3YWY5YzcyMWM3MGQwOGU4Yzg1NzQxM2E3NGIxYjQzNTQ3OGQ3MjE4ZmMxNWUzYjNmYjI2M2M3ZDY0NTJhMTY2YWMzNGY2ZDgxZTQ1MTU4MWU1OTI5OTFlNjE1Y2Y1MDBhYTljOTNhYjgwY2IifQ.QxUsylpg7vhO6c7YJ_actNXZFdd7RsSxj_-BWpq0osTK5ZStBb6xQC_xBEn4wUtef5kBkaMW0zSZfOcZDh5x8g&domain=3950D64D-15B2-4D41-89D8-A9051B28BC2F", "es"); es("pushOn");`
     },
     {
       async: true,
       type: 'text/javascript',
-      innerHTML: `<script> !function (t, e, c, n) { var s = e.createElement(c); s.async = 1, s.src = 'https://statics.esputnik.com/scripts/' + n + '.js'; var r = e.scripts[0]; r.parentNode.insertBefore(s, r); var f = function () { f.c(arguments); }; f.q = []; f.c = function () { f.q.push(arguments); }; t['eS'] = t['eS'] || f; }(window, document, 'script', '5329D46FF7EB4D63A5CA2E048C5C6C4E'); </script><script>eS('init', {TRACKING: true, RECOMS: true});</script>`
+      innerHTML: `!function (t, e, c, n) { var s = e.createElement(c); s.async = 1, s.src = 'https://statics.esputnik.com/scripts/' + n + '.js'; var r = e.scripts[0]; r.parentNode.insertBefore(s, r); var f = function () { f.c(arguments); }; f.q = []; f.c = function () { f.q.push(arguments); }; t['eS'] = t['eS'] || f; }(window, document, 'script', '5329D46FF7EB4D63A5CA2E048C5C6C4E'); </script><script>eS('init', {TRACKING: true, RECOMS: true});`
     },
   ],
   noscript: [
