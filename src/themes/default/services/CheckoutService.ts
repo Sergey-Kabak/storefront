@@ -108,7 +108,7 @@ const getJustinDepartments = async ({
     searchQuery = searchQuery.query('query_string', 
     {
       "query": `*${department}*`, 
-      "fields": ['address_ua^1', 'descr_ua^2']
+      "fields": ["address_ua"]
     })
   }
 
@@ -119,11 +119,7 @@ const getJustinDepartments = async ({
     sort
   })
 
-  return resp.items && resp.items.map(it => ({
-    address_ua: it.descr_ua + ', ' + it.address_ua,
-    city_uuid: it.city_uuid,
-    uuid: it.uuid
-  }))
+  return resp.items
 }
 
 const getOrderByCartId = (cartId: string): Promise<Task> => {

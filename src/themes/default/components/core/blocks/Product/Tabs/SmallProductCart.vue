@@ -1,6 +1,7 @@
 <template>
   <div class="small-product">
     <div class="small-product-carriage">
+      <product-stock-status />
       <div class="flex">
         <product-image
           class="product-cover__thumb"
@@ -17,6 +18,7 @@
 </template>
 
 <script>
+import ProductStockStatus from '../Components/ProductStockStatus';
 import ProductTrade from '../Components/ProductTrade';
 import ProductImage from '../../../ProductImage';
 import ProductMixin from '../Mixins/ProductMixin';
@@ -24,6 +26,7 @@ import ProductMixin from '../Mixins/ProductMixin';
 export default {
   mixins: [ProductMixin],
   components: {
+    ProductStockStatus,
     ProductTrade,
     ProductImage
   },

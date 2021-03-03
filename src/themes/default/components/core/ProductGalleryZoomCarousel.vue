@@ -1,11 +1,11 @@
 <template>
   <div class="media-zoom-carousel">
     <div class="product-title flex v-center">
-      {{ getCurrentProduct.name }}
+      Мобильный телефон Apple iPhone 11 64GB Black
     </div>
     <div class="media-zoom-carousel__container row flex">
       <ul class="media-zoom-carousel__thumbs m0 p0" ref="thumbs">
-        <li class="media-zoom-carousel__thumb bg-cl-secondary" v-for="(images, index) in gallery" :key="index">
+        <li class="media-zoom-carousel__thumb bg-cl-secondary" v-for="(images, index) in gallery" :key="images.src">
           <product-image
             class="sidebar__img"
             :class="{'active' : currentPage === index}"
@@ -33,7 +33,7 @@
           >
             <slide
               v-for="(images, index) in gallery"
-              :key="index"
+              :key="images.src"
             >
               <div class="media-zoom-carousel__slide bg-cl-secondary"
                    :class="{'video-container h-100 flex relative': images.video}"
