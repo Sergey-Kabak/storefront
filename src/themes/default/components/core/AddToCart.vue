@@ -16,8 +16,9 @@ import { formatProductMessages } from '@vue-storefront/core/filters/product-mess
 import { notifications } from '@vue-storefront/core/modules/cart/helpers';
 import focusClean from 'theme/components/theme/directives/focusClean';
 import ButtonFull from 'theme/components/theme/ButtonFull.vue';
-import { mapGetters } from 'vuex';
+import { mapGetters, mapState } from 'vuex';
 import GTM from 'theme/mixins/GTM/dataLayer'
+import { CartService } from '@vue-storefront/core/data-resolver';
 
 export default {
   mixins: [GTM],
@@ -38,6 +39,27 @@ export default {
     }
   },
   methods: {
+    async updateMicrocart (products) {
+      for (let product of products) {
+        const item = this.kitProducts.find(p => p.sku === product.sku)
+        if (item) {
+          console.log(item)
+          const entities = [
+            'id',
+            'qty',
+            'stock',
+            'image',
+            'final_price',
+            'special_price'
+          ]
+          entities.forEach(entity => product[entity] = item[entity])
+          product['server_item_id'] = product.item_id
+        }
+        await this.$store.commit('cart/cart/ADD', {
+          product: { ...product }
+        })
+      }
+    },
     onAfterRemovedVariant () {
       this.$forceUpdate()
     },
@@ -50,6 +72,12 @@ export default {
         })
       } catch (message) {
         this.notifyUser(notifications.createNotification({ type: 'error', message }))
+      } finally {
+        const { result } = await CartService.getItems()
+        const diff = result.filter(product => !this.getCartItems.find(cart => cart.sku === product.sku))
+        if (diff.length) {
+          await this.updateMicrocart(diff)
+        }
       }
     },
     notifyUser (notificationData) {
@@ -61,7 +89,10 @@ export default {
       isAddingToCart: 'cart/getIsAdding',
       getCurrentCustomOptions: 'product/getCurrentCustomOptions',
       getCurrentProductConfiguration: 'product/getCurrentProductConfiguration',
-      getCartItems: ''
+      getCartItems: 'cart/getCartItems'
+    }),
+    ...mapState({
+      kitProducts: (state) => state.kits.products
     }),
     isProductDisabled () {
       return this.disabled || formatProductMessages(this.product.errors) !== '' || this.isAddingToCart

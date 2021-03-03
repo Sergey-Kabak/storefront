@@ -65,7 +65,7 @@ import AccessoriesTab from '../components/core/blocks/Product/Tabs/AccessoriesTa
 import ReviewsTab from '../components/core/blocks/Product/Tabs/ReviewsTab';
 import SmallProductCart from '../components/core/blocks/Product/Tabs/SmallProductCart';
 import GTM from 'theme/mixins/GTM/dataLayer'
-import { mapGetters } from 'vuex';
+import { mapGetters, mapState } from 'vuex';
 import { currentStoreView, localizedRoute } from '@vue-storefront/core/lib/multistore';
 import { htmlDecode } from '@vue-storefront/core/filters';
 import { ReviewModule } from '@vue-storefront/core/modules/review';
@@ -81,6 +81,10 @@ import TabContainer from '../components/core/blocks/Product/Tabs/TabContainer';
 import TabContainerMobile from '../components/core/blocks/Product/Tabs/TabContainerMobile';
 import ProductKits from '../components/core/blocks/Product/Components/ProductKits';
 import NoSSR from 'vue-no-ssr'
+
+function EndDateInvalid (dateTo) {
+  return (dateTo && new Date(dateTo) < Date.now())
+}
 
 export default {
   mixins: [GTM, ProductScrolls, ResizeMixin],
@@ -129,6 +133,9 @@ export default {
       getProductGallery: 'product/getProductGallery',
       getCurrentProductConfiguration: 'product/getCurrentProductConfiguration'
     }),
+    ...mapState({
+      kitProducts: (state) => state.kits.products
+    }),
     visibleBlocks () {
       const blocks = {
         'promo': this.getCurrentProduct.type_id === 'bundle',
@@ -148,7 +155,7 @@ export default {
       return Object.keys(blocks).find(it => !!blocks[it])
     },
     activeCarriage () {
-      const condition = this.getCurrentProduct.product_kits && this.getCurrentProduct.product_kits.length
+      const condition = this.getCurrentProduct.product_kits && this.kitProducts.length
       const blocks = {
         'product-kits': condition,
         'small-product-cart': !condition
@@ -193,7 +200,7 @@ export default {
     const loadBreadcrumbsPromise = store.dispatch('product/loadProductBreadcrumbs', { product })
     await store.dispatch('themeCredit/fetchBanks', product.sku)
     if (product.product_kits && product.product_kits.length) {
-      const kitProducts = product.product_kits.reduce((acc, kit) => {
+      const kitProducts = product.product_kits.filter(kit => !EndDateInvalid(kit.to_date)).reduce((acc, kit) => {
         return acc.concat([...kit.items].map(p => p.sku))
       }, []);
       await store.dispatch('kits/fetchKitProducts', { products: kitProducts, parentProduct: product })

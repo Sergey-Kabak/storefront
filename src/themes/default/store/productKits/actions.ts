@@ -16,6 +16,8 @@ const actions = {
         entityType: 'product',
         query,
         includeFields: [
+          'id',
+          'qty',
           'category',
           'sku',
           'final_price',

@@ -127,7 +127,8 @@ export default {
         }
 
       })
-
+      console.log(res);
+      console.log(this.availableFilters);
       return this.isEdge ? this.flattenDeep(res) : res.flat(2)
     },
     availableFilters () {
