@@ -145,6 +145,9 @@ app.use('/service-worker.js', serve('dist/service-worker.js', false, {
   }
 }))
 
+app.use('/serviceworker.js', serve('src/modules/push/serviceworker.js', true))
+app.use('/serviceworker-update.js', serve('src/modules/push/serviceworker-update.js', true))
+
 app.post('/invalidate', invalidateCache)
 app.get('/invalidate', invalidateCache)
 
