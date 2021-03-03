@@ -147,9 +147,9 @@ export default {
               </defs>
               </svg>`,
         9004: `<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none">
-              <path fill-rule="evenodd" clip-rule="evenodd" d="M25.3327 26.6667H18.666H13.3327H6.66602V16H2.66602L15.9993 4L29.3327 16H25.3327V26.6667ZM8.90039 16.9325L10.1904 18.2225C13.3804 15.0325 18.5704 15.0325 21.7604 18.2225L23.0504 16.9325C19.1404 13.0225 12.8004 13.0225 8.90039 16.9325ZM15.9704 24.0025L17.9004 22.0725C16.8304 21.0125 15.1104 21.0125 14.0404 22.0725L15.9704 24.0025ZM12.7604 20.7925C14.5304 19.0225 17.4104 19.0225 19.1904 20.7925L20.4704 19.5025C17.9904 17.0225 13.9504 17.0225 11.4704 19.5025L12.7604 20.7925Z" fill="url(#paint12_linear)"/>
+              <path d="M23.9993 8V18.6667H22.666V9.33333H9.33268V13.3333H11.9993V12H19.9993V14.6667H7.99935C5.05268 14.6667 2.66602 17.0533 2.66602 20V24H22.666V21.3333H26.666V10.6667H29.3327V8H23.9993Z" fill="url(#paint9004_linear)"/>
               <defs>
-              <linearGradient id="paint12_linear" x1="15.9993" y1="4" x2="15.9993" y2="26.6667" gradientUnits="userSpaceOnUse">
+              <linearGradient id="paint9004_linear" x1="15.9993" y1="8" x2="15.9993" y2="24" gradientUnits="userSpaceOnUse">
               <stop stop-color="#EE2C39"/>
               <stop offset="0.557292" stop-color="#FF5D81"/>
               </linearGradient>
@@ -173,6 +173,9 @@ export default {
 
 <style lang="scss" scoped>
 .gradient-wrapper{
+  @media (min-width: 1361px) {
+    width: 152px;
+  }
   background: linear-gradient(180deg, #EE2C39 0%, #FF5D81 55.73%);
   border-radius: 4px;
   padding: 1px;

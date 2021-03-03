@@ -30,12 +30,11 @@
           <product-listing columns="4" :products="getStockGoods" gtm-list="home page" />
         </lazy-hydrate>
         <product-listing v-else columns="4" :products="getStockGoods" gtm-list="home page" />
-
         <button-full
-            class="mt35 show-all"
-            type="submit"
-            @click.native="goToCategory('stockGoods')"
-            :aria-label="$t('See all')"
+          class="mt35 show-all"
+          type="submit"
+          @click.native="goToCategory('stockGoods')"
+          :aria-label="$t('See all')"
         >
           {{ $t('See all') }}
         </button-full>
@@ -84,7 +83,6 @@
         <home-carousel />
       </section>
     </section>
-
     <section class="v-container ">
       <div>
         <header class="col-md-12">
@@ -94,10 +92,10 @@
         </header>
       </div>
       <div class="center-xs">
-        <lazy-hydrate :trigger-hydration="!loading" v-if="isLazyHydrateEnabled">
-          <product-listing columns="4" :products="getNew" gtm-list="home page" />
-        </lazy-hydrate>
-        <product-listing v-else columns="4" :products="getNew" gtm-list="home page" />
+          <lazy-hydrate :trigger-hydration="!loading" v-if="isLazyHydrateEnabled">
+            <product-listing columns="4" :products="getNew" gtm-list="home page" />
+          </lazy-hydrate>
+          <product-listing v-else columns="4" :products="getNew" gtm-list="home page" />
 
         <button-full
           class="mt35 show-all"
@@ -109,7 +107,6 @@
         </button-full>
       </div>
     </section>
-
     <section class="v-container ">
       <div>
         <header class="col-md-12">
@@ -185,7 +182,6 @@ export default {
     HomeCarousel,
     Onboard,
     ProductListing,
-    TileLinks,
     LazyHydrate,
     ButtonFull
   },

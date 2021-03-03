@@ -386,9 +386,7 @@ export default {
   }
 }
 .march-promo-image{
-  position: relative;
-  right: -22px;
-  margin-top: 68px;
+  max-width: 100%;
 }
 $mobile_screen : 768px;
   ::v-deep .spinner{
@@ -691,7 +689,7 @@ $mobile_screen : 768px;
     }
 
     .mobile-actions {
-      justify-content: space-around;
+      justify-content: space-between;
       display: flex;
       & > * {
         flex: 0 0 48%;
@@ -750,6 +748,9 @@ $mobile_screen : 768px;
 <style lang="scss">
 
 .load{
+  @media(max-width: 575px) {
+    width: 100% !important;
+  }
   margin: 32px auto 0;
 }
 

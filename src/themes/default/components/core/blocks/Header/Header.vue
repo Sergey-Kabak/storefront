@@ -128,6 +128,13 @@ export default {
           link: '/samsung-s21',
           background: '#fff'
         },
+        keepInTouch: {
+          img: '/assets/promo/iphone-desktop.jpg',
+          imgTablet: '/assets/promo/iphone-tablet.jpg',
+          imgMobile: '/assets/promo/iphone-mobile.jpg',
+          link: '/smartfoni-i-telefoni/smartfoni?manufacturer=Apple',
+          background: '#08101b'
+        },
         March8: {
           img: '/assets/promo/march-8-banner-xl.jpg',
           imgTablet: '/assets/promo/march-8-banner-lg.jpg',
@@ -159,13 +166,17 @@ export default {
           options: this.promos.samsung
         },
         {
+          path: '/smartfoni-i-telefoni/smartfoni',
+          options: this.promos.samsung
+        },
+        {
           path: '/8-march',
-          options: this.promos.March8
+          options: this.promos.keepInTouch
         }
       ]
     },
     promo () {
-      const defaultPromo = this.promos.samsung
+      const defaultPromo = this.promos.March8
       const promo = this.promoPages.find(promo => this.$route.path === promo.path)
       return (promo && promo.options) || defaultPromo;
     }
