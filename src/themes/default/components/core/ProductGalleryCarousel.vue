@@ -1,43 +1,45 @@
 <template>
   <div class="media-gallery-carousel">
-    <carousel
-      :per-page="1"
-      :mouse-drag="false"
-      pagination-active-color="#828282"
-      pagination-color="transparent"
-      navigation-next-label="<i class='material-icons cl-bg-tertiary pointer'>keyboard_arrow_right</i>"
-      navigation-prev-label="<i class='material-icons cl-bg-tertiary pointer'>keyboard_arrow_left</i>"
-      :navigation-enabled="['desktop', 'table'].includes(screenResolution)"
-      :paginationEnabled="false"
-      ref="carousel"
-      :speed="carouselTransitionSpeed"
-      @pageChange="pageChange"
-      :navigate-to="currentPage"
-    >
-      <slide
-        v-for="(images, index) in filteredGallery"
-        :key="index"
+    <no-ssr>
+      <carousel
+        :per-page="1"
+        :mouse-drag="false"
+        pagination-active-color="#828282"
+        pagination-color="transparent"
+        navigation-next-label="<i class='material-icons cl-bg-tertiary pointer'>keyboard_arrow_right</i>"
+        navigation-prev-label="<i class='material-icons cl-bg-tertiary pointer'>keyboard_arrow_left</i>"
+        :navigation-enabled="['desktop', 'table'].includes(screenResolution)"
+        :paginationEnabled="false"
+        ref="carousel"
+        :speed="carouselTransitionSpeed"
+        @pageChange="pageChange"
+        :navigate-to="currentPage"
       >
-        <div
-          class="product-image-container bg-cl-secondary"
-          :class="{'video-container w-100 h-100 flex relative': images.video}"
+        <slide
+          v-for="(images, index) in gallery"
+          :key="images.src"
         >
-          <product-image
-            v-if="hideImageAtIndex !== index"
-            @dblclick="openOverlay"
-            class="pointer image"
-            :image="images"
-            :alt="productName | htmlDecode"
-          />
-          <product-video
-            v-if="images.video && (index === currentPage)"
-            v-bind="images.video"
-            :index="index"
-            @video-started="onVideoStarted"
-          />
-        </div>
-      </slide>
-    </carousel>
+          <div
+            class="product-image-container bg-cl-secondary"
+            :class="{'video-container w-100 h-100 flex relative': images.video}"
+          >
+            <product-image
+              v-if="hideImageAtIndex !== index"
+              @dblclick="openOverlay"
+              class="pointer image"
+              :image="images"
+              :alt="productName | htmlDecode"
+            />
+            <product-video
+              v-if="images.video && (index === currentPage)"
+              v-bind="images.video"
+              :index="index"
+              @video-started="onVideoStarted"
+            />
+          </div>
+        </slide>
+      </carousel>
+    </no-ssr>
     <product-gallery-pagination v-if="['mobile'].includes(screenResolution)" :gallery="gallery" />
   </div>
 </template>
@@ -51,8 +53,6 @@ import map from 'lodash-es/map'
 import NoSSR from 'vue-no-ssr'
 import ProductGalleryPagination from './blocks/ProductGalleryPagination';
 import ResizeMixin from 'theme/components/core/blocks/Product/Mixins/ResizeMixin';
-import { mapGetters } from 'vuex';
-import { getThumbnailPath } from '@vue-storefront/core/helpers';
 
 export default {
   name: 'ProductGalleryCarousel',
@@ -85,14 +85,8 @@ export default {
       carouselTransitionSpeed: 0,
       currentColor: 0,
       currentPage: 0,
-      hideImageAtIndex: null,
-      filteredGallery: [...this.gallery]
+      hideImageAtIndex: null
     }
-  },
-  computed: {
-    ...mapGetters({
-      getCurrentProduct: 'product/getCurrentProduct'
-    })
   },
   beforeMount () {
     this.$bus.$on('slide-index-from-vertical-bar', index => this.currentPage = index)
@@ -104,9 +98,7 @@ export default {
       const { color } = this.configuration
       this.currentColor = color.id
     }
-    if (Object.keys(this.configuration)) {
-      this.selectVariant(this.configuration)
-    }
+    this.selectVariant(this.configuration)
   },
   beforeDestroy () {
     document.onkeyup = null;
@@ -144,30 +136,19 @@ export default {
       this.currentPage = index
     },
     async selectVariant (configuration) {
+      // let configData = configuration ? {color: configuration} : this.configuration
       let configData = configuration
       await this.$nextTick()
-      if (this.getCurrentProduct.type_id === 'configurable' && (configuration.attribute_code === 'color' || configuration['color'].id)) {
-        let configurableChildren = this.getCurrentProduct.configurable_children.find(child => child['color'] === (+configuration.id || +configuration['color'].id))
-        this.filteredGallery = [...configurableChildren.media_gallery].map(gallery => {
-          return {
-            src: getThumbnailPath((gallery.image), config.products.gallery.width, config.products.gallery.height),
-            loading: getThumbnailPath(gallery.image, config.products.thumbnails.width, config.products.thumbnails.height),
-            id: configurableChildren.color
-          }
-        })
-        this.pageChange(0);
-      } else {
-        if (config.products.gallery.mergeConfigurableChildren) {
-          const option = reduce(map((configData), 'attribute_code'), (result, attribute) => {
-            result[attribute] = configData[attribute] && configData[attribute].id
-            return result
-          }, {})
-          if (option) {
-            let index = this.filteredGallery.findIndex(
-              obj => obj.id && Object.entries(obj.id).toString() === Object.entries(option).toString(), option)
-            if (index < 0) index = this.gallery.findIndex(obj => obj.id && obj.id.color === option.color)
-            this.navigate(index)
-          }
+      if (config.products.gallery.mergeConfigurableChildren) {
+        const option = reduce(map((configData), 'attribute_code'), (result, attribute) => {
+          result[attribute] = configData[attribute] && configData[attribute].id
+          return result
+        }, {})
+        if (option) {
+          let index = this.gallery.findIndex(
+            obj => obj.id && Object.entries(obj.id).toString() === Object.entries(option).toString(), option)
+          if (index < 0) index = this.gallery.findIndex(obj => obj.id && obj.id.color === option.color)
+          this.navigate(index)
         }
       }
       this.$emit('close')
@@ -186,8 +167,7 @@ export default {
       }
     },
     pageChange (index) {
-      this.currentPage = index
-      this.$bus.$emit('navigate-from-slider', index)
+      this.$bus.$emit('navigate-from-slider' , index)
       this.switchCarouselSpeed()
       this.hideImageAtIndex = null
     },
@@ -198,9 +178,6 @@ export default {
   watch: {
     configuration: function (v) {
       this.selectVariant(v)
-    },
-    gallery: function (v) {
-      this.filteredGallery = v
     }
   }
 }

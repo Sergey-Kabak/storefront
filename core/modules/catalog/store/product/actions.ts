@@ -265,7 +265,6 @@ const actions: ActionTree<ProductState, RootState> = {
 
     const syncPromises = []
     const gallerySetup = dispatch('setProductGallery', { product })
-
     if (isServer) {
       syncPromises.push(gallerySetup)
     }

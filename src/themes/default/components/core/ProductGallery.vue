@@ -5,17 +5,16 @@
         v-if="isZoomOpen"
         :current-slide="currentSlide"
         :product-name="product.name"
-        :gallery="productGallery"
+        :gallery="gallery"
         @close="toggleZoom"
       />
       <product-vertical-gallery
-        :gallery="productGallery"
-        :configuration="configuration"
+        :gallery="gallery"
         @toggle="openOverlay"
       />
       <product-gallery-carousel
         v-if="showProductGalleryCarousel"
-        :gallery="productGallery"
+        :gallery="gallery"
         :configuration="configuration"
         :product-name="product.name"
         @toggle="openOverlay"
@@ -33,11 +32,9 @@ import { ProductGallery } from '@vue-storefront/core/modules/catalog/components/
 import ProductGalleryOverlay from './ProductGalleryOverlay'
 import onEscapePress from '@vue-storefront/core/mixins/onEscapePress'
 import ProductImage from './ProductImage'
-import { getThumbnailPath, onlineHelper } from '@vue-storefront/core/helpers'
+import { onlineHelper } from '@vue-storefront/core/helpers'
 import ProductGalleryCarousel from './ProductGalleryCarousel.vue'
 import ProductVerticalGallery from './ProductVerticalGallery'
-import { mapGetters } from 'vuex';
-import config from 'config';
 
 export default {
   components: {
@@ -65,26 +62,8 @@ export default {
     this.showProductGalleryCarousel = true
   },
   computed: {
-    ...mapGetters({
-      getCurrentProduct: 'product/getCurrentProduct'
-    }),
     isOnline (value) {
       return onlineHelper.isOnline
-    },
-    productGallery () {
-      if (this.getCurrentProduct.type_id === 'configurable') {
-        return this.getCurrentProduct.configurable_children
-          .find(child => child.color === +this.configuration.color.id).media_gallery
-          .map(gallery => {
-            return {
-              src: getThumbnailPath((gallery.image), config.products.gallery.width, config.products.gallery.height),
-              loading: getThumbnailPath(gallery.image, config.products.thumbnails.width, config.products.thumbnails.height),
-              id: this.configuration.color.id
-            }
-          })
-      } else {
-        return this.gallery
-      }
     }
   },
   methods: {

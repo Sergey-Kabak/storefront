@@ -116,7 +116,7 @@ export default {
   .vue-back-to-top {
     cursor:pointer;
     position: fixed;
-    z-index: 3;
+    z-index: 1000;
   }
 
   .vue-back-to-top .default {

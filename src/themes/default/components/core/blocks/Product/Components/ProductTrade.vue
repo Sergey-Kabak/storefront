@@ -77,25 +77,10 @@ export default {
   bottom: 3px;
 }
 .trade-actions{
-  @media (max-width: 575px) {
-    flex-direction: column;
-    button{
-      min-width: 100%;
-    }
-  }
-  @media (min-width: 576px) {
-    grid-gap: 16px;
-  }
   margin-top: 32px;
+  grid-gap: 16px;
   button{
-    @media (min-width: 576px) {
-      flex: 1;
-    }
-    @media (max-width: 575px) {
-      &:not(:last-child){
-        margin-bottom: 16px;
-      }
-    }
+    flex: 1;
     height: 40px;
   }
 }

@@ -43,6 +43,7 @@
       </div>
 
       <div class="credits-to-order flex">
+        <span class="underline" @click="close()">{{ $t('Continue shopping') }}</span>
         <span @click="toCheckout()">
           <button-active class="ml30">
             {{ $t('Go to checkout') }}
