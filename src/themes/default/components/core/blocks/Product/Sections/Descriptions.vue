@@ -24,5 +24,8 @@ export default {
   img{
     max-width: 100%;
   }
+  .description-title{
+    font-size: 24px;
+  }
 }
 </style>
