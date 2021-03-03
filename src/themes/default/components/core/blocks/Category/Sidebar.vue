@@ -130,7 +130,9 @@ export default {
       return this.isEdge ? this.flattenDeep(res) : res.flat(2)
     },
     availableFilters () {
-      return pickBy(this.filters, (filter, filterType) => { return (filter.length && !this.$store.getters['category-next/getSystemFilterNames'].includes(filterType)) })
+      return pickBy(this.filters, (filter, filterType) => {
+        return (filter.length && !this.$store.getters['category-next/getSystemFilterNames'].includes(filterType) && filterType !== 'credit_extra_tag')
+      })
     },
     sortedFilters () {
       if (!this.getActiveFilters.length && this.$route.path === '/8-march') {
