@@ -35,7 +35,7 @@
           <promo-products :options="product" class="product relative" />
         </div>
       </div>
-      <promo-expiry-date v-if="getCurrentProduct.bundle_gift_date_from && getCurrentProduct.bundle_gift_date_to"
+      <promo-expiry-date v-if="showExpireDate"
                          :to="getCurrentProduct.bundle_gift_date_to"
                          :from="getCurrentProduct.bundle_gift_date_from" />
     </div>
@@ -73,6 +73,11 @@ export default {
         }, []).join(' ' + this.$t('and') + ' ') + end
       }
       return start + this.getBundleOptions[0].title + end
+    },
+    showExpireDate () {
+      return this.getCurrentProduct.bundle_gift_date_from &&
+        this.getCurrentProduct.bundle_gift_date_to &&
+        Number(this.getCurrentProduct.bundle_gift_date_from) >= Number(this.getCurrentProduct.bundle_gift_date_to)
     }
   },
   methods: {
