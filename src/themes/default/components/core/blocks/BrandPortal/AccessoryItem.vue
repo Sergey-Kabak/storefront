@@ -1,7 +1,9 @@
 <template>
   <router-link :to="localizedRoute(accessory.url)" class="accessory-link">
     <div class="accessory-body">
-      <img class="accessory-image" :src="accessoryImage" :alt="accessory.name">
+      <div class="accessory-image">
+        <img :src="accessoryImage" :alt="accessory.name">
+      </div>
       <span class="accessory-name">{{ accessory.name }}</span>
     </div>
     <div class="accessory-arrow">
@@ -31,9 +33,8 @@ export default {
 <style lang="scss" scoped>
 .accessory-link {
   cursor: pointer;
-  max-width: 372px;
   width: 100%;
-  padding: 18px 0;
+  padding: 16px 0;
   border-bottom: 1px solid #E0E0E0;
 
   &:hover {
@@ -54,7 +55,11 @@ export default {
 }
 
 .accessory-image {
-  display: block;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
   margin-right: 12px;
 }
 
@@ -62,7 +67,7 @@ export default {
   font-family: DIN Pro;
   font-size: 13px;
   line-height: 16px;
-  color: #000000;
+  color: #1A1919;
 }
 
 .arrow,

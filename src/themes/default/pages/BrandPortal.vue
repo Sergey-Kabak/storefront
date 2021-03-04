@@ -124,7 +124,7 @@ export default {
   margin-bottom: 68px;
   margin-top: 68px;
   display: flex;
-  align-items: flex-start;
+  align-items: flex-end;
   justify-content: space-between;
 }
 
@@ -169,21 +169,45 @@ export default {
 
   ::v-deep {
     h1,h2,h3,h4,h5,h6 {
-      margin-top: 0;
+      margin-top: 48px;
       font-family: DIN Pro;
       font-style: normal;
       font-weight: 600;
       font-size: 24px;
       line-height: 30px;
       color: #1A1919;
+      margin-bottom: 32px;
+
+      &:first-child {
+        margin-top: 0;
+      }
     }
 
-    p, li {
-      margin-top: 0;
+    p, li, span {
+      margin: 0;
       font-family: DIN Pro;
       font-size: 15px;
       line-height: 24px;
       color: #5F5E5E;
+    }
+
+    li {
+      margin-bottom: 8px;
+
+      &:before {
+        content: "";
+        display: inline-block;
+        margin-right: -8px;
+      }
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+
+    ul {
+      padding: 0;
+      list-style-position: inside;
     }
   }
 }
@@ -270,9 +294,26 @@ export default {
   .brand-categories {
     margin-top: 48px;
   }
+
+  .brand-description {
+    &::v-deep {
+      h1,h2,h3,h4,h5,h6 {
+        margin-top: 32px;
+        margin-bottom: 24px;
+
+        &:first-child {
+          margin-top: 0;
+        }
+     }
+    }
+  }
 }
 
 @media (max-width: 576px) {
+  .button-full.show-all {
+    max-width: 100%;
+  }
+
   .see-also {
     ::v-deep {
       .brands {

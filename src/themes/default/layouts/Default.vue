@@ -51,6 +51,7 @@
       <shop-shipping-modal />
       <main-modal />
     </div>
+    <client-credentials-for-esputnik />
     <vue-progress-bar/>
   </div>
 </template>
@@ -67,6 +68,7 @@ import OfflineBadge from 'theme/components/core/OfflineBadge.vue';
 import CreditModal from 'theme/components/core/blocks/CreditModal.vue';
 import MainModal from 'theme/components/core/blocks/MainModal.vue';
 import ShopShippingModal from '../components/core/blocks/ShopShippingModal';
+import ClientCredentialsForEsputnik from '../components/core/blocks/ClientCredentialsForEsputnik'
 import { isServer } from '@vue-storefront/core/helpers';
 import Head from 'theme/head';
 import config from 'config';
@@ -75,10 +77,10 @@ const SidebarMenu = () => import(/* webpackChunkName: "vsf-sidebar-menu" */ 'the
 const Microcart = () => import(/* webpackChunkName: "vsf-microcart" */ 'theme/components/core/blocks/Microcart/Microcart.vue');
 const Wishlist = () => import(/* webpackChunkName: "vsf-wishlist" */ 'theme/components/core/blocks/Wishlist/Wishlist.vue');
 const SearchPanel = () => import(/* webpackChunkName: "vsf-search-panel" */ 'theme/components/core/blocks/SearchPanel/SearchPanel.vue');
-const CustomSellerProduct = () => import(/* webpackChunkName: "vsf-custom-city-picker-modal" */ 'theme/components/core/blocks/CustomSellerProduct/CustomSellerProduct.vue');
-const Consultation = () => import(/* webpackChunkName: "vsf-custom-city-picker-modal" */ 'theme/components/core/blocks/Consultation/Consultation.vue');
-const CompareSidebar = () => import(/* webpackChunkName: "vsf-sidebar-menu" */ 'theme/components/core/blocks/Compare/CompareSidebar.vue');
-const CityShopPicker = () => import(/* webpackChunkName: "vsf-custom-city-picker-modal" */ 'theme/components/core/blocks/CityShopPicker/CityShopPicker.vue');
+const CustomSellerProduct = () => import(/* webpackChunkName: "vsf-custom-seller-product" */ 'theme/components/core/blocks/CustomSellerProduct/CustomSellerProduct.vue');
+const Consultation = () => import(/* webpackChunkName: "vsf-consultation" */ 'theme/components/core/blocks/Consultation/Consultation.vue');
+const CompareSidebar = () => import(/* webpackChunkName: "vsf-compare-sidebar" */ 'theme/components/core/blocks/Compare/CompareSidebar.vue');
+const CityShopPicker = () => import(/* webpackChunkName: "vsf-city-shop-picker" */ 'theme/components/core/blocks/CityShopPicker/CityShopPicker.vue');
 
 export default {
   data() {
@@ -146,7 +148,8 @@ export default {
     CreditModal,
     CityPicker,
     ShopShippingModal,
-    MainModal
+    MainModal,
+    ClientCredentialsForEsputnik
   }
 };
 </script>

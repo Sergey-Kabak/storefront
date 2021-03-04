@@ -142,6 +142,7 @@ app.use('/assets', serve(themeRoot + '/assets', true))
 app.use('/service-worker.js', serve('dist/service-worker.js', false, {
   setHeaders: function (res, path, stat) {
     res.set('Content-Type', 'text/javascript; charset=UTF-8')
+    res.set('Cache-Control', 'no-cache')
   }
 }))
 

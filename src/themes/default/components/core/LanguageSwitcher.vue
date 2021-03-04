@@ -73,7 +73,7 @@ export default {
 .lang_switcher{
   display: flex;
   position: absolute;
-  right: 0;
+  right: 8px;
   top: 5px;
   ul{
     padding: 0;
