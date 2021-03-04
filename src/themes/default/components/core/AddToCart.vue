@@ -39,27 +39,6 @@ export default {
     }
   },
   methods: {
-    async updateMicrocart (products) {
-      for (let product of products) {
-        const item = this.kitProducts.find(p => p.sku === product.sku)
-        if (item) {
-          console.log(item)
-          const entities = [
-            'id',
-            'qty',
-            'stock',
-            'image',
-            'final_price',
-            'special_price'
-          ]
-          entities.forEach(entity => product[entity] = item[entity])
-          product['server_item_id'] = product.item_id
-        }
-        await this.$store.commit('cart/cart/ADD', {
-          product: { ...product }
-        })
-      }
-    },
     onAfterRemovedVariant () {
       this.$forceUpdate()
     },
@@ -72,12 +51,6 @@ export default {
         })
       } catch (message) {
         this.notifyUser(notifications.createNotification({ type: 'error', message }))
-      } finally {
-        const { result } = await CartService.getItems()
-        const diff = result.filter(product => !this.getCartItems.find(cart => cart.sku === product.sku))
-        if (diff.length) {
-          await this.updateMicrocart(diff)
-        }
       }
     },
     notifyUser (notificationData) {
