@@ -44,7 +44,11 @@ export function price(product, priceType = null) {
 export function ProductStock (product) {
   const status = {
     InStock: (() => product.stock.is_in_stock && !product.preorder)(),
-    PendingDelivery: (() => product.stock.is_in_stock && !!product.preorder)(),
+    PendingDelivery: (() => {
+      const isBackOrder = product.type_id !== 'bundle' && product.preorder && product.backorders && product.backorders !== 0
+      const isPreOrder = product.stock.is_in_stock && product.preorder && product.salable_quantities_sum_qty > 0
+      return isBackOrder || isPreOrder
+    })(),
     ComingSoon: (() => !product.stock.is_in_stock && !!product.coming_soon)(),
     NotAvailable: (() => !product.stock.is_in_stock && !product.coming_soon)()
   }
