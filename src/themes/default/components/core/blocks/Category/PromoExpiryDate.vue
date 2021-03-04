@@ -27,13 +27,16 @@ export default {
     }),
     daysLeftHTML () {
       const [word, ...days] = this.$tc('{count} days left', this.daysLeft, { count: this.daysLeft } ).split(' ');
-      return `
+      if (this.daysLeft !== 0) {
+        return `
         <span class="banner-description__timer--days-left-word">${word}</span>
         <span class="banner-description__timer--days-left-days">${days.join(' ')}</span>
       `
+      }
+      return `<span class="banner-description__timer--days-left-days">${this.$tc('End today')}</span>`
     },
     timeExpired () {
-      return new Date(new Date().toISOString().slice(0, 10)) > new Date(this.to)
+      return new Date(new Date().toISOString().slice(0, 10)) >= new Date(this.to.replace(/\s+00:00/g, ''))
     },
     isMonthCompared () {
       return new Date(this.from).getMonth() === new Date(this.to).getMonth()
