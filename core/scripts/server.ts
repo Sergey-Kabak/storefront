@@ -144,7 +144,7 @@ app.use('/service-worker.js', serve('dist/service-worker.js', false, {
     res.set('Cache-Control', 'no-cache')
   }
 }))
-
+app.use('/sw.js', serve('src/modules/esputnik/sw.js', true))
 app.post('/invalidate', invalidateCache)
 app.get('/invalidate', invalidateCache)
 
