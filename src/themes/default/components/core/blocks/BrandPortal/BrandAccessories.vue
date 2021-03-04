@@ -42,7 +42,7 @@ export default {
 
 <style lang="scss" scoped>
 .brand-accessories-left {
-  max-width: 764px;
+  max-width: 786px;
   width: 100%;
   margin-right: 20px;
 }
@@ -62,9 +62,15 @@ export default {
 }
 
 .brand-accessories-banner {
+  width: 100%;
   display: block;
-  max-width: 428px;
+  max-width: 490px;
   border-radius: 4px;
 }
 
+@media (max-width: 1024px) {
+  .brand-accessories-left {
+    margin-right: 0;
+  }
+}
 </style>

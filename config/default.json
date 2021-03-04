@@ -947,7 +947,7 @@
       "filter": [
         {
           "key": "category_ids",
-          "value": { "eq": [44] }
+          "value": { "eq": [49] }
         }
       ]
     }
