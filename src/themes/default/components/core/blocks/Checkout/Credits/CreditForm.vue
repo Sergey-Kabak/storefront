@@ -108,7 +108,11 @@
                   text: $t('Field is required')
                 },
                 {
-                  condition: $v.form.identification_code.$error && !$v.form.identification_code.invalidINN && $v.form.identification_code.$dirty,
+                  condition: $v.form.identification_code.$error &&
+                    (!$v.form.identification_code.invalidINN ||
+                    !$v.form.identification_code.minLength ||
+                    !$v.form.identification_code.maxLength)
+                    && $v.form.identification_code.$dirty,
                   text: $t('Invalid INN')
                 }
               ]"
@@ -124,7 +128,7 @@
 import BaseDatepickerCheckout from '../../Form/BaseDatepickerCheckout';
 import BaseInput from 'theme/components/core/blocks/Form/BaseInput';
 import { mapState, mapGetters } from 'vuex';
-import { minLength, required } from 'vuelidate/lib/validators';
+import { maxLength, minLength, required } from 'vuelidate/lib/validators';
 import ProductList from './ProductList';
 import { currentStoreView } from '@vue-storefront/core/lib/multistore';
 import * as types from 'theme/store/credit/mutation-types'
@@ -206,6 +210,7 @@ export default {
         identification_code: {
           required,
           minLength: minLength(10),
+          maxLength: maxLength(10),
           invalidINN
         }
       }
