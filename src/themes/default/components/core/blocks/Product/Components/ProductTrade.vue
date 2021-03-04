@@ -14,7 +14,11 @@
     </div>
     <div>
       <div v-if="ProductStock !== 'NotAvailable'" class="flex trade-actions">
-        <add-to-cart :product="getCurrentProduct">
+        <add-to-cart
+          :product="getCurrentProduct"
+          :showIcon="ProductStock !== 'PendingDelivery'"
+          :productStock="ProductStock"
+        >
           <template v-if="ProductStock === 'PendingDelivery'" v-slot:text>{{$t('pre order')}}</template>
         </add-to-cart>
         <button-white v-if="getBanks.length" @click.native="showModal">
