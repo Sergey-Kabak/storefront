@@ -182,7 +182,10 @@ export default {
     }
   },
   beforeMount () {
-    this.$bus.$on('top-header-blocked', (value) => this.navBlocked = value);
+    this.$bus.$on('top-header-blocked', (value) => {
+      this.navBlocked = !value
+      this.navVisible = !value
+    });
     window.addEventListener(
       'scroll',
       () => {
@@ -192,7 +195,7 @@ export default {
     )
 
     setInterval(() => {
-      if (this.isScrolling) {
+      if (this.isScrolling && this.navBlocked) {
         this.hasScrolled()
         this.isScrolling = false
       }

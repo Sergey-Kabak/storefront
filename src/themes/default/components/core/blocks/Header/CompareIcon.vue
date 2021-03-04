@@ -95,7 +95,7 @@ export default {
     line-height: 16px;
     background: #EE2C39;
     left: 50%;
-    top: -6px;
+    top: 0;
     padding: 0 4px;
     min-width: 16px;
     min-height: 16px;

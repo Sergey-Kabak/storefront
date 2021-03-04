@@ -21,7 +21,7 @@
         >
           <template v-if="ProductStock === 'PendingDelivery'" v-slot:text>{{$t('pre order')}}</template>
         </add-to-cart>
-        <button-white v-if="getBanks.length" @click.native="showModal">
+        <button-white v-if="creditCondition" @click.native="showModal">
           <span>{{ $t('In credit') }}</span>
         </button-white>
       </div>
@@ -53,7 +53,10 @@ export default {
   computed: {
     ...mapGetters({
       getBanks: 'themeCredit/getBanks'
-    })
+    }),
+    creditCondition () {
+      return this.getBanks.length && this.getCurrentProduct.stock.is_in_stock && this.ProductStock !== 'PendingDelivery'
+    }
   },
   methods: {
     showModal () {
@@ -81,11 +84,16 @@ export default {
   bottom: 3px;
 }
 .trade-actions{
+  @media (max-width: 575px) {
+    flex-direction: column;
+  }
   margin-top: 32px;
   grid-gap: 16px;
   button{
     flex: 1;
-    height: 40px;
+    min-height: 40px;
+    width: auto;
+    max-width: 100%;
   }
 }
 </style>
