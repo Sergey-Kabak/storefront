@@ -33,7 +33,7 @@ export default {
       `
     },
     timeExpired () {
-      return new Date() > new Date(this.to)
+      return new Date(new Date().toISOString().slice(0, 10)) > new Date(this.to)
     },
     isMonthCompared () {
       return new Date(this.from).getMonth() === new Date(this.to).getMonth()
