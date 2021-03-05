@@ -55,7 +55,7 @@ export default {
         debugger;
         es('sendEvent', 'confirm', pushToken, { email: this.email});
       }
-      es('getPushToken', sendEventForToken.bind);
+      es('getPushToken', sendEventForToken);
     }
   }
 };
