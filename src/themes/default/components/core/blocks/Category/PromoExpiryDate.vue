@@ -36,7 +36,8 @@ export default {
       return `<span class="banner-description__timer--days-left-days">${this.$tc('End today')}</span>`
     },
     timeExpired () {
-      return new Date(new Date().toISOString().slice(0, 10)) >= new Date(this.to.replace(/\s+00:00:00/g, ''))
+      console.log(new Date(new Date().toISOString().slice(0, 10)) > new Date(this.to.replace(/\s+00:00:00/g, '')));
+      return new Date(new Date().toISOString().slice(0, 10)) > new Date(this.to.replace(/\s+00:00:00/g, ''))
     },
     isMonthCompared () {
       return new Date(this.from).getMonth() === new Date(this.to).getMonth()
