@@ -214,9 +214,18 @@ export default {
     registerModule(RecentlyViewedModule)
   },
   beforeMount () {
+    // console.log(es)
+    // function sendEventForToken(pushToken) {
+    //  es('sendEvent', 'test', pushToken, []);
+    // }
+    // es('getPushToken', sendEventForToken);
+    // debugger;
+    this.$nextTick(() => {
+      this.$bus.$emit('modal-toggle', 'modal-esputnik')
+    })
     if (config.homePageBanner.enabled && sessionStorage.getItem('isMainPromoActive') !== 'false') {
       this.$nextTick(() => {
-        this.$bus.$emit('modal-toggle', 'modal-main')
+        // this.$bus.$emit('modal-toggle', 'modal-main')
         sessionStorage.setItem('isMainPromoActive', false)
       })
     }

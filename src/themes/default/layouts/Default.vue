@@ -49,7 +49,8 @@
       <offline-badge/>
       <city-shop-picker />
       <shop-shipping-modal />
-      <main-modal />
+      <!-- <main-modal /> -->
+      <esputnik-modal />
     </div>
     <client-credentials-for-esputnik />
     <vue-progress-bar/>
@@ -67,6 +68,7 @@ import CookieNotification from 'theme/components/core/CookieNotification.vue';
 import OfflineBadge from 'theme/components/core/OfflineBadge.vue';
 import CreditModal from 'theme/components/core/blocks/CreditModal.vue';
 import MainModal from 'theme/components/core/blocks/MainModal.vue';
+import EsputnikModal from 'theme/components/core/blocks/EsputnikModal.vue';
 import ShopShippingModal from '../components/core/blocks/ShopShippingModal';
 import ClientCredentialsForEsputnik from '../components/core/blocks/ClientCredentialsForEsputnik'
 import { isServer } from '@vue-storefront/core/helpers';
@@ -149,6 +151,7 @@ export default {
     CityPicker,
     ShopShippingModal,
     MainModal,
+    EsputnikModal,
     ClientCredentialsForEsputnik
   }
 };
