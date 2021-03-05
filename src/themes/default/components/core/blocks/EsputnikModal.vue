@@ -50,10 +50,9 @@ export default {
       this.$bus.$emit('modal-hide', 'modal-main')
     },
     confirmSubscription() {
-      debugger;
       const sendEventForToken = (pushToken) => {
-        debugger;
-        es('sendEvent', 'confirm', pushToken, { email: this.email});
+        es('sendEvent', 'subscribe', pushToken, [{ name: 'email', value: this.email}]);
+
       }
       es('getPushToken', sendEventForToken);
     }
