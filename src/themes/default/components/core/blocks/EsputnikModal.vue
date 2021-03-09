@@ -6,24 +6,39 @@
           <path d="M19 6.41L17.59 5L12 10.59L6.41 5L5 6.41L10.59 12L5 17.59L6.41 19L12 13.41L17.59 19L19 17.59L13.41 12L19 6.41Z"/>
         </svg>
       </div>
-      <img src="/assets/esputnik-modal/flower.png" alt="esputnik-promo" class="promo-image">
+      <picture class="promo-image">
+        <source srcset="/assets/esputnik-modal/flower_mobile.png" media="(max-width: 600px)">
+        <source srcset="/assets/esputnik-modal/flower.png">
+        <img src="/assets/esputnik-modal/flower.png" alt="esputnik-promo" class="promo-image">
+      </picture>
       <div class="banner__content">
-        <div class="banner__heading">Новинки, скидки и лучшие предложения для вас</div>
-        <div class="banner__text">Подписывайся, чтобы всегда быть в курсе!</div>
-        <div class="banner__actions">
-          <base-input
-            type="email"
-            name="email"
-            containerClass="banner__input"
-            autocomplete="email"
-            v-model="email"
-            focus
-            :placeholder="$t('E-mail address *')"
-          ></base-input>
-          <button-full @click.native="confirmSubscription" class="subscribe-button" :aria-label="$t('Registrate')">
-            Подписаться
-          </button-full>
-        </div>
+        <template v-if="!subscribed">
+          <div class="banner__heading">{{ $t('new features and propositions') }}</div>
+          <div class="banner__text">{{ $t('subscribe details') }}</div>
+          <div class="banner__actions">
+            <base-input
+              type="email"
+              name="email"
+              containerClass="banner__input"
+              autocomplete="email"
+              v-model="email"
+              focus
+              :placeholder="$t('E-mail address *')"
+            ></base-input>
+            <button-full @click.native="confirmSubscription" class="subscribe-button" :aria-label="$t('Registrate')">
+              {{ $t("let's subscribe") }}
+            </button-full>
+          </div>
+        </template>
+        <template v-else>
+          <div class="banner__heading">
+            <svg class="banner__heading-icon" width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M15.9993 2.66656C8.63935 2.66656 2.66602 8.6399 2.66602 15.9999C2.66602 23.3599 8.63935 29.3332 15.9993 29.3332C23.3594 29.3332 29.3327 23.3599 29.3327 15.9999C29.3327 8.6399 23.3594 2.66656 15.9993 2.66656ZM13.3327 22.6666L6.66602 15.9999L8.54602 14.1199L13.3327 18.8932L23.4527 8.77323L25.3327 10.6666L13.3327 22.6666Z" fill="#23BE20"/>
+            </svg>
+            <div class="banner__heading-text">{{ $t('Thank!') }}</div>
+          </div>
+          <div class="banner__text">{{ $t('you have subscribed') }}</div>
+        </template>
       </div>
     </div>
   </modal>
@@ -37,7 +52,8 @@ import ButtonFull from 'theme/components/theme/ButtonFull.vue';
 export default {
   data() {
     return {
-      email: ''
+      email: '',
+      subscribed: false
     }
   },
   components: {
@@ -50,9 +66,12 @@ export default {
       this.$bus.$emit('modal-hide', 'modal-main')
     },
     confirmSubscription() {
+      this.subscribed = true;
+      return;
       const sendEventForToken = (pushToken) => {
-        es('sendEvent', 'subscribe', pushToken, [{ name: 'email', value: this.email}]);
-
+        debugger;
+        // es('sendEvent', 'abandoned_cart', pushToken);
+        es('sendEvent', 'subscribe', null, [{ name: 'email', value: this.email}]);
       }
       es('getPushToken', sendEventForToken);
     }
@@ -75,7 +94,13 @@ export default {
     top: 0;
     left: 0;
     padding: 24px 193px 0 24px;
+
+    @media only screen and (max-width: 600px) {
+      padding: 16px 16px 0 16px;
+    }
   }
+
+  /* HEADINGS */
   &__heading {
     font-family: DIN Pro;
     font-size: 24px;
@@ -83,7 +108,20 @@ export default {
     color: #1A1919;
     margin-bottom: 16px;
     font-weight: 700;
+    display: flex;
+    align-items: center;
+
+    @media only screen and (max-width: 600px) {
+      font-size: 22px;
+      line-height: 28px;
+      margin-bottom: 12px;
+    }
   }
+
+  &__heading-icon {
+    margin-right: 16px;
+  }
+  /* TEXT */
   &__text {
     font-family: DIN Pro;
     font-style: normal;
@@ -92,14 +130,30 @@ export default {
     line-height: 24px;
     color: #5F5E5E;
     margin-bottom: 32px;
+
+    @media only screen and (max-width: 600px) {
+      margin-bottom: 24px;
+    }
   }
   &__actions {
     display: flex;
-
+    
+    @media only screen and (max-width: 600px) {
+      flex-direction: column;
+    }
   }
   &__input {
     margin-right: 16px;
     flex: 0 0 316px;
+    
+    @media only screen and (max-width: 600px) {
+      margin-right: 0;
+      margin-bottom: 16px;
+      flex: unset;
+      max-width: unset;
+      width: 1;
+    }
+
   }
   &__subscribe-button {
     width: 100%;
@@ -108,6 +162,7 @@ export default {
 
 img {
   width: 100%;
+  height: 100%;
 }
 .subscribe-button {
   padding: 8px 32px;
@@ -116,6 +171,10 @@ img {
   font-weight: 0;
   font-size: 15px;
   line-height: 24px;
+
+  @media only screen and (max-width: 600px) {
+    max-width: unset;
+  }
 }
 ::v-deep {
   .modal-container {
@@ -134,6 +193,7 @@ img {
 
 .close-modal {
   cursor: pointer;
+  z-index: 1;
   position: absolute;
   top: 16px;
   right: 16px;
@@ -155,6 +215,7 @@ img {
 @media (max-width: 768px) {
   .banner {
     max-width: 382px;
+    height: 400
   }
 
   .close-modal {
