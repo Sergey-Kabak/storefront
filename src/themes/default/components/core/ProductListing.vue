@@ -39,26 +39,13 @@ export default {
       default: () => 3
     }
   },
-  computed: {
-    cols () {
-      const cols = {
-        'desktop': this.columns
-      }
-      return cols[this.screenResolution]
-    }
-  }
 }
 </script>
 
 <style lang="scss" scoped>
   .product-listing {
-    @media (max-width: 991px){
-      grid-template-columns: repeat(3, 1fr) !important;
-    }
-    @media (max-width: 767px){
-      grid-template-columns: repeat(2, 1fr) !important;
-    }
-    @media (max-width: 767px){
+    @media (max-width: 768px){
+      grid-template-columns: 1fr 1fr;
       grid-gap: 0;
       ::v-deep :nth-child(even) {
         border-right: none;
