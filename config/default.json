@@ -168,6 +168,10 @@
       }
     }
   },
+  "liqpay_enabled" : {
+    "liqpay": true,
+    "liqpay_marketplace": true
+  },
   "ssr": {
     "templates": {
       "default": "dist/index.html",
