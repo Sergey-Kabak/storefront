@@ -7,6 +7,7 @@
       @select="onSelect($event)"
       :selected="justinShipping"
       :resultValue="resultValue"
+      :placeholder="$t('Number or address of Justin')"
       class="autocomplete"
     />
     <div class="justin-post-bottom">
