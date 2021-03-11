@@ -43,7 +43,7 @@ export function price(product, priceType = null) {
 
 export function ProductStock (product) {
   const status = {
-    InStock: (() => (product.stock.is_in_stock && !product.preorder && product.msi_salable_quantity > 0) || product.stock.backorders !== 0)(),
+    InStock: (() => (product.stock.is_in_stock && !product.preorder && product.msi_salable_quantity > 0) || (product.stock.backorders !== 0 && !product.preorder))(),
     PendingDelivery: (() => {
       const isBackOrder = product.type_id !== 'bundle' && product.preorder && product.stock.backorders && product.stock.backorders !== 0
       const isPreOrder = product.stock.is_in_stock && product.preorder && product.msi_salable_quantity > 0
