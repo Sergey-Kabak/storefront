@@ -1,16 +1,18 @@
 <template>
-  <label class="checkbox-selector">
-    <input type="checkbox" @change="onChange()">
-    <span class="checkbox" :class="{ 'active': isActive }" />
+  <base-checkbox :value="isActive" @change="onChange()">
     <span class="checkbox-title"> {{ variant.label }} </span>
-    <span class="checkbox-amount" v-if="variant.count && variant.type !== 'kategorija'"> ({{ variant.count }})</span>
-  </label>
+    <span class="checkbox-amount" v-if="variant.count"> ({{ variant.count }})</span>
+  </base-checkbox>
 </template>
 
 <script>
 import filterMixin from 'theme/mixins/filterMixin.ts'
+import BaseCheckbox from 'theme/components/core/blocks/Form/BaseCheckbox.vue';
 
 export default {
+  components: {
+    BaseCheckbox
+  },
   mixins: [filterMixin],
   methods: {
     onChange () {

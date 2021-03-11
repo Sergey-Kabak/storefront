@@ -41,6 +41,10 @@ const mutations = {
     state.shops = shops
   },
 
+  SET_CITIES (state, cities) {
+    state.cities = cities
+  },
+
   SET_SELECTED_NEW_POST_SHIPPING (state, newPostShipping) {
     state.newPostShipping = newPostShipping
   },

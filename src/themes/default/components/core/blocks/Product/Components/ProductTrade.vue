@@ -14,10 +14,14 @@
     </div>
     <div>
       <div v-if="ProductStock !== 'NotAvailable'" class="flex trade-actions">
-        <add-to-cart :product="getCurrentProduct">
+        <add-to-cart
+          :product="getCurrentProduct"
+          :showIcon="ProductStock !== 'PendingDelivery'"
+          :productStock="ProductStock"
+        >
           <template v-if="ProductStock === 'PendingDelivery'" v-slot:text>{{$t('pre order')}}</template>
         </add-to-cart>
-        <button-white v-if="getBanks.length" @click.native="showModal">
+        <button-white v-if="creditCondition" @click.native="showModal">
           <span>{{ $t('In credit') }}</span>
         </button-white>
       </div>
@@ -49,7 +53,10 @@ export default {
   computed: {
     ...mapGetters({
       getBanks: 'themeCredit/getBanks'
-    })
+    }),
+    creditCondition () {
+      return this.getBanks.length && this.getCurrentProduct.stock.is_in_stock && this.ProductStock !== 'PendingDelivery'
+    }
   },
   methods: {
     showModal () {
@@ -79,24 +86,13 @@ export default {
 .trade-actions{
   @media (max-width: 575px) {
     flex-direction: column;
-    button{
-      min-width: 100%;
-    }
-  }
-  @media (min-width: 576px) {
-    grid-gap: 16px;
   }
   margin-top: 32px;
   button{
-    @media (min-width: 576px) {
-      flex: 1;
-    }
-    @media (max-width: 575px) {
-      &:not(:last-child){
-        margin-bottom: 16px;
-      }
-    }
-    height: 40px;
+    flex: 1;
+    min-height: 40px;
+    width: auto;
+    max-width: 100%;
   }
 }
 </style>

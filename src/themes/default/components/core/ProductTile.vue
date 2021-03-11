@@ -103,6 +103,9 @@ export default {
     },
     storeView () {
       return currentStoreView()
+    },
+    isRecentlyViewedPage() {
+      return this.$route.name === 'my-recently-viewed'
     }
   },
   methods: {

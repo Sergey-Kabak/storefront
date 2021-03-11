@@ -134,13 +134,6 @@ export default {
           imgMobile: '/assets/promo/iphone-mobile.jpg',
           link: '/smartfoni-i-telefoni/smartfoni?manufacturer=Apple',
           background: '#08101b'
-        },
-        March8: {
-          img: '/assets/promo/march-8-banner-xl.jpg',
-          imgTablet: '/assets/promo/march-8-banner-lg.jpg',
-          imgMobile: '/assets/promo/march-8-banner-sm.jpg',
-          link: '/8-march',
-          background: 'linear-gradient(45deg, #f8cad4, #f1bccc)'
         }
       }
     }
@@ -168,21 +161,20 @@ export default {
         {
           path: '/smartfoni-i-telefoni/smartfoni',
           options: this.promos.samsung
-        },
-        {
-          path: '/8-march',
-          options: this.promos.keepInTouch
         }
       ]
     },
     promo () {
-      const defaultPromo = this.promos.March8
+      const defaultPromo = this.promos.samsung
       const promo = this.promoPages.find(promo => this.$route.path === promo.path)
       return (promo && promo.options) || defaultPromo;
     }
   },
   beforeMount () {
-    this.$bus.$on('top-header-blocked', (value) => this.navBlocked = value);
+    this.$bus.$on('top-header-blocked', (value) => {
+      this.navBlocked = !value
+      this.navVisible = !value
+    });
     window.addEventListener(
       'scroll',
       () => {
@@ -192,7 +184,7 @@ export default {
     )
 
     setInterval(() => {
-      if (this.isScrolling) {
+      if (this.isScrolling && this.navBlocked) {
         this.hasScrolled()
         this.isScrolling = false
       }
@@ -424,10 +416,12 @@ header {
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-right: 24px;
+    margin-right: 15px;
     // padding: 8px;
     border-radius: 4px;
     transition: .2s ease-in-out;
+    width: 40px;
+    height: 40px;
 
     &:hover {
       background-color: #f9f9f9!important;
@@ -631,7 +625,7 @@ header {
     }
 
     .icon-consultation {
-      display: block;
+      display: flex;
       cursor: pointer;
     }
   }

@@ -168,6 +168,10 @@
       }
     }
   },
+  "liqpay_enabled" : {
+    "liqpay": true,
+    "liqpay_marketplace": true
+  },
   "ssr": {
     "templates": {
       "default": "dist/index.html",
@@ -767,6 +771,9 @@
     "login_endpoint": "/api/user/login",
     "create_endpoint": "/api/user/create",
     "me_endpoint": "/api/user/me?token={{token}}",
+    "validateResetPasswordToken_endpoint": "/api/user/password/validate-token",
+    "cancelOrder_endpoint": "/api/user/order/cancel?token={{token}}",
+    "deteleUser_endpoint": "/api/user/me?token={{token}}",
     "refresh_endpoint": "/api/user/refresh",
     "allowModification": ["firstname", "lastname", "email", "addresses"],
     "tokenInHeader": false
@@ -847,7 +854,8 @@
     "image/png": "7d"
   },
   "payments": {
-    "endpoint": "/api/payment"
+    "endpoint": "/api/payment",
+    "order_information": "/api/payment/order-information?token={{token}}"
   },
   "newsletter": {
     "endpoint": "/api/ext/mailchimp-subscribe/subscribe"
