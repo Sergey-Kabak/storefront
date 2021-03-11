@@ -51,6 +51,8 @@ export default {
         })
       } catch (message) {
         this.notifyUser(notifications.createNotification({ type: 'error', message }))
+      } finally {
+        await this.$store.dispatch('cart/syncPull', { getCartItems: this.getCartItems })
       }
     },
     notifyUser (notificationData) {
