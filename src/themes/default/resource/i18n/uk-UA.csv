@@ -75,7 +75,7 @@
 "Homepage","Головна"
 "How do you want to receive your order?","Як хочете отримати ваше замовлення?"
 "I want to receive a newsletter, and agree to its terms",Я хочу підписатися на розсилку новин і погоджуюсь з умовами її отримання
-"INN","ІНН"
+"INN","ІПН"
 "In credit","У кредит"
 "In stock","В наявності"
 "InStock","В наявності"
@@ -346,6 +346,7 @@ Erin recommends,Erin рекомендує
 Error while sending reset password e-mail,Сталася помилка при відправленні даних зі зміни пароля на електронну пошту
 Everything new,Новинки
 Field is required,Обов'язкове поле
+Invalid INN,Не вірно вказан ІПН
 Filter,Фільтр
 Filters,Фільтри
 First name *,Ім`я *
@@ -616,7 +617,7 @@ No differences,Відмінностей немає
 "Loan processing","Оформлення кредиту"
 "FIO","ФІО"
 "date of birth","Дата народження"
-"INN","ІНН"
+"INN","ІПН"
 "surname",По батькові
 "{count} payment","{count} платежів | {count} платіж | {count} платежа | {count} платежів"
 "short month","міс"
@@ -673,3 +674,4 @@ Pick up today from, Забрати сьогодні з
 "October {count}","жовтень | жовтня | жовтня"
 "November {count}","листопад | листопада | листопада"
 "December {count}","грудень | грудня | грудня"
+
