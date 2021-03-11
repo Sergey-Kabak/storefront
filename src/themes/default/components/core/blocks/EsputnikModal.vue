@@ -7,7 +7,7 @@
         </svg>
       </div>
       <picture class="promo-image">
-        <source srcset="/assets/esputnik-modal/flower_mobile.png" media="(max-width: 600px)">
+        <source srcset="/assets/esputnik-modal/flower_mobile.png" media="(max-width: 768px)">
         <source srcset="/assets/esputnik-modal/flower.png">
         <img src="/assets/esputnik-modal/flower.png" alt="esputnik-promo" class="promo-image">
       </picture>
@@ -22,10 +22,21 @@
               containerClass="banner__input"
               autocomplete="email"
               v-model="email"
+              @blur="$v.email.$touch()"
               focus
               :placeholder="$t('E-mail address *')"
+              :validations="[
+                {
+                  condition: !$v.email.required && $v.email.$error,
+                  text: $t('Field is required.')
+                },
+                {
+                  condition: !$v.email.email && $v.email.$error,
+                  text: $t('Please provide valid e-mail address.')
+                }
+              ]"
             ></base-input>
-            <button-full @click.native="confirmSubscription" class="subscribe-button" :aria-label="$t('Registrate')">
+            <button-full :disabled="$v.$dirty && $v.$error" @click.native="confirmSubscription" class="subscribe-button" :aria-label="$t('Registrate')">
               {{ $t("let's subscribe") }}
             </button-full>
           </div>
@@ -48,6 +59,8 @@
 import Modal from "theme/components/core/Modal.vue";
 import BaseInput from 'theme/components/core/blocks/Form/BaseInput.vue';
 import ButtonFull from 'theme/components/theme/ButtonFull.vue';
+import { EsputnikService } from 'theme/services/EsputnikService.ts'
+import { required, email } from 'vuelidate/lib/validators'
 
 export default {
   data() {
@@ -63,17 +76,39 @@ export default {
   },
   methods: {
     close() {
-      this.$bus.$emit('modal-hide', 'modal-main')
+      this.$bus.$emit('modal-hide', 'modal-esputnik')
+    },
+    showWarning() {
+      this.$store.dispatch('notification/spawnNotification', {
+        type: 'error',
+        message: this.$t('Please fix the validation errors'),
+        action1: { label: this.$t('OK') }
+      })
     },
     confirmSubscription() {
-      this.subscribed = true;
-      return;
-      const sendEventForToken = (pushToken) => {
-        debugger;
-        // es('sendEvent', 'abandoned_cart', pushToken);
-        es('sendEvent', 'subscribe', null, [{ name: 'email', value: this.email}]);
+      this.$v.$touch();
+      if (this.$v.$error) {
+        this.showWarning();
       }
-      es('getPushToken', sendEventForToken);
+      // this.subscribed = true;
+      EsputnikService.subscribe({ email: this.email}).then(v => {
+        console.log(v)
+        this.subscribed = true;
+        // sessionStorage.setItem('esputnik-subscribe-modal', false)
+      }).catch(err => {
+        console.log(err)
+      })
+    }
+  },
+  validations: {
+    email: {
+      required,
+      email
+    }
+  },
+  watch: {
+    $route(v) {
+      console.log(v)
     }
   }
 };
@@ -95,7 +130,7 @@ export default {
     left: 0;
     padding: 24px 193px 0 24px;
 
-    @media only screen and (max-width: 600px) {
+    @media only screen and (max-width: 768px) {
       padding: 16px 16px 0 16px;
     }
   }
@@ -111,7 +146,7 @@ export default {
     display: flex;
     align-items: center;
 
-    @media only screen and (max-width: 600px) {
+    @media only screen and (max-width: 768px) {
       font-size: 22px;
       line-height: 28px;
       margin-bottom: 12px;
@@ -131,14 +166,14 @@ export default {
     color: #5F5E5E;
     margin-bottom: 32px;
 
-    @media only screen and (max-width: 600px) {
+    @media only screen and (max-width: 768px) {
       margin-bottom: 24px;
     }
   }
   &__actions {
     display: flex;
     
-    @media only screen and (max-width: 600px) {
+    @media only screen and (max-width: 768px) {
       flex-direction: column;
     }
   }
@@ -146,7 +181,7 @@ export default {
     margin-right: 16px;
     flex: 0 0 316px;
     
-    @media only screen and (max-width: 600px) {
+    @media only screen and (max-width: 768px) {
       margin-right: 0;
       margin-bottom: 16px;
       flex: unset;
@@ -172,7 +207,7 @@ img {
   font-size: 15px;
   line-height: 24px;
 
-  @media only screen and (max-width: 600px) {
+  @media only screen and (max-width: 768px) {
     max-width: unset;
   }
 }

@@ -220,9 +220,11 @@ export default {
     // }
     // es('getPushToken', sendEventForToken);
     // debugger;
-    this.$nextTick(() => {
-      this.$bus.$emit('modal-toggle', 'modal-esputnik')
-    })
+    if (sessionStorage.getItem('esputnik-subscribe-modal') !== 'false') {
+      this.$nextTick(() => {
+        this.$bus.$emit('modal-toggle', 'modal-esputnik')
+      })
+    }
     if (config.homePageBanner.enabled && sessionStorage.getItem('isMainPromoActive') !== 'false') {
       this.$nextTick(() => {
         // this.$bus.$emit('modal-toggle', 'modal-main')
