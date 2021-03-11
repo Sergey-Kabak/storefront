@@ -171,7 +171,10 @@ export default {
     }
   },
   beforeMount () {
-    this.$bus.$on('top-header-blocked', (value) => this.navBlocked = value);
+    this.$bus.$on('top-header-blocked', (value) => {
+      this.navBlocked = !value
+      this.navVisible = !value
+    });
     window.addEventListener(
       'scroll',
       () => {
@@ -181,7 +184,7 @@ export default {
     )
 
     setInterval(() => {
-      if (this.isScrolling) {
+      if (this.isScrolling && this.navBlocked) {
         this.hasScrolled()
         this.isScrolling = false
       }
@@ -413,10 +416,12 @@ header {
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-right: 24px;
+    margin-right: 15px;
     // padding: 8px;
     border-radius: 4px;
     transition: .2s ease-in-out;
+    width: 40px;
+    height: 40px;
 
     &:hover {
       background-color: #f9f9f9!important;
@@ -620,7 +625,7 @@ header {
     }
 
     .icon-consultation {
-      display: block;
+      display: flex;
       cursor: pointer;
     }
   }
