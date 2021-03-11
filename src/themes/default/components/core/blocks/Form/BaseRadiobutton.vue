@@ -1,24 +1,20 @@
 <template>
-  <div>
+  <div class="radio-button">
     <div class="relative">
       <input
-        class="m0 no-outline"
         type="radio"
         :id="id"
-        :checked="checked"
         :value="value"
         :name="name"
-        @keyup.enter="$emit('click')"
-        @click="$emit('click')"
-        @blur="$emit('blur')"
-        @change="$emit('change', $event.target.checked)"
-        :disabled="disabled"
+        @change="$emit('change', $event.target.value)"
+        :checked="isChecked"
       >
       <label
-        class="pl35 lh30 h4 pointer"
         :for="id"
+        class="radio-label"
       >
-        <slot />
+        <div class="radio" />
+        <span class="radio-label"><slot /></span>
       </label>
     </div>
     <ValidationMessages v-if="validations" :validations="validations" />
@@ -33,9 +29,9 @@ export default {
   components: {
     ValidationMessages
   },
-  model: {
-    prop: 'value',
-    event: 'change'
+  model : {
+  	prop:'checked',
+    event:'change'
   },
   props: {
     id: {
@@ -46,130 +42,64 @@ export default {
       type: [String, Number],
       default: ''
     },
-    checked: {
-      type: Boolean,
-      required: false,
-      default: false
-    },
     name: {
       type: String,
       required: false,
       default: ''
     },
+    checked: {
+      default: ''
+    },
     validations: {
       type: Array,
       default: () => []
-    },
-    disabled: {
-      type: Boolean,
-      required: false,
-      default: false
+    }
+  },
+  computed: {
+    isChecked() {
+      return this.checked == this.value
     }
   }
 }
 </script>
 
 <style lang="scss" scoped>
-@import '~theme/css/variables/colors';
-@import '~theme/css/helpers/functions/color';
-$color-silver: #E0E0E0;
-$color-active: #23BE20;
-$color-white: color(white);
-$hover : #cecece;
-$focus : #c5c5c5;
-$active : #bcbcbc;
-
-$hover_checked : #20af1d;
-$focus_checked : #1fa71c;
-$active_checked : #1d9f1b;;
-
-label {
-  &:before {
-    content: '';
-    position: absolute;
-    top: 3px;
-    left: 0;
-    width: 20px;
-    height: 20px;
-    background-color: $color-white;
-    border: 2px solid $color-silver;
-    border-radius: 50%;
-    box-sizing: border-box;
-    cursor: pointer;
-  }
+* {
+  box-sizing: border-box;
 }
+
 input {
   display: none;
-  position: absolute;
-  top: 3px;
-  left: 0;
-  &:checked + label {
-    &:hover{
-      &:before{
-        border-color: $hover_checked;
-      }
-      &:after{
-        background-color: $hover_checked;
-      }
-    }
-    &:focus{
-      &:before{
-        border-color: $focus_checked;
-      }
-      &:after{
-        background-color: $focus_checked;
-      }
-    }
-    &:active{
-      &:before{
-        border-color: $active_checked;
-      }
-      &:after{
-        background-color: $active_checked;
-      }
-    }
-    &:before {
-      background-color: $color-silver;
-      border-color: $color-active;
-      cursor: pointer;
-    }
+
+  &:checked + label .radio {
+    border-color: #23BE20;
+    position: relative;
+
     &:after {
       content: '';
       position: absolute;
-      top: 5px;
-      left: 2px;
-      width: 16px;
-      height: 16px;
-      border: 3px solid #fff;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 10px;
+      height: 10px;
+      background-color: #23BE20;
       border-radius: 50%;
-      background-color: $color-active;
-      box-sizing: border-box;
     }
   }
-  &:hover {
-    + label {
-      &:before {
-        border-color: $hover;
-      }
-    }
-  }
-  &:focus {
-    + label {
-      &:before {
-        border-color: $focus;
-      }
-    }
-  }
-  &:active {
-    + label {
-      &:before {
-        border-color: $active;
-      }
-    }
-  }
-  &:disabled + label {
-    cursor: not-allowed;
-    opacity: 0.38;
-  }
+}
+
+.radio {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 2px solid #E0E0E0;
+  margin-right: 16px;
+}
+
+label {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
 }
 </style>

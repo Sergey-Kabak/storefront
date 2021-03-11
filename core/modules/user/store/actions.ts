@@ -1,3 +1,4 @@
+import Vue from 'vue'
 import {ActionTree} from 'vuex'
 import * as types from './mutation-types'
 import i18n from '@vue-storefront/i18n'
@@ -55,8 +56,8 @@ const actions: ActionTree<UserState, RootState> = {
   /**
    * Login user and return user profile and current token
    */
-  async login ({ commit, dispatch }, { username, password }) {
-    const resp = await UserService.login(username, password)
+  async login ({ commit, dispatch }, { username, password, rememberMe }) {
+    const resp = await UserService.login(username, password, rememberMe)
     userHooksExecutors.afterUserAuthorize(resp)
 
     if (resp.code === 200) {
@@ -110,7 +111,6 @@ const actions: ActionTree<UserState, RootState> = {
   async restoreCurrentUserFromCache ({ commit, dispatch }) {
     const usersCollection = StorageManager.get('user')
     const currentUser = await usersCollection.getItem('current-user')
-
     if (currentUser) {
       commit(types.USER_INFO_LOADED, currentUser)
       await dispatch('setUserGroup', currentUser)
@@ -124,12 +124,10 @@ const actions: ActionTree<UserState, RootState> = {
   },
   async refreshUserProfile ({ commit, dispatch }, { resolvedFromCache }) {
     const resp = await UserService.getProfile()
-
     if (resp.resultCode === 200) {
       commit(types.USER_INFO_LOADED, resp.result) // this also stores the current user to localForage
       await dispatch('setUserGroup', resp.result)
     }
-
     if (!resolvedFromCache && resp.resultCode === 200) {
       EventBus.$emit('user-after-loggedin', resp.result)
       await dispatch('cart/authorize', {}, { root: true })
@@ -163,8 +161,34 @@ const actions: ActionTree<UserState, RootState> = {
   /**
    * Update user profile with data from My Account page
    */
-  async update (_, profile: UserProfile) {
-    await UserService.updateProfile(profile, 'user/handleUpdateProfile')
+  async update ({ dispatch, commit }, profile: UserProfile) {
+    const receivedData = await UserService.updateProfile(profile)
+    const user = receivedData.result
+    const telephone = user.custom_attributes && user.custom_attributes.find(it => it.attribute_code === 'telephone')
+    const address = user.addresses && user.addresses.find(it => it.default_shipping)
+
+    dispatch('checkout/savePersonalDetails', {
+      firstName: user.firstname,
+      lastName: user.lastname,
+      emailAddress: user.email,
+      phoneNumber: telephone.value
+    }, { root: true })
+
+    if (address) {
+      const { city_ref_number: CityRef, street_ref_number: Ref, apartment_number: apartmentNumber, building_number: house} = address.extension_attributes.extra_address_info
+
+      commit('ui/setCity', address.city, { root: true })
+      commit('checkoutPage/SET_COURIER_SHIPPING', {
+        address: {
+          Description: address.street[0],
+          CityRef,
+          Ref
+        },
+        apartmentNumber,
+        house
+      }, { root: true })
+    }
+    return receivedData
   },
   async handleUpdateProfile ({ dispatch }, event) {
     if (event.resultCode === 200) {
@@ -201,10 +225,6 @@ const actions: ActionTree<UserState, RootState> = {
         message: 'Password has successfully been changed',
         action1: { label: i18n.t('OK') }
       }, { root: true })
-      await dispatch('login', {
-        username: getters.getUserEmail,
-        password: passwordData.newPassword
-      })
     } else {
       await dispatch('notification/spawnNotification', {
         type: 'error',
@@ -229,6 +249,7 @@ const actions: ActionTree<UserState, RootState> = {
    */
   async logout ({ commit, dispatch }, { silent = false }) {
     commit(types.USER_END_SESSION)
+    commit('checkoutPage/RESET_CHECKOUT', {}, { root: true })
     await dispatch('cart/disconnect', {}, { root: true })
     await dispatch('clearCurrentUser')
     EventBus.$emit('user-after-logout')
@@ -301,6 +322,45 @@ const actions: ActionTree<UserState, RootState> = {
     Logger.info('User session authorised ', 'user')()
     await dispatch('me', { refresh, useCache })
     await dispatch('getOrdersHistory', { refresh, useCache })
+  },
+  /*
+  delete user
+  */ 
+  async deleteUser ({ dispatch }, user) {
+    const resp = await UserService.deleteUser(user)
+    if (resp.code === 200) {
+      await dispatch('logout', { silent: true })
+  
+      await dispatch('notification/spawnNotification', {
+        type: 'success',
+        message: i18n.t("Account successfuly removed"),
+        action1: { label: i18n.t('OK') }
+      }, { root: true })
+    }
+  },
+  /*
+  cancel order
+  */ 
+  async cancelOrder({ dispatch, commit }, orderId) {
+    const resp = await UserService.cancelOrder(orderId)
+    if (resp.code === 200) {
+      commit(types.USER_ORDER_STATUS_CHANGED, { orderId, status: 'canceled' })
+      await dispatch('notification/spawnNotification', {
+        type: 'success',
+        message: i18n.t("Order successfuly canceled"),
+        action1: { label: i18n.t('OK') }
+      }, { root: true })
+    }
+  },
+  /*
+  validate reset password token
+  */
+ 
+  async validateResetPasswordToken(_, { userId, token }) {
+    return await UserService.validateResetPasswordToken(userId, token)
+      .catch(err => {
+        Logger.error(err)()
+      })
   }
 }
 

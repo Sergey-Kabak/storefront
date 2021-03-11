@@ -164,33 +164,28 @@ export default {
       myAccountLinks: [
         {
           id: 1,
-          name: i18n.t('My profile'),
-          url: '/my-account'
+          name: i18n.t('my-account'),
+          url: '/account/personal-data'
         },
         {
           id: 2,
-          name: i18n.t('My shipping details'),
-          url: '/my-account/shipping-details'
+          name: i18n.t('my-orders'),
+          url: '/account/orders'
         },
         {
           id: 3,
-          name: i18n.t('My newsletter'),
-          url: '/my-account/newsletter'
+          name: i18n.t('my-recently-viewed'),
+          url: '/account/recently-viewed'
         },
         {
           id: 4,
-          name: i18n.t('My orders'),
-          url: '/my-account/orders'
+          name: i18n.t('my-security'),
+          url: '/account/security'
         },
         {
           id: 5,
-          name: i18n.t('My loyalty card'),
-          url: '#'
-        },
-        {
-          id: 6,
-          name: i18n.t('My product reviews'),
-          url: '#'
+          name: i18n.t('my-reviews'),
+          url: '/account/reviews'
         }
       ],
       ico: {

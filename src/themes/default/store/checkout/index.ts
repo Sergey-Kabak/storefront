@@ -17,6 +17,7 @@ export const getDefaultState = () => {
     newPostShipping: null,
     justinShipping: null,
     shops: [],
+    cities: [],
     justinDepartments: [],
     newPostDepartments: [],
     totalShops: null,

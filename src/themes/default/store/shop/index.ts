@@ -5,7 +5,7 @@ export const shopStore = {
   namespaced: true,
   state: {
     shops: [],
-    cities: null,
+    cities: [],
     selectedShop: null,
     shopSwitch: 'list'
   },
