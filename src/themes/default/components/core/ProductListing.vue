@@ -1,5 +1,5 @@
 <template>
-  <div class="product-listing" :style="{'grid-template-columns': `repeat(${cols}, 1fr)`}">
+  <div class="product-listing">
     <product-tile
       v-for="(product, key) in products"
       :key="key"
@@ -76,6 +76,7 @@ export default {
     width: 100%;
     display: grid;
     grid-gap: 20px;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr))
   }
 
   ::v-deep .product-image__thumb {

@@ -168,6 +168,10 @@
       }
     }
   },
+  "liqpay_enabled" : {
+    "liqpay": true,
+    "liqpay_marketplace": true
+  },
   "ssr": {
     "templates": {
       "default": "dist/index.html",
@@ -947,7 +951,7 @@
       "filter": [
         {
           "key": "category_ids",
-          "value": { "eq": [44] }
+          "value": { "eq": [49] }
         }
       ]
     }

@@ -361,6 +361,7 @@ Erin recommends,Erin рекомендует
 Error while sending reset password e-mail,Произошла ошибка при отправке сброса пароля на электронную почту
 Everything new,Новинки
 Field is required,Обязательное поле
+Invalid INN,Не правильно указан ИНН
 Filter,Фильтр
 Filters,Фильтры
 First name *,Имя *
@@ -576,6 +577,7 @@ Compare,Сравнение товаров
 No differences,Различий нет
 "Department","Отделение"
 "Number or address of New Post","Номер или адрес Новой Почты"
+"Number or address of Justin","Номер или адрес отделения Justin"
 "schedule","Пн-Пт: {mon}; Сб: {sat}; Вс: {sun}"
 "weekend","Выходной"
 "Remove from favorite",Удалить из избранного
@@ -639,6 +641,7 @@ AccessoriesTab,Аксессуары
 ReviewsTab,Отзывы
 All Specifications,Все характеристики
 "Left {count} day","Акция закончилась | {count} день | {count} дня | {count} дней"
+"End today","Акция заканчивается сегодня"
 "From","с"
 "To","по"
 "Gift","Подарок"
@@ -656,3 +659,4 @@ All Specifications,Все характеристики
 "December {count}","декабрь | декабря | декабря"
 TVs,Телевизоры
 Pick up today from, Забрать сегодня с
+

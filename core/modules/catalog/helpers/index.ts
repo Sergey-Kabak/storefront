@@ -118,7 +118,6 @@ export function attributeImages (product) {
  * Get configurable_children images from product if any
  * otherwise get attribute images
  */
-
 export function configurableChildrenImages (product) {
   let configurableChildrenImages = []
   if (childHasImage(product.configurable_children)) {

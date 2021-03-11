@@ -7,9 +7,10 @@
         </lazy-hydrate>
         <div class="banner flex my30">
           <picture class="w-100">
-            <source srcset="/assets/promo/delivery_promo_288x260.jpg" media="(max-width: 575px)">
-            <source srcset="/assets/promo/delivery_promo_1324x260.jpg">
-            <img src="/assets/promo/delivery_promo_1324x260.jpg" class="promo-image w-100">
+            <source srcset="/assets/promo/delivery_mobile.jpg" media="(max-width: 400px)">
+            <source srcset="/assets/promo/delivery_tablet.jpg" media="(max-width: 991px) and (min-width: 401)">
+            <source srcset="/assets/promo/delivery_desktop.jpg">
+            <img src="/assets/promo/delivery_desktop.jpg" class="promo-image w-100">
           </picture>
         </div>
         <lazy-hydrate when-idle>

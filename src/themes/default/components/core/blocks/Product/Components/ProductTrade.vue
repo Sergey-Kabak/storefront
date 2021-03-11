@@ -88,7 +88,6 @@ export default {
     flex-direction: column;
   }
   margin-top: 32px;
-  grid-gap: 16px;
   button{
     flex: 1;
     min-height: 40px;

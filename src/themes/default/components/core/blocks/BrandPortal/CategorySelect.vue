@@ -74,6 +74,8 @@ export default {
 
   .vs__dropdown-menu {
     border-radius: 4px;
+    border: 1px solid #E0E0E0;
+    box-shadow: none;
     top: calc(100% + 3px)
   }
 

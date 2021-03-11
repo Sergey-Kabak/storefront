@@ -17,7 +17,7 @@ export const homepageStore = {
 
       const newProductsResult = await dispatch('product/list', {
         query: newProductsQuery,
-        size: 8,
+        size: 5,
         sort: 'created_at:desc',
         includeFields: config.entities.productList.includeFields,
         excludeFields: config.entities.productList.excludeFields
@@ -32,7 +32,7 @@ export const homepageStore = {
     async loadBestsellers({commit, dispatch}) {
       const response = await dispatch('product/list', {
         query: prepareQuery({queryConfig: 'bestSellers'}),
-        size: 8,
+        size: 5,
         sort: 'created_at:desc',
         includeFields: config.entities.productList.includeFields,
         excludeFields: config.entities.productList.excludeFields
@@ -43,7 +43,7 @@ export const homepageStore = {
     async loadStockGoods({commit, dispatch}) {
       const response = await dispatch('product/list', {
         query: prepareQuery({queryConfig: 'stockGoods'}),
-        size: 4,
+        size: 5,
         sort: 'created_at:desc',
         includeFields: config.entities.productList.includeFields,
         excludeFields: config.entities.productList.excludeFields
@@ -54,7 +54,7 @@ export const homepageStore = {
     async loadSalesLeaders({commit, dispatch}) {
       const response = await dispatch('product/list', {
         query: prepareQuery({queryConfig: 'salesLeaders'}),
-        size: 4,
+        size: 5,
         sort: 'created_at:desc',
         includeFields: config.entities.productList.includeFields,
         excludeFields: config.entities.productList.excludeFields
@@ -65,7 +65,7 @@ export const homepageStore = {
     async loadNew({commit, dispatch}) {
       const response = await dispatch('product/list', {
         query: prepareQuery({queryConfig: 'new'}),
-        size: 4,
+        size: 5,
         sort: 'created_at:desc',
         includeFields: config.entities.productList.includeFields,
         excludeFields: config.entities.productList.excludeFields
@@ -76,7 +76,7 @@ export const homepageStore = {
     async loadRecommends({commit, dispatch}) {
       const response = await dispatch('product/list', {
         query: prepareQuery({queryConfig: 'recommends'}),
-        size: 4,
+        size: 5,
         sort: 'created_at:desc',
         includeFields: config.entities.productList.includeFields,
         excludeFields: config.entities.productList.excludeFields

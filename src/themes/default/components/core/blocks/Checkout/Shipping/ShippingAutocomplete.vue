@@ -8,7 +8,7 @@
         </svg>
       </button>
       <div class="autocomplete-wrapper">
-        <autocomplete ref="autocomplete" v-if="isShowAutocomplete" :placeholder="$t('Number or address of New Post')" class="search-autocomplete" :debounce-time="300" :search="options" @submit="onChooseCity">
+        <autocomplete ref="autocomplete" v-if="isShowAutocomplete" :placeholder="placeholder" class="search-autocomplete" :debounce-time="300" :search="options" @submit="onChooseCity">
           <template #result="{ result, props }">
             <li v-bind="props" class="result">
               <span class="result-title">{{ resultValue(result) }}</span>
@@ -49,6 +49,10 @@ export default {
     resultValue: {
       type: [Function],
       default: (it) => it
+    },
+    placeholder: {
+      type: String,
+      default: ''
     }
   },
   data: () => ({
