@@ -30,7 +30,7 @@ export const Register = {
         if (result.code !== 200) {
           this.onFailure(result)
         } else {
-          this.$store.dispatch('user/login', { username: this.email, password: this.password })
+          this.$store.dispatch('user/login', { username: this.email, password: this.password, rememberMe: false })
           this.onSuccess()
           this.close()
         }
