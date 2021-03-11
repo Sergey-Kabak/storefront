@@ -641,6 +641,7 @@ AccessoriesTab,Аксессуары
 ReviewsTab,Отзывы
 All Specifications,Все характеристики
 "Left {count} day","Акция закончилась | {count} день | {count} дня | {count} дней"
+"End today","Акция заканчивается сегодня"
 "From","с"
 "To","по"
 "Gift","Подарок"
@@ -658,3 +659,4 @@ All Specifications,Все характеристики
 "December {count}","декабрь | декабря | декабря"
 TVs,Телевизоры
 Pick up today from, Забрать сегодня с
+
