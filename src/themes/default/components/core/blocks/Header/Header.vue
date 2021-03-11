@@ -134,13 +134,6 @@ export default {
           imgMobile: '/assets/promo/iphone-mobile.jpg',
           link: '/smartfoni-i-telefoni/smartfoni?manufacturer=Apple',
           background: '#08101b'
-        },
-        March8: {
-          img: '/assets/promo/march-8-banner-xl.jpg',
-          imgTablet: '/assets/promo/march-8-banner-lg.jpg',
-          imgMobile: '/assets/promo/march-8-banner-sm.jpg',
-          link: '/8-march',
-          background: 'linear-gradient(45deg, #f8cad4, #f1bccc)'
         }
       }
     }
@@ -168,15 +161,11 @@ export default {
         {
           path: '/smartfoni-i-telefoni/smartfoni',
           options: this.promos.samsung
-        },
-        {
-          path: '/8-march',
-          options: this.promos.keepInTouch
         }
       ]
     },
     promo () {
-      const defaultPromo = this.promos.March8
+      const defaultPromo = this.promos.samsung
       const promo = this.promoPages.find(promo => this.$route.path === promo.path)
       return (promo && promo.options) || defaultPromo;
     }
