@@ -8,6 +8,7 @@
       :selected="newPostShipping"
       :resultValue="resultValue"
       class="autocomplete"
+      :placeholder="$t('Number or address of New Post')"
     />
     <div class="new-post-bottom">
       <button-full class="submit" @click.native="activateNewPost()">{{ $t("Pick up here") }}</button-full>

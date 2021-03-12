@@ -4,51 +4,15 @@ import {Logger} from '@vue-storefront/core/lib/logger'
 import {once} from '@vue-storefront/core/helpers'
 import config from 'config'
 import pluralization from './pluralization'
+import dateTimeFormats from './dateTimeFormats'
 
 once('__VUE_EXTEND_I18N__', () => {
   Vue.use(VueI18n)
 })
 
-const dateTimeFormats = {
-  'en-US': {
-    long: {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric',
-    }
-  },
-  'uk-UA': {
-    long: {
-      day: 'numeric',
-    },
-    longWithMonthYear: {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric',
-    },
-    longWithMonth: {
-      month: 'long',
-      day: 'numeric',
-    }
-  },
-  'ru-RU': {
-    long: {
-      day: 'numeric',
-    },
-    longWithMonthYear: {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric',
-    },
-    longWithMonth: {
-      month: 'long',
-      day: 'numeric',
-    }
-  },
-}
-
 const defaultLocale = config.i18n.defaultLocale || 'en-US'
 const loadedLanguages = [defaultLocale]
+
 const i18n = new VueI18n({
   dateTimeFormats,
   locale: defaultLocale, // set locale

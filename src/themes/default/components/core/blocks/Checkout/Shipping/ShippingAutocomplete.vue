@@ -8,7 +8,7 @@
         </svg>
       </button>
       <div class="autocomplete-wrapper">
-        <autocomplete ref="autocomplete" v-if="isShowAutocomplete" :placeholder="$t('Number or address of New Post')" class="search-autocomplete" :debounce-time="300" :search="options" @submit="onChooseCity">
+        <autocomplete ref="autocomplete" class="autocomplete" v-if="isShowAutocomplete" :placeholder="$t('Number or address of New Post')" :debounce-time="300" :search="options" @submit="onChooseCity">
           <template #result="{ result, props }">
             <li v-bind="props" class="result">
               <span class="result-title">{{ resultValue(result) }}</span>
@@ -28,6 +28,7 @@
 
 <script>
 import Autocomplete from '@trevoreyre/autocomplete-vue'
+import '@trevoreyre/autocomplete-vue/dist/style.css'
 
 export default {
   components: {
@@ -49,6 +50,10 @@ export default {
     resultValue: {
       type: [Function],
       default: (it) => it
+    },
+    placeholder: {
+      type: String,
+      default: ''
     }
   },
   data: () => ({
@@ -137,5 +142,69 @@ export default {
     right: 36px;
   }
 }
+
+.shipping-autocomplete ::v-deep {
+  .autocomplete {
+    margin-bottom: 32px;
+  }
+
+  ::-webkit-scrollbar {
+    width: 4px;
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    border-radius: 4px;
+    background-color: #bfbfbf;
+  }
+
+  .autocomplete[data-loading="true"]:after {
+    border-right-color: #23be20;
+  }
+
+  .highlight {
+    color: #23be20;
+  }
+
+  .autocomplete-input {
+    width: 100%;
+    height: 40px;
+    border: 1px solid #e0e0e0;
+    background: #ffffff;
+    border-radius: 4px;
+    padding: 12px 16px;
+    font-family: DIN Pro;
+    font-size: 14px;
+    line-height: 16px;
+    color: #1a1919;
+    outline: none;
+
+    &:focus {
+      box-shadow: none;
+      border-color: #23be20;
+    }
+  }
+
+  .autocomplete-result-list {
+    margin-top: 3px;
+    box-shadow: none;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+  }
+
+  .autocomplete-result {
+    cursor: pointer;
+    padding: 8px 16px;
+    background: transparent;
+    font-family: DIN Pro;
+    font-size: 14px;
+    line-height: 16px;
+    color: #1A1919;
+  
+    &:hover {
+      background-color: #F9F9F9;
+    }
+  }
+}
+
 
 </style>

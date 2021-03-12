@@ -1,7 +1,6 @@
 <template>
   <div class="minimal-layout">
     <overlay v-if="overlayActive"/>
-    <loader/>
     <div id="viewport" class="w-100 relative">
       <minimal-header />
       <async-sidebar
@@ -29,7 +28,6 @@ import { mapState } from 'vuex';
 import AsyncSidebar from 'theme/components/theme/blocks/AsyncSidebar/AsyncSidebar.vue';
 import MinimalHeader from 'theme/components/core/blocks/Header/MinimalHeader.vue';
 import MinimalFooter from 'theme/components/core/blocks/Footer/MinimalFooter.vue';
-import Loader from 'theme/components/core/Loader.vue';
 import Head from 'theme/head';
 import config from 'config';
 import Overlay from 'theme/components/core/Overlay.vue';
@@ -53,7 +51,6 @@ export default {
     MinimalFooter,
     Overlay,
     CreditModal,
-    Loader,
     AsyncSidebar,
     CityPicker
   },

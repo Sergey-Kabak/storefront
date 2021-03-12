@@ -1,5 +1,5 @@
 <template>
-  <div v-if="getUserEmail" class="sr-only">
+  <div v-show="getUserEmail" class="sr-only">
     <span id="EsMail" style="display:none">{{ getUserEmail }}</span>
     <!-- <span id="EsPhone" style="display:none">PHONE NUMBER</span> -->
   </div>

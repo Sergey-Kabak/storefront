@@ -20,11 +20,30 @@ export const UserModule: StorefrontModule = async function ({ store }) {
 
     EventBus.$on('user-after-loggedin', receivedData => {
       // TODO: Make independent of checkout module
+      const telephone = receivedData.custom_attributes && receivedData.custom_attributes.find(it => it.attribute_code === 'telephone')
+      const address = receivedData.addresses && receivedData.addresses.find(it => it.default_shipping)
+  
       store.dispatch('checkout/savePersonalDetails', {
         firstName: receivedData.firstname,
         lastName: receivedData.lastname,
-        emailAddress: receivedData.email
+        emailAddress: receivedData.email,
+        phoneNumber: telephone && telephone.value
       })
+
+      if (address) {
+        const { city_ref_number: CityRef, street_ref_number: Ref, apartment_number: apartmentNumber, building_number: house} = address.extension_attributes.extra_address_info
+
+        store.commit('ui/setCity', address.city, { root: true })
+        store.commit('checkoutPage/SET_COURIER_SHIPPING', {
+          address: {
+            Description: address.street[0],
+            CityRef,
+            Ref
+          },
+          apartmentNumber,
+          house
+        } , { root: true })
+      }
     })
 
     store.dispatch('user/startSession')

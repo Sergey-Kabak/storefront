@@ -103,11 +103,13 @@ export default {
     },
     storeView () {
       return currentStoreView()
+    },
+    isRecentlyViewedPage() {
+      return this.$route.name === 'my-recently-viewed'
     }
   },
   methods: {
     gtm () {
-      console.log(this.gtmList);
       this.GTM_PRODUCT_CLICK([this.product], this.gtmList)
     },
     toProduct () {

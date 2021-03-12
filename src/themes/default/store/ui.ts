@@ -9,6 +9,7 @@ export const uiStore = {
     sidebar_category_active: null,
     microcart: false,
     wishlist: false,
+    signUp: false,
     compare_sidebar: false,
     searchpanel: false,
     consultation: false,
@@ -87,6 +88,10 @@ export const uiStore = {
       state.isSearchActive = false
       state.authElem = action
     },
+    setSignUp (state, action) {
+      state.signUp = action === true
+      state.overlay = action === true
+    },
     setSearch (state, action) {
       state.isSearchActive = action === true
       state.overlay = action === true
@@ -116,6 +121,9 @@ export const uiStore = {
     },
     closeWishlist ({ commit, state }) {
       if (state.wishlist) commit('setWishlist', false)
+    },
+    closeSignUp ({ commit, state }) {
+      if (state.signUp) commit('setSignUp', false)
     }
   }
 }

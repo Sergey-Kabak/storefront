@@ -1,24 +1,10 @@
 <template>
   <div>
-    <div class="relative">
-      <input
-        class="m0 no-outline"
-        type="checkbox"
-        :id="id"
-        :checked="value"
-        @keyup.enter="$emit('click')"
-        @click="$emit('click')"
-        @blur="$emit('blur')"
-        @change="$emit('change', $event.target.checked)"
-        :disabled="disabled"
-      >
-      <label
-        class="pl35 lh30 h4 pointer"
-        :for="id"
-      >
-        <slot />
-      </label>
-    </div>
+    <label class="checkbox-selector">
+      <input type="checkbox" :checked="value" @change="$emit('change', $event.target.checked)">
+      <span class="checkbox" :class="{ 'active': value }" />
+      <slot />
+    </label>
     <ValidationMessages v-if="validations" :validations="validations" />
   </div>
 </template>
@@ -36,10 +22,6 @@ export default {
     event: 'change'
   },
   props: {
-    id: {
-      type: String,
-      required: true
-    },
     value: {
       type: Boolean,
       required: true
@@ -58,70 +40,61 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  @import '~theme/css/variables/colors';
-  @import '~theme/css/helpers/functions/color';
-  $color-silver: color(silver);
-  $color-active: color(secondary);
-  $color-white: color(white);
-  label {
-    user-select: none;
-    &:before {
-      content: '';
+.checkbox {
+  transition: ease-in 0.1s;
+  display: flex;
+  position: relative;
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+  border: 2px solid #E0E0E0;
+  box-sizing: border-box;
+  margin-right: 12px;
+  border-radius: 3px;
+
+  &.active {
+    background: #23BE20;
+    border: none;
+
+    &:after {
+      content: url('/assets/custom/Correct.svg');
       position: absolute;
-      top: 3px;
-      left: 0;
-      width: 22px;
-      height: 22px;
-      background-color: $color-white;
-      border: 1px solid $color-silver;
-      cursor: pointer;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 20px;
+      height: 15px;
+    }
+  }
+}
+
+.checkbox-selector {
+
+  &:hover{
+    .checkbox-amount {
+      opacity: 1;
+    }
+    span.checkbox{
+      border-color : #cecece;
+    }
+    span.checkbox.active {
+      background-color: #20af1d;
     }
   }
 
-  input {
-    position: absolute;
-    top: 3px;
-    left: 0;
-    opacity: 0;
-    &:checked + label {
-      &:before {
-        background-color: $color-silver;
-        border-color: $color-silver;
-        cursor: pointer;
-      }
-      &:after {
-        content: '';
-        position: absolute;
-        top: 9px;
-        left: 5px;
-        width: 11px;
-        height: 5px;
-        border: 3px solid $color-white;
-        border-top: none;
-        border-right: none;
-        background-color: $color-silver;
-        transform: rotate(-45deg);
-      }
-    }
-    &:hover,
-    &:focus {
-      + label {
-        &:before {
-          border-color: $color-active;
-        }
-      }
-    }
-    &:disabled + label {
-      cursor: not-allowed;
-      opacity: 0.5;
-      pointer-events: none;
-      &:hover,
-      &:focus {
-        &:before {
-          border-color: $color-silver;
-          cursor: not-allowed;
-        }
-      }
-    }
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  margin-right: 10px;
+  margin-bottom: 12px;
+
+  &:last-child {
+    margin-bottom: 0;
   }
+}
+
+input[type="checkbox"] {
+  display: none;
+}
 </style>

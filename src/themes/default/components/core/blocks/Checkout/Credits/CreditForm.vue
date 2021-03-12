@@ -2,7 +2,7 @@
   <div>
     <form class="w-100">
       <div class="block-title">
-        {{ $t('Loan processing')}}
+        {{ $t('Loan processing') }}
       </div>
       <div class="form-row flex">
         <div class="form-column">
@@ -80,7 +80,8 @@
                 condition: $v.form.date_of_birth.$error && !$v.form.date_of_birth.required && $v.form.date_of_birth.$dirty,
                 text: $t('Field is required')
               },
-            ]"/>
+            ]"
+            />
           </div>
         </div>
       </div>
@@ -106,6 +107,14 @@
                   condition: $v.form.identification_code.$error && !$v.form.identification_code.required && $v.form.identification_code.$dirty,
                   text: $t('Field is required')
                 },
+                {
+                  condition: $v.form.identification_code.$error &&
+                    (!$v.form.identification_code.invalidINN ||
+                    !$v.form.identification_code.minLength ||
+                    !$v.form.identification_code.maxLength)
+                    && $v.form.identification_code.$dirty,
+                  text: $t('Invalid INN')
+                }
               ]"
             />
           </div>
@@ -119,12 +128,27 @@
 import BaseDatepickerCheckout from '../../Form/BaseDatepickerCheckout';
 import BaseInput from 'theme/components/core/blocks/Form/BaseInput';
 import { mapState, mapGetters } from 'vuex';
-import { minLength, required } from 'vuelidate/lib/validators';
+import { maxLength, minLength, required } from 'vuelidate/lib/validators';
 import ProductList from './ProductList';
 import { currentStoreView } from '@vue-storefront/core/lib/multistore';
 import * as types from 'theme/store/credit/mutation-types'
 import CreditRule from './CreditRule'
 
+const invalidINN = (value) => {
+  const strValue = String(value)
+  const total = (strValue[0] * (-1)) +
+    (strValue[1] * 5) +
+    (strValue[2] * 7) +
+    (strValue[3] * 9) +
+    (strValue[4] * 4) +
+    (strValue[5] * 6) +
+    (strValue[6] * 10) +
+    (strValue[7] * 5) +
+    (strValue[8] * 7);
+  let check = total % 11;
+  check === 10 && (check = check[1]);
+  return check === +strValue[9]
+}
 export default {
   name: 'CreditForm',
   data () {
@@ -146,6 +170,9 @@ export default {
     CreditRule
   },
   computed: {
+    ...mapState({
+      personalDetails: (state) => state.checkout.personalDetails
+    }),
     ...mapGetters({
       selectedCredit: 'themeCredit/getSelectedCredit',
       getSelectedBank: 'themeCredit/getSelectedBank',
@@ -182,10 +209,16 @@ export default {
         },
         identification_code: {
           required,
-          minLength: minLength(10)
+          minLength: minLength(10),
+          maxLength: maxLength(10),
+          invalidINN
         }
       }
     }
+  },
+  mounted () {
+    this.form.name = this.personalDetails?.firstName
+    this.form.surname = this.personalDetails?.lastName
   }
 }
 </script>
