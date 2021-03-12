@@ -37,6 +37,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+::v-deep .radio-button{
+  border: none;
+}
 .compare-sidebar{
   display: flex;
   flex-direction: column;
