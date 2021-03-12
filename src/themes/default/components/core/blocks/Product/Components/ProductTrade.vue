@@ -13,7 +13,7 @@
       </div>
     </div>
     <div>
-      <div v-if="ProductStock !== 'NotAvailable'" class="flex trade-actions">
+      <div v-if="!['ComingSoon', 'NotAvailable'].includes(ProductStock)" class="flex trade-actions">
         <add-to-cart :product="getCurrentProduct">
           <template v-if="ProductStock === 'PendingDelivery'" v-slot:text>{{$t('pre order')}}</template>
         </add-to-cart>

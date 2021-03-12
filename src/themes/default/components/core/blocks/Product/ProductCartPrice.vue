@@ -3,7 +3,7 @@
     <div class="mb0 name mt0 relative w-100" v-if="nameVisibility">
       {{ product.name | htmlDecode }} <span v-if="showProductColor">{{getColor}}</span>
     </div>
-    <template v-if="specialPrice && !onlyImage && getStockStatus !== 'ComingSoon'">
+    <template v-if="specialPrice && !onlyImage">
       <div class="product-price-wrapper">
         <div class="main-price">
           <span
@@ -24,7 +24,7 @@
       </span>
       </div>
     </template>
-    <template v-else-if="!onlyImage && getStockStatus !== 'ComingSoon'">
+    <template v-else-if="!onlyImage">
       <div class="product-price-wrapper">
         <span class="price-special">
           {{ originalPrice | price(storeView) }}
@@ -36,7 +36,7 @@
 
 <script>
 import { currentStoreView } from '@vue-storefront/core/lib/multistore';
-import { price, ProductStock } from 'theme/helpers';
+import { price } from 'theme/helpers';
 
 export default {
   props: {
@@ -62,9 +62,6 @@ export default {
     }
   },
   computed: {
-    getStockStatus () {
-      return ProductStock(this.product)
-    },
     getColor () {
       if (this.product.type_id === 'configurable' && this.showProductColor ) {
         return this.product.attributes_metadata.find(it => it.attribute_code === 'color').options.find(option => +option.value === this.product.color).label || null
