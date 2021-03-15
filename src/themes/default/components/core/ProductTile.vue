@@ -110,7 +110,6 @@ export default {
   },
   methods: {
     gtm () {
-      console.log(this.gtmList);
       this.GTM_PRODUCT_CLICK([this.product], this.gtmList)
     },
     toProduct () {
