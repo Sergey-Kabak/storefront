@@ -1,4 +1,5 @@
 import { mapGetters } from 'vuex';
+import { ProductStock } from '../../../../../helpers';
 
 export default {
   computed: {
@@ -6,12 +7,7 @@ export default {
       getCurrentProduct: 'product/getCurrentProduct'
     }),
     ProductStock () {
-      const status = {
-        InStock: (() => this.getCurrentProduct.stock.is_in_stock && !this.getCurrentProduct.preorder)(),
-        PendingDelivery: (() => this.getCurrentProduct.stock.is_in_stock && !!this.getCurrentProduct.preorder)(),
-        NotAvailable: (() => !this.getCurrentProduct.stock.is_in_stock)()
-      }
-      return Object.keys(status).find(s => !!status[s])
+      return ProductStock(this.getCurrentProduct);
     }
   }
 }

@@ -71,8 +71,7 @@ export default {
     ...mapGetters({
       isAddingToCart: 'cart/getIsAdding',
       getCurrentCustomOptions: 'product/getCurrentCustomOptions',
-      getCurrentProductConfiguration: 'product/getCurrentProductConfiguration',
-      getCartItems: ''
+      getCurrentProductConfiguration: 'product/getCurrentProductConfiguration'
     }),
     isProductDisabled () {
       return this.disabled || formatProductMessages(this.product.errors) !== '' || this.isAddingToCart
