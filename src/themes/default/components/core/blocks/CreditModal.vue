@@ -16,10 +16,10 @@
           <template v-if="bank.visible">
             <div class="credit-card-block__radio-wrap flex v-center">
               <div class="flex v-center">
-                <base-radiobutton
+                <custom-radiobutton
                   :id="'bank' + index" name="bank" @change="setSelectedBank(index)"
                   :checked="selectedBank === index">{{ bank.name }}
-                </base-radiobutton>
+                </custom-radiobutton>
                 <img :src="getThumbnail(bank.logo, 24, 24, 'credit')">
               </div>
             </div>
@@ -62,6 +62,7 @@ import Modal from 'theme/components/core/Modal.vue'
 import { mapState, mapGetters } from 'vuex'
 import { currentStoreView, localizedRoute } from '@vue-storefront/core/lib/multistore'
 import { price } from 'theme/helpers';
+import CustomRadiobutton from "./Form/CustomRadiobutton";
 
 export default {
   components: {
@@ -69,7 +70,8 @@ export default {
     BaseRadiobutton,
     ButtonActive,
     CustomSelect,
-    BaseInputNumber
+    BaseInputNumber,
+    CustomRadiobutton
   },
   data () {
     return {

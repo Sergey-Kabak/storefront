@@ -80,6 +80,7 @@ export default {
   bottom: 3px;
 }
 .trade-actions{
+  grid-gap: 16px;
   @media (max-width: 575px) {
     flex-direction: column;
   }

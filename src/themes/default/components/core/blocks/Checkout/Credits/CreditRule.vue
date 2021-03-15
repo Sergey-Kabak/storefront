@@ -10,11 +10,11 @@
     <div v-if="alertStatus.class !== 'success'" class="addition-services">
       <b>{{ $t('additional services')}}</b>
       <div class="flex w-100">
-        <base-radiobutton
+        <custom-radiobutton
           v-for="item in categories" :key="item.type"
           :id="'category' + item.type" name="category" @change="setCategory(item)"
           :checked="selectedCategory.type === item.type" :disabled="!item.link">{{ item.name }}
-        </base-radiobutton>
+        </custom-radiobutton>
         <router-link :to="localizedRoute(selectedCategory.link)" target="_blank" class="link">
           <button-full>
             {{ $t('Select products') }}
@@ -28,13 +28,15 @@
 <script>
 import mixin from './mixin'
 import BaseRadiobutton from 'theme/components/core/blocks/Form/BaseRadiobutton'
+import CustomRadiobutton from "../../Form/CustomRadiobutton";
 import ButtonFull from '../../../../theme/ButtonFull';
 
 export default {
   mixins: [mixin],
   components: {
     BaseRadiobutton,
-    ButtonFull
+    ButtonFull,
+    CustomRadiobutton
   },
   data () {
     return {
