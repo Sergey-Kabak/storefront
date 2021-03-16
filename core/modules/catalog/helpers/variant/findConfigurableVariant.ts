@@ -8,7 +8,7 @@ import orderBy from 'lodash-es/orderBy'
 export default function
 
   findConfigurableVariant ({ product, configuration = null, selectDefaultChildren = false, availabilityCheck = true }) {
-  const sortedConfigurableChildren = orderBy(product.configurable_children, [it => it.stock.is_in_stock, it => it.priority, it => it.price], ['desc', 'asc', 'asc'])
+  const sortedConfigurableChildren = orderBy(product.configurable_children, [it => it.stock && it.stock.is_in_stock, it => it.priority, it => it.price], ['desc', 'asc', 'asc'])
   let _sortedConfigurableChildren = null
   if (configuration && configuration.color && configuration.color.length && sortedConfigurableChildren.filter(it => configuration.color.find(color => +color.id === it.color)).length) {
     _sortedConfigurableChildren = sortedConfigurableChildren.filter(it => configuration.color.find(color => +color.id === it.color));
