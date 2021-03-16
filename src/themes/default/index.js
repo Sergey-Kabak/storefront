@@ -21,6 +21,7 @@ import { checkoutStore } from 'theme/store/checkout';
 import { cmsStore } from 'theme/store/cms';
 import { attributeStore } from 'theme/store/attributes';
 import { shopStore } from 'theme/store/shop';
+import { esputnikStore } from 'theme/store/esputnik';
 import { StorageManager } from '@vue-storefront/core/lib/storage-manager';
 import { module as carouselModule } from 'theme/store/carousel';
 import vClickOutside from 'v-click-outside';
@@ -66,6 +67,7 @@ function initTheme (app, router, store, config, ssrContext) {
   store.registerModule('checkoutPage', checkoutStore);
   store.registerModule('cms', cmsStore);
   store.registerModule('shop', shopStore);
+  store.registerModule('esputnik', esputnikStore);
   // store.registerModule('payment', paymentStore);
 }
 

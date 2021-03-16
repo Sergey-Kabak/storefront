@@ -17,6 +17,9 @@ const mutations: MutationTree<UserState> = {
   [types.USER_GROUP_TOKEN_CHANGED] (state, token) {
     state.groupToken = token
   },
+  [types.USER_ADD_TO_PRODUCT_HISTORY] (state, sku) {
+    state.visited_products_history.push(sku)
+  },
   [types.USER_GROUP_CHANGED] (state, groupId) {
     state.groupId = groupId
   },

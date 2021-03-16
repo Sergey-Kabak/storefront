@@ -71,6 +71,7 @@
 </template>
 
 <script>
+import { isServer } from '@vue-storefront/core/helpers'
 import {
   mapGetters,
   mapActions

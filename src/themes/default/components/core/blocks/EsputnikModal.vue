@@ -1,7 +1,7 @@
 <template>
   <modal name="modal-esputnik" class="modal-esputnik">
     <div class="banner">
-      <div class="close-modal" @click="close()">
+      <div class="close-modal" @click="close">
         <svg class="close-icon" width="24" height="24" viewBox="0 0 24 24" fill="#1A1919" xmlns="http://www.w3.org/2000/svg">
           <path d="M19 6.41L17.59 5L12 10.59L6.41 5L5 6.41L10.59 12L5 17.59L6.41 19L12 13.41L17.59 19L19 17.59L13.41 12L19 6.41Z"/>
         </svg>
@@ -12,7 +12,25 @@
         <img src="/assets/esputnik-modal/flower.png" alt="esputnik-promo" class="promo-image">
       </picture>
       <div class="banner__content">
-        <template v-if="!subscribed">
+        <template v-if="subscribed">
+          <div class="banner__heading">
+            <svg class="banner__heading-icon" width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M15.9993 2.66656C8.63935 2.66656 2.66602 8.6399 2.66602 15.9999C2.66602 23.3599 8.63935 29.3332 15.9993 29.3332C23.3594 29.3332 29.3327 23.3599 29.3327 15.9999C29.3327 8.6399 23.3594 2.66656 15.9993 2.66656ZM13.3327 22.6666L6.66602 15.9999L8.54602 14.1199L13.3327 18.8932L23.4527 8.77323L25.3327 10.6666L13.3327 22.6666Z" fill="#23BE20"/>
+            </svg>
+            <div class="banner__heading-text">{{ $t('Thank!') }}</div>
+          </div>
+          <div class="banner__text">{{ $t('you have subscribed') }}</div>
+        </template>
+        <template v-else-if="requestSent">
+          <div class="banner__heading">
+            <svg class="banner__heading-icon" width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M15.9993 2.66656C8.63935 2.66656 2.66602 8.6399 2.66602 15.9999C2.66602 23.3599 8.63935 29.3332 15.9993 29.3332C23.3594 29.3332 29.3327 23.3599 29.3327 15.9999C29.3327 8.6399 23.3594 2.66656 15.9993 2.66656ZM13.3327 22.6666L6.66602 15.9999L8.54602 14.1199L13.3327 18.8932L23.4527 8.77323L25.3327 10.6666L13.3327 22.6666Z" fill="#23BE20"/>
+            </svg>
+            <div class="banner__heading-text">{{ $t('Thank!') }}</div>
+          </div>
+          <div class="banner__text">{{ $tc('check your email and confirm {email}', email) }}</div>
+        </template>
+        <template v-else>
           <div class="banner__heading">{{ $t('new features and propositions') }}</div>
           <div class="banner__text">{{ $t('subscribe details') }}</div>
           <div class="banner__actions">
@@ -41,21 +59,13 @@
             </button-full>
           </div>
         </template>
-        <template v-else>
-          <div class="banner__heading">
-            <svg class="banner__heading-icon" width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M15.9993 2.66656C8.63935 2.66656 2.66602 8.6399 2.66602 15.9999C2.66602 23.3599 8.63935 29.3332 15.9993 29.3332C23.3594 29.3332 29.3327 23.3599 29.3327 15.9999C29.3327 8.6399 23.3594 2.66656 15.9993 2.66656ZM13.3327 22.6666L6.66602 15.9999L8.54602 14.1199L13.3327 18.8932L23.4527 8.77323L25.3327 10.6666L13.3327 22.6666Z" fill="#23BE20"/>
-            </svg>
-            <div class="banner__heading-text">{{ $t('Thank!') }}</div>
-          </div>
-          <div class="banner__text">{{ $t('you have subscribed') }}</div>
-        </template>
       </div>
     </div>
   </modal>
 </template>
 
 <script>
+import {currentStoreView, localizedRoute} from '@vue-storefront/core/lib/multistore';
 import Modal from "theme/components/core/Modal.vue";
 import BaseInput from 'theme/components/core/blocks/Form/BaseInput.vue';
 import ButtonFull from 'theme/components/theme/ButtonFull.vue';
@@ -66,6 +76,7 @@ export default {
   data() {
     return {
       email: '',
+      requestSent: false,
       subscribed: false
     }
   },
@@ -77,6 +88,7 @@ export default {
   methods: {
     close() {
       this.$bus.$emit('modal-hide', 'modal-esputnik')
+      this.$router.push(localizedRoute('/', currentStoreView().storeCode))
     },
     showWarning() {
       this.$store.dispatch('notification/spawnNotification', {
@@ -90,10 +102,8 @@ export default {
       if (this.$v.$error) {
         this.showWarning();
       }
-      // this.subscribed = true;
       EsputnikService.subscribe({ email: this.email}).then(v => {
-        console.log(v)
-        this.subscribed = true;
+        this.requestSent = true;
         // sessionStorage.setItem('esputnik-subscribe-modal', false)
       }).catch(err => {
         console.log(err)
@@ -107,8 +117,14 @@ export default {
     }
   },
   watch: {
-    $route(v) {
-      console.log(v)
+    $route: {
+      immediate: true,
+      handler(v) {
+        if (v.query.subscribed) {
+          this.subscribed = true;
+        }
+        console.log(v)
+      }
     }
   }
 };
@@ -128,7 +144,7 @@ export default {
     position: absolute;
     top: 0;
     left: 0;
-    padding: 24px 193px 0 24px;
+    padding: 24px 93px 0 24px;
 
     @media only screen and (max-width: 768px) {
       padding: 16px 16px 0 16px;

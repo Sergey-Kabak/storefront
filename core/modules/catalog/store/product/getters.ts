@@ -5,6 +5,12 @@ import { Logger } from '@vue-storefront/core/lib/logger';
 
 const getters: GetterTree<ProductState, RootState> = {
   getCurrentProduct: state => state.current,
+  isCurrentProductInCart: (state, getters, rootState, rootGetters) => {
+    const items = rootGetters.getCartItems
+    const current = state.current
+    if (!items.length || !current) return false
+    return items.some(el => el.sku === state.current.sku)
+  },
   getCurrentProductConfiguration: state => state.current_configuration,
   getCurrentProductOptions: state => state.current_options,
   getOriginalProduct: (state, getters) => {

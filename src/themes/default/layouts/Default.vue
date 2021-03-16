@@ -59,6 +59,7 @@
 
 <script>
 import { mapState } from 'vuex';
+import { EsputnikService } from 'theme/services/EsputnikService.ts';
 import AsyncSidebar from 'theme/components/theme/blocks/AsyncSidebar/AsyncSidebar.vue';
 import MainHeader from 'theme/components/core/blocks/Header/Header.vue';
 import MainFooter from 'theme/components/core/blocks/Footer/Footer.vue';
@@ -92,7 +93,8 @@ export default {
       SearchPanel,
       SidebarMenu,
       Consultation,
-      CompareSidebar
+      CompareSidebar,
+      onCloseHandlerInited: false
     };
   },
   computed: {
@@ -115,6 +117,17 @@ export default {
           : null,
         skipCache: isServer
       });
+    },
+    initOnCloseHandler() {
+      if (!isServer && !this.onCloseHandlerInited) {
+        console.log('\n\n\ninitiating\n\n\n')
+        window.addEventListener('beforeunload', async (e) => {
+          this.$store.dispatch('esputnik/triggerAbandonProducts')
+          this.$store.dispatch('esputnik/triggerAbandonCart')
+          e.returnValue = '';
+          this.onCloseHandlerInited = true;
+        });
+      }
     }
   },
   serverPrefetch() {
@@ -128,6 +141,7 @@ export default {
       next();
     });
     this.$router.afterEach((to, from) => {
+      this.initOnCloseHandler()
       this.$Progress.finish();
     });
     this.$bus.$on('offline-order-confirmation', this.onOrderConfirmation);
