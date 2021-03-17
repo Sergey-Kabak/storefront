@@ -122,7 +122,7 @@
   },
   "phoneNumbers": ["+38 073 090 87 07", "+38 097 090 87 07", "+38 050 340 74 00"],
   "homePageBanner": {
-    "enabled": true
+    "enabled": false
   },
   "admitad": {
     "campaignCode": "89a640b42b",
@@ -704,7 +704,8 @@
     },
     "defaultSortBy": {
       "attribute": "updated_at",
-      "order": "desc"
+      "order": "desc",
+      "label": "Latest"
     },
     "sortByAttributes": {
       "Latest": "updated_at:desc",
