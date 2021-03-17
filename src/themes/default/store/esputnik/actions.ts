@@ -15,13 +15,14 @@ const actions = {
   triggerAbandonCart ({ rootGetters }) {
     const items = rootGetters['cart/getCartItems'];
     if (!items.length) return
+    debugger;
     const preparedItems = formatItems(items)
     return EsputnikService.triggerAbandonCart({ items: preparedItems })
   },
   triggerAbandonProducts ({ rootGetters }) {
     const items = rootGetters['user/abandonProducts'];
-    debugger;
     if (!items.length) return
+    debugger;
     const preparedItems = formatItems(items)
     return EsputnikService.triggerAbandonProducts({ items: preparedItems })
   },

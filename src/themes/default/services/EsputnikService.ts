@@ -40,6 +40,7 @@ const subscribe = async ({ email }): Promise<Task> => {
 const triggerEvent = async ({ eventName, params}): Promise<Task> => {
   // const email = store.getters['user/getUserEmail']
   const email = 'ihavenonameTaras@gmail.com'
+  if (!email) return;
   const res = await TaskQueue.execute({
     url: `${url}/event`,
     payload: {
@@ -55,7 +56,25 @@ const triggerEvent = async ({ eventName, params}): Promise<Task> => {
   return res;
 }
 
-const triggerAbandonCart = async ({ items }): Promise<Task> => {
+const triggerEventInBackground = async ({ eventName, params}) => {
+  const email = store.getters['user/getUserEmail']
+  if (!email) return;
+
+  let body = {
+    eventTypeKey: eventName,
+    keyValue: email,
+    params
+  }
+  const headers = {
+    type: 'application/json',
+    'Authorization': 'Basic YW55dmFsdWU6RTdFNzhCRTQyODBFNUYxRkM1RDlBNEZCOEFFNUU1RDc='
+  }
+  let blob = new Blob([JSON.stringify(body)], headers);
+
+  navigator.sendBeacon(`${url}/event`, blob);
+}
+
+const triggerAbandonCart = async ({ items }) => {
   return triggerEvent({
     eventName: events.ABANDONED_CART,
     params: items
@@ -68,7 +87,7 @@ const triggerPasswordChanged = async (params): Promise<Task> => {
   })
 }
 
-const triggerAbandonProducts = async ({ items }): Promise<Task> => {
+const triggerAbandonProducts = async ({ items }) => {
   return triggerEvent({
     eventName: events.ABANDONED_PRODUCTS,
     params: items

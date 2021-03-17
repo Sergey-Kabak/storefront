@@ -123,7 +123,6 @@ export default {
         if (v.query.subscribed) {
           this.subscribed = true;
         }
-        console.log(v)
       }
     }
   }

@@ -2,6 +2,7 @@
   <div class="default-layout">
     <overlay v-if="overlayActive"/>
     <div id="viewport" class="w-100 relative">
+      <button style="z-index: 500" @click="send">send</button>
       <main-header/>
       <async-sidebar
           :async-component="SearchPanel"
@@ -110,6 +111,10 @@ export default {
     })
   },
   methods: {
+    send() {
+              this.$store.dispatch('esputnik/triggerAbandonProducts')
+        this.$store.dispatch('esputnik/triggerAbandonCart')
+    },
     fetchMenuData() {
       return this.$store.dispatch('category-next/fetchMenuCategories', {
         level: config.entities.category.categoriesDynamicPrefetch && config.entities.category.categoriesDynamicPrefetchLevel >= 0
@@ -119,15 +124,16 @@ export default {
       });
     },
     initOnCloseHandler() {
-      if (!isServer && !this.onCloseHandlerInited) {
-        console.log('\n\n\ninitiating\n\n\n')
-        window.addEventListener('beforeunload', async (e) => {
-          this.$store.dispatch('esputnik/triggerAbandonProducts')
-          this.$store.dispatch('esputnik/triggerAbandonCart')
-          e.returnValue = '';
-          this.onCloseHandlerInited = true;
-        });
-      }
+      console.log('\n\n\ninitiating\n\n\n')
+      window.addEventListener('beforeunload', (e) => {
+        this.$store.dispatch('esputnik/triggerAbandonProducts')
+        this.$store.dispatch('esputnik/triggerAbandonCart')
+        debugger;
+        // e.returnValue = '';
+        // e.preventDefault();
+        // this.onCloseHandlerInited = true;
+        // return null;
+      }, false);
     }
   },
   serverPrefetch() {
@@ -135,13 +141,13 @@ export default {
   },
   beforeMount() {
     // Progress bar on top of the page
+    this.initOnCloseHandler()
     this.$router.beforeEach((to, from, next) => {
       this.$Progress.start();
       this.$Progress.increase(40);
       next();
     });
     this.$router.afterEach((to, from) => {
-      this.initOnCloseHandler()
       this.$Progress.finish();
     });
     this.$bus.$on('offline-order-confirmation', this.onOrderConfirmation);
