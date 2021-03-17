@@ -176,7 +176,7 @@ export default {
   }
 
   .add-to-compare {
-    margin-right: 16px;
+    margin-right: 6px;
   }
 }
 
@@ -245,7 +245,7 @@ export default {
     .more-item {
       display: flex;
       align-items: center;
-      padding: 8px 16px;
+      padding: 4px 16px;
     }
   }
 }

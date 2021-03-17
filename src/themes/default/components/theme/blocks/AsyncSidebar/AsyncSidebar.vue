@@ -97,10 +97,6 @@ export default {
 }
 
 .right-sidebar {
-  @media (max-width : 550px){
-    max-width: calc(100vw - 32px);
-  }
-  overflow-y: auto;
   background: #ffffff;
   top: 0;
   right: 0;

@@ -288,7 +288,7 @@ header {
 }
 .header-wrap {
   margin-bottom: 16px;
-  height: 129px;
+  height: 142px;
 }
 .minimal {
   height: 67px;
@@ -413,10 +413,11 @@ header {
   }
 
   .icon {
+    padding: 8px;
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-right: 15px;
+    margin-right: 16px;
     // padding: 8px;
     border-radius: 4px;
     transition: .2s ease-in-out;

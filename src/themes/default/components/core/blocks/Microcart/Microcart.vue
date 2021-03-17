@@ -8,16 +8,7 @@
       <transition name="fade">
         <div v-if="isEditMode" class="overlay" @click="closeEditMode" />
       </transition>
-      <button
-        type="button"
-        class="p0 brdr-none bg-cl-transparent close"
-        @click="closeMicrocartExtend"
-        data-testid="closeMicrocart"
-      >
-        <i class="material-icons py20 cl-accent">
-          close
-        </i>
-      </button>
+      <close-sidebar @close="closeMicrocartExtend"/>
       <div class="microcart-top">
         <div class="microcart-left">
           <h2 class="microcart-top-title cl-accent" v-if="productsInCart.length">
@@ -95,6 +86,7 @@ import PromoCode from './PromoCode';
 import MoreIcon from 'theme/components/core/MoreIcon';
 import TotalPrice from 'theme/components/core/TotalPrice';
 import GTM from 'theme/mixins/GTM/dataLayer';
+import CloseSidebar from 'theme/components/core/CloseSidebar';
 
 export default {
   components: {
@@ -104,7 +96,8 @@ export default {
     ButtonOutline,
     ButtonText,
     MoreIcon,
-    TotalPrice
+    TotalPrice,
+    CloseSidebar
   },
   mixins: [
     VueOfflineMixin,
@@ -210,33 +203,8 @@ export default {
     padding: 32px;
   }
 
-  .close {
-    position: absolute;
-    right: 0;
-    top: 0;
-    background-color: #F9F9F9;
-
-    i {
-      color: #BDBDBD;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      width: 50px;
-      height: 50px;
-      padding: 18px;
-      margin: 0;
-    }
-
-    &:hover,
-    &:focus {
-      i {
-        opacity: 1;
-      }
-    }
-  }
-
   &-top {
-    padding: 50px 32px 0 32px;
+    padding: 0 32px 0 32px;
     margin-bottom: 32px;
     display: flex;
     align-items: center;
@@ -439,7 +407,7 @@ export default {
     }
 
     &-top {
-      padding: 56px 16px 0px 16px;
+      padding: 0 16px;
       flex-direction: column-reverse;
       align-items: flex-start;
       margin-bottom: 16px;

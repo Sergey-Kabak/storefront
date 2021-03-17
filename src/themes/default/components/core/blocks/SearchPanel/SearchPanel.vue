@@ -4,11 +4,7 @@
     data-testid="searchPanel"
     ref="search-panel"
   >
-    <div @click="closeSearchpanel()" class="close-searchpanel" v-if="!mobile">
-      <i class="material-icons close-icon" data-testid="closeSearchPanel">
-        close
-      </i>
-    </div>
+    <close-sidebar @close="closeSearchpanel()" v-if="!mobile"/>
     <div class="search-panel-wrapper">
       <div class="searh-header" v-if="!mobile">
         <span class="search-title">
@@ -84,11 +80,10 @@
 import SearchPanel from '@vue-storefront/core/compatibility/components/blocks/SearchPanel/SearchPanel';
 import Product from 'theme/components/core/blocks/SearchPanel/Product';
 import CategoryPanel from 'theme/components/core/blocks/SearchPanel/CategoryPanel';
-
+import CloseSidebar from 'theme/components/core/CloseSidebar';
 import VueOfflineMixin from 'vue-offline/mixin';
-import { minLength } from 'vuelidate/lib/validators';
 import uniqBy from 'lodash-es/uniqBy'
-import { mapState, mapGetters } from 'vuex';
+import { mapState } from 'vuex';
 import ButtonOutline from 'theme/components/theme/ButtonOutline';
 import {
   clearAllBodyScrollLocks,
@@ -96,17 +91,18 @@ import {
 } from 'body-scroll-lock';
 
 export default {
+  components: {
+    CategoryPanel,
+    Product,
+    ButtonOutline,
+    CloseSidebar
+  },
   props: {
     mobile: {
       type: Boolean,
       required: false,
       default: false
     }
-  },
-  components: {
-    CategoryPanel,
-    Product,
-    ButtonOutline
   },
   mixins: [SearchPanel, VueOfflineMixin],
   data () {
@@ -202,34 +198,6 @@ export default {
 .search-panel-wrapper {
   padding: 0 32px 32px;
   height: 100%;
-}
-
-.close-searchpanel {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 50px;
-  height: 50px;
-  background-color: #F9F9F9;
-  margin-left: auto;
-  cursor: pointer;
-
-  &:hover {
-    .close-icon {
-      color: #aeaeae;
-    }
-  }
-
-  &:active {
-    .close-icon {
-      color: #9f9f9f;
-    }
-  }
-
-  .close-icon {
-    transition: .2s ease-in-out;
-    color: #bdbdbd;
-  }
 }
 
 .searh-header {

@@ -98,12 +98,9 @@
             <product-listing :products="getCategoryProducts" />
           </lazy-hydrate>
           <product-listing v-else :products="getCategoryProducts" gtm-list="category" />
-          <button-white
-            v-if="!allProductsLoaded" @click.native="onBottomScroll"
-            class="load">
-            {{ $t('Load more') }}
-            <spinner class="spinner" v-if="loadingProducts && !allProductsLoaded" />
-          </button-white>
+          <div class="product-listing-action">
+            <button-load-more v-if="!allProductsLoaded" :loading="loadingProducts" @onClick="onBottomScroll" class="load-more-products"/>
+          </div>
           <no-ssr>
             <description v-if="isDescription" />
           </no-ssr>
@@ -125,6 +122,7 @@ import { isServer } from '@vue-storefront/core/helpers';
 import { getSearchOptionsFromRouteParams } from '@vue-storefront/core/modules/catalog-next/helpers/categoryHelpers';
 import config from 'config';
 import ButtonFull from 'theme/components/theme/ButtonFull.vue';
+import ButtonLoadMore from 'theme/components/theme/ButtonLoadMore.vue';
 import { mapGetters } from 'vuex';
 import onBottomScroll from '@vue-storefront/core/mixins/onBottomScroll';
 import { catalogHooksExecutors } from '@vue-storefront/core/modules/catalog-next/hooks';
@@ -171,6 +169,7 @@ export default {
     Spinner,
     Description,
     ButtonWhite,
+    ButtonLoadMore,
     'no-ssr': NoSSR,
     CategoryPromo
   },
@@ -304,6 +303,18 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.product-listing-action {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 32px;
+}
+
+.load-more-products {
+  max-width: 233px;
+  margin: 0 auto;
+}
+
 .font{
   font-family: 'DIN Pro';
   font-style: normal;
@@ -448,6 +459,7 @@ $mobile_screen : 768px;
   }
 
   .mobile-filters-button {
+    width: 100%;
     display: none;
     background: #FFFFFF;
     border: 1px solid #23BE20;
@@ -546,7 +558,8 @@ $mobile_screen : 768px;
 
     .mobile-sorting {
       display: block;
-      flex: 0 0 40%;
+      width: 100%;
+      margin-right: 16px;
     }
 
     .category-filters {
@@ -611,11 +624,8 @@ $mobile_screen : 768px;
     }
 
     .mobile-actions {
-      justify-content: space-between;
       display: flex;
-      & > * {
-        flex: 0 0 48%;
-      }
+      align-items: center;
     }
 
     .category-sort {
@@ -704,6 +714,14 @@ $mobile_screen : 768px;
           border-bottom-right-radius: 0;
         }
       }
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .product-listing-action {
+    .load-more-products {
+      max-width: 100%;
     }
   }
 }

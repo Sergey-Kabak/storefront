@@ -31,7 +31,7 @@
         </lazy-hydrate>
         <product-listing v-else columns="4" :products="getStockGoods" gtm-list="home page" />
         <button-full
-          class="mt35 show-all"
+          class="show-all"
           type="submit"
           @click.native="goToCategory('stockGoods')"
           :aria-label="$t('See all')"
@@ -53,7 +53,7 @@
         </lazy-hydrate>
         <product-listing v-else columns="4" :products="getSalesLeaders" gtm-list="home page" />
         <button-full
-          class="mt35 show-all"
+          class="show-all"
           type="submit"
           @click.native="goToCategory('salesLeaders')"
           :aria-label="$t('See all')"
@@ -99,7 +99,7 @@
           <product-listing v-else columns="4" :products="getNew" gtm-list="home page" />
 
         <button-full
-          class="mt35 show-all"
+          class="show-all"
           type="submit"
           @click.native="goToCategory('new')"
           :aria-label="$t('See all')"
@@ -122,7 +122,7 @@
         </lazy-hydrate>
         <product-listing v-else columns="4" :products="getRecommends" gtm-list="home page" />
         <button-full
-          class="mt35 show-all"
+          class="show-all"
           type="submit"
           @click.native="goToCategory('recommends')"
           :aria-label="$t('See all')"
@@ -298,21 +298,6 @@ export default {
       margin-top: 0;
       margin-bottom: 33px;
       padding-left: 0;
-    .show-all
-      min-width: 233px
-      margin: 31px auto 68px auto
-      width: auto
-      background-color: transparent
-      border: 1px solid #23BE20
-      box-sizing: border-box
-      border-radius: 4px
-      color: #1A1919
-      padding: 12px 60px
-      font-family: 'DIN Pro'
-      font-style: normal
-      font-weight: bold
-      font-size: 15px
-      line-height: 16px
   .main-carousel
     .VueCarousel
       &-slide
@@ -342,6 +327,7 @@ export default {
 <style lang="scss" scoped>
   .promo-image {
     width: 100%;
+    border-radius: 4px;
 
     @media only screen and (max-width: 400px) {
       border-radius: 4px;
@@ -523,6 +509,32 @@ export default {
   #home h2 {
     @media only screen and (max-width: 768px) {
       margin-bottom: 23px;
+    }
+  }
+
+  .show-all.button-full {
+    min-width: 233px;
+    margin: 31px auto 68px auto;
+    width: auto;
+    background-color: transparent;
+    border: 1px solid #23BE20;
+    box-sizing: border-box;
+    border-radius: 4px;
+    color: #1A1919;
+    padding: 12px 60px;
+    font-family: 'DIN Pro';
+    font-style: normal;
+    font-weight: bold;
+    font-size: 15px;
+    line-height: 16px;
+
+    &:hover {
+      background-color: #E5F7E4;
+      border-color: transparent;
+    }
+
+    &:active {
+      background-color: #cddccc;
     }
   }
 </style>

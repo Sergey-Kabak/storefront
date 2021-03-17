@@ -305,11 +305,11 @@ export default {
   }
 
   .product-cover {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     overflow: hidden;
     height: 259px;
-    @media only screen and (max-width: 768px) {
-      height: auto;
-    }
     width: 100%;
 
     &__thumb {
