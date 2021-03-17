@@ -6,8 +6,7 @@
     </div>
     <div class="shop-page">
       <div class="shops" :class="{'active': shopSwitch === 'list'}">
-        <shop-tabs @onTabChange="changeActiveComponent($event)" :activeTab="component"/>
-        <component :is="component" />
+        <shop-listing />
       </div>
       <shop-map v-if="isShowMap" :class="{'active': shopSwitch === 'map'}"/>
     </div>
@@ -16,23 +15,16 @@
 
 <script>
 import { mapState } from 'vuex';
-import ShopTabs from 'theme/components/core/blocks/Shop/ShopTabs.vue'
 import ShopListing from 'theme/components/core/blocks/Shop/ShopListing.vue'
-import ShopFavourites from 'theme/components/core/blocks/Shop/ShopFavourites.vue'
 import ShopMap from 'theme/components/core/blocks/Shop/ShopMap.vue'
 import mobileResolution from 'theme/mixins/mobileResolution'
 
 export default {
   mixins: [mobileResolution],
   components: {
-    ShopTabs,
     ShopListing,
-    ShopFavourites,
     ShopMap
   },
-  data: () => ({
-    component: 'shop-listing'
-  }),
   computed: {
     ...mapState({
       cmsPageContent: (state) => state.cmsPage.current,
@@ -43,9 +35,6 @@ export default {
     }
   },
   methods: {
-    changeActiveComponent(component) {
-      this.component = component
-    },
     switchShopVisible(type) {
       this.$store.commit('shop/SET_SHOP_SWITCH', type)
     }
@@ -60,6 +49,9 @@ export default {
 .shop-page {
   display: flex;
   align-items: flex-start;
+  border: 1px solid #E0E0E0;
+  border-radius: 4px;
+  overflow: hidden;
 }
 
 .shops,
@@ -75,7 +67,6 @@ export default {
   max-width: 336px;
   width: 100%;
   background: #FFFFFF;
-  border: 1px solid #E0E0E0;
   border-radius: 4px;
 }
 
@@ -132,10 +123,6 @@ export default {
     &.active {
       display: block;
     }
-  }
-
-  .shop-tabs {
-    display: none;
   }
 }
 </style>
