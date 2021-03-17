@@ -36,6 +36,12 @@ import ButtonText from 'theme/components/theme/ButtonText';
 import ButtonFull from 'theme/components/theme/ButtonFull';
 
 export default {
+  props: {
+    maxLength: {
+      type: Number,
+      default: null
+    }
+  },
   mixins: [RecentlyViewed],
   components: {
     ProductListing,

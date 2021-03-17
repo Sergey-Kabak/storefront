@@ -283,6 +283,7 @@
 "work_time",Пн-Пт: 9:00-18:00; Сб-Нд: 10:00-18:00
 "{count} days left","Акція закінчилась | Залишився {count} день | Залишилось {count} дні | Залишилось {count} днів"
 "{count} items chosen","Товари не знайдені | Вибрано {count} товар | Вибрано {count} товари | Вибрано {count} товарів"
+"{count} promo","акційних пропозицій не найдено | {count} акційна пропозиція  | {count} акційні пропозиції | {count} акційних пропозицій"
 "{count} items","Товари не знайдені | {count} товар | {count} товари | {count} товарів"
 "{count} more items","Товари не знайдені | Ще {count} товар | Ще {count} товари | Ще {count} товарів"
 "{count} payment","{count} платежів | {count} платіж | {count} платежа | {count} платежів"
@@ -721,6 +722,7 @@ TVs,Телевізори,
 Pick up today from, Забрати сьогодні з
 "{count} days left","Акція закінчилась | Залишився {count} день | Залишилось {count} дні | Залишилось {count} днів"
 "Left {count} day","Акція закінчилась | {count} день | {count} дні | {count} днів"
+"Left {count}","Залишилось | Залишився | Залишилось | Залишилось"
 "End today","Акція закінчується сьогодні"
 "From","з"
 "To","по"
@@ -737,6 +739,11 @@ Pick up today from, Забрати сьогодні з
 "October {count}","жовтень | жовтня | жовтня"
 "November {count}","листопад | листопада | листопада"
 "December {count}","грудень | грудня | грудня"
+TVs,Телевізори
+"promo","Акції"
+"Last day","Останнiй день",
+"Details","Докладнiше"
+"My Recently viewed products","Нещодавно переглянуті"
 "to the website","На сайт"
 "Password successfully changed","Пароль успішно змінений!"
 "All orders","Всі замовлення"

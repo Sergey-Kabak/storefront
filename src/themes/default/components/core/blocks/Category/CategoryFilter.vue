@@ -69,7 +69,7 @@ export default {
 .filter-body {
   box-sizing: border-box;
   max-height: 300px;
-  border-bottom: 23px solid transparent;
+  border-bottom: 8px solid transparent;
   overflow-y: auto;
 }
 
@@ -109,7 +109,7 @@ export default {
   .line-horizontal {
     width: 14px;
     height: 2px;
-    top: 0;
+    top: 50%;
     
     &.active {
       top: 50%;

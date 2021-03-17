@@ -3,7 +3,7 @@
     <transition :name="direction === 'right' ? 'slide-left' : direction === 'left' ? 'slide-right' : null ">
       <!--        class="mw-100 fixed cl-accent bg-cl-primary"-->
       <div
-        class="mw-100 fixed cl-accent"
+        class="mw-100 fixed cl-accent sidebar"
         :class="direction === 'left' ? 'left-sidebar' : direction === 'right' ? 'right-sidebar' : null "
         data-testid="sidebar"
         ref="sidebar"
@@ -90,6 +90,10 @@ export default {
 .slide-right-enter,
 .slide-right-leave-to {
   transform: translateX(-100%);
+}
+
+.sidebar {
+  overflow-y: auto;
 }
 
 .right-sidebar {

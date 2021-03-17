@@ -153,9 +153,6 @@ export default {
     categories () {
       this.selectedCategoryIds = []
     },
-    '$route': function() {
-      this.closeSearchpanel()
-    },
     overlay(val) {
       if (!val) {
         this.cancelSearch()

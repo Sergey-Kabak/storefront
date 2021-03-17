@@ -9,6 +9,7 @@ export default {
   mixins: [Overlay],
   methods: {
     close () {
+      this.$store.commit('ui/setPromotionalFilterSidebarMobile', false)
       this.$store.commit('ui/setOverlay', false)
       this.$store.commit('ui/setMicrocart', false)
       this.$store.commit('ui/setWishlist', false)

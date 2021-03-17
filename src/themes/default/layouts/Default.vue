@@ -25,6 +25,12 @@
           @close="$store.commit('ui/setConsultation')"
           class="consultation-sidebar"
       />
+      <async-sidebar
+        :async-component="PromotionalFilterSidebarMobile"
+        :is-open="isPromotionalFilterSidebarMobileOpen"
+        @close="$store.commit('ui/setPromotionalFilterSidebar')"
+        class="promotional-filter-sidebar"
+      />
 
       <sidebar-categories v-if="isSidebarCategoriesOpen"/>
 
@@ -87,9 +93,10 @@ const Wishlist = () => import(/* webpackChunkName: "vsf-wishlist" */ 'theme/comp
 const SearchPanel = () => import(/* webpackChunkName: "vsf-search-panel" */ 'theme/components/core/blocks/SearchPanel/SearchPanel.vue');
 const CustomSellerProduct = () => import(/* webpackChunkName: "vsf-custom-city-picker-modal" */ 'theme/components/core/blocks/CustomSellerProduct/CustomSellerProduct.vue');
 const Consultation = () => import(/* webpackChunkName: "vsf-custom-city-picker-modal" */ 'theme/components/core/blocks/Consultation/Consultation.vue');
-const SignUp = () => import(/* webpackChunkName: "vsf-custom-city-picker-modal" */ 'theme/components/core/blocks/Auth/SignUp.vue');
 const CompareSidebar = () => import(/* webpackChunkName: "vsf-sidebar-menu" */ 'theme/components/core/blocks/Compare/CompareSidebar.vue');
 const CityShopPicker = () => import(/* webpackChunkName: "vsf-custom-city-picker-modal" */ 'theme/components/core/blocks/CityShopPicker/CityShopPicker.vue');
+const PromotionalFilterSidebarMobile = () => import(/* webpackChunkName: "vsf-custom-city-picker-modal" */ 'theme/components/core/blocks/PromotionalPortal/PromotionalFilterSidebarMobile.vue');
+const SignUp = () => import(/* webpackChunkName: "vsf-custom-city-picker-modal" */ 'theme/components/core/blocks/Auth/SignUp.vue');
 
 export default {
   data() {
@@ -99,7 +106,9 @@ export default {
       SearchPanel,
       SidebarMenu,
       Consultation,
+      CompareSidebar,
       SignUp,
+      PromotionalFilterSidebarMobile,
       CompareSidebar
     };
   },
@@ -112,8 +121,9 @@ export default {
       isMicrocartOpen: state => state.ui.microcart,
       isWishlistOpen: state => state.ui.wishlist,
       isConsultationOpen: state => state.ui.consultation,
+      isCompareOpen: state => state.ui.compare_sidebar,
+      isPromotionalFilterSidebarMobileOpen: state => state.ui.isPromotionalFilterSidebarMobileOpen,
       isSignUpOpen: state => state.ui.signUp,
-      isCompareOpen: state => state.ui.compare_sidebar
     })
   },
   methods: {
@@ -162,6 +172,7 @@ export default {
     CityPicker,
     ShopShippingModal,
     MainModal,
+    PromotionalFilterSidebarMobile,
     ClientCredentialsForEsputnik
   }
 };

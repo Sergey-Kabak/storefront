@@ -180,15 +180,6 @@ export default {
       mobileFilters: false,
       loadingProducts: false,
       loading: true,
-      timerData: {
-        days: 0,
-        hours: 0,
-        minutes: 0,
-        seconds: 0
-      },
-      expired: null,
-      interval: null,
-      isDescriptionActive: false,
       touchX: 0,
       touchY: 0
     }

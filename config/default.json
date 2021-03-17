@@ -28,7 +28,8 @@
       "P",
       "page-not-found",
       "product",
-      "taxrule"
+      "taxrule",
+      "promotional"
     ],
     "invalidateCacheKey": "aeSu7aip",
     "invalidateCacheForwarding": false,
@@ -604,6 +605,15 @@
     "shop": {
       "includeFields": null,
       "excludeFields": null
+    },
+    "promotionals": {
+      "sortByAttributes": {
+        "Latest": "updated_at:desc"
+      },
+      "defaultSortBy": {
+        "attribute": "updated_at",
+        "order": "desc"
+      }
     }
   },
   "cart": {
@@ -799,6 +809,7 @@
       "brand": "/temabit/brands/",
       "slider": "/bannerslider/upload/",
       "credit": "/temabit/credit/",
+      "promotional": "/temabit/promo/",
       "instruction": "/temabit/instruction/"
     },
     "productPlaceholder": "/assets/placeholder.jpg"

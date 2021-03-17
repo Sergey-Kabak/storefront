@@ -296,6 +296,7 @@
 "work_time",Пн-Пт: 9:00-18:00; Сб-Вс: 10:00-18:00
 "{count} days left","Акция закончилась | Остался {count} день | Осталось {count} дня | Осталось {count} днев"
 "{count} items chosen","Товары не найдены | Выбрано {count} товар | Выбрано {count} товара | Выбрано {count} товаров"
+"{count} promo","акционных предложений не найдено | {count} акционное предложение  | {count} акционных предложения | {count} акционных предложений"
 "{count} items","Товары не найдены | {count} товар | {count} товара | {count} товаров"
 "{count} more items","Товары не найдены | Еще {count} товар | Еще {count} товара | Еще {count} товаров"
 "{count} payment","{count} платежей | {count} платеж | {count} платежа | {count} платежей"
@@ -719,6 +720,12 @@ All Specifications,Все характеристики
 "November {count}","ноябрь | ноября | ноября"
 "December {count}","декабрь | декабря | декабря"
 TVs,Телевизоры
+"promo","Акции"
+"Last day","Последний день",
+"Details","Подробнее"
+Pick up today from, Забрать сегодня с
+"My Recently viewed products","Недавно просмотренные"
+"Left {count}","Осталось | Остался | Осталось | Осталось"
 "to the website","На сайт",
 "Password successfully changed","Пароль успешно изменен!"
 "All orders","Все заказы"

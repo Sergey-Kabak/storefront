@@ -264,5 +264,23 @@ export class SearchAdapter {
         return this.handleResult(resp, 'justin_departments', start, size)
       }
     })
+    this.registerEntityType('promo', {
+      queryProcessor: (query) => {
+        // function that can modify the query each time before it's being executed
+        return query
+      },
+      resultProcessor: (resp, start, size) => {
+        return this.handleResult(resp, 'promo', start, size)
+      }
+    })
+    this.registerEntityType('promo_filter', {
+      queryProcessor: (query) => {
+        // function that can modify the query each time before it's being executed
+        return query
+      },
+      resultProcessor: (resp, start, size) => {
+        return this.handleResult(resp, 'promo_filter', start, size)
+      }
+    })
   }
 }

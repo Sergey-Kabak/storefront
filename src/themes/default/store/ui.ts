@@ -19,6 +19,7 @@ export const uiStore = {
     authElem: 'login',
     shopCity: 'Київ',
     city: 'Київ',
+    isPromotionalFilterSidebarMobileOpen: false,
     checkoutMode: false,
     openMyAccount: false,
     headerIndex: 3,
@@ -54,6 +55,10 @@ export const uiStore = {
       state.isSearchActive = false
       state.consultation = action === true
       state.overlay = action === true
+    },
+    setPromotionalFilterSidebarMobile (state, action) {
+      state.isPromotionalFilterSidebarMobileOpen = action
+      state.overlay = action
     },
     setSubmenu (state, { id, depth }) {
       if (id) {
