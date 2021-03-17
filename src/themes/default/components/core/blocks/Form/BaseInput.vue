@@ -259,7 +259,7 @@ export default {
   input {
     outline: none;
     font-family: DIN Pro;
-    font-size: 13px;
+    font-size: 14px;
     color: #1A1919;
     line-height: 16px;
     background: #FFFFFF;

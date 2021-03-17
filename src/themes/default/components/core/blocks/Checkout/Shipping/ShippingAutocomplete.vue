@@ -10,7 +10,7 @@
       <div class="autocomplete-wrapper">
         <autocomplete ref="autocomplete" class="autocomplete" v-if="isShowAutocomplete" :placeholder="$t('Number or address of New Post')" :debounce-time="300" :search="options" @submit="onChooseCity">
           <template #result="{ result, props }">
-            <li v-bind="props" class="result">
+            <li v-bind="props" class="autocomplete-result" :class="{ 'selected': resultValue(result) === resultValue(selected) }">
               <span class="result-title">{{ resultValue(result) }}</span>
             </li>
           </template>
@@ -136,10 +136,17 @@ export default {
   .autocomplete-result-list {
     border-top-color: #e0e0e0!important;
     margin-top: 0px!important;
+    padding-top: 8px;
   }
 
   .autocomplete[data-loading="true"]:after {
     right: 36px;
+  }
+
+  .autocomplete-result {
+    &.selected {
+      background-color: #E4F9E4!important;
+    }
   }
 }
 
@@ -188,7 +195,7 @@ export default {
     margin-top: 3px;
     box-shadow: none;
     border: 1px solid #e0e0e0;
-    border-radius: 4px;
+    border-radius: 0px 0px 4px 4px;
   }
 
   .autocomplete-result {
@@ -206,5 +213,14 @@ export default {
   }
 }
 
+.clear-icon {
+  &:hover {
+    fill: #aeaeae;
+  }
+
+  &:active {
+    fill: #9f9f9f;
+  }
+}
 
 </style>

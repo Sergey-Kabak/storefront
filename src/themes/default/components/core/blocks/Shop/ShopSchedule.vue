@@ -26,8 +26,8 @@ export default {
 }
 
 .shop-icon {
-  margin-right: 8px;
-  min-width: 16px;
+  margin-right: 12px;
+  min-width: 20px;
 }
 
 .shop-schedule {

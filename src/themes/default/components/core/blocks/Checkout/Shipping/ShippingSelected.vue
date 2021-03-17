@@ -67,7 +67,7 @@ export default {
     font-family: DIN Pro;
     font-size: 18px;
     line-height: 24px;
-    font-weight: 500;
+    font-weight: 400;
     color: #1A1919;
     margin-right: 12px;
   }

@@ -28,7 +28,7 @@ export default {
 
 .shop-icon {
   margin-right: 12px;
-  min-width: 16px;
+  min-width: 20px;
 }
 
 .shop-name {

@@ -19,6 +19,7 @@ export default {
       this.$store.commit('ui/setSignUp', false)
       this.$store.commit('ui/setSearch', false)
       this.$store.commit('ui/setCompareSidebar', false)
+      this.$store.commit('ui/setShopSidebar', false)
       this.$store.dispatch('themeCart/closeEditMode')
     }
   }
