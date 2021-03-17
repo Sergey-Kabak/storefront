@@ -17,7 +17,9 @@ import Breadcrumbs from 'theme/components/core/Breadcrumbs.vue'
 import RecentlyViewed from 'theme/components/core/blocks/PromotionalPortal/RecentlyViewed.vue'
 import { RecentlyViewedModule } from '@vue-storefront/core/modules/recently-viewed';
 import { registerModule } from '@vue-storefront/core/lib/modules';
+import { localizedRoute } from '@vue-storefront/core/lib/multistore'
 import MobileBreadcrumbs from 'theme/components/core/MobileBreadcrumbs.vue';
+import store from '@vue-storefront/core/store';
 
 export default {
   components: {
@@ -28,8 +30,17 @@ export default {
   beforeCreate () {
     registerModule(RecentlyViewedModule)
   },
+  async beforeRouteEnter(to, from, next) {
+    const { link } = to.params
+    const isValid =  await store.dispatch('promotional/loadPromotional', link)
+    if (isValid) {
+      next()
+    } else {
+      next({ path: localizedRoute('/') })
+    }
+  },
   async asyncData({ context, store, route }) {
-    if (context) context.output.cacheTags.add('promotional')
+    if (context) context.output.cacheTags.add('promotional-page')
     try {
       await store.dispatch('promotional/loadPromotional', route.params.link)
     } catch (e) {

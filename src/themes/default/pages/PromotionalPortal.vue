@@ -48,7 +48,7 @@ export default {
     MobileBreadcrumbs
   },
   async asyncData ({ store, context, route }) {
-    if (context) context.output.cacheTags.add(`promotionals`)
+    if (context) context.output.cacheTags.add(`promotional`)
     await store.dispatch('promotional/loadPromotionalAttributes')
     await store.dispatch('promotional/loadPromotionalList', route)
   },

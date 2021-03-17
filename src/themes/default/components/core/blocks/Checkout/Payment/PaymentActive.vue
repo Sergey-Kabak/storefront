@@ -1,7 +1,7 @@
 <template>
   <div class="payment active">
     <div class="title">
-      <span>3. {{ $t("the Payment") }}</span>
+      <span class="section-title">3. {{ $t("the Payment") }}</span>
     </div>
     <radio-button
       v-for="payment in methods"
@@ -96,11 +96,11 @@ export default {
   padding: 16px;
   border-bottom: transparent;
 
-  span {
+  .section-title {
     font-family: DIN Pro;
     font-size: 18px;
     line-height: 24px;
-    font-weight: 500;
+    font-weight: 400;
     color: #1A1919;
   }
 }

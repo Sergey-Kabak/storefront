@@ -29,7 +29,8 @@
       "page-not-found",
       "product",
       "taxrule",
-      "promotional"
+      "promotional",
+      "promotional-page"
     ],
     "invalidateCacheKey": "aeSu7aip",
     "invalidateCacheForwarding": false,
