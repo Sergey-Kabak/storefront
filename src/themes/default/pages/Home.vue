@@ -531,6 +531,7 @@ export default {
     &:hover {
       background-color: #E5F7E4;
       border-color: transparent;
+      color: #1A1919;
     }
 
     &:active {
