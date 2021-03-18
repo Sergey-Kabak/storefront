@@ -77,7 +77,7 @@ export default {
       }
       const meta = Object.keys(pages).find(p => p === this.$route.meta.name);
       const options = pages[meta]
-      options ? await this.buildSearchQuery(options.query, options.entityType, storeCode) : this.lazyRedirect(url)
+      options ? await this.buildSearchQuery(options().query, options().entityType, storeCode) : this.lazyRedirect(url)
     },
     async buildSearchQuery (query, entityType, storeCode) {
       const { items } = await quickSearchByQuery({
