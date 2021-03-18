@@ -122,10 +122,10 @@ export default {
       navbarHeight: 142,
       promos: {
         samsung: {
-          img: '/assets/promo/samsung/xl.jpg',
-          imgTablet: '/assets/promo/samsung/lg.jpg',
-          imgMobile: '/assets/promo/samsung/md.jpg',
-          link: '/samsung-s21',
+          img: '/assets/promo/samsung/desktop.jpg',
+          imgTablet: '/assets/promo/samsung/tablet.jpg',
+          imgMobile: '/assets/promo/samsung/mobile.jpg',
+          link: '/samsung-a',
           background: '#f1f1f1'
         },
         keepInTouch: {

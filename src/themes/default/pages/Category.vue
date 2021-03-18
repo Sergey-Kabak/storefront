@@ -34,7 +34,7 @@
     </header>
     <div class="v-container">
       <div class="category">
-        <div class="category-filters">
+        <div class="category-filters" v-if="$route.path !== '/samsung-a'">
           <p class="products-count">
             {{ $tc('{count} items chosen', getCategoryProductsTotal) }}
           </p>

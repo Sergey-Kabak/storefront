@@ -16,7 +16,7 @@
         <div class="promo-list">
           <sort-by class="sort" @change="changeFilter" />
           <promotional-listing :promotionals="promotionals" class="listing"/>
-          <button-full v-if="isAllPromotionalsLoaded" @click.native="loadMore()" class="load-more">{{ $t('Load more') }}</button-full>
+          <button-load-more v-if="isAllPromotionalsLoaded" @onClick="loadMore()" class="load-more">{{ $t('Load more') }}</button-load-more>
         </div>
       </div>
     </div>
@@ -24,6 +24,7 @@
 </template>
 
 <script>
+import ButtonLoadMore from 'theme/components/theme/ButtonLoadMore.vue';
 import Breadcrumbs from 'theme/components/core/Breadcrumbs.vue';
 import PromoSidebar from 'theme/components/core/blocks/PromotionalPortal/PromotionalSidebar.vue';
 import PromotionalListing from 'theme/components/core/blocks/PromotionalPortal/PromotionalListing.vue';
@@ -45,7 +46,8 @@ export default {
     SortBy,
     SortByMobile,
     ButtonFull,
-    MobileBreadcrumbs
+    MobileBreadcrumbs,
+    ButtonLoadMore
   },
   async asyncData ({ store, context, route }) {
     if (context) context.output.cacheTags.add(`promotional`)
@@ -179,22 +181,12 @@ export default {
   }
 }
 
-.button-full.load-more {
-  margin: 32px auto 0 auto;
-  background: #FFFFFF;
-  border: 1px solid #23BE20;
-  font-family: DIN Pro;
-  font-size: 15px;
-  line-height: 16px;
-  color: #000000;
-  
-  &:hover {
-    background-color: #23BE20;
-    color: #fff;
-  }
+.load-more {
+  max-width: 233px;
+  margin: 0 auto;
 }
 
-.mobile-breadcrumbs {
+.mobile-breadcrumbs.breadcrumbs {
   display: none;
 }
 
@@ -234,6 +226,10 @@ export default {
 @media (max-width: 470px) {
   .listing.promotional-listing {
     grid-template-columns: 1fr;
+  }
+
+  .load-more {
+    max-width: 100%;
   }
 }
 
