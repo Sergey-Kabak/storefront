@@ -28,7 +28,9 @@
       "P",
       "page-not-found",
       "product",
-      "taxrule"
+      "taxrule",
+      "promotional",
+      "promotional-page"
     ],
     "invalidateCacheKey": "aeSu7aip",
     "invalidateCacheForwarding": false,
@@ -121,7 +123,7 @@
   },
   "phoneNumbers": ["+38 073 090 87 07", "+38 097 090 87 07", "+38 050 340 74 00"],
   "homePageBanner": {
-    "enabled": true
+    "enabled": false
   },
   "admitad": {
     "campaignCode": "89a640b42b",
@@ -604,6 +606,15 @@
     "shop": {
       "includeFields": null,
       "excludeFields": null
+    },
+    "promotionals": {
+      "sortByAttributes": {
+        "Latest": "updated_at:desc"
+      },
+      "defaultSortBy": {
+        "attribute": "updated_at",
+        "order": "desc"
+      }
     }
   },
   "cart": {
@@ -694,7 +705,8 @@
     },
     "defaultSortBy": {
       "attribute": "updated_at",
-      "order": "desc"
+      "order": "desc",
+      "label": "Latest"
     },
     "sortByAttributes": {
       "Latest": "updated_at:desc",
@@ -799,6 +811,7 @@
       "brand": "/temabit/brands/",
       "slider": "/bannerslider/upload/",
       "credit": "/temabit/credit/",
+      "promotional": "/temabit/promo/",
       "instruction": "/temabit/instruction/"
     },
     "productPlaceholder": "/assets/placeholder.jpg"

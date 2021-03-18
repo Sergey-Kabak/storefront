@@ -33,6 +33,7 @@
 </template>
 
 <script>
+// TODO: rewrite to BaseSelect component
 import vSelect from 'vue-select'
 
 export default {

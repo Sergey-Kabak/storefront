@@ -26,9 +26,11 @@
       <div class="product-right-data">
         <AddToCompare :product="product"> </AddToCompare>
         <button class="remove-icon p0 inline-flex middle-xs bg-cl-transparent brdr-none action h5 pointer cl-secondary" @click="removeProductFromWhishList(product)">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M16 9V19H8V9H16ZM14.5 3H9.5L8.5 4H5V6H19V4H15.5L14.5 3ZM18 7H6V19C6 20.1 6.9 21 8 21H16C17.1 21 18 20.1 18 19V7Z" fill="#BDBDBD"/>
-          </svg>
+          <div class="item">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M16 9V19H8V9H16ZM14.5 3H9.5L8.5 4H5V6H19V4H15.5L14.5 3ZM18 7H6V19C6 20.1 6.9 21 8 21H16C17.1 21 18 20.1 18 19V7Z" fill="#BDBDBD"/>
+            </svg>
+          </div>
         </button>
       </div>
       <div class="product-right-data mobile">
@@ -156,14 +158,22 @@ export default {
 }
 .remove-icon {
   cursor: pointer;
+
+  .item {
+    padding: 4px;
+  }
+
+  svg {
+    display: flex;
+  }
   
-  & svg:hover {
+  &:hover {
     background-color: #F9F9F9;
   }
 }
 .remove-icon-mobile {
   width: 100%;
-  padding: 8px 16px;
+  padding: 4px 16px;
 }
   .product-img {
     width: 88px;
@@ -207,7 +217,7 @@ export default {
   .more {
     display: none;
 
-    @media only screen and (max-width: 500px) {
+    @media only screen and (max-width: 520px) {
       display: block;
     }
   }
@@ -217,7 +227,7 @@ export default {
   display: flex;
   align-items: center;
   & > *:first-child {
-    margin-right: 14px;
+    margin-right: 6px;
 
     @media only screen and (max-width: 520px) {
       margin-right: 0;

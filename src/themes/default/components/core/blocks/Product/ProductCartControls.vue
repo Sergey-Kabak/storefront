@@ -116,7 +116,6 @@ export default {
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
-  transition: color ease-in 0.2s;
 }
 
 @media (max-width: 576px) {

@@ -14,6 +14,12 @@
         @close="$store.commit('ui/setConsultation')"
         class="consultation-sidebar"
       />
+      <async-sidebar
+        :async-component="ShopSidebar"
+        :is-open="isShopSidebarOpen"
+        @close="$store.commit('ui/setShopSidebar')"
+        class="shop-sidebar"
+      />
       <slot />
       <minimal-footer />
 
@@ -37,12 +43,14 @@ import CreditModal from 'theme/components/core/blocks/CreditModal.vue';
 const CityPicker = () => import(/* webpackChunkName: "vsf-custom-city-picker-modal" */ 'theme/components/core/blocks/CityPicker/CityPicker.vue');
 const Microcart = () => import(/* webpackChunkName: "vsf-microcart" */ 'theme/components/core/blocks/Microcart/Microcart.vue');
 const Consultation = () => import(/* webpackChunkName: "vsf-consultation" */ 'theme/components/core/blocks/Consultation/Consultation.vue');
+const ShopSidebar = () => import(/* webpackChunkName: "vsf-shop-sidebar" */ 'theme/components/core/blocks/Checkout/Shipping/ShopShipping/ShopSidebar.vue');
 
 export default {
   data() {
     return {
       Microcart,
-      Consultation
+      Consultation,
+      ShopSidebar
     }
   },
   metaInfo: Head,
@@ -58,7 +66,8 @@ export default {
     ...mapState({
       overlayActive: state => state.ui.overlay,
       isMicrocartOpen: state => state.ui.microcart,
-      isConsultationOpen: state => state.ui.consultation
+      isConsultationOpen: state => state.ui.consultation,
+      isShopSidebarOpen: state => state.ui.isShopSidebarOpen
     })
   },
   methods: {

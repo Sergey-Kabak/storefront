@@ -101,7 +101,6 @@ export default {
   align-items: center;
   width: 100%;
   margin-bottom: 68px;
-  padding: 0 16px;
   border-radius: 4px;
 }
 

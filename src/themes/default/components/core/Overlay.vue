@@ -9,6 +9,7 @@ export default {
   mixins: [Overlay],
   methods: {
     close () {
+      this.$store.commit('ui/setPromotionalFilterSidebarMobile', false)
       this.$store.commit('ui/setOverlay', false)
       this.$store.commit('ui/setMicrocart', false)
       this.$store.commit('ui/setWishlist', false)
@@ -18,6 +19,7 @@ export default {
       this.$store.commit('ui/setSignUp', false)
       this.$store.commit('ui/setSearch', false)
       this.$store.commit('ui/setCompareSidebar', false)
+      this.$store.commit('ui/setShopSidebar', false)
       this.$store.dispatch('themeCart/closeEditMode')
     }
   }

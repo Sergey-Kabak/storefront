@@ -104,6 +104,9 @@ export default {
 ::v-deep {
   .gm-style .gm-style-iw-c {
     padding: 0!important;
+    max-width: 280px!important;
+    width: 100%!important;
+    max-height: none!important;
   }
 
   .gm-style-iw-d {

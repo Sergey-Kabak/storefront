@@ -12,15 +12,15 @@
         :selectedCity="selectedCity"
         @onSelectCity="onChooseCity($event)"
       />
+      <span class="search-title">{{ $t('Search') }}</span>
       <div class="search">
-        <span class="search-title">{{ $t('Search') }}</span>
         <autocomplete 
           :placeholder="$t('Choose your city')" 
           class="search-autocomplete"
           :options="cities"
           :selectedValue="selectedCity"
           :search="getCities"
-          @submit="onChooseCity($event)"
+          @submit="onChooseCity($event, false)"
         />
         <button-full @click.native="changeCity()">{{ $t('To apply') }}</button-full>
       </div>
@@ -67,9 +67,12 @@ export default {
       }
       return []
     },
-    onChooseCity(result) {
+    onChooseCity(result, closeSidebar = true) {
       this.selectedCity = result.value || result
       this.$store.commit('shop/SET_CITIES', [])
+      if (closeSidebar) {
+        this.changeCity()
+      }
     },
     async changeCity() {
       this.closePopup()
@@ -89,7 +92,8 @@ export default {
 }
 
 .search-autocomplete {
-  margin-bottom: 32px;
+  margin-right: 16px;
+  width: 100%;
 }
 
 .city-picker {
@@ -126,10 +130,13 @@ export default {
 }
 
 .search {
-  padding: 0 24px 24px;
+  padding: 0 24px 24px 24px;
+  display: flex;
+  align-items: baseline;
 }
 
 .search-title {
+  padding: 0 24px 24px;
   display: block;
   font-family: DIN Pro;
   font-weight: 600;
@@ -140,6 +147,26 @@ export default {
 }
 
 .button-full {
-  max-width: 131px;
+  max-width: 153px;
+  width: 100%;
+}
+
+@media (max-width: 768px) {
+  .search {
+    flex-direction: column;
+    padding: 0 16px 16px 16px;
+  }
+
+  .search-title {
+    padding: 0 16px 16px;
+  }
+
+  .search-autocomplete {
+    margin-bottom: 24px;
+  }
+
+  .button-full {
+    max-width: 100%;
+  }
 }
 </style>

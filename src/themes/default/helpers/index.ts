@@ -1,3 +1,5 @@
+import { SearchQuery } from 'storefront-query-builder'
+
 export function unmask(maskedValue, mask){
   if (!maskedValue) return
   let defaultTokens = ['#', 'X', 'S', 'A', 'a', '!']
@@ -57,3 +59,32 @@ export function ProductStock (product) {
   }
   return Object.keys(status).find(s => !!status[s])
 }
+
+export function baseFilterPromoQuery (filters = []) {
+  let searchProductQuery = new SearchQuery()
+
+  for (let attrToFilter of filters) {
+    searchProductQuery = searchProductQuery.addAvailableFilter({ field: attrToFilter, scope: 'catalog' })
+  }
+  searchProductQuery = searchProductQuery.applyFilter({ key: 'active', value: { 'eq': true } })
+  return searchProductQuery
+}
+
+export function buildFilterPromoQuery (filters, chosenFilters = {}) {
+  let filterQr = baseFilterPromoQuery(filters)
+
+  // add choosen filters
+  for (let code of Object.keys(chosenFilters)) {
+    const filter = chosenFilters[code]
+    const attributeCode = Array.isArray(filter) ? filter[0].attribute_code : filter.attribute_code
+
+    if (Array.isArray(filter)) {
+      const values = filter.map(filter => filter.id)
+      filterQr = filterQr.applyFilter({ key: attributeCode, value: { 'in': values }, scope: 'catalog' })
+    } else  {
+      filterQr = filterQr.applyFilter({ key: attributeCode, value: { 'eq': filter.id }, scope: 'catalog' })
+    }
+  }
+  return filterQr
+}
+

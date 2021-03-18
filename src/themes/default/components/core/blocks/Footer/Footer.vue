@@ -9,7 +9,7 @@
           <logo width="89" height="auto"/>
           <social></social>
         </div>
-        <div class="start-md footer__category" :class="{'footer__category--last': index===footerColumns.length-1}" v-for="(footerColumn, index) in footerColumns" :key="index">
+        <div class="start-md footer__category" :class="{ 'footer__category--last': index===footerColumns.length - 1 }" v-for="(footerColumn, index) in footerColumns" :key="index">
           <template v-if="!isMobile">
             <h2 class="footer-title">
               {{ $t(footerColumn.title) }}
@@ -222,7 +222,7 @@ $color-secondary: color(secondary);
   @media (max-width: 575px) {
     padding: 16px 0;
   }
-  padding: 16px;
+  padding: 32px 16px 16px 16px;
 }
 
 .footer-wrap {
@@ -298,9 +298,12 @@ $color-secondary: color(secondary);
     }
 
     @media only screen and (max-width: 576px) {
-      border-top: $border;
       border-bottom: $border;
       padding-right: 21px;
+
+      &:not(.footer__category--last) {
+        border-top: $border;
+      }
     }
   }
   &__category-title-wrapper {
@@ -428,7 +431,6 @@ footer {
 
   .color-white {
     color: white;
-
   }
 
   .copyright {
@@ -568,7 +570,7 @@ footer {
   }
 
   .footer-links {
-    padding-bottom: 30px;
+    padding-bottom: 16px;
   }
 }
 </style>

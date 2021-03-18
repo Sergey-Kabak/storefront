@@ -61,6 +61,7 @@ export default {
   font-style: normal;
   font-size: 14px;
   line-height: 24px;
+  padding: 8px 0;
   color: #595858;
 }
 

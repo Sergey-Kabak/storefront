@@ -305,6 +305,9 @@ $border: 1px solid #E0E0E0;
 }
 
 .product-cover {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   overflow: hidden;
   height: 259px;
   @media only screen and (max-width: 768px) {

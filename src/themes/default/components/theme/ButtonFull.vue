@@ -76,11 +76,6 @@ $active : #1d9f1b;
       background-color : $hover;
       color: #ffffff;
   }
-  &:focus {
-      background-color : $focus;
-      outline: none;
-      color: #ffffff;
-  }
   &:active {
       background-color : $active;
       color: #ffffff;

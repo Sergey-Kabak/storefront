@@ -133,6 +133,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+
 .base-input {
   max-width: 100%;
 }
@@ -159,6 +160,16 @@ export default {
 }
 
 .search-autocomplete ::v-deep {
+
+  ::-webkit-scrollbar {
+    width: 4px;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    border-radius: 4px;
+    background-color: #bfbfbf;
+  }
+  
   .vs__selected {
     position: absolute;
     text-overflow: ellipsis;

@@ -6,9 +6,8 @@
     <div class="banner-description__block" v-if="getCurrentCategory.description">
       <h3>{{ $t('Description of the action') }}</h3>
       <div class="banner-description-info">
-        <div class="banner-description__text-wrapper">
-          <div class="banner-description__text" v-html="getCurrentCategory.description"></div>
-        </div>
+        <div class="banner-description__text" :class="{'active': isDescriptionActive}" v-html="getCurrentCategory.description"></div>
+        <div class="next-button" v-if="!isDescriptionActive" @click="isDescriptionActive = true">{{ $t('Show more') }}</div>
       </div>
       <promo-expiry-date
         v-if="getCurrentCategory.custom_design_from && getCurrentCategory.custom_design_from"
@@ -26,6 +25,9 @@ export default {
   components: {
     PromoExpiryDate
   },
+  data: () => ({
+    isDescriptionActive: false
+  }),
   computed: {
     ...mapGetters({
       getCurrentCategory: 'category-next/getCurrentCategory'
@@ -41,7 +43,6 @@ export default {
 @import '~theme/css/helpers/mixins';
 
 .banner-description-info {
-  margin-bottom: 24px;
   height: 100%;
 }
 
@@ -122,10 +123,6 @@ export default {
       width: 100%;
       height: 100%;
     }
-    @media only screen and (max-width: 600px) {
-      padding: 12px;
-      max-height: 500px;
-    }
 
     @include mobile-view {
       margin-top: 16px;
@@ -150,14 +147,8 @@ export default {
     height: 100%;
     max-height: 13.8vw;
     @include scrollBar;
-    @media only screen and (min-width: 1440px) {
-      max-height: 216px;
-    }
     @media only screen and (max-width: 1024px) {
       max-height: 500px;
-    }
-    @media only screen and (max-width: 600px) {
-      max-height: 250px;
     }
     &.active {
       display: block;
@@ -186,9 +177,48 @@ export default {
     }
   }
 }
+
+.banner-description__text {
+  padding-right: 16px;
+}
+
 ::v-deep {
   p {
     margin: 0;
+  }
+}
+
+.next-button {
+  cursor: pointer;
+  margin-top: 16px;
+  display: none;
+  font-family: DIN Pro;
+  font-size: 13px;
+  line-height: 16px;
+  color: #1A1919;
+  border-bottom: 1px dashed #1A1919;
+}
+
+@media (max-width: 768px) {
+  .next-button {
+    display: inline-block;
+  }
+
+  .banner-description__text {
+    /* autoprefixer: ignore next */
+    -webkit-box-orient: vertical;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    overflow: hidden;
+    transition: .2 ease-in-out;
+    &.active {
+      display: block;
+    }
+    ::v-deep {
+      p {
+        margin: 0;
+      }
+    }
   }
 }
 </style>
