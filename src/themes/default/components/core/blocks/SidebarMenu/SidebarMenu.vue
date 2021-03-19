@@ -665,6 +665,5 @@ $color-mine-shaft: color(mine-shaft);
   line-height: 16px;
   color: #EE2C39;
   font-weight: 600;
-  margin-top: 3px;
 }
 </style>
