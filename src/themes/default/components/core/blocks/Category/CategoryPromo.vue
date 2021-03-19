@@ -100,6 +100,7 @@ export default {
     flex: 1;
   }
   &__block {
+    overflow: hidden;
     margin-left: 20px;
     display: flex;
     flex: 0 0 316px;
