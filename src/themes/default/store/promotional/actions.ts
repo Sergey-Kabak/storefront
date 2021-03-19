@@ -1,9 +1,9 @@
 import { PromotionalService } from 'theme/services'
 import { buildFilterPromoQuery } from 'theme/helpers'
-import { SearchQuery } from 'storefront-query-builder';
 import { quickSearchByQuery } from '@vue-storefront/core/lib/search'
 import { router } from '@vue-storefront/core/app'
 import { changeFilterQuery } from '@vue-storefront/core/modules/catalog-next/helpers/filterHelpers'
+import bodybuilder from 'bodybuilder'
 
 const actions = {
   async loadPromotionalList ({ commit, state, getters, dispatch },
@@ -86,9 +86,9 @@ const actions = {
   },
 
   async loadPromotional ({ commit, state, dispatch }, link) {
-    let searchQuery = new SearchQuery()
+    let searchQuery = bodybuilder();
     if (link) {
-      searchQuery = searchQuery.applyFilter({ key: 'url', value: { 'eq': link } })
+      searchQuery = searchQuery.query('match', 'url', link)
     }
 
     const { items: [promotional] } = await PromotionalService.getPromotionals({
