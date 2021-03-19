@@ -10,7 +10,9 @@
     {{ customClass }}
     <span class="back" v-html="ico"></span>
     {{ name }}
-    <i class="material-icons mla">keyboard_arrow_right</i>
+    <svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+      <path d="M10.707 17.707L16.414 12L10.707 6.293L9.29297 7.707L13.586 12L9.29297 16.293L10.707 17.707Z"/>
+    </svg>
   </button>
   <button
     v-else
@@ -22,7 +24,9 @@
     {{ customClass }}
     <span v-html="ico" class="back"></span>
     {{ name }}
-    <i class="material-icons mla">keyboard_arrow_left</i>
+    <svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+      <path d="M13.2929 6.293L7.58594 12L13.2929 17.707L14.7069 16.293L10.4139 12L14.7069 7.707L13.2929 6.293Z" />
+    </svg>
   </button>
 </template>
 <script>
@@ -98,15 +102,16 @@ button {
   .mla {
     margin-left: auto;
   }
-  i {
-    color: $color-gray;
+  svg {
+    margin-left: auto;
+    fill: $color-gray;
     font-size: 28px;
     line-height: 24px;
   }
   &:hover,
   &:focus {
-    i {
-      color: $color-black;
+    svg {
+      fill: $color-black;
     }
   }
 }

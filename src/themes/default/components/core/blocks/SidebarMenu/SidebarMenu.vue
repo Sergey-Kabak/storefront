@@ -11,10 +11,12 @@
         <button
           type="button"
           :aria-label="$t('Close')"
-          class="w-100 inline-flex end-xs bg-cl-transparent brdr-none p0 close-btn"
+          class="w-100 inline-flex end-xs bg-cl-transparent brdr-none p0 close-btn p15"
           @click="closeMenu"
         >
-          <i class="material-icons p15">close</i>
+          <svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M19 6.41L17.59 5L12 10.59L6.41 5L5 6.41L10.59 12L5 17.59L6.41 19L12 13.41L17.59 19L19 17.59L13.41 12L19 6.41Z" />
+          </svg>
         </button>
       </div>
     </div>
@@ -602,6 +604,7 @@ $color-mine-shaft: color(mine-shaft);
     button {
       display: flex;
       align-items: center;
+      justify-content: flex-start;
     }
   }
 
@@ -612,13 +615,13 @@ $color-mine-shaft: color(mine-shaft);
   }
 
   .close-btn {
-    i {
-      color: $color-gainsboro;
+    svg {
+      fill: $color-gainsboro;
     }
     &:hover,
     &:focus {
-      i {
-        color: $color-matterhorn;
+      svg {
+        fill: $color-matterhorn;
       }
     }
   }
