@@ -98,7 +98,7 @@ export default {
   }
 }
 
-.mobile-breadcrumbs {
+.mobile-breadcrumbs.breadcrumbs {
   display: none;
 }
 
