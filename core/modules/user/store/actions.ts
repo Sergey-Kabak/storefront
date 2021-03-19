@@ -21,6 +21,7 @@ const actions: ActionTree<UserState, RootState> = {
 
     if (userData) {
       commit(types.USER_INFO_LOADED, userData)
+      dispatch('esputnik/triggerComebackEvent')
     }
 
     commit(types.USER_START_SESSION)

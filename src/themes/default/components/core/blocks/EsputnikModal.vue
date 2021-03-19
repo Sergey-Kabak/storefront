@@ -1,5 +1,5 @@
 <template>
-  <modal name="modal-esputnik" class="modal-esputnik">
+  <modal name="modal-esputnik" class="modal-esputnik" :onClose="onClose">
     <div class="banner">
       <div class="close-modal" @click="close">
         <svg class="close-icon" width="24" height="24" viewBox="0 0 24 24" fill="#1A1919" xmlns="http://www.w3.org/2000/svg">
@@ -86,9 +86,21 @@ export default {
     ButtonFull
   },
   methods: {
+    reset() {
+      this.email = '';
+      this.requestSent = false;
+      this.subscribed = false;
+    },
     close() {
       this.$bus.$emit('modal-hide', 'modal-esputnik')
       this.$router.push(localizedRoute('/', currentStoreView().storeCode))
+      this.onClose();
+      this.reset();
+    },
+    onClose() {
+      if (this.subscribed) {
+        sessionStorage.setItem('esputnik-subscribe-modal', true)
+      }
     },
     showWarning() {
       this.$store.dispatch('notification/spawnNotification', {
@@ -104,7 +116,7 @@ export default {
       }
       EsputnikService.subscribe({ email: this.email}).then(v => {
         this.requestSent = true;
-        // sessionStorage.setItem('esputnik-subscribe-modal', false)
+        sessionStorage.setItem('esputnik-subscribe-modal', true)
       }).catch(err => {
         console.log(err)
       })

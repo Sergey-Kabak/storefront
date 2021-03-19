@@ -15,19 +15,23 @@ const actions = {
   triggerAbandonCart ({ rootGetters }) {
     const items = rootGetters['cart/getCartItems'];
     if (!items.length) return
-    debugger;
     const preparedItems = formatItems(items)
     return EsputnikService.triggerAbandonCart({ items: preparedItems })
   },
   triggerAbandonProducts ({ rootGetters }) {
     const items = rootGetters['user/abandonProducts'];
     if (!items.length) return
-    debugger;
     const preparedItems = formatItems(items)
     return EsputnikService.triggerAbandonProducts({ items: preparedItems })
   },
   triggerPasswordChanged () {
     return EsputnikService.triggerPasswordChanged({})
+  },
+  triggerComeback () {
+    return EsputnikService.triggerComebackEvent({});
+  },
+  triggerOrderSuccess ({ items }) {
+    return EsputnikService.triggerOrderSuccess({ items });
   },
 }
 

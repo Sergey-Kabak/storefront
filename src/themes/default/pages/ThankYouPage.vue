@@ -144,7 +144,7 @@ export default {
       })
       this.status = status.state && status.state.toLowerCase()
     }
-    this.initAdmitad()
+    this.initEsputnik()
   },
   methods: {
     image(product) {
@@ -157,15 +157,10 @@ export default {
         return parseInt(((product.original_price - product.price) / (product.original_price / 100)))
       }
     },
-    initAdmitad() {
-      ADMITAD = window.ADMITAD || {};
-      ADMITAD.Invoice = ADMITAD.Invoice || {};
-      ADMITAD.Invoice.category = '1';
-
-      const orderedItem = [];
-      this.products.map(it => {
-        orderedItem.push({
-          Product: {
+    initEsputnik() {
+      const items = this.products.map(it => (
+        {
+          product: {
             productID: it.item_id,
             category: '1',
             price: it.price,
@@ -173,15 +168,9 @@ export default {
           },
           orderQuantity: it.qty_ordered,
           additionalType: 'sale'
-        });
-      })
-      ADMITAD.Invoice.referencesOrder = ADMITAD.Invoice.referencesOrder || [];
-
-      ADMITAD.Invoice.referencesOrder.push({
-        orderNumber: this.order.increment_id,
-        orderedItem: orderedItem
-      });
-      ADMITAD.Tracking.processPositions();
+        }
+      ))
+      this.$store.dispatch('esputnik/triggerOrderSuccess', { items })
     }
   }
 }

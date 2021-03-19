@@ -1,5 +1,5 @@
 <template>
-  <modal name="modal-main" class="modal-main">
+  <modal name="modal-main" class="modal-main" :onClose="toggleEsputnikModal">
     <div class="banner">
       <div class="close-modal" @click="close()">
         <svg class="close-icon" width="24" height="24" viewBox="0 0 24 24" fill="#1A1919" xmlns="http://www.w3.org/2000/svg">
@@ -25,6 +25,14 @@ export default {
   methods: {
     close() {
       this.$bus.$emit('modal-hide', 'modal-main')
+      this.toggleEsputnikModal();
+    },
+    toggleEsputnikModal() {
+      if (!sessionStorage.getItem('esputnik-subscribe-modal')) {
+        setTimeout(() => {
+          this.$bus.$emit('modal-toggle', 'modal-esputnik')
+        }, 700)
+      }
     }
   }
 };

@@ -1,5 +1,5 @@
 <template>
-  <div id="product" itemscope itemtype="http://schema.org/Product">
+  <div id="product" itemscope itemtype="http://schema.org/Product" :data-productKey="getCurrentProduct.sku">
     <div class="v-container">
       <div class="row">
         <div class="col-12">

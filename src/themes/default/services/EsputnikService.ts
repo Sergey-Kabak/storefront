@@ -8,7 +8,9 @@ const events = {
   ABANDONED_CART: "abandoned_cart",
   ABANDONED_PRODUCTS: "abandoned_products",
   FAVORITES: "favorites",
-  PASSWORD_CHANGED: "password_changed"
+  PASSWORD_CHANGED: "password_changed",
+  ORDER_SUCCESS: "order_success",
+  COMEBACK: "comeback"
 }
 
 const headers = {
@@ -56,40 +58,51 @@ const triggerEvent = async ({ eventName, params}): Promise<Task> => {
   return res;
 }
 
-const triggerEventInBackground = async ({ eventName, params}) => {
-  const email = store.getters['user/getUserEmail']
-  if (!email) return;
+// const triggerEventInBackground = async ({ eventName, params}) => {
+//   const email = store.getters['user/getUserEmail']
+//   if (!email) return;
+//   let body = {
+//     eventTypeKey: eventName,
+//     keyValue: email,
+//     params
+//   }
+//   const headers = {
+//     type: 'application/json',
+//     'Authorization': 'Basic YW55dmFsdWU6RTdFNzhCRTQyODBFNUYxRkM1RDlBNEZCOEFFNUU1RDc='
+//   }
+//   let blob = new Blob([JSON.stringify(body)], headers);
+//   navigator.sendBeacon(`${url}/event`, blob);
+// }
 
-  let body = {
-    eventTypeKey: eventName,
-    keyValue: email,
-    params
-  }
-  const headers = {
-    type: 'application/json',
-    'Authorization': 'Basic YW55dmFsdWU6RTdFNzhCRTQyODBFNUYxRkM1RDlBNEZCOEFFNUU1RDc='
-  }
-  let blob = new Blob([JSON.stringify(body)], headers);
-
-  navigator.sendBeacon(`${url}/event`, blob);
-}
-
-const triggerAbandonCart = async ({ items }) => {
+const triggerAbandonCart = async ({ items }): Promise<Task> => {
   return triggerEvent({
     eventName: events.ABANDONED_CART,
     params: items
   })
 }
-const triggerPasswordChanged = async (params): Promise<Task> => {
+const triggerPasswordChanged = async ({ params }): Promise<Task> => {
   return triggerEvent({
     eventName: events.PASSWORD_CHANGED,
     params
   })
 }
 
-const triggerAbandonProducts = async ({ items }) => {
+const triggerAbandonProducts = async ({ items }): Promise<Task> => {
   return triggerEvent({
     eventName: events.ABANDONED_PRODUCTS,
+    params: items
+  })
+}
+
+const triggerOrderSuccess = async ({ items }): Promise<Task> => {
+  return triggerEvent({
+    eventName: events.ORDER_SUCCESS,
+    params: items
+  })
+}
+const triggerComebackEvent = async ({ items }): Promise<Task> => {
+  return triggerEvent({
+    eventName: events.COMEBACK,
     params: items
   })
 }
@@ -99,5 +112,7 @@ export const EsputnikService: DataResolver.EsputnikService = {
   triggerEvent,
   triggerAbandonCart,
   triggerAbandonProducts,
-  triggerPasswordChanged
+  triggerPasswordChanged,
+  triggerOrderSuccess,
+  triggerComebackEvent
 }

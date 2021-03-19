@@ -2,7 +2,6 @@
   <div class="default-layout">
     <overlay v-if="overlayActive"/>
     <div id="viewport" class="w-100 relative">
-      <button style="z-index: 500" @click="send">send</button>
       <main-header/>
       <async-sidebar
           :async-component="SearchPanel"
@@ -50,7 +49,7 @@
       <offline-badge/>
       <city-shop-picker />
       <shop-shipping-modal />
-      <!-- <main-modal /> -->
+      <main-modal />
       <esputnik-modal />
     </div>
     <client-credentials-for-esputnik />
@@ -60,7 +59,6 @@
 
 <script>
 import { mapState } from 'vuex';
-import { EsputnikService } from 'theme/services/EsputnikService.ts';
 import AsyncSidebar from 'theme/components/theme/blocks/AsyncSidebar/AsyncSidebar.vue';
 import MainHeader from 'theme/components/core/blocks/Header/Header.vue';
 import MainFooter from 'theme/components/core/blocks/Footer/Footer.vue';
@@ -111,10 +109,6 @@ export default {
     })
   },
   methods: {
-    send() {
-              this.$store.dispatch('esputnik/triggerAbandonProducts')
-        this.$store.dispatch('esputnik/triggerAbandonCart')
-    },
     fetchMenuData() {
       return this.$store.dispatch('category-next/fetchMenuCategories', {
         level: config.entities.category.categoriesDynamicPrefetch && config.entities.category.categoriesDynamicPrefetchLevel >= 0
@@ -123,26 +117,20 @@ export default {
         skipCache: isServer
       });
     },
-    initOnCloseHandler() {
-      console.log('\n\n\ninitiating\n\n\n')
+    initOnCloseEsputnikHandler() {
       window.addEventListener('beforeunload', (e) => {
         this.$store.dispatch('esputnik/triggerAbandonProducts')
         this.$store.dispatch('esputnik/triggerAbandonCart')
-        debugger;
-        // e.returnValue = '';
-        // e.preventDefault();
-        // this.onCloseHandlerInited = true;
-        // return null;
       }, false);
-    }
+    },
   },
   serverPrefetch() {
     return this.fetchMenuData();
   },
   beforeMount() {
-    // Progress bar on top of the page
-    this.initOnCloseHandler()
+    this.initOnCloseEsputnikHandler()
     this.$router.beforeEach((to, from, next) => {
+      // Progress bar on top of the page
       this.$Progress.start();
       this.$Progress.increase(40);
       next();
