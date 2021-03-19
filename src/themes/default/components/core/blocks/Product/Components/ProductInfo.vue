@@ -8,7 +8,7 @@
         data-testid="productName"
         itemprop="name"
       >
-        {{ getCurrentProduct.name | htmlDecode }}
+        {{ productName }}
       </h1>
       <div
         class="product-block sku font"
@@ -33,6 +33,15 @@ export default {
   components: {
     ProductFilters,
     ProductStockStatus
+  },
+  computed: {
+    productName () {
+      if (this.getCurrentProduct.type_id === 'configurable') {
+        const isChild = this.getCurrentProduct.configurable_children.find(c => c.sku === this.getCurrentProduct.sku)
+        return isChild ? isChild.name : this.getCurrentProduct.name
+      }
+      return this.getCurrentProduct.name
+    }
   }
 }
 </script>
