@@ -1,7 +1,6 @@
 import { quickSearchByQuery } from '@vue-storefront/core/lib/search'
 import { getOptimizedFields } from '@vue-storefront/core/modules/catalog/helpers/search';
 import Attribute from 'theme/store/promotional/types/Attribute'
-import { SearchQuery } from 'storefront-query-builder';
 
 const getPromotionals = async ({
   start = 0,
@@ -10,7 +9,7 @@ const getPromotionals = async ({
   excludeFields = null,
   includeFields = null,
   query
-}: {query?: SearchQuery, start?: number, size?: number, sort?: string, excludeFields?: [], includeFields?: [] }): Promise<any> => {
+}: {query?: any, start?: number, size?: number, sort?: string, excludeFields?: [], includeFields?: [] }): Promise<any> => {
   const { excluded, included } = getOptimizedFields({ excludeFields, includeFields })
   let {
     items: promotionals = [],
