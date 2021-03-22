@@ -685,8 +685,6 @@ $mobile_screen : 768px;
   }
   margin: 32px auto 0;
 }
-
-
 @media (max-width: 950px) {
   .product-listing {
     grid-template-columns: 1fr 1fr!important;
