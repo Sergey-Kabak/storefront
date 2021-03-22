@@ -28,7 +28,9 @@
       "P",
       "page-not-found",
       "product",
-      "taxrule"
+      "taxrule",
+      "promotional",
+      "promotional-page"
     ],
     "invalidateCacheKey": "aeSu7aip",
     "invalidateCacheForwarding": false,
@@ -121,7 +123,7 @@
   },
   "phoneNumbers": ["+38 073 090 87 07", "+38 097 090 87 07", "+38 050 340 74 00"],
   "homePageBanner": {
-    "enabled": true
+    "enabled": false
   },
   "admitad": {
     "campaignCode": "89a640b42b",
@@ -167,6 +169,10 @@
         "boost": 1
       }
     }
+  },
+  "liqpay_enabled" : {
+    "liqpay": true,
+    "liqpay_marketplace": true
   },
   "ssr": {
     "templates": {
@@ -328,6 +334,11 @@
         "configurable_children.url_path",
         "configurable_children.url_key",
         "configurable_children.coming_soon",
+        "configurable_children.stock.backorders",
+        "configurable_children.msi_salable_quantity",
+        "configurable_children.preorder",
+        "backorders",
+        "msi_salable_quantity",
         "category_ids",
         "id",
         "name",
@@ -570,6 +581,15 @@
     "shop": {
       "includeFields": null,
       "excludeFields": null
+    },
+    "promotionals": {
+      "sortByAttributes": {
+        "Latest": "updated_at:desc"
+      },
+      "defaultSortBy": {
+        "attribute": "updated_at",
+        "order": "desc"
+      }
     }
   },
   "cart": {
@@ -660,7 +680,8 @@
     },
     "defaultSortBy": {
       "attribute": "updated_at",
-      "order": "desc"
+      "order": "desc",
+      "label": "Latest"
     },
     "sortByAttributes": {
       "Latest": "updated_at:desc",
@@ -742,6 +763,9 @@
     "login_endpoint": "/api/user/login",
     "create_endpoint": "/api/user/create",
     "me_endpoint": "/api/user/me?token={{token}}",
+    "validateResetPasswordToken_endpoint": "/api/user/password/validate-token",
+    "cancelOrder_endpoint": "/api/user/order/cancel?token={{token}}",
+    "deteleUser_endpoint": "/api/user/me?token={{token}}",
     "refresh_endpoint": "/api/user/refresh",
     "allowModification": ["firstname", "lastname", "email", "addresses"],
     "tokenInHeader": false
@@ -762,6 +786,7 @@
       "brand": "/temabit/brands/",
       "slider": "/bannerslider/upload/",
       "credit": "/temabit/credit/",
+      "promotional": "/temabit/promo/",
       "instruction": "/temabit/instruction/"
     },
     "productPlaceholder": "/assets/placeholder.jpg"
@@ -823,7 +848,8 @@
     "image/png": "7d"
   },
   "payments": {
-    "endpoint": "/api/payment"
+    "endpoint": "/api/payment",
+    "order_information": "/api/payment/order-information?token={{token}}"
   },
   "newsletter": {
     "endpoint": "/api/ext/mailchimp-subscribe/subscribe"

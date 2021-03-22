@@ -38,7 +38,7 @@ export default {
       type: Number | String,
       default: () => 3
     }
-  },
+  }
 }
 </script>
 

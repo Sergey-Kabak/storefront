@@ -25,6 +25,12 @@
           @close="$store.commit('ui/setConsultation')"
           class="consultation-sidebar"
       />
+      <async-sidebar
+        :async-component="PromotionalFilterSidebarMobile"
+        :is-open="isPromotionalFilterSidebarMobileOpen"
+        @close="$store.commit('ui/setPromotionalFilterSidebar')"
+        class="promotional-filter-sidebar"
+      />
 
       <sidebar-categories v-if="isSidebarCategoriesOpen"/>
 
@@ -33,15 +39,22 @@
           :is-open="isWishlistOpen"
           @close="$store.commit('ui/setWishlist')"
       />
+
+      <async-sidebar
+        :async-component="SignUp"
+        :is-open="isSignUpOpen"
+        @close="$store.commit('ui/setSignUp')"
+      />
       <async-sidebar
         :async-component="CompareSidebar"
         :is-open="isCompareOpen"
         @close="isCompareOpen = false"
       />
+  
+      <notification/>
 
       <slot/>
       <main-footer/>
-      <sign-up/>
       <custom-seller-product />
       <credit-modal />
       <city-picker />
@@ -62,7 +75,8 @@ import AsyncSidebar from 'theme/components/theme/blocks/AsyncSidebar/AsyncSideba
 import MainHeader from 'theme/components/core/blocks/Header/Header.vue';
 import MainFooter from 'theme/components/core/blocks/Footer/Footer.vue';
 import Overlay from 'theme/components/core/Overlay.vue';
-import SignUp from 'theme/components/core/blocks/Auth/SignUp.vue';
+import Loader from 'theme/components/core/Loader.vue';
+import Notification from 'theme/components/core/Notification.vue';
 import CookieNotification from 'theme/components/core/CookieNotification.vue';
 import OfflineBadge from 'theme/components/core/OfflineBadge.vue';
 import CreditModal from 'theme/components/core/blocks/CreditModal.vue';
@@ -77,10 +91,12 @@ const SidebarMenu = () => import(/* webpackChunkName: "vsf-sidebar-menu" */ 'the
 const Microcart = () => import(/* webpackChunkName: "vsf-microcart" */ 'theme/components/core/blocks/Microcart/Microcart.vue');
 const Wishlist = () => import(/* webpackChunkName: "vsf-wishlist" */ 'theme/components/core/blocks/Wishlist/Wishlist.vue');
 const SearchPanel = () => import(/* webpackChunkName: "vsf-search-panel" */ 'theme/components/core/blocks/SearchPanel/SearchPanel.vue');
-const CustomSellerProduct = () => import(/* webpackChunkName: "vsf-custom-seller-product" */ 'theme/components/core/blocks/CustomSellerProduct/CustomSellerProduct.vue');
-const Consultation = () => import(/* webpackChunkName: "vsf-consultation" */ 'theme/components/core/blocks/Consultation/Consultation.vue');
-const CompareSidebar = () => import(/* webpackChunkName: "vsf-compare-sidebar" */ 'theme/components/core/blocks/Compare/CompareSidebar.vue');
-const CityShopPicker = () => import(/* webpackChunkName: "vsf-city-shop-picker" */ 'theme/components/core/blocks/CityShopPicker/CityShopPicker.vue');
+const CustomSellerProduct = () => import(/* webpackChunkName: "vsf-custom-city-picker-modal" */ 'theme/components/core/blocks/CustomSellerProduct/CustomSellerProduct.vue');
+const Consultation = () => import(/* webpackChunkName: "vsf-custom-city-picker-modal" */ 'theme/components/core/blocks/Consultation/Consultation.vue');
+const CompareSidebar = () => import(/* webpackChunkName: "vsf-sidebar-menu" */ 'theme/components/core/blocks/Compare/CompareSidebar.vue');
+const CityShopPicker = () => import(/* webpackChunkName: "vsf-custom-city-picker-modal" */ 'theme/components/core/blocks/CityShopPicker/CityShopPicker.vue');
+const PromotionalFilterSidebarMobile = () => import(/* webpackChunkName: "vsf-custom-city-picker-modal" */ 'theme/components/core/blocks/PromotionalPortal/PromotionalFilterSidebarMobile.vue');
+const SignUp = () => import(/* webpackChunkName: "vsf-custom-city-picker-modal" */ 'theme/components/core/blocks/Auth/SignUp.vue');
 
 export default {
   data() {
@@ -90,6 +106,9 @@ export default {
       SearchPanel,
       SidebarMenu,
       Consultation,
+      CompareSidebar,
+      SignUp,
+      PromotionalFilterSidebarMobile,
       CompareSidebar
     };
   },
@@ -102,7 +121,9 @@ export default {
       isMicrocartOpen: state => state.ui.microcart,
       isWishlistOpen: state => state.ui.wishlist,
       isConsultationOpen: state => state.ui.consultation,
-      isCompareOpen: state => state.ui.compare_sidebar
+      isCompareOpen: state => state.ui.compare_sidebar,
+      isPromotionalFilterSidebarMobileOpen: state => state.ui.isPromotionalFilterSidebarMobileOpen,
+      isSignUpOpen: state => state.ui.signUp,
     })
   },
   methods: {
@@ -139,6 +160,8 @@ export default {
     MainFooter,
     SidebarMenu,
     Overlay,
+    Loader,
+    Notification,
     SignUp,
     CookieNotification,
     OfflineBadge,
@@ -149,6 +172,7 @@ export default {
     CityPicker,
     ShopShippingModal,
     MainModal,
+    PromotionalFilterSidebarMobile,
     ClientCredentialsForEsputnik
   }
 };

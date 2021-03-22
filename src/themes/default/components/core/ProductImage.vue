@@ -107,9 +107,11 @@ export default {
 
 <style lang="scss" scoped>
   .product-image{
+    display: flex;
+    justify-content: center;
+    align-items: center;
     position: relative;
     max-width: 100%;
-    height: 100%;
     mix-blend-mode: multiply;
     &__placeholder {
       max-width: 50%;

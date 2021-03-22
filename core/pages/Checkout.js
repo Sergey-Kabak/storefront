@@ -140,7 +140,6 @@ export default {
     this.$bus.$off('checkout-after-validationError', this.focusField)
   },
   watch: {
-    '$route': 'activateHashSection',
     'OnlineOnly': 'onNetworkStatusCheck'
   },
   methods: {

@@ -12,7 +12,29 @@ const actions: ActionTree<RecentlyViewedState, RootState> = {
     })
   },
   addItem ({ commit }, product) {
-    commit(types.RECENTLY_VIEWED_ADD_ITEM, { product })
+    cacheStorage.getItem('recently-viewed', (err, storedItems) => {
+      if (err) throw new Error(err)
+      const record = storedItems.find(it => it.sku === product.sku)
+      if (!record) {
+        storedItems.unshift(product)
+        commit(types.RECENTLY_VIEWED_LOAD, storedItems)
+      }
+    })
+  },
+  removeItems ({ commit }) {
+    cacheStorage.removeItem('recently-viewed', (err) => {
+      if (err) throw new Error(err)
+      commit(types.RECENTLY_VIEWED_LOAD, [])
+    })
+  },
+  removeItem ({ commit }, product) {
+    cacheStorage.getItem('recently-viewed', (err, storedItems) => {
+      if (err) throw new Error(err)
+      console.log(product)
+      const productIndex = storedItems.findIndex(it => it.sku === product.sku)
+      storedItems.splice(productIndex, 1)
+      commit(types.RECENTLY_VIEWED_LOAD, storedItems)
+    })
   }
 }
 

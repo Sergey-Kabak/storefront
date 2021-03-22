@@ -128,10 +128,10 @@ export default {
       navbarHeight: 142,
       promos: {
         samsung: {
-          img: '/assets/promo/samsung/xl.jpg',
-          imgTablet: '/assets/promo/samsung/lg.jpg',
-          imgMobile: '/assets/promo/samsung/md.jpg',
-          link: '/samsung-s21',
+          img: '/assets/promo/samsung/desktop.jpg',
+          imgTablet: '/assets/promo/samsung/tablet.jpg',
+          imgMobile: '/assets/promo/samsung/mobile.jpg',
+          link: '/samsung-a',
           background: '#f1f1f1'
         },
         keepInTouch: {
@@ -140,13 +140,6 @@ export default {
           imgMobile: '/assets/promo/iphone-mobile.jpg',
           link: '/smartfoni-i-telefoni/smartfoni?manufacturer=Apple',
           background: '#08101b'
-        },
-        March8: {
-          img: '/assets/promo/march-8-banner-xl.jpg',
-          imgTablet: '/assets/promo/march-8-banner-lg.jpg',
-          imgMobile: '/assets/promo/march-8-banner-sm.jpg',
-          link: '/8-march',
-          background: 'linear-gradient(45deg, #f8cad4, #f1bccc)'
         }
       }
     }
@@ -174,21 +167,20 @@ export default {
         {
           path: '/smartfoni-i-telefoni/smartfoni',
           options: this.promos.samsung
-        },
-        {
-          path: '/8-march',
-          options: this.promos.keepInTouch
         }
       ]
     },
     promo () {
-      const defaultPromo = this.promos.March8
+      const defaultPromo = this.promos.samsung
       const promo = this.promoPages.find(promo => this.$route.path === promo.path)
       return (promo && promo.options) || defaultPromo;
     }
   },
   beforeMount () {
-    this.$bus.$on('top-header-blocked', (value) => this.navBlocked = value);
+    this.$bus.$on('top-header-blocked', (value) => {
+      this.navBlocked = !value
+      this.navVisible = !value
+    });
     window.addEventListener(
       'scroll',
       () => {
@@ -198,7 +190,7 @@ export default {
     )
 
     setInterval(() => {
-      if (this.isScrolling) {
+      if (this.isScrolling && this.navBlocked) {
         this.hasScrolled()
         this.isScrolling = false
       }
@@ -306,7 +298,7 @@ header {
 }
 .header-wrap {
   margin-bottom: 16px;
-  height: 129px;
+  height: 142px;
 }
 .minimal {
   height: 67px;
@@ -431,13 +423,16 @@ header {
   }
 
   .icon {
+    padding: 8px;
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-right: 24px;
+    margin-right: 16px;
     // padding: 8px;
     border-radius: 4px;
     transition: .2s ease-in-out;
+    width: 40px;
+    height: 40px;
 
     &:hover {
       background-color: #f9f9f9!important;
@@ -641,7 +636,7 @@ header {
     }
 
     .icon-consultation {
-      display: block;
+      display: flex;
       cursor: pointer;
     }
   }

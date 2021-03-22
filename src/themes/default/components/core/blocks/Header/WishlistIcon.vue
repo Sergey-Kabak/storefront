@@ -28,18 +28,18 @@ export default {
 }
 </script>
 
-<style scoped>
-  .whishlist-count {
-    font-size: 11px;
-    font-family: DIN Pro;
-    font-style: normal;
-    line-height: 16px;
-    background: #EE2C39;
-    left: 50%;
-    top: -6px;
-    padding: 0 4px;
-    min-width: 16px;
-    min-height: 16px;
-    border-radius: 20px;
-  }
+<style scoped lang="scss">
+.whishlist-count {
+  font-size: 11px;
+  font-family: DIN Pro;
+  font-style: normal;
+  line-height: 16px;
+  background: #EE2C39;
+  left: 50%;
+  top: 0px;
+  padding: 0 4px;
+  min-width: 16px;
+  min-height: 16px;
+  border-radius: 20px;
+}
 </style>

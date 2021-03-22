@@ -13,6 +13,8 @@ const actions = {
 
   async getCities ({ commit }, { city }) {
     const cities = await CheckoutService.getCities({ city })
+
+    commit('SET_CITIES', cities)
     return cities
   },
 

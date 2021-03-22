@@ -33,14 +33,14 @@ const createPassword = async (email: string, newPassword: string, resetToken: st
     }
   })
 
-const login = async (username: string, password: string): Promise<Task> =>
+const login = async (username: string, password: string, rememberMe: boolean): Promise<Task> =>
   TaskQueue.execute({
     url: processLocalizedURLAddress(getApiEndpointUrl(config.users, 'login_endpoint')),
     payload: {
       method: 'POST',
       mode: 'cors',
       headers,
-      body: JSON.stringify({ username, password })
+      body: JSON.stringify({ username, password, rememberMe })
     }
   })
 
@@ -54,16 +54,15 @@ const register = async (customer: DataResolver.Customer, password: string): Prom
     }
   })
 
-const updateProfile = async (userProfile: UserProfile, actionName: string): Promise<any> =>
-  TaskQueue.queue({
+const updateProfile = async (userProfile: UserProfile): Promise<Task> =>
+  TaskQueue.execute({
     url: processLocalizedURLAddress(getApiEndpointUrl(config.users, 'me_endpoint')),
     payload: {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       mode: 'cors',
       body: JSON.stringify(userProfile)
-    },
-    callback_event: `store:${actionName}`
+    }
   })
 
 const getProfile = async () =>
@@ -107,6 +106,39 @@ const refreshToken = async (refreshToken: string): Promise<string> =>
     body: JSON.stringify({ refreshToken })
   }).then(resp => resp.json())
     .then(resp => resp.result)
+  
+const deleteUser = async (): Promise<Task> =>
+  TaskQueue.execute({
+    url: processLocalizedURLAddress(getApiEndpointUrl(config.users, 'deteleUser_endpoint')),
+    payload: {
+      method: 'DELETE',
+      mode: 'cors',
+      headers
+    }
+  })
+
+const cancelOrder = async (orderId: number): Promise<Task> =>
+  TaskQueue.execute({
+    url: processLocalizedURLAddress(getApiEndpointUrl(config.users, 'cancelOrder_endpoint')),
+    payload: {
+      method: 'POST',
+      mode: 'cors',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ orderId })
+    }
+  })
+
+const validateResetPasswordToken = async (userId: number, token: string): Promise<boolean> =>
+  TaskQueue.execute({
+    url: processLocalizedURLAddress(getApiEndpointUrl(config.users, 'validateResetPasswordToken_endpoint')),
+    payload: {
+      method: 'POST',
+      mode: 'cors',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ userId, token })
+    }
+  })
+    .then(resp => resp.resultCode === 200)
 
 export const UserService: DataResolver.UserService = {
   resetPassword,
@@ -117,5 +149,8 @@ export const UserService: DataResolver.UserService = {
   getProfile,
   getOrdersHistory,
   changePassword,
-  refreshToken
+  refreshToken,
+  deleteUser,
+  cancelOrder,
+  validateResetPasswordToken
 }

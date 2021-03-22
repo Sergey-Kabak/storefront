@@ -1,8 +1,6 @@
 <template>
   <div class="wishlist">
-    <div class="option-panel">
-      <i class="material-icons close-icon" @click="closeWishlist">close</i>
-    </div>
+    <close-sidebar @close="closeWishlist" />
     <div class="wishlist-body" v-if="productsInWishlist.length">
       <div class="wishlist-header">
         <div class="wishlist-header-main">
@@ -80,6 +78,7 @@ import { notifications } from '@vue-storefront/core/modules/cart/helpers';
 import MoreIcon from 'theme/components/core/MoreIcon';
 import { mapGetters } from 'vuex';
 import { price } from 'theme/helpers';
+import CloseSidebar from 'theme/components/core/CloseSidebar';
 
 export default {
   mixins: [Wishlist],
@@ -88,7 +87,8 @@ export default {
     ClearWishlistButton,
     ButtonFull,
     ButtonText,
-    MoreIcon
+    MoreIcon,
+    CloseSidebar
   },
   props: {
     product: {
@@ -161,22 +161,6 @@ export default {
   flex-direction: column;
   .more {
     display: none;
-  }
-}
-
-.option-panel {
-  text-align: right;
-
-  .close-icon {
-    color: #bdbdbd;
-    cursor: pointer;
-    background: #F9F9F9;
-    padding: 13px;
-    transition: .2s ease-in-out;
-
-    &:hover {
-      color: #3d3d3d;
-    }
   }
 }
 
@@ -288,7 +272,6 @@ export default {
 
   .button-text ::v-deep {
     max-width: 205px;
-    width: 100%;
 
     span {
       font-size: 14px;
@@ -348,7 +331,7 @@ export default {
     .more {
       .add-to-compare {
         width: 100%;
-        padding: 8px 16px;
+        padding: 4px 16px;
       }
     }
 
@@ -397,18 +380,19 @@ export default {
 
     @media only screen and (max-width: 768px) {
       margin-bottom: 6px;
-      padding: 9px 15px;
+      padding: 0px 16px;
     }
 
     .more {
       margin-left: auto;
 
       .more-item {
-        padding: 8px 16px;
+        padding: 4px 16px;
         display: flex;
         align-items: center;
 
         svg {
+          padding: 4px;
           margin-right: 20px;
         }
       }

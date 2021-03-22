@@ -39,6 +39,24 @@ export default {
     .shop-title {
       pointer-events: none;
     }
+
+    .shop-name {
+      font-family: DIN Pro;
+      font-size: 13px;
+      line-height: 16px;
+      color: #5F5E5E;
+    }
+
+    .shop-icon {
+      width: 16px;
+      height: 16px;
+    }
+
+    .shop-item {
+      span {
+        line-height: 16px;
+      }
+    }
   }
 }
 
@@ -52,7 +70,11 @@ export default {
     transition: .2s ease-in-out;
 
     &:hover {
-      fill: #3d3d3d;
+      fill: #aeaeae;
+    }
+
+    &:active {
+      fill: #9f9f9f
     }
   }
 }

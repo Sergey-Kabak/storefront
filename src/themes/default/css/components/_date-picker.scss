@@ -1,4 +1,3 @@
-$primary-color: #ccc;
 .mx-datepicker {
   svg {
     width: 24px;
@@ -26,6 +25,10 @@ $primary-color: #ccc;
     font-size: 13px;
     line-height: 16px;
     color: #000000;
+
+    &.active {
+      background: #23be20;
+    }
   }
 }
 
@@ -74,12 +77,12 @@ $primary-color: #ccc;
       color: $primary-color;
     }
   }
-
+  
   .mx-btn-icon-left {
     margin-left: auto;
     margin-right: 24px;
   }
-
+  
   .mx-btn-icon-double-right,
   .mx-btn-icon-double-left {
     display: none;

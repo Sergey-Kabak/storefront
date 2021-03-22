@@ -20,16 +20,15 @@ import { brandStore } from 'theme/store/brand';
 import { checkoutStore } from 'theme/store/checkout';
 import { cmsStore } from 'theme/store/cms';
 import { attributeStore } from 'theme/store/attributes';
+import { module as PromotionalModule } from './store/promotional';
 import { shopStore } from 'theme/store/shop';
 import { StorageManager } from '@vue-storefront/core/lib/storage-manager';
 import { module as carouselModule } from 'theme/store/carousel';
 import vClickOutside from 'v-click-outside';
-import Autocomplete from '@trevoreyre/autocomplete-vue'
 
 once('__VUE_EXTEND_DROPPOINT_VPB__', () => {
   Vue.use(VueProgressBar)
   Vue.use(vClickOutside)
-  Vue.use(Autocomplete)
 })
 
 if (process.env.NODE_ENV === 'production') {
@@ -66,6 +65,7 @@ function initTheme (app, router, store, config, ssrContext) {
   store.registerModule('checkoutPage', checkoutStore);
   store.registerModule('cms', cmsStore);
   store.registerModule('shop', shopStore);
+  store.registerModule('promotional', PromotionalModule);
   // store.registerModule('payment', paymentStore);
 }
 

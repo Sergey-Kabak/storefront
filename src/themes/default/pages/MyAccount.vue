@@ -1,34 +1,34 @@
 <template>
   <div id="my_account">
-    <div class="bg-cl-secondary py35 pl20">
-      <div class="container">
-        <breadcrumbs
-          :with-homepage="true"
-          :routes="[]"
-          active-route="My Account"
-        />
-        <h1>
-          {{ $t('My Account') }}
-        </h1>
+    <div class="v-container">
+      <breadcrumbs />
+      <h1 class="account-title">
+        {{ $t('My Account') }}
+      </h1>
+      <div class="navigation-mobile" v-if="$route.name !== 'my-order'">
+        <select-menu :menu="navigation" />
       </div>
-    </div>
-
-    <div class="container pt45 pb70">
-      <div class="row px20 pt0">
-        <div class="col-md-3 hidden-xs hidden-sm block">
-          <nav class="static-menu serif h4 mb35">
-            <ul class="m0 p0">
-              <li class="mb20" v-for="(page, index) in navigation" :key="index" @click="notify(page.title)">
-                <router-link :to="localizedRoute(page.link)" class="cl-accent">
-                  {{ page.title }} sdfasdfs
+      <div class="account-body">
+        <div class="account-left">
+          <no-ssr>
+            <span class="account-welcome" v-if="userData">{{ userData.firstname }}, {{ $t('hello') }}!</span>
+          </no-ssr>
+          <nav class="account-menu">
+            <ul class="account-menu-list">
+              <li class="account-menu-item" v-for="(page, index) in navigation" :key="index">
+                <router-link :to="page.link" class="account-menu-link">
+                  <icon-base class="account-menu-icon"> 
+                    <component :is="page.icon" />
+                  </icon-base>
+                  <span>{{ $t(page.title) }}</span>
                 </router-link>
               </li>
             </ul>
           </nav>
         </div>
-        <div class="col-md-9">
+        <div class="account-right">
           <no-ssr>
-            <component :is="this.$props.activeBlock" />
+            <router-view></router-view>
           </no-ssr>
         </div>
       </div>
@@ -38,87 +38,167 @@
 
 <script>
 import MyAccount from '@vue-storefront/core/pages/MyAccount';
-import Breadcrumbs from '../components/core/Breadcrumbs';
-import MyProfile from '../components/core/blocks/MyAccount/MyProfile';
-import MyShippingDetails from '../components/core/blocks/MyAccount/MyShippingDetails';
-import MyNewsletter from '../components/core/blocks/MyAccount/MyNewsletter';
-import MyOrders from '../components/core/blocks/MyAccount/MyOrders';
-import MyOrder from '../components/core/blocks/MyAccount/MyOrder';
-import MyRecentlyViewed from '../components/core/blocks/MyAccount/MyRecentlyViewed';
+import Breadcrumbs from 'theme/components/core/blocks/MyAccount/Breadcrumbs'
+import SelectMenu from 'theme/components/core/blocks/MyAccount/SelectMenu'
 import NoSSR from 'vue-no-ssr';
 import { RecentlyViewedModule } from '@vue-storefront/core/modules/recently-viewed';
 import { registerModule } from '@vue-storefront/core/lib/modules';
+import { AccountIcon, FormatListIcon, CommentIcon, VerifiedIcon, VisibilityIcon, ArrowLeftIcon } from 'theme/assets/account/index';
+import IconBase from 'theme/components/theme/IconBase';
+import { mapState } from 'vuex';
 
 export default {
-  data () {
-    return {
-      navigation: [
-        { title: this.$t('My profile'), link: '/my-account' },
-        { title: this.$t('My shipping details'), link: '/my-account/shipping-details' },
-        { title: this.$t('My newsletter'), link: '/my-account/newsletter' },
-        { title: this.$t('My orders'), link: '/my-account/orders' },
-        { title: this.$t('My loyalty card'), link: '#' },
-        { title: this.$t('My product reviews'), link: '#' },
-        { title: this.$t('My Recently viewed products'), link: '/my-account/recently-viewed' }
-      ]
-    }
-  },
   components: {
     Breadcrumbs,
-    MyProfile,
-    MyShippingDetails,
-    MyNewsletter,
-    MyOrders,
-    MyOrder,
-    MyRecentlyViewed,
+    IconBase,
+    ArrowLeftIcon,
+    SelectMenu,
     'no-ssr': NoSSR
   },
+  mixins: [MyAccount],
   beforeCreate () {
     registerModule(RecentlyViewedModule)
   },
-  mixins: [MyAccount],
-  methods: {
-    notify (title) {
-      if (title === 'My loyalty card' || title === 'My product reviews') {
-        this.$store.dispatch('notification/spawnNotification', {
-          type: 'warning',
-          message: this.$t('This feature is not implemented yet! Please take a look at https://github.com/DivanteLtd/vue-storefront/issues for our Roadmap!'),
-          action1: { label: this.$t('OK') }
-        })
-      }
+  data: () => ({
+    navigation: [
+      { title: 'my-account', link: '/account/personal-data', icon: AccountIcon },
+      { title: 'my-orders', link: '/account/orders', icon: FormatListIcon },
+      { title: 'my-recently-viewed', link: '/account/recently-viewed', icon: VisibilityIcon },
+      { title: 'my-security', link: '/account/security', icon: VerifiedIcon },
+      { title: 'my-reviews', link: '/account/reviews', icon: CommentIcon }
+    ]
+  }),
+  computed: {
+    ...mapState({
+      userData: (state) => state.user && state.user.current
+    }),
+    activeRoute() {
+      return this.$route.name
     }
   }
 }
 </script>
 
-<style lang="scss">
-@import '~theme/css/base/text';
-@import '~theme/css/variables/colors';
-@import '~theme/css/helpers/functions/color';
-$color-tertiary: color(tertiary);
+<style lang="scss" scoped>
+.v-container {
+  padding-bottom: 68px;
+}
 
-.static-menu {
-  ul {
-    list-style: none;
-  }
+.navigation-mobile {
+  display: none;
+  margin-bottom: 16px;
+}
 
-  a {
-    &:after {
-      content: "";
-      display: block;
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      height: 1px;
-      background-color: $color-tertiary;
+.breadcrumbs {
+  margin-bottom: 24px;
+}
+
+.account-title {
+  font-family: DIN Pro;
+  font-weight: 600;
+  font-size: 36px;
+  margin: 0 0 17px 0;
+  line-height: 46px;
+  color: #1A1919;
+}
+
+.account-body {
+  display: flex;
+  grid-column-gap: 20px;
+}
+
+.account-left {
+  max-width: 316px;
+  flex: 1 1 316px;
+}
+
+.account-menu-list {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.account-menu-link {
+  padding: 8px 16px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  transition: .2s ease-in-out;
+  white-space: nowrap;
+
+  &:hover {
+    .account-menu-icon {
+      fill: #23BE20;
     }
 
-    &:hover,
-    &.router-link-exact-active {
-      &:after {
-        opacity: 0;
-      }
+    span {
+      color: #23BE20;
+      white-space: nowrap;
+    }
+  }
+  
+
+  .account-menu-icon {
+    fill: #828282;
+  }
+
+  span {
+    font-family: DIN Pro;
+    font-size: 14px;
+    line-height: 24px;
+    color: #1A1919;
+  }
+}
+
+.account-menu-item {
+  .router-link-active {
+    background-color: #E4F9E4;
+
+    .account-menu-icon {
+      fill: #23BE20;
+    }
+
+    span {
+      font-weight: 600;
+      color: #23BE20;
+    }
+  }
+}
+
+.account-menu-icon {
+  margin-right: 20px;
+}
+
+.account-right {
+  flex: 1 1 986px;
+}
+
+.account-welcome {
+  display: block;
+  font-family: DIN Pro;
+  font-size: 13px;
+  line-height: 16px;
+  color: #1A1919;
+  margin-bottom: 36px;
+}
+
+.account-info {
+  display: flex;
+  margin-bottom: 22px;
+}
+
+@media (max-width: 768px) {
+  .account-left {
+    display: none;
+  }
+
+  .navigation-mobile {
+    display: block;
+  }
+
+  ::v-deep {
+    .account-page-title {
+      display: none;
     }
   }
 }

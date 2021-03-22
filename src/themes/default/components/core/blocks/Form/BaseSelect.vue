@@ -1,142 +1,170 @@
 <template>
-  <div class="select-wrapper relative">
-    <select
-      :name="name"
-      :class="{
-        'cl-tertiary' : options.length === 0,
-        'empty': !selected
-      }"
-      :autocomplete="autocomplete"
-      @focus="$emit('focus')"
-      @blur="$emit('blur')"
-      @change="$emit('change', $event.target.value)"
-      @input="$emit('input', $event.target.value)"
-    >
-      <option disabled selected value v-if="!selected" />
-      <option
-        v-for="(option, key) in options"
-        :key="key"
-        :value="option.value"
-        v-bind="{selected: option.value === selected}"
-      >
-        {{ option.label }}
-      </option>
-    </select>
-    <label>{{ placeholder }}</label>
-
-    <ValidationMessages v-if="validations" :validations="validations" />
-  </div>
+  <v-select 
+    :value="value"
+    @input="onSelectChange($event)"
+    :options="options"
+    :reduce="resultValue"
+    :clearable="false"
+    :searchable="false"
+  >
+    <template #selected-option="props">
+      <div class="option selected">
+        <img class="option-image" v-if="thumbnail" :src="thumbnail(props)" alt="option image">
+        <span class="option-name">{{ $t(resultValue(props)) }}</span>
+      </div>
+    </template>
+    <template #option="props">
+      <div class="option">
+        <img class="option-image" v-if="thumbnail" :src="thumbnail(props)" alt="option image">
+        <span class="option-name">{{ $t(resultValue(props)) }}</span>
+        <div class="selected-option-image">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="#23BE20" xmlns="http://www.w3.org/2000/svg">
+            <path d="M7.50016 13.5001L4.00016 10.0001L2.8335 11.1667L7.50016 15.8334L17.5002 5.83341L16.3335 4.66675L7.50016 13.5001Z" />
+          </svg>
+        </div>
+      </div>
+    </template>
+    <template #open-indicator="{ attributes }">
+      <svg v-bind="attributes" width="8" height="5" viewBox="0 0 8 5" fill="#BDBDBD" xmlns="http://www.w3.org/2000/svg">
+        <path d="M0.25 0.5L4 4.25L7.75 0.5H0.25Z" />
+      </svg>
+    </template>
+  </v-select>
 </template>
 
 <script>
-import ValidationMessages from './ValidationMessages.vue';
+import vSelect from 'vue-select'
 
 export default {
-  name: 'BaseSelect',
   components: {
-    ValidationMessages
+    vSelect
   },
   props: {
-    id: {
-      type: String,
-      required: false,
-      default: ''
-    },
-    name: {
-      type: String,
-      required: false,
-      default: ''
-    },
     options: {
       type: Array,
       required: true,
       default: () => []
     },
-    selected: {
+    value: {
       type: String,
-      required: false,
-      default: ''
+      default: null
     },
-    placeholder: {
-      type: String,
-      required: false,
-      default: ''
+    resultValue: {
+      type: Function,
+      default: (it) => it
     },
-    autocomplete: {
-      type: String,
-      required: false,
-      default: ''
+    thumbnail: {
+      type: Function,
+      default: null
+    }
+  },
+  methods: {
+    onSelectChange(it) {
+      this.$emit('change', it)
     },
-    validations: {
-      type: Array,
-      default: () => []
+    groupImage(image) {
+      return this.getThumbnail(image, 24, 24, 'brand')
     }
   }
 }
 </script>
 
 <style lang="scss" scoped>
-  @import '~theme/css/variables/colors';
-  @import '~theme/css/helpers/functions/color';
-  @import '~theme/css/base/text';
-  $color-tertiary: color(tertiary);
-  $color-black: color(black);
-  $color-puerto-rico: color(puerto-rico);
-  $color-hover: color(tertiary, $colors-background);
+.v-select {
+  width: 100%;
+}
 
-.select-wrapper {
-  &::after {
-    content: '';
-    display: block;
-    position: absolute;
-    top: 1rem;
-    right: 10px;
-    width: 0;
-    height: 0;
-    border-style: solid;
-    border-width: 8px 6px 0 6px;
-    border-color: $color-tertiary transparent transparent transparent;
-    pointer-events: none;
+::v-deep  {
+  .vs__selected {
+    position: relative!important;
   }
 
-  select {
-    @extend .h4;
-    border: none;
-    border-bottom: 1px solid $color-tertiary;
-    width: 100%;
-    -moz-appearance: none;
-    -webkit-appearance: none;
-    border-radius: 0;
-    background-color: transparent;
+  .vs__dropdown-menu {
+    border-radius: 4px;
+    border: 1px solid #E0E0E0;
+    box-shadow: none;
+    top: calc(100% + 3px)
+  }
+
+  .vs__dropdown-toggle {
+    border-color: #e0e0e0;
+  }
+
+  &.vs--open {
+    .vs__dropdown-toggle {
+      border-radius: 4px;
+      border-color: #23BE20!important;
+    }
+  }
+
+  .vs__actions {
+    padding: 0 16px;
+  }
+
+  .vs__dropdown-toggle,
+  .vs__search,
+  .vs__selected-options,
+  .vs__selected {
+    height: 40px;
+    margin: 0;
+    padding: 0;
+  }
+
+  .vs__selected {
+    opacity: 1!important;
+  }
+
+  .vs__dropdown-option {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 40px;
 
     &:hover,
-    &:focus {
-      outline: none;
-      border-color: $color-puerto-rico;
+    &:active {
+      background: #E4F9E4;
     }
 
-    &:disabled,
-    &:disabled + label {
-      opacity: 0.5;
-      cursor: not-allowed;
-      pointer-events: none;
+    &--selected,
+    &--highlight {
+      background: #E4F9E4;
+    }
+
+    &--selected {
+      .selected-option-image {
+        display: block!important;
+      }
     }
   }
-  label {
-    color: #999;
-    position: absolute;
-    pointer-events: none;
-    user-select: none;
-    top: 10px;
-    left: 8px;
-    transition: 0.2s ease all;
-    -moz-transition: 0.2s ease all;
-    -webkit-transition: 0.2s ease all;
+
+}
+
+.option {
+  width: 100%;
+  display: flex;
+  padding: 4px 0;
+  align-items: center;
+
+  &.selected {
+    padding: 0 16px;
   }
-  select:focus ~ label, select:not(.empty) ~ label {
-    top: -10px;
+
+  .option-image {
+    max-width: 24px;
+    margin-right: 12px;
+    margin-left: auto;
+  }
+
+  .option-name {
+    font-family: DIN Pro;
     font-size: 14px;
-    color: $color-puerto-rico;
+    line-height: 16px;
+    color: #1A1919;
+  }
+
+  .selected-option-image {
+    display: none;
+    margin-left: auto;
   }
 }
 </style>

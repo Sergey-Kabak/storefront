@@ -32,7 +32,7 @@ export default {
 }
 
 .shop-icon {
-  margin-right: 8px;
+  margin-right: 12px;
   min-width: 20px;
 }
 

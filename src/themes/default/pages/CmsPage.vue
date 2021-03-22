@@ -198,6 +198,7 @@ header {
   }
 
   img {
+    border-radius: 4px;
     display: block;
 
     &.rounded {
@@ -284,6 +285,10 @@ header {
     color: #1A1919;
   }
 
+  .normal {
+    font-weight: 400;
+  }
+
   .uppercase {
     text-transform: uppercase;
   }
@@ -302,6 +307,10 @@ header {
 
   .offset-bottom-24 {
     margin-bottom: 24px;
+  }
+
+  .offset-bottom-32 {
+    margin-bottom: 32px;
   }
 
   .offset-bottom-8 {
@@ -440,6 +449,22 @@ header {
         transform: rotate(180deg);
       }
     }
+  }
+
+  .fz-14 {
+    font-size: 14px;
+  }
+
+  .lh-16 {
+    line-height: 16px;
+  }
+
+  .fw-500 {
+    font-weight: 500;
+  }
+
+  .dark {
+    color: #1A1919;
   }
 }
 </style>

@@ -481,4 +481,10 @@ $color-white: color(white);
     }
   }
 }
+
+.product__icons {
+  svg {
+    padding: 4px;
+  }
+}
 </style>

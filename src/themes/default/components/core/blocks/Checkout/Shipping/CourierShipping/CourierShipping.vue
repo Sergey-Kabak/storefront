@@ -8,36 +8,15 @@
         <div class="courier-row">
           <div class="autocomplete-wrapper base-input">
             <autocomplete
-              ref="autocomplete"
-              :placeholder="$t('Choose your street *')"
-              :defaultValue="courierShipping.address.Description"
-              class="search-autocomplete"
-              :class="{ 'invalid': $v.courierShipping.address.Description.$invalid && $v.courierShipping.address.Description.$dirty }"
+              @submit="onChooseStreet($event)"
               :search="getStreets"
-              @submit="onChooseStreet"
-              @input="$emit('input', sanitize($event))"
-              @keyup.enter="$emit('keyup.enter', sanitize($event))"
-              @blur="$v.courierShipping.address.Description.$touch()"
-              :get-result-value="getResultValue"
-              :debounce-time="300"
-            >
-              <template #result="{ result, props }">
-                <li
-                  v-bind="props"
-                  class="autocomplete-result"
-                >
-                  <span class="city-title">{{ result.Description }}</span>
-                </li>
-              </template>
-              
-            </autocomplete>
-            <ValidationMessages :validations="[{
-              condition: $v.courierShipping.address.Description.$invalid && $v.courierShipping.address.Description.$dirty && !$v.courierShipping.address.Description.required,
-              text: $t('Field is required')
-            }, {
-              condition: $v.courierShipping.address.Description.$invalid && $v.courierShipping.address.Description.$dirty && !$v.courierShipping.address.Description.fromList,
-              text: $t('Street no found')
-            }]"/>
+              :selectedValue="courierShipping.address.Description"
+              :options="streets"
+              label="Description"
+              :placeholder="$t('Choose your street *')"
+              :class="{ 'invalid': $v.courierShipping.address.Description.$invalid && $v.courierShipping.address.Description.$dirty }"
+              class="search-autocomplete"
+            />
           </div>
         </div>
         <div class="courier-row">
@@ -84,6 +63,7 @@
 import { mapState } from 'vuex';
 import { required } from 'vuelidate/lib/validators';
 import BaseInput from 'theme/components/core/blocks/Form/BaseInput'
+import Autocomplete from 'theme/components/core/blocks/Form/Autocomplete'
 import ButtonFull from 'theme/components/theme/ButtonFull'
 import ValidationMessages from 'theme/components/core/blocks/Form/ValidationMessages';
 import DOMPurify from 'dompurify';
@@ -92,16 +72,14 @@ export default {
   components: {
     BaseInput,
     ButtonFull,
-    ValidationMessages
+    ValidationMessages,
+    Autocomplete
   },
   validations: {
     courierShipping: {
       address: {
         Description: {
-          required,
-          fromList: function() {
-            return !!(this.streets.find(it => it && it.Description.toLowerCase() === (this.courierShipping.address.Description && this.courierShipping.address.Description.toLowerCase())) || this.courierShipping.address.Ref)
-          }
+          required
         }
       },
       house: {
@@ -131,12 +109,6 @@ export default {
       this.$refs.autocomplete.value = v
     },
     validateData() {
-      if (this.streets && this.streets.length) {
-        const street = this.streets.find(it => it.Description.toLowerCase() === this.value.trim().toLowerCase())
-        if (street) {
-          this.courierShipping.address = street
-        }
-      }
       if (this.$v.courierShipping.$invalid) {
         this.$v.courierShipping.$touch()
       } else {
@@ -146,17 +118,11 @@ export default {
     },
     getStreets(query) {
       this.value = query
-      this.courierShipping.address = { Description: query }
       return this.$store.dispatch('checkoutPage/getStreetsByCity', { city: this.city, street: query })
     },
-    onChooseStreet(street) {
-      if (street) {
-        this.value = street.Description
-        this.courierShipping.address = street
-      }
-    },
-    getResultValue(it) {
-      return it.Description
+    onChooseStreet(result) {
+      this.value = result.value.Description
+      this.$set(this.courierShipping, 'address', result.value)
     }
   }
 };

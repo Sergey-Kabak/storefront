@@ -55,7 +55,7 @@ $hover : #20af1d;
 $focus : #1fa71c;
 $active : #1d9f1b;
 .button-full {
-  transition: background-color ease-in 0.2s;
+  transition: all ease-in 0.2s;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -74,11 +74,6 @@ $active : #1d9f1b;
 
   &:hover {
       background-color : $hover;
-      color: #ffffff;
-  }
-  &:focus {
-      background-color : $focus;
-      outline: none;
       color: #ffffff;
   }
   &:active {

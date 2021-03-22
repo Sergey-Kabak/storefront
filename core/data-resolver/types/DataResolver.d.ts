@@ -90,13 +90,16 @@ declare namespace DataResolver {
   interface UserService {
     resetPassword: (email: string) => Promise<Task>,
     createPassword: (email: string, newPassword: string, resetToken: string) => Promise<Task>,
-    login: (username: string, password: string) => Promise<Task>,
+    login: (username: string, password: string, rememberMe: boolean) => Promise<Task>,
     register: (customer: Customer, pssword: string) => Promise<Task>,
-    updateProfile: (userProfile: UserProfile, actionName: string) => Promise<Task>,
+    updateProfile: (userProfile: UserProfile) => Promise<Task>,
     getProfile: () => Promise<Task>,
     getOrdersHistory: (pageSize?: number, currentPage?: number) => Promise<Task>,
     changePassword: (passwordData: PasswordData) => Promise<Task>,
     refreshToken: (refreshToken: string) => Promise<string>
+    deleteUser: (userId: number) => Promise<Task>,
+    cancelOrder: (orderId: number) => Promise<Task>,
+    validateResetPasswordToken: (orderId: number, token: string) => Promise<boolean>
   }
 
   interface CartService {

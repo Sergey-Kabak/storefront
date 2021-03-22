@@ -1,27 +1,18 @@
 <template>
   <div class="sort-by">
-    <select
-      name="sortby"
-      class="cl-secondary"
-      v-model="sortby"
-      @change="changeOrder"
-    >
-      <option selected="selected" disabled value="" v-if="!hasLabel">
-        {{ $t('Sort By') }}
-      </option>
-      <option v-for="variant in sortingVariants" :value="variant" :key="variant.id">
-        {{ $t(variant.label) }}
-      </option>
-    </select>
+    <base-select @change="onChange" :options="sortingVariants" :value="sortby && sortby.label" :resultValue="(it) => it.label"> </base-select>
   </div>
 </template>
 
 <script>
 import SortBy from '@vue-storefront/core/compatibility/components/SortBy';
 import { products } from 'config';
-
+import BaseSelect from 'theme/components/core/blocks/Form/BaseSelect.vue';
 export default {
   mixins: [SortBy],
+  components: {
+    BaseSelect
+  },
   props: {
     hasLabel: {
       type: Boolean,
@@ -35,67 +26,17 @@ export default {
   },
   data () {
     return {
-      sortby: null
+      sortby: products.defaultSortBy
     }
   },
-  watch: {
-    value: {
-      handler () {
-        const defaultVariant = this.value && this.value.length ? this.value : products.defaultSortBy.attribute
-        this.sortby = this.sortingVariants.find(variant => variant.id.includes(defaultVariant))
-      },
-      immediate: true
+  methods: {
+    onChange(id) {
+      this.sortby = this.sortingVariants.find(it => it.label === id)
+      this.sort()
     }
   }
 }
 </script>
 <style lang="scss" scoped>
-  @import '~theme/css/base/text';
-  @import '~theme/css/variables/colors';
-  @import '~theme/css/helpers/functions/color';
-  $color-tertiary: color(tertiary);
-  .sort-by {
-    display: flex;
-    align-items: baseline;
-    position: relative;
-    background: #FFFFFF;
-    border: 1px solid #E0E0E0;
-    box-sizing: border-box;
-    border-radius: 4px;
-    padding: 0 17px;
-    height: 40px;
-    select {
-      height: 100%;
-      @extend .h4;
-      font-size: 14px;
-      border: none;
-      width: 100%;
-      border-radius: 0;
-      background-color: transparent;
-      margin-right: 0;
-      font-family: DIN Pro;
-      line-height: 16px;
-      color: #1A1919;
-      appearance:none;
-      background-image: url('/assets/custom/ArrowLeft.svg');
-      background-repeat: no-repeat;
-      background-position: 100% center;
-    
-      &:focus {
-          outline: none;
-      }
-    }
-    &__icon {
-        position: absolute;
-        right: 0;
-        top: 50%;
-        transform: translateY(-50%);
-        cursor: pointer;
-    }
-  }
-  @media (max-width: 770px) {
-    .sort-by {
-      width: 100%;
-    }
-  }
+
 </style>
