@@ -1,5 +1,5 @@
 <template>
-  <div class="lang_switcher">
+  <div v-if="isActive" class="lang_switcher">
     <div class="lang_switcher-list">
       <ul>
         <li v-for="(storeView, storeCode) in storeViews" :key="storeCode">
@@ -29,6 +29,9 @@ export default {
       getCurrentProduct: 'product/getCurrentProduct',
       getCurrentCategory: 'category-next/getCurrentCategory'
     }),
+    isActive () {
+      return config.storeViews.multistore
+    },
     LanguageSlug () {
       return config.i18n.slug
     },
