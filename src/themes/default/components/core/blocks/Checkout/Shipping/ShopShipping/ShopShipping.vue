@@ -8,6 +8,9 @@
             <div class="shop-actions">
               <button-full v-if="buttonVisible" @click.native="selectShop(shop)">{{ $t("Pick up here") }}</button-full>
             </div>
+            <div class="ShopAvailability">
+              {{ ShopAvailability(shop, index) }}
+            </div>
           </template>
         </shop>
       </div>
@@ -20,7 +23,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import {mapGetters, mapState} from 'vuex';
 import Shop from 'theme/components/core/blocks/Shop/Shop.vue'
 import ShopControls from 'theme/components/core/blocks/Checkout/Shipping/ShopShipping/ShopControls.vue'
 import ShopMobile from 'theme/components/core/blocks/Checkout/Shipping/ShopShipping/ShopMobile.vue'
@@ -53,15 +56,31 @@ export default {
     ...mapState({
       city: (state) => state.ui.city,
       shops: (state) => state.checkoutPage.shops
+    }),
+    ...mapGetters({
+      productsInCart: 'cart/getCartItems'
     })
   },
   methods: {
+    ShopAvailability (shop, index) {
+      const sources = this.productsInCart.reduce((acc, product) => {
+        let source = {}
+        if (product.msi_sources && product.msi_sources.length) {
+          source = product.msi_sources.find(source => source.source_code === shop.source_code)
+          if (source && source.salable_quantity > 0) {
+            return acc.push(source)
+          }
+        }
+      }, [])
+      console.log(sources, this.productsInCart);
+    },
     changeActiveTab(activeTab) {
       this.activeTab = activeTab
     },
     selectShop(shop) {
+      this.$bus.$emit('modal-show', 'modal-msi')
       this.$store.commit('checkoutPage/SET_SELECTED_SHOP', shop)
-      this.$emit('onSelectShipping')
+      // this.$emit('onSelectShipping')
     },
     activateShopOnMap(shop) {
       this.$store.commit('shop/SET_SELECTED_SHOP', shop)
@@ -70,6 +89,10 @@ export default {
     openSidebar() {
       this.$store.commit('ui/setShopSidebar', true)
     }
+  },
+  mounted() {
+    console.log(this.shops);
+    console.log(this.productsInCart)
   }
 };
 </script>
