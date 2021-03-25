@@ -319,6 +319,7 @@
         "manufacturer",
         "breadcrumbs",
         "marketplace",
+        "configurable_options",
         "rma",
         "preorder",
         "configurable_children.attributes",
@@ -362,7 +363,6 @@
       ],
       "excludeFields": [
         "attribute_set_id",
-        "configurable_options",
         "description",
         "sgn",
         "*.sgn",
