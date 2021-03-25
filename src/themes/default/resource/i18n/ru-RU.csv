@@ -142,8 +142,8 @@
 "Remove all","Удалить всё"
 "Remove from compare","Удалить с сравнения"
 "Remove from favorite",Удалить из избранного
-"Remove from wishlist?","Удалить товар из списка желаний?"
-"Remove {productName} from wishlist?","Удалить {productName} из списка желаний?"
+"Remove from wishlist","Удалить товар из списка желаний"
+"Remove {productName} from wishlist","Удалить {productName} из списка желаний"
 "Review","Отзыв"
 "Reviews","Отзывы"
 "Sales leaders","Лидеры продаж"
@@ -743,6 +743,8 @@ Pick up today from, Забрать сегодня с
 "Loading","Загрузка"
 "Show more","Показать больше"
 ComingSoon,Скоро в наличии
+"Buy all","Купить все"
+"In cart","В корзине"
 "Select another shop","Выбрать другой магазин"
 "Our stores","Наши магазины"
 "List","Cписком"

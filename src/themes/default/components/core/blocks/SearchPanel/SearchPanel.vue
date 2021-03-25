@@ -360,10 +360,6 @@ export default {
     border: none;
   }
 
-  .search-input {
-    border-bottom: 1px solid #E0E0E0;
-  }
-
   .search-panel-input {
     height: 47px;
     border: none;
