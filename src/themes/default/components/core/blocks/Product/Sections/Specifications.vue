@@ -20,7 +20,7 @@
 
 <script>
 import ProductAttribute from 'theme/components/core/ProductAttribute.vue';
-import { mapGetters } from 'vuex'
+import { mapGetters, mapState } from 'vuex'
 export default {
   components: {
     ProductAttribute
@@ -32,11 +32,24 @@ export default {
     }
   },
   computed: {
+    ...mapState({
+      groups: state => state.attribute.groups
+    }),
     ...mapGetters({
       getCurrentProduct: 'product/getCurrentProduct',
       attributesByCode: 'attribute/attributeListByCode'
     }),
     list () {
+      const g = this.groups.map(group => {
+        group.attributes = group.attributes.reduce((acc, attr) => {
+          console.log(attr.attribute_code)
+          console.log(this.attributesByCode);
+          acc.push(this.attributesByCode[attr.attribute_code])
+          return acc
+        }, [])
+        return group
+      })
+      console.log(this.groups, this.attributesByCode)
       return Object.values(this.attributesByCode).filter(a => {
         return a.is_visible && a.is_user_defined && (parseInt(a.is_visible_on_front) || a.is_visible_on_front === true) && this.getCurrentProduct[a.attribute_code]
       }).sort((a, b) => { return a.attribute_id > b.attribute_id })

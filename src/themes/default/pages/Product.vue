@@ -6,6 +6,7 @@
           <breadcrumbs v-if="!['mobile'].includes(screenResolution)" class="breadcrumbs"/>
           <mobile-breadcrumbs v-else />
         </div>
+        {{groups}}
         <div class="col-12">
           <section class="product-top-info">
             <no-ssr>
@@ -192,6 +193,7 @@ export default {
     if (context) context.output.cacheTags.add('product')
     const product = await store.dispatch('product/loadProduct', { parentSku: route.params.parentSku, childSku: route && route.params && route.params.childSku ? route.params.childSku : null })
     const loadBreadcrumbsPromise = store.dispatch('product/loadProductBreadcrumbs', { product })
+    await store.dispatch('attribute/getAttributeGroups', { attribute_set_id: product.attribute_set_id })
     await store.dispatch('themeCredit/fetchBanks', product.sku)
     if (isServer) await loadBreadcrumbsPromise
     catalogHooksExecutors.productPageVisited(product)
