@@ -27,10 +27,19 @@ export default {
           return ids;
         }, []));
         return acc;
-      }, []).flat();
+      }, []).reduce((acc, kit) => {
+        acc.push(kit);
+        return acc;
+      }, []);
     },
     getSelectedProducts () {
-      return [...this.getSelectedKitIds].map(id => this.kitProducts.find(p => p.kit_item_id === id));
+      const products = [];
+      if (this.getSelectedKitIds.length) {
+        this.getSelectedKitIds[0].forEach(id => {
+          products.push(this.kitProducts.find(p => p.kit_item_id === id));
+        });
+      }
+      return products;
     }
   },
   methods: {
