@@ -1,17 +1,20 @@
 <template>
   <div class="content">
     <h3 class="tab-title">{{ $t('SpecificationsTab') }}</h3>
-    <table class="attributes-table">
-      <tbody>
+    <div v-for="group in splicedList" :key="group.attribute_group_id" v-if="group.attrs.length">
+      <strong>{{group.label}}</strong>
+      <table class="attributes-table">
+        <tbody>
         <product-attribute
-          v-for="attr in splicedList"
+          v-for="attr in group.attrs"
           :key="attr.attribute_code"
           :product="getCurrentProduct"
           :attribute="attr"
           empty-placeholder="N/A"
         />
-      </tbody>
-    </table>
+        </tbody>
+      </table>
+    </div>
     <div v-if="!!count" @click="changeTab" class="tab-link">
       {{ $t('All Specifications') }}
     </div>
@@ -40,19 +43,21 @@ export default {
       attributesByCode: 'attribute/attributeListByCode'
     }),
     list () {
-      const g = this.groups.map(group => {
-        group.attributes = group.attributes.reduce((acc, attr) => {
-          console.log(attr.attribute_code)
-          console.log(this.attributesByCode);
-          acc.push(this.attributesByCode[attr.attribute_code])
-          return acc
-        }, [])
-        return group
+      const groups = []
+      this.groups.forEach(group => {
+        const attrs = []
+        group.attributes.forEach(attr => {
+          if (this.attributesByCode[attr]) {
+            attrs.push(this.attributesByCode[attr])
+          }
+        })
+        groups.push({ ...group, attrs: attrs })
       })
-      console.log(this.groups, this.attributesByCode)
-      return Object.values(this.attributesByCode).filter(a => {
-        return a.is_visible && a.is_user_defined && (parseInt(a.is_visible_on_front) || a.is_visible_on_front === true) && this.getCurrentProduct[a.attribute_code]
-      }).sort((a, b) => { return a.attribute_id > b.attribute_id })
+      console.log(groups);
+      return groups.sort((a, b) => { return a.sort_order > b.sort_order });
+      // return Object.values(this.attributesByCode).filter(a => {
+      //   return a.is_visible && a.is_user_defined && (parseInt(a.is_visible_on_front) || a.is_visible_on_front === true) && this.getCurrentProduct[a.attribute_code]
+      // }).sort((a, b) => { return a.attribute_id > b.attribute_id })
     },
     splicedList () {
       return !!this.count ? this.list.splice(0, this.count) : this.list
