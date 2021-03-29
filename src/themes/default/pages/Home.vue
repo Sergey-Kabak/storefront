@@ -343,7 +343,7 @@ export default {
       display: flex;
       justify-content: space-between;
       flex-wrap: wrap-reverse;
-      align-items: space-between;
+      align-items: flex-end;
       grid-column: span 2;
       box-sizing: border-box;
       background: #F6F7FA;

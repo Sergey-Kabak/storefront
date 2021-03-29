@@ -1,7 +1,7 @@
 import * as types from './mutation-types'
 import { StorageManager } from '@vue-storefront/core/lib/storage-manager'
 
-const mutationToWatch = [types.WISH_ADD_ITEM, types.WISH_DEL_ITEM, types.WISH_DEL_ALL_ITEMS]
+const mutationToWatch = [types.WISH_ADD_ITEM, types.WISH_DEL_ITEM, types.WISH_DEL_ALL_ITEMS, types.UPDATE_PRODUCTS]
   .map(m => `wishlist/${m}`)
 
 const whishListPersistPlugin = (mutation, state) => {
