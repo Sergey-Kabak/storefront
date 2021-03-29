@@ -229,6 +229,7 @@ export default {
   },
   async mounted () {
     await this.$store.dispatch('recently-viewed/addItem', this.getCurrentProduct);
+    this.GTM_REMARKETING({ sku: this.getCurrentProduct.sku, price: this.getCurrentProduct.finalPrice })
   },
   beforeDestroy () {
     this.$bus.$off('filter-on-change')
