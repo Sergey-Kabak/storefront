@@ -232,7 +232,8 @@ export default {
     })
   },
   mounted () {
-    this.$store.dispatch('recently-viewed/addItem', this.getCurrentProduct.image);
+    this.$store.dispatch('recently-viewed/addItem', this.getCurrentProduct);
+    this.GTM_REMARKETING({ sku: this.getCurrentProduct.sku, price: this.getCurrentProduct.finalPrice })
   },
   beforeDestroy () {
     this.$bus.$off('filter-on-change')
