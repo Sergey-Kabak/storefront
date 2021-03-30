@@ -1,5 +1,5 @@
 <template>
-  <modal name="modal-msi" class="modal-msi" :width="900">
+  <modal name="modal-msi" class="modal-msi" :width="533">
     <h3 slot="header" class="modal-msi_header align-center">
       Наличие товаров в магазине
     </h3>

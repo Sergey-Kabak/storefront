@@ -743,3 +743,6 @@ ComingSoon,Скоро в наличии
 "Select another shop","Выбрать другой магазин"
 "Our stores","Наши магазины"
 "List","Cписком"
+productsNotAvailable, Нет в наличии
+productsPartialAvailability, Частичное наличие
+productsAvailable, Все товары в наличии

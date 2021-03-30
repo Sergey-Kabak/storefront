@@ -9,7 +9,7 @@
               <button-full v-if="buttonVisible" @click.native="selectShop(shop)">{{ $t("Pick up here") }}</button-full>
             </div>
             <div class="ShopAvailability">
-              {{ ShopAvailability(shop, index) }}
+              <source-status :status="ShopAvailability(shop, index).status" />
             </div>
           </template>
         </shop>
@@ -23,13 +23,14 @@
 </template>
 
 <script>
-import {mapGetters, mapState} from 'vuex';
+import { mapGetters, mapState } from 'vuex';
 import Shop from 'theme/components/core/blocks/Shop/Shop.vue'
 import ShopControls from 'theme/components/core/blocks/Checkout/Shipping/ShopShipping/ShopControls.vue'
 import ShopMobile from 'theme/components/core/blocks/Checkout/Shipping/ShopShipping/ShopMobile.vue'
 import ShopMap from 'theme/components/core/blocks/Checkout/Shipping/ShopShipping/ShopMap.vue'
 import ButtonFull from 'theme/components/theme/ButtonFull'
 import ShopTitle from 'theme/components/core/blocks/Shop/ShopTitle.vue'
+import SourceStatus from './SourceStatus';
 
 export default {
   props: {
@@ -44,7 +45,8 @@ export default {
     ShopControls,
     ButtonFull,
     ShopTitle,
-    ShopMobile
+    ShopMobile,
+    SourceStatus
   },
   beforeMount() {
     this.$store.dispatch('checkoutPage/getShops', { city: this.city })
@@ -72,7 +74,18 @@ export default {
           }
         }
       }, [])
-      console.log(sources, this.productsInCart);
+
+      const status = {
+        productsNotAvailable: !sources || sources === 0,
+        productsPartialAvailability: sources !== 0 && sources !== this.productsInCart.length,
+        productsAvailable: sources === this.productsInCart.length
+      }
+      Object.keys(status).find(el => !!status[el])
+
+      return {
+        status: Object.keys(status).find(el => !!status[el]),
+        count: sources
+      }
     },
     changeActiveTab(activeTab) {
       this.activeTab = activeTab
@@ -107,6 +120,7 @@ export default {
 }
 
 .shop {
+  position: relative;
   display: grid;
   grid-template-columns: 1fr 1fr;
   border-bottom: 1px solid #E0E0E0;

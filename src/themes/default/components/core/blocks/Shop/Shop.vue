@@ -3,7 +3,6 @@
     <div class="shop-info">
       <slot name="title">
         <shop-title @click.native="activateShopOnMap()" :street="shop.street" class="shop-item title"/>
-        {{shop.source_code}}
       </slot>
       <slot name="phone">
         <shop-phone :phone="shop.phone" class="shop-item phone"/>
