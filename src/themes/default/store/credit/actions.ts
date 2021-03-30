@@ -18,12 +18,12 @@ const actions = {
           commit(types.CREDIT_SET_BANKS, { banks: res.result[0].bank })
           state.productSku = res.result[0].sku
           commit(types.CREDIT_SET_CREDIT_BANKS, { banks: [...res.result[0].bank].map(bank => {
-            if (bank.credits.find(credit => !!+credit.liqpay_allowed === false)) {
+            if (bank.credits.find(credit => !!+credit.liqpay_allowed === false && !!+credit.monobank_payparts === false)) {
               return bank;
             }
           }).filter(it => !!it) });
           commit(types.CREDIT_SET_PAYPARTS_BANKS, { banks: [...res.result[0].bank].map(bank => {
-            if (bank.credits.find(credit => !!+credit.liqpay_allowed === true)) {
+            if (bank.credits.find(credit => !!+credit.liqpay_allowed === true || !!+credit.monobank_payparts)) {
               return bank;
             }
           }).filter(it => !!it) });

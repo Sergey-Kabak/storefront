@@ -161,7 +161,7 @@ export default {
     },
     async onAfterPlaceOrder (payload) {
       await this.GTM_TRANSACTION({ id: payload.confirmation.orderNumber, revenue: this.totals.find(it => it.code === 'grand_total').value, products: payload.order.products })
-      if (['liqpaymagento_liqpay', 'temabit_payparts'].includes(payload.order.addressInformation.payment_method_code)) return
+      // if (['liqpaymagento_liqpay', 'temabit_payparts'].includes(payload.order.addressInformation.payment_method_code)) return
       this.$router.push({ path: this.localizedRoute('/thank-you-page'), query: { cartId: this.cartServerToken } })
       this.confirmation = payload.confirmation
       this.$store.dispatch('user/getOrdersHistory', { refresh: true, useCache: true })
@@ -331,6 +331,9 @@ export default {
         shippingAddress.street = billingAddress.street = [`${this.courierShipping.address.Description}, ${this.courierShipping.house}, ${this.courierShipping.apartmentNumber}`]
       }
       if (['credit', 'temabit_payparts'].includes(this.order.addressInformation.payment_method_code)) {
+        if (this.$store.state.themeCredit.selectedCredit.monobank_payparts === '1') {
+          this.order.addressInformation.payment_method_code = 'monobank'
+        }
         this.order.addressInformation.payment_method_additional = { ...this.$store.state.themeCredit.creditDetails }
         this.order.addressInformation.payment_method_additional['credit_id'] = this.$store.state.themeCredit.selectedCredit.credit_id
         this.order.addressInformation.payment_method_additional['terms'] = this.$store.state.themeCredit.selectedCredit.terms
