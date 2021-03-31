@@ -1,14 +1,14 @@
 <template>
   <div class="promotional-card">
     <div class="promotional-image">
-      <router-link :to="`/promo/${promotional.url}`">
+      <router-link :to="localizedRoute(promotional.url)">
         <promotional-image image-entity="promotional" :image="image"/>
       </router-link>
     </div>
     <div class="promotional-content">
       <span class="promotional-title" :title="promotional.name">{{ promotional.name }}</span>
       <promotional-date :fromDate="promotional.from_date" :toDate="promotional.to_date"/>
-      <router-link :to="`/promo/${promotional.url}`">
+      <router-link :to="localizedRoute(promotional.url)">
         <button-full class="button-details">{{ $t('Details') }}</button-full>
       </router-link>
     </div>
