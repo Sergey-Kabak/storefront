@@ -361,6 +361,7 @@ Erin recommends,Erin рекомендует
 Error while sending reset password e-mail,Произошла ошибка при отправке сброса пароля на электронную почту
 Everything new,Новинки
 Field is required,Обязательное поле
+Invalid INN,Не правильно указан ИНН
 Filter,Фильтр
 Filters,Фильтры
 First name *,Имя *
@@ -434,6 +435,7 @@ Payment method,Способ оплаты
 Payment,Платеж
 Personal Details,Личная информация
 Phone Number,Номер телефона
+"Phone Number *","Номер телефона *"
 Phone number may be needed by carrier,Номер телефона может понадобиться курьеру
 Place the order,Оформить заказ
 Please check if all data are correct,Пожалуйста проверьте корректность введенных данных
@@ -576,14 +578,68 @@ Compare,Сравнение товаров
 No differences,Различий нет
 "Department","Отделение"
 "Number or address of New Post","Номер или адрес Новой Почты"
+"Number or address of Justin","Номер или адрес отделения Justin"
 "schedule","Пн-Пт: {mon}; Сб: {sat}; Вс: {sun}"
 "weekend","Выходной"
+"Please, enter your account details","Пожалуйста, введите данные своей учетной записи"
+"Restore password","Восстановить пароль"
+"Sign in","Вход"
+"Sign up","Регистрация"
+"my-account","Мой аккаунт"
+"my-orders","Мои заказы"
+"my-recently-viewed","Просмотренные товары"
+"my-cards","Мои карты"
+"my-security","Безопасность"
+"my-reviews","Мои отзывы",
+"my-notifications","Рассылки"
+"birthday","Дата рождения"
+"not specified","Не указано"
+"gender","Пол"
+"save","Сохранить"
+"address","Адрес"
+"main","Основной"
+"house.","дои"
+"appartNumber","кв.",
+"house","Дом",
+"apparment","Квартира"
+"remove address","Удалить адрес"
+"use by default","Использовать по умолчанию"
+"default address","Адрес по умолчанию"
+"add address","Добавить адрес"
+"undo","Отменить"
+"social networks","Социальные сети"
+"cancel connection","Отменить связь"
+"canceled","Отмененный"
+"processing","Обрабатывается"
+"complete","Доставлен"
+"pending","Создан"
+"personal data","Личные данные"
+"contacts","Контакты"
+"phone","Телефон",
+"you dont have saved addresses","У вас нет сохраненных адресов"
+"remove account","Удалить аккаунт"
+"you dont have orders yet","У вас пока нет заказов"
+"make your","Сделайте свою"
+"first purchase","первую покупку"
+"right now","прямо сейчас"
+"start","Начать"
+"cancel order","Отменить заказ"
+"reset password description","Для изменения пароля введите, пожалуйста, e-mail или номер мобильного телефона, указанный вами при регистрации"
+"no viewed products yet","Нет просмотренных товаров"
+"no viewed products description","Но это можно исправить"
+"find product","Найти товар"
+"your password","Ваш пароль"
+"password change","Смена пароля"
+"current password","Текущий пароль"
+"new password","Новый пароль"
+"repeat new password","Повторите новый пароль"
 "Remove from favorite",Удалить из избранного
 "Load more","Загрузить еще"
 "find product or brand","Найти продукт или бренд"
 "at your request","По Вашему запросу"
 "nothing found","ничего не найдено"
 "may suit you","Вам может подойти"
+"my-order","Заказ"
 "partial availability","Частичное наличие"
 "pre order", Предзаказ
 "pending delivery",Ожидается поставка
@@ -626,6 +682,13 @@ collapse,"Свернуть"
 "We will fix it soon","Мы скоро это исправим"
 "We try hard:","мы очень стараемся:"
 "And will finish soon:","и скоро закончим:"
+"male","Мужской"
+"femail","Женский"
+"Address deleted successfully","Адрес успешно удален"
+"The account sign-in was incorrect or your account is disabled temporarily. Please wait and try again later.","Пожалуйста, введите правильный email и пароль."
+"The password doesn't match this account. Verify the password and try again.","Пароль не соответствует этой учетной записи. Проверьте пароль и попробуйте еще раз."
+"A customer with the same email address already exists in an associated website.","Клиент с таким же адресом электронной почты уже существует."
+"Are you sure you want to delete account?","Вы уверены, что хотите удалить аккаунт?"
 "Gift!",Подарок!
 "and",и
 "as a gift",в подарок!
@@ -639,6 +702,7 @@ AccessoriesTab,Аксессуары
 ReviewsTab,Отзывы
 All Specifications,Все характеристики
 "Left {count} day","Акция закончилась | {count} день | {count} дня | {count} дней"
+"End today","Акция заканчивается сегодня"
 "From","с"
 "To","по"
 "Gift","Подарок"
@@ -655,9 +719,16 @@ All Specifications,Все характеристики
 "November {count}","ноябрь | ноября | ноября"
 "December {count}","декабрь | декабря | декабря"
 TVs,Телевизоры
+"to the website","На сайт",
+"Password successfully changed","Пароль успешно изменен!"
+"All orders","Все заказы"
+"Are you sure you want to cancel order?","Вы уверены, что хотите отменить заказ?"
+"Registering the account ...", "Регистрация аккаунта"
+"Processing order...","Оформление заказа"
+"Order successfuly canceled","Заказ успешно отменен"
+"hello","привет"
+"Password has successfully been changed","Пароль был успешно изменен"
+"Do you really want to delete recently viewed products?","Вы действительно хотите удалить недавно просмотренные товары?"
+"You haven't left a review yet","Вы еще не оставляли отзывов"
 Pick up today from, Забрать сегодня с
-"let's subscribe","Подписаться"
-"subscribe details","Подписывайся, чтобы всегда быть в курсе!"
-"new features and propositions","Новинки, скидки и лучшие предложения для вас"
-"you have subscribed","Подписка успешно оформлена."
-"check your email and confirm {email}","Проверьте Ваш почтовый ящик {email} и подтвердите свой E-mail"
+ComingSoon,Скоро в наличии

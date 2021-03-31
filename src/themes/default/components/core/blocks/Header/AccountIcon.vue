@@ -22,23 +22,6 @@
       </svg>
 
     </button>
-
-    <no-ssr>
-      <div v-show="currentUser" :class="['dropdown-content bg-cl-primary align-left sans-serif lh20 weight-400', !showMenu ? 'dropdown-content__hidden' : '']">
-        <div class="py5">
-          <div v-for="(page, index) in navigation" :key="index" @click="notify(page.title)">
-            <router-link @click.native="showMenu = false" class="no-underline block py10 px15" :to="localizedRoute(page.link)">
-              {{ page.title }}
-            </router-link>
-          </div>
-        </div>
-        <div class="py5 brdr-top-1 brdr-cl-bg-secondary">
-          <a href="#" class="no-underline block py10 px15" @click.prevent="logout">
-            {{ $t('Logout') }}
-          </a>
-        </div>
-      </div>
-    </no-ssr>
   </div>
 </template>
 
@@ -55,13 +38,7 @@ export default {
     return {
       showMenu: false,
       navigation: [
-        { title: this.$t('My profile'), link: '/my-account' },
-        { title: this.$t('My shipping details'), link: '/my-account/shipping-details' },
-        { title: this.$t('My newsletter'), link: '/my-account/newsletter' },
-        { title: this.$t('My orders'), link: '/my-account/orders' },
-        { title: this.$t('My loyalty card'), link: '#' },
-        { title: this.$t('My product reviews'), link: '#' },
-        { title: this.$t('My Recently viewed products'), link: '/my-account/recently-viewed' }
+        { title: this.$t('My profile'), link: '/account' }
       ]
     }
   },
@@ -87,6 +64,7 @@ $color-icon-hover: color(secondary, $colors-background);
 $green: color(main-green);
 
 .dropdown {
+  outline: none;
   &:hover {
     background-color: transparent !important;
     .acc-link {
@@ -97,6 +75,7 @@ $green: color(main-green);
   }
 
   button {
+    display: inline-flex;
     pointer-events: none;
   }
 
@@ -135,6 +114,5 @@ $green: color(main-green);
       }
     }
   }
-
 }
 </style>

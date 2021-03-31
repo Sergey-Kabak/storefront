@@ -17,14 +17,14 @@
               </svg>
             </li>
           </ul>
-          <div class="product-tabs_action">
-            <strong class="product-price">
-              {{getCurrentProduct.final_price | price}}
-            </strong>
-            <add-to-cart :product="getCurrentProduct" :showIcon="false">
-              <template v-if="ProductStock === 'PendingDelivery'" v-slot:text>{{$t('pre order')}}</template>
-            </add-to-cart>
-          </div>
+<!--          <div class="product-tabs_action">-->
+<!--            <strong class="product-price">-->
+<!--              {{getCurrentProduct.final_price | price}}-->
+<!--            </strong>-->
+<!--            <add-to-cart :product="getCurrentProduct" :showIcon="false">-->
+<!--              <template v-if="ProductStock === 'PendingDelivery'" v-slot:text>{{$t('pre order')}}</template>-->
+<!--            </add-to-cart>-->
+<!--          </div>-->
         </div>
       </div>
     </div>

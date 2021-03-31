@@ -8,7 +8,20 @@ const Category = () => import(/* webpackChunkName: "vsf-category" */ 'theme/page
 const CmsPage = () => import(/* webpackChunkName: "vsf-cms" */ 'theme/pages/CmsPage.vue');
 const Checkout = () => import(/* webpackChunkName: "vsf-checkout" */ 'theme/pages/Checkout.vue');
 const Compare = () => import(/* webpackChunkName: "vsf-compare" */ 'theme/pages/Compare.vue');
+const ResetPassword = () => import(/* webpackChunkName: "vsf-reset-password" */ 'theme/pages/ResetPassword.vue');
+
+// ACCOUNT
 const MyAccount = () => import(/* webpackChunkName: "vsf-my-account" */ 'theme/pages/MyAccount.vue');
+const MyProfile = () => import(/* webpackChunkName: "vsf-my-shipping-details" */ 'theme/components/core/blocks/MyAccount/MyProfile/MyProfile.vue');
+const MyOrders = () => import(/* webpackChunkName: "vsf-my-shipping-details" */ 'theme/components/core/blocks/MyAccount/MyOrders.vue');
+const MyOrder = () => import(/* webpackChunkName: "vsf-my-shipping-details" */ 'theme/components/core/blocks/MyAccount/MyOrder.vue');
+const MyRecentlyViewed = () => import(/* webpackChunkName: "vsf-my-shipping-details" */ 'theme/components/core/blocks/MyAccount/MyRecentlyViewed.vue');
+const MyCards = () => import(/* webpackChunkName: "vsf-my-shipping-details" */ 'theme/components/core/blocks/MyAccount/MyCards.vue');
+const MySecurity = () => import(/* webpackChunkName: "vsf-my-shipping-details" */ 'theme/components/core/blocks/MyAccount/MySecurity.vue');
+const MyReviews = () => import(/* webpackChunkName: "vsf-my-shipping-details" */ 'theme/components/core/blocks/MyAccount/MyReviews.vue');
+const MyNotifications = () => import(/* webpackChunkName: "vsf-my-shipping-details" */ 'theme/components/core/blocks/MyAccount/MyNotifications.vue');
+
+// STATIC
 const BrandPortal = () => import(/* webpackChunkName: "vsf-static" */ 'theme/pages/BrandPortal.vue');
 const ThankYouPage = () => import(/* webpackChunkName: "vsf-static" */ 'theme/pages/ThankYouPage.vue');
 const UnderConstruction = () => import(/* webpackChunkName: "vsf-static" */ 'theme/pages/UnderConstruction.vue');
@@ -20,7 +33,79 @@ let routes = [
   { name: 'checkout', path: '/checkout', component: Checkout, meta: { name: 'checkout', layout: 'minimal' } },
   { name: 'thank-you-page', path: '/thank-you-page', component: ThankYouPage, meta: { name: 'thank-you-page', layout: 'minimal' } },
   { name: 'brand-portal', path: '/brand-portal/:brandId', component: BrandPortal, meta: { name: 'brand portal' } },
-  { name: 'my-account', path: '/my-account', component: MyAccount },
+  {
+    name: 'my-account',
+    component: MyAccount,
+    path: '/account',
+    redirect: '/account/personal-data',
+    children: [
+      {
+        name: 'my-account',
+        path: 'personal-data',
+        component: MyProfile,
+        meta: (route) => ([
+          { name: 'my-account', link: '/account/personal-data' }
+        ])
+      },
+      {
+        name: 'my-orders',
+        path: 'orders',
+        component: MyOrders,
+        meta: (route) => ([
+          { name: 'my-orders', link: '/account/orders' }
+        ])
+      },
+      {
+        name: 'my-order',
+        path: 'orders/:orderId',
+        component: MyOrder,
+        meta: (route) => ([
+          { name: 'my-orders', link: '/account/orders' },
+          { name: 'my-order', id: route.params.orderId, link: `/account/orders/${route.params.orderId}` }
+        ])
+      },
+      {
+        name: 'my-recently-viewed',
+        path: 'recently-viewed',
+        component: MyRecentlyViewed,
+        meta: (route) => ([
+          { name: 'my-recently-viewed', link: '/account/recently-viewed' }
+        ])
+      },
+      {
+        name: 'my-cards',
+        path: 'cards',
+        component: MyCards,
+        meta: (route) => ([
+          { name: 'my-cards', link: '/account/cards' }
+        ])
+      },
+      {
+        name: 'my-security',
+        path: 'security',
+        component: MySecurity,
+        meta: (route) => ([
+          { name: 'my-security', link: '/account/security' }
+        ])
+      },
+      {
+        name: 'my-reviews',
+        path: 'reviews',
+        component: MyReviews,
+        meta: (route) => ([
+          { name: 'my-reviews', link: '/account/reviews' }
+        ])
+      },
+      {
+        name: 'my-notifications',
+        path: 'notifications',
+        component: MyNotifications,
+        meta: (route) => ([
+          { name: 'my-notifications', link: '/account/notifications' }
+        ])
+      }
+    ]
+  },
   { name: 'my-shipping-details', path: '/my-account/shipping-details', component: MyAccount, props: { activeBlock: 'MyShippingDetails' } },
   { name: 'my-newsletter', path: '/my-account/newsletter', component: MyAccount, props: { activeBlock: 'MyNewsletter' } },
   { name: 'my-orders', path: '/my-account/orders', component: MyAccount, props: { activeBlock: 'MyOrders' } },
@@ -39,6 +124,7 @@ let routes = [
   { name: 'cms-page', path: '/info/:slug', component: CmsPage, meta: { name: 'cms page' } },
   { name: 'page-not-found', path: '*', component: PageNotFound },
   { name: 'page-not-found', path: '/under-construction', component: UnderConstruction },
+  { name: 'reset-password', path: '/reset-password', component: ResetPassword },
   { path: '/ua/shops.html', redirect: '/' },
   { path: '/magazyny', redirect: '/' }
 ];

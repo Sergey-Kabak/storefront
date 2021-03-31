@@ -75,7 +75,7 @@
 "Homepage","Головна"
 "How do you want to receive your order?","Як хочете отримати ваше замовлення?"
 "I want to receive a newsletter, and agree to its terms",Я хочу підписатися на розсилку новин і погоджуюсь з умовами її отримання
-"INN","ІНН"
+"INN","ІПН"
 "In credit","У кредит"
 "In stock","В наявності"
 "InStock","В наявності"
@@ -101,6 +101,7 @@
 "Novaya Pochta(Branch)","Нова Пошта(Відділення)"
 "Number of payments","Кількість платежів"
 "Number or address of New Post","Номер або адреса Нової Пошти"
+"Number or address of Justin","Номер або адреса відділення Justin"
 "Olive","Оливковий"
 "On map":"На мапі"
 "Only today","Лише сьогодні"
@@ -139,7 +140,7 @@
 "Recently viewed","Нещодавно переглянуті"
 "Recommend to buy","Рекомендуємо придбати"
 "Red","Червоний"
-"Registering, you are accepting","Регеструючись,ви приймаєте умови"
+"Registering, you are accepting","Регеструючись, ви приймаєте умови"
 "Registrate","Зареєструватися"
 "Remove from favorite","Видалити з обраного"
 "Remove from wishlist?","Видалити із списку бажань?"
@@ -264,6 +265,7 @@
 "st.","вул."
 "still on",ще на
 "stores text","Вибирайте найближчий магазин зв’язку ringoo з 118 торгових точок у 21 області та 70 містах України."
+"street","Вулиця"
 "street","Вул"
 "surname",По батькові
 "temabit_payparts","Оплата частинами"
@@ -345,9 +347,10 @@ Erin recommends,Erin рекомендує
 Error while sending reset password e-mail,Сталася помилка при відправленні даних зі зміни пароля на електронну пошту
 Everything new,Новинки
 Field is required,Обов'язкове поле
+Invalid INN,Не вірно вказан ІПН
 Filter,Фільтр
 Filters,Фільтри
-First name *,Ім`я *
+First name *,Ім'я *
 First name,Ім'я
 Forgot the password?,Забули пароль?
 From date, з
@@ -407,7 +410,7 @@ Open microcart,Відкрити корзину
 Open my account,Відкрити особистий кабінет
 Open search panel,Відкрити панель пошуку
 Open wishlist,Відкрити список побажань
-Order #{id},Замовлення # {id}
+Order №{id},Замовлення №{id}
 Order ID,ID замовлення
 Order Summary,Підсумок замовлення
 Order informations,Інформація про замовлення
@@ -419,6 +422,7 @@ Payment method,Спосіб оплати
 Payment,Платіж
 Personal Details,Особиста інформація
 Phone Number,Номер телефону
+"Phone Number *","Номер телефону *"
 Phone number may be needed by carrier,Номер телефону може знадобитися кур'єру
 Place the order,Оформити замовлення
 Please check if all data are correct,Будь ласка перевірте коректність введених даних
@@ -582,6 +586,58 @@ The requested qty is not available,"Бажана кількість товару
 "Department","Відділення"
 "schedule","Пн-Пт: {mon}; Сб: {sat}; Нд: {sun}"
 "weekend","Вихідний"
+"Please, enter your account details","Будь-ласка, введіть дані свого облікового запису"
+"Restore password","Відновити пароль"
+"Sign in","Вхід"
+"Sign up","Реєстрація"
+"my-account","Мій аккаунт"
+"my-orders","Мої замовлення"
+"my-recently-viewed","Переглянуті товари"
+"my-cards","Мої картки"
+"my-security","Безпека"
+"my-reviews","Мої відгуки",
+"my-notifications","Мої сповіщення"
+"birthday","Дата народження"
+"not specified","Не вказано"
+"gender","Стать"
+"save","Зберегти"
+"address","Адрес"
+"main","Основний"
+"house.","буд."
+"appartNumber","кв.",
+"house","Будинок",
+"apparment","Квартира"
+"remove address","Видалити адресу"
+"use by default","Використовувати за замовчуванням"
+"default address","Адреса за замовчуванням"
+"add address","Додати адресу"
+"undo","Відмінити"
+"social networks","Соціальні мережі"
+"cancel connection","Відмінити зв’язок"
+"canceled","Скасований"
+"processing","Обробляється"
+"complete","Доставлений"
+"pending","Створений"
+"personal data","Особисті дані"
+"contacts","Контакти"
+"phone","Телефон",
+"you dont have saved addresses","У вас немає збережених адрес"
+"remove account","Видалити аккаунт"
+"you dont have orders yet","У вас поки немає замовлень"
+"make your","Зробіть свою"
+"first purchase","першу покупку"
+"right now","прямо зараз"
+"start","Почати"
+"cancel order","Скасувати замовлення"
+"reset password description","Для зміни пароля введіть, будь ласка, e-mail або номер мобільного телефону, вказаний вами при реєстрації"
+"no viewed products yet","Немає переглянутих товарів"
+"no viewed products description","Але це можна виправити"
+"find product","Знайти товар"
+"your password","Ваш пароль"
+"password change","Зміна паролю"
+"current password","Поточний пароль"
+"new password","Новий пароль"
+"repeat new password","Повторіть новий пароль"
 "Remove from favorite","Видалити з обраного"
 "Add to favorite","Додати в обране"
 "Load more","Завантажити ще"
@@ -589,6 +645,7 @@ The requested qty is not available,"Бажана кількість товару
 "at your request","За вашим запитом"
 "nothing found","нічого не знайдено"
 "may suit you","Вам може підійти"
+"my-order","Замовлення"
 "pre order", Передзамовлення
 added {count} items,Товари не знайдені | Додано {count} товар | Додано {count} товари | Додано {count} товарів
 add more to comapre,Додати ще товар до порівняння
@@ -615,7 +672,7 @@ No differences,Відмінностей немає
 "Loan processing","Оформлення кредиту"
 "FIO","ФІО"
 "date of birth","Дата народження"
-"INN","ІНН"
+"INN","ІПН"
 "surname",По батькові
 "{count} payment","{count} платежів | {count} платіж | {count} платежа | {count} платежів"
 "short month","міс"
@@ -641,6 +698,13 @@ No differences,Відмінностей немає
 "Page under construction.","Сторінка в розробці."
 "We try hard:","ми дуже стараємось:"
 "And will finish soon:","і скоро закінчимо:"
+"male","Чоловіча"
+"female","Жіноча"
+"Address deleted successfully","Адрес успішно видалений"
+"The account sign-in was incorrect or your account is disabled temporarily. Please wait and try again later.","Будь-ласка, введіть правильний email та пароль."
+"The password doesn't match this account. Verify the password and try again.","Пароль не відповідає цьому обліковому запису. Перевірте пароль і повторіть спробу."
+"A customer with the same email address already exists in an associated website.","Клієнт з цією ж адресою електронної пошти вже існує."
+"Are you sure you want to delete account?","Ви впевнені, що хочете видалити аккаунт?"
 "Gift!",Подарунок!
 "and",і
 "as a gift",у подарунок!
@@ -657,6 +721,7 @@ TVs,Телевізори,
 Pick up today from, Забрати сьогодні з
 "{count} days left","Акція закінчилась | Залишився {count} день | Залишилось {count} дні | Залишилось {count} днів"
 "Left {count} day","Акція закінчилась | {count} день | {count} дні | {count} днів"
+"End today","Акція закінчується сьогодні"
 "From","з"
 "To","по"
 "Gift","Подарунок"
@@ -672,8 +737,15 @@ Pick up today from, Забрати сьогодні з
 "October {count}","жовтень | жовтня | жовтня"
 "November {count}","листопад | листопада | листопада"
 "December {count}","грудень | грудня | грудня"
-"let's subscribe","Підписатись"
-"subscribe details","Підписуйся, щоб завжди бути в курсі!"
-"new features and propositions","Новинки, знижки і найкращі пропозиції для вас"
-"you have subscribed","Підписка успішно оформлена."
-"check your email and confirm {email}","Перевірте Вашу поштову скриньку {email} і підтвердіть свій E-mail"
+"to the website","На сайт"
+"Password successfully changed","Пароль успішно змінений!"
+"All orders","Всі замовлення"
+"Are you sure you want to cancel order?","Ви впевнені, що хочете скасувати замовлення?"
+"Registering the account ...","Реєстрація аккаунту"
+"Processing order...","Оформлення замовлення"
+"Order successfuly canceled","Замовлення успішно скасовано"
+"hello","привіт"
+"Password has successfully been changed","Пароль був успішно змінений"
+"Do you really want to delete recently viewed products?","Ви дійсно хочете видалити нещодавно переглянуті товари?"
+"You haven't left a review yet","Ви ще не залишили відгуки"
+ComingSoon,Скоро в наявності

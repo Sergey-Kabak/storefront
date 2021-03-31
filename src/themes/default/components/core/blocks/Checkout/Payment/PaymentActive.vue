@@ -33,6 +33,7 @@ import PaymentRadio from 'theme/components/core/blocks/Checkout/Payment/PaymentR
 import Credit from 'theme/components/core/blocks/Checkout/Credits/CreditMethod';
 import Liqpay from 'src/modules/payment-liqpay/components/Liqpay.vue';
 import PaymentButton from './PaymentButton';
+import config from 'config';
 
 export default {
   components: {
@@ -59,10 +60,13 @@ export default {
     isMarketplace () {
       return this.cartItems.some(it => +it.marketplace)
     },
+    isLiqpayEnabled () {
+      return this.isMarketplace ? config.liqpay_enabled.liqpay_marketplace : config.liqpay_enabled.liqpay
+    },
     methods () {
       const methods = {
         'cashondelivery': true,
-        'liqpaymagento_liqpay': !['freeshipping'].includes(this.selectedShipping.method_code) && !this.isMarketplace,
+        'liqpaymagento_liqpay': !['freeshipping'].includes(this.selectedShipping.method_code) && this.isLiqpayEnabled,
         'temabit_payparts': this.getPaypartsBanks.length,
         'credit': this.selectedShipping.method_code === 'freeshipping' && this.getCreditBanks.length
       }

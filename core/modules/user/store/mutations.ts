@@ -1,3 +1,4 @@
+import Vue from 'vue'
 import {MutationTree} from 'vuex'
 import * as types from './mutation-types'
 import UserState from '../types/UserState'
@@ -36,6 +37,15 @@ const mutations: MutationTree<UserState> = {
   },
   [types.USER_LOCAL_DATA_LOADED] (state, readed = false) {
     state.local_data_loaded = readed
+  },
+  [types.USER_ORDER_STATUS_CHANGED] (state, { orderId, status }) {
+    const orderIndex = state.orders_history.items.findIndex(it => it.entity_id === orderId)
+    if (orderIndex !== -1) {
+      Vue.set(state.orders_history.items, orderIndex, {
+        ...state.orders_history.items[orderIndex],
+        status
+      })
+    }
   }
 }
 

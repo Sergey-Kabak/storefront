@@ -1,336 +1,560 @@
 <template>
-  <div class="mb35" v-if="order">
-    <!-- My order header -->
-    <div class="row mb15">
-      <div class="col-xs-12 col-md-2 col-lg-1">
-        <return-icon class="p12 icon pointer" />
-      </div>
-      <div class="col-xs-12 col-md-6">
-        <h3 class="m0 mb5 mt5">
-          {{ $t('Order #{id}', { id: order.increment_id }) }}
-          <span class="brdr-1 brdr-cl-bg-secondary py5 px10 ml20 sans-serif fs-medium-small weight-400 cl-secondary">
-            {{ order.status | capitalize }}
-          </span>
-        </h3>
-      </div>
+  <div class="order-wrapper">
+    <div class="order-title">
+      <router-link class="order-title-link" to="/account/orders">
+        <icon-base class="order-title-icon"> <arrow-left-icon /> </icon-base>
+        <span class="order-title-text">{{ $t('All orders') }}</span>
+      </router-link>
     </div>
-    <!-- My order body -->
-    <div class="row fs16 mb20">
-      <div class="col-xs-12 h4">
-        <p>{{ order.created_at | date('LLL', storeView) }}</p>
-        <p class="mt35">
-          <a href="#" class="underline" @click.prevent="remakeOrder(singleOrderItems)">{{ $t('Remake order') }}</a>
-        </p>
-      </div>
-    </div>
-    <div class="row fs16 mb35">
-      <div class="col-xs-12 h4">
-        <h4>{{ $t('Items ordered') }}</h4>
-        <table class="brdr-1 brdr-cl-bg-secondary">
-          <thead>
-            <tr>
-              <th class="serif lh20">
-                {{ $t('Product Name') }}
-              </th>
-              <th class="serif lh20">
-                {{ $t('SKU') }}
-              </th>
-              <th class="serif lh20">
-                {{ $t('Price') }}
-              </th>
-              <th class="serif lh20">
-                {{ $t('Qty') }}
-              </th>
-              <th class="serif lh20">
-                {{ $t('Subtotal') }}
-              </th>
-              <th class="serif lh20">
-                {{ $t('Thumbnail') }}
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr class="brdr-top-1 brdr-cl-bg-secondary" v-for="item in singleOrderItems" :key="item.item_id">
-              <td class="fs-medium lh25" :data-th="$t('Product Name')">
-                {{ item.name }}
-              </td>
-              <td class="fs-medium lh25" :data-th="$t('SKU')">
-                {{ item.sku }}
-              </td>
-              <td class="fs-medium lh25" :data-th="$t('Price')">
-                {{ item.price_incl_tax | price(storeView) }}
-              </td>
-              <td class="fs-medium lh25 align-right" :data-th="$t('Qty')">
-                {{ item.qty_ordered }}
-              </td>
-              <td class="fs-medium lh25" :data-th="$t('Subtotal')">
-                {{ item.row_total_incl_tax | price(storeView) }}
-              </td>
-              <td class="fs-medium lh25">
-                <product-image :image="{src: itemThumbnail[item.sku]}" />
-              </td>
-            </tr>
-          </tbody>
-          <tfoot>
-            <tr class="brdr-top-1 brdr-cl-bg-secondary">
-              <td colspan="5" class="align-right">
-                {{ $t('Subtotal') }}
-              </td>
-              <td>{{ order.subtotal | price(storeView) }}</td>
-            </tr>
-            <tr>
-              <td colspan="5" class="align-right">
-                {{ $t('Shipping') }}
-              </td>
-              <td>{{ order.shipping_amount | price(storeView) }}</td>
-            </tr>
-            <tr>
-              <td colspan="5" class="align-right">
-                {{ $t('Tax') }}
-              </td>
-              <td>{{ order.tax_amount + order.discount_tax_compensation_amount | price(storeView) }}</td>
-            </tr>
-            <tr v-if="order.discount_amount">
-              <td colspan="5" class="align-right">
-                {{ $t('Discount') }}
-              </td>
-              <td>{{ order.discount_amount | price(storeView) }}</td>
-            </tr>
-            <tr>
-              <td colspan="5" class="align-right">
-                {{ $t('Grand total') }}
-              </td>
-              <td>{{ order.grand_total | price(storeView) }}</td>
-            </tr>
-          </tfoot>
-        </table>
-      </div>
-    </div>
-    <div class="row fs16 mb35">
-      <div class="col-xs-12 h4">
-        <h4>{{ $t('Order informations') }}</h4>
-        <div class="row">
-          <div class="col-sm-6 col-md-3" v-if="shippingAddress">
-            <h5>{{ $t('Shipping address') }}</h5>
-            <address>
-              <p>{{ shippingAddress.firstname }} {{ shippingAddress.lastname }}</p>
-              <p>{{ shippingAddress.street[0] }} {{ shippingAddress.street[1] }}</p>
-              <p>{{ shippingAddress.postcode }} {{ shippingAddress.city }}</p>
-              <p>{{ shippingAddress.country }}</p>
-            </address>
-          </div>
-          <div class="col-sm-6 col-md-3" v-if="order.shipping_description">
-            <h5>{{ $t('Shipping method') }}</h5>
-            <p>{{ order.shipping_description }}</p>
-          </div>
-          <div class="col-sm-6 col-md-3">
-            <h5>{{ $t('Billing address') }}</h5>
-            <address>
-              <p>{{ billingAddress.firstname }} {{ billingAddress.lastname }}</p>
-              <p>{{ billingAddress.street[0] }} {{ billingAddress.street[1] }}</p>
-              <p>{{ billingAddress.postcode }} {{ billingAddress.city }}</p>
-              <p>{{ billingAddress.country }}</p>
-            </address>
-          </div>
-          <div class="col-sm-6 col-md-3">
-            <h5>{{ $t('Payment method') }}</h5>
-            <p>{{ paymentMethod }}</p>
+    <div class="order" v-if="order">
+      <div class="order-info">
+          <div class="thank-you-body">
+            <div class="thank-you-row">
+              <span class="left">{{ $t('Contact details') }}: </span>
+              <div class="middle">
+                <span>{{ order.billing_address.firstname }} {{ order.billing_address.lastname }}, {{ order.billing_address.telephone }}</span>
+                <span>{{ order.billing_address.email }}</span>
+              </div>
+            </div>
+            <div class="thank-you-row">
+              <span class="left">{{ $t('Payment method') }}: </span>
+              <span class="middle">{{ $t(order.payment.method) }}</span>
+              <span class="right pay-status" :class="status" v-if="status"> {{ $t(status) }} </span>
+            </div>
+            <div class="thank-you-row">
+              <span class="left">{{ $t('Shipping method') }}: </span>
+              <span class="middle">{{ $t(shippingMethod) }}</span>
+              <span class="right label-free"> {{ $t('free') }} </span>
+            </div>
+            <div class="thank-you-row">
+              <span class="left">{{ $t('Shipping address') }}: </span>
+              <span class="middle">{{ order.billing_address.street && order.billing_address.street[0] }} {{ order.billing_address.street && order.billing_address.street[1] }}</span>
+            </div>
           </div>
         </div>
+      <div class="summary">
+        <ul class="products" v-if="order.items.length">
+          <li class="products-title">{{ $t('Products') }}</li>
+          <li class="product-item-row" v-for="product in filterOrderItems(order.items)" :key="product.server_item_id || product.id">
+            <product-image :image="image(product)"/>
+            <div class="product-info">
+              <span class="product-name">
+                {{ product.name | htmlDecode }}
+              </span>
+              <span class="qty">
+                {{ product.qty_ordered }}&nbsp;{{ $t('pc.') }}
+              </span>
+              <div class="prices">
+                <span class="price-original" :class="{ 'old-price': product.original_price > product.price }">
+                  {{ product.original_price | price(storeView) }}
+                </span>
+                <span class="price-special" v-if="product.original_price > product.price">
+                  {{ product.price | price(storeView) }}
+                </span>
+                <span class="price-discount" v-if="product.original_price > product.price">
+                  -{{ discount(product) }} %
+                </span>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+      <div class="cancel-order" v-if="canCancel(order.status)" @click="cancelOrder()">
+        <span class="cancel-order-text">{{ $t('cancel order') }}</span>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import Vue from 'vue';
 import MyOrder from '@vue-storefront/core/compatibility/components/blocks/MyAccount/MyOrder';
-import ReturnIcon from 'theme/components/core/blocks/Header/ReturnIcon';
 import ProductImage from 'theme/components/core/ProductImage';
-import {
-  getThumbnailPath,
-  productThumbnailPath
-} from '@vue-storefront/core/helpers';
+import IconBase from 'theme/components/theme/IconBase';
 import { currentStoreView } from '@vue-storefront/core/lib/multistore';
-import { mapActions } from 'vuex';
+import { ArrowLeftIcon } from 'theme/assets/account/index';
 
 export default {
   mixins: [MyOrder],
   components: {
-    ReturnIcon,
-    ProductImage
+    ProductImage,
+    IconBase,
+    ArrowLeftIcon
   },
-  data () {
-    return {
-      itemThumbnail: []
-    }
-  },
+  data: () => ({
+    status: null
+  }),
   computed: {
     storeView () {
       return currentStoreView()
+    },
+    shippingMethod() {
+      return this.order.extension_attributes.shipping_assignments && this.order.extension_attributes.shipping_assignments[0] && this.order.extension_attributes.shipping_assignments[0].shipping.method
+    },
+    isMarketplace () {
+      return this.order.items.some(it => it.extension_attributes.marketplace)
+    }
+  },
+  async mounted() {
+    if (this.order.payment.method === 'liqpaymagento_liqpay') {
+      this.status = await this.$store.dispatch('checkoutPage/getLiqpayStatus', {
+        orderId: this.order.increment_id,
+        marketplace: this.isMarketplace
+      })
+    }
+
+    if (this.order.payment.method === 'temabit_payparts') {
+      const status = await this.$store.dispatch('themeCredit/partPaymentStatus', {
+        id: this.order.increment_id,
+        marketplace: this.isMarketplace
+      })
+      this.status = status.state && status.state.toLowerCase()
     }
   },
   methods: {
-    ...mapActions({
-      getProduct: 'product/single'
-    })
-  },
-  mounted () {
-    this.singleOrderItems.forEach(async item => {
-      if (!this.itemThumbnail[item.sku]) {
-        const product = await this.getProduct({ options: { sku: item.sku }, setCurrentProduct: false, setCurrentCategoryPath: false, selectDefaultVariant: false })
-        const thumbnail = productThumbnailPath(product)
-        Vue.set(this.itemThumbnail, item.sku, getThumbnailPath(thumbnail, 280, 280))
+    canCancel(status) {
+      return ['pending'].includes(status)
+    },
+    cancelOrder() {
+      this.$store.dispatch('notification/spawnNotification', {
+        type: 'warning',
+        message: this.$t('Are you sure you want to cancel order?'),
+        action1: { label: this.$t('OK'),
+          action: () => {
+            this.$store.dispatch('user/cancelOrder', this.order.entity_id)
+          }
+        },
+        action2: { label: this.$t('Cancel'), action: 'close' },
+        hasNoTimeout: true
+      })
+    },
+    filterOrderItems(products) {
+      if (products) {
+        return products.filter(it => it.parent_item && it.parent_item.product_type === 'bundle' || !it.parent_item)
       }
-    })
+      return [] 
+    },
+    image(product) {
+      return {
+        src: this.getThumbnail(product.extension_attributes.thumbnail, 88, 88)
+      }
+    },
+    discount (product) {
+      if (product.original_price > product.price) {
+        return parseInt(((product.original_price - product.price) / (product.original_price / 100)))
+      }
+    }
   }
 }
 </script>
-
 <style lang="scss" scoped>
-@import '~theme/css/variables/colors';
-@import '~theme/css/helpers/functions/color';
-$color-tertiary: color(tertiary);
-$color-white-smoke: color(white-smoke);
+.v-container {
+  width: 90%;
+  max-width: 1157px;
+  padding-bottom: 24px;
+}
 
-table {
-  border-collapse: collapse;
+span {
+  display: block;
+  font-family: DIN Pro;
+  font-size: 13px;
+  line-height: 16px;
+  color: #1A1919;
+  overflow-wrap: break-word;
+}
+
+.thank-you {
   width: 100%;
+  margin: 0 auto;
+}
 
-  @media (max-width: 767px) {
-    border-top: none;
+.thank-you-page-content {
+  display: flex;
+  align-items: flex-start;
+}
+
+.title {
+  display: flex;
+  align-items: center;
+  margin-bottom: 24px;
+
+  svg {
+    min-width: 24px;
+    min-height: 24px;
+  }
+}
+
+.title-icon {
+  margin-right: 16px;
+}
+
+.title-text {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  margin: 0;
+  font-family: DIN Pro;
+  font-weight: 600;
+  font-size: 24px;
+  line-height: 30px;
+  color: #1A1919;
+}
+
+.highlighted {
+  font-family: DIN Pro;
+  font-weight: 600;
+  font-size: 24px;
+  line-height: 30px;
+  color: #23be20;
+}
+
+.thank-you-description {
+  font-family: DIN Pro;
+  font-size: 15px;
+  line-height: 24px;
+  color: #5F5E5E;
+  margin: 0 0 24px 0;
+}
+
+.order-info {
+  width: 100%;
+  margin-bottom: 20px;
+  margin-right: 20px;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+}
+
+.pay-status {
+  font-family: DIN Pro;
+  font-weight: 600;
+  font-size: 13px;
+  line-height: 16px;
+
+  &.error,
+  &.failure {
+    color: #EE2C39;
   }
 
-  th, td {
+  &.success {
+    color: #1A1919;
+  }
+}
+
+.thank-you-row {
+  display: grid;
+  align-items: flex-start;
+  grid-template-columns: 40% 44% auto;
+  padding: 16px;
+  text-align: left;
+
+  .left {
+    font-size: 13px;
+    line-height: 16px;
+    color: #595858;
+    font-weight: 600;
+  }
+
+  .right {
+    text-align: right;
+  }
+
+  .middle {
     text-align: left;
-    padding: 20px;
 
-    &.align-right {
-      text-align: right;
-
-      @media (max-width: 767px) {
-        text-align: left;
-      }
-
-    }
-
-    @media (max-width: 1199px) {
-      padding: 10px;
-    }
-
-  }
-
-  thead {
-    @media (max-width: 767px) {
-      display: none;
-    }
-  }
-
-  tbody {
-
-    tr {
-      @media (max-width: 767px) {
-        display: block
-      }
-
-      &:nth-child(even) {
-        td {
-          background-color: $color-white-smoke;
-        }
-      }
-
-    }
-
-    td {
-      @media (max-width: 767px) {
-        display: block;
-        text-align: left;
-        padding: 10px 20px;
-        &:before {
-          content: attr(data-th) ': ';
-          font-weight: 700;
-        }
-      }
-
-      &:first-child {
-        @media (max-width: 767px) {
-          padding: 20px 20px 10px 20px;
-        }
-      }
+    span {
+      margin-bottom: 8px;
 
       &:last-child {
-        @media (max-width: 767px) {
-          padding: 10px 20px 20px 20px;
-        }
+        margin-bottom: 0;
       }
-    }
-
-  }
-
-  tfoot {
-
-    tr {
-      @media (max-width: 767px) {
-        display: block
-      }
-
-      &:last-child {
-        td:last-child {
-         padding-bottom: 20px
-        }
-      }
-
-    }
-
-    td {
-      @media (max-width: 767px) {
-        display: block
-      }
-
-      &:first-child {
-        @media (max-width: 767px) {
-          font-weight: 700;
-          padding: 20px 20px 5px 20px;
-        }
-      }
-
-      &:last-child {
-        @media (max-width: 767px) {
-          padding: 5px 20px 0 20px;
-        }
-      }
-
-    }
-
-  }
-
-  i {
-    vertical-align: middle;
-  }
-
-}
-
-a {
-  &:after {
-    content: "";
-    display: block;
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 1px;
-    background-color: $color-tertiary;
-  }
-
-  &:hover {
-    &:after {
-      opacity: 0;
     }
   }
 }
 
-address {
+.product-image {
+  max-width: 88px;
+  margin-right: 16px;
+  min-width: 88px;
+  min-height: 88px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  grid-row-start: 1;
+}
+
+.product-info {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+.summary {
+  margin-bottom: 24px;
+}
+
+.products {
+  border: 1px solid #E0E0E0;
+  border-radius: 4px;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.products-title {
+  padding: 16px 16px 8px 16px;
+  font-family: DIN Pro;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 24px;
+  color: #1A1919;
+}
+
+.thank-you-content {
+  max-width: 652px;
+  width: 95%;
+  margin: auto;
+  text-align: left;
+  padding-left: 0;
+}
+
+.product-name {
+  width: 80%;
+  margin-bottom: 8px;
+  font-family: DIN Pro;
+  font-size: 15px;
+  line-height: 18px;
+  color: #1A1919;
+}
+
+.qty {
+  width: 20%;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.product-item-row {
+  display: flex;
+  border-bottom: 1px solid #e0e0e0;
+  align-items: flex-start;
+  padding: 16px;
+  text-align: left;
+  font-family: DIN Pro;
   font-style: normal;
+  font-size: 13px;
+  line-height: 16px;
+
+  &:last-child {
+    border-bottom: none;
+  }
+
+  .product-left {
+    display: flex;
+    flex-direction: column;
+    grid-row-start: 1;
+    align-items: flex-start;
+    margin-right: 5px;
+  }
+
+  .product-right {
+    grid-row-start: 1;
+    text-align: right;
+  }
+
+  .product-middle {
+    margin-left: auto;
+    text-align: right;
+  }
+}
+
+.price-row {
+  display: grid;
+  grid-template-columns: auto auto;
+  padding: 16px;
+
+  .right {
+    text-align: right;
+  }
+
+  &.discount {
+    padding: 16px 16px 8px 16px;
+    span {
+      font-family: DIN Pro;
+      font-weight: 600;
+      font-size: 14px;
+      line-height: 16px;
+      color: #23BE20;
+    }
+  }
+}
+
+.grand-total {
+  span {
+    font-family: DIN Pro;
+    font-weight: 600;
+    font-size: 24px;
+    line-height: 30px;
+    color: #1A1919;
+  }
+}
+
+.product-price {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 24px 16px 16px 16px;
+}
+
+.label-paid {
+  font-weight: 600;
+  color: #23BE20;
+}
+
+.label-free {
+  color: #23BE20;
+  font-weight: 600;
+}
+
+.prices {
+  display: flex;
+  align-items: baseline;
+}
+
+.price-original {
+  white-space: nowrap;
+  margin-right: 4px;
+  font-family: DIN Pro;
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 24px;
+  color: #1A1919;
+
+  &.old-price {
+    font-family: DIN Pro;
+    font-weight: normal;
+    font-size: 12px;
+    line-height: 12px;
+    text-decoration-line: line-through;
+    color: #5F5E5E;
+  }
+}
+
+.price-special {
+  white-space: nowrap;
+  font-family: DIN Pro;
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 18px;
+  color: #1A1919;
+}
+
+.price-discount {
+  white-space: nowrap;
+  align-self: center;
+  margin-left: 5px;
+  font-family: DIN Pro;
+  font-weight: 400;
+  font-size: 11px;
+  line-height: 16px;
+  text-transform: uppercase;
+  color: #FFFFFF;
+  background: #EE2C39;
+  border-radius: 30px;
+  padding: 0 7px;
+}
+
+.order-title {
+  margin-bottom: 16px;
+}
+
+.order-title-link {
+  display: flex;
+  align-items: center;
+}
+
+@media (max-width: 1068px) {
+  .thank-you-page-content {
+    flex-direction: column-reverse;
+  }
+
+  .products {
+    max-width: 100%;
+    margin-bottom: 16px;
+  }
+
+  .order-info {
+    max-width: 100%;
+    margin-right: 0;
+  }
+}
+
+@media (max-width: 700px) {
+  .thank-you-row {
+    padding: 15px;
+    grid-template: 1fr / 2fr;
+
+    .middle {
+      grid-row-start: 2;
+      margin-right: 50px;
+      margin-right: 0;
+    }
+
+    .right {
+      grid-row-start: 2;
+    }
+
+    .left {
+      margin-bottom: 15px;
+    }
+  }
+
+  .product-name {
+    width: 100%;
+    font-size: 13px;
+    line-height: 16px;
+  }
+
+  .price-original {
+    font-size: 15px;
+    line-height: 16px;
+
+    &.old-price {
+      font-size: 11px;
+      line-height: 11px;
+    }
+  }
+
+  .price-special {
+    font-size: 15px;
+    line-height: 16px;
+  }
+
+  .product-image {
+    max-width: 56px;
+    min-width: 56px;
+    max-height: 56px;
+    min-height: auto;
+  }
+
+  .qty {
+    width: auto;
+    margin-left: auto;
+    order: 1;
+  }
+}
+.cancel-order {
+  padding: 16px 0;
+  border-radius: 4px;
+  border: 1px solid #e0e0e0;
+  text-align: center;
+  margin-bottom: 68px;
+  cursor: pointer;
+}
+
+.cancel-order-text {
+  font-family: DIN Pro;
+  font-size: 14px;
+  line-height: 24px;
+  color: #EE2C39;
 }
 
 </style>

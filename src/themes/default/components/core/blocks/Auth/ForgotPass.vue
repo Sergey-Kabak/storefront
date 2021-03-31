@@ -1,63 +1,35 @@
 <template>
-  <div>
-    <header class="modal-header py25 px65 h1 serif weight-700 bg-cl-secondary">
+  <div class="forgot-pass">
+    <span class="forgot-pass-title">
       {{ $t('Reset password') }}
-      <i
-        slot="close"
-        class="modal-close material-icons cl-bg-tertiary"
-        @click="close"
-      >
-        close
-      </i>
-    </header>
-
-    <div class="modal-content bg-cl-primary pt30 pb60 px65 cl-secondary">
-      <template v-if="!passwordSent">
-        <form @submit.prevent="sendEmail" novalidate>
-          <div class="mb20">
-            <p class="mb45">
-              {{ $t('Enter your email to receive instructions on how to reset your password.') }}
-            </p>
-            <base-input
-              type="email"
-              name="email"
-              v-model="email"
-              focus
-              :placeholder="$t('E-mail address *')"
-              :validations="[
-                {
-                  condition: !$v.email.required && $v.email.$error,
-                  text: $t('Field is required.')
-                },
-                {
-                  condition: !$v.email.email && $v.email.$error,
-                  text: $t('Please provide valid e-mail address.')
-                }
-              ]"
-            />
-          </div>
-          <button-full class="mb35" type="submit" :aria-label="$t('Reset password')">
-            {{ $t('Reset password') }}
-          </button-full>
-          <div class="center-xs">
-            {{ $t('or') }}
-            <a href="#" @click.prevent="switchElem">
-              {{ $t('return to log in') }}
-            </a>
-          </div>
-        </form>
-      </template>
-      <template v-if="passwordSent">
-        <form class="py20">
-          <p class="py30 mb80">
-            {{ $t("We've sent password reset instructions to your email. Check your inbox and follow the link.") }}
-          </p>
-          <button-full class="mb35" type="link" @click.native="switchElem" :aria-label="$t('Back to login')">
-            {{ $t('Back to login') }}
-          </button-full>
-        </form>
-      </template>
-    </div>
+    </span>
+    <form @submit.prevent="sendEmail" novalidate v-if="!passwordSent">
+      <p class="forgot-pass-details">{{ $t('reset password description') }}</p>
+      <base-input
+        type="email"
+        name="email"
+        v-model="email"
+        :class="{ error: $v.email.$error && $v.email.$dirty }"
+        :placeholder="$t('E-mail address *')"
+        @blur="$v.email.$touch()"
+        :validations="[{
+          condition: !$v.email.required && $v.email.$error,
+          text: $t('Field is required.')
+        }, {
+          condition: !$v.email.email && $v.email.$error,
+          text: $t('Please provide valid e-mail address.')
+        }]"
+      />
+      <button-full class="forgot-pass-button" type="submit">
+        {{ $t('Reset password') }}
+      </button-full>
+      <button-text @click.native="switchElem()" class="forgot-pass-back">{{ $t('Back') }}</button-text>
+    </form>
+    <template v-else>
+      <form>
+        <p class="forgot-pass-instruction">{{ $t("We've sent password reset instructions to your email. Check your inbox and follow the link.") }}</p>
+      </form>
+    </template>
   </div>
 </template>
 
@@ -70,8 +42,21 @@ import {
   required
 } from 'vuelidate/lib/validators';
 import i18n from '@vue-storefront/i18n';
+import ButtonText from 'theme/components/theme/ButtonText'
 
 export default {
+  name: 'ForgotPass',
+  components: {
+    ButtonFull,
+    BaseInput,
+    ButtonText
+  },
+  data () {
+    return {
+      email: '',
+      passwordSent: false
+    }
+  },
   validations: {
     email: {
       required,
@@ -115,34 +100,76 @@ export default {
     switchElem () {
       this.$store.commit('ui/setAuthElem', 'login')
     }
-  },
-  name: 'ForgotPass',
-  data () {
-    return {
-      email: '',
-      passwordSent: false
-    }
-  },
-  components: {
-    ButtonFull,
-    BaseInput
   }
 }
 </script>
 
 <style lang="scss" scoped>
-  .modal-header{
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-  .modal-close{
-    cursor: pointer;
-  }
-  .modal-content {
-    @media (max-width: 400px) {
-      padding-left: 20px;
-      padding-right: 20px;
+.forgot-pass {
+  padding: 0 32px;
+}
+
+.base-input {
+  max-width: 100%;
+  margin-bottom: 32px;
+
+  ::v-deep {
+    input {
+      height: 40px;
     }
   }
+}
+
+.forgot-pass-title {
+  display: block;
+  margin-bottom: 32px;
+  font-family: DIN Pro;
+  font-weight: 600;
+  font-size: 24px;
+  line-height: 30px;
+  color: #1A1919;
+}
+
+.forgot-pass-details {
+  font-family: DIN Pro;
+  font-size: 15px;
+  line-height: 24px;
+  color: #1A1919;
+  margin: 0 0 24px 0;
+}
+
+.forgot-pass-button {
+  max-width: 100%;
+  margin-bottom: 24px;
+}
+
+.button-text {
+  justify-content: center;
+  font-weight: 600;
+}
+
+.forgot-pass-instruction {
+  font-family: DIN Pro;
+  font-size: 15px;
+  line-height: 24px;
+  color: #1A1919;
+  margin: 0;
+}
+
+@media (max-width: 768px) {
+  .forgot-pass-title {
+    margin-bottom: 25px;
+  }
+  .forgot-pass {
+    padding: 0 16px;
+  }
+
+  .base-input {
+    margin-bottom: 24px;
+  }
+
+  .forgot-pass-details {
+    margin-bottom: 16px;
+  }
+}
 </style>

@@ -42,11 +42,18 @@ export function price(product, priceType = null) {
 }
 
 export function ProductStock (product) {
+  const isBackOrderEnabled = product.stock.is_in_stock && typeof product.stock.backorders === 'number' && product.stock.backorders !== 0;
+  const isBackOrderDisabled = typeof product.stock.backorders === 'undefined' || product.stock.backorders === 0 || !product.stock.is_in_stock
+  const isOptions = product.preorder && product.coming_soon
   const status = {
-    InStock: (() => product.stock.is_in_stock && !product.preorder)(),
-    PendingDelivery: (() => product.stock.is_in_stock && !!product.preorder)(),
-    ComingSoon: (() => !product.stock.is_in_stock && !!product.coming_soon)(),
-    NotAvailable: (() => !product.stock.is_in_stock && !product.coming_soon)()
+    InStock: (() => (product.stock.is_in_stock && product.msi_salable_quantity > 0 && !isOptions) || (isBackOrderEnabled && !product.preorder))(),
+    PendingDelivery: (() => {
+      const isBackOrder = product.type_id !== 'bundle' && product.preorder && isBackOrderEnabled
+      const isPreOrder = product.stock.is_in_stock && product.preorder
+      return isBackOrder || isPreOrder || false
+    })(),
+    ComingSoon: (() => !!product.coming_soon && !product.preorder)(),
+    NotAvailable: (() => (!product.stock.is_in_stock || product.msi_salable_quantity <= 0) && !isOptions && isBackOrderDisabled)()
   }
   return Object.keys(status).find(s => !!status[s])
 }

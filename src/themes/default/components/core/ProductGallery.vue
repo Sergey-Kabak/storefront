@@ -72,7 +72,7 @@ export default {
       return onlineHelper.isOnline
     },
     productGallery () {
-      if (this.getCurrentProduct.type_id === 'configurable') {
+      if (this.getCurrentProduct.type_id === 'configurable' && this.configuration.color && this.configuration.color.id) {
         return this.getCurrentProduct.configurable_children
           .find(child => child.color === +this.configuration.color.id).media_gallery
           .map(gallery => {

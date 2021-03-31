@@ -1,11 +1,10 @@
 <template>
-  <div id="category" :class="{march: isMarchPromo}">
-    <March8 v-if="isMarchPromo" />
+  <div id="category">
     <header>
       <div class="v-container">
-        <breadcrumbs v-if="!isMarchPromo" withHomepage />
-        <mobile-breadcrumbs v-if="!isMarchPromo" withHomepage />
-        <category-promo v-if="!isMarchPromo && (getCurrentCategory.image || getCurrentCategory.description)" />
+        <breadcrumbs withHomepage />
+        <mobile-breadcrumbs withHomepage />
+        <category-promo v-if="getCurrentCategory.image || getCurrentCategory.description" />
         <div class="title">
           <h1 class="category-title">
             {{ getCurrentCategory.name }}
@@ -40,7 +39,6 @@
             {{ $tc('{count} items chosen', getCategoryProductsTotal) }}
           </p>
           <sidebar :filters="getAvailableFilters" @changeFilter="changeFilter" />
-          <img v-if="isMarchPromo" class="march-promo-image" src="/assets/promo/march-8-bg-image.jpg" alt="">
         </div>
         <div class="mobile-filters" v-show="mobileFilters">
           <div class="filter-overlay" :class="{'hasFilters' : Object.keys(getCurrentSearchQuery.filters).length > 0}">
@@ -106,17 +104,6 @@
             {{ $t('Load more') }}
             <spinner class="spinner" v-if="loadingProducts && !allProductsLoaded" />
           </button-white>
-          <div class="march-description-wrapper promo-description-wrapper" v-if="isMarchPromo && getCurrentCategory.description">
-            <h3 class="march-title promo-title font">{{ $t('Description of the action') }}</h3>
-            <div class="march-description promo-description font">
-              <div class="" v-html="getCurrentCategory.description"></div>
-            </div>
-            <promo-expiry-date
-              class="march-expiry-date promo-expiry-date"
-              v-if="getCurrentCategory.custom_design_from && getCurrentCategory.custom_design_from"
-              :to="getCurrentCategory.custom_design_to"
-              :from="getCurrentCategory.custom_design_from" />
-          </div>
           <no-ssr>
             <description v-if="isDescription" />
           </no-ssr>
@@ -127,7 +114,6 @@
 </template>
 
 <script>
-import PromoExpiryDate from '../components/core/blocks/Category/PromoExpiryDate';
 import LazyHydrate from 'vue-lazy-hydration';
 import Sidebar from '../components/core/blocks/Category/Sidebar.vue';
 import ProductListing from '../components/core/ProductListing.vue';
@@ -144,13 +130,11 @@ import onBottomScroll from '@vue-storefront/core/mixins/onBottomScroll';
 import { catalogHooksExecutors } from '@vue-storefront/core/modules/catalog-next/hooks';
 import { currentStoreView } from '@vue-storefront/core/lib/multistore';
 import { htmlDecode } from '@vue-storefront/core/filters';
-import CountDown from "../components/core/CountDown";
 import Spinner from "../components/core/Spinner";
 import GTM from '../mixins/GTM/dataLayer'
 import Description from "../components/core/blocks/Category/Description";
 import ButtonWhite from "../components/core/blocks/Product/ButtonWhite";
 import NoSSR from 'vue-no-ssr';
-import March8 from '../components/core/blocks/Category/Promotions/March8';
 import CategoryPromo from '../components/core/blocks/Category/CategoryPromo';
 const THEME_PAGE_SIZE = 32
 const composeInitialPageState = async (store, route, forceLoad = false) => {
@@ -164,10 +148,6 @@ const composeInitialPageState = async (store, route, forceLoad = false) => {
       currentCategory.filterable_attributes.unshift('kategorija', 'znizhka')
     }
     let options = []
-    // 961 - 8 March (promotion)
-    if (currentCategory.id === 961) {
-      options.concat(['category_ids', 'kategorija'])
-    }
     await store.dispatch('attribute/list', { filterValues: [...currentCategory.filterable_attributes, ...options], size: [...currentCategory.filterable_attributes, ...options].length })
     await store.dispatch('category-next/loadCategoryProducts', { route, category: currentCategory, pageSize })
     const breadCrumbsLoader = store.dispatch('category-next/loadCategoryBreadcrumbs', { category: currentCategory, currentRouteName: currentCategory.name, omitCurrent: true })
@@ -180,7 +160,6 @@ const composeInitialPageState = async (store, route, forceLoad = false) => {
 
 export default {
   components: {
-    CountDown,
     LazyHydrate,
     ButtonFull,
     ProductListing,
@@ -193,8 +172,6 @@ export default {
     Description,
     ButtonWhite,
     'no-ssr': NoSSR,
-    March8,
-    PromoExpiryDate,
     CategoryPromo
   },
   mixins: [onBottomScroll, GTM],
@@ -225,9 +202,6 @@ export default {
       getAvailableFilters: 'category-next/getAvailableFilters',
       getCategorySearchProductsStats: 'category-next/getCategorySearchProductsStats'
     }),
-    isMarchPromo () {
-      return this.$route.path.search('/8-march') >= 0
-    },
     isDescription () {
       return !!this.getCurrentCategory
     },
@@ -344,49 +318,6 @@ export default {
   font-style: normal;
   display: block;
   margin-bottom: 16px;
-}
-.march{
-  @media (min-width: 768px) {
-    background-image: url('/assets/promo/march-8-bg-dots.jpg');
-    background-repeat: no-repeat;
-    background-position: 97% 94%;
-    background-attachment: fixed;
-  }
-  &-description{
-    &-wrapper{
-      position: relative;
-      background: linear-gradient(0deg, transparent, #fff, transparent);
-      margin: 68px auto 68px;
-      max-width: 988px;
-      box-sizing: border-box;
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-    }
-    font-size: 15px;
-    line-height: 24px;
-    text-align: center;
-    color: #5F5E5E;
-    ::v-deep p {
-      margin: 0 !important;
-      text-align: left;
-    }
-  }
-  &-title{
-    font-weight: 700;
-    font-size: 24px;
-    line-height: 30px;
-    color: #1A1919;
-    margin-top: 0;
-  }
-  &-expiry-date{
-    width: auto;
-    padding: 0;
-    position: static;
-  }
-}
-.march-promo-image{
-  max-width: 100%;
 }
 $mobile_screen : 768px;
   ::v-deep .spinner{

@@ -56,7 +56,7 @@ export default {
   },
   methods: {
     selectVariant (configuration) {
-      if (this.getCurrentProduct.type_id === 'configurable' && (configuration.attribute_code === 'color' || configuration['color'].id)) {
+      if (this.getCurrentProduct.type_id === 'configurable' && (configuration.attribute_code === 'color' || (configuration['color'] && configuration['color'].id))) {
         let configurableChildren = this.getCurrentProduct.configurable_children.find(child => child['color'] === (+configuration.id || +configuration['color'].id))
         this.filteredGallery = [...configurableChildren.media_gallery].map(gallery => {
           return {
