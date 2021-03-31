@@ -40,8 +40,7 @@ const subscribe = async ({ email }): Promise<Task> => {
   })
 }
 const triggerEvent = async ({ eventName, params}): Promise<Task> => {
-  // const email = store.getters['user/getUserEmail']
-  const email = 'ihavenonameTaras@gmail.com'
+  const email = store.getters['user/getUserEmail']
   if (!email) return;
   const res = await TaskQueue.execute({
     url: `${url}/event`,

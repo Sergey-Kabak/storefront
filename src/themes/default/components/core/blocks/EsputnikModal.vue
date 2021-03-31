@@ -77,7 +77,7 @@ export default {
     return {
       email: '',
       requestSent: false,
-      subscribed: false
+      subscribed: this.$route.query.subscribed
     }
   },
   components: {
@@ -126,16 +126,6 @@ export default {
     email: {
       required,
       email
-    }
-  },
-  watch: {
-    $route: {
-      immediate: true,
-      handler(v) {
-        if (v.query.subscribed) {
-          this.subscribed = true;
-        }
-      }
     }
   }
 };

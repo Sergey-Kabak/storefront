@@ -1,5 +1,6 @@
 import { EsputnikService } from 'theme/services/EsputnikService';
 import { getThumbnailPath } from '@vue-storefront/core/helpers'
+import * as types from './mutation-types'
 
 const formatItems = items => items.map(el => ({
   name: el.name,
@@ -33,6 +34,12 @@ const actions = {
   triggerOrderSuccess ({ items }) {
     return EsputnikService.triggerOrderSuccess({ items });
   },
+  setSubscribed ({ commit }) {
+    commit(types.SET_ESPUTNIK_SUBSCRIBED, true)
+  },
+  setRequestSent ({ commit }) {
+    commit(types.SET_ESPUTNIK_SENT, true)
+  }
 }
 
 export default actions

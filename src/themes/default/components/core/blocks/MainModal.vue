@@ -25,7 +25,7 @@ export default {
   methods: {
     close() {
       this.$bus.$emit('modal-hide', 'modal-main')
-      this.toggleEsputnikModal();
+      // this.toggleEsputnikModal();
     },
     toggleEsputnikModal() {
       if (!sessionStorage.getItem('esputnik-subscribe-modal')) {

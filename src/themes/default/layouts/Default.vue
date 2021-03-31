@@ -40,6 +40,7 @@
       />
 
       <slot/>
+      <iframe frameborder="0" src="https://secure.esputnik.com/A1zAnbN8WOs" width="100%" height="208px" scrolling="no"></iframe>
       <main-footer/>
       <sign-up/>
       <custom-seller-product />
@@ -117,18 +118,31 @@ export default {
         skipCache: isServer
       });
     },
-    initOnCloseEsputnikHandler() {
+    attachOnClosePageEsputnikHandler() {
       window.addEventListener('beforeunload', (e) => {
         this.$store.dispatch('esputnik/triggerAbandonProducts')
         this.$store.dispatch('esputnik/triggerAbandonCart')
       }, false);
     },
   },
+  watch: {
+    $route: {
+      immediate: true,
+      handler(v) {
+        if (v.query.subscribed && !this.$store.state.esputnik.subscribed) {
+          this.$nextTick(() => {
+            this.$bus.$emit('modal-toggle', 'modal-esputnik')
+            this.$store.dispatch('esputnik/setSubscribed')
+          })
+        }
+      }
+    }
+  },
   serverPrefetch() {
     return this.fetchMenuData();
   },
   beforeMount() {
-    this.initOnCloseEsputnikHandler()
+    this.attachOnClosePageEsputnikHandler()
     this.$router.beforeEach((to, from, next) => {
       // Progress bar on top of the page
       this.$Progress.start();
