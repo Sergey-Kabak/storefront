@@ -139,7 +139,7 @@ export default {
     $route: {
       immediate: true,
       handler(v) {
-        if (v.query.subscribed && !this.$store.state.esputnik.subscribed) {
+        if (v.query.subscribed) {
           this.$nextTick(() => {
             this.$bus.$emit('modal-toggle', 'modal-esputnik')
             this.$store.dispatch('esputnik/setSubscribed')
