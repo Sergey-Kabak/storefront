@@ -50,8 +50,8 @@
     "lerna": "lerna"
   },
   "dependencies": {
-    "@types/webpack": "^4.41",
     "@types/webpack-dev-server": "^3.10",
+    "@types/webpack": "^4.41",
     "apollo-cache-inmemory": "^1.6.5",
     "apollo-client": "^2.6.8",
     "apollo-link": "^1.2.13",
@@ -91,7 +91,7 @@
     "vue-carousel": "^0.18",
     "vue-gtm": "^2.0.0",
     "vue-i18n": "^8.0.0",
-    "vue-lazy-hydration": "^1.0.0-beta.9",
+    "vue-lazy-hydration": "^2.0.0-beta.4",
     "vue-lazyload": "^1.2.6",
     "vue-meta": "^2.3.3",
     "vue-no-ssr": "^0.2.2",
@@ -189,12 +189,16 @@
       "last 2 chrome versions",
       "last 2 firefox versions",
       "last 2 edge versions",
-      "> 5%"
+      "> 5%",
+      "not ie_mob > 0",
+      "not ie > 0"
     ],
     "production": [
       ">5%",
       "last 4 versions",
-      "Firefox ESR"
+      "Firefox ESR",
+      "not ie_mob > 0",
+      "not ie > 0"
     ]
   },
   "workspaces": [

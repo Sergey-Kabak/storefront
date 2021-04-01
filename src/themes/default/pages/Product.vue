@@ -81,6 +81,7 @@ import TabContainer from '../components/core/blocks/Product/Tabs/TabContainer';
 import TabContainerMobile from '../components/core/blocks/Product/Tabs/TabContainerMobile';
 import ProductKits from '../components/core/blocks/Product/Components/ProductKits';
 import NoSSR from 'vue-no-ssr'
+import { absoluteProductLink } from '@vue-storefront/core/modules/url/helpers'
 
 function EndDateInvalid (dateTo) {
   return (dateTo && new Date(dateTo) < Date.now())
@@ -171,12 +172,23 @@ export default {
         error: this.getThumbnail(this.getCurrentProduct.image, config.products.thumbnails.width, config.products.thumbnails.height),
         loading: this.getThumbnail(this.getCurrentProduct.image, config.products.thumbnails.width, config.products.thumbnails.height)
       }
+    },
+    productLink () {
+      return absoluteProductLink(this.getCurrentProduct, currentStoreView().storeCode)
     }
   },
   methods: {
     async changeFilter (variant) {
       const selectedConfiguration = Object.assign({ attribute_code: variant.type }, variant)
       await filterChangedProduct(selectedConfiguration, this.$store, this.$router)
+      const newUrl = this.getCurrentProduct.configurable_children.find(p => p.sku === this.getCurrentProduct.sku).url_path
+      if (newUrl) {
+        history.pushState(
+          {},
+          null,
+          newUrl
+        )
+      }
       this.$bus.$emit('filter-changed-product', Object.assign({ attribute_code: variant.type }, variant))
       this.getQuantity();
     },
@@ -239,9 +251,9 @@ export default {
       }
     })
   },
-  async mounted () {
-    await this.$store.dispatch('recently-viewed/addItem', this.getCurrentProduct);
-    console.log(this.getCurrentProduct);
+  mounted () {
+    this.$store.dispatch('recently-viewed/addItem', this.getCurrentProduct);
+    this.GTM_REMARKETING({ sku: this.getCurrentProduct.sku, price: this.getCurrentProduct.finalPrice })
   },
   beforeDestroy () {
     this.$bus.$emit('modal-hide', 'modal-kits')
@@ -284,6 +296,22 @@ export default {
       script: [
         {
           innerHTML: `(function(f,g,l){function d(a){console.error(a);(new Image).src="https://go.rcvlinks.com/err/?setr="+g+"&ms="+((new Date).getTime()-m)+"&ver="+n+"&text="+encodeURIComponent(a)}try{var e=function(){var a=f.createElement("script"),p=(new Date).getTime();a.type="text/javascript";a.src=c;a.onerror=function(){!h&&300>(new Date).getTime()-p?(h=!0,c=q+k,setTimeout(e,10)):(b++,5>b?setTimeout(e,10):d(b+"!"+c))};a.onload=function(){b&&d(b+"!"+c)};f.getElementsByTagName("head")[0].appendChild(a)},n="200804-1622",m=(new Date).getTime(),h=!1,q=atob("aHR0cHM6Ly93d3cucmN2Z29vZHMuY29t"),k="/setr/"+g+"/?"+l+"&rnd="+Math.floor(999*Math.random()),c="https://go.rcvlink.com"+k,b=0;e()}catch(a){d(a.name+": "+a.message+"\t"+(a.stack?a.stack.replace(a.name+": "+a.message,""):""))}})(document,"3604","offer=${this.getCurrentProduct.sku}");`
+        },
+        {
+          async: true,
+          type: 'text/javascript',
+          body: true,
+          innerHTML: `
+            window.ad_product = ${JSON.stringify(
+              {
+                id: this.getCurrentProduct.sku,
+                vendor: this.getCurrentProduct.manufacturer,
+                price: this.getCurrentProduct.finalPrice,
+                url: this.productLink,
+                picture: this.getThumbnail(this.getCurrentProduct.thumbnail),
+                name: this.getCurrentProduct.name,
+                category: this.getCurrentProduct.breadcrumbs && this.getCurrentProduct.breadcrumbs[0].category_id
+              })}; window._retag = window._retag || []; window._retag.push({code: "9ce8884ee4", level: 2}); (function () { var id = "admitad-retag"; if (document.getElementById(id)) {return;} var s = document.createElement("script"); s.async = true; s.id = id; var r = (new Date).getDate(); s.src = (document.location.protocol == "https:" ? "https:" : "http:") + "//cdn.lenmit.com/static/js/retag.js?r="+r; var a = document.getElementsByTagName("script")[0]; a.parentNode.insertBefore(s, a); })()`
         }
       ],
       title: htmlDecode(this.getCurrentProduct.meta_title || this.getCurrentProduct.name),

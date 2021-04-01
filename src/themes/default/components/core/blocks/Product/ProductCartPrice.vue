@@ -3,7 +3,7 @@
     <div class="mb0 name mt0 relative w-100" v-if="nameVisibility">
       {{ product.name | htmlDecode }} <span v-if="showProductColor">{{getColor}}</span>
     </div>
-    <template v-if="specialPrice && !onlyImage && getStockStatus !== 'ComingSoon'">
+    <template v-if="specialPrice && !onlyImage && (getStockStatus !== 'ComingSoon' && product.price !== 0)">
       <div class="product-price-wrapper">
         <div class="main-price">
           <span

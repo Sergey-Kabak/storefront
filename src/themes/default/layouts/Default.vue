@@ -25,6 +25,12 @@
           @close="$store.commit('ui/setConsultation')"
           class="consultation-sidebar"
       />
+      <async-sidebar
+        :async-component="PromotionalFilterSidebarMobile"
+        :is-open="isPromotionalFilterSidebarMobileOpen"
+        @close="$store.commit('ui/setPromotionalFilterSidebar')"
+        class="promotional-filter-sidebar"
+      />
 
       <sidebar-categories v-if="isSidebarCategoriesOpen"/>
 
@@ -33,15 +39,22 @@
           :is-open="isWishlistOpen"
           @close="$store.commit('ui/setWishlist')"
       />
+
+      <async-sidebar
+        :async-component="SignUp"
+        :is-open="isSignUpOpen"
+        @close="$store.commit('ui/setSignUp')"
+      />
       <async-sidebar
         :async-component="CompareSidebar"
         :is-open="isCompareOpen"
         @close="isCompareOpen = false"
       />
 
+      <notification/>
+
       <slot/>
       <main-footer/>
-      <sign-up/>
       <custom-seller-product />
       <credit-modal />
       <city-picker />
@@ -50,7 +63,9 @@
       <city-shop-picker />
       <shop-shipping-modal />
       <kits-modal v-if="kitProducts.length" class="kits-modal" />
+      <main-modal />
     </div>
+    <client-credentials-for-esputnik />
     <vue-progress-bar/>
   </div>
 </template>
@@ -61,11 +76,14 @@ import AsyncSidebar from 'theme/components/theme/blocks/AsyncSidebar/AsyncSideba
 import MainHeader from 'theme/components/core/blocks/Header/Header.vue';
 import MainFooter from 'theme/components/core/blocks/Footer/Footer.vue';
 import Overlay from 'theme/components/core/Overlay.vue';
-import SignUp from 'theme/components/core/blocks/Auth/SignUp.vue';
+import Loader from 'theme/components/core/Loader.vue';
+import Notification from 'theme/components/core/Notification.vue';
 import CookieNotification from 'theme/components/core/CookieNotification.vue';
 import OfflineBadge from 'theme/components/core/OfflineBadge.vue';
 import CreditModal from 'theme/components/core/blocks/CreditModal.vue';
+import MainModal from 'theme/components/core/blocks/MainModal.vue';
 import ShopShippingModal from '../components/core/blocks/ShopShippingModal';
+import ClientCredentialsForEsputnik from '../components/core/blocks/ClientCredentialsForEsputnik'
 import { isServer } from '@vue-storefront/core/helpers';
 import Head from 'theme/head';
 import config from 'config';
@@ -79,6 +97,8 @@ const CustomSellerProduct = () => import(/* webpackChunkName: "vsf-custom-city-p
 const Consultation = () => import(/* webpackChunkName: "vsf-custom-city-picker-modal" */ 'theme/components/core/blocks/Consultation/Consultation.vue');
 const CompareSidebar = () => import(/* webpackChunkName: "vsf-sidebar-menu" */ 'theme/components/core/blocks/Compare/CompareSidebar.vue');
 const CityShopPicker = () => import(/* webpackChunkName: "vsf-custom-city-picker-modal" */ 'theme/components/core/blocks/CityShopPicker/CityShopPicker.vue');
+const PromotionalFilterSidebarMobile = () => import(/* webpackChunkName: "vsf-custom-city-picker-modal" */ 'theme/components/core/blocks/PromotionalPortal/PromotionalFilterSidebarMobile.vue');
+const SignUp = () => import(/* webpackChunkName: "vsf-custom-city-picker-modal" */ 'theme/components/core/blocks/Auth/SignUp.vue');
 
 export default {
   data() {
@@ -88,7 +108,9 @@ export default {
       SearchPanel,
       SidebarMenu,
       Consultation,
-      CompareSidebar
+      CompareSidebar,
+      SignUp,
+      PromotionalFilterSidebarMobile
     };
   },
   computed: {
@@ -104,7 +126,9 @@ export default {
       isWishlistOpen: state => state.ui.wishlist,
       isConsultationOpen: state => state.ui.consultation,
       isCompareOpen: state => state.ui.compare_sidebar,
-      kitProducts: (state) => state.kits.products
+      kitProducts: (state) => state.kits.products,
+      isPromotionalFilterSidebarMobileOpen: state => state.ui.isPromotionalFilterSidebarMobileOpen,
+      isSignUpOpen: state => state.ui.signUp
     })
   },
   methods: {
@@ -141,6 +165,8 @@ export default {
     MainFooter,
     SidebarMenu,
     Overlay,
+    Loader,
+    Notification,
     SignUp,
     CookieNotification,
     OfflineBadge,
@@ -150,7 +176,10 @@ export default {
     CreditModal,
     CityPicker,
     ShopShippingModal,
-    KitsModal
+    KitsModal,
+    MainModal,
+    PromotionalFilterSidebarMobile,
+    ClientCredentialsForEsputnik
   }
 };
 </script>

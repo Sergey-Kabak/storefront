@@ -9,6 +9,7 @@ export const uiStore = {
     sidebar_category_active: null,
     microcart: false,
     wishlist: false,
+    signUp: false,
     compare_sidebar: false,
     searchpanel: false,
     consultation: false,
@@ -18,10 +19,12 @@ export const uiStore = {
     authElem: 'login',
     shopCity: 'Київ',
     city: 'Київ',
+    isPromotionalFilterSidebarMobileOpen: false,
     checkoutMode: false,
     openMyAccount: false,
     headerIndex: 3,
     isSearchActive: false,
+    isShopSidebarOpen: false,
     submenu: {
       depth: false,
       path: []
@@ -53,6 +56,10 @@ export const uiStore = {
       state.isSearchActive = false
       state.consultation = action === true
       state.overlay = action === true
+    },
+    setPromotionalFilterSidebarMobile (state, action) {
+      state.isPromotionalFilterSidebarMobileOpen = action
+      state.overlay = action
     },
     setSubmenu (state, { id, depth }) {
       if (id) {
@@ -87,6 +94,14 @@ export const uiStore = {
       state.isSearchActive = false
       state.authElem = action
     },
+    setSignUp (state, action) {
+      state.signUp = action === true
+      state.overlay = action === true
+    },
+    setShopSidebar (state, action) {
+      state.isShopSidebarOpen = action === true
+      state.overlay = action === true
+    },
     setSearch (state, action) {
       state.isSearchActive = action === true
       state.overlay = action === true
@@ -116,6 +131,9 @@ export const uiStore = {
     },
     closeWishlist ({ commit, state }) {
       if (state.wishlist) commit('setWishlist', false)
+    },
+    closeSignUp ({ commit, state }) {
+      if (state.signUp) commit('setSignUp', false)
     }
   }
 }

@@ -51,7 +51,7 @@ export default {
 
 .title {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
 }
 
 .shop-item {

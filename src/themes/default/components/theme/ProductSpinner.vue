@@ -13,21 +13,20 @@
 
 <style scoped lang="scss">
 .product-spinner {
-  width: 48px;
-  height: 48px;
-  @media (max-width: 576px){
-    width: 24px;
-    height: 24px;
-  }
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  min-width: 48px;
+  min-height: 48px;
+  max-height: 48px;
+  max-width: 48px;
 
-& .path {
+  .path {
     stroke: #23BE20;
     stroke-linecap: round;
     stroke-width: 4;
     animation: dash 1.5s ease-in-out infinite;
-    @media (max-width: 576px){
-      stroke-width: 2;
-    }
   }
 
 }

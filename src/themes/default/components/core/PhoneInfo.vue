@@ -20,6 +20,8 @@ export default {
 
 <style lang="scss" scoped>
 .phone-tooltip {
+	z-index: 1;
+  
 	&-title {
 		font-size: 18px;
 		line-height: 20px;

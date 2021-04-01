@@ -9,22 +9,25 @@
          py10 w-100 border-box brdr-none brdr-bottom-1
          brdr-cl-primary h4 sans-serif
         "
-        :class="{pr30: type === 'password', empty: !value}"
+        v-bind="attributes"
+        :class="{pr30: type === 'password', empty: !value, 'disabled' : disabled , 'fixed-label': fixedLabel}"
         :type="type === 'password' ? passType : type"
         :name="name"
         :autocomplete="autocomplete"
+        :disabled="disabled"
         :value="value"
         :ref="name"
-        @input="$emit('input', sanitize($event))"
         @blur="$emit('blur')"
         @keyup.enter="$emit('keyup.enter', sanitize($event))"
         @keyup="$emit('keyup', $event)"
+        v-on="listeners"
       >
-      <label :class="[labelClass]">{{ placeholder }}</label>
+      <label :class="[labelClass]">{{ placeholder }} <span class="placeholer-symbol" v-if="required">*</span></label>
     </div>
     <button
       v-if="iconActive"
       type="button"
+      tabindex="-1"
       class="
         icon material-icons absolute brdr-none no-outline
         p0 bg-cl-transparent cl-brdr-secondary pointer
@@ -58,7 +61,11 @@ export default {
   props: {
     type: {
       type: String,
-      required: true
+      default: 'text'
+    },
+    fixedLabel: {
+      type: Boolean,
+      default: false
     },
     value: {
       type: [String, Number],
@@ -109,6 +116,33 @@ export default {
       type: String,
       default: ""
     },
+    required: {
+      type: Boolean,
+      default: false
+    },
+    disabled: {
+      type: Boolean,
+      default: false
+    },
+    inputListeners: {
+      type: Object
+    },
+    attributes: {
+      type: Object
+    }
+  },
+  computed: {
+    listeners: function () {
+      var vm = this
+      return Object.assign({},
+        {
+          input: function (event) {
+            vm.$emit('input', event.target.value)
+          }
+        },
+        this.inputListeners
+      )
+    }
   },
   methods: {
     sanitize(e) {
@@ -148,13 +182,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  @import '~theme/css/variables/colors';
-  @import '~theme/css/helpers/functions/color';
-  $color-tertiary: color(tertiary);
-  $color-black: color(black);
-  $color-puerto-rico: color(puerto-rico);
-  $color-hover: color(tertiary, $colors-background);
-
   .base-input {
     &.error {
       input:focus ~ label,
@@ -162,23 +189,28 @@ export default {
       label {
         color: #EE2C39;
       }
-      input:focus, input {
+
+      &:not(:focus):not(.empty) ~ label {
+        color: #5F5E5E;
+      }
+
+      &:focus {
+        border-color: #23BE20;
+      }
+    }
+
+    &.error {
+      input {
         border-color: #EE2C39;
+
+        & ~ label {
+          color: #EE2C39!important;
+        }
       }
     }
   }
 
   input {
-    background: inherit;
-    height: 40px;
-    padding-left: 15px;
-
-    &:hover,
-    &:focus {
-      outline: none;
-      border-color: $color-puerto-rico;
-    }
-
     &:disabled,
     &:disabled + label {
       opacity: 0.5;
@@ -202,17 +234,21 @@ export default {
   }
   input:focus ~ label, input:not(.empty) ~ label{
     top: 0;
-    font-size: 13px;
-    color:$color-puerto-rico;
+    font-size:14px;
+  }
+  
+  input.fixed-label ~ label {
+    top: 0;
+    font-size:14px;
+    padding: 0 10px;
+    background: #ffffff;
+    opacity: 1;
+    margin-top: 0;
   }
 
   .icon {
     right: 6px;
     top: 10px;
-    &:hover,
-    &:focus {
-      color: $color-hover;
-    }
   }
 
 .base-input {
@@ -221,8 +257,9 @@ export default {
   max-width: 316px;
 
   input {
+    outline: none;
     font-family: DIN Pro;
-    font-size: 13px;
+    font-size: 14px;
     color: #1A1919;
     line-height: 16px;
     background: #FFFFFF;
@@ -235,14 +272,25 @@ export default {
       border-color: #23BE20;
     }
 
-    &:focus ~ label,
     &:not(.empty) ~ label {
       padding: 0 4px;
       transform: translate(-3px, -50%);
       background: #ffffff;
       opacity: 1;
       margin-top: 0;
+      color: #61616199;
+    }
+
+    &:focus ~ label {
+      padding: 0 10px;
+      background: #ffffff;
+      opacity: 1;
+      margin-top: 0;
       color: #23BE20;
+    }
+
+    &.disabled ~ label {
+      color: #5f5e5e99;;
     }
   }
 

@@ -190,6 +190,7 @@ $z-index-modal: map-get($z-index, modal);
   }
 
   .modal-backdrop {
+    z-index: -1;
     position: absolute;
     top: 0;
     left: 0;

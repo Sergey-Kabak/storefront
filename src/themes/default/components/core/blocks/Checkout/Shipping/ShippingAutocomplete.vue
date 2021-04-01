@@ -8,9 +8,9 @@
         </svg>
       </button>
       <div class="autocomplete-wrapper">
-        <autocomplete ref="autocomplete" v-if="isShowAutocomplete" :placeholder="$t('Number or address of New Post')" class="search-autocomplete" :debounce-time="300" :search="options" @submit="onChooseCity">
+        <autocomplete ref="autocomplete" class="autocomplete" v-if="isShowAutocomplete" :placeholder="$t('Number or address of New Post')" :debounce-time="300" :search="options" @submit="onChooseCity">
           <template #result="{ result, props }">
-            <li v-bind="props" class="result">
+            <li v-bind="props" class="autocomplete-result" :class="{ 'selected': resultValue(result) === resultValue(selected) }">
               <span class="result-title">{{ resultValue(result) }}</span>
             </li>
           </template>
@@ -28,6 +28,7 @@
 
 <script>
 import Autocomplete from '@trevoreyre/autocomplete-vue'
+import '@trevoreyre/autocomplete-vue/dist/style.css'
 
 export default {
   components: {
@@ -49,6 +50,10 @@ export default {
     resultValue: {
       type: [Function],
       default: (it) => it
+    },
+    placeholder: {
+      type: String,
+      default: ''
     }
   },
   data: () => ({
@@ -131,10 +136,90 @@ export default {
   .autocomplete-result-list {
     border-top-color: #e0e0e0!important;
     margin-top: 0px!important;
+    padding-top: 8px;
   }
 
   .autocomplete[data-loading="true"]:after {
     right: 36px;
+  }
+
+  .autocomplete-result {
+    &.selected {
+      background-color: #E4F9E4!important;
+    }
+  }
+}
+
+.shipping-autocomplete ::v-deep {
+  .autocomplete {
+    margin-bottom: 32px;
+  }
+
+  ::-webkit-scrollbar {
+    width: 4px;
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    border-radius: 4px;
+    background-color: #bfbfbf;
+  }
+
+  .autocomplete[data-loading="true"]:after {
+    border-right-color: #23be20;
+  }
+
+  .highlight {
+    color: #23be20;
+  }
+
+  .autocomplete-input {
+    width: 100%;
+    height: 40px;
+    border: 1px solid #e0e0e0;
+    background: #ffffff;
+    border-radius: 4px;
+    padding: 12px 16px;
+    font-family: DIN Pro;
+    font-size: 14px;
+    line-height: 16px;
+    color: #1a1919;
+    outline: none;
+
+    &:focus {
+      box-shadow: none;
+      border-color: #23be20;
+    }
+  }
+
+  .autocomplete-result-list {
+    margin-top: 3px;
+    box-shadow: none;
+    border: 1px solid #e0e0e0;
+    border-radius: 0px 0px 4px 4px;
+  }
+
+  .autocomplete-result {
+    cursor: pointer;
+    padding: 8px 16px;
+    background: transparent;
+    font-family: DIN Pro;
+    font-size: 14px;
+    line-height: 16px;
+    color: #1A1919;
+  
+    &:hover {
+      background-color: #F9F9F9;
+    }
+  }
+}
+
+.clear-icon {
+  &:hover {
+    fill: #aeaeae;
+  }
+
+  &:active {
+    fill: #9f9f9f;
   }
 }
 

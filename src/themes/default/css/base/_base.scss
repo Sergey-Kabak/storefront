@@ -40,7 +40,7 @@ input:-webkit-autofill:active  {
   display: flex;
   min-height: 100vh;
   flex-direction: column;
-  overflow-x: hidden;
+  overflow: hidden;
 }
 
 .v-container {
@@ -49,6 +49,63 @@ input:-webkit-autofill:active  {
   width: 100%;
   margin: auto;
   box-sizing: border-box;
+}
+
+.profile-data-item {
+  display: flex;
+  padding: 16px;
+}
+
+.profile-item-name {
+  display: block;
+  width: 100%;
+  max-width: 235px;
+  margin-right: 12px;
+  font-family: DIN Pro;
+  font-weight: 600;
+  font-size: 13px;
+  line-height: 16px;
+  color: #5F5E5E;
+}
+
+.profile-item {
+  border: 1px solid #E0E0E0;
+  border-radius: 4px;
+  margin-bottom: 21px;
+}
+
+.profile-item-data {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  font-family: DIN Pro;
+  font-size: 15px;
+  line-height: 16px;
+  color: #1A1919;
+}
+
+.profile-data-actions {
+  padding: 16px;
+  display: flex;
+  align-items: center;
+
+  .button-full {
+    max-width: 131px;
+    margin-right: 32px;
+  }
+  
+  .button-text {
+    font-weight: 600;
+  }
+}
+
+.account-page-title {
+  margin: 0 0 22px 0;
+  font-family: DIN Pro;
+  font-weight: 600;
+  font-size: 24px;
+  line-height: 30px;
+  color: #1A1919;
 }
 
 ::placeholder {

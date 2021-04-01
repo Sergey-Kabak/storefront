@@ -1,7 +1,7 @@
 <template>
   <div class="payment active">
     <div class="title">
-      <span>3. {{ $t("the Payment") }}</span>
+      <span class="section-title">3. {{ $t("the Payment") }}</span>
     </div>
     <radio-button
       v-for="payment in methods"
@@ -33,6 +33,7 @@ import PaymentRadio from 'theme/components/core/blocks/Checkout/Payment/PaymentR
 import Credit from 'theme/components/core/blocks/Checkout/Credits/CreditMethod';
 import Liqpay from 'src/modules/payment-liqpay/components/Liqpay.vue';
 import PaymentButton from './PaymentButton';
+import config from 'config';
 
 export default {
   components: {
@@ -59,10 +60,13 @@ export default {
     isMarketplace () {
       return this.cartItems.some(it => +it.marketplace)
     },
+    isLiqpayEnabled () {
+      return this.isMarketplace ? config.liqpay_enabled.liqpay_marketplace : config.liqpay_enabled.liqpay
+    },
     methods () {
       const methods = {
         'cashondelivery': true,
-        'liqpaymagento_liqpay': !['freeshipping'].includes(this.selectedShipping.method_code) && !this.isMarketplace,
+        'liqpaymagento_liqpay': !['freeshipping'].includes(this.selectedShipping.method_code) && this.isLiqpayEnabled,
         'temabit_payparts': this.getPaypartsBanks.length,
         'credit': this.selectedShipping.method_code === 'freeshipping' && this.getCreditBanks.length
       }
@@ -92,11 +96,11 @@ export default {
   padding: 16px;
   border-bottom: transparent;
 
-  span {
+  .section-title {
     font-family: DIN Pro;
     font-size: 18px;
     line-height: 24px;
-    font-weight: 500;
+    font-weight: 400;
     color: #1A1919;
   }
 }

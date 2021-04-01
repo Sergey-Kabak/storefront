@@ -1,3 +1,5 @@
+import { SearchQuery } from 'storefront-query-builder'
+
 export function unmask(maskedValue, mask){
   if (!maskedValue) return
   let defaultTokens = ['#', 'X', 'S', 'A', 'a', '!']
@@ -42,11 +44,47 @@ export function price(product, priceType = null) {
 }
 
 export function ProductStock (product) {
+  const isBackOrderEnabled = product.stock.is_in_stock && typeof product.stock.backorders === 'number' && product.stock.backorders !== 0;
+  const isBackOrderDisabled = typeof product.stock.backorders === 'undefined' || product.stock.backorders === 0 || !product.stock.is_in_stock
+  const isOptions = product.preorder && product.coming_soon
   const status = {
-    InStock: (() => product.stock.is_in_stock && !product.preorder)(),
-    PendingDelivery: (() => product.stock.is_in_stock && !!product.preorder)(),
-    ComingSoon: (() => !product.stock.is_in_stock && !!product.coming_soon)(),
-    NotAvailable: (() => !product.stock.is_in_stock && !product.coming_soon)()
+    InStock: (() => (product.stock.is_in_stock && product.msi_salable_quantity > 0 && !isOptions) || (isBackOrderEnabled && !product.preorder))(),
+    PendingDelivery: (() => {
+      const isBackOrder = product.type_id !== 'bundle' && product.preorder && isBackOrderEnabled
+      const isPreOrder = product.stock.is_in_stock && product.preorder
+      return isBackOrder || isPreOrder || false
+    })(),
+    ComingSoon: (() => !!product.coming_soon && !product.preorder)(),
+    NotAvailable: (() => (!product.stock.is_in_stock || product.msi_salable_quantity <= 0) && !isOptions && isBackOrderDisabled)()
   }
   return Object.keys(status).find(s => !!status[s])
 }
+
+export function baseFilterPromoQuery (filters = []) {
+  let searchProductQuery = new SearchQuery()
+
+  for (let attrToFilter of filters) {
+    searchProductQuery = searchProductQuery.addAvailableFilter({ field: attrToFilter, scope: 'catalog' })
+  }
+  searchProductQuery = searchProductQuery.applyFilter({ key: 'active', value: { 'eq': true } })
+  return searchProductQuery
+}
+
+export function buildFilterPromoQuery (filters, chosenFilters = {}) {
+  let filterQr = baseFilterPromoQuery(filters)
+
+  // add choosen filters
+  for (let code of Object.keys(chosenFilters)) {
+    const filter = chosenFilters[code]
+    const attributeCode = Array.isArray(filter) ? filter[0].attribute_code : filter.attribute_code
+
+    if (Array.isArray(filter)) {
+      const values = filter.map(filter => filter.id)
+      filterQr = filterQr.applyFilter({ key: attributeCode, value: { 'in': values }, scope: 'catalog' })
+    } else  {
+      filterQr = filterQr.applyFilter({ key: attributeCode, value: { 'eq': filter.id }, scope: 'catalog' })
+    }
+  }
+  return filterQr
+}
+

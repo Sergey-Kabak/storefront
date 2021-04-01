@@ -4,51 +4,15 @@ import {Logger} from '@vue-storefront/core/lib/logger'
 import {once} from '@vue-storefront/core/helpers'
 import config from 'config'
 import pluralization from './pluralization'
+import dateTimeFormats from './dateTimeFormats'
 
 once('__VUE_EXTEND_I18N__', () => {
   Vue.use(VueI18n)
 })
 
-const dateTimeFormats = {
-  'en-US': {
-    long: {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric',
-    }
-  },
-  'uk-UA': {
-    long: {
-      day: 'numeric',
-    },
-    longWithMonthYear: {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric',
-    },
-    longWithMonth: {
-      month: 'long',
-      day: 'numeric',
-    }
-  },
-  'ru-RU': {
-    long: {
-      day: 'numeric',
-    },
-    longWithMonthYear: {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric',
-    },
-    longWithMonth: {
-      month: 'long',
-      day: 'numeric',
-    }
-  },
-}
-
 const defaultLocale = config.i18n.defaultLocale || 'en-US'
 const loadedLanguages = [defaultLocale]
+
 const i18n = new VueI18n({
   dateTimeFormats,
   locale: defaultLocale, // set locale
@@ -58,7 +22,7 @@ const i18n = new VueI18n({
   },
   fallbackLocale: defaultLocale,
   messages: config.i18n.bundleAllStoreviewLanguages ? require('./resource/i18n/multistoreLanguages.json') : {
-    [defaultLocale]: require(`./resource/i18n/${defaultLocale}.json`)
+    [defaultLocale]: require(`./resource/i18n/default.json`)
   }
 })
 
@@ -93,12 +57,13 @@ export async function loadLanguageAsync (lang: string): Promise<string> {
     if (i18n.locale !== lang) {
       if (!loadedLanguages.includes(lang)) {
         try {
-          const msgs = await import(/* webpackChunkName: "lang-[request]" */ `./resource/i18n/${lang}.json`)
+          const filename = lang === defaultLocale ? 'default' : lang
+          const msgs = await import(/* webpackChunkName: "lang-[request]" */ `./resource/i18n/${filename}.json`)
           i18n.setLocaleMessage(lang, msgs.default)
           loadedLanguages.push(lang)
           return setI18nLanguage(lang)
-        } catch (e) { // eslint-disable-line handle-callback-err
-          Logger.debug('Unable to load translation')()
+        } catch (e) {
+          Logger.debug('Unable to load translation', e.message)()
           return ''
         }
       }

@@ -15,7 +15,7 @@ export const UserSingleOrder = {
       )
     },
     paymentMethod () {
-      return this.order && this.order.payment.additional_information[0]
+      return this.order && this.order.payment
     },
     billingAddress () {
       return this.order && this.order.billing_address

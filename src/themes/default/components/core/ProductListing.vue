@@ -1,5 +1,5 @@
 <template>
-  <div class="product-listing" :style="{'grid-template-columns': `repeat(${cols}, 1fr)`}">
+  <div class="product-listing">
     <product-tile
       v-for="(product, key) in products"
       :key="key"
@@ -38,23 +38,14 @@ export default {
       type: Number | String,
       default: () => 3
     }
-  },
-  computed: {
-    cols () {
-      const cols = {
-        'desktop': this.columns,
-        'table': 3,
-        'mobile': 2
-      }
-      return cols[this.screenResolution]
-    }
   }
 }
 </script>
 
 <style lang="scss" scoped>
   .product-listing {
-    @media (max-width: 767px){
+    @media (max-width: 768px){
+      grid-template-columns: 1fr 1fr;
       grid-gap: 0;
       ::v-deep :nth-child(even) {
         border-right: none;
@@ -72,6 +63,7 @@ export default {
     width: 100%;
     display: grid;
     grid-gap: 20px;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr))
   }
 
   ::v-deep .product-image__thumb {

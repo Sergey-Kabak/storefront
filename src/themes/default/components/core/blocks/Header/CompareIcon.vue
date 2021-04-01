@@ -56,37 +56,48 @@ export default {
     }
   }
   .tooltip{
-      animation: slideDown .2s ease-in-out;
-      cursor: auto;
-      box-sizing: border-box;
-      display: none;
-      padding: 16px;
-      width: 280px;
+    animation: slideDown .2s ease-in-out;
+    cursor: auto;
+    box-sizing: border-box;
+    display: none;
+    padding: 16px;
+    width: 280px;
+    position: absolute;
+    font-family: DIN Pro;
+    font-style: normal;
+    font-size: 14px;
+    line-height: 16px;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    top: calc(100% + 17px);
+    left: 50%;
+    transform: translateX(-50%);
+    background: #fff;
+    border-radius: 4px;
+    box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.3);
+
+    &:before {
+      top: -25px;
+      left: 0;
+      content: "";
+      height: 25px;
       position: absolute;
-      font-family: DIN Pro;
-      font-style: normal;
-      font-size: 14px;
-      line-height: 16px;
-      -ms-flex-direction: column;
-      flex-direction: column;
-      top: calc(100% + 10px);
-      left: 50%;
-      transform: translateX(-50%);
-      background: #fff;
-      border-radius: 4px;
-      box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.3);
-      &-title{
-        font-size: 18px;
-        line-height: 20px;
-        color: #1A1919;
-        margin-bottom: 16px;
-      }
-      &-text{
-        font-size: 14px;
-        color: #595858;
-        margin-bottom: 12px;
-      }
+      width: 100%;
+      right: 0;
     }
+
+    &-title{
+      font-size: 18px;
+      line-height: 20px;
+      color: #1A1919;
+      margin-bottom: 16px;
+    }
+    &-text{
+      font-size: 14px;
+      color: #595858;
+      margin-bottom: 12px;
+    }
+  }
 
   .compare-count {
     font-size: 11px;
@@ -95,7 +106,7 @@ export default {
     line-height: 16px;
     background: #EE2C39;
     left: 50%;
-    top: -6px;
+    top: 0px;
     padding: 0 4px;
     min-width: 16px;
     min-height: 16px;

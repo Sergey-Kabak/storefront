@@ -3,6 +3,7 @@
     <component :is="layout">
       <router-view />
       <notification/>
+      <loader/>
     </component>
   </div>
 </template>
@@ -13,6 +14,7 @@ import 'src/themes/default/assets/fonts/stylesheet.css';
 import version from 'theme/helpers/Version';
 import config from 'config'
 import Notification from 'theme/components/core/Notification.vue';
+import Loader from 'theme/components/core/Loader.vue';
 
 const DefaultLayout = () => import(/* webpackChunkName: "vsf-layout-default" */ './layouts/Default')
 const EmptyLayout = () => import(/* webpackChunkName: "vsf-layout-empty" */ './layouts/Empty')
@@ -39,7 +41,8 @@ export default {
     EmptyLayout,
     MinimalLayout,
     Notification,
-    ErrorLayout
+    ErrorLayout,
+    Loader
   },
   beforeMount () {
     if (window) {

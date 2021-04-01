@@ -1,11 +1,10 @@
 <template>
-  <div id="category" :class="{march: isMarchPromo}">
-    <March8 v-if="isMarchPromo" />
+  <div id="category">
     <header>
       <div class="v-container">
-        <breadcrumbs v-if="!isMarchPromo" withHomepage />
-        <mobile-breadcrumbs v-if="!isMarchPromo" withHomepage />
-        <category-promo v-if="!isMarchPromo && (getCurrentCategory.image || getCurrentCategory.description)" />
+        <breadcrumbs withHomepage />
+        <mobile-breadcrumbs withHomepage />
+        <category-promo v-if="getCurrentCategory.image || getCurrentCategory.description" />
         <div class="title">
           <h1 class="category-title">
             {{ getCurrentCategory.name }}
@@ -35,12 +34,11 @@
     </header>
     <div class="v-container">
       <div class="category">
-        <div class="category-filters">
+        <div class="category-filters" v-if="$route.path !== '/samsung-a'">
           <p class="products-count">
             {{ $tc('{count} items chosen', getCategoryProductsTotal) }}
           </p>
           <sidebar :filters="getAvailableFilters" @changeFilter="changeFilter" />
-          <img v-if="isMarchPromo" class="march-promo-image" src="/assets/promo/march-8-bg-image.jpg" alt="">
         </div>
         <div class="mobile-filters" v-show="mobileFilters">
           <div class="filter-overlay" :class="{'hasFilters' : Object.keys(getCurrentSearchQuery.filters).length > 0}">
@@ -100,22 +98,8 @@
             <product-listing :products="getCategoryProducts" />
           </lazy-hydrate>
           <product-listing v-else :products="getCategoryProducts" gtm-list="category" />
-          <button-white
-            v-if="!allProductsLoaded" @click.native="onBottomScroll"
-            class="load">
-            {{ $t('Load more') }}
-            <spinner class="spinner" v-if="loadingProducts && !allProductsLoaded" />
-          </button-white>
-          <div class="march-description-wrapper promo-description-wrapper" v-if="isMarchPromo && getCurrentCategory.description">
-            <h3 class="march-title promo-title font">{{ $t('Description of the action') }}</h3>
-            <div class="march-description promo-description font">
-              <div class="" v-html="getCurrentCategory.description"></div>
-            </div>
-            <promo-expiry-date
-              class="march-expiry-date promo-expiry-date"
-              v-if="getCurrentCategory.custom_design_from && getCurrentCategory.custom_design_from"
-              :to="getCurrentCategory.custom_design_to"
-              :from="getCurrentCategory.custom_design_from" />
+          <div class="product-listing-action">
+            <button-load-more v-if="!allProductsLoaded" :loading="loadingProducts" @onClick="onBottomScroll" class="load-more-products"/>
           </div>
           <no-ssr>
             <description v-if="isDescription" />
@@ -127,7 +111,6 @@
 </template>
 
 <script>
-import PromoExpiryDate from '../components/core/blocks/Category/PromoExpiryDate';
 import LazyHydrate from 'vue-lazy-hydration';
 import Sidebar from '../components/core/blocks/Category/Sidebar.vue';
 import ProductListing from '../components/core/ProductListing.vue';
@@ -139,18 +122,17 @@ import { isServer } from '@vue-storefront/core/helpers';
 import { getSearchOptionsFromRouteParams } from '@vue-storefront/core/modules/catalog-next/helpers/categoryHelpers';
 import config from 'config';
 import ButtonFull from 'theme/components/theme/ButtonFull.vue';
+import ButtonLoadMore from 'theme/components/theme/ButtonLoadMore.vue';
 import { mapGetters } from 'vuex';
 import onBottomScroll from '@vue-storefront/core/mixins/onBottomScroll';
 import { catalogHooksExecutors } from '@vue-storefront/core/modules/catalog-next/hooks';
 import { currentStoreView } from '@vue-storefront/core/lib/multistore';
 import { htmlDecode } from '@vue-storefront/core/filters';
-import CountDown from "../components/core/CountDown";
 import Spinner from "../components/core/Spinner";
 import GTM from '../mixins/GTM/dataLayer'
 import Description from "../components/core/blocks/Category/Description";
 import ButtonWhite from "../components/core/blocks/Product/ButtonWhite";
 import NoSSR from 'vue-no-ssr';
-import March8 from '../components/core/blocks/Category/Promotions/March8';
 import CategoryPromo from '../components/core/blocks/Category/CategoryPromo';
 const THEME_PAGE_SIZE = 32
 const composeInitialPageState = async (store, route, forceLoad = false) => {
@@ -164,10 +146,6 @@ const composeInitialPageState = async (store, route, forceLoad = false) => {
       currentCategory.filterable_attributes.unshift('kategorija', 'znizhka')
     }
     let options = []
-    // 961 - 8 March (promotion)
-    if (currentCategory.id === 961) {
-      options.concat(['category_ids', 'kategorija'])
-    }
     await store.dispatch('attribute/list', { filterValues: [...currentCategory.filterable_attributes, ...options], size: [...currentCategory.filterable_attributes, ...options].length })
     await store.dispatch('category-next/loadCategoryProducts', { route, category: currentCategory, pageSize })
     const breadCrumbsLoader = store.dispatch('category-next/loadCategoryBreadcrumbs', { category: currentCategory, currentRouteName: currentCategory.name, omitCurrent: true })
@@ -180,7 +158,6 @@ const composeInitialPageState = async (store, route, forceLoad = false) => {
 
 export default {
   components: {
-    CountDown,
     LazyHydrate,
     ButtonFull,
     ProductListing,
@@ -192,9 +169,8 @@ export default {
     Spinner,
     Description,
     ButtonWhite,
+    ButtonLoadMore,
     'no-ssr': NoSSR,
-    March8,
-    PromoExpiryDate,
     CategoryPromo
   },
   mixins: [onBottomScroll, GTM],
@@ -203,15 +179,6 @@ export default {
       mobileFilters: false,
       loadingProducts: false,
       loading: true,
-      timerData: {
-        days: 0,
-        hours: 0,
-        minutes: 0,
-        seconds: 0
-      },
-      expired: null,
-      interval: null,
-      isDescriptionActive: false,
       touchX: 0,
       touchY: 0
     }
@@ -225,9 +192,6 @@ export default {
       getAvailableFilters: 'category-next/getAvailableFilters',
       getCategorySearchProductsStats: 'category-next/getCategorySearchProductsStats'
     }),
-    isMarchPromo () {
-      return this.$route.path.search('/8-march') >= 0
-    },
     isDescription () {
       return !!this.getCurrentCategory
     },
@@ -327,6 +291,14 @@ export default {
           rel: 'canonical',
           href: 'https://ringoo.ua' + this.$route.path
         }
+      ],
+      script: [
+        {
+          async: true,
+          type: 'text/javascript',
+          body: true,
+          innerHTML: `window.ad_category = ${this.getCurrentCategory.id}; window._retag = window._retag || []; window._retag.push({code: "9ce8884ee7", level: 1}); (function () { var id = "admitad-retag"; if (document.getElementById(id)) {return;} var s=document.createElement("script"); s.async = true; s.id = id; var r = (new Date).getDate(); s.src = (document.location.protocol == "https:" ? "https:" : "http:") + "//cdn.lenmit.com/static/js/retag.js?r="+r; var a = document.getElementsByTagName("script")[0]; a.parentNode.insertBefore(s, a); })()`
+        }
       ]
     }
   },
@@ -339,51 +311,23 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.product-listing-action {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 32px;
+}
+
+.load-more-products {
+  max-width: 233px;
+  margin: 0 auto;
+}
+
 .font{
   font-family: 'DIN Pro';
   font-style: normal;
   display: block;
   margin-bottom: 16px;
-}
-.march{
-  background-image: url('/assets/promo/march-8-bg-dots.jpg');
-  background-repeat: no-repeat;
-  background-position: 97% 94%;
-  background-attachment: fixed;
-  &-description{
-    &-wrapper{
-      margin: 68px auto 68px;
-      max-width: 988px;
-      box-sizing: border-box;
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-    }
-    font-size: 15px;
-    line-height: 24px;
-    text-align: center;
-    color: #5F5E5E;
-    ::v-deep p {
-      margin: 0 !important;
-    }
-  }
-  &-title{
-    font-weight: 700;
-    font-size: 24px;
-    line-height: 30px;
-    color: #1A1919;
-    margin-top: 0;
-  }
-  &-expiry-date{
-    width: auto;
-    padding: 0;
-    position: static;
-  }
-}
-.march-promo-image{
-  position: relative;
-  right: -22px;
-  margin-top: 68px;
 }
 $mobile_screen : 768px;
   ::v-deep .spinner{
@@ -523,6 +467,7 @@ $mobile_screen : 768px;
   }
 
   .mobile-filters-button {
+    width: 100%;
     display: none;
     background: #FFFFFF;
     border: 1px solid #23BE20;
@@ -621,7 +566,8 @@ $mobile_screen : 768px;
 
     .mobile-sorting {
       display: block;
-      flex: 0 0 40%;
+      width: 100%;
+      margin-right: 16px;
     }
 
     .category-filters {
@@ -686,11 +632,8 @@ $mobile_screen : 768px;
     }
 
     .mobile-actions {
-      justify-content: space-around;
       display: flex;
-      & > * {
-        flex: 0 0 48%;
-      }
+      align-items: center;
     }
 
     .category-sort {
@@ -745,10 +688,11 @@ $mobile_screen : 768px;
 <style lang="scss">
 
 .load{
+  @media(max-width: 575px) {
+    width: 100% !important;
+  }
   margin: 32px auto 0;
 }
-
-
 @media (max-width: 950px) {
   .product-listing {
     grid-template-columns: 1fr 1fr!important;
@@ -776,6 +720,14 @@ $mobile_screen : 768px;
           border-bottom-right-radius: 0;
         }
       }
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .product-listing-action {
+    .load-more-products {
+      max-width: 100%;
     }
   }
 }

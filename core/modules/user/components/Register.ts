@@ -6,6 +6,7 @@ export const Register = {
   data () {
     return {
       email: '',
+      telephone: '',
       firstName: '',
       lastName: '',
       password: '',
@@ -14,31 +15,22 @@ export const Register = {
     }
   },
   methods: {
-    switchElem () {
-      // TODO Move to theme
-      this.$store.commit('ui/setAuthElem', 'login')
-    },
-    close () {
-      // TODO Move to theme
-      this.$bus.$emit('modal-hide', 'modal-signup')
-    },
     callRegister () {
       // TODO Move to theme
       this.$bus.$emit('notification-progress-start', i18n.t('Registering the account ...'))
-      this.$store.dispatch('user/register', { email: this.email, password: this.password, firstname: this.firstName, lastname: this.lastName }).then((result) => {
+      this.$store.dispatch('user/register', { email: this.email, password: this.password, firstname: this.firstName, lastname: this.lastName,
+        custom_attributes: [{
+          attribute_code: 'telephone',
+          value: this.telephone
+        }]
+      }).then((result) => {
         Logger.debug(result, 'user')()
         // TODO Move to theme
         this.$bus.$emit('notification-progress-stop')
         if (result.code !== 200) {
           this.onFailure(result)
-          // If error includes a word 'password', focus on a corresponding field
-          if (result.result.includes('password')) {
-            this.$refs['password'].setFocus('password')
-            this.password = ''
-            this.rPassword = ''
-          }
         } else {
-          this.$store.dispatch('user/login', { username: this.email, password: this.password })
+          this.$store.dispatch('user/login', { username: this.email, password: this.password, rememberMe: false })
           this.onSuccess()
           this.close()
         }

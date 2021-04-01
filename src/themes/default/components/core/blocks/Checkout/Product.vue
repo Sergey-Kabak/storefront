@@ -22,7 +22,7 @@
       <div class="product-actions">
         <div class="actions">
           <AddToWishlist :product="product" class="product-icon" />
-          <div class="remove" @click="removeFromCart()">
+          <div class="remove product-icon" @click="removeFromCart()">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M16 9V19H8V9H16ZM14.5 3H9.5L8.5 4H5V6H19V4H15.5L14.5 3ZM18 7H6V19C6 20.1 6.9 21 8 21H16C17.1 21 18 20.1 18 19V7Z" fill="#BDBDBD"/>
             </svg>
@@ -271,9 +271,10 @@ img {
 .more-item {
   display: flex;
   align-items: center;
-  padding: 8px 16px;
+  padding: 4px 16px;
 
   svg {
+    padding: 4px;
     box-sizing: content-box;
     margin-right: 20px;
   }
@@ -295,11 +296,20 @@ img {
   align-self: flex-start;
 }
 
+.product-icon {
+  margin-right: 6px;
+
+  &:last-child {
+    margin-right: 0;
+  }
+}
+
 .remove {
   display: flex;
   cursor: pointer;
 
   svg {
+    padding: 4px;
     box-sizing: content-box;
   }
 

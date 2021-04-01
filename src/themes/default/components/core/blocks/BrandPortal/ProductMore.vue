@@ -47,11 +47,6 @@ export default {
 }
 
 .product-more-button {
-  text-transform: uppercase;
-  font-family: DIN Pro;
-  font-weight: 600;
-  font-size: 12px;
-  line-height: 13px;
   border-color:#23BE20!important;
 
   &:hover {
@@ -60,6 +55,11 @@ export default {
 
   ::v-deep {
     span {
+      text-transform: uppercase;
+      font-family: DIN Pro;
+      font-weight: 600;
+      font-size: 12px;
+      line-height: 13px;
       color: #23BE20!important;
     }
   }

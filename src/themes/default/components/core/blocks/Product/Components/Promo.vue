@@ -35,7 +35,7 @@
           <promo-products :options="product" class="product relative" />
         </div>
       </div>
-      <promo-expiry-date v-if="getCurrentProduct.bundle_gift_date_from && getCurrentProduct.bundle_gift_date_to"
+      <promo-expiry-date v-if="showExpireDate"
                          :to="getCurrentProduct.bundle_gift_date_to"
                          :from="getCurrentProduct.bundle_gift_date_from" />
     </div>
@@ -43,9 +43,10 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters, mapMutations } from 'vuex'
 import PromoProducts from './PromoProducts';
 import PromoExpiryDate from '../../Category/PromoExpiryDate';
+import * as types from '@vue-storefront/core/modules/catalog/store/product/mutation-types';
 
 export default {
   components: {
@@ -72,7 +73,29 @@ export default {
         }, []).join(' ' + this.$t('and') + ' ') + end
       }
       return start + this.getBundleOptions[0].title + end
+    },
+    showExpireDate () {
+      return this.getCurrentProduct.bundle_gift_date_from &&
+        this.getCurrentProduct.bundle_gift_date_to &&
+        new Date(this.getCurrentProduct.bundle_gift_date_to) > new Date(this.getCurrentProduct.bundle_gift_date_from)
     }
+  },
+  methods: {
+    ...mapMutations('product', {
+      setBundleOptionValue: types.PRODUCT_SET_BUNDLE_OPTION // map `this.add()` to `this.$store.commit('increment')`
+    })
+  },
+  mounted () {
+    this.getBundleOptions.forEach(bundle => {
+      bundle.product_links.forEach(link => {
+        this.setBundleOptionValue({
+          optionId: bundle.option_id,
+          optionQty: link.product.qty,
+          optionSelections: [link.id]
+        })
+      })
+    })
+    this.$store.dispatch('product/setBundleOptions', { product: this.getCurrentProduct, bundleOptions: this.$store.state.product.current_bundle_options }) // TODO: move it to "AddToCart"
   }
 }
 </script>

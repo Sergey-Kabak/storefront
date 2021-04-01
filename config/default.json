@@ -28,7 +28,9 @@
       "P",
       "page-not-found",
       "product",
-      "taxrule"
+      "taxrule",
+      "promotional",
+      "promotional-page"
     ],
     "invalidateCacheKey": "aeSu7aip",
     "invalidateCacheForwarding": false,
@@ -75,14 +77,22 @@
     {
       "filters": ["vsf-newsletter-modal", "vsf-languages-modal", "vsf-layout-empty", "vsf-layout-minimal", "vsf-order-confirmation", "vsf-search-panel"],
       "type": "script",
-      "onload": true,
+      "onload": false,
       "rel": "prefetch"
     },
     {
       "filters": ["vsf-category", "vsf-home", "vsf-not-found", "vsf-error", "vsf-product", "vsf-cms", "vsf-checkout", "vsf-compare", "vsf-my-account", "vsf-static", "vsf-reset-password"],
       "type": "script",
-      "onload": true,
+      "onload": false,
       "rel": "prefetch"
+    },
+    {
+      "filters": ["lang-.*"],
+      "onload": false
+    },
+    {
+      "filters": ["dayjs-locales-.*"],
+      "onload": false
     }
   ],
   "staticPages": {
@@ -112,6 +122,9 @@
     "saveBandwidthOverCache": true
   },
   "phoneNumbers": ["+38 073 090 87 07", "+38 097 090 87 07", "+38 050 340 74 00"],
+  "homePageBanner": {
+    "enabled": false
+  },
   "admitad": {
     "campaignCode": "89a640b42b",
     "enabled": true
@@ -157,6 +170,10 @@
       }
     }
   },
+  "liqpay_enabled" : {
+    "liqpay": true,
+    "liqpay_marketplace": true
+  },
   "ssr": {
     "templates": {
       "default": "dist/index.html",
@@ -183,62 +200,37 @@
   },
   "defaultStoreCode": "",
   "storeViews": {
-    "multistore": false,
+    "multistore": true,
     "commonCache": false,
     "mapStoreUrlsFor": [
-      "de",
-      "it"
+      "ru"
     ],
-    "de": {
-      "storeCode": "de",
-      "storeId": 3,
-      "name": "German Store",
-      "url": "/de",
+    "ru": {
+      "storeCode": "ru",
+      "storeId": 2,
+      "name": "Russian Store",
+      "url": "/ru",
       "appendStoreCode": true,
       "elasticsearch": {
         "host": "/api/catalog",
-        "index": "vue_storefront_catalog_de"
+        "index": "vue_storefront_catalog_2"
       },
       "tax": {
         "sourcePriceIncludesTax": false,
-        "defaultCountry": "DE",
+        "defaultCountry": "RU",
         "defaultRegion": "",
         "calculateServerSide": true
       },
       "i18n": {
-        "fullCountryName": "Germany",
-        "fullLanguageName": "German",
-        "defaultLanguage": "DE",
-        "defaultCountry": "DE",
-        "defaultLocale": "de-DE",
-        "currencyCode": "EUR",
-        "currencySign": "EUR",
+        "fullCountryName": "Russian",
+        "fullLanguageName": "Russian",
+        "slug": "Рус",
+        "defaultLanguage": "RU",
+        "defaultCountry": "RU",
+        "defaultLocale": "ru-RU",
+        "currencyCode": "UAH",
+        "currencySign": "₴",
         "dateFormat": "HH:mm D-M-YYYY"
-      },
-      "seo": {
-        "defaultTitle": "Vue Storefront"
-      }
-    },
-    "it": {
-      "extend": "de",
-      "storeCode": "it",
-      "storeId": 4,
-      "name": "Italian Store",
-      "url": "/it",
-      "appendStoreCode": true,
-      "elasticsearch": {
-        "host": "/api/catalog",
-        "index": "vue_storefront_catalog_it"
-      },
-      "tax": {
-        "defaultCountry": "IT"
-      },
-      "i18n": {
-        "fullCountryName": "Italy",
-        "fullLanguageName": "Italian",
-        "defaultCountry": "IT",
-        "defaultLanguage": "IT",
-        "defaultLocale": "it-IT"
       },
       "seo": {
         "defaultTitle": "Vue Storefront"
@@ -327,6 +319,7 @@
         "manufacturer",
         "breadcrumbs",
         "marketplace",
+        "configurable_options",
         "rma",
         "preorder",
         "configurable_children.attributes",
@@ -342,6 +335,11 @@
         "configurable_children.url_path",
         "configurable_children.url_key",
         "configurable_children.coming_soon",
+        "configurable_children.stock.backorders",
+        "configurable_children.msi_salable_quantity",
+        "configurable_children.preorder",
+        "backorders",
+        "msi_salable_quantity",
         "category_ids",
         "id",
         "name",
@@ -365,7 +363,6 @@
       ],
       "excludeFields": [
         "attribute_set_id",
-        "configurable_options",
         "description",
         "sgn",
         "*.sgn",
@@ -584,6 +581,15 @@
     "shop": {
       "includeFields": null,
       "excludeFields": null
+    },
+    "promotionals": {
+      "sortByAttributes": {
+        "Latest": "updated_at:desc"
+      },
+      "defaultSortBy": {
+        "attribute": "updated_at",
+        "order": "desc"
+      }
     }
   },
   "cart": {
@@ -674,7 +680,8 @@
     },
     "defaultSortBy": {
       "attribute": "updated_at",
-      "order": "desc"
+      "order": "desc",
+      "label": "Latest"
     },
     "sortByAttributes": {
       "Latest": "updated_at:desc",
@@ -756,6 +763,9 @@
     "login_endpoint": "/api/user/login",
     "create_endpoint": "/api/user/create",
     "me_endpoint": "/api/user/me?token={{token}}",
+    "validateResetPasswordToken_endpoint": "/api/user/password/validate-token",
+    "cancelOrder_endpoint": "/api/user/order/cancel?token={{token}}",
+    "deteleUser_endpoint": "/api/user/me?token={{token}}",
     "refresh_endpoint": "/api/user/refresh",
     "allowModification": ["firstname", "lastname", "email", "addresses"],
     "tokenInHeader": false
@@ -776,6 +786,7 @@
       "brand": "/temabit/brands/",
       "slider": "/bannerslider/upload/",
       "credit": "/temabit/credit/",
+      "promotional": "/temabit/promo/",
       "instruction": "/temabit/instruction/"
     },
     "productPlaceholder": "/assets/placeholder.jpg"
@@ -828,6 +839,7 @@
     "dateFormat": "HH:mm D/M/YYYY",
     "fullCountryName": "Ukraine",
     "fullLanguageName": "Ukraine",
+    "slug": "Укр",
     "bundleAllStoreviewLanguages": false
   },
   "expireHeaders": {
@@ -836,7 +848,8 @@
     "image/png": "7d"
   },
   "payments": {
-    "endpoint": "/api/payment"
+    "endpoint": "/api/payment",
+    "order_information": "/api/payment/order-information?token={{token}}"
   },
   "newsletter": {
     "endpoint": "/api/ext/mailchimp-subscribe/subscribe"
@@ -936,7 +949,7 @@
       "filter": [
         {
           "key": "category_ids",
-          "value": { "eq": [44] }
+          "value": { "eq": [49] }
         }
       ]
     }

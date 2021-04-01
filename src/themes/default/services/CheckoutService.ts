@@ -6,11 +6,11 @@ import config from 'config';
 import { TaskQueue } from '@vue-storefront/core/lib/sync'
 import Task from '@vue-storefront/core/lib/sync/types/Task'
 import getApiEndpointUrl from '@vue-storefront/core/helpers/getApiEndpointUrl';
-
+import { processLocalizedURLAddress } from '@vue-storefront/core/helpers'
 
 const getCities = async ({
   city = null,
-  size = 9999,
+  size = 10,
   sort = ''
 } = {}): Promise<Shop[]> => {
   let searchQuery = bodybuilder();
@@ -43,7 +43,9 @@ const getStreets = async ({
   sort = ''
 } = {}): Promise<Street[]> => {
   let searchQuery = bodybuilder();
-  searchQuery.query('match', 'CityDescription', city)
+  if (city) {
+    searchQuery.query('match', 'CityDescription', city)
+  }
   if (street) {
     searchQuery = searchQuery.query('query_string', 
     {
@@ -108,7 +110,7 @@ const getJustinDepartments = async ({
     searchQuery = searchQuery.query('query_string', 
     {
       "query": `*${department}*`, 
-      "fields": ["address_ua"]
+      "fields": ['address_ua^1', 'descr_ua^2']
     })
   }
 
@@ -119,12 +121,16 @@ const getJustinDepartments = async ({
     sort
   })
 
-  return resp.items
+  return resp.items && resp.items.map(it => ({
+    address_ua: it.descr_ua + ', ' + it.address_ua,
+    city_uuid: it.city_uuid,
+    uuid: it.uuid
+  }))
 }
 
 const getOrderByCartId = (cartId: string): Promise<Task> => {
   return TaskQueue.execute({
-    url: `${getApiEndpointUrl(config.payments, 'endpoint')}/order-information`,
+    url: processLocalizedURLAddress(getApiEndpointUrl(config.payments, 'order_information')),
     payload: {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },

@@ -30,12 +30,11 @@
           <product-listing columns="4" :products="getStockGoods" gtm-list="home page" />
         </lazy-hydrate>
         <product-listing v-else columns="4" :products="getStockGoods" gtm-list="home page" />
-
         <button-full
-            class="mt35 show-all"
-            type="submit"
-            @click.native="goToCategory('stockGoods')"
-            :aria-label="$t('See all')"
+          class="show-all"
+          type="submit"
+          @click.native="goToCategory('stockGoods')"
+          :aria-label="$t('See all')"
         >
           {{ $t('See all') }}
         </button-full>
@@ -54,7 +53,7 @@
         </lazy-hydrate>
         <product-listing v-else columns="4" :products="getSalesLeaders" gtm-list="home page" />
         <button-full
-          class="mt35 show-all"
+          class="show-all"
           type="submit"
           @click.native="goToCategory('salesLeaders')"
           :aria-label="$t('See all')"
@@ -67,9 +66,10 @@
     <section class="v-container section__banner">
       <div class="banner">
         <picture>
-          <source srcset="/assets/promo/delivery_promo_288x260.jpg" media="(max-width: 400px)">
-          <source srcset="/assets/promo/delivery_promo_1324x260.jpg">
-          <img v-lazy="'/assets/promo/delivery_promo_1324x260.jpg'" class="promo-image" alt="delivery promo image">
+          <source srcset="/assets/promo/delivery_mobile.jpg" media="(max-width: 400px)">
+          <source srcset="/assets/promo/delivery_tablet.jpg" media="(max-width: 991px) and (min-width: 401)">
+          <source srcset="/assets/promo/delivery_desktop.jpg">
+          <img v-lazy="'/assets/promo/delivery_desktop.jpg'" class="promo-image" alt="delivery promo image">
         </picture>
       </div>
     </section>
@@ -84,7 +84,6 @@
         <home-carousel />
       </section>
     </section>
-
     <section class="v-container ">
       <div>
         <header class="col-md-12">
@@ -94,13 +93,13 @@
         </header>
       </div>
       <div class="center-xs">
-        <lazy-hydrate :trigger-hydration="!loading" v-if="isLazyHydrateEnabled">
-          <product-listing columns="4" :products="getNew" gtm-list="home page" />
-        </lazy-hydrate>
-        <product-listing v-else columns="4" :products="getNew" gtm-list="home page" />
+          <lazy-hydrate :trigger-hydration="!loading" v-if="isLazyHydrateEnabled">
+            <product-listing columns="4" :products="getNew" gtm-list="home page" />
+          </lazy-hydrate>
+          <product-listing v-else columns="4" :products="getNew" gtm-list="home page" />
 
         <button-full
-          class="mt35 show-all"
+          class="show-all"
           type="submit"
           @click.native="goToCategory('new')"
           :aria-label="$t('See all')"
@@ -109,7 +108,6 @@
         </button-full>
       </div>
     </section>
-
     <section class="v-container ">
       <div>
         <header class="col-md-12">
@@ -124,7 +122,7 @@
         </lazy-hydrate>
         <product-listing v-else columns="4" :products="getRecommends" gtm-list="home page" />
         <button-full
-          class="mt35 show-all"
+          class="show-all"
           type="submit"
           @click.native="goToCategory('recommends')"
           :aria-label="$t('See all')"
@@ -185,7 +183,6 @@ export default {
     HomeCarousel,
     Onboard,
     ProductListing,
-    TileLinks,
     LazyHydrate,
     ButtonFull
   },
@@ -217,13 +214,12 @@ export default {
   beforeCreate () {
     registerModule(RecentlyViewedModule)
   },
-  async beforeMount () {
-    if (this.$store.state.__DEMO_MODE__) {
-      const onboardingClaim = await this.$store.dispatch('claims/check', { claimCode: 'onboardingAccepted' })
-      if (!onboardingClaim) { // show onboarding info
-        this.$bus.$emit('modal-toggle', 'modal-onboard')
-        this.$store.dispatch('claims/set', { claimCode: 'onboardingAccepted', value: true })
-      }
+  beforeMount () {
+    if (config.homePageBanner.enabled && sessionStorage.getItem('isMainPromoActive') !== 'false') {
+      this.$nextTick(() => {
+        this.$bus.$emit('modal-toggle', 'modal-main')
+        sessionStorage.setItem('isMainPromoActive', false)
+      })
     }
   },
   methods: {
@@ -288,6 +284,18 @@ export default {
     } else {
       next()
     }
+  },
+  metaInfo() {
+    return {
+      script: [
+        {
+          async: true,
+          type: 'text/javascript',
+          body: true,
+          innerHTML: `window._retag = window._retag || []; window._retag.push({code: "9ce8884ee6", level: 0}); (function () { var id = "admitad-retag"; if (document.getElementById(id)) {return;} var s = document.createElement("script"); s.async = true; s.id = id; var r = (new Date).getDate(); s.src = (document.location.protocol == "https:" ? "https:" : "http:") + "//cdn.lenmit.com/static/js/retag.js?r="+r; var a = document.getElementsByTagName("script")[0]; a.parentNode.insertBefore(s, a); })()`
+        }
+      ]
+    }
   }
 }
 </script>
@@ -302,21 +310,6 @@ export default {
       margin-top: 0;
       margin-bottom: 33px;
       padding-left: 0;
-    .show-all
-      min-width: 233px
-      margin: 31px auto 68px auto
-      width: auto
-      background-color: transparent
-      border: 1px solid #23BE20
-      box-sizing: border-box
-      border-radius: 4px
-      color: #1A1919
-      padding: 12px 60px
-      font-family: 'DIN Pro'
-      font-style: normal
-      font-weight: bold
-      font-size: 15px
-      line-height: 16px
   .main-carousel
     .VueCarousel
       &-slide
@@ -346,6 +339,7 @@ export default {
 <style lang="scss" scoped>
   .promo-image {
     width: 100%;
+    border-radius: 4px;
 
     @media only screen and (max-width: 400px) {
       border-radius: 4px;
@@ -361,7 +355,7 @@ export default {
       display: flex;
       justify-content: space-between;
       flex-wrap: wrap-reverse;
-      align-items: space-between;
+      align-items: flex-end;
       grid-column: span 2;
       box-sizing: border-box;
       background: #F6F7FA;
@@ -527,6 +521,33 @@ export default {
   #home h2 {
     @media only screen and (max-width: 768px) {
       margin-bottom: 23px;
+    }
+  }
+
+  .show-all.button-full {
+    min-width: 233px;
+    margin: 31px auto 68px auto;
+    width: auto;
+    background-color: transparent;
+    border: 1px solid #23BE20;
+    box-sizing: border-box;
+    border-radius: 4px;
+    color: #1A1919;
+    padding: 12px 60px;
+    font-family: 'DIN Pro';
+    font-style: normal;
+    font-weight: bold;
+    font-size: 15px;
+    line-height: 16px;
+
+    &:hover {
+      background-color: #E5F7E4;
+      border-color: transparent;
+      color: #1A1919;
+    }
+
+    &:active {
+      background-color: #cddccc;
     }
   }
 </style>

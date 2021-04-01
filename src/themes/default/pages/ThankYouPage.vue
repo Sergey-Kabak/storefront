@@ -80,13 +80,10 @@
 <script>
 import ProductImage from 'theme/components/core/ProductImage';
 import TotalPrice from 'theme/components/core/TotalPrice';
-import {getThumbnailForProduct} from '@vue-storefront/core/modules/cart/helpers';
 import {currentStoreView} from '@vue-storefront/core/lib/multistore';
-import {price} from 'theme/helpers';
 import {mapState} from 'vuex';
 import {Logger} from '@vue-storefront/core/lib/logger';
 import {localizedRoute} from '@vue-storefront/core/lib/multistore';
-import {PaymentService} from '@vue-storefront/core/data-resolver';
 
 export default {
   components: {
@@ -182,6 +179,16 @@ export default {
         orderedItem: orderedItem
       });
       ADMITAD.Tracking.processPositions();
+    }
+  },
+  metaInfo() {
+    return {
+      script: [{
+        async: true,
+        type: 'text/javascript',
+        body: true,
+        innerHTML: `window.ad_order = ${this.order.increment_id}; window.ad_amount = ${this.order.base_grand_total}; window.ad_products = ${JSON.stringify(this.products.map(it => ({ id: it.sku, number: it.qty_ordered })))}; window._retag = window._retag || []; window._retag.push({code: "9ce8884ee2", level: 4}); (function () { var id = "admitad-retag"; if (document.getElementById(id)) {return;} var s = document.createElement("script"); s.async = true; s.id = id; var r = (new Date).getDate(); s.src = (document.location.protocol == "https:" ? "https:" : "http:") + "//cdn.lenmit.com/static/js/retag.js?r="+r; var a = document.getElementsByTagName("script")[0]; a.parentNode.insertBefore(s, a); })()`
+      }]
     }
   }
 }

@@ -1,8 +1,6 @@
 <template>
   <div class="wishlist">
-    <div class="option-panel">
-      <i class="material-icons close-icon" @click="closeWishlist">close</i>
-    </div>
+    <close-sidebar @close="closeWishlist" />
     <div class="wishlist-body" v-if="productsInWishlist.length">
       <div class="wishlist-header">
         <div class="wishlist-header-main">
@@ -34,23 +32,17 @@
       <ul class="wishlist-list">
         <product v-for="wishlistProduct in productsInWishlist" :key="wishlistProduct.id" :product="wishlistProduct" />
       </ul>
-      <div class="wishlist-footer">
+      <div class="wishlist-footer" v-if="productInStockInWishlist.length">
         <div class="wishlist-footer-info">
           <span class="wishlist-footer-count">
-            {{ $tc('{count} products worth', productsInWishlist.length) }}:
+            {{ $tc('{count} products worth', productInStockInWishlist.length) }}:
           </span>
           <span class="wishlist-footer-amount">
             {{ price | price(storeView) }}
           </span>
         </div>
         <div class="wishlist-footer-actions">
-          <button-text  @click.native="addAllProductsToCart">{{ $t('Add all products to cart') }}</button-text>
-          <button-full
-            @click.native="createOrder()"
-            :aria-label="$t('Go to checkout')"
-          >
-            {{ $t('Go to checkout') }}
-          </button-full>
+          <button-full @click.native="addAllProductsToCart()" :aria-label="$t('Buy all')"> {{ $t('Buy all') }} </button-full>
         </div>
       </div>
     </div>
@@ -79,6 +71,8 @@ import ButtonText from 'theme/components/theme/ButtonText';
 import { notifications } from '@vue-storefront/core/modules/cart/helpers';
 import MoreIcon from 'theme/components/core/MoreIcon';
 import { mapGetters } from 'vuex';
+import { price } from 'theme/helpers';
+import CloseSidebar from 'theme/components/core/CloseSidebar';
 
 export default {
   mixins: [Wishlist],
@@ -87,7 +81,8 @@ export default {
     ClearWishlistButton,
     ButtonFull,
     ButtonText,
-    MoreIcon
+    MoreIcon,
+    CloseSidebar
   },
   props: {
     product: {
@@ -96,6 +91,9 @@ export default {
       default: () => { }
     }
   },
+  mounted() {
+    this.$store.dispatch('wishlist/updateWishlistProducts')
+  },
   computed: {
     ...mapGetters({
       totals: 'cart/getTotals'
@@ -103,8 +101,11 @@ export default {
     storeView () {
       return currentStoreView()
     },
+    productInStockInWishlist() {
+      return this.productsInWishlist.filter(it => it.stock && it.stock.is_in_stock)
+    },
     price () {
-      return this.totals.find(it => it.code === 'grand_total').value
+      return this.productInStockInWishlist.reduce((acc, it) => acc + price(it), 0)
     }
   },
   methods: {
@@ -160,22 +161,6 @@ export default {
   flex-direction: column;
   .more {
     display: none;
-  }
-}
-
-.option-panel {
-  text-align: right;
-
-  .close-icon {
-    color: #bdbdbd;
-    cursor: pointer;
-    background: #F9F9F9;
-    padding: 13px;
-    transition: .2s ease-in-out;
-
-    &:hover {
-      color: #3d3d3d;
-    }
   }
 }
 
@@ -287,7 +272,6 @@ export default {
 
   .button-text ::v-deep {
     max-width: 205px;
-    width: 100%;
 
     span {
       font-size: 14px;
@@ -297,7 +281,7 @@ export default {
   }
 
   .button-full {
-    max-width: 233px;
+    max-width: 100%;
   }
 }
 
@@ -347,7 +331,7 @@ export default {
     .more {
       .add-to-compare {
         width: 100%;
-        padding: 8px 16px;
+        padding: 4px 16px;
       }
     }
 
@@ -395,19 +379,19 @@ export default {
     display: flex;
 
     @media only screen and (max-width: 768px) {
-      margin-bottom: 6px;
-      padding: 9px 15px;
+      padding: 0px 16px;
     }
 
     .more {
       margin-left: auto;
 
       .more-item {
-        padding: 8px 16px;
+        padding: 4px 16px;
         display: flex;
         align-items: center;
 
         svg {
+          padding: 4px;
           margin-right: 20px;
         }
       }

@@ -1,16 +1,21 @@
 <template>
-  <div class="shops" v-if="shops.length">
-    <shop-controls :activeTab="activeTab" @onActiveTabChange="changeActiveTab($event)" />
-    <div class="shop-listing" v-if="activeTab === 'list'">
-      <shop v-for="(shop, index) in shops" :key="shop.id" :shop="shop" :index="index" class="shop">
-        <template v-slot:shop-actions>
-          <div class="shop-actions">
-            <button-full v-if="buttonVisible" @click.native="selectShop(shop)">{{ $t("Pick up here") }}</button-full>
-          </div>
-        </template>
-      </shop>
+  <div class="shops-wrapper" v-if="shops.length">
+    <div class="shops">
+      <shop-controls class="shop-controls" :activeTab="activeTab" @onActiveTabChange="changeActiveTab($event)" />
+      <div class="shop-listing" v-if="activeTab === 'list'">
+        <shop v-for="(shop, index) in shops" :key="shop.id" :shop="shop" :index="index" class="shop">
+          <template v-slot:shop-actions>
+            <div class="shop-actions">
+              <button-full v-if="buttonVisible" @click.native="selectShop(shop)">{{ $t("Pick up here") }}</button-full>
+            </div>
+          </template>
+        </shop>
+      </div>
+      <shop-map v-if="activeTab === 'map'" class="map" @select="selectShop($event)"/>
     </div>
-    <shop-map v-if="activeTab === 'map'" class="map" @select="selectShop($event)"/>
+    <div class="shop-mobile">
+      <shop-mobile @selectShop="selectShop($event)" @onOpenShopSidebar="openSidebar()"/>
+    </div>
   </div>
 </template>
 
@@ -18,6 +23,7 @@
 import { mapState } from 'vuex';
 import Shop from 'theme/components/core/blocks/Shop/Shop.vue'
 import ShopControls from 'theme/components/core/blocks/Checkout/Shipping/ShopShipping/ShopControls.vue'
+import ShopMobile from 'theme/components/core/blocks/Checkout/Shipping/ShopShipping/ShopMobile.vue'
 import ShopMap from 'theme/components/core/blocks/Checkout/Shipping/ShopShipping/ShopMap.vue'
 import ButtonFull from 'theme/components/theme/ButtonFull'
 import ShopTitle from 'theme/components/core/blocks/Shop/ShopTitle.vue'
@@ -34,7 +40,8 @@ export default {
     Shop,
     ShopControls,
     ButtonFull,
-    ShopTitle
+    ShopTitle,
+    ShopMobile
   },
   beforeMount() {
     this.$store.dispatch('checkoutPage/getShops', { city: this.city })
@@ -59,6 +66,9 @@ export default {
     activateShopOnMap(shop) {
       this.$store.commit('shop/SET_SELECTED_SHOP', shop)
       this.activeTab = 'map'
+    },
+    openSidebar() {
+      this.$store.commit('ui/setShopSidebar', true)
     }
   }
 };
@@ -84,6 +94,7 @@ export default {
 
   ::v-deep {
     .shop-name {
+      line-height: 20px;
       cursor: text;
     }
   }
@@ -129,6 +140,10 @@ export default {
   }
 }
 
+.shop-mobile {
+  display: none;
+}
+
 @media  (max-width: 560px) {
   .shop-listing {
     margin: 0;
@@ -137,6 +152,14 @@ export default {
 
   .map {
     padding: 0;
+  }
+
+  .shops {
+    display: none;
+  }
+
+  .shop-mobile {
+    display: block;
   }
 }
 
