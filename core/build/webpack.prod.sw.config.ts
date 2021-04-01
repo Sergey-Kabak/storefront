@@ -101,7 +101,8 @@ module.exports = merge(base, {
           urlPattern: '/*', /** this is new category URL format  */
           handler: 'networkFirst'
         }],
-      'importScripts': [`/dist/core-service-worker.js?v=${VERSION}`, 'https://push.esputnik.com/service-worker.js'] /* custom logic */
+      'importScripts': [`/dist/core-service-worker.js?v=${VERSION}`, `https://push.esputnik.com/service-worker.js`] /* custom logic */
+
     })
   ]
 })

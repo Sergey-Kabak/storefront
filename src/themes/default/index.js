@@ -22,6 +22,7 @@ import { cmsStore } from 'theme/store/cms';
 import { attributeStore } from 'theme/store/attributes';
 import { module as PromotionalModule } from './store/promotional';
 import { shopStore } from 'theme/store/shop';
+import { esputnikStore } from 'theme/store/esputnik';
 import { productKits } from 'theme/store/productKits';
 import { StorageManager } from '@vue-storefront/core/lib/storage-manager';
 import { module as carouselModule } from 'theme/store/carousel';
@@ -68,6 +69,7 @@ function initTheme (app, router, store, config, ssrContext) {
   store.registerModule('shop', shopStore);
   store.registerModule('kits', productKits);
   store.registerModule('promotional', PromotionalModule);
+  store.registerModule('esputnik', esputnikStore);
   // store.registerModule('payment', paymentStore);
 }
 

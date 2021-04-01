@@ -1,5 +1,5 @@
 <template>
-  <div class="product-wrap">
+  <div class="product-wrap" :data-productKey="product.sku">
     <div class="product">
       <router-link :to="productLink" class="product-image">
         <img :src="image.src" alt="product" />

@@ -77,6 +77,7 @@ export default {
     },
     close () {
       this.toggle(false)
+      this.onClose();
     }
   },
   beforeMount () {
@@ -107,6 +108,10 @@ export default {
     transitionName: {
       type: String,
       default: 'fade-in-down'
+    },
+    onClose: {
+      type: Function,
+      default: () => {}
     }
   },
   computed: {

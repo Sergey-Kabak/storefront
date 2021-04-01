@@ -1,0 +1,5 @@
+export const SN_CART = 'esputnik'
+export const SET_ESPUTNIK_SUBSCRIBED = SN_CART + '/SET_ESPUTNIK_SUBSCRIBED'
+export const SET_ESPUTNIK_SENT = SN_CART + '/SET_ESPUTNIK_SENT'
+
+

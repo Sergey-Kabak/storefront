@@ -1,5 +1,5 @@
 <template>
-  <div id="product" itemscope itemtype="http://schema.org/Product">
+  <div id="product" itemscope itemtype="http://schema.org/Product" :data-productKey="getCurrentProduct.sku">
     <div class="v-container">
       <div class="row">
         <div class="col-12">
@@ -132,11 +132,14 @@ export default {
       getCurrentCategory: 'category-next/getCurrentCategory',
       getCurrentProduct: 'product/getCurrentProduct',
       getProductGallery: 'product/getProductGallery',
-      getCurrentProductConfiguration: 'product/getCurrentProductConfiguration'
+      getCurrentProductConfiguration: 'product/getCurrentProductConfiguration',
     }),
     ...mapState({
       kitProducts: (state) => state.kits.products
     }),
+    isInCart () {
+      return this.$store.getters['microcart/isCurrentProductInCart']
+    },
     visibleBlocks () {
       const blocks = {
         'promo': this.getCurrentProduct.type_id === 'bundle',
@@ -219,6 +222,10 @@ export default {
     }
     if (isServer) await loadBreadcrumbsPromise
     catalogHooksExecutors.productPageVisited(product)
+  },
+  beforeRouteLeave(to, from, next) {
+    this.$store.dispatch('user/addToProductHistory', this.getCurrentProduct)
+    next();
   },
   beforeRouteEnter (to, from, next) {
     if (isServer) {
