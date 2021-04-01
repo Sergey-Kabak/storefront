@@ -8,7 +8,8 @@ export default function getAllProductConfigurations ({ configurableOptions, conf
     extension_attributes: {
       custom_options: [],
       configurable_item_options: [],
-      bundle_options: []
+      bundle_options: [],
+      product_kits: []
     }
   }
   /* eslint camelcase: "off" */

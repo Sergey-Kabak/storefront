@@ -62,6 +62,7 @@
 </template>
 
 <script>
+import { isServer } from '@vue-storefront/core/helpers'
 import {
   mapGetters,
   mapActions
@@ -72,10 +73,8 @@ import {
 } from '@vue-storefront/core/lib/modules';
 import i18n from '@vue-storefront/i18n';
 import { currentStoreView } from '@vue-storefront/core/lib/multistore';
-
 import VueOfflineMixin from 'vue-offline/mixin';
 import onEscapePress from '@vue-storefront/core/mixins/onEscapePress';
-
 import ButtonFull from 'theme/components/theme/ButtonFull';
 import ButtonOutline from 'theme/components/theme/ButtonOutline';
 import ButtonText from 'theme/components/theme/ButtonText';

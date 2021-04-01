@@ -724,6 +724,15 @@ TVs,Телевизоры
 "Last day","Последний день",
 "Details","Подробнее"
 Pick up today from, Забрать сегодня с
+"{count} products in kit",товари не добавлены | {count} товар в комплекте | {count} товара в комплекте | {count} товара в комплекте
+Assemble your kit,Собрать свой комплект
+Buy kit,Купить комплект
+Saving,Экономия
+Add to kit,Добавить в комплект
+Remove from kit,Удалить из комплекта
+Another item,Еще один товар
+Your kit,Ваш комплект
+OK,OK
 return to log in,Вернуться к авторизации
 login to your account,войти под своим аккаунтом
 "My Recently viewed products","Недавно просмотренные"
@@ -742,6 +751,11 @@ login to your account,войти под своим аккаунтом
 Pick up today from, Забрать сегодня с
 "Loading","Загрузка"
 "Show more","Показать больше"
+"let's subscribe","Подписаться"
+"subscribe details","Подписывайся, чтобы всегда быть в курсе!"
+"new features and propositions","Новинки, скидки и лучшие предложения для вас"
+"you have subscribed","Подписка успешно оформлена."
+"check your email and confirm {email}","Проверьте Ваш почтовый ящик {email} и подтвердите свой E-mail"
 ComingSoon,Скоро в наличии
 "Buy all","Купить все"
 "In cart","В корзине"

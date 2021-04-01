@@ -215,12 +215,12 @@ export default {
     registerModule(RecentlyViewedModule)
   },
   beforeMount () {
-    if (config.homePageBanner.enabled && sessionStorage.getItem('isMainPromoActive') !== 'false') {
+    // if (config.homePageBanner.enabled && sessionStorage.getItem('isMainPromoActive') !== 'false') {
       this.$nextTick(() => {
-        this.$bus.$emit('modal-toggle', 'modal-main')
+        // this.$bus.$emit('modal-toggle', 'modal-main')
         sessionStorage.setItem('isMainPromoActive', false)
       })
-    }
+    // }
   },
   methods: {
     goToCategory (cat) {

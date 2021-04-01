@@ -1,5 +1,5 @@
 <template>
-  <div class="product-wrap">
+  <div class="product-wrap" :data-productKey="product.sku">
     <div class="product">
       <router-link :to="productLink" class="product-image">
         <img :src="image.src" alt="product" />
@@ -108,7 +108,7 @@ export default {
           action1: { label: i18n.t('Cancel'), action: 'close' },
           action2: { label: i18n.t('OK'),
             action: async () => {
-              this.$store.dispatch('cart/removeItem', { product: this.product })
+              await this.$store.dispatch('cart/removeItem', { product: this.product })
               await this.GTM_REMOVE_FROM_CART([this.product])
             }
           },

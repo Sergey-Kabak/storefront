@@ -1,5 +1,5 @@
 <template>
-  <div id="product" itemscope itemtype="http://schema.org/Product">
+  <div id="product" itemscope itemtype="http://schema.org/Product" :data-productKey="getCurrentProduct.sku">
     <div class="v-container">
       <div class="row">
         <div class="col-12">
@@ -65,7 +65,7 @@ import AccessoriesTab from '../components/core/blocks/Product/Tabs/AccessoriesTa
 import ReviewsTab from '../components/core/blocks/Product/Tabs/ReviewsTab';
 import SmallProductCart from '../components/core/blocks/Product/Tabs/SmallProductCart';
 import GTM from 'theme/mixins/GTM/dataLayer'
-import { mapGetters } from 'vuex';
+import { mapGetters, mapState } from 'vuex';
 import { currentStoreView, localizedRoute } from '@vue-storefront/core/lib/multistore';
 import { htmlDecode } from '@vue-storefront/core/filters';
 import { ReviewModule } from '@vue-storefront/core/modules/review';
@@ -79,8 +79,13 @@ import SimilarProducts from 'theme/components/core/blocks/Product/Sections/Simil
 import ResizeMixin from '../components/core/blocks/Product/Mixins/ResizeMixin';
 import TabContainer from '../components/core/blocks/Product/Tabs/TabContainer';
 import TabContainerMobile from '../components/core/blocks/Product/Tabs/TabContainerMobile';
+import ProductKits from '../components/core/blocks/Product/Components/ProductKits';
 import NoSSR from 'vue-no-ssr'
 import { absoluteProductLink } from '@vue-storefront/core/modules/url/helpers'
+
+function EndDateInvalid (dateTo) {
+  return (dateTo && new Date(dateTo) < Date.now())
+}
 
 export default {
   mixins: [GTM, ProductScrolls, ResizeMixin],
@@ -104,6 +109,7 @@ export default {
     SimilarProducts,
     TabContainer,
     TabContainerMobile,
+    ProductKits,
     'no-ssr': NoSSR
   },
   data () {
@@ -126,8 +132,14 @@ export default {
       getCurrentCategory: 'category-next/getCurrentCategory',
       getCurrentProduct: 'product/getCurrentProduct',
       getProductGallery: 'product/getProductGallery',
-      getCurrentProductConfiguration: 'product/getCurrentProductConfiguration'
+      getCurrentProductConfiguration: 'product/getCurrentProductConfiguration',
     }),
+    ...mapState({
+      kitProducts: (state) => state.kits.products
+    }),
+    isInCart () {
+      return this.$store.getters['microcart/isCurrentProductInCart']
+    },
     visibleBlocks () {
       const blocks = {
         'promo': this.getCurrentProduct.type_id === 'bundle',
@@ -147,7 +159,12 @@ export default {
       return Object.keys(blocks).find(it => !!blocks[it])
     },
     activeCarriage () {
-      return 'small-product-cart'
+      const condition = this.getCurrentProduct.product_kits && this.kitProducts.length
+      const blocks = {
+        'product-kits': condition,
+        'small-product-cart': !condition
+      }
+      return Object.keys(blocks).find(it => !!blocks[it])
     },
     isOnline (value) {
       return onlineHelper.isOnline
@@ -197,8 +214,18 @@ export default {
     const product = await store.dispatch('product/loadProduct', { parentSku: route.params.parentSku, childSku: route && route.params && route.params.childSku ? route.params.childSku : null })
     const loadBreadcrumbsPromise = store.dispatch('product/loadProductBreadcrumbs', { product })
     await store.dispatch('themeCredit/fetchBanks', product.sku)
+    if (product.product_kits && product.product_kits.length) {
+      const kitProducts = product.product_kits.filter(kit => !EndDateInvalid(kit.to_date)).reduce((acc, kit) => {
+        return acc.concat([...kit.items].map(p => p.sku))
+      }, []);
+      await store.dispatch('kits/fetchKitProducts', { products: kitProducts, parentProduct: product })
+    }
     if (isServer) await loadBreadcrumbsPromise
     catalogHooksExecutors.productPageVisited(product)
+  },
+  beforeRouteLeave(to, from, next) {
+    this.$store.dispatch('user/addToProductHistory', this.getCurrentProduct)
+    next();
   },
   beforeRouteEnter (to, from, next) {
     if (isServer) {
@@ -236,8 +263,10 @@ export default {
     this.GTM_REMARKETING({ sku: this.getCurrentProduct.sku, price: this.getCurrentProduct.finalPrice })
   },
   beforeDestroy () {
+    this.$bus.$emit('modal-hide', 'modal-kits')
     this.$bus.$off('filter-on-change')
     this.$bus.$off('change-tab')
+    this.$store.state.kits.products = []
   },
   watch: {
     prevRoute: function (val) {
