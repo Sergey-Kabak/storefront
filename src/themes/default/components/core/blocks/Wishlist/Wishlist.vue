@@ -32,23 +32,17 @@
       <ul class="wishlist-list">
         <product v-for="wishlistProduct in productsInWishlist" :key="wishlistProduct.id" :product="wishlistProduct" />
       </ul>
-      <div class="wishlist-footer">
+      <div class="wishlist-footer" v-if="productInStockInWishlist.length">
         <div class="wishlist-footer-info">
           <span class="wishlist-footer-count">
-            {{ $tc('{count} products worth', productsInWishlist.length) }}:
+            {{ $tc('{count} products worth', productInStockInWishlist.length) }}:
           </span>
           <span class="wishlist-footer-amount">
             {{ price | price(storeView) }}
           </span>
         </div>
         <div class="wishlist-footer-actions">
-          <button-text  @click.native="addAllProductsToCart">{{ $t('Add all products to cart') }}</button-text>
-          <button-full
-            @click.native="createOrder()"
-            :aria-label="$t('Go to checkout')"
-          >
-            {{ $t('Go to checkout') }}
-          </button-full>
+          <button-full @click.native="addAllProductsToCart()" :aria-label="$t('Buy all')"> {{ $t('Buy all') }} </button-full>
         </div>
       </div>
     </div>
@@ -97,6 +91,9 @@ export default {
       default: () => { }
     }
   },
+  mounted() {
+    this.$store.dispatch('wishlist/updateWishlistProducts')
+  },
   computed: {
     ...mapGetters({
       totals: 'cart/getTotals'
@@ -104,8 +101,11 @@ export default {
     storeView () {
       return currentStoreView()
     },
+    productInStockInWishlist() {
+      return this.productsInWishlist.filter(it => it.stock && it.stock.is_in_stock)
+    },
     price () {
-      return this.productsInWishlist.reduce((acc, it) => acc + price(it), 0)
+      return this.productInStockInWishlist.reduce((acc, it) => acc + price(it), 0)
     }
   },
   methods: {
@@ -281,7 +281,7 @@ export default {
   }
 
   .button-full {
-    max-width: 233px;
+    max-width: 100%;
   }
 }
 
@@ -379,7 +379,6 @@ export default {
     display: flex;
 
     @media only screen and (max-width: 768px) {
-      margin-bottom: 6px;
       padding: 0px 16px;
     }
 

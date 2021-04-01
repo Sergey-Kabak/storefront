@@ -3,6 +3,7 @@ import * as types from './mutation-types'
 import RootState from '@vue-storefront/core/types/RootState'
 import WishlistState from '../types/WishlistState'
 import { StorageManager } from '@vue-storefront/core/lib/storage-manager'
+import { SearchQuery } from 'storefront-query-builder'
 
 const actions: ActionTree<WishlistState, RootState> = {
   clear (context) {
@@ -23,6 +24,17 @@ const actions: ActionTree<WishlistState, RootState> = {
   },
   removeItem ({ commit }, product) {
     commit(types.WISH_DEL_ITEM, { product })
+  },
+  async updateWishlistProducts({ commit, state, dispatch }) {
+    let searchQuery = new SearchQuery()
+    const skus = state.items.map(it => it.sku)
+    searchQuery = searchQuery.applyFilter({
+      key: 'sku',
+      value: { in: skus }
+    })
+  
+    const { items = [] } = await dispatch('product/findProducts', { query: searchQuery }, { root: true })
+    commit(types.UPDATE_PRODUCTS, items)
   }
 }
 

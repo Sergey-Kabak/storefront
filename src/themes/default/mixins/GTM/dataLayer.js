@@ -187,6 +187,17 @@ export default {
           }
         }
       });
+    },
+    GTM_REMARKETING ({ sku, price }) {
+      window.dataLayer = window.dataLayer || [];
+      window.dataLayer.push({
+        event: 'fireRemarketingTag',
+        google_tag_params: {
+          ecomm_prodid: sku,
+          ecomm_pagetype: 'product',
+          ecomm_totalvalue: price
+        }
+      });
     }
   }
 };
