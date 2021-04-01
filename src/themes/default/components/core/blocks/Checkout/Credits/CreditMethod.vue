@@ -30,6 +30,7 @@ export default {
   },
   computed: {
     ...mapState({
+      last_order_confirmation: (state) => state.order.last_order_confirmation,
       orderId: (state) => state.order.last_order_confirmation && state.order.last_order_confirmation.confirmation && state.order.last_order_confirmation.confirmation.orderNumber
     })
   },
@@ -41,7 +42,7 @@ export default {
   },
   methods: {
     async orderAfterPlaced () {
-      if (this.$store.getters['themeCredit/getPartPaymentData']) {
+      if (this.$store.getters['themeCredit/getPartPaymentData'] && this.last_order_confirmation.order.addressInformation.payment_method_code !== 'monobank') {
         this.$bus.$off('order-after-placed');
         const result = await this.$store.dispatch('themeCredit/sendPartPayment', { orderNumber: this.orderId });
         if (result.state === 'SUCCESS') {
