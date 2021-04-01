@@ -50,7 +50,7 @@
         :is-open="isCompareOpen"
         @close="isCompareOpen = false"
       />
-  
+
       <notification/>
 
       <slot/>
@@ -62,6 +62,7 @@
       <offline-badge/>
       <city-shop-picker />
       <shop-shipping-modal />
+      <kits-modal v-if="kitProducts.length" class="kits-modal" />
       <main-modal />
     </div>
     <client-credentials-for-esputnik />
@@ -70,7 +71,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { mapGetters, mapState } from 'vuex';
 import AsyncSidebar from 'theme/components/theme/blocks/AsyncSidebar/AsyncSidebar.vue';
 import MainHeader from 'theme/components/core/blocks/Header/Header.vue';
 import MainFooter from 'theme/components/core/blocks/Footer/Footer.vue';
@@ -86,6 +87,7 @@ import ClientCredentialsForEsputnik from '../components/core/blocks/ClientCreden
 import { isServer } from '@vue-storefront/core/helpers';
 import Head from 'theme/head';
 import config from 'config';
+import KitsModal from '../components/core/blocks/Product/Modals/KitsModal';
 const CityPicker = () => import(/* webpackChunkName: "vsf-custom-city-picker-modal" */ 'theme/components/core/blocks/CityPicker/CityPicker.vue');
 const SidebarMenu = () => import(/* webpackChunkName: "vsf-sidebar-menu" */ 'theme/components/core/blocks/SidebarMenu/SidebarMenu.vue');
 const Microcart = () => import(/* webpackChunkName: "vsf-microcart" */ 'theme/components/core/blocks/Microcart/Microcart.vue');
@@ -108,11 +110,13 @@ export default {
       Consultation,
       CompareSidebar,
       SignUp,
-      PromotionalFilterSidebarMobile,
-      CompareSidebar
+      PromotionalFilterSidebarMobile
     };
   },
   computed: {
+    ...mapGetters({
+      getCurrentProduct: 'product/getCurrentProduct'
+    }),
     ...mapState({
       overlayActive: state => state.ui.overlay,
       isSearchPanelOpen: state => state.ui.searchpanel,
@@ -122,8 +126,9 @@ export default {
       isWishlistOpen: state => state.ui.wishlist,
       isConsultationOpen: state => state.ui.consultation,
       isCompareOpen: state => state.ui.compare_sidebar,
+      kitProducts: (state) => state.kits.products,
       isPromotionalFilterSidebarMobileOpen: state => state.ui.isPromotionalFilterSidebarMobileOpen,
-      isSignUpOpen: state => state.ui.signUp,
+      isSignUpOpen: state => state.ui.signUp
     })
   },
   methods: {
@@ -171,6 +176,7 @@ export default {
     CreditModal,
     CityPicker,
     ShopShippingModal,
+    KitsModal,
     MainModal,
     PromotionalFilterSidebarMobile,
     ClientCredentialsForEsputnik
@@ -179,3 +185,37 @@ export default {
 </script>
 
 <style lang="scss" src="theme/css/main.scss"></style>
+<style lang="scss" scoped>
+.modal.kits-modal{
+  ::v-deep .modal-container{
+    display: flex;
+    flex-direction: column;
+    @media (min-width: 768px) {
+      max-height: calc(100% - 48px);
+      height: 100%;
+    }
+  }
+  ::v-deep .modal-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+  ::v-deep .modal-close{
+    margin-right: 0 !important;
+  }
+  ::v-deep .modal-header{
+    padding: 13px 29px 13px 24px;
+    box-sizing: border-box;
+    border-bottom: 1px solid #E0E0E0 !important;
+    h3{
+      margin: 0;
+      font-family: DIN Pro;
+      font-style: normal;
+      font-weight: 700;
+      font-size: 24px;
+      line-height: 30px;
+      color: #1A1919;
+    }
+  }
+}
+</style>
