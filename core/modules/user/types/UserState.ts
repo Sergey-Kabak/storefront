@@ -7,6 +7,7 @@ export default interface UserState {
     email: string
   } | null,
   current_storecode: string,
+  visited_products_history: any
   session_started: Date,
   orders_history: any,
   local_data_loaded: boolean

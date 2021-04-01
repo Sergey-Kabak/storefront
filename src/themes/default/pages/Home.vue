@@ -215,12 +215,12 @@ export default {
     registerModule(RecentlyViewedModule)
   },
   beforeMount () {
-    if (config.homePageBanner.enabled && sessionStorage.getItem('isMainPromoActive') !== 'false') {
+    // if (config.homePageBanner.enabled && sessionStorage.getItem('isMainPromoActive') !== 'false') {
       this.$nextTick(() => {
-        this.$bus.$emit('modal-toggle', 'modal-main')
+        // this.$bus.$emit('modal-toggle', 'modal-main')
         sessionStorage.setItem('isMainPromoActive', false)
       })
-    }
+    // }
   },
   methods: {
     goToCategory (cat) {
@@ -284,6 +284,18 @@ export default {
     } else {
       next()
     }
+  },
+  metaInfo() {
+    return {
+      script: [
+        {
+          async: true,
+          type: 'text/javascript',
+          body: true,
+          innerHTML: `window._retag = window._retag || []; window._retag.push({code: "9ce8884ee6", level: 0}); (function () { var id = "admitad-retag"; if (document.getElementById(id)) {return;} var s = document.createElement("script"); s.async = true; s.id = id; var r = (new Date).getDate(); s.src = (document.location.protocol == "https:" ? "https:" : "http:") + "//cdn.lenmit.com/static/js/retag.js?r="+r; var a = document.getElementsByTagName("script")[0]; a.parentNode.insertBefore(s, a); })()`
+        }
+      ]
+    }
   }
 }
 </script>
@@ -343,7 +355,7 @@ export default {
       display: flex;
       justify-content: space-between;
       flex-wrap: wrap-reverse;
-      align-items: space-between;
+      align-items: flex-end;
       grid-column: span 2;
       box-sizing: border-box;
       background: #F6F7FA;

@@ -143,8 +143,8 @@
 "Registering, you are accepting","Регеструючись, ви приймаєте умови"
 "Registrate","Зареєструватися"
 "Remove from favorite","Видалити з обраного"
-"Remove from wishlist?","Видалити із списку бажань?"
-"Remove {productName} from wishlist?","Видалити {productName} із списку бажань?"
+"Remove from wishlist","Видалити із списку бажань"
+"Remove {productName} from wishlist","Видалити {productName} із списку бажань"
 "Review","Відгук"
 "Reviews","Відгуки"
 "Sales leaders","Лідери продажів"
@@ -443,7 +443,6 @@ Remake order,Повторити замовлення
 Remember me,Запам'ятати мене
 Remove all,Видалити все
 Remove from compare,Видалити з порівняння
-Remove from compare,Видалити зі сторінки порівняння
 Remove,Видалити
 Repeat new password *,Повторіть новий пароль *
 Repeat password *,Повторіть пароль *
@@ -738,6 +737,15 @@ Pick up today from, Забрати сьогодні з
 "October {count}","жовтень | жовтня | жовтня"
 "November {count}","листопад | листопада | листопада"
 "December {count}","грудень | грудня | грудня"
+"{count} products in kit",товари не додіні | {count} товар в комплекті | {count} товара в комплекті | {count} товара в комплекті
+Assemble your kit,Зберіть свій комплект
+Buy kit,Купити комплект
+Saving,Економія
+Add to kit,Додати в комплект
+Remove from kit,Видалити з комплекту
+Another item,Ще один товар
+Your kit,Ваш комплект
+OK,OK
 "Loading","Завантаження"
 "Show more","Показати більше"
 TVs,Телевізори
@@ -745,6 +753,11 @@ TVs,Телевізори
 "Last day","Останнiй день",
 "Details","Докладнiше"
 "My Recently viewed products","Нещодавно переглянуті"
+"let's subscribe","Підписатись"
+"subscribe details","Підписуйся, щоб завжди бути в курсі!"
+"new features and propositions","Новинки, знижки і найкращі пропозиції для вас"
+"you have subscribed","Підписка успішно оформлена."
+"check your email and confirm {email}","Перевірте Вашу поштову скриньку {email} і підтвердіть свій E-mail"
 "to the website","На сайт"
 "Password successfully changed","Пароль успішно змінений!"
 "All orders","Всі замовлення"
@@ -757,6 +770,8 @@ TVs,Телевізори
 "Do you really want to delete recently viewed products?","Ви дійсно хочете видалити нещодавно переглянуті товари?"
 "You haven't left a review yet","Ви ще не залишили відгуки"
 ComingSoon,Скоро в наявності
+"Buy all","Купити все"
+"In cart","В корзині"
 "Select another shop","Вибрати інший магазин"
 "Our stores","Наші магазини"
 "List","Cписком"

@@ -142,8 +142,8 @@
 "Remove all","Удалить всё"
 "Remove from compare","Удалить с сравнения"
 "Remove from favorite",Удалить из избранного
-"Remove from wishlist?","Удалить товар из списка желаний?"
-"Remove {productName} from wishlist?","Удалить {productName} из списка желаний?"
+"Remove from wishlist","Удалить товар из списка желаний"
+"Remove {productName} from wishlist","Удалить {productName} из списка желаний"
 "Review","Отзыв"
 "Reviews","Отзывы"
 "Sales leaders","Лидеры продаж"
@@ -283,7 +283,7 @@
 "temabit_payparts","Оплата частями"
 "the Payment","Оплата"
 "the_product_for_price","товар на сумму"
-"to account","на аккаунт"
+"to account","в аккаунт"
 "users accepting","пользовательского соглашения"
 "using a promo code metadesc",""
 "using a promo code text","Чтобы воспользоваться промокодом ringoo и получить дополнительную скидку на товары нашего интернет-магазина, достаточно сделать всего два шага: Добавить необходимые вам товары в корзину. В корзине в поле Код купона ввести свой промокод и нажмите кнопку Применить купон. После этого вы сразу увидите количество сэкономленных гривен. Если у вас есть несколько промокод для различных товаров - добавляйте каждый промокод отдельно друг за другом, и они все будут учтены. Промокод не распространяются: Акционные предложения; Настройках и консультации; Подарочные сертификаты; Сервисы и услуги; Скретч-карты; Стартовые пакеты; Товарная группа товаров Бандл."
@@ -450,6 +450,7 @@ Purchase,Заказ
 Qty,Кол-во
 Quantity,Количество
 Register an account,Создать учетную запись
+register an account, Создать учетную запись
 Register,Регистрация
 Remake order,Повторить заказ
 Remember me,Запомнить меня
@@ -723,6 +724,17 @@ TVs,Телевизоры
 "Last day","Последний день",
 "Details","Подробнее"
 Pick up today from, Забрать сегодня с
+"{count} products in kit",товари не добавлены | {count} товар в комплекте | {count} товара в комплекте | {count} товара в комплекте
+Assemble your kit,Собрать свой комплект
+Buy kit,Купить комплект
+Saving,Экономия
+Add to kit,Добавить в комплект
+Remove from kit,Удалить из комплекта
+Another item,Еще один товар
+Your kit,Ваш комплект
+OK,OK
+return to log in,Вернуться к авторизации
+login to your account,войти под своим аккаунтом
 "My Recently viewed products","Недавно просмотренные"
 "Left {count}","Осталось | Остался | Осталось | Осталось"
 "to the website","На сайт",
@@ -739,7 +751,14 @@ Pick up today from, Забрать сегодня с
 Pick up today from, Забрать сегодня с
 "Loading","Загрузка"
 "Show more","Показать больше"
+"let's subscribe","Подписаться"
+"subscribe details","Подписывайся, чтобы всегда быть в курсе!"
+"new features and propositions","Новинки, скидки и лучшие предложения для вас"
+"you have subscribed","Подписка успешно оформлена."
+"check your email and confirm {email}","Проверьте Ваш почтовый ящик {email} и подтвердите свой E-mail"
 ComingSoon,Скоро в наличии
+"Buy all","Купить все"
+"In cart","В корзине"
 "Select another shop","Выбрать другой магазин"
 "Our stores","Наши магазины"
 "List","Cписком"
