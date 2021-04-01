@@ -18,6 +18,10 @@ const getters: GetterTree<UserState, RootState> = {
   },
   getUserEmail (state, getters) {
     return getters.isLoggedIn ? state.current.email : null
+  },
+  abandonProducts (state, getters, rootState, rootGetters) {
+    const cartSkus = rootGetters['cart/getCartItems'].map(el => el.sku)
+    return state.visited_products_history.filter(sku => !cartSkus.includes(sku))
   }
 }
 

@@ -54,6 +54,7 @@
       <notification/>
 
       <slot/>
+      <iframe frameborder="0" src="https://secure.esputnik.com/A1zAnbN8WOs" width="100%" height="208px" scrolling="no"></iframe>
       <main-footer/>
       <custom-seller-product />
       <credit-modal />
@@ -63,6 +64,7 @@
       <city-shop-picker />
       <shop-shipping-modal />
       <main-modal />
+      <esputnik-modal />
     </div>
     <client-credentials-for-esputnik />
     <vue-progress-bar/>
@@ -81,6 +83,7 @@ import CookieNotification from 'theme/components/core/CookieNotification.vue';
 import OfflineBadge from 'theme/components/core/OfflineBadge.vue';
 import CreditModal from 'theme/components/core/blocks/CreditModal.vue';
 import MainModal from 'theme/components/core/blocks/MainModal.vue';
+import EsputnikModal from 'theme/components/core/blocks/EsputnikModal.vue';
 import ShopShippingModal from '../components/core/blocks/ShopShippingModal';
 import ClientCredentialsForEsputnik from '../components/core/blocks/ClientCredentialsForEsputnik'
 import { isServer } from '@vue-storefront/core/helpers';
@@ -134,14 +137,34 @@ export default {
           : null,
         skipCache: isServer
       });
+    },
+    attachOnClosePageEsputnikHandler() {
+      window.addEventListener('beforeunload', (e) => {
+        this.$store.dispatch('esputnik/triggerAbandonProducts')
+        this.$store.dispatch('esputnik/triggerAbandonCart')
+      }, false);
+    },
+  },
+  watch: {
+    $route: {
+      immediate: true,
+      handler(v) {
+        if (v.query.subscribed) {
+          this.$nextTick(() => {
+            this.$bus.$emit('modal-toggle', 'modal-esputnik')
+            this.$store.dispatch('esputnik/setSubscribed')
+          })
+        }
+      }
     }
   },
   serverPrefetch() {
     return this.fetchMenuData();
   },
   beforeMount() {
-    // Progress bar on top of the page
+    this.attachOnClosePageEsputnikHandler()
     this.$router.beforeEach((to, from, next) => {
+      // Progress bar on top of the page
       this.$Progress.start();
       this.$Progress.increase(40);
       next();
@@ -173,6 +196,7 @@ export default {
     ShopShippingModal,
     MainModal,
     PromotionalFilterSidebarMobile,
+    EsputnikModal,
     ClientCredentialsForEsputnik
   }
 };
