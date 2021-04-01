@@ -15,7 +15,7 @@ const events = {
 
 const headers = {
   'Content-Type': 'application/json',
-  'Authorization': 'Basic YW55dmFsdWU6RTdFNzhCRTQyODBFNUYxRkM1RDlBNEZCOEFFNUU1RDc='
+  'Authorization': `Basic ${config.esputnik.apiKey}`
 }
 
 const url = 'https://esputnik.com/api/v1'

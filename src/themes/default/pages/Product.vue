@@ -48,7 +48,6 @@
 
 <script>
 import config from 'config';
-import { EsputnikService } from 'theme/services/EsputnikService.ts';
 import Breadcrumbs from 'theme/components/core/Breadcrumbs.vue';
 import MobileBreadcrumbs from '../components/core/MobileBreadcrumbs.vue';
 import ProductGallery from 'theme/components/core/ProductGallery';
