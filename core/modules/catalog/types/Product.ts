@@ -91,6 +91,7 @@ export interface ProductOptions {
   extension_attributes: {
     custom_options: any[],
     configurable_item_options: ConfigurableItemOption[],
-    bundle_options: SelectedBundleOption[]
+    bundle_options: SelectedBundleOption[],
+    product_kits: any[]
   }
 }

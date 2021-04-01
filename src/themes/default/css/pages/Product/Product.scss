@@ -108,9 +108,16 @@
       position: fixed;
       top: 112px;
     }
+    ::v-deep .product_kit__block{
+      position: fixed;
+      top: 112px;
+    }
   }
   &.carriage-absolute{
     ::v-deep .small-product{
+      position: absolute;
+    }
+    ::v-deep .product_kit__block{
       position: absolute;
     }
   }

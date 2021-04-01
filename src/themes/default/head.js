@@ -26,12 +26,7 @@ export default {
     { rel: 'apple-touch-startup-image', href: '/assets/custom/Splash_screens (iPhone)/iPhone_8_Plus (1242x208).png', sizes: '1242x2208' },
     { rel: 'apple-touch-startup-image', href: '/assets/custom/Splash_screens (iPhone)/iPhone_8 (750x1334).png', sizes: '750x1334' },
     { rel: 'apple-touch-startup-image', href: '/assets/custom/Splash_screens (iPhone)/iPhone_SE (640x1136).png', sizes: '640x1136' },
-    { rel: 'manifest', href: '/assets/manifest.json' },
-    { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: 'anonymous' },
-    { rel: 'preconnect', href: 'https://www.googletagmanager.com', crossorigin: 'anonymous' },
-    { rel: 'preload', as: 'style', href: 'https://fonts.googleapis.com/css?family=Playfair+Display:400,700|Roboto:400,700|Material+Icons&display=swap' },
-    { rel: 'stylesheet', media: 'print', onload: "this.media='all'", href: 'https://fonts.googleapis.com/css?family=Playfair+Display:400,700|Roboto:400,700|Material+Icons&display=swap' },
-    { rel: 'dns-prefetch', as: 'script', href: `https://www.googletagmanager.com/gtag/js?id=${config.googleTagManager.id}` }
+    { rel: 'manifest', href: '/assets/manifest.json' }
   ],
   script: [
     {
@@ -48,8 +43,5 @@ export default {
       type: 'text/javascript',
       innerHTML: `!function (t, e, c, n) { var s = e.createElement(c); s.async = 1, s.src = 'https://statics.esputnik.com/scripts/' + n + '.js'; var r = e.scripts[0]; r.parentNode.insertBefore(s, r); var f = function () { f.c(arguments); }; f.q = []; f.c = function () { f.q.push(arguments); }; t['eS'] = t['eS'] || f; }(window, document, 'script', '5329D46FF7EB4D63A5CA2E048C5C6C4E'); eS('init', {TRACKING: true, RECOMS: true});`
     },
-  ],
-  noscript: [
-    { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css?family=Playfair+Display:400,700|Roboto:400,700|Material+Icons&display=swap' }
   ]
 }
