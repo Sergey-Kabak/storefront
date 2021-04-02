@@ -87,7 +87,7 @@ export default {
       productsInCart: 'cart/getCartItems'
     }),
     isPromo () {
-      return this.product.sku === 'т30402'
+      return false
     },
     productIsInCart() {
       return !!(this.productsInCart.find(p => this.product.id === p.id))
