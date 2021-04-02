@@ -199,16 +199,16 @@ const mergeActions = {
     }
     const mergeClientItemsDiffLog = await dispatch('mergeClientItems', mergeParameters)
     const mergeServerItemsDiffLog = await dispatch('mergeServerItems', mergeParameters)
-    await dispatch('updateTotalsAfterMerge', { clientItems, dryRun })
-
+    // await dispatch('updateTotalsAfterMerge', { clientItems, dryRun })
+    //
     diffLog
       .merge(mergeClientItemsDiffLog)
       .merge(mergeServerItemsDiffLog)
       .pushClientParty({ status: getters.isCartHashChanged ? 'update-required' : 'no-changes' })
       .pushServerParty({ status: getters.isTotalsSyncRequired ? 'update-required' : 'no-changes' })
-
-    EventBus.$emit('servercart-after-diff', { diffLog: diffLog, serverItems: hookResult.serverItem, clientItems: hookResult.clientItems, dryRun: dryRun })
-    Logger.info('Client/Server cart synchronised ', 'cart', diffLog)()
+    //
+    // EventBus.$emit('servercart-after-diff', { diffLog: diffLog, serverItems: hookResult.serverItem, clientItems: hookResult.clientItems, dryRun: dryRun })
+    // Logger.info('Client/Server cart synchronised ', 'cart', diffLog)()
 
     return diffLog
   }

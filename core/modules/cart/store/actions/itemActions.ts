@@ -38,6 +38,14 @@ const itemActions = {
   getItem ({ getters }, { product }) {
     return getters.getCartItems.find(p => productsEquals(p, product))
   },
+  async addProduct({ dispatch, commit }, { productToAdd, forceServerSilence = false }) {
+    const { cartItem } = cartHooksExecutors.beforeAddToCart({ cartItem: productToAdd })
+    commit(types.CART_ADDING_ITEM, { isAdding: true })
+    const result = await dispatch('addItems', { productsToAdd: prepareProductsToAdd(cartItem), forceServerSilence })
+    commit(types.CART_ADDING_ITEM, { isAdding: false })
+    cartHooksExecutors.afterAddToCart(result)
+    return result
+  },
   async addItem ({ dispatch, commit }, { productToAdd, forceServerSilence = false }) {
     const { cartItem } = cartHooksExecutors.beforeAddToCart({ cartItem: productToAdd })
     commit(types.CART_ADDING_ITEM, { isAdding: true })
@@ -81,10 +89,10 @@ const itemActions = {
       }
     }
 
-    let newDiffLog = await dispatch('create')
-    if (newDiffLog !== undefined) {
-      diffLog.merge(newDiffLog)
-    }
+    // let newDiffLog = await dispatch('create')
+    // if (newDiffLog !== undefined) {
+    //   diffLog.merge(newDiffLog)
+    // }
 
     if (getters.isCartSyncEnabled && getters.isCartConnected && !forceServerSilence) {
       const syncDiffLog = await dispatch('sync', { forceClientState: true })
