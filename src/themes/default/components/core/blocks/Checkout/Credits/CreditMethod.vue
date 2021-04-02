@@ -42,7 +42,7 @@ export default {
   },
   methods: {
     async orderAfterPlaced () {
-      if (this.$store.getters['themeCredit/getPartPaymentData'] && this.last_order_confirmation.order.addressInformation.payment_method_code !== 'monobank') {
+      if (this.$store.getters['themeCredit/getPartPaymentData'] && this.$store.state.themeCredit.selectedBank.bank_code === 'privat') {
         this.$bus.$off('order-after-placed');
         const result = await this.$store.dispatch('themeCredit/sendPartPayment', { orderNumber: this.orderId });
         if (result.state === 'SUCCESS') {

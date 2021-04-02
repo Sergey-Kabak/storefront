@@ -331,13 +331,13 @@ export default {
         shippingAddress.street = billingAddress.street = [`${this.courierShipping.address.Description}, ${this.courierShipping.house}, ${this.courierShipping.apartmentNumber}`]
       }
       if (['credit', 'temabit_payparts'].includes(this.order.addressInformation.payment_method_code)) {
-        if (this.$store.state.themeCredit.selectedCredit.monobank_payparts === '1') {
-          this.order.addressInformation.payment_method_code = 'monobank'
-        }
         this.order.addressInformation.payment_method_additional = { ...this.$store.state.themeCredit.creditDetails }
         this.order.addressInformation.payment_method_additional['credit_id'] = this.$store.state.themeCredit.selectedCredit.credit_id
         this.order.addressInformation.payment_method_additional['terms'] = this.$store.state.themeCredit.selectedCredit.terms
         this.order.addressInformation.payment_method_additional['bank_id'] = this.$store.state.themeCredit.selectedBank.id
+      }
+      if (this.$store.state.themeCredit.selectedBank.bank_code === 'monobank') {
+        this.order.addressInformation.payment_method_code = 'monobank'
       }
       return this.order
     },
