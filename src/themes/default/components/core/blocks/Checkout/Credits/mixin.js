@@ -44,7 +44,6 @@ export default {
       return extraProducts.length ? extraProducts.reduce((accumulator, product) => accumulator += price(product) * product.qty, 0) : 0;
     },
     alertStatus () {
-      console.log(this.requiredExtraPrice, this.getAccessoriesPriceFromCart, this.isExtraItemsPart);
       if (this.getAccessoriesPriceFromCart === 0 && this.isExtraItemsPart) {
         return {
           class: 'error',
