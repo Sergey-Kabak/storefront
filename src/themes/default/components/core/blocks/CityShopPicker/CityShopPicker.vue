@@ -78,7 +78,7 @@ export default {
       this.closePopup()
       this.$store.commit('shop/SET_SELECTED_SHOP', null)
       this.$store.commit('ui/setShopCity', this.selectedCity)
-      await this.$store.dispatch('shop/getShops', { city: this.selectedCity })
+      await this.$store.dispatch('shop/getShops', { city: this.selectedCity, isAllowPickupLocation: false })
       this.$bus.$emit('fit-bounds')
       this.$bus.$emit('close-info-window')
     }
