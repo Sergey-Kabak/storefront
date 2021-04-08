@@ -84,6 +84,7 @@ import {currentStoreView} from '@vue-storefront/core/lib/multistore';
 import {mapState} from 'vuex';
 import {Logger} from '@vue-storefront/core/lib/logger';
 import {localizedRoute} from '@vue-storefront/core/lib/multistore';
+import { formatProductLinkNoSku } from '@vue-storefront/core/modules/url/helpers'
 
 export default {
   components: {
@@ -96,7 +97,8 @@ export default {
   computed: {
     ...mapState({
       order: (state) => state.checkoutPage.order,
-      cartServerToken: (state) => state.cart.cartServerToken
+      cartServerToken: (state) => state.cart.cartServerToken,
+      lastOrder: state => state.order.last_order_confirmation.order
     }),
     products () {
       return this.order.items.filter(it => it.parent_item && it.parent_item.product_type === 'bundle' || !it.parent_item)
@@ -145,6 +147,7 @@ export default {
   },
   methods: {
     image(product) {
+      if (!product.extension_attributes.thumbnail)
       return {
         src: this.getThumbnail(product.extension_attributes.thumbnail, 88, 88)
       }
@@ -155,19 +158,80 @@ export default {
       }
     },
     initEsputnik() {
-      const items = this.products.map(it => (
-        {
-          product: {
-            productID: it.item_id,
-            category: '1',
-            price: it.price,
-            priceCurrency: 'UAH',
-          },
-          orderQuantity: it.qty_ordered,
-          additionalType: 'sale'
-        }
-      ))
-      this.$store.dispatch('esputnik/triggerOrderSuccess', { items })
+      // const items = this.products.map(it => (
+      //   {
+      //     product: {
+      //       productID: it.item_id,
+      //       category: '1',
+      //       price: it.price,
+      //       priceCurrency: 'UAH',
+      //     },
+      //     orderQuantity: it.qty_ordered,
+      //     additionalType: 'sale'
+      //   }
+      // ))
+      const items = this.lastOrder.products.map(it => ({
+        externalItemId: it.sku,
+        name: it.name,
+        category: 1,
+        quantity: it.qty,
+        cost: it.original_final_price,
+        url: `https://ringoo.ua/${it.url_key}`,
+        imageUrl: this.getThumbnail(it.image, 100, 100),
+        description: it.description
+      }))
+      // const payload = {
+      //   "eventTypeKey": "orderCreated",
+      //   "keyValue": this.order.customer_email,
+      //   "params": [
+      //     {
+      //       "name": "phone",
+      //       "value": "380501234567"
+      //     }, {
+      //       "name": "externalOrderId",
+      //       "value": "this.order.orderNumber"
+      //     }, {
+      //       "name": "externalCustomerId",
+      //       "value": "AV13760"
+      //     }, {
+      //       "name": "totalCost",
+      //       "value": this.order.grand_total
+      //     }, {
+      //       "name": "status",
+      //       "value": "INITIALIZED"
+      //     }, {
+      //       "name": "date",
+      //       "value": this.order.transferedAt
+      //     }, {
+      //       "name": "items",
+      //       "value": JSON.stringify(items)
+      //     }
+      //   ]
+      // }
+      const payload = {
+        orders: [{
+          "externalOrderId" : this.order.increment_id,
+          "externalCustomerId" : this.order.customer_email,
+          "totalCost" : this.order.grand_total,
+          "status" : "INITIALIZED",
+          "date" : new Date().toISOString(),
+          "email" : this.order.customer_email,
+          "phone" : this.order.billing_address.telephone,
+          "firstName" : this.order.customer_firstname,
+          "lastName" : this.order.customer_firstname,
+          "currency" : this.order.order_currency_code,
+          "shipping" : this.order.shipping_amount,
+          "discount" : this.order.discount_amount,
+          "taxes" : this.order.base_tax_amount,
+          "restoreUrl": `https://ringoo.ua/thank-you-page?cartId=${this.$route.query.cartId}`,
+          "statusDescription" : this.order.status,
+          "deliveryMethod" : this.order.shipping_description,
+          "paymentMethod" : this.order.payment.method,
+          "deliveryAddress" : this.order?.billing_address?.street?.[0],
+          "items" : items
+        }]
+      }
+      this.$store.dispatch('esputnik/triggerOrderSuccess', payload)
     }
   },
   metaInfo() {

@@ -4,12 +4,12 @@ import * as types from './mutation-types'
 
 const formatItems = items => items.map(el => ({
   name: el.name,
-  value: JSON.stringify({
+  value: {
     name: el.name,
     price: el.price,
     img: getThumbnailPath(el.thumbnail, 200, 200),
     url: `http://ringoo.ua/${el.url_path}`
-  })
+  }
 }))
 
 const actions = {
@@ -31,8 +31,8 @@ const actions = {
   triggerComeback () {
     return EsputnikService.triggerComebackEvent({});
   },
-  triggerOrderSuccess ({ items }) {
-    return EsputnikService.triggerOrderSuccess({ items });
+  triggerOrderSuccess ({}, payload) {
+    return EsputnikService.triggerOrderSuccess(payload);
   },
   setSubscribed ({ commit }) {
     commit(types.SET_ESPUTNIK_SUBSCRIBED, true)

@@ -54,7 +54,7 @@
       <notification/>
 
       <slot/>
-      <iframe frameborder="0" src="https://secure.esputnik.com/A1zAnbN8WOs" width="100%" height="208px" scrolling="no"></iframe>
+      <iframe frameborder="0" src="https://secure.esputnik.com/A1zAnbN8WOs" width="100%" height="208px" scrolling="no" class="esputnik-section" ></iframe>
       <main-footer/>
       <custom-seller-product />
       <credit-modal />
@@ -143,11 +143,9 @@ export default {
         skipCache: isServer
       });
     },
-    attachOnClosePageEsputnikHandler() {
-      window.addEventListener('beforeunload', (e) => {
-        this.$store.dispatch('esputnik/triggerAbandonProducts')
-        this.$store.dispatch('esputnik/triggerAbandonCart')
-      }, false);
+    triggerEsputnik(e) {
+      this.$store.dispatch('esputnik/triggerAbandonProducts')
+      this.$store.dispatch('esputnik/triggerAbandonCart')
     },
   },
   watch: {
@@ -168,6 +166,7 @@ export default {
   },
   beforeMount() {
     this.attachOnClosePageEsputnikHandler()
+    window.addEventListener('unload', this.triggerEsputnik);
     this.$router.beforeEach((to, from, next) => {
       // Progress bar on top of the page
       this.$Progress.start();
@@ -181,6 +180,9 @@ export default {
   },
   beforeDestroy() {
     this.$bus.$off('offline-order-confirmation', this.onOrderConfirmation);
+  },
+  destroyed() {
+    window.removeEventListener('unload', this.triggerEsputnik);
   },
   metaInfo: Head,
   components: {
@@ -240,6 +242,13 @@ export default {
       line-height: 30px;
       color: #1A1919;
     }
+  }
+}
+.esputnik-section {
+  height: 208px;
+
+  @media only screen and (max-width: 785px) {
+    height: 368px;
   }
 }
 </style>

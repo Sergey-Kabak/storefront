@@ -3,7 +3,10 @@ import { DataResolver } from '../types/EsputnikResolver';
 import { TaskQueue } from '@vue-storefront/core/lib/sync'
 import Task from '@vue-storefront/core/lib/sync/types/Task'
 import store from '@vue-storefront/core/store'
+import { StorageManager } from '@vue-storefront/core/lib/storage-manager'
 
+const checkoutStorage = StorageManager.get('checkout')
+let email = null
 const events = {
   ABANDONED_CART: "abandoned_cart",
   ABANDONED_PRODUCTS: "abandoned_products",
@@ -40,38 +43,31 @@ const subscribe = async ({ email }): Promise<Task> => {
   })
 }
 const triggerEvent = async ({ eventName, params}): Promise<Task> => {
-  const email = store.getters['user/getUserEmail']
-  if (!email) return;
-  const res = await TaskQueue.execute({
-    url: `${url}/event`,
-    payload: {
-      method: 'POST',
-      headers,
-      body: JSON.stringify({
-        eventTypeKey: eventName,
-        keyValue: email,
-        params
+  email = store.getters['user/getUserEmail']
+  if (!email) {
+    try {
+      const details = await checkoutStorage.getItem('personal-details')
+      email = details.emailAddress;
+      if (!email) return;
+      return TaskQueue.execute({
+        url: `${url}/event`,
+        payload: {
+          method: 'POST',
+          headers,
+          body: JSON.stringify({
+            eventTypeKey: eventName,
+            keyValue: email,
+            params
+          })
+        }
       })
+    } catch (err) {
+      throw err;
     }
-  })
-  return res;
-}
 
-// const triggerEventInBackground = async ({ eventName, params}) => {
-//   const email = store.getters['user/getUserEmail']
-//   if (!email) return;
-//   let body = {
-//     eventTypeKey: eventName,
-//     keyValue: email,
-//     params
-//   }
-//   const headers = {
-//     type: 'application/json',
-//     'Authorization': 'Basic YW55dmFsdWU6RTdFNzhCRTQyODBFNUYxRkM1RDlBNEZCOEFFNUU1RDc='
-//   }
-//   let blob = new Blob([JSON.stringify(body)], headers);
-//   navigator.sendBeacon(`${url}/event`, blob);
-// }
+  }
+  if (!email) return;
+}
 
 const triggerAbandonCart = async ({ items }): Promise<Task> => {
   return triggerEvent({
@@ -93,10 +89,14 @@ const triggerAbandonProducts = async ({ items }): Promise<Task> => {
   })
 }
 
-const triggerOrderSuccess = async ({ items }): Promise<Task> => {
-  return triggerEvent({
-    eventName: events.ORDER_SUCCESS,
-    params: items
+const triggerOrderSuccess = async (payload): Promise<Task> => {
+  return await TaskQueue.execute({
+    url: `${url}/orders`,
+    payload: {
+      method: 'POST',
+      headers,
+      body: JSON.stringify(payload)
+    }
   })
 }
 const triggerComebackEvent = async ({ items }): Promise<Task> => {
