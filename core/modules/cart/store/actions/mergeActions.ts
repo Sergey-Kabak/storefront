@@ -83,7 +83,7 @@ const mergeActions = {
   },
   async synchronizeServerItem ({ commit, dispatch }, { serverItem, clientItem, forceClientState, dryRun, mergeQty }) {
     const diffLog = createDiffLog()
-
+    // debugger
     if (!serverItem) {
       Logger.warn('No server item with sku ' + clientItem.sku + ' on stock.', 'cart')()
       diffLog.pushServerParty({ sku: clientItem.sku, status: 'no-item' })
@@ -106,6 +106,7 @@ const mergeActions = {
     if (serverItem.qty !== clientItem.qty || mergeQty) {
       Logger.log('Wrong qty for ' + clientItem.sku, clientItem.qty, serverItem.qty)()
       diffLog.pushServerParty({ sku: clientItem.sku, status: 'wrong-qty', 'client-qty': clientItem.qty, 'server-qty': serverItem.qty })
+
       if (dryRun) return diffLog
       if (forceClientState || !config.cart.serverSyncCanModifyLocalItems) {
         const updateServerItemDiffLog = await dispatch('updateServerItem', { clientItem, serverItem, updateIds: true, mergeQty })
@@ -121,6 +122,7 @@ const mergeActions = {
   },
   async mergeClientItem ({ dispatch }, { clientItem, serverItems, forceClientState, dryRun, mergeQty }) {
     let serverItem = serverItems.find(itm => productsEquals(itm, clientItem))
+    // debugger
     const diffLog = await dispatch('synchronizeServerItem', { serverItem, clientItem, forceClientState, dryRun, mergeQty })
     if (!serverItem) {
       serverItem = diffLog.serverResponses[0].result.result.extension_attributes.cart_items.find(p => p.sku === clientItem.sku)
@@ -223,13 +225,14 @@ const mergeActions = {
       dryRun,
       mergeQty
     }
+
     const mergeClientItemsDiffLog = await dispatch('mergeClientItems', mergeParameters)
-    const mergeServerItemsDiffLog = await dispatch('mergeServerItems', mergeParameters)
+    // const mergeServerItemsDiffLog = await dispatch('mergeServerItems', mergeParameters)
     // dispatch('updateTotalsAfterMerge', { clientItems, dryRun })
     // async dispatch('getTotalsFromUpdate', )
     diffLog
       .merge(mergeClientItemsDiffLog)
-      .merge(mergeServerItemsDiffLog)
+      // .merge(mergeServerItemsDiffLog)
       .pushClientParty({ status: getters.isCartHashChanged ? 'update-required' : 'no-changes' })
       .pushServerParty({ status: getters.isTotalsSyncRequired ? 'update-required' : 'no-changes' })
     //
