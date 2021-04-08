@@ -19,7 +19,7 @@ const quantityActions = {
   async updateQuantity ({ commit, dispatch, getters }, { product, qty, forceServerSilence = false }) {
     commit(types.CART_UPD_ITEM, { product, qty })
     if (getters.isCartSyncEnabled && product.server_item_id && !forceServerSilence) {
-      return dispatch('sync', { forceClientState: true })
+      return dispatch('syncOnAddToCart', { forceClientState: true })
     }
 
     return createDiffLog()
