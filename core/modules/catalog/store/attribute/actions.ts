@@ -23,7 +23,7 @@ const actions: ActionTree<AttributeState, RootState> = {
             }
           }
         }}, entityType: 'attribute_set' });
-    commit(types.SET_ATTRIBUTE_GROUPS, res.items[0].groups.filter(attr => !attr.is_visible_on_front))
+    commit(types.SET_ATTRIBUTE_GROUPS, res.items[0].groups.filter(attr => attr.is_visible_on_front))
   },
   async updateAttributes ({ commit, getters }, { attributes }) {
     const idsList = getters.getAttributeListById

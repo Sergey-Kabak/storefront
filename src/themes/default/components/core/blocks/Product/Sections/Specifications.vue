@@ -1,8 +1,8 @@
 <template>
   <div class="content">
     <h3 class="tab-title">{{ $t('SpecificationsTab') }}</h3>
-    <div v-for="group in splicedList" :key="group.attribute_group_id" v-if="group.attrs.length">
-      <strong>{{group.label}}</strong>
+    <div class="group" v-for="group in splicedList" :key="group.attribute_group_id" v-if="group.attrs.length">
+      <strong class="group-title">{{group.label}}</strong>
       <table class="attributes-table">
         <tbody>
         <product-attribute
@@ -73,6 +73,20 @@ export default {
 
 <style lang="scss" scoped>
 @import "~theme/css/pages/Product/Tabs";
+.group{
+  &:not(:last-child){
+    border-bottom: 1px solid #E0E0E0;
+  }
+  &-title{
+    font-family: DIN Pro;
+    font-weight: 700;
+    font-size: 15px;
+    line-height: 24px;
+    color: #1A1919;
+    display: block;
+    padding: 16px 0 12px;
+  }
+}
 tbody{
   @media (max-width: 575px) {
     display: block;
@@ -109,16 +123,16 @@ tbody{
       line-height: 1;
     }
   }
-  ::v-deep tr:nth-child(even){
-    td{
-      background: #F9F9F9;
-    }
-  }
-  ::v-deep tr:nth-child(odd){
-    td{
-      background: white;
-    }
-  }
+  //::v-deep tr:nth-child(even){
+  //  td{
+  //    background: #F9F9F9;
+  //  }
+  //}
+  //::v-deep tr:nth-child(odd){
+  //  td{
+  //    background: white;
+  //  }
+  //}
 }
 .tab-link{
   display: inline-block;
