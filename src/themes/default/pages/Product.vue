@@ -270,8 +270,19 @@ export default {
   },
   watch: {
     prevRoute: function (val) {
+      const product = this.getCurrentProduct
       let page = val.meta.name || 'product page';
-      this.GTM_PRODUCT_VIEW([this.getCurrentProduct], page)
+      this.GTM_PRODUCT_VIEW([product], page)
+      this.$store.dispatch('esputnik/triggerProductViewed', { product })
+      eS('sendEvent', 'ProductPage', {
+        'ProductPage': {
+          productKey: product.sku,            
+          price: product.price,
+          isInStock: 1,
+          currency: 'UAH',
+          isInStock: product.stock?.is_in_stock
+        }
+      })
     },
     isOnline: {
       handler (isOnline) {

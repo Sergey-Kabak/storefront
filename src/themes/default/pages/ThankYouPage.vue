@@ -98,8 +98,14 @@ export default {
     ...mapState({
       order: (state) => state.checkoutPage.order,
       cartServerToken: (state) => state.cart.cartServerToken,
-      lastOrder: state => state.order.last_order_confirmation.order
+      cartGuid: (state) => state.cart.cartGuid,
+      lastOrder: state => state.order.last_order_confirmation.order,
+      userData: (state) => state.user.current
     }),
+    telephone() {
+      const phone = this.userData.custom_attributes.find(it => it.attribute_code === 'telephone') 
+      return phone.value
+    },
     products () {
       return this.order.items.filter(it => it.parent_item && it.parent_item.product_type === 'bundle' || !it.parent_item)
     },
@@ -125,17 +131,12 @@ export default {
     }
   },
   async mounted() {
-    if (!this.cartServerToken) { // clear only correct cart
-      this.$store.commit('checkoutPage/RESET_CHECKOUT', null)
-      this.$store.dispatch('cart/clear', { sync: false })
-    }
     if (this.order.payment.method === 'liqpaymagento_liqpay') {
       this.status = await this.$store.dispatch('checkoutPage/getLiqpayStatus', {
         orderId: this.order.increment_id,
         marketplace: this.isMarketplace
       })
     }
-
     if (this.order.payment.method === 'temabit_payparts') {
       const status = await this.$store.dispatch('themeCredit/partPaymentStatus', {
         id: this.order.increment_id,
@@ -144,6 +145,10 @@ export default {
       this.status = status.state && status.state.toLowerCase()
     }
     this.initEsputnik()
+    if (!this.cartServerToken) { // clear only correct cart
+      this.$store.commit('checkoutPage/RESET_CHECKOUT', null)
+      this.$store.dispatch('cart/clear', { sync: false })
+    }
   },
   methods: {
     image(product) {
@@ -158,18 +163,6 @@ export default {
       }
     },
     initEsputnik() {
-      // const items = this.products.map(it => (
-      //   {
-      //     product: {
-      //       productID: it.item_id,
-      //       category: '1',
-      //       price: it.price,
-      //       priceCurrency: 'UAH',
-      //     },
-      //     orderQuantity: it.qty_ordered,
-      //     additionalType: 'sale'
-      //   }
-      // ))
       const items = this.lastOrder.products.map(it => ({
         externalItemId: it.sku,
         name: it.name,
@@ -180,34 +173,6 @@ export default {
         imageUrl: this.getThumbnail(it.image, 100, 100),
         description: it.description
       }))
-      // const payload = {
-      //   "eventTypeKey": "orderCreated",
-      //   "keyValue": this.order.customer_email,
-      //   "params": [
-      //     {
-      //       "name": "phone",
-      //       "value": "380501234567"
-      //     }, {
-      //       "name": "externalOrderId",
-      //       "value": "this.order.orderNumber"
-      //     }, {
-      //       "name": "externalCustomerId",
-      //       "value": "AV13760"
-      //     }, {
-      //       "name": "totalCost",
-      //       "value": this.order.grand_total
-      //     }, {
-      //       "name": "status",
-      //       "value": "INITIALIZED"
-      //     }, {
-      //       "name": "date",
-      //       "value": this.order.transferedAt
-      //     }, {
-      //       "name": "items",
-      //       "value": JSON.stringify(items)
-      //     }
-      //   ]
-      // }
       const payload = {
         orders: [{
           "externalOrderId" : this.order.increment_id,
@@ -231,6 +196,25 @@ export default {
           "items" : items
         }]
       }
+      eS('sendEvent', 'CustomerData', {
+        'CustomerData': {
+          'user_email': userData.email,
+          'user_name': `${userData.firstname} ${userData.lastname}`,
+          'user_client_id': userData.id,
+          'user_phone': this.telephone
+        }
+      });
+      eS('sendEvent', 'PurchasedItems', {
+          "OrderNumber": "123/2017",
+          "PurchasedItems": JSON.stringify(this.lastOrder.products.map(p => ({
+              "productKey": p.sku,
+              "price": p.original_final_price,
+              "quantity": p.qty,
+              "currency": "UAH"
+            })
+        )),
+      "GUID": this.cartGuid
+      });
       this.$store.dispatch('esputnik/triggerOrderSuccess', payload)
     }
   },

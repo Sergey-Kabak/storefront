@@ -13,7 +13,9 @@ const events = {
   FAVORITES: "favorites",
   PASSWORD_CHANGED: "password_changed",
   ORDER_SUCCESS: "order_success",
-  COMEBACK: "comeback"
+  COMEBACK: "comeback",
+  CART_UPDATED: "cartUpdated",
+  PRODUCT_VIEWED: "productViewed",
 }
 
 const headers = {
@@ -43,38 +45,79 @@ const subscribe = async ({ email }): Promise<Task> => {
   })
 }
 const triggerEvent = async ({ eventName, params}): Promise<Task> => {
-  email = store.getters['user/getUserEmail']
+  const sendEvent = () => TaskQueue.execute({
+    url: `${url}/event`,
+    payload: {
+      method: 'POST',
+      headers,
+      body: JSON.stringify({
+        eventTypeKey: eventName,
+        keyValue: email,
+        params
+      })
+    }
+  })
+  let email = store.getters['user/getUserEmail']
   if (!email) {
     try {
       const details = await checkoutStorage.getItem('personal-details')
+      if (!details) return;
       email = details.emailAddress;
       if (!email) return;
-      return TaskQueue.execute({
-        url: `${url}/event`,
-        payload: {
-          method: 'POST',
-          headers,
-          body: JSON.stringify({
-            eventTypeKey: eventName,
-            keyValue: email,
-            params
-          })
-        }
-      })
+      return sendEvent()
     } catch (err) {
       throw err;
     }
-
+  } else {
+    return sendEvent()
   }
-  if (!email) return;
 }
 
-const triggerAbandonCart = async ({ items }): Promise<Task> => {
-  return triggerEvent({
-    eventName: events.ABANDONED_CART,
-    params: items
-  })
+const triggerEventInBackground = async ({ eventName, params}) => {
+  function sendBeacon() {
+    let body = {
+      eventTypeKey: eventName,
+      keyValue: email,
+      params
+    }
+    const headers = {
+      type: 'application/json',
+      'Content-Type': 'application/json',
+      'Authorization': `Basic ${config.esputnik.apiKey}`
+    }
+    let blob = new Blob([JSON.stringify(body)], headers);
+    navigator.sendBeacon(`${url}/event`, blob);
+  }
+  let email = store.getters['user/getUserEmail']
+  if (!email) {
+    try {
+      const details = await checkoutStorage.getItem('personal-details')
+      if (!details) return;
+      email = details.emailAddress;
+      sendBeacon()
+    } catch (err) {
+      throw err;
+    }
+  } else {
+    sendBeacon()
+  }
+  const details = await checkoutStorage.getItem('personal-details')
+  if (!details) return;
+  email = details.emailAddress;
+  let body = {
+    eventTypeKey: eventName,
+    keyValue: email,
+    params
+  }
+  const headers = {
+    type: 'application/json',
+    'Content-Type': 'application/json',
+    'Authorization': `Basic ${config.esputnik.apiKey}`
+  }
+  let blob = new Blob([JSON.stringify(body)], headers);
+  navigator.sendBeacon(`${url}/event`, blob);
 }
+
 const triggerPasswordChanged = async ({ params }): Promise<Task> => {
   return triggerEvent({
     eventName: events.PASSWORD_CHANGED,
@@ -82,10 +125,29 @@ const triggerPasswordChanged = async ({ params }): Promise<Task> => {
   })
 }
 
-const triggerAbandonProducts = async ({ items }): Promise<Task> => {
-  return triggerEvent({
+const triggerAbandonCart = async ({ items }) => {
+  return triggerEventInBackground({
+    eventName: events.ABANDONED_CART,
+    params: items
+  })
+}
+const triggerAbandonProducts = async ({ items }) => {
+  return triggerEventInBackground({
     eventName: events.ABANDONED_PRODUCTS,
     params: items
+  })
+}
+const triggerCartUpdated = async (payload): Promise<Task> => {
+  return triggerEvent({
+    eventName: events.CART_UPDATED,
+    params: payload
+  })
+}
+
+const triggerProductViewed = async (payload): Promise<Task> => {
+  return triggerEvent({
+    eventName: events.PRODUCT_VIEWED,
+    params: payload
   })
 }
 
@@ -113,5 +175,7 @@ export const EsputnikService: DataResolver.EsputnikService = {
   triggerAbandonProducts,
   triggerPasswordChanged,
   triggerOrderSuccess,
-  triggerComebackEvent
+  triggerComebackEvent,
+  triggerCartUpdated,
+  triggerProductViewed
 }

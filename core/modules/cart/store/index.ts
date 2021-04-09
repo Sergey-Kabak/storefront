@@ -3,6 +3,7 @@ import actions from './actions'
 import getters from './getters'
 import mutations from './mutations'
 import CartState from '../types/CartState'
+import { generateGuid } from '@vue-storefront/core/helpers'
 
 export const cartStore: Module<CartState, any> = {
   namespaced: true,
@@ -20,7 +21,8 @@ export const cartStore: Module<CartState, any> = {
     cartServerLastTotalsSyncDate: 0,
     cartItems: [], // TODO: check if it's properly namespaced
     connectBypassCount: 0,
-    isAddingToCart: false
+    isAddingToCart: false,
+    cartGuid: generateGuid()
   },
   getters,
   actions,

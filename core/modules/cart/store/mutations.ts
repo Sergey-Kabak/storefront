@@ -5,6 +5,7 @@ import CartState from '../types/CartState'
 import config from 'config'
 import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
 import productsEquals from './../helpers/productsEquals'
+import { generateGuid } from '@vue-storefront/core/helpers'
 
 const mutations: MutationTree<CartState> = {
   /**
@@ -30,6 +31,10 @@ const mutations: MutationTree<CartState> = {
   },
   [types.CART_SET_SYNC] (state) {
     state.cartServerLastSyncDate = new Date().getTime()
+  },
+  [types.CART_SET_GUID] (state) {
+    debugger;
+    state.cartGuid = generateGuid()
   },
   [types.CART_SET_TOTALS_SYNC] (state) {
     state.cartServerLastTotalsSyncDate = new Date().getTime()

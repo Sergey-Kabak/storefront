@@ -17,6 +17,7 @@ const connectActions = {
    * clearStore - if you want to clear cart only from store
    */
   async clear ({ commit, dispatch }, { disconnect = true, sync = true, clearStore = true } = {}) {
+    dispatch('setCartGuid')
     if (!clearStore) {
       await StorageManager.get('cart').setItem('current-cart', [])
       await commit(types.CART_SYNC)

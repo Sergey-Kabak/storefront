@@ -20,6 +20,7 @@ const getters: GetterTree<CartState, RootState> = {
   isTotalsSyncRequired: (state, getters) => getters.isCartHashEmptyOrChanged || !state.cartServerLastTotalsSyncDate,
   isCartHashEmptyOrChanged: (state, getters) => !state.cartItemsHash || getters.isCartHashChanged,
   getCartItems: state => state.cartItems,
+  getCartGuid: state => state.cartGuid,
   isTotalsSyncEnabled: () => config.cart.synchronize_totals && onlineHelper.isOnline && !isServer,
   isCartConnected: state => !!state.cartServerToken,
   isCartSyncEnabled: () => config.cart.synchronize && onlineHelper.isOnline && !isServer,
