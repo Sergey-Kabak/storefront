@@ -41,7 +41,7 @@ const itemActions = {
   async addProduct({ dispatch, commit }, { productToAdd, forceServerSilence = false }) {
     const { cartItem } = cartHooksExecutors.beforeAddToCart({ cartItem: productToAdd })
     commit(types.CART_ADDING_ITEM, { isAdding: true })
-    const result = await dispatch('addItems', { productsToAdd: prepareProductsToAdd(cartItem), forceServerSilence })
+    const result = await dispatch('addProducts', { productsToAdd: prepareProductsToAdd(cartItem), forceServerSilence })
     commit(types.CART_ADDING_ITEM, { isAdding: false })
     cartHooksExecutors.afterAddToCart(result)
     return result
@@ -60,7 +60,7 @@ const itemActions = {
 
     return dispatch('stock/queueCheck', { product, qty }, { root: true })
   },
-  async addItems ({ commit, dispatch, getters }, { productsToAdd, forceServerSilence = false }) {
+  async addProducts ({ commit, dispatch, getters }, { productsToAdd, forceServerSilence = false }) {
     let productIndex = 0
     const diffLog = createDiffLog()
 
@@ -69,23 +69,6 @@ const itemActions = {
       diffLog.pushNotifications(notifications.createNotifications({ type: 'error', messages: errors }))
 
       if (errors.length === 0) {
-        // const { status, onlineCheckTaskId } = await dispatch('checkProductStatus', { product })
-        //
-        // if (status === 'volatile' && !config.stock.allowOutOfStockInCart) {
-        //   diffLog.pushNotification(notifications.unsafeQuantity())
-        // }
-        // if (status === 'out_of_stock') {
-        //   diffLog.pushNotification(notifications.outOfStock())
-        // }
-        //
-        // if (status === 'ok' || status === 'volatile') {
-        //   commit(types.CART_ADD_ITEM, {
-        //     product: { ...product, onlineStockCheckid: Date.now() }
-        //   })
-        // }
-        // if (productIndex === (productsToAdd.length - 1) && (!getters.isCartSyncEnabled || forceServerSilence)) {
-        //   diffLog.pushNotification(notifications.productAddedToCart())
-        // }
         commit(types.CART_ADD_ITEM, {
           product: { ...product, onlineStockCheckid: Date.now() }
         });
@@ -94,13 +77,57 @@ const itemActions = {
       }
     }
 
-    // let newDiffLog = await dispatch('create')
-    // if (newDiffLog !== undefined) {
-    //   diffLog.merge(newDiffLog)
-    // }
+    let newDiffLog = await dispatch('create')
+    if (newDiffLog !== undefined) {
+      diffLog.merge(newDiffLog)
+    }
 
     if (getters.isCartSyncEnabled && getters.isCartConnected && !forceServerSilence) {
       const syncDiffLog = await dispatch('syncOnAddToCart', { forceClientState: true })
+
+      if (!syncDiffLog.isEmpty()) {
+        diffLog.merge(syncDiffLog)
+      }
+    }
+
+    return diffLog
+  },
+  async addItems ({ commit, dispatch, getters }, { productsToAdd, forceServerSilence = false }) {
+    let productIndex = 0
+    const diffLog = createDiffLog()
+    for (let product of productsToAdd) {
+      const errors = validateProduct(product)
+      diffLog.pushNotifications(notifications.createNotifications({ type: 'error', messages: errors }))
+
+      if (errors.length === 0) {
+        const { status, onlineCheckTaskId } = await dispatch('checkProductStatus', { product })
+
+        if (status === 'volatile' && !config.stock.allowOutOfStockInCart) {
+          diffLog.pushNotification(notifications.unsafeQuantity())
+        }
+        if (status === 'out_of_stock') {
+          diffLog.pushNotification(notifications.outOfStock())
+        }
+
+        if (status === 'ok' || status === 'volatile') {
+          commit(types.CART_ADD_ITEM, {
+            product: { ...product, onlineStockCheckid: onlineCheckTaskId }
+          })
+        }
+        if (productIndex === (productsToAdd.length - 1) && (!getters.isCartSyncEnabled || forceServerSilence)) {
+          diffLog.pushNotification(notifications.productAddedToCart())
+        }
+        productIndex++
+      }
+    }
+
+    let newDiffLog = await dispatch('create')
+    if (newDiffLog !== undefined) {
+      diffLog.merge(newDiffLog)
+    }
+
+    if (getters.isCartSyncEnabled && getters.isCartConnected && !forceServerSilence) {
+      const syncDiffLog = await dispatch('sync', { forceClientState: true })
 
       if (!syncDiffLog.isEmpty()) {
         diffLog.merge(syncDiffLog)
