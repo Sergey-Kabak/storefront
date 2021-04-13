@@ -131,6 +131,7 @@ export default {
 .product-wrap {
   margin-bottom: 16px;
   border: 1px solid #E0E0E0;
+  border-radius: 4px;
 }
 
 .product {

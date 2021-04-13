@@ -241,6 +241,9 @@ ul.media-zoom-carousel__thumbs{
   line-height: 30px;
   color: #1A1919;
   box-sizing: border-box;
+  z-index: 2;
+  position: relative;
+  background-color: #fff;
 }
 /deep/ .VueCarousel-navigation-button{
   max-height: 40px;
