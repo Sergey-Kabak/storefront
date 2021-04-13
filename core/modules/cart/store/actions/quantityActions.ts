@@ -16,15 +16,6 @@ const quantityActions = {
       }
     }
   },
-  async updateProductQuantity ({ commit, dispatch, getters }, { product, qty, forceServerSilence = false }) {
-    commit(types.CART_UPD_ITEM, { product, qty })
-    if (getters.isCartSyncEnabled && product.server_item_id && !forceServerSilence) {
-      return dispatch('syncOnAddToCart', { forceClientState: true })
-    }
-
-    return createDiffLog()
-      .pushClientParty({ status: 'wrong-qty', sku: product.sku, 'client-qty': qty })
-  },
   async updateQuantity ({ commit, dispatch, getters }, { product, qty, forceServerSilence = false }) {
     commit(types.CART_UPD_ITEM, { product, qty })
     if (getters.isCartSyncEnabled && product.server_item_id && !forceServerSilence) {

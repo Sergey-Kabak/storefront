@@ -42,10 +42,9 @@ class DiffLog {
   }
 
   public merge (diffLog: DiffLog): DiffLog {
-    this.items = this.items.concat(diffLog.serverResponses[0]?.result?.result?.extension_attributes?.cart_items || diffLog.items)
+    this.items = this.items.concat(diffLog.items)
     this.serverResponses = this.serverResponses.concat(diffLog.serverResponses)
     this.clientNotifications = this.clientNotifications.concat(diffLog.clientNotifications)
-
     return this
   }
 

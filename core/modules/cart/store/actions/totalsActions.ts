@@ -17,22 +17,6 @@ const totalsActions = {
 
     return CartService.getTotals()
   },
-  async getTotalsFromUpdate ({ commit, getters, rootGetters, dispatch }, { totals }) {
-
-    const extenstionTotals = (totals && totals.extension_attributes && totals.extension_attributes.totals) || []
-    Logger.info('Overriding server totals. ', 'cart', totals)()
-    const itemsAfterTotal = prepareShippingInfoForUpdateTotals(totals.items)
-
-    for (let key of Object.keys(itemsAfterTotal)) {
-      const item = itemsAfterTotal[key]
-      const product = { server_item_id: item.item_id, totals: item, qty: item.qty }
-      await dispatch('updateItem', { product })
-    }
-    commit(types.CART_UPD_TOTALS, { itemsAfterTotal, totals, platformTotalSegments: [...extenstionTotals, ...totals.total_segments] })
-    commit(types.CART_SET_TOTALS_SYNC)
-
-    return
-  },
   async overrideServerTotals ({ commit, getters, rootGetters, dispatch }, { addressInformation, hasShippingInformation }) {
     const { resultCode, result } = await dispatch('getTotals', { addressInformation, hasShippingInformation })
 

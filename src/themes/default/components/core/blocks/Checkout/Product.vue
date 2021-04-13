@@ -11,7 +11,7 @@
         <div class="product-qty">
           <product-quantity-new
             v-model.number="product.qty"
-            @input="updateQty($event)"
+            @input="udpateQty($event)"
             :show-quantity="manageQuantity"
             :check-max-quantity="manageQuantity"
             :loading="isQtyUpdating"
@@ -118,9 +118,9 @@ export default {
         console.log(e);
       }
     },
-    async updateQty (qty) {
+    async udpateQty (qty) {
       this.isQtyUpdating = true
-      await this.$store.dispatch('cart/updateProductQuantity', { product: this.product, qty })
+      await this.$store.dispatch('cart/updateQuantity', { product: this.product, qty })
       this.isQtyUpdating = false
     }
   }

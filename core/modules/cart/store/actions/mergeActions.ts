@@ -7,7 +7,6 @@ import {
   createCartItemForUpdate,
   createDiffLog,
   notifications,
-  prepareShippingInfoForUpdateTotals,
   productsEquals
 } from '@vue-storefront/core/modules/cart/helpers'
 import CartItem from '@vue-storefront/core/modules/cart/types/CartItem';
@@ -29,55 +28,7 @@ const mergeActions = {
     }
 
     await dispatch('updateItem', { product })
-
     EventBus.$emit('cart-after-itemchanged', { item: cartItem })
-  },
-  async updateServerProduct ({ getters, rootGetters, commit, dispatch }, { clientItem, serverItem, updateIds, mergeQty }) {
-    const diffLog = createDiffLog()
-    const cartItem = createCartItemForUpdate(clientItem, serverItem, updateIds, mergeQty)
-    const event = await CartService.updateItem(getters.getCartToken, cartItem)
-    let observer = {...clientItem}
-
-    if (typeof clientItem.server_cart_id === 'undefined') {
-      let serverId = event.result.extension_attributes.cart_items.find(el => el.sku === clientItem.sku)
-      if (serverId) {
-        observer['server_item_id'] = serverId?.item_id
-        observer['server_cart_id'] = serverId?.quote_id
-        cartItem['item_id'] = serverId?.item_id
-        cartItem['quote_id'] = serverId?.quote_id
-      }
-    }
-
-    const wasUpdatedSuccessfully = event.resultCode === 200
-    Logger.debug('Cart item server sync' + event, 'cart')()
-    diffLog.pushServerResponse({ status: event.resultCode, sku: clientItem.sku, result: event })
-
-    if (!wasUpdatedSuccessfully && !serverItem) {
-      commit(types.CART_DEL_ITEM, { product: clientItem, removeByParentSku: false })
-      return diffLog
-    }
-
-    if (!wasUpdatedSuccessfully && clientItem.item_id) {
-      await dispatch('restoreQuantity', { cartItem, clientItem })
-      return diffLog
-    }
-
-    if (!wasUpdatedSuccessfully) {
-      Logger.warn('Removing product from cart', 'cart', clientItem)()
-      commit(types.CART_DEL_NON_CONFIRMED_ITEM, { product: clientItem })
-      return diffLog
-    }
-
-    if (!rootGetters['checkout/isUserInCheckout']) {
-      const isThisNewItemAddedToTheCart = (!clientItem || !clientItem.server_item_id)
-      diffLog.pushNotification(
-        isThisNewItemAddedToTheCart ? notifications.productAddedToCart() : notifications.productQuantityUpdated()
-      )
-    }
-
-    await dispatch('updateClientItem', { clientItem: observer, serverItem: cartItem })
-
-    return diffLog
   },
   async updateServerItem ({ getters, rootGetters, commit, dispatch }, { clientItem, serverItem, updateIds, mergeQty }) {
     const diffLog = createDiffLog()
@@ -114,52 +65,6 @@ const mergeActions = {
 
     return diffLog
   },
-  updateTotalsWithResponse ({commit, dispatch}, {totals}) {
-    const extenstionTotals = (totals && totals.extension_attributes && totals.extension_attributes.totals) || []
-    Logger.info('Overriding server totals. ', 'cart', totals)()
-    const itemsAfterTotal = prepareShippingInfoForUpdateTotals(totals.extension_attributes.cart_items)
-
-    commit(types.CART_UPD_TOTALS, { itemsAfterTotal, totals, platformTotalSegments: [...extenstionTotals, ...totals.total_segments] })
-    commit(types.CART_SET_TOTALS_SYNC)
-  },
-  async synchronizeServerProduct ({ commit, dispatch }, { serverItem, clientItem, forceClientState, dryRun, mergeQty }) {
-    const diffLog = createDiffLog()
-
-    if (!serverItem) {
-      Logger.warn('No server item with sku ' + clientItem.sku + ' on stock.', 'cart')()
-      diffLog.pushServerParty({ sku: clientItem.sku, status: 'no-item' })
-
-      if (dryRun) return diffLog
-      if (forceClientState || !config.cart.serverSyncCanRemoveLocalItems) {
-        const updateServerItemDiffLog = await dispatch('updateServerProduct', { clientItem, serverItem, updateIds: false })
-
-        dispatch('updateTotalsWithResponse', { totals: updateServerItemDiffLog.serverResponses[0].result.result })
-
-        return diffLog.merge(updateServerItemDiffLog)
-      }
-
-      await dispatch('removeItem', { product: clientItem })
-
-      return diffLog
-    }
-
-    if (serverItem.qty !== clientItem.qty || mergeQty) {
-      Logger.log('Wrong qty for ' + clientItem.sku, clientItem.qty, serverItem.qty)()
-      diffLog.pushServerParty({ sku: clientItem.sku, status: 'wrong-qty', 'client-qty': clientItem.qty, 'server-qty': serverItem.qty })
-
-      if (dryRun) return diffLog
-      if (forceClientState || !config.cart.serverSyncCanModifyLocalItems) {
-        const updateServerItemDiffLog = await dispatch('updateServerProduct', { clientItem, serverItem, updateIds: true, mergeQty })
-
-        dispatch('updateTotalsWithResponse', { totals: updateServerItemDiffLog.serverResponses[0].result.result })
-
-        return diffLog.merge(updateServerItemDiffLog)
-      }
-
-      await dispatch('updateItem', { product: serverItem })
-    }
-    return diffLog
-  },
   async synchronizeServerItem ({ dispatch }, { serverItem, clientItem, forceClientState, dryRun, mergeQty }) {
     const diffLog = createDiffLog()
 
@@ -192,30 +97,6 @@ const mergeActions = {
 
     return diffLog
   },
-  async mergeClientProduct ({ dispatch }, { clientItem, serverItems, forceClientState, dryRun, mergeQty }) {
-    let serverItem = serverItems.find(itm => productsEquals(itm, clientItem))
-    const diffLog = await dispatch('synchronizeServerProduct', { serverItem, clientItem, forceClientState, dryRun, mergeQty })
-    if (!serverItem) {
-      serverItem = diffLog.serverResponses[0].result.result.extension_attributes.cart_items.find(p => p.sku === clientItem.sku)
-    }
-    if (!diffLog.isEmpty()) return diffLog
-
-    Logger.info('Server and client item with SKU ' + clientItem.sku + ' synced. Updating cart.', 'cart', 'cart')()
-
-    if (!dryRun) {
-      const product = {
-        sku: clientItem.sku,
-        server_cart_id: serverItem.quote_id,
-        server_item_id: serverItem.item_id,
-        product_option: serverItem.product_option,
-        type_id: serverItem.product_type
-      }
-
-      await dispatch('updateItem', { product })
-    }
-
-    return diffLog
-  },
   async mergeClientItem ({ dispatch }, { clientItem, serverItems, forceClientState, dryRun, mergeQty }) {
     const serverItem = serverItems.find(itm => productsEquals(itm, clientItem))
     const diffLog = await dispatch('synchronizeServerItem', { serverItem, clientItem, forceClientState, dryRun, mergeQty })
@@ -237,20 +118,6 @@ const mergeActions = {
 
     return diffLog
   },
-  async mergeClientProducts ({ dispatch }, { clientItems, serverItems, forceClientState, dryRun, mergeQty }) {
-    const diffLog = createDiffLog()
-
-    for (const clientItem of clientItems) {
-      try {
-        const mergeClientItemDiffLog = await dispatch('mergeClientProduct', { clientItem, serverItems, forceClientState, dryRun, mergeQty })
-        diffLog.merge(mergeClientItemDiffLog)
-      } catch (e) {
-        Logger.debug('Problem syncing clientItem', 'cart', clientItem)()
-      }
-    }
-
-    return diffLog
-  },
   async mergeClientItems ({ dispatch }, { clientItems, serverItems, forceClientState, dryRun, mergeQty }) {
     const diffLog = createDiffLog()
 
@@ -268,7 +135,6 @@ const mergeActions = {
   async mergeServerItem ({ dispatch, getters }, { clientItems, serverItem, forceClientState, dryRun }) {
     const diffLog = createDiffLog()
     const clientItem = clientItems.find(itm => productsEquals(itm, serverItem))
-
     if (clientItem) return diffLog
     Logger.info('No client item for' + serverItem.sku, 'cart')()
     diffLog.pushClientParty({ sku: serverItem.sku, status: 'no-item' })
@@ -319,32 +185,6 @@ const mergeActions = {
     }
 
     commit(types.CART_SET_ITEMS_HASH, getters.getCurrentCartHash)
-  },
-  async mergeOnAddToCart ({ getters, dispatch }, { serverItems, clientItems, dryRun = false, forceClientState = false, mergeQty = false }) {
-    const hookResult = cartHooksExecutors.beforeSync({ clientItems, serverItems })
-
-    const diffLog = createDiffLog()
-    const mergeParameters = {
-      clientItems: hookResult.clientItems,
-      serverItems: hookResult.serverItems,
-      forceClientState,
-      dryRun,
-      mergeQty
-    }
-
-    const mergeClientItemsDiffLog = await dispatch('mergeClientProducts', mergeParameters)
-    // const mergeServerItemsDiffLog = await dispatch('mergeServerItems', mergeParameters)
-    // await dispatch('updateTotalsAfterMerge', { clientItems, dryRun })
-    diffLog
-      .merge(mergeClientItemsDiffLog)
-      // .merge(mergeServerItemsDiffLog)
-      .pushClientParty({ status: getters.isCartHashChanged ? 'update-required' : 'no-changes' })
-      .pushServerParty({ status: getters.isTotalsSyncRequired ? 'update-required' : 'no-changes' })
-
-    EventBus.$emit('servercart-after-diff', { diffLog: diffLog, serverItems: hookResult.serverItem, clientItems: hookResult.clientItems, dryRun: dryRun })
-    Logger.info('Client/Server cart synchronised ', 'cart', diffLog)()
-
-    return diffLog
   },
   async merge ({ getters, dispatch }, { serverItems, clientItems, dryRun = false, forceClientState = false, mergeQty = false }) {
     const hookResult = cartHooksExecutors.beforeSync({ clientItems, serverItems })
