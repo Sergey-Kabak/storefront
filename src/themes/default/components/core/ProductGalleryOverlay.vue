@@ -71,12 +71,13 @@ svg {
   bottom: 0;
   z-index: $z-index-gallery;
   background: #fff;
+  overflow: hidden;
 
   &__close {
     position: absolute;
     right: 0;
     top: 0;
-    z-index: 1;
+    z-index: 3;
   }
 }
 </style>

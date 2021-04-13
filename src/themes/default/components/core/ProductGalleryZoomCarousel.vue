@@ -340,6 +340,9 @@ ul.media-zoom-carousel__thumbs{
   align-items: center;
   justify-content: center;
 }
+.media-zoom-carousel__slide{
+  display: flex;
+}
 </style>
 
 <style lang="scss">
