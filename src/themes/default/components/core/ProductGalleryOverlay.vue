@@ -77,7 +77,7 @@ svg {
     position: absolute;
     right: 0;
     top: 0;
-    z-index: 3;
+    z-index: 5;
   }
 }
 </style>

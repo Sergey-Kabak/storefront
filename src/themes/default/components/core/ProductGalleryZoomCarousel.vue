@@ -176,6 +176,12 @@ export default {
 <style lang="scss" scoped>
 @import '~theme/css/base/global_vars';
 @import '~theme/css/animations/transitions';
+.media-zoom-carousel__thumbs{
+  @media (min-width: 992px) {
+    margin-top: 50px !important;
+    height: calc(100% - 50px) !important;
+  }
+}
 ul.media-zoom-carousel__thumbs{
   @media (min-width : 768px) and (max-width : 1366px){
     max-height: 80%;
