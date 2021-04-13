@@ -2,12 +2,12 @@ import { Module } from 'vuex'
 import getters from './getters'
 import actions from './actions'
 import mutations from './mutations'
-import CarouselState from './types/CarouselState'
+import BannerGroupState from './types/BannerGroupState'
 
-export const module: Module<CarouselState, any> = {
+export const module: Module<BannerGroupState, any> = {
   namespaced: true,
   state: {
-    homeSlider: null
+    bannerGroup: null
   },
   getters,
   actions,

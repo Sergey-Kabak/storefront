@@ -784,6 +784,7 @@
       "product": "/catalog/product",
       "category": "/catalog/category/",
       "brand": "/temabit/brands/",
+      "banner": "/bannerslider/upload/",
       "slider": "/bannerslider/upload/",
       "credit": "/temabit/credit/",
       "promotional": "/temabit/promo/",

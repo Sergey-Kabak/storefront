@@ -1,13 +1,13 @@
 <template>
   <div class="home-carousel-wrapper">
-    <VueSlickCarousel v-if="products && products.length" v-bind="settings" class="carousel" :responsive="isClient ? responsive : null">
+    <VueSlickCarousel v-if="getHomePageBanners && getHomePageBanners.banners.length" v-bind="settings" class="carousel" :responsive="isClient ? responsive : null">
       <div
-        v-for="(product, index) in products" :key="index"
+        v-for="(product, index) in getHomePageBanners.banners" :key="index"
         data-testid="productLink"
         class="slide-link"
         @click="checkRoute(product)"
       >
-        <img :src="getThumbnail(product.image, 263, 434, 'slider')" :alt="index">
+        <img :src="getThumbnail(product.banner_desktop, 263, 434, 'banner')" :alt="index">
       </div>
     </VueSlickCarousel>
   </div>
@@ -16,12 +16,11 @@
 <script>
 import { currentStoreView } from '@vue-storefront/core/lib/multistore'
 import { formatProductLink } from '@vue-storefront/core/modules/url/helpers'
-// import config from 'config'
-
 import VueSlickCarousel from 'vue-slick-carousel'
 import 'vue-slick-carousel/dist/vue-slick-carousel.css'
 import 'vue-slick-carousel/dist/vue-slick-carousel-theme.css'
-import {mapGetters} from "vuex";
+import { mapGetters } from "vuex";
+
 export default {
   components: {
     VueSlickCarousel,
@@ -69,11 +68,8 @@ export default {
   }),
   computed: {
     ...mapGetters({
-      getSlider: 'slider/getSlider'
-    }),
-    products () {
-      return this.getSlider && this.getSlider.banners.filter(it => +it.status === 1)
-    }
+      getHomePageBanners: 'bannerGroup/getHomePageBanners'
+    })
   },
   mounted: function() {
     this.isClient = true
@@ -81,10 +77,10 @@ export default {
   methods: {
     checkRoute (product) {
       if (+product.new_tab) {
-        let routeData = this.$router.resolve({ path: product.url_banner });
-        window.open(product.url_banner, '_blank');
+        window.open(product.banner_url, '_blank');
       } else {
-        location.href = product.url_banner;
+        const url = new URL(product.banner_url)
+        this.$router.push(url.pathname + url.search)
       }
     },
     formatLink(product) {

@@ -136,12 +136,15 @@ export default {
   },
   methods: {
     fetchMenuData() {
-      return this.$store.dispatch('category-next/fetchMenuCategories', {
-        level: config.entities.category.categoriesDynamicPrefetch && config.entities.category.categoriesDynamicPrefetchLevel >= 0
-          ? config.entities.category.categoriesDynamicPrefetchLevel
-          : null,
-        skipCache: isServer
-      });
+      return Promise.all([
+        this.$store.dispatch('category-next/fetchMenuCategories', {
+          level: config.entities.category.categoriesDynamicPrefetch && config.entities.category.categoriesDynamicPrefetchLevel >= 0
+            ? config.entities.category.categoriesDynamicPrefetchLevel
+            : null,
+          skipCache: isServer
+        }),
+        this.$store.dispatch('bannerGroup/getBannerGroups')
+      ])
     },
     attachOnClosePageEsputnikHandler() {
       window.addEventListener('beforeunload', (e) => {
@@ -164,6 +167,7 @@ export default {
     }
   },
   serverPrefetch() {
+    this.$store.dispatch('bannerGroup/getBannerGroups')
     return this.fetchMenuData();
   },
   beforeMount() {
