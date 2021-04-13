@@ -135,6 +135,8 @@ export default {
 }
 ::v-deep .media-zoom-carousel__slide{
   background-color: #fff;
+  display: flex;
+  padding-top: 50px;
 }
 .hide-mobile{
   @media (max-width : 575px){

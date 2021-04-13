@@ -71,7 +71,7 @@ $z-index-gallery: map-get($z-index, overlay) + 1;
     position: absolute;
     right: 0;
     top: 0;
-    z-index: 1;
+    z-index: 5;
   }
 }
 </style>
