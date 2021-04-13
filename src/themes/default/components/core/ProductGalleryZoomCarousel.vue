@@ -176,6 +176,12 @@ export default {
 <style lang="scss" scoped>
 @import '~theme/css/base/global_vars';
 @import '~theme/css/animations/transitions';
+.media-zoom-carousel__thumbs{
+  @media (min-width: 992px) {
+    margin-top: 50px !important;
+    height: calc(100% - 50px) !important;
+  }
+}
 ul.media-zoom-carousel__thumbs{
   @media (min-width : 768px) and (max-width : 1366px){
     max-height: 80%;
@@ -241,6 +247,9 @@ ul.media-zoom-carousel__thumbs{
   line-height: 30px;
   color: #1A1919;
   box-sizing: border-box;
+  z-index: 2;
+  position: relative;
+  background-color: #fff;
 }
 /deep/ .VueCarousel-navigation-button{
   max-height: 40px;
@@ -336,6 +345,9 @@ ul.media-zoom-carousel__thumbs{
 .video-container {
   align-items: center;
   justify-content: center;
+}
+.media-zoom-carousel__slide{
+  display: flex;
 }
 </style>
 

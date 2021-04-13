@@ -99,6 +99,7 @@ export default {
   .price-sale{
     order: -1;
     margin: 0;
+    font-weight: 700;
   }
   .price-original{
     font-size: 18px;
