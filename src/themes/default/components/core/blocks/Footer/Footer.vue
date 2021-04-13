@@ -143,8 +143,12 @@ export default {
           title: 'To customers',
           routes: [
             {
-              name: 'Payment and delivery',
+              name: 'Delivery',
               url_path: '/info/delivery'
+            },
+            {
+              name: 'the Payment',
+              url_path: '/info/payment'
             },
             {
               name: 'Payments and loans',
