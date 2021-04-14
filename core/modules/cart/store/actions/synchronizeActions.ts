@@ -75,6 +75,38 @@ const synchronizeActions = {
       return diffLog
     }
   },
+  async syncOnAddToCart ({ getters, rootGetters, commit, dispatch, state }, { forceClientState = false, dryRun = false, mergeQty = false, forceSync = false }) {
+    const shouldUpdateClientState = rootGetters['checkout/isUserInCheckout'] || forceClientState
+    const { getCartItems, canUpdateMethods, isSyncRequired, bypassCounter } = getters
+    if ((!canUpdateMethods || !isSyncRequired) && !forceSync) return createDiffLog()
+    commit(types.CART_SET_SYNC)
+    const { result, resultCode } = await CartService.getItems()
+    const { serverItems, clientItems } = cartHooksExecutors.beforeSync({ clientItems: getCartItems, serverItems: result })
+    
+    if (resultCode === 200) {
+      const diffLog = await dispatch('mergeOnAddToCart', {
+        dryRun,
+        serverItems: serverItems,
+        clientItems: clientItems,
+        forceClientState: shouldUpdateClientState,
+        mergeQty
+      })
+      cartHooksExecutors.afterSync(diffLog)
+
+      return diffLog
+    }
+
+    if (bypassCounter < config.queues.maxCartBypassAttempts) {
+      Logger.log('Bypassing with guest cart' + bypassCounter, 'cart')()
+      commit(types.CART_UPDATE_BYPASS_COUNTER, { counter: 1 })
+      await dispatch('connect', { guestCart: true })
+    }
+
+    // Logger.error(result, 'cart')
+    cartHooksExecutors.afterSync(result)
+    commit(types.CART_SET_ITEMS_HASH, getters.getCurrentCartHash)
+    return createDiffLog()
+  },
   async sync ({ getters, rootGetters, commit, dispatch, state }, { forceClientState = false, dryRun = false, mergeQty = false, forceSync = false }) {
     const shouldUpdateClientState = rootGetters['checkout/isUserInCheckout'] || forceClientState
     const { getCartItems, canUpdateMethods, isSyncRequired, bypassCounter } = getters

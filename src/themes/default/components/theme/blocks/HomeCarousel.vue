@@ -7,7 +7,7 @@
         class="slide-link"
         @click="checkRoute(product)"
       >
-        <img :src="getThumbnail(product.banner_desktop, 263, 434, 'banner')" :alt="index">
+        <img lazy="loading" :src="getThumbnail(product.banner_desktop, 263, 434, 'banner')" :alt="index">
       </div>
     </VueSlickCarousel>
   </div>
