@@ -36,6 +36,10 @@ const mergeActions = {
     const diffLog = createDiffLog()
     const cartItem = createCartItemForUpdate(clientItem, serverItem, updateIds, mergeQty)
     const event = await CartService.updateItem(getters.getCartToken, cartItem)
+    if (event.code !== 200) {
+      commit(types.CART_DEL_ITEM, { product: clientItem, removeByParentSku: false })
+      return diffLog
+    }
     let observer = {...clientItem}
 
     if (typeof clientItem.server_cart_id === 'undefined') {
