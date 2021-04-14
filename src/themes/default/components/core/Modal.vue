@@ -136,6 +136,7 @@ $z-index-modal: map-get($z-index, modal);
   z-index: $z-index-modal;
   -webkit-overflow-scrolling: touch;
   .modal-container {
+    border-radius: 4px;
     position: absolute;
     top: 50%;
     left: 50%;

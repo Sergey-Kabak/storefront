@@ -12,17 +12,15 @@
         :selectedCity="selectedCity"
         @onSelectCity="onChooseCity($event)"
       />
-      <span class="search-title">{{ $t('Search') }}</span>
+      <span class="search-title">{{ $t('Choose your city') }}</span>
       <div class="search">
         <autocomplete 
-          :placeholder="$t('Choose your city')" 
           class="search-autocomplete"
           :options="cities"
           :selectedValue="selectedCity"
           :search="getCities"
-          @submit="onChooseCity($event, false)"
+          @submit="onChooseCity($event)"
         />
-        <button-full @click.native="changeCity()">{{ $t('To apply') }}</button-full>
       </div>
     </div>
   </modal>
@@ -67,18 +65,16 @@ export default {
       }
       return []
     },
-    onChooseCity(result, closeSidebar = true) {
+    onChooseCity(result) {
       this.selectedCity = result.value || result
       this.$store.commit('shop/SET_CITIES', [])
-      if (closeSidebar) {
-        this.changeCity()
-      }
+      this.changeCity()
     },
     async changeCity() {
       this.closePopup()
       this.$store.commit('shop/SET_SELECTED_SHOP', null)
       this.$store.commit('ui/setShopCity', this.selectedCity)
-      await this.$store.dispatch('shop/getShops', { city: this.selectedCity })
+      await this.$store.dispatch('shop/getShops', { city: this.selectedCity, isAllowPickupLocation: false })
       this.$bus.$emit('fit-bounds')
       this.$bus.$emit('close-info-window')
     }
@@ -92,11 +88,11 @@ export default {
 }
 
 .search-autocomplete {
-  margin-right: 16px;
   width: 100%;
 }
 
 .city-picker {
+  border-radius: 4px;
   margin: auto;
   max-width: 533px;
   min-width: 320px;
@@ -125,7 +121,11 @@ export default {
   cursor: pointer;
 
   &:hover {
-    fill: #1A1919;
+    fill: #a6a6a6;
+  }
+
+  &:active {
+    fill: #9f9f9f;
   }
 }
 
@@ -136,19 +136,14 @@ export default {
 }
 
 .search-title {
-  padding: 0 24px 24px;
+  padding: 0 24px;
   display: block;
   font-family: DIN Pro;
   font-weight: 600;
   font-size: 18px;
   line-height: 24px;
   color: #1A1919;
-  margin-bottom: 24px;
-}
-
-.button-full {
-  max-width: 153px;
-  width: 100%;
+  margin-bottom: 16px;
 }
 
 @media (max-width: 768px) {
@@ -161,12 +156,28 @@ export default {
     padding: 0 16px 16px;
   }
 
-  .search-autocomplete {
-    margin-bottom: 24px;
+  .city-picker-top {
+    flex-direction: column-reverse;
+    align-items: flex-start;
+    border-bottom: none;
+    padding: 0 0 0 16px;
+
+    .close-icon {
+      border-radius: 0 4px 0 0;
+      box-sizing: content-box;
+      padding: 16px;
+      background-color: #F9F9F9;
+      margin-left: auto;
+    }
+
+    .city-picker-title {
+      font-weight: 500;
+    }
   }
 
-  .button-full {
-    max-width: 100%;
+  .city-list {
+    margin-bottom: 12px;
+    padding: 24px 16px 12px 16px;
   }
 }
 </style>

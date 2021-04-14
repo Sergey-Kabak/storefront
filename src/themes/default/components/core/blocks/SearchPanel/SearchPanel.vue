@@ -37,12 +37,11 @@
       <div class="search-content" v-if="isShowSearchContent">
         <category-panel
           :categories="categories"
-          v-model="selectedCategoryIds"
           class="categories"
         />
         <div class="product-listing">
           <product
-            v-for="(product, index) in visibleProducts"
+            v-for="(product, index) in products"
             :key="index"
             :isShowButtons="false"
             :product="product"
@@ -77,7 +76,7 @@
 </template>
 
 <script>
-import SearchPanel from '@vue-storefront/core/compatibility/components/blocks/SearchPanel/SearchPanel';
+import { Search } from '@vue-storefront/core/modules/catalog/components/Search'
 import Product from 'theme/components/core/blocks/SearchPanel/Product';
 import CategoryPanel from 'theme/components/core/blocks/SearchPanel/CategoryPanel';
 import CloseSidebar from 'theme/components/core/CloseSidebar';
@@ -104,31 +103,12 @@ export default {
       default: false
     }
   },
-  mixins: [SearchPanel, VueOfflineMixin],
-  data () {
-    return {
-      selectedCategoryIds: []
-    }
-  },
+  mixins: [Search, VueOfflineMixin],
   computed: {
     ...mapState({
       overlay: (state) => state.ui.overlay,
       isSearchActive: (state) => state.ui.isSearchActive
     }),
-    visibleProducts () {
-      const productList = this.products || []
-      if (this.selectedCategoryIds.length) {
-        return productList.filter(product => product.category_ids.some(categoryId => {
-          const catId = parseInt(categoryId)
-          return this.selectedCategoryIds.includes(catId)
-        }))
-      }
-      return productList
-    },
-    categories () {
-      const categories = this.products.reduce((acc, it) => acc.concat(it.category || []), [])
-      return uniqBy(categories, 'category_id');
-    },
     getNoResultsMessage () {
       let msg = ''
       if (!this.$v.search.minLength) {
@@ -142,13 +122,10 @@ export default {
       return this.emptyResults && this.search && (this.isSearchActive || !this.mobile)
     },
     isShowSearchContent() {
-      return this.categories.length >= 1 && (this.isSearchActive || !this.mobile)
+      return (this.isSearchActive || !this.mobile) && this.products.length
     }
   },
   watch: {
-    categories () {
-      this.selectedCategoryIds = []
-    },
     overlay(val) {
       if (!val) {
         this.cancelSearch()
@@ -197,7 +174,6 @@ export default {
 
 .search-panel-wrapper {
   padding: 0 32px 32px;
-  height: 100%;
 }
 
 .searh-header {
@@ -271,7 +247,6 @@ export default {
 }
 
 .search-content {
-  height: 83%;
   overflow-y: auto;
   border: 1px solid #E0E0E0;
   border-radius: 4px;
@@ -294,9 +269,11 @@ export default {
   .product {
     border-radius: 0;
     padding: 16px 15px;
-    border: none;
-    border: 1px solid #E0E0E0;
-    margin-bottom: 20px;
+    border-bottom: 1px solid #E0E0E0;
+
+    &:last-child {
+      border-bottom: none;
+    }
   }
 }
 
@@ -323,8 +300,6 @@ export default {
 .best-sellers-title {
   font-family: DIN Pro;
   font-weight: 600;
-  // font-size: 18px;
-  // line-height: 24px;
   font-size: 24px;
   line-height: 30px;
   color: #1A1919;
@@ -390,6 +365,10 @@ export default {
 }
 
 @media (max-width: 768px) {
+  .search-panel-wrapper {
+    padding: 0 16px 16px;
+  }
+
   .search-icon {
     display: block;
   }

@@ -121,6 +121,10 @@
     "url": "https://ringoo.ua",
     "saveBandwidthOverCache": true
   },
+  "evinentSearch": {
+    "url": "https://api.ringoo.evinent.site/api/search",
+    "productQuantity": 6
+  },
   "phoneNumbers": ["+38 073 090 87 07", "+38 097 090 87 07", "+38 050 340 74 00"],
   "homePageBanner": {
     "enabled": false
@@ -582,6 +586,24 @@
       "includeFields": null,
       "excludeFields": null
     },
+    "productSearchList": {
+      "sort": "updated_at:desc",
+      "includeFields": [
+        "id",
+        "name",
+        "original_price",
+        "price",
+        "stock.is_in_stock",
+        "special_price",
+        "status",
+        "type_id",
+        "url_path",
+        "url_key",
+        "*image",
+        "*sku"
+      ],
+      "excludeFields": []
+    },
     "promotionals": {
       "sortByAttributes": {
         "Latest": "updated_at:desc"
@@ -784,6 +806,7 @@
       "product": "/catalog/product",
       "category": "/catalog/category/",
       "brand": "/temabit/brands/",
+      "banner": "/bannerslider/upload/",
       "slider": "/bannerslider/upload/",
       "credit": "/temabit/credit/",
       "promotional": "/temabit/promo/",

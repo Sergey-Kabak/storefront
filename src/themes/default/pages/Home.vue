@@ -62,18 +62,9 @@
         </button-full>
       </div>
     </section>
-
-    <section class="v-container section__banner">
-      <div class="banner">
-        <picture>
-          <source srcset="/assets/promo/delivery_mobile.jpg" media="(max-width: 400px)">
-          <source srcset="/assets/promo/delivery_tablet.jpg" media="(max-width: 991px) and (min-width: 401)">
-          <source srcset="/assets/promo/delivery_desktop.jpg">
-          <img v-lazy="'/assets/promo/delivery_desktop.jpg'" class="promo-image" alt="delivery promo image">
-        </picture>
-      </div>
+    <section class="v-container">
+      <banner class="delivery-banner" v-if="deliveryBanner && deliveryBanner.banners && deliveryBanner.banners.length" :banners="deliveryBanner.banners" />
     </section>
-
     <section v-if="isOnline" class="v-container section__shares">
       <header class="col-md-12">
         <h2 class="cl-accent">
@@ -93,11 +84,10 @@
         </header>
       </div>
       <div class="center-xs">
-          <lazy-hydrate :trigger-hydration="!loading" v-if="isLazyHydrateEnabled">
-            <product-listing columns="4" :products="getNew" gtm-list="home page" />
-          </lazy-hydrate>
-          <product-listing v-else columns="4" :products="getNew" gtm-list="home page" />
-
+        <lazy-hydrate :trigger-hydration="!loading" v-if="isLazyHydrateEnabled">
+          <product-listing columns="4" :products="getNew" gtm-list="home page" />
+        </lazy-hydrate>
+        <product-listing v-else columns="4" :products="getNew" gtm-list="home page" />
         <button-full
           class="show-all"
           type="submit"
@@ -141,11 +131,10 @@ import {
   onlineHelper
 } from '@vue-storefront/core/helpers';
 import LazyHydrate from 'vue-lazy-hydration';
-
+import Banner from 'theme/components/core/Banner';
 import Home from '@vue-storefront/core/pages/Home';
 import ProductListing from 'theme/components/core/ProductListing';
 import Onboard from 'theme/components/theme/blocks/Home/Onboard';
-import TileLinks from 'theme/components/theme/blocks/TileLinks/TileLinks';
 import { Logger } from '@vue-storefront/core/lib/logger';
 import { mapGetters } from 'vuex';
 import config from 'config';
@@ -184,18 +173,17 @@ export default {
     Onboard,
     ProductListing,
     LazyHydrate,
-    ButtonFull
+    ButtonFull,
+    Banner
   },
   computed: {
-    ...mapGetters('user', ['isLoggedIn']),
-    ...mapGetters(
-      'homepage',
-      ['getStockGoods', 'getSalesLeaders', 'getNew', 'getRecommends'],
-      {
-        getAvailableFilters: 'category-next/getAvailableFilters',
-        getFilter: 'custom-attr/getFilter'
-      }
-    ),
+    ...mapGetters({
+      deliveryBanner: 'bannerGroup/getDeliveryBanner',
+      getStockGoods: 'homepage/getStockGoods',
+      getSalesLeaders: 'homepage/getSalesLeaders',
+      getNew: 'homepage/getNew',
+      getRecommends: 'homepage/getRecommends',
+    }),
     categories () {
       return this.getCategories
     },
@@ -252,16 +240,14 @@ export default {
   },
   async asyncData ({ store, route }) { // this is for SSR purposes to prefetch data
     Logger.info('Calling asyncData in Home (theme)')()
-
+  
     await Promise.all([
       store.dispatch('homepage/loadStockGoods'),
       store.dispatch('homepage/loadSalesLeaders'),
       store.dispatch('homepage/loadNew'),
-      store.dispatch('homepage/loadRecommends'),
-      store.dispatch('slider/getHomeCarousel')
+      store.dispatch('homepage/loadRecommends')
     ])
   },
-
   beforeRouteEnter (to, from, next) {
     if (!isServer && !from.name) { // Loading products to cache on SSR render
       next(vm => {
@@ -275,9 +261,6 @@ export default {
           vm.loading = false
         })
         vm.$store.dispatch('homepage/loadRecommends').then(res => {
-          vm.loading = false
-        })
-        vm.$store.dispatch('slider/getHomeCarousel').then(res => {
           vm.loading = false
         })
       })
@@ -337,12 +320,15 @@ export default {
 </style>
 
 <style lang="scss" scoped>
-  .promo-image {
-    width: 100%;
+  .delivery-banner {
     border-radius: 4px;
+    overflow: hidden;
+    margin-bottom: 68px;
 
-    @media only screen and (max-width: 400px) {
-      border-radius: 4px;
+    ::v-deep {
+      img {
+        width: 100%;
+      }
     }
   }
 
