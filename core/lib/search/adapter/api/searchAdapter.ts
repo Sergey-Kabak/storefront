@@ -219,6 +219,15 @@ export class SearchAdapter {
         return this.handleResult(resp, 'banner', start, size)
       }
     })
+    this.registerEntityType('attribute_set', {
+      queryProcessor: (query) => {
+        // function that can modify the query each time before it's being executed
+        return query
+      },
+      resultProcessor: (resp, start, size) => {
+        return this.handleResult(resp, 'attribute_set', start, size)
+      }
+    })
     this.registerEntityType('brand', {
       queryProcessor: (query) => {
         // function that can modify the query each time before it's being executed
