@@ -73,7 +73,7 @@ export default {
     },
     placeholder: {
       type: String,
-      required: true
+      default: ''
     },
     clearable: {
       type: Boolean,
@@ -113,14 +113,6 @@ export default {
     },
     handleBlur() {
       this.$emit('blur', this.value)
-    },
-    highlight(result) {
-      // result = this.getResultValue(result)
-      // let value = this.value.toLowerCase()
-      // if (!result.search(new RegExp(value, 'gi'))) {
-      //   value = value.charAt(0).toUpperCase() + value.slice(1)
-      // }
-      // return result.replace(new RegExp(value, 'gi'), `<span class='highlight'>${value}</span>`)
     },
     onSearch: debounce(function (data) {
       this.search(data)

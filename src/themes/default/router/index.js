@@ -24,7 +24,6 @@ const MyNotifications = () => import(/* webpackChunkName: "vsf-my-shipping-detai
 // STATIC
 const BrandPortal = () => import(/* webpackChunkName: "vsf-static" */ 'theme/pages/BrandPortal.vue');
 const PromotionalPortal = () => import(/* webpackChunkName: "vsf-promo-portal" */ 'theme/pages/PromotionalPortal.vue');
-const Promotional = () => import(/* webpackChunkName: "vsf-promo-portal" */ 'theme/pages/Promotional.vue');
 const ThankYouPage = () => import(/* webpackChunkName: "vsf-static" */ 'theme/pages/ThankYouPage.vue');
 const UnderConstruction = () => import(/* webpackChunkName: "vsf-static" */ 'theme/pages/UnderConstruction.vue');
 // const ThankYouPage = () => import(/* webpackChunkName: "vsf-static" */ 'src/themes/default/components/core/blocks/Checkout/ThankYouPage.vue')
@@ -36,7 +35,6 @@ let routes = [
   { name: 'thank-you-page', path: '/thank-you-page', component: ThankYouPage, meta: { name: 'thank-you-page', layout: 'minimal' } },
   { name: 'brand-portal', path: '/brand-portal/:brandId', component: BrandPortal, meta: { name: 'brand portal' } },
   { name: 'promotionals', path: '/promo', component: PromotionalPortal, meta: { name: 'promotionals' } },
-  { name: 'promotional', path: '/promo/:link', component: Promotional, meta: { name: 'promotional' } },
   { name: 'my-account', path: '/my-account', component: MyAccount },
   {
     name: 'my-account',

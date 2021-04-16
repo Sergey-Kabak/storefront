@@ -139,4 +139,5 @@ declare namespace DataResolver {
     cancelPayment: (orderId: number) => Promise<Task>,
     getOrderByCartId: (cartId: string) => Promise<Task>
   }
+
 }

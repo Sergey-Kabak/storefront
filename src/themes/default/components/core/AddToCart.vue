@@ -23,8 +23,9 @@ import { formatProductMessages } from '@vue-storefront/core/filters/product-mess
 import { notifications } from '@vue-storefront/core/modules/cart/helpers';
 import focusClean from 'theme/components/theme/directives/focusClean';
 import ButtonFull from 'theme/components/theme/ButtonFull.vue';
-import { mapGetters } from 'vuex';
+import { mapGetters, mapState } from 'vuex';
 import GTM from 'theme/mixins/GTM/dataLayer'
+import { CartService } from '@vue-storefront/core/data-resolver';
 
 export default {
   mixins: [GTM],
@@ -54,7 +55,7 @@ export default {
     },
     async addToCart (product) {
       try {
-        const diffLog = await this.$store.dispatch('cart/addItem', { productToAdd: product })
+        const diffLog = await this.$store.dispatch('cart/addProduct', { productToAdd: product })
         await this.GTM_ADD_TO_CART([product], 'product page')
         diffLog.clientNotifications.forEach(notificationData => {
           this.notifyUser(notificationData)
@@ -71,7 +72,11 @@ export default {
     ...mapGetters({
       isAddingToCart: 'cart/getIsAdding',
       getCurrentCustomOptions: 'product/getCurrentCustomOptions',
-      getCurrentProductConfiguration: 'product/getCurrentProductConfiguration'
+      getCurrentProductConfiguration: 'product/getCurrentProductConfiguration',
+      getCartItems: 'cart/getCartItems'
+    }),
+    ...mapState({
+      kitProducts: (state) => state.kits.products
     }),
     isProductDisabled () {
       return this.disabled || formatProductMessages(this.product.errors) !== '' || this.isAddingToCart

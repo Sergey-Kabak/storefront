@@ -40,6 +40,14 @@ export default {
     border-color: #23BE20;
   }
 
+  &:hover {
+    border: 1px solid #BDBDBD;
+  }
+
+  &:active {
+    border: 1px solid #ababab;
+  }
+
   span {
     font-family: DIN Pro;
     font-weight: 600;

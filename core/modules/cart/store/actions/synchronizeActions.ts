@@ -47,6 +47,66 @@ const synchronizeActions = {
     Logger.warn('The "cart/serverPull" action is deprecated and will not be supported with the Vue Storefront 1.11', 'cart')()
     return dispatch('sync', { forceClientState, dryRun })
   },
+  async syncPull ({ dispatch }, { getCartItems }) {
+    const { result, resultCode } = await CartService.getItems()
+    const { serverItems, clientItems } = cartHooksExecutors.beforeSync({ clientItems: getCartItems, serverItems: result })
+    clientItems.map(p => {
+      let path = p.product_option.extension_attributes
+      if (!path.bundle_options || !path.configurable_item_options || !path.custom_options) {
+        if (serverItems.find(e => e.item_id === p.item_id)) {
+          p.sku = serverItems.find(e => e.item_id === p.item_id).sku
+        }
+        p.product_option.extension_attributes['bundle_options'] = []
+        p.product_option.extension_attributes['configurable_item_options'] = []
+        p.product_option.extension_attributes['custom_options'] = []
+      }
+      return p
+    })
+    console.log(result, resultCode, serverItems, clientItems)
+    if (resultCode === 200) {
+      const diffLog = await dispatch('merge', {
+        dryRun: false,
+        serverItems,
+        clientItems,
+        forceClientState: false,
+        mergeQty: false
+      })
+      cartHooksExecutors.afterSync(diffLog)
+      return diffLog
+    }
+  },
+  async syncOnAddToCart ({ getters, rootGetters, commit, dispatch, state }, { forceClientState = false, dryRun = false, mergeQty = false, forceSync = false }) {
+    const shouldUpdateClientState = rootGetters['checkout/isUserInCheckout'] || forceClientState
+    const { getCartItems, canUpdateMethods, isSyncRequired, bypassCounter } = getters
+    if ((!canUpdateMethods || !isSyncRequired) && !forceSync) return createDiffLog()
+    commit(types.CART_SET_SYNC)
+    const { result, resultCode } = await CartService.getItems()
+    const { serverItems, clientItems } = cartHooksExecutors.beforeSync({ clientItems: getCartItems, serverItems: result })
+    
+    if (resultCode === 200) {
+      const diffLog = await dispatch('mergeOnAddToCart', {
+        dryRun,
+        serverItems: serverItems,
+        clientItems: clientItems,
+        forceClientState: shouldUpdateClientState,
+        mergeQty
+      })
+      cartHooksExecutors.afterSync(diffLog)
+
+      return diffLog
+    }
+
+    if (bypassCounter < config.queues.maxCartBypassAttempts) {
+      Logger.log('Bypassing with guest cart' + bypassCounter, 'cart')()
+      commit(types.CART_UPDATE_BYPASS_COUNTER, { counter: 1 })
+      await dispatch('connect', { guestCart: true })
+    }
+
+    // Logger.error(result, 'cart')
+    cartHooksExecutors.afterSync(result)
+    commit(types.CART_SET_ITEMS_HASH, getters.getCurrentCartHash)
+    return createDiffLog()
+  },
   async sync ({ getters, rootGetters, commit, dispatch, state }, { forceClientState = false, dryRun = false, mergeQty = false, forceSync = false }) {
     const shouldUpdateClientState = rootGetters['checkout/isUserInCheckout'] || forceClientState
     const { getCartItems, canUpdateMethods, isSyncRequired, bypassCounter } = getters

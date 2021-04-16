@@ -80,13 +80,10 @@
 <script>
 import ProductImage from 'theme/components/core/ProductImage';
 import TotalPrice from 'theme/components/core/TotalPrice';
-import {getThumbnailForProduct} from '@vue-storefront/core/modules/cart/helpers';
 import {currentStoreView} from '@vue-storefront/core/lib/multistore';
-import {price} from 'theme/helpers';
 import {mapState} from 'vuex';
 import {Logger} from '@vue-storefront/core/lib/logger';
 import {localizedRoute} from '@vue-storefront/core/lib/multistore';
-import {PaymentService} from '@vue-storefront/core/data-resolver';
 
 export default {
   components: {
@@ -144,7 +141,7 @@ export default {
       })
       this.status = status.state && status.state.toLowerCase()
     }
-    this.initAdmitad()
+    this.initEsputnik()
   },
   methods: {
     image(product) {
@@ -157,15 +154,10 @@ export default {
         return parseInt(((product.original_price - product.price) / (product.original_price / 100)))
       }
     },
-    initAdmitad() {
-      ADMITAD = window.ADMITAD || {};
-      ADMITAD.Invoice = ADMITAD.Invoice || {};
-      ADMITAD.Invoice.category = '1';
-
-      const orderedItem = [];
-      this.products.map(it => {
-        orderedItem.push({
-          Product: {
+    initEsputnik() {
+      const items = this.products.map(it => (
+        {
+          product: {
             productID: it.item_id,
             category: '1',
             price: it.price,
@@ -173,15 +165,19 @@ export default {
           },
           orderQuantity: it.qty_ordered,
           additionalType: 'sale'
-        });
-      })
-      ADMITAD.Invoice.referencesOrder = ADMITAD.Invoice.referencesOrder || [];
-
-      ADMITAD.Invoice.referencesOrder.push({
-        orderNumber: this.order.increment_id,
-        orderedItem: orderedItem
-      });
-      ADMITAD.Tracking.processPositions();
+        }
+      ))
+      this.$store.dispatch('esputnik/triggerOrderSuccess', { items })
+    }
+  },
+  metaInfo() {
+    return {
+      script: [{
+        async: true,
+        type: 'text/javascript',
+        body: true,
+        innerHTML: `window.ad_order = ${this.order.increment_id}; window.ad_amount = ${this.order.base_grand_total}; window.ad_products = ${JSON.stringify(this.products.map(it => ({ id: it.sku, number: it.qty_ordered })))}; window._retag = window._retag || []; window._retag.push({code: "9ce8884ee2", level: 4}); (function () { var id = "admitad-retag"; if (document.getElementById(id)) {return;} var s = document.createElement("script"); s.async = true; s.id = id; var r = (new Date).getDate(); s.src = (document.location.protocol == "https:" ? "https:" : "http:") + "//cdn.lenmit.com/static/js/retag.js?r="+r; var a = document.getElementsByTagName("script")[0]; a.parentNode.insertBefore(s, a); })()`
+      }]
     }
   }
 }

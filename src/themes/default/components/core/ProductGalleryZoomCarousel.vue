@@ -23,8 +23,8 @@
             :navigation-enabled="true"
             pagination-active-color="#828282"
             pagination-color="transparent"
-            navigation-next-label="<i class='material-icons cl-bg-tertiary pointer'>keyboard_arrow_right</i>"
-            navigation-prev-label="<i class='material-icons cl-bg-tertiary pointer'>keyboard_arrow_left</i>"
+            navigation-next-label='<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"> <path d="M10.707 17.707L16.414 12L10.707 6.293L9.29297 7.707L13.586 12L9.29297 16.293L10.707 17.707Z" fill="#828282"/> </svg>'
+            navigation-prev-label='<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"> <path d="M13.2929 6.293L7.58594 12L13.2929 17.707L14.7069 16.293L10.4139 12L14.7069 7.707L13.2929 6.293Z" fill="#828282"/> </svg>'
             ref="zoomCarousel"
             class="media-zoom-carousel__carousel"
             :speed="carouselTransitionSpeed"
@@ -176,6 +176,12 @@ export default {
 <style lang="scss" scoped>
 @import '~theme/css/base/global_vars';
 @import '~theme/css/animations/transitions';
+.media-zoom-carousel__thumbs{
+  @media (min-width: 992px) {
+    margin-top: 50px !important;
+    height: calc(100% - 50px) !important;
+  }
+}
 ul.media-zoom-carousel__thumbs{
   @media (min-width : 768px) and (max-width : 1366px){
     max-height: 80%;
@@ -241,6 +247,9 @@ ul.media-zoom-carousel__thumbs{
   line-height: 30px;
   color: #1A1919;
   box-sizing: border-box;
+  z-index: 2;
+  position: relative;
+  background-color: #fff;
 }
 /deep/ .VueCarousel-navigation-button{
   max-height: 40px;
@@ -336,6 +345,9 @@ ul.media-zoom-carousel__thumbs{
 .video-container {
   align-items: center;
   justify-content: center;
+}
+.media-zoom-carousel__slide{
+  display: flex;
 }
 </style>
 

@@ -291,6 +291,14 @@ export default {
           rel: 'canonical',
           href: 'https://ringoo.ua' + this.$route.path
         }
+      ],
+      script: [
+        {
+          async: true,
+          type: 'text/javascript',
+          body: true,
+          innerHTML: `window.ad_category = ${this.getCurrentCategory.id}; window._retag = window._retag || []; window._retag.push({code: "9ce8884ee7", level: 1}); (function () { var id = "admitad-retag"; if (document.getElementById(id)) {return;} var s=document.createElement("script"); s.async = true; s.id = id; var r = (new Date).getDate(); s.src = (document.location.protocol == "https:" ? "https:" : "http:") + "//cdn.lenmit.com/static/js/retag.js?r="+r; var a = document.getElementsByTagName("script")[0]; a.parentNode.insertBefore(s, a); })()`
+        }
       ]
     }
   },

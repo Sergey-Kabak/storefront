@@ -103,7 +103,7 @@ export default {
             text: this.$t('Will send today')
           },
           price: {
-            base: '35',
+            base: '45',
             free: false
           }
         }

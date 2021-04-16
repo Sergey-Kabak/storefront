@@ -1,38 +1,38 @@
 <template>
   <li @click="gtm" class="product" :class="{'out-of-stock': !inStock}">
-    <div class="product-left">
-      <router-link class="product-img" @click.native="closeSearchPanel()" :to="productLink">
-        <img v-lazy="image.src" :alt="product.name" class="product-image">
-      </router-link>
-    </div>
-    <div class="product-middle" >
-      <router-link
-        @click.native="closeSearchPanel()"
-        :to="productLink"
-        class="product-name"
-      >
-        {{ product.name | htmlDecode }}
-      </router-link>
-      <product-cart-price :product="product" :nameVisibility="false" />
-      <div class="product-actions">
-        <div class="actions" v-if="inStock && isShowButtons">
-          <AddToCart :product="product" />
-        </div>
-        <div class="product-out-of-stock" v-if="!inStock">
-          {{ $t('Not available') }}
+    <router-link class="product-img" @click.native="closeSearchPanel()" :to="productLink">
+      <img v-lazy="image.src" :alt="product.name" class="product-image">
+    </router-link>
+    <div class="product-middle">
+      <div class="product-top" >
+        <router-link
+          @click.native="closeSearchPanel()"
+          :to="productLink"
+          class="product-name"
+        >
+          {{ product.name | htmlDecode }}
+        </router-link>
+        <div class="product-right" v-if="isShowButtons">
+          <div class="product-right-data">
+            <AddToCompare :product="product"> </AddToCompare>
+            <AddToWishlist :product="product"> </AddToWishlist>
+          </div>
+          <div class="product-right-data mobile">
+            <more-icon class="more">
+              <AddToWishlist :product="product" class="more-item" showDescription />
+              <AddToCompare :product="product" class="more-item" showDescription />
+            </more-icon>
+          </div>
         </div>
       </div>
-    </div>
-    <div class="product-right" v-if="isShowButtons">
-      <div class="product-right-data">
-        <AddToCompare :product="product"> </AddToCompare>
-        <AddToWishlist :product="product"> </AddToWishlist>
-      </div>
-      <div class="product-right-data mobile">
-        <more-icon class="more">
-          <AddToWishlist :product="product" class="more-item" showDescription />
-          <AddToCompare :product="product" class="more-item" showDescription />
-        </more-icon>
+      <div class="product-bottom">
+        <product-cart-price class="product-price" :product="product" :nameVisibility="false" />
+        <div class="product-actions">
+          <div class="actions" v-if="inStock && isShowButtons">
+            <AddToCart :product="product" />
+          </div>
+          <blurred-text @click="console.log('asd')" color="#1A1919" v-if="!inStock">{{ $t('Not available') }}</blurred-text>
+        </div>
       </div>
     </div>
   </li>
@@ -43,10 +43,7 @@
 import Product from '@vue-storefront/core/compatibility/components/blocks/Wishlist/Product';
 import { currentStoreView } from '@vue-storefront/core/lib/multistore';
 import { formatProductLink } from '@vue-storefront/core/modules/url/helpers';
-import { notifications } from '@vue-storefront/core/modules/cart/helpers';
 import ProductImage from 'theme/components/core/ProductImage';
-import i18n from '@vue-storefront/i18n';
-import { htmlDecode } from '@vue-storefront/core/lib/store/filters';
 import AddToCompare from 'theme/components/core/blocks/Compare/AddToCompare';
 import ButtonText from 'theme/components/theme/ButtonText';
 import ButtonFull from 'theme/components/theme/ButtonFull';
@@ -55,8 +52,21 @@ import AddToWishlist from 'theme/components/core/blocks/Wishlist/AddToWishlist';
 import AddToCart from 'theme/components/core/AddToCart';
 import GTM from 'theme/mixins/GTM/dataLayer';
 import ProductCartPrice from '../Product/ProductCartPrice';
+import BlurredText from 'theme/components/theme/BlurredText';
 
 export default {
+  mixins: [Product, GTM],
+  components: {
+    ProductImage,
+    AddToCompare,
+    ButtonText,
+    ButtonFull,
+    MoreIcon,
+    AddToWishlist,
+    AddToCart,
+    ProductCartPrice,
+    BlurredText
+  },
   props: {
     isShowButtons: {
       type: Boolean,
@@ -67,17 +77,6 @@ export default {
       type: String,
       default: 'search results'
     }
-  },
-  mixins: [Product, GTM],
-  components: {
-    ProductImage,
-    AddToCompare,
-    ButtonText,
-    ButtonFull,
-    MoreIcon,
-    AddToWishlist,
-    AddToCart,
-    ProductCartPrice
   },
   computed: {
     productLink () {
@@ -110,60 +109,58 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-::v-deep .button-full.add-to-cart {
+.button-full.add-to-cart {
   height: 32px;
   margin-left: auto;
 }
-.product-price-block {
-  margin-bottom: 16px;
-}
+
 .product {
   display: flex;
   align-items: flex-start;
   padding: 16px;
 
   &.out-of-stock {
-    .product-name, .price-current {
+    .product-name {
       color: #989797;
     }
 
-    .product-image {
-      filter: opacity(0.5);
+    .product-image,
+    .product-price {
+      filter: opacity(0.6);
     }
   }
 }
 
-.product-left {
+.product-img ::v-deep {
   display: flex;
   align-items: center;
+  justify-content: center;
+  width: 88px;
+  height: 88px;
+  flex-shrink: 0;
+  margin-right: 16px;
 
-  .remove-icon {
-    cursor: pointer;
-    margin-right: 12px;
-  }
-
-  .product-img ::v-deep {
-    display: block;
-    width: 88px;
-    height: 88px;
-    margin-right: 27px;
-
-    .product-image__thumb, .product-image {
-
-      display: block;
-      max-width: 100%;
-      width: auto;
-      height: auto;
-    }
+  img {
+    max-width: 88px;
+    max-height: 88px;
   }
 }
 
 .product-middle {
-  margin-right: 12px;
   width: 100%;
-  & > *:first-child {
-    margin-bottom: 25px;
-  }
+}
+
+.product-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 8px;
+}
+
+.product-bottom {
+  display: flex;
+  justify-content: space-between;
 }
 
 .product-right-data {
@@ -201,7 +198,6 @@ export default {
 
 .product-name {
   display: inline-block;
-  margin-bottom: 8px;
   font-family: DIN Pro;
   font-size: 15px;
   line-height: 18px;
@@ -253,6 +249,25 @@ export default {
 .add-to-cart-info {
   &.mobile {
     display: none;
+  }
+}
+
+.product-actions {
+  max-width: 131px;
+  width: 100%;
+  margin-top: auto;
+}
+
+@media (max-width: 768px) {
+  .product-img ::v-deep {
+    width: 56px;
+    height: 56px;
+    margin-right: 12px;
+
+    img {
+      max-width: 56px;
+      max-height: 56px;
+    }
   }
 }
 

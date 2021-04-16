@@ -9,7 +9,8 @@ export default function setDefaultProductOptions (product: Product) {
     extension_attributes: {
       custom_options: [],
       configurable_item_options: [],
-      bundle_options: []
+      bundle_options: [],
+      product_kits: []
     }
   }
 }

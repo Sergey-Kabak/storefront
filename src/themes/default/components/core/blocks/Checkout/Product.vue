@@ -1,5 +1,5 @@
 <template>
-  <div class="product-wrap">
+  <div class="product-wrap" :data-productKey="product.sku">
     <div class="product">
       <router-link :to="productLink" class="product-image">
         <img :src="image.src" alt="product" />
@@ -11,7 +11,7 @@
         <div class="product-qty">
           <product-quantity-new
             v-model.number="product.qty"
-            @input="udpateQty($event)"
+            @input="updateQty($event)"
             :show-quantity="manageQuantity"
             :check-max-quantity="manageQuantity"
             :loading="isQtyUpdating"
@@ -108,7 +108,7 @@ export default {
           action1: { label: i18n.t('Cancel'), action: 'close' },
           action2: { label: i18n.t('OK'),
             action: async () => {
-              this.$store.dispatch('cart/removeItem', { product: this.product })
+              await this.$store.dispatch('cart/removeItem', { product: this.product })
               await this.GTM_REMOVE_FROM_CART([this.product])
             }
           },
@@ -118,9 +118,9 @@ export default {
         console.log(e);
       }
     },
-    async udpateQty (qty) {
+    async updateQty (qty) {
       this.isQtyUpdating = true
-      await this.$store.dispatch('cart/updateQuantity', { product: this.product, qty })
+      await this.$store.dispatch('cart/updateProductQuantity', { product: this.product, qty })
       this.isQtyUpdating = false
     }
   }
@@ -131,6 +131,7 @@ export default {
 .product-wrap {
   margin-bottom: 16px;
   border: 1px solid #E0E0E0;
+  border-radius: 4px;
 }
 
 .product {
