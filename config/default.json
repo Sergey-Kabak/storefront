@@ -228,7 +228,7 @@
       "i18n": {
         "fullCountryName": "Russian",
         "fullLanguageName": "Russian",
-        "slug": "Рус",
+        "slug": "RU",
         "defaultLanguage": "RU",
         "defaultCountry": "RU",
         "defaultLocale": "ru-RU",
@@ -863,7 +863,7 @@
     "dateFormat": "HH:mm D/M/YYYY",
     "fullCountryName": "Ukraine",
     "fullLanguageName": "Ukraine",
-    "slug": "Укр",
+    "slug": "UA",
     "bundleAllStoreviewLanguages": false
   },
   "expireHeaders": {

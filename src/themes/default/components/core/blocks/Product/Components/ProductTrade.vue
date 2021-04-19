@@ -17,9 +17,7 @@
         <add-to-cart :product="getCurrentProduct">
           <template v-if="ProductStock === 'PendingDelivery'" v-slot:text>{{$t('pre order')}}</template>
         </add-to-cart>
-        <button-white v-if="creditCondition" @click.native="showModal">
-          <span>{{ $t('In credit') }}</span>
-        </button-white>
+        <button-outline v-if="creditCondition" @click.native="showModal">{{ $t('In credit') }}</button-outline>
       </div>
     </div>
   </div>
@@ -29,7 +27,7 @@
 import ProductCartPrice from '../ProductCartPrice';
 import AddToCompare from '../../Compare/AddToCompare';
 import AddToWishlist from '../../Wishlist/AddToWishlist';
-import ButtonWhite from '../ButtonWhite';
+import ButtonOutline from 'theme/components/theme/ButtonOutline.vue';
 import ProductMixin from '../Mixins/ProductMixin';
 import AddToCart from 'theme/components/core/AddToCart.vue';
 import { mapGetters } from 'vuex';
@@ -42,7 +40,7 @@ export default {
     ProductCartPrice,
     AddToCompare,
     AddToWishlist,
-    ButtonWhite,
+    ButtonOutline,
     AddToCart,
     ProductStockStatus
   },

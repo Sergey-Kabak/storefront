@@ -30,14 +30,14 @@
           <product-listing columns="4" :products="getStockGoods" gtm-list="home page" />
         </lazy-hydrate>
         <product-listing v-else columns="4" :products="getStockGoods" gtm-list="home page" />
-        <button-full
+        <button-outline
           class="show-all"
           type="submit"
           @click.native="goToCategory('stockGoods')"
           :aria-label="$t('See all')"
         >
           {{ $t('See all') }}
-        </button-full>
+        </button-outline>
       </div>
     </section>
 
@@ -52,14 +52,14 @@
           <product-listing columns="4" :products="getSalesLeaders" gtm-list="home page" />
         </lazy-hydrate>
         <product-listing v-else columns="4" :products="getSalesLeaders" gtm-list="home page" />
-        <button-full
+        <button-outline
           class="show-all"
           type="submit"
           @click.native="goToCategory('salesLeaders')"
           :aria-label="$t('See all')"
         >
           {{ $t('See all') }}
-        </button-full>
+        </button-outline>
       </div>
     </section>
     <section class="v-container">
@@ -88,14 +88,14 @@
           <product-listing columns="4" :products="getNew" gtm-list="home page" />
         </lazy-hydrate>
         <product-listing v-else columns="4" :products="getNew" gtm-list="home page" />
-        <button-full
+        <button-outline
           class="show-all"
           type="submit"
           @click.native="goToCategory('new')"
           :aria-label="$t('See all')"
         >
           {{ $t('See all') }}
-        </button-full>
+        </button-outline>
       </div>
     </section>
     <section class="v-container ">
@@ -111,14 +111,14 @@
           <product-listing columns="4" :products="getRecommends" gtm-list="home page" />
         </lazy-hydrate>
         <product-listing v-else columns="4" :products="getRecommends" gtm-list="home page" />
-        <button-full
+        <button-outline
           class="show-all"
           type="submit"
           @click.native="goToCategory('recommends')"
           :aria-label="$t('See all')"
         >
           {{ $t('See all') }}
-        </button-full>
+        </button-outline>
       </div>
     </section>
     <Onboard />
@@ -142,6 +142,7 @@ import { registerModule } from '@vue-storefront/core/lib/modules';
 import { RecentlyViewedModule } from '@vue-storefront/core/modules/recently-viewed';
 import { clearAllBodyScrollLocks } from 'body-scroll-lock';
 import ButtonFull from 'theme/components/theme/ButtonFull.vue';
+import ButtonOutline from 'theme/components/theme/ButtonOutline.vue';
 import NoSSR from 'vue-no-ssr';
 import HomeCarousel from 'theme/components/theme/blocks/HomeCarousel';
 import { formatCategoryLink } from '@vue-storefront/core/modules/url/helpers';
@@ -174,6 +175,7 @@ export default {
     ProductListing,
     LazyHydrate,
     ButtonFull,
+    ButtonOutline,
     Banner
   },
   computed: {
@@ -332,6 +334,10 @@ export default {
     }
   }
 
+  .offer-gallery {
+    margin-bottom: 68px;
+  }
+
   .banner-group {
     display: grid;
     grid-template-columns: repeat(6, 1fr);
@@ -480,9 +486,10 @@ export default {
         }
       }
       #home {
-        .show-all {
+        .button-outline.show-all {
           max-width: 100%;
           width: 100%;
+          margin: 24px auto 48px auto;
         }
       }
     }
@@ -510,30 +517,8 @@ export default {
     }
   }
 
-  .show-all.button-full {
-    min-width: 233px;
-    margin: 31px auto 68px auto;
-    width: auto;
-    background-color: transparent;
-    border: 1px solid #23BE20;
-    box-sizing: border-box;
-    border-radius: 4px;
-    color: #1A1919;
-    padding: 12px 60px;
-    font-family: 'DIN Pro';
-    font-style: normal;
-    font-weight: bold;
-    font-size: 15px;
-    line-height: 16px;
-
-    &:hover {
-      background-color: #E5F7E4;
-      border-color: transparent;
-      color: #1A1919;
-    }
-
-    &:active {
-      background-color: #cddccc;
-    }
+  .button-outline.show-all {
+    width: 233px;
+    margin: 32px auto 68px auto;
   }
 </style>

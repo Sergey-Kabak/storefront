@@ -7,11 +7,12 @@
       >
         <sub-btn type="back" class="bg-cl-transparent brdr-none" />
       </div>
-      <div class="col-xs bg-cl-primary">
+      <div class="col-xs bg-cl-primary menu-header">
+        <language-switcher />
         <button
           type="button"
           :aria-label="$t('Close')"
-          class="w-100 inline-flex end-xs bg-cl-transparent brdr-none p0 close-btn p15"
+          class="inline-flex end-xs bg-cl-transparent brdr-none p0 close-btn p15"
           @click="closeMenu"
         >
           <svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -169,6 +170,7 @@ import i18n from '@vue-storefront/i18n';
 import SidebarMenu from '@vue-storefront/core/compatibility/components/blocks/SidebarMenu/SidebarMenu';
 import SubBtn from 'theme/components/core/blocks/SidebarMenu/SubBtn';
 import SubCategory from 'theme/components/core/blocks/SidebarMenu/SubCategory';
+import LanguageSwitcher from 'theme/components/core/LanguageSwitcher';
 import { formatCategoryLink } from '@vue-storefront/core/modules/url/helpers';
 import {
   clearAllBodyScrollLocks,
@@ -178,7 +180,8 @@ import {
 export default {
   components: {
     SubCategory,
-    SubBtn
+    SubBtn,
+    LanguageSwitcher
   },
   mixins: [SidebarMenu],
   data () {
@@ -379,6 +382,26 @@ $bg-secondary: color(secondary, $colors-background);
 $color-gainsboro: color(gainsboro);
 $color-matterhorn: color(matterhorn);
 $color-mine-shaft: color(mine-shaft);
+
+.menu-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 0 15px 0 18px;
+}
+
+.lang_switcher {
+  display: none;
+  position: static;
+
+  ::v-deep {
+    .active {
+      background-color: #E5F7E4!important;
+    }
+  }
+}
+
 .custom-cat-link.march-8{
   color: #EE2C39;
 }
@@ -403,8 +426,9 @@ $color-mine-shaft: color(mine-shaft);
     }
   }
 
-  @media (max-width: 767px) {
+  @media (max-width: 768px) {
     width: 100vh;
+    
   }
 
   &__container {
@@ -466,6 +490,7 @@ $color-mine-shaft: color(mine-shaft);
   }
 
   .close-btn {
+    margin-left: auto;
     svg {
       fill: $color-gainsboro;
     }
@@ -510,5 +535,11 @@ $color-mine-shaft: color(mine-shaft);
   color: #EE2C39;
   font-weight: 600;
   margin-top: 3px;
+}
+
+@media (max-width: 768px) {
+  .lang_switcher {
+    display: block;
+  }
 }
 </style>

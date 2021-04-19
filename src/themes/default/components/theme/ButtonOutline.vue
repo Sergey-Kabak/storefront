@@ -47,32 +47,33 @@ export default {
 
 <style lang="scss" scoped>
 .button-outline {
-  box-sizing: border-box;
+  height: 40px;
   width: 100%;
   font-family: DIN Pro;
   font-style: normal;
-  font-weight: 600;
   font-size: 15px;
   line-height: 24px;
-  background: #FFFFFF;
+  color: #1A1919;
+
+  background-color: #FFFFFF;
   border: 1px solid #23BE20;
   box-sizing: border-box;
   border-radius: 4px;
   transition: .2s ease-in-out;
+  font-weight: 700;
 
   &:hover {
-    color: #ffffff  ;
-    background-color: #23BE20;
+    background-color: #E5F7E4;;
   }
 
   &:active {
-    background-color: #1fa71c
+    background-color: #cddccc
   }
 
   &.disabled {
     pointer-events: none;
-    border-color: #abe6aa;
-    color: #9e9e9e
+    border-color: #caefca;
+    color: #ababab
   }
 }
 </style>
