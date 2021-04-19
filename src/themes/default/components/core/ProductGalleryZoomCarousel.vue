@@ -39,6 +39,7 @@
                    :class="{'video-container h-100 flex relative': images.video}"
               >
                 <product-image
+                  class="w-100"
                   v-show="hideImageAtIndex !== index"
                   :image="images"
                   :alt="productName | htmlDecode"
@@ -324,7 +325,7 @@ ul.media-zoom-carousel__thumbs{
   }
   &__gallery{
     margin: 0 auto;
-    max-width: 600px;
+    max-width: 636px;
     height: 100%;
     flex: 1;
     @media (max-width: 767px) {
@@ -347,7 +348,24 @@ ul.media-zoom-carousel__thumbs{
   justify-content: center;
 }
 .media-zoom-carousel__slide{
+  width: 100%;
   display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+::v-deep {
+  .VueCarousel-navigation-prev {
+    right: calc(100% + 24px);
+    left: auto!important;
+    margin-right: 0!important;
+  }
+
+  .VueCarousel-navigation-next {
+    left: calc(100% + 24px);
+    right: auto!important;
+    margin-left: 0!important;
+  }
 }
 </style>
 

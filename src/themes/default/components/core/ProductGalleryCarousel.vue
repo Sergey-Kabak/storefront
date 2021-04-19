@@ -19,12 +19,10 @@
         :key="index"
       >
         <div
-          class="product-image-container bg-cl-secondary"
-          :class="{'video-container w-100 h-100 flex relative': images.video}"
         >
           <product-image
             v-if="hideImageAtIndex !== index"
-            @dblclick="openOverlay"
+            @click="openOverlay"
             class="pointer image"
             :image="images"
             :alt="productName | htmlDecode"
