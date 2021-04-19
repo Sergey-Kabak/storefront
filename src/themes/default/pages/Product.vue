@@ -6,7 +6,6 @@
           <breadcrumbs v-if="!['mobile'].includes(screenResolution)" class="breadcrumbs"/>
           <mobile-breadcrumbs v-else />
         </div>
-        {{groups}}
         <div class="col-12">
           <section class="product-top-info">
             <no-ssr>
