@@ -329,7 +329,7 @@ export default {
     .product-price-wrapper {
       white-space: nowrap;
       flex-direction: column-reverse;
-      align-items: flex-end;
+      align-items: flex-start;
     }
 
     .main-price {

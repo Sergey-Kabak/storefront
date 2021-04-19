@@ -46,9 +46,9 @@
               @click="closeFilters"
               class="close-container w-100"
             >
-              <span class="material-icons">
-                keyboard_arrow_left
-              </span>
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M13.293 17.707L7.58603 12L13.293 6.293L14.707 7.707L10.414 12L14.707 16.293L13.293 17.707Z" fill="#23BE20"/>
+              </svg>
               <span class="close-text">Назад</span>
             </div>
             <sidebar :filters="getAvailableFilters" @changeFilter="changeFilter" />

@@ -92,7 +92,12 @@ export default {
 
 <style lang="scss" scoped>
 .product-item-price{
-  .price-sale {
+  .product-price-wrapper{
+    flex-direction: column;
+    align-items: flex-end;
+  }
+  .price-sale{
+    order: -1;
     margin: 0;
     font-weight: 700;
   }
@@ -125,7 +130,7 @@ export default {
   height: 16px;
   font-family: DIN Pro;
   font-style: normal;
-  font-weight: 0;
+  font-weight: 700;
   font-size: 11px;
   line-height: 16px;
   text-transform: uppercase;

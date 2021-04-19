@@ -20,6 +20,7 @@
           <carousel
             :per-page="1"
             :mouse-drag="false"
+            :loop="true"
             :navigation-enabled="true"
             pagination-active-color="#828282"
             pagination-color="transparent"
@@ -232,8 +233,8 @@ ul.media-zoom-carousel__thumbs{
     opacity: 1;
   }
   img{
-    max-width: 57px;
-    max-height: 57px;
+    max-width: 56px;
+    max-height: 56px;
     object-fit: contain;
   }
 
@@ -257,8 +258,29 @@ ul.media-zoom-carousel__thumbs{
   border-radius: 50%;
   border: 1px solid #E0E0E0 !important;
   background-color: #fff !important;
+
   &:focus{
     outline: none !important;
+  }
+
+  &.VueCarousel-navigation-prev {
+    right: calc(100% + 14px);
+    left: auto;
+
+    @media (max-width: 900px){
+      left: 0;
+      right: auto;
+    }
+  }
+
+  &.VueCarousel-navigation-next {
+    left: calc(100% + 14px);
+    right: auto;
+
+    @media (max-width: 900px){
+      left: auto;
+      right: 0;
+    }
   }
 }
 .media-zoom-carousel {

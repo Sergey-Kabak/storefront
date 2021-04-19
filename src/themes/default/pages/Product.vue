@@ -31,7 +31,7 @@
     </div>
     <hr class="tab-underline" ref="separator">
     <product-tabs :class="{'fixed-row' : fixedContent}" :active-tab="ActiveTab" ref="pageTabs" />
-    <div class="v-container">
+    <div class="v-container product-container">
       <div class="row">
         <div class="col-12 tab-row">
           <component v-if="tabContainer" :is="tabContainer">
@@ -332,4 +332,14 @@ export default {
 
 <style lang="scss" scoped>
 @import "~theme/css/pages/Product/Product";
+
+@media  (max-width: 768px) {
+  .product-tabs {
+    margin-bottom: 0;
+  }
+
+  .carriage-wrapper {
+    display: none;
+  }
+}
 </style>

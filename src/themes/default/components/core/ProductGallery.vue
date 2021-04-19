@@ -139,6 +139,7 @@ export default {
 }
 ::v-deep .media-zoom-carousel__slide{
   background-color: #fff;
+  height: auto;
   display: flex;
 }
 .hide-mobile{

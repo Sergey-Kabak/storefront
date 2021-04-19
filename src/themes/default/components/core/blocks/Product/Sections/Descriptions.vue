@@ -17,10 +17,22 @@ export default {
 ::v-deep .product-description{
   font-family: DIN Pro;
   font-style: normal;
-  *{
+  * {
     font-family: DIN Pro;
     font-style: normal;
   }
+
+  p {
+    font-size: 15px;
+    line-height: 24px;
+  }
+
+  strong {
+    font-size: 15px;
+    line-height: 16px;
+    color: #1A1919;
+  }
+
   img{
     max-width: 100%;
   }
