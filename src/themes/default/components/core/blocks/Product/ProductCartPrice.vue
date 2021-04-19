@@ -140,7 +140,7 @@ export default {
 .product-price-wrapper {
   display: flex;
   flex-direction: column-reverse;
-  align-items: flex-start;
+  align-items: flex-end;
   white-space: nowrap;
 }
 
