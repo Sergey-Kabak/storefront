@@ -51,7 +51,12 @@ export const getFiltersFromQuery = ({ filtersQuery = {}, availableFilters = {} }
     if (!filter) return
     // keep original value for system filters - for example sort
     if (getSystemFilterNames.includes(filterKey)) {
-      searchQuery[filterKey] = queryValue
+      if (filterKey === 'sort') {
+        searchQuery[filterKey] = queryValue
+      } else {
+        const variant = filter.find((filterVariant) => filterVariant.type === filterKey)
+        searchQuery.filters[filterKey] = { id: variant.id, attribute_code: filterKey}
+      }
     } else {
       queryValue = [].concat(filtersQuery[filterKey])
       queryValue.map(singleValue => {

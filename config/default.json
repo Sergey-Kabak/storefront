@@ -299,6 +299,7 @@
     "attribute": {
       "includeFields": [
         "activity",
+        "additional_data",
         "attribute_code",
         "attribute_id",
         "default_frontend_label",
@@ -689,7 +690,8 @@
     "setupVariantByAttributeCode": true,
     "endpoint": "/api/product",
     "systemFilterNames": [
-      "sort"
+      "sort",
+      "credit_extra_tag"
     ],
     "maxFiltersQuerySize": 999,
     "routerFiltersSource": "query",

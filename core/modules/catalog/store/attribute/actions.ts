@@ -28,7 +28,6 @@ const actions: ActionTree<AttributeState, RootState> = {
   async updateAttributes ({ commit, getters }, { attributes }) {
     const idsList = getters.getAttributeListById
     const codesList = getters.getAttributeListByCode
-
     for (let attr of attributes) {
       if (attr && !config.attributes.disablePersistentAttributesCache) {
         const attrCollection = StorageManager.get('attributes')
@@ -89,8 +88,8 @@ const actions: ActionTree<AttributeState, RootState> = {
     })
     const resp = await quickSearchByQuery({ entityType: 'attribute', query, includeFields, start, size })
     const attributes = resp && orgFilterValues.length > 0 ? resp.items : null
-
     dispatch('updateBlacklist', { filterValues, filterField, attributes })
+
     await dispatch('updateAttributes', { attributes })
 
     return resp

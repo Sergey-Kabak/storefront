@@ -24,59 +24,61 @@
       </span>
     </h3>
     <div
-      v-for="(filter, filterIndex) in sortedFilters"
+      v-for="(filter, filterIndex) in availableFilters"
       :key="filterIndex"
       class="filter"
     >
-      <category-filter :label="filter[0].name" v-if="isCheckboxFilter(filterIndex)">
-        <checkbox-selector
-          context="category"
-          :code="filterIndex"
-          v-for="(item, index) in sortById(filter)"
-          :key="index"
-          :variant="item"
-          :selected-filters="getCurrentFilters"
-          @change="$emit('changeFilter', $event)"
-        />
-      </category-filter>
-      <category-filter :label="filterIndex + '_filter'" v-else-if="filterIndex === 'color'" noscroll="true">
-        <color-selector
-          context="category"
-          :code="filterIndex"
-          v-for="(color, index) in filter"
-          :key="index"
-          :variant="color"
-          :selected-filters="getCurrentFilters"
-          @change="$emit('changeFilter', $event)"
-        />
-      </category-filter>
-      <category-filter :label="filterIndex + '_filter'" v-else-if="filterIndex==='price'">
-        <price-selector
-          context="category"
-          class="price-select mb10 block"
-          :code="filterIndex"
-          v-for="(price, index) in filter"
-          :key="index"
-          :id="price.id"
-          :from="price.from"
-          :to="price.to"
-          :content="price.label"
-          :variant="price"
-          :selected-filters="getCurrentFilters"
-          @change="$emit('changeFilter', $event)"
-        />
-      </category-filter>
-      <category-filter :label="filter[0].name" v-else>
-        <button-selector
-          context="category"
-          :code="filterIndex"
-          class="size-select mr10 mb10"
-          v-for="(item, index) in sortById(filter)"
-          :key="index"
-          :variant="item"
-          :selected-filters="getCurrentFilters"
-          @change="$emit('changeFilter', $event)"
-        />
+      <category-filter :label="filter[0].name" :class="{'color-selector': filter[0].visible === 'color'}">
+        <template v-if="filter[0].visible === 'select'">
+          <checkbox-selector
+            context="category"
+            v-for="(filterItem, index) in sortById(filter)"
+            :key="index"
+            :code="filterIndex"
+            :variant="filterItem"
+            :selected-filters="getCurrentFilters"
+            @change="$emit('changeFilter', $event)"
+          />
+        </template>
+        <template v-if="filter[0].visible === 'color'">
+          <color-selector
+            context="category"
+            :code="filterIndex"
+            :variant="filterItem"
+            :key="index"
+            v-for="(filterItem, index) in filter"
+            :selected-filters="getCurrentFilters"
+            @change="$emit('changeFilter', $event)"
+          />
+        </template>
+        <template v-if="filter[0].visible === 'price'">
+          <price-selector
+            context="category"
+            class="price-select mb10 block"
+            :code="filterIndex"
+            v-for="(filterItem, index) in filter"
+            :key="index"
+            :id="filterItem.id"
+            :from="filterItem.from"
+            :to="filterItem.to"
+            :content="filterItem.label"
+            :variant="filterItem"
+            :selected-filters="getCurrentFilters"
+            @change="$emit('changeFilter', $event)"
+          />
+        </template>
+        <template v-if="filter[0].visible === 'text'">
+          <button-selector
+            context="category"
+            :code="filterIndex"
+            class="size-select mr10 mb10"
+            v-for="(filterItem, index) in sortById(filter)"
+            :key="index"
+            :variant="filterItem"
+            :selected-filters="getCurrentFilters"
+            @change="$emit('changeFilter', $event)"
+          />
+        </template>
       </category-filter>
     </div>
   </div>
@@ -126,25 +128,12 @@ export default {
           res.push(condition)
         }
       })
-      console.log(res);
-      console.log(this.availableFilters);
       return this.isEdge ? this.flattenDeep(res) : res.flat(2)
     },
     availableFilters () {
       return pickBy(this.filters, (filter, filterType) => {
-        return (filter.length && !this.$store.getters['category-next/getSystemFilterNames'].includes(filterType) && filterType !== 'credit_extra_tag')
+        return (filter.length && !this.$store.getters['category-next/getSystemFilterNames'].includes(filterType))
       })
-    },
-    sortedFilters () {
-      if (!this.getActiveFilters.length && this.$route.path === '/8-march') {
-        return {
-          price: this.availableFilters.price,
-          kategorija_akcija: this.availableFilters.kategorija_akcija,
-          manufacturer: this.availableFilters.manufacturer
-        }
-      } else {
-        return this.availableFilters
-      }
     }
   },
   methods: {
@@ -166,10 +155,6 @@ export default {
       else {
         return [...filters].sort((a, b) => { return parseInt(a.label) - parseInt(b.label) })
       }
-    },
-    // should be received from config
-    isCheckboxFilter (filterName) {
-      return ['manufacturer', 'dyagonal_ekrana', 'emkost_akkumulyatora_mach', 'sim', 'slot_dlya_karty_pamyaty', 'cores', 'material_korpusu', 'operatsyonnaya_systema', 'kategorija'].includes(filterName)
     }
   }
 }
@@ -188,6 +173,15 @@ $mobile_screen : 767px;
     display: none !important;
   }
 }
+
+.color-selector {
+  ::v-deep {
+    .filter-body {
+      overflow: visible;
+    }
+  }
+}
+
 /deep/ .color {
     width: 38px;
     height: 38px;

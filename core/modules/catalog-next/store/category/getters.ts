@@ -17,6 +17,7 @@ import { parseCategoryPath } from '@vue-storefront/core/modules/breadcrumbs/help
 import { _prepareCategoryPathIds, getSearchOptionsFromRouteParams } from '../../helpers/categoryHelpers';
 import { currentStoreView, removeStoreCodeFromRoute } from '@vue-storefront/core/lib/multistore'
 import cloneDeep from 'lodash-es/cloneDeep'
+import i18n from '@vue-storefront/i18n'
 import config from 'config';
 
 function mapCategoryProducts (productsFromState, productsData) {
@@ -53,6 +54,7 @@ const getters: GetterTree<CategoryState, RootState> = {
     if (aggregations) { // populate filter aggregates
       for (let attrToFilter of defaultFilters) { // fill out the filter options
         let filterOptions: FilterVariant[] = []
+        const attribute = rootState.attribute.list_by_code[attrToFilter]
 
         let uniqueFilterValues = {}
         if (attrToFilter !== 'price') {
@@ -65,17 +67,17 @@ const getters: GetterTree<CategoryState, RootState> = {
               uniqueFilterValues[option.key] = option.doc_count
             }
           }
-
           for (let key in uniqueFilterValues) {
             const label = optionLabel(rootState.attribute, { attributeKey: attrToFilter, optionId: key })
-            const attribute = rootState.attribute.list_by_code[attrToFilter]
-            if (trim(label) !== '') { // is there any situation when label could be empty and we should still support it?
+            if (trim(label) !== '' && attribute) { // is there any situation when label could be empty and we should still support it?
               filterOptions.push({
                 id: key,
                 count: uniqueFilterValues[key],
                 label: label,
                 type: attrToFilter,
-                name: attribute.frontend_label
+                name: attribute.frontend_label,
+                // TODO: GET COLOR TYPE AS FRONTEND_INPUT FROM API
+                visible: attribute.additional_data && 'color' || attribute.frontend_input
               })
             }
           }
@@ -96,7 +98,9 @@ const getters: GetterTree<CategoryState, RootState> = {
             from: from || '0',
             to: to || '10000',
             label: `${from}₴-${to}₴`,
-            single: true
+            single: true,
+            name: i18n.t('Price') as string,
+            visible: 'price'
           })
           filters[attrToFilter] = filterOptions
         }
