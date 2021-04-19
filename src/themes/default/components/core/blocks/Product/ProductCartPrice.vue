@@ -93,7 +93,6 @@ export default {
 <style lang="scss" scoped>
 .product-item-price{
   .price-sale{
-    order: -1;
     margin: 0;
     font-weight: 700;
   }
@@ -135,7 +134,7 @@ export default {
 
 .product-price-wrapper {
   display: flex;
-  flex-direction: column;
+  flex-direction: column-reverse;
   align-items: flex-start;
   white-space: nowrap;
 }
