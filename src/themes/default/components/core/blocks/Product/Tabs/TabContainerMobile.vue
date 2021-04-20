@@ -5,10 +5,10 @@
         <div class="sidebar-content">
           <div class="sidebar-header">
             <div @click="closeSidebar" class="close-sidebar">
-              <span class="material-icons">
-                keyboard_arrow_left
-              </span>
-              <span>Назад</span>
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M13.293 17.707L7.58603 12L13.293 6.293L14.707 7.707L10.414 12L14.707 16.293L13.293 17.707Z" fill="#23BE20"/>
+              </svg>
+              <span>{{ $t('Back') }}</span>
             </div>
           </div>
           <div class="sidebar-tab">
@@ -71,6 +71,9 @@ export default {
     box-sizing: border-box;
   }
   &-header{
+    position: sticky;
+    background: #fff;
+    top: 0;
     border-bottom: 1px solid #E0E0E0;
   }
   &-tab{

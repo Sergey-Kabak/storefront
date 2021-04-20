@@ -92,13 +92,9 @@ export default {
 
 <style lang="scss" scoped>
 .product-item-price{
-  .product-price-wrapper{
-    flex-direction: column;
-    align-items: flex-end;
-  }
   .price-sale{
-    order: -1;
     margin: 0;
+    font-weight: 700;
   }
   .price-original{
     font-size: 18px;
@@ -119,20 +115,17 @@ export default {
   display: flex;
   align-items: baseline;
   white-space: nowrap;
-  margin-top: 4px;
 }
 
 .price-sale {
-  margin-top: 4px;
   text-align: center;
-  margin-left: 8px;
   background: #EE2C39;
   border-radius: 30px;
   width: 40px;
   height: 16px;
   font-family: DIN Pro;
   font-style: normal;
-  font-weight: 0;
+  font-weight: 700;
   font-size: 11px;
   line-height: 16px;
   text-transform: uppercase;
@@ -140,15 +133,10 @@ export default {
 }
 
 .product-price-wrapper {
-  margin: -4px 0 0 0;
   display: flex;
-  flex-wrap: wrap-reverse;
-  justify-content: flex-end;
-  align-items: center;
-
-  @media only screen and (max-width: 520px) {
-    // flex-wrap: nowrap;
-  }
+  flex-direction: column-reverse;
+  align-items: flex-start;
+  white-space: nowrap;
 }
 
 .name {

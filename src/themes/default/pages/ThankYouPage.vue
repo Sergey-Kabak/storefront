@@ -80,13 +80,11 @@
 <script>
 import ProductImage from 'theme/components/core/ProductImage';
 import TotalPrice from 'theme/components/core/TotalPrice';
-import {getThumbnailForProduct} from '@vue-storefront/core/modules/cart/helpers';
 import {currentStoreView} from '@vue-storefront/core/lib/multistore';
-import {price} from 'theme/helpers';
-import {mapState} from 'vuex';
+import {mapState, mapGetters} from 'vuex';
 import {Logger} from '@vue-storefront/core/lib/logger';
 import {localizedRoute} from '@vue-storefront/core/lib/multistore';
-import {PaymentService} from '@vue-storefront/core/data-resolver';
+import { formatProductLinkNoSku } from '@vue-storefront/core/modules/url/helpers'
 
 export default {
   components: {
@@ -97,10 +95,18 @@ export default {
     status: null
   }),
   computed: {
+    ...mapGetters('user', ['isLoggedIn']),
     ...mapState({
       order: (state) => state.checkoutPage.order,
-      cartServerToken: (state) => state.cart.cartServerToken
+      cartServerToken: (state) => state.cart.cartServerToken,
+      cartGuid: (state) => state.cart.cartGuid,
+      lastOrder: state => state.order.last_order_confirmation.order,
+      userData: (state) => state.user.current
     }),
+    telephone() {
+      const phone = this.userData.custom_attributes.find(it => it.attribute_code === 'telephone') 
+      return phone.value
+    },
     products () {
       return this.order.items.filter(it => it.parent_item && it.parent_item.product_type === 'bundle' || !it.parent_item)
     },
@@ -126,17 +132,12 @@ export default {
     }
   },
   async mounted() {
-    if (!this.cartServerToken) { // clear only correct cart
-      this.$store.commit('checkoutPage/RESET_CHECKOUT', null)
-      this.$store.dispatch('cart/clear', { sync: false })
-    }
     if (this.order.payment.method === 'liqpaymagento_liqpay') {
       this.status = await this.$store.dispatch('checkoutPage/getLiqpayStatus', {
         orderId: this.order.increment_id,
         marketplace: this.isMarketplace
       })
     }
-
     if (this.order.payment.method === 'temabit_payparts') {
       const status = await this.$store.dispatch('themeCredit/partPaymentStatus', {
         id: this.order.increment_id,
@@ -145,6 +146,7 @@ export default {
       this.status = status.state && status.state.toLowerCase()
     }
     this.initAdmitad()
+    this.initEsputnik()
   },
   methods: {
     image(product) {
@@ -182,6 +184,74 @@ export default {
         orderedItem: orderedItem
       });
       ADMITAD.Tracking.processPositions();
+    },
+    initEsputnik() {
+      const items = this.lastOrder.products.map(it => ({
+        externalItemId: it.sku,
+        name: it.name,
+        category: 1,
+        quantity: it.qty,
+        cost: it.original_final_price,
+        url: `https://ringoo.ua/${it.url_key}`,
+        imageUrl: this.getThumbnail(it.image, 100, 100),
+        description: it.description
+      }))
+      const payload = {
+        orders: [{
+          "externalOrderId" : this.order.increment_id,
+          "externalCustomerId" : this.order.customer_email,
+          "totalCost" : this.order.grand_total,
+          "status" : "INITIALIZED",
+          "date" : new Date().toISOString(),
+          "email" : this.order.customer_email,
+          "phone" : this.order.billing_address.telephone,
+          "firstName" : this.order.customer_firstname,
+          "lastName" : this.order.customer_firstname,
+          "currency" : this.order.order_currency_code,
+          "shipping" : this.order.shipping_amount,
+          "discount" : this.order.discount_amount,
+          "taxes" : this.order.base_tax_amount,
+          "restoreUrl": `https://ringoo.ua/thank-you-page?cartId=${this.$route.query.cartId}`,
+          "statusDescription" : this.order.status,
+          "deliveryMethod" : this.order.shipping_description,
+          "paymentMethod" : this.order.payment.method,
+          "deliveryAddress" : this.order?.billing_address?.street?.[0],
+          "items" : items
+        }]
+      }
+      if (this.isLoggedIn) {
+        eS('sendEvent', 'CustomerData', {
+        'CustomerData': {
+          'user_email': this.userData.email,
+          'user_name': `${this.userData.firstname} ${this.userData.lastname}`,
+          'user_client_id': this.userData.id,
+          'user_phone': this.telephone
+        }
+      });
+      }
+      eS('sendEvent', 'PurchasedItems', {
+          "OrderNumber": this.order.increment_id,
+          "PurchasedItems":this.lastOrder.products.map(p => ({
+              "productKey": p.id,
+              "price": p.original_final_price,
+              "quantity": p.qty,
+              "currency": "UAH"
+            })
+        ),
+      "GUID": this.cartGuid
+      });
+      this.$store.dispatch('cart/setCartGuid')
+      this.$store.dispatch('esputnik/triggerOrderSuccess', payload)
+    }
+  },
+  metaInfo() {
+    return {
+      script: [{
+        async: true,
+        type: 'text/javascript',
+        body: true,
+        innerHTML: `window.ad_order = ${this.order.increment_id}; window.ad_amount = ${this.order.base_grand_total}; window.ad_products = ${JSON.stringify(this.products.map(it => ({ id: it.sku, number: it.qty_ordered })))}; window._retag = window._retag || []; window._retag.push({code: "9ce8884ee2", level: 4}); (function () { var id = "admitad-retag"; if (document.getElementById(id)) {return;} var s = document.createElement("script"); s.async = true; s.id = id; var r = (new Date).getDate(); s.src = (document.location.protocol == "https:" ? "https:" : "http:") + "//cdn.lenmit.com/static/js/retag.js?r="+r; var a = document.getElementsByTagName("script")[0]; a.parentNode.insertBefore(s, a); })()`
+      }]
     }
   }
 }

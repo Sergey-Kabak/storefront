@@ -30,6 +30,9 @@ export default {
   },
   beforeMount () {
   },
+  mounted() {
+    eS('sendEvent', 'NotFound');
+  },
   beforeDestroy () {
   },
   metaInfo: Head,

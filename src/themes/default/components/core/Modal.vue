@@ -11,14 +11,9 @@
       <div class="modal-container" ref="modal-content" :style="style">
         <header class="modal-header" v-if="$slots.header">
           <slot name="header" />
-          <i
-            slot="close"
-            class="modal-close material-icons"
-            @click="close"
-            data-testid="closeModalButton"
-          >
-            close
-          </i>
+          <svg data-testid="closeModalButton"  @click="close" class="modal-close" width="24" height="24" viewBox="0 0 24 24" fill="#BDBDBD" xmlns="http://www.w3.org/2000/svg">
+          <path d="M19 6.41L17.59 5L12 10.59L6.41 5L5 6.41L10.59 12L5 17.59L6.41 19L12 13.41L17.59 19L19 17.59L13.41 12L19 6.41Z" />
+        </svg>
         </header>
         <div class="modal-content bg-cl-primary" v-if="$slots.content">
           <slot name="content" />
@@ -82,6 +77,7 @@ export default {
     },
     close () {
       this.toggle(false)
+      this.onClose();
     }
   },
   beforeMount () {
@@ -112,6 +108,10 @@ export default {
     transitionName: {
       type: String,
       default: 'fade-in-down'
+    },
+    onClose: {
+      type: Function,
+      default: () => {}
     }
   },
   computed: {
@@ -136,13 +136,12 @@ $z-index-modal: map-get($z-index, modal);
   z-index: $z-index-modal;
   -webkit-overflow-scrolling: touch;
   .modal-container {
-    @media (min-width: 576px) {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      height: auto;
-    }
+    border-radius: 4px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    height: auto;
     margin: 0 auto;
     max-width: 100%;
     max-height: 100%;

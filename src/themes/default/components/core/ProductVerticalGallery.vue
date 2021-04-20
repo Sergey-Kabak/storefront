@@ -7,8 +7,8 @@
          class="vertical-bar__item flex v-center mb8">
       <img :src="item.src" alt="">
     </div>
-    <div v-if="filteredGallery.length > 5" class="vertical-bar__more" @click="openOverlay">
-      {{ $t('more') }} {{ filteredGallery.length - 5 }}
+    <div v-if="filteredGallery.length > 6" class="vertical-bar__more" @click="openOverlay">
+      {{ $t('more') }} {{ filteredGallery.length - 6 }}
     </div>
   </div>
 </template>
@@ -40,7 +40,7 @@ export default {
       getCurrentProduct: 'product/getCurrentProduct'
     }),
     verticalGallery () {
-      return [...this.filteredGallery].splice(0, 5)
+      return [...this.filteredGallery].splice(0, 6)
     }
   },
   created () {
@@ -108,7 +108,7 @@ export default {
   &__item {
     margin-bottom: 16px;
     @media (max-width: 1200px) {
-      width: 50px;
+      width: 56px;
       margin-bottom: 0;
     }
 
@@ -147,6 +147,10 @@ export default {
     border-bottom: 1px dashed #1A1919;
     box-sizing: border-box;
     cursor: pointer;
+    
+    &:hover {
+      border-color: transparent;
+    }
   }
 }
 </style>

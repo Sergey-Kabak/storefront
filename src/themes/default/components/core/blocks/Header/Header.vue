@@ -1,16 +1,7 @@
 <template>
   <div class="header-wrap" ref="headerWrap">
     <header ref="header" :class="{ 'is-visible': navVisible, 'search-active': isSearchActive }">
-      <div class="promo" v-if="isShowHeader" :style="{'background': promo.background}">
-        <router-link class="promo-link" :to="promo.link">
-          <picture class="flex">
-            <source :srcset="promo.imgTablet" media="(min-width: 567px) and (max-width: 768px)">
-            <source :srcset="promo.imgMobile" media="(max-width: 567px)">
-            <source :srcset="promo.img">
-            <img v-lazy="promo.img" alt="promo" class="promo-image">
-          </picture>
-        </router-link>
-      </div>
+      <banner v-if="headerPromoBanner && headerPromoBanner.banners && headerPromoBanner.banners.length"  :banners="headerPromoBanner.banners" />
       <div class="header-black-line" v-if="isShowHeader">
         <div class="v-container">
           <div class="row">
@@ -22,7 +13,7 @@
                   </router-link>
                 </li>
                 <li>
-                  <router-link class="cl-secondary" :to="localizedRoute('/info/payment')" exact>
+                  <router-link class="cl-secondary" :to="localizedRoute('/info\/payment')" exact>
                     {{ $t('the Payment') }}
                   </router-link>
                 </li>
@@ -85,7 +76,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { mapState, mapGetters } from 'vuex';
 import CurrentPage from 'theme/mixins/currentPage';
 import AccountIcon from 'theme/components/core/blocks/Header/AccountIcon';
 import CompareIcon from 'theme/components/core/blocks/Header/CompareIcon';
@@ -98,6 +89,7 @@ import SearchPanel from 'theme/components/core/blocks/SearchPanel/SearchPanel';
 import MobileHamburgerIcon from 'theme/components/core/blocks/Header/MobileHamburgerIcon';
 import PhoneInfo from 'theme/components/core/PhoneInfo';
 import ConsultationIcon from 'theme/components/core/blocks/Header/ConsultationIcon';
+import Banner from 'theme/components/core/Banner';
 import LanguageSwitcher from '../../LanguageSwitcher'
 
 export default {
@@ -114,6 +106,7 @@ export default {
     MobileHamburgerIcon,
     PhoneInfo,
     ConsultationIcon,
+    Banner,
     LanguageSwitcher
   },
   mixins: [CurrentPage],
@@ -145,6 +138,9 @@ export default {
     }
   },
   computed: {
+    ...mapGetters({
+      headerPromoBanner: 'bannerGroup/getHeaderPromoBanner',
+    }),
     ...mapState({
       isOpenLogin: state => state.ui.signUp,
       currentUser: state => state.user.current,
@@ -280,6 +276,11 @@ $color-icon-hover: color(secondary, $colors-background);
       height: 30px;
     }
   }
+}
+
+.promo-banner {
+  max-height: 45px;
+  overflow: hidden;
 }
 
 header {

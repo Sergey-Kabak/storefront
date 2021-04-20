@@ -5,7 +5,7 @@
         <lazy-hydrate when-idle>
           <related-products type="upsell" :heading="$t('We found other products you might like')" />
         </lazy-hydrate>
-        <div class="banner flex my30">
+        <div class="banner flex">
           <picture class="w-100">
             <source srcset="/assets/promo/delivery_mobile.jpg" media="(max-width: 400px)">
             <source srcset="/assets/promo/delivery_tablet.jpg" media="(max-width: 991px) and (min-width: 401)">
@@ -36,5 +36,20 @@ export default {
 <style scoped>
 .similar-products{
   margin-bottom: 68px;
+}
+
+.banner {
+  margin: 68px 0
+}
+
+
+@media (max-width: 768px) {
+  .banner {
+    margin: 48px 0;
+  }
+
+  .similar-products {
+    margin-bottom: 48px;
+  }
 }
 </style>

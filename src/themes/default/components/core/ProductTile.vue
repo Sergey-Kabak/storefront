@@ -1,7 +1,7 @@
 <template>
-  <div @click="gtm" class="product w-100 pb20 d-flex-column btw" v-observe-visibility="visibilityChanged">
+  <div @click="gtm" class="product w-100 pb20 d-flex-column btw" v-observe-visibility="visibilityChanged"  :data-productKey="product.id">
     <div v-if="isPromo" class="promo_img">
-      <img src="/assets/promo/gift_red.png" alt="march promo">
+      <img src="/assets/promo/MicrosoftTeams-image.png" alt="march promo">
     </div>
     <div class="product__icons" v-if="isShowCompareAndFavorite">
       <AddToWishlist :product="product" class="product-icon" :class="{'active': isOnWishlist }" />
@@ -87,7 +87,8 @@ export default {
       productsInCart: 'cart/getCartItems'
     }),
     isPromo () {
-      return this.product.sku === 'т30402'
+      // 988
+      return this.product.category_ids.includes(988)
     },
     productIsInCart() {
       return !!(this.productsInCart.find(p => this.product.id === p.id))

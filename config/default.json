@@ -121,6 +121,10 @@
     "url": "https://ringoo.ua",
     "saveBandwidthOverCache": true
   },
+  "evinentSearch": {
+    "url": "https://api.ringoo.evinent.site/api/search",
+    "productQuantity": 6
+  },
   "phoneNumbers": ["+38 073 090 87 07", "+38 097 090 87 07", "+38 050 340 74 00"],
   "homePageBanner": {
     "enabled": false
@@ -224,7 +228,7 @@
       "i18n": {
         "fullCountryName": "Russian",
         "fullLanguageName": "Russian",
-        "slug": "Рус",
+        "slug": "RU",
         "defaultLanguage": "RU",
         "defaultCountry": "RU",
         "defaultLocale": "ru-RU",
@@ -295,6 +299,7 @@
     "attribute": {
       "includeFields": [
         "activity",
+        "additional_data",
         "attribute_code",
         "attribute_id",
         "default_frontend_label",
@@ -468,7 +473,6 @@
     },
     "product": {
       "excludeFields": [
-        "attribute_set_id",
         "created_at",
         "has_options",
         "msrp_display_actual_price_type",
@@ -582,6 +586,24 @@
       "includeFields": null,
       "excludeFields": null
     },
+    "productSearchList": {
+      "sort": "updated_at:desc",
+      "includeFields": [
+        "id",
+        "name",
+        "original_price",
+        "price",
+        "stock.is_in_stock",
+        "special_price",
+        "status",
+        "type_id",
+        "url_path",
+        "url_key",
+        "*image",
+        "*sku"
+      ],
+      "excludeFields": []
+    },
     "promotionals": {
       "sortByAttributes": {
         "Latest": "updated_at:desc"
@@ -668,7 +690,8 @@
     "setupVariantByAttributeCode": true,
     "endpoint": "/api/product",
     "systemFilterNames": [
-      "sort"
+      "sort",
+      "credit_extra_tag"
     ],
     "maxFiltersQuerySize": 999,
     "routerFiltersSource": "query",
@@ -784,6 +807,7 @@
       "product": "/catalog/product",
       "category": "/catalog/category/",
       "brand": "/temabit/brands/",
+      "banner": "/bannerslider/upload/",
       "slider": "/bannerslider/upload/",
       "credit": "/temabit/credit/",
       "promotional": "/temabit/promo/",
@@ -839,7 +863,7 @@
     "dateFormat": "HH:mm D/M/YYYY",
     "fullCountryName": "Ukraine",
     "fullLanguageName": "Ukraine",
-    "slug": "Укр",
+    "slug": "UA",
     "bundleAllStoreviewLanguages": false
   },
   "expireHeaders": {
@@ -1084,5 +1108,8 @@
       "time": "2021-02-21 23:59:59",
       "category_link": "/fitnes-braslet-mi-smart-band-5-black.html"
     }
+  },
+  "esputnik": {
+    "apiKey": "YW55dmFsdWU6RTdFNzhCRTQyODBFNUYxRkM1RDlBNEZCOEFFNUU1RDc="
   }
 }

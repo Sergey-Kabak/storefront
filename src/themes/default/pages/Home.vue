@@ -30,14 +30,14 @@
           <product-listing columns="4" :products="getStockGoods" gtm-list="home page" />
         </lazy-hydrate>
         <product-listing v-else columns="4" :products="getStockGoods" gtm-list="home page" />
-        <button-full
+        <button-outline
           class="show-all"
           type="submit"
           @click.native="goToCategory('stockGoods')"
           :aria-label="$t('See all')"
         >
           {{ $t('See all') }}
-        </button-full>
+        </button-outline>
       </div>
     </section>
 
@@ -52,28 +52,19 @@
           <product-listing columns="4" :products="getSalesLeaders" gtm-list="home page" />
         </lazy-hydrate>
         <product-listing v-else columns="4" :products="getSalesLeaders" gtm-list="home page" />
-        <button-full
+        <button-outline
           class="show-all"
           type="submit"
           @click.native="goToCategory('salesLeaders')"
           :aria-label="$t('See all')"
         >
           {{ $t('See all') }}
-        </button-full>
+        </button-outline>
       </div>
     </section>
-
-    <section class="v-container section__banner">
-      <div class="banner">
-        <picture>
-          <source srcset="/assets/promo/delivery_mobile.jpg" media="(max-width: 400px)">
-          <source srcset="/assets/promo/delivery_tablet.jpg" media="(max-width: 991px) and (min-width: 401)">
-          <source srcset="/assets/promo/delivery_desktop.jpg">
-          <img v-lazy="'/assets/promo/delivery_desktop.jpg'" class="promo-image" alt="delivery promo image">
-        </picture>
-      </div>
+    <section class="v-container">
+      <banner class="delivery-banner" v-if="deliveryBanner && deliveryBanner.banners && deliveryBanner.banners.length" :banners="deliveryBanner.banners" />
     </section>
-
     <section v-if="isOnline" class="v-container section__shares">
       <header class="col-md-12">
         <h2 class="cl-accent">
@@ -93,19 +84,18 @@
         </header>
       </div>
       <div class="center-xs">
-          <lazy-hydrate :trigger-hydration="!loading" v-if="isLazyHydrateEnabled">
-            <product-listing columns="4" :products="getNew" gtm-list="home page" />
-          </lazy-hydrate>
-          <product-listing v-else columns="4" :products="getNew" gtm-list="home page" />
-
-        <button-full
+        <lazy-hydrate :trigger-hydration="!loading" v-if="isLazyHydrateEnabled">
+          <product-listing columns="4" :products="getNew" gtm-list="home page" />
+        </lazy-hydrate>
+        <product-listing v-else columns="4" :products="getNew" gtm-list="home page" />
+        <button-outline
           class="show-all"
           type="submit"
           @click.native="goToCategory('new')"
           :aria-label="$t('See all')"
         >
           {{ $t('See all') }}
-        </button-full>
+        </button-outline>
       </div>
     </section>
     <section class="v-container ">
@@ -121,14 +111,14 @@
           <product-listing columns="4" :products="getRecommends" gtm-list="home page" />
         </lazy-hydrate>
         <product-listing v-else columns="4" :products="getRecommends" gtm-list="home page" />
-        <button-full
+        <button-outline
           class="show-all"
           type="submit"
           @click.native="goToCategory('recommends')"
           :aria-label="$t('See all')"
         >
           {{ $t('See all') }}
-        </button-full>
+        </button-outline>
       </div>
     </section>
     <Onboard />
@@ -141,11 +131,10 @@ import {
   onlineHelper
 } from '@vue-storefront/core/helpers';
 import LazyHydrate from 'vue-lazy-hydration';
-
+import Banner from 'theme/components/core/Banner';
 import Home from '@vue-storefront/core/pages/Home';
 import ProductListing from 'theme/components/core/ProductListing';
 import Onboard from 'theme/components/theme/blocks/Home/Onboard';
-import TileLinks from 'theme/components/theme/blocks/TileLinks/TileLinks';
 import { Logger } from '@vue-storefront/core/lib/logger';
 import { mapGetters } from 'vuex';
 import config from 'config';
@@ -153,6 +142,7 @@ import { registerModule } from '@vue-storefront/core/lib/modules';
 import { RecentlyViewedModule } from '@vue-storefront/core/modules/recently-viewed';
 import { clearAllBodyScrollLocks } from 'body-scroll-lock';
 import ButtonFull from 'theme/components/theme/ButtonFull.vue';
+import ButtonOutline from 'theme/components/theme/ButtonOutline.vue';
 import NoSSR from 'vue-no-ssr';
 import HomeCarousel from 'theme/components/theme/blocks/HomeCarousel';
 import { formatCategoryLink } from '@vue-storefront/core/modules/url/helpers';
@@ -184,18 +174,18 @@ export default {
     Onboard,
     ProductListing,
     LazyHydrate,
-    ButtonFull
+    ButtonFull,
+    ButtonOutline,
+    Banner
   },
   computed: {
-    ...mapGetters('user', ['isLoggedIn']),
-    ...mapGetters(
-      'homepage',
-      ['getStockGoods', 'getSalesLeaders', 'getNew', 'getRecommends'],
-      {
-        getAvailableFilters: 'category-next/getAvailableFilters',
-        getFilter: 'custom-attr/getFilter'
-      }
-    ),
+    ...mapGetters({
+      deliveryBanner: 'bannerGroup/getDeliveryBanner',
+      getStockGoods: 'homepage/getStockGoods',
+      getSalesLeaders: 'homepage/getSalesLeaders',
+      getNew: 'homepage/getNew',
+      getRecommends: 'homepage/getRecommends',
+    }),
     categories () {
       return this.getCategories
     },
@@ -215,12 +205,12 @@ export default {
     registerModule(RecentlyViewedModule)
   },
   beforeMount () {
-    if (config.homePageBanner.enabled && sessionStorage.getItem('isMainPromoActive') !== 'false') {
+    // if (config.homePageBanner.enabled && sessionStorage.getItem('isMainPromoActive') !== 'false') {
       this.$nextTick(() => {
-        this.$bus.$emit('modal-toggle', 'modal-main')
+        // this.$bus.$emit('modal-toggle', 'modal-main')
         sessionStorage.setItem('isMainPromoActive', false)
       })
-    }
+    // }
   },
   methods: {
     goToCategory (cat) {
@@ -252,16 +242,14 @@ export default {
   },
   async asyncData ({ store, route }) { // this is for SSR purposes to prefetch data
     Logger.info('Calling asyncData in Home (theme)')()
-
+  
     await Promise.all([
       store.dispatch('homepage/loadStockGoods'),
       store.dispatch('homepage/loadSalesLeaders'),
       store.dispatch('homepage/loadNew'),
-      store.dispatch('homepage/loadRecommends'),
-      store.dispatch('slider/getHomeCarousel')
+      store.dispatch('homepage/loadRecommends')
     ])
   },
-
   beforeRouteEnter (to, from, next) {
     if (!isServer && !from.name) { // Loading products to cache on SSR render
       next(vm => {
@@ -277,12 +265,21 @@ export default {
         vm.$store.dispatch('homepage/loadRecommends').then(res => {
           vm.loading = false
         })
-        vm.$store.dispatch('slider/getHomeCarousel').then(res => {
-          vm.loading = false
-        })
       })
     } else {
       next()
+    }
+  },
+  metaInfo() {
+    return {
+      script: [
+        {
+          async: true,
+          type: 'text/javascript',
+          body: true,
+          innerHTML: `window._retag = window._retag || []; window._retag.push({code: "9ce8884ee6", level: 0}); (function () { var id = "admitad-retag"; if (document.getElementById(id)) {return;} var s = document.createElement("script"); s.async = true; s.id = id; var r = (new Date).getDate(); s.src = (document.location.protocol == "https:" ? "https:" : "http:") + "//cdn.lenmit.com/static/js/retag.js?r="+r; var a = document.getElementsByTagName("script")[0]; a.parentNode.insertBefore(s, a); })()`
+        }
+      ]
     }
   }
 }
@@ -325,13 +322,20 @@ export default {
 </style>
 
 <style lang="scss" scoped>
-  .promo-image {
-    width: 100%;
+  .delivery-banner {
     border-radius: 4px;
+    overflow: hidden;
+    margin-bottom: 68px;
 
-    @media only screen and (max-width: 400px) {
-      border-radius: 4px;
+    ::v-deep {
+      img {
+        width: 100%;
+      }
     }
+  }
+
+  .offer-gallery {
+    margin-bottom: 68px;
   }
 
   .banner-group {
@@ -482,9 +486,10 @@ export default {
         }
       }
       #home {
-        .show-all {
+        .button-outline.show-all {
           max-width: 100%;
           width: 100%;
+          margin: 24px auto 48px auto;
         }
       }
     }
@@ -512,30 +517,8 @@ export default {
     }
   }
 
-  .show-all.button-full {
-    min-width: 233px;
-    margin: 31px auto 68px auto;
-    width: auto;
-    background-color: transparent;
-    border: 1px solid #23BE20;
-    box-sizing: border-box;
-    border-radius: 4px;
-    color: #1A1919;
-    padding: 12px 60px;
-    font-family: 'DIN Pro';
-    font-style: normal;
-    font-weight: bold;
-    font-size: 15px;
-    line-height: 16px;
-
-    &:hover {
-      background-color: #E5F7E4;
-      border-color: transparent;
-      color: #1A1919;
-    }
-
-    &:active {
-      background-color: #cddccc;
-    }
+  .button-outline.show-all {
+    width: 233px;
+    margin: 32px auto 68px auto;
   }
 </style>

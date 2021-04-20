@@ -17,6 +17,9 @@ const mutations: MutationTree<AttributeState> = {
   },
   [types.ATTRIBUTE_UPD_BLACKLIST] (state, blacklist) {
     state.blacklist = state.blacklist.concat(blacklist)
+  },
+  [types.SET_ATTRIBUTE_GROUPS] (state, list) {
+    state.groups = list
   }
 }
 

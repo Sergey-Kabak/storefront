@@ -2,11 +2,11 @@
   <div v-if="isActive" class="lang_switcher">
     <div class="lang_switcher-list">
       <ul>
-        <li v-for="(storeView, storeCode) in storeViews" :key="storeCode">
-          <a @click="changeMultiStore(storeCode, storeView.url)" :class="{'active' : buildUrl(storeView.url) === $route.fullPath}">{{ $t(storeView.i18n.slug) }}</a>
+        <li v-for="(storeView, storeCode) in storeViews" :key="storeCode" :class="{'active' : buildUrl(storeView.url) === $route.fullPath}">
+          <a @click="changeMultiStore(storeCode, storeView.url)" >{{ $t(storeView.i18n.slug) }}</a>
         </li>
-        <li>
-          <a @click="changeMultiStore('', '/')" :class="{'active' : buildUrl('/') === $route.fullPath}">{{ $t(LanguageSlug) }}</a>
+        <li :class="{'active' : buildUrl('/') === $route.fullPath}">
+          <a @click="changeMultiStore('', '/')" >{{ $t(LanguageSlug) }}</a>
         </li>
       </ul>
     </div>
@@ -119,31 +119,33 @@ export default {
   display: flex;
   position: absolute;
   right: 8px;
-  top: 5px;
-  ul{
+  top: 0;
+
+  ul {
     display: flex;
     padding: 0;
     margin: 0;
     list-style-type: none;
   }
-  a{
-    font-family: DIN Pro;
-    font-style: normal;
-    font-weight: 0;
-    font-size: 13px;
-    line-height: 16px;
-    color: #BDBDBD;
+
+  li {
     cursor: pointer;
-    &.active{
-      color: #fff;
+    display: block;
+    padding: 7px;
+    font-size: 13px;
+
+    a {
+      font-family: DIN Pro;
+      font-weight: 600;
+      font-size: 13px;
+      line-height: 16px;
+      color: #BDBDBD;
     }
-  }
-  .lang_switcher-list{
-    li{
-      &:not(:last-child){
-        padding-right: 8px;
-        border-right: 1px solid #BDBDBD;
-        margin-right: 8px;
+
+    &.active {
+      background-color: #fff;
+      a {
+        color: #1A1919;
       }
     }
   }

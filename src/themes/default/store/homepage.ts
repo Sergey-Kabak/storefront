@@ -9,7 +9,8 @@ export const homepageStore = {
     stock_goods: [],
     sales_leaders: [],
     new_products: [],
-    recommends: []
+    recommends: [],
+    brandPortalSalesLeaders: []
   },
   actions: {
     async fetchNewCollection({commit, dispatch}) {
@@ -84,6 +85,23 @@ export const homepageStore = {
 
       commit('SET_RECOMMENDS', response.items)
     },
+    async loadBrandPortalSalesLeaders({commit, dispatch}, brandName) {
+      const response = await dispatch('product/list', {
+        query: {
+          query: {
+            match: {
+              name: brandName
+            }
+          }
+        },
+        size: 5,
+        sort: 'stock.is_in_stock:desc,priority:desc,updated_at:desc',
+        includeFields: config.entities.productList.includeFields,
+        excludeFields: config.entities.productList.excludeFields
+      }, {root: true})
+
+      commit('SET_BRAND_PORTAL_SALES_LEADERS', response.items)
+    }
   },
   mutations: {
     SET_NEW_COLLECTION(state, products) {
@@ -104,6 +122,9 @@ export const homepageStore = {
     SET_RECOMMENDS(state, products) {
       state.recommends = products || []
     },
+    SET_BRAND_PORTAL_SALES_LEADERS(state, products) {
+      state.brandPortalSalesLeaders = products || []
+    }
   },
   getters: {
     getEverythingNewCollection(state) {
@@ -123,6 +144,9 @@ export const homepageStore = {
     },
     getRecommends(state) {
       return state.recommends
+    },
+    getBrandPortalSalesLeaders(state) {
+      return state.brandPortalSalesLeaders
     },
   }
 }

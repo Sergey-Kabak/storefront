@@ -7,14 +7,17 @@
       >
         <sub-btn type="back" class="bg-cl-transparent brdr-none" />
       </div>
-      <div class="col-xs bg-cl-primary">
+      <div class="col-xs bg-cl-primary menu-header">
+        <language-switcher />
         <button
           type="button"
           :aria-label="$t('Close')"
-          class="w-100 inline-flex end-xs bg-cl-transparent brdr-none p0 close-btn"
+          class="inline-flex end-xs bg-cl-transparent brdr-none p0 close-btn p15"
           @click="closeMenu"
         >
-          <i class="material-icons p15">close</i>
+          <svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M19 6.41L17.59 5L12 10.59L6.41 5L5 6.41L10.59 12L5 17.59L6.41 19L12 13.41L17.59 19L19 17.59L13.41 12L19 6.41Z" />
+          </svg>
         </button>
       </div>
     </div>
@@ -80,7 +83,23 @@
                     </defs>
                   </svg>
                 </template>
-                <template v-if="category.id === 975">
+                <template v-if="category.id === 988">
+                  <svg width="87" height="14" viewBox="0 0 87 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M9.094 11H7.582V4.336L5.286 9.194H4.166L1.814 4.336V11H0.302V1.032H1.814L4.726 7.234L7.582 1.032H9.094V11ZM12.9507 11H11.5227V3.902H12.9507V11ZM12.9927 2.502H11.4807V0.99H12.9927V2.502ZM26.0814 11H24.4714L23.7854 8.998H19.8514L19.1654 11H17.5554L21.2094 1.032H22.4274L26.0814 11ZM23.3654 7.71L21.8534 3.286L20.2994 7.71H23.3654ZM30.3934 4.994H28.9794V11H27.5514V4.994H26.7394V3.902H27.5514V2.936C27.5514 2.38533 27.7194 1.91867 28.0554 1.536C28.3914 1.15333 28.872 0.962 29.4974 0.962H30.3934V2.18H29.7634C29.2407 2.18 28.9794 2.45533 28.9794 3.006V3.902H30.3934V4.994ZM34.8891 11H34.0351C33.4098 11 32.9291 10.8087 32.5931 10.426C32.2571 10.0433 32.0891 9.57667 32.0891 9.026V4.994H31.2771V3.902H32.0891V1.872H33.5171V3.902H34.8891V4.994H33.5171V8.956C33.5171 9.50667 33.7784 9.782 34.3011 9.782H34.8891V11ZM42.2939 7.864H37.6879C37.6879 8.48933 37.8419 8.97933 38.1499 9.334C38.4672 9.67933 38.9152 9.852 39.4939 9.852C39.8766 9.852 40.1939 9.796 40.4459 9.684C40.6979 9.572 40.9546 9.38533 41.2159 9.124L42.1259 9.978C41.7432 10.3607 41.3512 10.6407 40.9499 10.818C40.5579 10.9953 40.0632 11.084 39.4659 11.084C38.4952 11.084 37.7206 10.7947 37.1419 10.216C36.5632 9.63733 36.2739 8.71333 36.2739 7.444C36.2739 6.30533 36.5446 5.41867 37.0859 4.784C37.6272 4.14 38.3599 3.818 39.2839 3.818C40.2266 3.818 40.9639 4.13067 41.4959 4.756C42.0279 5.38133 42.2939 6.21667 42.2939 7.262V7.864ZM40.8799 6.87C40.8519 6.45 40.7866 6.128 40.6839 5.904C40.4132 5.30667 39.9466 5.008 39.2839 5.008C38.6119 5.008 38.1406 5.30667 37.8699 5.904C37.7579 6.14667 37.6972 6.46867 37.6879 6.87H40.8799ZM49.1688 4.49L48.0908 5.568C47.7734 5.25067 47.4188 5.092 47.0268 5.092C46.6254 5.092 46.2894 5.24133 46.0188 5.54C45.7481 5.82933 45.6128 6.212 45.6128 6.688V11H44.1848V3.902H45.5848V4.672C45.7714 4.42 46.0328 4.21467 46.3688 4.056C46.7141 3.89733 47.0828 3.818 47.4748 3.818C48.1561 3.818 48.7208 4.042 49.1688 4.49ZM59.9584 1.886C60.5464 2.45533 60.8404 3.17867 60.8404 4.056C60.8404 4.93333 60.5464 5.65667 59.9584 6.226C59.3797 6.786 58.6097 7.066 57.6484 7.066H55.3804V11H53.8684V1.032H57.6484C58.6097 1.032 59.3797 1.31667 59.9584 1.886ZM58.8524 5.288C59.1697 4.98933 59.3284 4.57867 59.3284 4.056C59.3284 3.53333 59.1697 3.12733 58.8524 2.838C58.5351 2.53933 58.1057 2.39 57.5644 2.39H55.3804V5.722H57.5644C58.1057 5.722 58.5351 5.57733 58.8524 5.288ZM67.5904 11H66.1904V10.356C65.929 10.6173 65.6537 10.804 65.3644 10.916C65.0844 11.028 64.7297 11.084 64.3004 11.084C63.4604 11.084 62.8257 10.8693 62.3964 10.44C62.023 10.048 61.8364 9.53933 61.8364 8.914C61.8364 8.298 62.0464 7.80333 62.4664 7.43C62.8957 7.05667 63.507 6.87 64.3004 6.87H66.1624V6.366C66.1624 5.90867 66.041 5.57267 65.7984 5.358C65.5557 5.14333 65.159 5.036 64.6084 5.036C64.235 5.036 63.9317 5.092 63.6984 5.204C63.4744 5.30667 63.2597 5.484 63.0544 5.736L62.1304 4.854C62.457 4.47133 62.807 4.20533 63.1804 4.056C63.563 3.89733 64.0577 3.818 64.6644 3.818C66.615 3.818 67.5904 4.63 67.5904 6.254V11ZM66.1624 8.438V7.864H64.5244C63.6564 7.864 63.2224 8.20467 63.2224 8.886C63.2224 9.558 63.6704 9.894 64.5664 9.894C65.1357 9.894 65.565 9.75867 65.8544 9.488C66.0597 9.292 66.1624 8.942 66.1624 8.438ZM74.7762 4.49L73.6982 5.568C73.3809 5.25067 73.0262 5.092 72.6342 5.092C72.2329 5.092 71.8969 5.24133 71.6262 5.54C71.3555 5.82933 71.2202 6.212 71.2202 6.688V11H69.7922V3.902H71.1922V4.672C71.3789 4.42 71.6402 4.21467 71.9762 4.056C72.3215 3.89733 72.6902 3.818 73.0822 3.818C73.7635 3.818 74.3282 4.042 74.7762 4.49ZM78.9125 11H78.0585C77.4332 11 76.9525 10.8087 76.6165 10.426C76.2805 10.0433 76.1125 9.57667 76.1125 9.026V4.994H75.3005V3.902H76.1125V1.872H77.5405V3.902H78.9125V4.994H77.5405V8.956C77.5405 9.50667 77.8019 9.782 78.3245 9.782H78.9125V11ZM86.0917 3.902L82.9557 12.414C82.825 12.7873 82.6524 13.0813 82.4377 13.296C82.0924 13.6413 81.607 13.814 80.9817 13.814H80.4077V12.526H80.7717C81.0704 12.526 81.2897 12.47 81.4297 12.358C81.5697 12.2553 81.691 12.0593 81.7937 11.77L82.1857 10.664L79.7077 3.902H81.2197L82.9137 8.9L84.5657 3.902H86.0917Z" fill="url(#paint0_linear)"/>
+                    <defs>
+                    <linearGradient id="paint0_linear" x1="-1" y1="17" x2="11.1846" y2="-27.6769" gradientUnits="userSpaceOnUse">
+                    <stop stop-color="#0E00D1"/>
+                    <stop offset="0.135417" stop-color="#7A00C7"/>
+                    <stop offset="0.260417" stop-color="#AE00C2"/>
+                    <stop offset="0.401042" stop-color="#CB19AF"/>
+                    <stop offset="0.588542" stop-color="#D56E6A"/>
+                    <stop offset="0.739583" stop-color="#D9B03C"/>
+                    <stop offset="0.973958" stop-color="#DEE116"/>
+                    </linearGradient>
+                    </defs>
+                  </svg>
+                </template>
+                <template v-else-if="category.id === 975">
                   {{category.name}} <span class="new">NEW</span>
                 </template>
                 <template v-else>{{category.name}}</template>
@@ -151,6 +170,7 @@ import i18n from '@vue-storefront/i18n';
 import SidebarMenu from '@vue-storefront/core/compatibility/components/blocks/SidebarMenu/SidebarMenu';
 import SubBtn from 'theme/components/core/blocks/SidebarMenu/SubBtn';
 import SubCategory from 'theme/components/core/blocks/SidebarMenu/SubCategory';
+import LanguageSwitcher from 'theme/components/core/LanguageSwitcher';
 import { formatCategoryLink } from '@vue-storefront/core/modules/url/helpers';
 import {
   clearAllBodyScrollLocks,
@@ -160,7 +180,8 @@ import {
 export default {
   components: {
     SubCategory,
-    SubBtn
+    SubBtn,
+    LanguageSwitcher
   },
   mixins: [SidebarMenu],
   data () {
@@ -193,6 +214,23 @@ export default {
         }
       ],
       ico: {
+        988: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+              <path d="M0 4C0 1.79086 1.79086 0 4 0H20C22.2091 0 24 1.79086 24 4V20C24 22.2091 22.2091 24 20 24H4C1.79086 24 0 22.2091 0 20V4Z" fill="url(#paint000_linear)"/>
+              <path d="M11.5498 4L2.7998 4.00001V20H4.7998V6H11.5498C12.7903 6 13.7998 7.00951 13.7998 8.25001V20L15.7998 20V8.5C15.7998 5.605 14.4448 4 11.5498 4Z" fill="white"/>
+              <path d="M10.2998 10H8.2998V20H10.2998V10Z" fill="white"/>
+              <path d="M21.2998 4H19.2998V20H21.2998V4Z" fill="white"/>
+              <defs>
+              <linearGradient id="paint000_linear" x1="0" y1="24" x2="24" y2="0" gradientUnits="userSpaceOnUse">
+              <stop stop-color="#0E00D1"/>
+              <stop offset="0.135417" stop-color="#7A00C7"/>
+              <stop offset="0.260417" stop-color="#AE00C2"/>
+              <stop offset="0.401042" stop-color="#CB19AF"/>
+              <stop offset="0.588542" stop-color="#D56E6A"/>
+              <stop offset="0.739583" stop-color="#D9B03C"/>
+              <stop offset="0.973958" stop-color="#DEE116"/>
+              </linearGradient>
+              </defs>
+              </svg>`,
         939: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
               <path d="M7.81987 19H14.9999V18C14.9999 15.79 16.7899 14 18.9999 14H19.7399L17.8399 5.56C17.7386 5.11809 17.4907 4.72344 17.1367 4.44022C16.7827 4.15699 16.3432 4.00185 15.8899 4H11.9999V6H15.8899L17.2899 12.25H17.2799C16.2084 12.573 15.2484 13.1888 14.5081 14.028C13.7678 14.8672 13.2766 15.8966 13.0899 17H7.81987C7.57957 16.3186 7.10111 15.747 6.47264 15.3905C5.84417 15.034 5.10804 14.9166 4.39987 15.06C3.21987 15.29 2.26987 16.26 2.04987 17.44C1.9678 17.8738 1.98244 18.3204 2.09275 18.748C2.20306 19.1755 2.40632 19.5735 2.68805 19.9134C2.96977 20.2534 3.32302 20.5271 3.72262 20.7149C4.12223 20.9027 4.55834 21 4.99987 21C6.29987 21 7.39987 20.16 7.81987 19ZM4.99987 19C4.44987 19 3.99987 18.55 3.99987 18C3.99987 17.45 4.44987 17 4.99987 17C5.54987 17 5.99987 17.45 5.99987 18C5.99987 18.55 5.54987 19 4.99987 19ZM18.9999 15C17.3399 15 15.9999 16.34 15.9999 18C15.9999 19.66 17.3399 21 18.9999 21C20.6599 21 21.9999 19.66 21.9999 18C21.9999 16.34 20.6599 15 18.9999 15ZM18.9999 19C18.4499 19 17.9999 18.55 17.9999 18C17.9999 17.45 18.4499 17 18.9999 17C19.5499 17 19.9999 17.45 19.9999 18C19.9999 18.55 19.5499 19 18.9999 19Z" fill="#BDBDBD"/>
               </svg>`,
@@ -344,6 +382,26 @@ $bg-secondary: color(secondary, $colors-background);
 $color-gainsboro: color(gainsboro);
 $color-matterhorn: color(matterhorn);
 $color-mine-shaft: color(mine-shaft);
+
+.menu-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 0 15px 0 18px;
+}
+
+.lang_switcher {
+  display: none;
+  position: static;
+
+  ::v-deep {
+    .active {
+      background-color: #E5F7E4!important;
+    }
+  }
+}
+
 .custom-cat-link.march-8{
   color: #EE2C39;
 }
@@ -368,8 +426,9 @@ $color-mine-shaft: color(mine-shaft);
     }
   }
 
-  @media (max-width: 767px) {
+  @media (max-width: 768px) {
     width: 100vh;
+    
   }
 
   &__container {
@@ -420,6 +479,7 @@ $color-mine-shaft: color(mine-shaft);
     button {
       display: flex;
       align-items: center;
+      justify-content: flex-start;
     }
   }
 
@@ -430,13 +490,14 @@ $color-mine-shaft: color(mine-shaft);
   }
 
   .close-btn {
-    i {
-      color: $color-gainsboro;
+    margin-left: auto;
+    svg {
+      fill: $color-gainsboro;
     }
     &:hover,
     &:focus {
-      i {
-        color: $color-matterhorn;
+      svg {
+        fill: $color-matterhorn;
       }
     }
   }
@@ -473,6 +534,11 @@ $color-mine-shaft: color(mine-shaft);
   line-height: 16px;
   color: #EE2C39;
   font-weight: 600;
-  margin-top: 3px;
+}
+
+@media (max-width: 768px) {
+  .lang_switcher {
+    display: block;
+  }
 }
 </style>

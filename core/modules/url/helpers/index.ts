@@ -109,6 +109,10 @@ export function formatProductLinkNoSku (
   }
 }
 
+export function absoluteProductLink (product, storeCode): string | LocalizedRoute {
+  return config.api.url + formatProductLinkNoSku(product, storeCode)
+}
+
 export function formatProductLink (
   product: {
     parentSku?: string,

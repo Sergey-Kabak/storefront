@@ -143,8 +143,12 @@ export default {
           title: 'To customers',
           routes: [
             {
-              name: 'Payment and delivery',
+              name: 'Delivery',
               url_path: '/info/delivery'
+            },
+            {
+              name: 'the Payment',
+              url_path: '/info/payment'
             },
             {
               name: 'Payments and loans',
@@ -425,7 +429,6 @@ $color-secondary: color(secondary);
 
 footer {
   margin-top: auto;
-  border-top: 1px solid #E0E0E0;
   background-color: #1A1919;
 
 

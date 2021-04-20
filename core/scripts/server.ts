@@ -8,7 +8,6 @@ const rootPath = require('app-root-path').path
 const resolve = file => path.resolve(rootPath, file)
 const serverExtensions = glob.sync('src/modules/*/server.{ts,js}')
 const configProviders: Function[] = []
-process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0"
 serverExtensions.map(serverModule => {
   const module = require(resolve(serverModule))
   if (module.configProvider && typeof module.configProvider === 'function') {
@@ -144,7 +143,7 @@ app.use('/service-worker.js', serve('dist/service-worker.js', false, {
     res.set('Content-Type', 'text/javascript; charset=UTF-8')
   }
 }))
-
+app.use('/sw.js', serve('src/modules/esputnik/sw.js', true))
 app.post('/invalidate', invalidateCache)
 app.get('/invalidate', invalidateCache)
 
