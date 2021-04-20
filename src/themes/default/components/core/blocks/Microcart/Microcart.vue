@@ -122,6 +122,15 @@ export default {
   mounted () {
     this.$nextTick(() => {
       this.componentLoaded = true
+      eS('sendEvent', 'StatusCart', {
+        'StatusCart': this.productsInCart.map(p => ({
+          productKey: p.id,
+          price: p.original_final_price,
+          quantity: p.qty,
+          currency: 'UAH'
+        })),
+        'GUID': this.cartGuid
+      });
     })
   },
   computed: {

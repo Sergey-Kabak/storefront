@@ -47,7 +47,10 @@ export default {
   mixins: [Error],
   components: {
     ButtonFull
-  }
+  },
+  mounted() {
+    eS('sendEvent', 'NotFound');
+  },
 }
 </script>
 

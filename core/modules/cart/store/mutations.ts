@@ -33,7 +33,6 @@ const mutations: MutationTree<CartState> = {
     state.cartServerLastSyncDate = new Date().getTime()
   },
   [types.CART_SET_GUID] (state) {
-    debugger;
     state.cartGuid = generateGuid()
   },
   [types.CART_SET_TOTALS_SYNC] (state) {

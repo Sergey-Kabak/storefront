@@ -1,5 +1,5 @@
 <template>
-  <div id="product" itemscope itemtype="http://schema.org/Product" :data-productKey="getCurrentProduct.sku">
+  <div id="product" itemscope itemtype="http://schema.org/Product" :data-productKey="getCurrentProduct.id">
     <div class="v-container">
       <div class="row">
         <div class="col-12">
@@ -276,8 +276,8 @@ export default {
       this.$store.dispatch('esputnik/triggerProductViewed', { product })
       eS('sendEvent', 'ProductPage', {
         'ProductPage': {
-          productKey: product.sku,            
-          price: product.price,
+          productKey: product.id,            
+          price: product.original_final_price,
           isInStock: 1,
           currency: 'UAH',
           isInStock: product.stock?.is_in_stock

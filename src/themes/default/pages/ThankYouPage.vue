@@ -81,7 +81,7 @@
 import ProductImage from 'theme/components/core/ProductImage';
 import TotalPrice from 'theme/components/core/TotalPrice';
 import {currentStoreView} from '@vue-storefront/core/lib/multistore';
-import {mapState} from 'vuex';
+import {mapState, mapGetters} from 'vuex';
 import {Logger} from '@vue-storefront/core/lib/logger';
 import {localizedRoute} from '@vue-storefront/core/lib/multistore';
 import { formatProductLinkNoSku } from '@vue-storefront/core/modules/url/helpers'
@@ -95,6 +95,7 @@ export default {
     status: null
   }),
   computed: {
+    ...mapGetters('user', ['isLoggedIn']),
     ...mapState({
       order: (state) => state.checkoutPage.order,
       cartServerToken: (state) => state.cart.cartServerToken,
@@ -196,25 +197,28 @@ export default {
           "items" : items
         }]
       }
-      eS('sendEvent', 'CustomerData', {
+      if (this.isLoggedIn) {
+        eS('sendEvent', 'CustomerData', {
         'CustomerData': {
-          'user_email': userData.email,
-          'user_name': `${userData.firstname} ${userData.lastname}`,
-          'user_client_id': userData.id,
+          'user_email': this.userData.email,
+          'user_name': `${this.userData.firstname} ${this.userData.lastname}`,
+          'user_client_id': this.userData.id,
           'user_phone': this.telephone
         }
       });
+      }
       eS('sendEvent', 'PurchasedItems', {
-          "OrderNumber": "123/2017",
-          "PurchasedItems": JSON.stringify(this.lastOrder.products.map(p => ({
-              "productKey": p.sku,
+          "OrderNumber": this.order.increment_id,
+          "PurchasedItems":this.lastOrder.products.map(p => ({
+              "productKey": p.id,
               "price": p.original_final_price,
               "quantity": p.qty,
               "currency": "UAH"
             })
-        )),
+        ),
       "GUID": this.cartGuid
       });
+      this.$store.dispatch('cart/setCartGuid')
       this.$store.dispatch('esputnik/triggerOrderSuccess', payload)
     }
   },
