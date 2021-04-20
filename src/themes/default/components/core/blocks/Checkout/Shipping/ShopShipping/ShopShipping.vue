@@ -33,6 +33,10 @@ export default {
     buttonVisible: {
       type: Boolean,
       default: () => true
+    },
+    shops: {
+      type: Array,
+      default: () => []
     }
   },
   components: {
@@ -51,8 +55,7 @@ export default {
   }),
   computed: {
     ...mapState({
-      city: (state) => state.ui.city,
-      shops: (state) => state.checkoutPage.shops
+      city: (state) => state.ui.city
     })
   },
   methods: {

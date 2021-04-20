@@ -61,6 +61,7 @@
       <cookie-notification/>
       <offline-badge/>
       <city-picker-shop />
+      <city-picker-product />
       <shop-shipping-modal />
       <kits-modal v-if="kitProducts.length" class="kits-modal" />
       <main-modal />
@@ -98,6 +99,7 @@ const CustomSellerProduct = () => import(/* webpackChunkName: "vsf-custom-city-p
 const Consultation = () => import(/* webpackChunkName: "vsf-custom-city-picker-modal" */ 'theme/components/core/blocks/Consultation/Consultation.vue');
 const CompareSidebar = () => import(/* webpackChunkName: "vsf-sidebar-menu" */ 'theme/components/core/blocks/Compare/CompareSidebar.vue');
 const CityPickerShop = () => import(/* webpackChunkName: "vsf-custom-city-picker-modal" */ 'theme/components/core/blocks/CityPicker/CityPickerShop.vue');
+const CityPickerProduct = () => import(/* webpackChunkName: "vsf-custom-city-picker-modal" */ 'theme/components/core/blocks/CityPicker/CityPickerProduct.vue');
 const PromotionalFilterSidebarMobile = () => import(/* webpackChunkName: "vsf-custom-city-picker-modal" */ 'theme/components/core/blocks/PromotionalPortal/PromotionalFilterSidebarMobile.vue');
 const SignUp = () => import(/* webpackChunkName: "vsf-custom-city-picker-modal" */ 'theme/components/core/blocks/Auth/SignUp.vue');
 
@@ -198,6 +200,7 @@ export default {
     AsyncSidebar,
     CustomSellerProduct,
     CityPickerShop,
+    CityPickerProduct,
     CreditModal,
     ShopShippingModal,
     KitsModal,
