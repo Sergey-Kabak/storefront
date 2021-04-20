@@ -211,7 +211,7 @@ export default {
     EsputnikModal,
     ClientCredentialsForEsputnik
   }
-};
+}
 </script>
 
 <style lang="scss" src="theme/css/main.scss"></style>
