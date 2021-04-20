@@ -136,7 +136,6 @@ export default {
   computed: {
     ...mapGetters({
       productsInCart: 'cart/getCartItems',
-      cartGuid: 'cart/getGuid',
       appliedCoupon: 'cart/getCoupon',
       cartGuid: 'cart/getCartGuid',
       totals: 'cart/getTotals',
