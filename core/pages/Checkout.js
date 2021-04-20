@@ -336,6 +336,9 @@ export default {
         this.order.addressInformation.payment_method_additional['terms'] = this.$store.state.themeCredit.selectedCredit.terms
         this.order.addressInformation.payment_method_additional['bank_id'] = this.$store.state.themeCredit.selectedBank.id
       }
+      if (this.$store.state.themeCredit.selectedBank.bank_code === 'monobank') {
+        this.order.addressInformation.payment_method_code = 'monobank'
+      }
       return this.order
     },
     placeOrder () {
