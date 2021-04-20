@@ -58,10 +58,9 @@
       <main-footer/>
       <custom-seller-product />
       <credit-modal />
-      <city-picker />
       <cookie-notification/>
       <offline-badge/>
-      <city-shop-picker />
+      <city-picker-shop />
       <shop-shipping-modal />
       <kits-modal v-if="kitProducts.length" class="kits-modal" />
       <main-modal />
@@ -91,7 +90,6 @@ import { isServer } from '@vue-storefront/core/helpers';
 import Head from 'theme/head';
 import config from 'config';
 import KitsModal from '../components/core/blocks/Product/Modals/KitsModal';
-const CityPicker = () => import(/* webpackChunkName: "vsf-custom-city-picker-modal" */ 'theme/components/core/blocks/CityPicker/CityPicker.vue');
 const SidebarMenu = () => import(/* webpackChunkName: "vsf-sidebar-menu" */ 'theme/components/core/blocks/SidebarMenu/SidebarMenu.vue');
 const Microcart = () => import(/* webpackChunkName: "vsf-microcart" */ 'theme/components/core/blocks/Microcart/Microcart.vue');
 const Wishlist = () => import(/* webpackChunkName: "vsf-wishlist" */ 'theme/components/core/blocks/Wishlist/Wishlist.vue');
@@ -99,7 +97,7 @@ const SearchPanel = () => import(/* webpackChunkName: "vsf-search-panel" */ 'the
 const CustomSellerProduct = () => import(/* webpackChunkName: "vsf-custom-city-picker-modal" */ 'theme/components/core/blocks/CustomSellerProduct/CustomSellerProduct.vue');
 const Consultation = () => import(/* webpackChunkName: "vsf-custom-city-picker-modal" */ 'theme/components/core/blocks/Consultation/Consultation.vue');
 const CompareSidebar = () => import(/* webpackChunkName: "vsf-sidebar-menu" */ 'theme/components/core/blocks/Compare/CompareSidebar.vue');
-const CityShopPicker = () => import(/* webpackChunkName: "vsf-custom-city-picker-modal" */ 'theme/components/core/blocks/CityShopPicker/CityShopPicker.vue');
+const CityPickerShop = () => import(/* webpackChunkName: "vsf-custom-city-picker-modal" */ 'theme/components/core/blocks/CityPicker/CityPickerShop.vue');
 const PromotionalFilterSidebarMobile = () => import(/* webpackChunkName: "vsf-custom-city-picker-modal" */ 'theme/components/core/blocks/PromotionalPortal/PromotionalFilterSidebarMobile.vue');
 const SignUp = () => import(/* webpackChunkName: "vsf-custom-city-picker-modal" */ 'theme/components/core/blocks/Auth/SignUp.vue');
 
@@ -199,9 +197,8 @@ export default {
     OfflineBadge,
     AsyncSidebar,
     CustomSellerProduct,
-    CityShopPicker,
+    CityPickerShop,
     CreditModal,
-    CityPicker,
     ShopShippingModal,
     KitsModal,
     MainModal,
