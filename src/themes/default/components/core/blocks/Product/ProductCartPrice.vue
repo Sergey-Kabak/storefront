@@ -16,12 +16,14 @@
             {{ specialPrice | price(storeView) }}
           </span>
         </div>
-        <span
-          v-if="isDiscount"
-          class="price-sale"
-        >
-        -{{ discount }} %
-      </span>
+        <div class="main-price">
+          <span
+            v-if="isDiscount"
+            class="price-sale">
+            -{{ discount }} %
+          </span>
+          <slot name="price-decrease"/>
+        </div>
       </div>
     </template>
     <template v-else-if="!onlyImage && getStockStatus !== 'ComingSoon'">
@@ -91,6 +93,34 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.product-price-changed-block {
+  display: flex;
+  align-items: center;
+  margin-bottom: 5px;
+}
+.product-price-changed-icon {
+  margin-right: 8px;
+}
+.product-price-changed-text {
+  margin-right: 8px;
+  color: #EE2C39;
+  font-size: 14px;
+  line-height: 16px;
+  position: relative;
+  font-weight: 500;
+  font-family: DIN Pro;
+
+  &::after {
+    content: '';
+    z-index: -1;
+    position: absolute;
+    bottom: -2px;
+    left: -3px;
+    width: 100%;
+    height: 8px;
+    background: #FDE6E7;
+  }
+}
 .product-item-price{
   .price-sale{
     margin: 0;

@@ -19,6 +19,9 @@ const actions: ActionTree<WishlistState, RootState> = {
     const wishlistStorage = StorageManager.get('wishlist')
     return wishlistStorage.getItem('current-wishlist')
   },
+  updateItem({ commit }, { product }) {
+    commit(types.WISH_UPD_ITEM, { product })
+  },
   addItem ({ commit }, product) {
     commit(types.WISH_ADD_ITEM, { product })
   },
@@ -32,7 +35,7 @@ const actions: ActionTree<WishlistState, RootState> = {
       key: 'sku',
       value: { in: skus }
     })
-  
+
     const { items = [] } = await dispatch('product/findProducts', { query: searchQuery }, { root: true })
     commit(types.UPDATE_PRODUCTS, items)
   }

@@ -60,6 +60,10 @@ export default {
     loading: {
       type: Boolean,
       default: false
+    },
+    plusDisabled: {
+      type: Boolean,
+      default: false
     }
   },
   computed: {
@@ -76,14 +80,14 @@ export default {
         this.$emit('input', targetValue || 1)
       }
     },
-    isMinusActive() {
+    isMinusActive () {
       return this.value > 1 && !this.loading
     },
-    isPlusActive() {
-      return !this.loading
+    isPlusActive () {
+      return !this.loading && !this.plusDisabled
     }
   },
-  data() {
+  data () {
     return {
       newValue: 0
     }
@@ -93,13 +97,7 @@ export default {
       return `alert alert-${notification.type}`
     },
     mpplus: function () {
-      if (this.max === undefined || (this.newValue < this.max)) {
-        this.newValue = this.newValue + 1
-        this.$emit('input', this.newValue)
-      }
-    },
-    mpplus: function () {
-      if (this.max === undefined || (this.newValue < this.max)) {
+      if (this.max === undefined || (this.newValue < this.max) || !this.plusDisabled) {
         this.newValue = this.newValue + 1
         this.$emit('input', this.newValue)
       }

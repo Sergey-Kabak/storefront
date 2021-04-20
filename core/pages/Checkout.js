@@ -15,6 +15,7 @@ import { isServer, onlineHelper } from '@vue-storefront/core/helpers';
 import { Logger } from '@vue-storefront/core/lib/logger';
 import { unmask } from 'theme/helpers';
 import GTM from 'theme/mixins/GTM/dataLayer'
+import syncCartItems from '../../src/themes/default/helpers/syncCartItems';
 
 export default {
   name: 'Checkout',
@@ -78,6 +79,7 @@ export default {
     this.$bus.$on('checkout-before-shippingMethods', this.onBeforeShippingMethods)
     this.$bus.$on('checkout-after-shippingMethodChanged', this.onAfterShippingMethodChanged)
     this.$bus.$on('checkout-after-validationError', this.focusField)
+    syncCartItems(this.$store.state.cart.cartItems);
     if (!this.isThankYouPage) {
       this.$store.dispatch('cart/load', { forceClientState: true }).then(() => {
         if (this.$store.state.cart.cartItems.length === 0) {

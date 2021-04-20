@@ -2,7 +2,7 @@ import { getOptimizedFields } from '@vue-storefront/core/modules/catalog/helpers
 import { canCache, storeProductToCache } from './../modules/catalog/helpers/search';
 import { doPlatformPricesSync } from '@vue-storefront/core/modules/catalog/helpers';
 import { isServer } from '@vue-storefront/core/helpers';
-import { quickSearchByQuery, isOnline } from '@vue-storefront/core/lib/search';
+import { quickSearchByQuery, quickSearchByQuerySkippingCache, isOnline } from '@vue-storefront/core/lib/search';
 import { SearchQuery } from 'storefront-query-builder'
 import config from 'config';
 import { DataResolver } from './types/DataResolver';
@@ -16,6 +16,29 @@ import Product from '@vue-storefront/core/modules/catalog/types/Product';
 import { prepareProducts } from '@vue-storefront/core/modules/catalog/helpers/prepare';
 import { configureProducts } from '@vue-storefront/core/modules/catalog/helpers/configure';
 
+const getProductsSkippingCache = async ({ products }): Promise<any> => {
+  const query = {
+    query: {
+      bool: {
+        should: products.map(product => {
+          return { 'term': { 'sku': product.sku } }
+        })
+      }
+    }
+  };
+  const res = await quickSearchByQuerySkippingCache({
+    entityType: 'product',
+    query
+  });
+
+  const cache = StorageManager.get('elasticCache')
+  res.items.forEach(el => {
+    const cacheKey = entityKeyName('sku', el.sku)
+    cache.setItem(cacheKey, el, null, config.elasticsearch.disablePersistentQueriesCache)
+  })
+  return res.items;
+}
+
 const getProducts = async ({
   query,
   start = 0,
@@ -24,6 +47,7 @@ const getProducts = async ({
   excludeFields = null,
   includeFields = null,
   configuration = null,
+  skipClientCache = false,
   options: {
     prefetchGroupProducts = !isServer,
     fallbackToDefaultWhenNoAvailable = true,
@@ -124,13 +148,18 @@ const getProductRenderList = async ({
   }
 }
 
-const getProduct = async (options: { [key: string]: string }, key: string): Promise<Product> => {
+const getProduct = async (options: { [key: string]: string }, key: string, skipClientCache: boolean=false): Promise<Product> => {
   let searchQuery = new SearchQuery()
+
+  const cacheKey = entityKeyName(key, options[key])
+  const cache = StorageManager.get('elasticCache')
+
   searchQuery = searchQuery.applyFilter({ key: key, value: { 'eq': options[key] } })
   const { items = [] } = await getProducts({
     query: searchQuery,
     size: 1,
     configuration: { sku: options.childSku },
+    skipClientCache,
     options: {
       prefetchGroupProducts: true,
       assignProductConfiguration: true
@@ -179,7 +208,10 @@ const getProductFromCache = async (options: { [key: string]: string }, key: stri
   }
 }
 
-const getProductByKey = async ({ options, key, skipCache }: DataResolver.ProductByKeySearchOptions): Promise<Product> => {
+const getProductByKey = async ({ options, key, skipCache, skipClientCache }: DataResolver.ProductByKeySearchOptions): Promise<Product> => {
+  if (skipClientCache) {
+    return getProduct(options, key, skipClientCache)
+  }
   if (!isOnline()) {
     return getProductFromCache(options, key)
   }
@@ -192,5 +224,6 @@ const getProductByKey = async ({ options, key, skipCache }: DataResolver.Product
 export const ProductService: DataResolver.ProductService = {
   getProducts,
   getProductRenderList,
-  getProductByKey
+  getProductByKey,
+  getProductsSkippingCache
 }
