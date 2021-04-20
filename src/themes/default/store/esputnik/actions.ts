@@ -46,8 +46,10 @@ const actions = {
     if (!email) {
         try {
           const details = await checkoutStorage.getItem('personal-details')
-          email = details.emailAddress;
-          phone = details.telephone;
+          if (details) {
+            email = details.emailAddress;
+            phone = details.telephone;
+          }
           fn();
         } catch(err) {
           throw err;

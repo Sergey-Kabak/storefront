@@ -147,10 +147,10 @@ export default {
       ])
     },
     attachOnClosePageEsputnikHandler() {
-      window.addEventListener('beforeunload', (e) => {
-        this.$store.dispatch('esputnik/triggerAbandonProducts')
-        this.$store.dispatch('esputnik/triggerAbandonCart')
-      }, false);
+      // window.addEventListener('beforeunload', (e) => {
+      //   this.$store.dispatch('esputnik/triggerAbandonProducts')
+      //   this.$store.dispatch('esputnik/triggerAbandonCart')
+      // }, false);
     }
   },
   watch: {

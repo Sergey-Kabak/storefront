@@ -226,7 +226,7 @@ const actions: ActionTree<UserState, RootState> = {
         message: 'Password has successfully been changed',
         action1: { label: i18n.t('OK') }
       }, { root: true })
-      dispatch('esputnik/triggerPasswordChanged')
+      // dispatch('esputnik/triggerPasswordChanged')
     } else {
       await dispatch('notification/spawnNotification', {
         type: 'error',
