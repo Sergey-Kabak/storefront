@@ -146,10 +146,11 @@ export default {
         this.$store.dispatch('bannerGroup/getBannerGroups')
       ])
     },
-    triggerEsputnik(e) {
-      this.$store.dispatch('esputnik/triggerAbandonProducts')
-      this.$store.dispatch('esputnik/triggerAbandonCart')
-    },
+    attachOnClosePageEsputnikHandler() {
+      window.addEventListener('beforeunload', (e) => {
+        this.$store.dispatch('esputnik/triggerAbandonProducts')
+        this.$store.dispatch('esputnik/triggerAbandonCart')
+      }, false);
   },
   watch: {
     $route: {
@@ -170,7 +171,6 @@ export default {
   },
   beforeMount() {
     this.attachOnClosePageEsputnikHandler()
-    window.addEventListener('unload', this.triggerEsputnik);
     this.$router.beforeEach((to, from, next) => {
       // Progress bar on top of the page
       this.$Progress.start();
@@ -186,7 +186,7 @@ export default {
     this.$bus.$off('offline-order-confirmation', this.onOrderConfirmation);
   },
   destroyed() {
-    window.removeEventListener('unload', this.triggerEsputnik);
+    window.removeEventListener('beforeunload', this.attachOnClosePageEsputnikHandler);
   },
   metaInfo: Head,
   components: {
