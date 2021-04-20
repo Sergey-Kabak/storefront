@@ -153,6 +153,9 @@ const itemActions = {
       .pushClientParty({ status: 'no-item', sku: product.sku })
     cartHooksExecutors.afterRemoveFromCart(diffLog)
     return diffLog
+  },
+  setCartGuid({ commit }) {
+    commit(types.CART_SET_GUID)
   }
 }
 
