@@ -1,5 +1,5 @@
 <template>
-  <div @click="gtm" class="product w-100 pb20 d-flex-column btw" v-observe-visibility="visibilityChanged"  :data-productKey="product.sku">
+  <div @click="gtm" class="product w-100 pb20 d-flex-column btw" v-observe-visibility="visibilityChanged"  :data-productKey="product.id">
     <div v-if="isPromo" class="promo_img">
       <img src="/assets/promo/MicrosoftTeams-image.png" alt="march promo">
     </div>

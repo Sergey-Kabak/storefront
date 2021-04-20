@@ -1,7 +1,7 @@
 <template>
   <div v-show="getUserEmail" class="sr-only">
-    <span id="EsMail" style="display:none">{{ getUserEmail }}</span>
-    <!-- <span id="EsPhone" style="display:none">PHONE NUMBER</span> -->
+    <span id="EsMail">{{ getUserEmail }}</span>
+    <span id="EsPhone">{{ getUserPhone }}</span>
   </div>
 </template>
 
@@ -9,7 +9,7 @@
 import { mapGetters } from 'vuex'
 export default {
   computed: {
-    ...mapGetters('user', [ 'getUserEmail'])
+    ...mapGetters('user', [ 'getUserEmail', 'getUserPhone'])
   }
 }
 </script>

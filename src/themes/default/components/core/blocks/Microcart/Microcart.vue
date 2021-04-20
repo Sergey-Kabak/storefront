@@ -62,11 +62,7 @@
 </template>
 
 <script>
-import { isServer } from '@vue-storefront/core/helpers'
-import {
-  mapGetters,
-  mapActions
-} from 'vuex';
+import { mapGetters } from 'vuex';
 import {
   isModuleRegistered,
   registerModule
@@ -126,12 +122,23 @@ export default {
   mounted () {
     this.$nextTick(() => {
       this.componentLoaded = true
+      eS('sendEvent', 'StatusCart', {
+        'StatusCart': this.productsInCart.map(p => ({
+          productKey: p.id,
+          price: p.original_final_price,
+          quantity: p.qty,
+          currency: 'UAH'
+        })),
+        'GUID': this.cartGuid
+      });
     })
   },
   computed: {
     ...mapGetters({
       productsInCart: 'cart/getCartItems',
+      cartGuid: 'cart/getGuid',
       appliedCoupon: 'cart/getCoupon',
+      cartGuid: 'cart/getCartGuid',
       totals: 'cart/getTotals',
       isOpen: 'cart/getIsMicroCartOpen',
       totalProducts: 'cart/getItemsTotalQuantity'
@@ -172,6 +179,10 @@ export default {
               this.GTM_REMOVE_FROM_CART([product])
             })
             await this.$store.dispatch('cart/clear', { disconnect: false })
+            eS('sendEvent', 'StatusCart', {
+              'StatusCart': [],
+              'GUID': this.cartGuid
+            });
           }
         },
         hasNoTimeout: true

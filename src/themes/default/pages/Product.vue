@@ -1,5 +1,5 @@
 <template>
-  <div id="product" itemscope itemtype="http://schema.org/Product" :data-productKey="getCurrentProduct.sku">
+  <div id="product" itemscope itemtype="http://schema.org/Product" :data-productKey="getCurrentProduct.id">
     <div class="v-container">
       <div class="row">
         <div class="col-12">
@@ -271,8 +271,19 @@ export default {
   },
   watch: {
     prevRoute: function (val) {
+      const product = this.getCurrentProduct
       let page = val.meta.name || 'product page';
-      this.GTM_PRODUCT_VIEW([this.getCurrentProduct], page)
+      this.GTM_PRODUCT_VIEW([product], page)
+      this.$store.dispatch('esputnik/triggerProductViewed', { product })
+      eS('sendEvent', 'ProductPage', {
+        'ProductPage': {
+          productKey: product.id,            
+          price: product.original_final_price,
+          isInStock: 1,
+          currency: 'UAH',
+          isInStock: product.stock?.is_in_stock
+        }
+      })
     },
     isOnline: {
       handler (isOnline) {

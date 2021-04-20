@@ -327,7 +327,7 @@ const actions: ActionTree<UserState, RootState> = {
   },
   addToProductHistory ({ commit }, product) {
     if (!product) return;
-    commit(types.USER_ADD_TO_PRODUCT_HISTORY, product.sku)
+    commit(types.USER_ADD_TO_PRODUCT_HISTORY, product)
   },
   /*
   delete user
