@@ -146,14 +146,9 @@ export default {
       this.status = status.state && status.state.toLowerCase()
     }
     this.initEsputnik()
-    if (!this.cartServerToken) { // clear only correct cart
-      this.$store.commit('checkoutPage/RESET_CHECKOUT', null)
-      this.$store.dispatch('cart/clear', { sync: false })
-    }
   },
   methods: {
     image(product) {
-      if (!product.extension_attributes.thumbnail)
       return {
         src: this.getThumbnail(product.extension_attributes.thumbnail, 88, 88)
       }

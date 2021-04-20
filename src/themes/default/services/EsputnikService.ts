@@ -6,7 +6,6 @@ import store from '@vue-storefront/core/store'
 import { StorageManager } from '@vue-storefront/core/lib/storage-manager'
 
 const checkoutStorage = StorageManager.get('checkout')
-let email = null
 const events = {
   ABANDONED_CART: "abandoned_cart",
   ABANDONED_PRODUCTS: "abandoned_products",
