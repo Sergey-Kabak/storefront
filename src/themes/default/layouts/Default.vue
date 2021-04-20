@@ -151,6 +151,7 @@ export default {
         this.$store.dispatch('esputnik/triggerAbandonProducts')
         this.$store.dispatch('esputnik/triggerAbandonCart')
       }, false);
+    }
   },
   watch: {
     $route: {
