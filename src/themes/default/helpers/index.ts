@@ -48,7 +48,7 @@ export function ProductStock (product) {
   const isBackOrderDisabled = typeof product.stock.backorders === 'undefined' || product.stock.backorders === 0 || !product.stock.is_in_stock
   const isOptions = product.preorder && product.coming_soon
   const status = {
-    InStock: (() => (product.stock.is_in_stock && product.msi_salable_quantity > 0 && !isOptions) || (isBackOrderEnabled && !product.preorder))(),
+    InStock: (() => (product.stock.is_in_stock && product.msi_salable_quantity > 0 && !product.preorder && !product.coming_soon) || (isBackOrderEnabled && !product.preorder && !product.coming_soon))(),
     PendingDelivery: (() => {
       const isBackOrder = product.type_id !== 'bundle' && product.preorder && isBackOrderEnabled
       const isPreOrder = product.stock.is_in_stock && product.preorder
