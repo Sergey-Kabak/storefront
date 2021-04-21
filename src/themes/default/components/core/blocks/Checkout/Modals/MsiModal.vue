@@ -4,10 +4,16 @@
       Наличие товаров в магазине
     </h3>
     <div slot="content" class="modal-msi_content">
-      content
+      <div v-if="shopShipping">
+        {{shopShipping.street}} <br>
+        <div class="div">alert</div>
+        <br>
 
-      <div v-if="productsInCart.length" class="product-container">
-        <product v-for="product in productsInCart" :key="product.server_item_id || product.id" :product="product" />
+        <div v-if="productsInCart.length" class="product-container">
+          <product v-for="product in productsInCart" :key="product.server_item_id || product.id"
+                   :product="product"
+                   :source="getSource(product)" />
+        </div>
       </div>
     </div>
   </modal>
@@ -15,8 +21,8 @@
 
 <script>
 import Modal from 'theme/components/core/Modal.vue'
-import Product from 'theme/components/core/blocks/Checkout/Product';
-import { mapGetters } from 'vuex';
+import Product from './MsiProduct'
+import { mapGetters, mapState } from 'vuex';
 export default {
   components: {
     Modal,
@@ -25,7 +31,17 @@ export default {
   computed: {
     ...mapGetters({
       productsInCart: 'cart/getCartItems'
+    }),
+    ...mapState({
+      shopShipping: (state) => state.checkoutPage.shopShipping
     })
+  },
+  methods: {
+    getSource (product) {
+      if (this.shopShipping && this.shopShipping.products) {
+        return this.shopShipping.products.find(p => p.sku === product.sku)
+      } return null
+    }
   }
 }
 </script>

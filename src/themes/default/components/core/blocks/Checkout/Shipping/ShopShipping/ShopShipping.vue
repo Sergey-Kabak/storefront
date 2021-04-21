@@ -64,30 +64,52 @@ export default {
     })
   },
   methods: {
-    ShopAvailability (shop, index) {
-      const sources = this.productsInCart.reduce((acc, product) => {
-        let source = {}
-        if (product.msi_sources && product.msi_sources.length) {
-          source = product.msi_sources.find(source => source.source_code === shop.source_code)
-          if (source && source.salable_quantity > 0) {
-            return acc.push(source)
-          }
-        }
-      }, [])
-
-      const status = {
-        productsNotAvailable: !sources || sources === 0,
-        productsPartialAvailability: sources !== 0 && sources !== this.productsInCart.length,
-        productsAvailable: sources === this.productsInCart.length
-      }
-      Object.keys(status).find(el => !!status[el])
-
-      return {
-        status: Object.keys(status).find(el => !!status[el]),
-        count: sources
+    getSourceStatus (status) {
+      if (!!status.available && status.partial_available === 0 && status.not_available === 0) {
+        return 'productsAvailable'
+      } else if ((!!status.available && !!status.not_available) || !!status.partial_available) {
+        return 'productsPartialAvailability'
+      } else {
+        return 'productsNotAvailable'
       }
     },
-    changeActiveTab(activeTab) {
+    checkSource (product, shop) {
+      if (product.msi_sources && product.msi_sources.find(source => source.source_code === shop.source_code)) {
+        return product.msi_sources.find(source => source.source_code === shop.source_code)
+      } return null
+    },
+    ShopAvailability (shop, index) {
+      // shop
+      let productsInShop = JSON.stringify(this.productsInCart)
+      productsInShop = JSON.parse(productsInShop).map(product => {
+        return {
+          sku: product.sku,
+          qty: product.qty,
+          msi_source: this.checkSource(product, shop)
+        }
+      })
+      let status = {
+        available: 0,
+        partial_available: 0,
+        not_available: 0
+      }
+      productsInShop.forEach(p => {
+        if (p.msi_source && p.qty <= p.msi_source.salable_quantity) {
+          status.available += 1
+        } else if (p.msi_source && p.qty > p.msi_source.salable_quantity) {
+          status.partial_available += 1
+        } else {
+          status.not_available += 1
+        }
+      })
+      console.log(status, productsInShop);
+      shop.products = productsInShop
+      return {
+        status: this.getSourceStatus(status),
+        products: productsInShop
+      }
+    },
+    changeActiveTab (activeTab) {
       this.activeTab = activeTab
     },
     selectShop(shop) {
@@ -102,10 +124,6 @@ export default {
     openSidebar() {
       this.$store.commit('ui/setShopSidebar', true)
     }
-  },
-  mounted() {
-    console.log(this.shops);
-    console.log(this.productsInCart)
   }
 };
 </script>
