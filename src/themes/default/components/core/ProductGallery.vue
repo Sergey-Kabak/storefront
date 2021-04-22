@@ -79,7 +79,8 @@ export default {
             return {
               src: getThumbnailPath((gallery.image), config.products.gallery.width, config.products.gallery.height),
               loading: getThumbnailPath(gallery.image, config.products.thumbnails.width, config.products.thumbnails.height),
-              id: this.configuration.color.id
+              id: this.configuration.color.id,
+              video: gallery.vid
             }
           })
       } else {
@@ -121,11 +122,14 @@ export default {
     height: calc(100% - 48px);
     border-radius: 4px;
     top: 24px;
+    bottom: 24px;
     left: 24px;
+    right: 24px;
   }
   @media (max-width: 575px) {
     top: 0px;
     left: 0px;
+    right: 0;
     width: 100%;
     height: 100%;
   }
@@ -135,8 +139,8 @@ export default {
 }
 ::v-deep .media-zoom-carousel__slide{
   background-color: #fff;
+  height: auto;
   display: flex;
-  padding-top: 50px;
 }
 .hide-mobile{
   @media (max-width : 575px){

@@ -40,18 +40,15 @@ button {
 
   &:hover {
     background-color: #E5F7E4;
-    border-color: transparent;
   }
 
   &:active {
-    background-color: #d5e5d4;
-    border-color: transparent;
+    background-color: #cddccc;
   }
 }
 
 button.loading {
-  background-color: #E5F7E4;
-  border-color: transparent;
+  background-color: #e5f7e4;
 
   &::after {
     content: '.';

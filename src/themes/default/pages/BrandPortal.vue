@@ -12,7 +12,7 @@
       <div class="best-sellers" v-if="isShowSalesLeaders">
         <h4 class="best-sellers-title">{{ $t('Sales leaders') }}</h4>
         <lazy-hydrate :trigger-hydration="!loading">
-          <product-listing columns="4" :products="getRecommends" />
+          <product-listing columns="4" :products="getBrandPortalSalesLeaders" />
         </lazy-hydrate>
         <router-link to="/apple">
           <button-full
@@ -66,7 +66,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters('homepage', ['getRecommends']),
+    ...mapGetters('homepage', ['getBrandPortalSalesLeaders']),
     ...mapState({
       brand: state => state.brand.brand
     }),
@@ -79,7 +79,7 @@ export default {
     Logger.info('Calling asyncData in BrandPortal (theme)')()
     try {
       return Promise.all([
-        store.dispatch('homepage/loadRecommends'),
+        store.dispatch('homepage/loadBrandPortalSalesLeaders', route.params.brandId),
         store.dispatch('brand/getBrand', route.params.brandId)
       ])
     } catch (e) {
@@ -93,7 +93,7 @@ export default {
         vm.$store.dispatch('brand/getBrand', to.params.brandId).then(res => {
           vm.loading = false
         })
-        vm.$store.dispatch('homepage/loadRecommends').then(res => {
+        vm.$store.dispatch('homepage/loadBrandPortalSalesLeaders', to.params.brandId).then(res => {
           vm.loading = false
         })
       })

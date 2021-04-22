@@ -3,10 +3,11 @@
     <carousel
       :per-page="1"
       :mouse-drag="false"
+      :loop="true"
       pagination-active-color="#828282"
       pagination-color="transparent"
-      navigation-next-label="<i class='material-icons cl-bg-tertiary pointer'>keyboard_arrow_right</i>"
-      navigation-prev-label="<i class='material-icons cl-bg-tertiary pointer'>keyboard_arrow_left</i>"
+      navigation-next-label='<svg class="navigation" fill="#828282" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"> <path d="M10.707 17.707L16.414 12L10.707 6.293L9.29297 7.707L13.586 12L9.29297 16.293L10.707 17.707Z" /> </svg>'
+      navigation-prev-label='<svg class="navigation" fill="#828282" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"> <path d="M13.2929 6.293L7.58594 12L13.2929 17.707L14.7069 16.293L10.4139 12L14.7069 7.707L13.2929 6.293Z" /> </svg>'
       :navigation-enabled="['desktop', 'table'].includes(screenResolution)"
       :paginationEnabled="false"
       ref="carousel"
@@ -19,12 +20,10 @@
         :key="index"
       >
         <div
-          class="product-image-container bg-cl-secondary"
-          :class="{'video-container w-100 h-100 flex relative': images.video}"
         >
           <product-image
             v-if="hideImageAtIndex !== index"
-            @dblclick="openOverlay"
+            @click="openOverlay"
             class="pointer image"
             :image="images"
             :alt="productName | htmlDecode"
@@ -146,7 +145,7 @@ export default {
     async selectVariant (configuration) {
       let configData = configuration
       await this.$nextTick()
-      if (this.getCurrentProduct.type_id === 'configurable' && (configuration.attribute_code === 'color' || configuration['color'].id)) {
+      if (this.getCurrentProduct.type_id === 'configurable' && (configuration.attribute_code === 'color' || (configuration['color'] && configuration['color'].id))) {
         let configurableChildren = this.getCurrentProduct.configurable_children.find(child => child['color'] === (+configuration.id || +configuration['color'].id))
         this.filteredGallery = [...configurableChildren.media_gallery].map(gallery => {
           return {
@@ -213,13 +212,31 @@ export default {
     margin-bottom: 8px;
   }
 }
-::v-deep .VueCarousel-navigation-button{
-  max-height: 40px;
-  border-radius: 50%;
-  border: 1px solid #E0E0E0 !important;
-  background-color: #fff !important;
-  &:focus{
-    outline: none !important;
+::v-deep {
+  .VueCarousel-navigation-button {
+    max-height: 40px;
+    border-radius: 50%;
+    border: 1px solid #E0E0E0!important;
+    background-color: #ffffff!important;
+
+    &:hover {
+      border-color: #cecece!important;
+
+      .navigation {
+        fill: #787878;
+      }
+    }
+
+    &:active {
+      border-color: #bcbcbc!important;
+
+      .navigation {
+        fill: #6d6d6d;
+      }
+    }
+    &:focus{
+      outline: none !important;
+    }
   }
 }
 .media-gallery-carousel {
@@ -236,6 +253,7 @@ export default {
 .image{
   opacity: 1;
   transition: .3s opacity $motion-main;
+
   &:hover{
     opacity: .9;
   }
@@ -303,6 +321,9 @@ export default {
 }
 .product-image__thumb{
   max-width: 100%;
+  width: 506px!important;
+  height: 506px!important;
   object-fit: contain;
 }
+
 </style>

@@ -22,6 +22,7 @@ const actions: ActionTree<UserState, RootState> = {
 
     if (userData) {
       commit(types.USER_INFO_LOADED, userData)
+      dispatch('esputnik/triggerComebackEvent')
     }
 
     commit(types.USER_START_SESSION)
@@ -225,6 +226,7 @@ const actions: ActionTree<UserState, RootState> = {
         message: 'Password has successfully been changed',
         action1: { label: i18n.t('OK') }
       }, { root: true })
+      dispatch('esputnik/triggerPasswordChanged')
     } else {
       await dispatch('notification/spawnNotification', {
         type: 'error',
@@ -322,6 +324,10 @@ const actions: ActionTree<UserState, RootState> = {
     Logger.info('User session authorised ', 'user')()
     await dispatch('me', { refresh, useCache })
     await dispatch('getOrdersHistory', { refresh, useCache })
+  },
+  addToProductHistory ({ commit }, product) {
+    if (!product) return;
+    commit(types.USER_ADD_TO_PRODUCT_HISTORY, product)
   },
   /*
   delete user

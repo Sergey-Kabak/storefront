@@ -124,6 +124,10 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
+.mpbtn svg{
+  width: 14px;
+  height: 14px;
+}
 .minusplusnumber {
   border-radius: 5px;
   background-color: #FFF;
@@ -219,7 +223,7 @@ export default {
   }
 
   &.disabled {
-    border: 1px solid #E0E0E0; 
+    border: 1px solid #E0E0E0;
   }
 }
 

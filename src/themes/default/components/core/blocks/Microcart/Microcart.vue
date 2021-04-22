@@ -62,20 +62,15 @@
 </template>
 
 <script>
-import {
-  mapGetters,
-  mapActions
-} from 'vuex';
+import { mapGetters } from 'vuex';
 import {
   isModuleRegistered,
   registerModule
 } from '@vue-storefront/core/lib/modules';
 import i18n from '@vue-storefront/i18n';
 import { currentStoreView } from '@vue-storefront/core/lib/multistore';
-
 import VueOfflineMixin from 'vue-offline/mixin';
 import onEscapePress from '@vue-storefront/core/mixins/onEscapePress';
-
 import ButtonFull from 'theme/components/theme/ButtonFull';
 import ButtonOutline from 'theme/components/theme/ButtonOutline';
 import ButtonText from 'theme/components/theme/ButtonText';
@@ -127,12 +122,22 @@ export default {
   mounted () {
     this.$nextTick(() => {
       this.componentLoaded = true
+      eS('sendEvent', 'StatusCart', {
+        'StatusCart': this.productsInCart.map(p => ({
+          productKey: p.id,
+          price: p.original_final_price,
+          quantity: p.qty,
+          currency: 'UAH'
+        })),
+        'GUID': this.cartGuid
+      });
     })
   },
   computed: {
     ...mapGetters({
       productsInCart: 'cart/getCartItems',
       appliedCoupon: 'cart/getCoupon',
+      cartGuid: 'cart/getCartGuid',
       totals: 'cart/getTotals',
       isOpen: 'cart/getIsMicroCartOpen',
       totalProducts: 'cart/getItemsTotalQuantity'
@@ -173,10 +178,27 @@ export default {
               this.GTM_REMOVE_FROM_CART([product])
             })
             await this.$store.dispatch('cart/clear', { disconnect: false })
+            eS('sendEvent', 'StatusCart', {
+              'StatusCart': [],
+              'GUID': this.cartGuid
+            });
           }
         },
         hasNoTimeout: true
       })
+    }
+  },
+  metaInfo() {
+    return {
+      script: [
+        {
+          async: true,
+          type: 'text/javascript',
+          skip: !this.productsInCart.length,
+          body: true,
+          innerHTML: `window.ad_products = ${JSON.stringify(this.productsInCart.map(it => ({ id: it.sku, number: it.qty })))}; window._retag = window._retag || []; window._retag.push({code: "9ce8884ee5", level: 3}); (function () { var id = "admitad-retag"; if (document.getElementById(id)) {return;} var s = document.createElement("script"); s.async = true; s.id = id; var r = (new Date).getDate(); s.src = (document.location.protocol == "https:" ? "https:" : "http:") + "//cdn.lenmit.com/static/js/retag.js?r="+r; var a = document.getElementsByTagName("script")[0]; a.parentNode.insertBefore(s, a); })()`
+        }
+      ]
     }
   }
 }

@@ -85,6 +85,7 @@ export default {
       margin-right: 3px;
     }
     span {
+      line-height: 16px;
       border-bottom: 1px dashed #1A1919;
       padding-bottom: 4px;
     }

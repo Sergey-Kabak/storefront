@@ -7,43 +7,43 @@
         </router-link>
       </div>
     </div>
-    <div class="product-middle">
-      <router-link
-        @click.native="closeWishlist()"
-        :to="productLink"
-        class="product-name"
-      >
-        {{ product.name | htmlDecode }}
-      </router-link>
-
-      <product-cart-price :product="product" :nameVisibility="false" class="product-prices" />
-
-      <div class="product-actions" >
-        <product-cart-controls :product="product" class="cart-wishlist" />
-      </div>
-    </div>
     <div class="product-right">
-      <div class="product-right-data">
-        <AddToCompare :product="product"> </AddToCompare>
-        <button class="remove-icon p0 inline-flex middle-xs bg-cl-transparent brdr-none action h5 pointer cl-secondary" @click="removeProductFromWhishList(product)">
-          <div class="item">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M16 9V19H8V9H16ZM14.5 3H9.5L8.5 4H5V6H19V4H15.5L14.5 3ZM18 7H6V19C6 20.1 6.9 21 8 21H16C17.1 21 18 20.1 18 19V7Z" fill="#BDBDBD"/>
-            </svg>
+      <div class="product-top">
+        <router-link
+          @click.native="closeWishlist()"
+          :to="productLink"
+          class="product-name"
+        >
+          {{ product.name | htmlDecode }}
+        </router-link>
+        <div class="additional-actions">
+          <div class="additional-actions-container">
+            <AddToCompare :product="product"> </AddToCompare>
+            <button class="remove-icon p0 inline-flex middle-xs bg-cl-transparent brdr-none action h5 pointer cl-secondary" @click="removeProductFromWhishList(product)">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M16 9V19H8V9H16ZM14.5 3H9.5L8.5 4H5V6H19V4H15.5L14.5 3ZM18 7H6V19C6 20.1 6.9 21 8 21H16C17.1 21 18 20.1 18 19V7Z" fill="#BDBDBD"/>
+              </svg>
+            </button>
           </div>
-        </button>
+          <div class="additional-actions mobile">
+            <more-icon class="more">
+              <AddToCompare :product="product" class="more-item" showDescription />
+              <button @click="removeProductFromWhishList(product)" class="more-item remove-icon remove-icon-mobile inline-flex middle-xs bg-cl-transparent brdr-none action h5 pointer cl-secondary" >
+                <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <rect width="32" height="32" rx="4" fill-opacity="0.95"/>
+                  <path d="M20 13V23H12V13H20ZM18.5 7H13.5L12.5 8H9V10H23V8H19.5L18.5 7ZM22 11H10V23C10 24.1 10.9 25 12 25H20C21.1 25 22 24.1 22 23V11Z" fill="#BDBDBD"/>
+                </svg>
+                <span class="remove-from-wishlist-text">{{ $t('Remove from wishlist') }}</span>
+              </button>
+            </more-icon>
+          </div>
+        </div>
       </div>
-      <div class="product-right-data mobile">
-        <more-icon class="more">
-          <AddToCompare :product="product" class="more-item" showDescription />
-          <button @click="removeProductFromWhishList(product)" class="remove-icon remove-icon-mobile p0 inline-flex middle-xs bg-cl-transparent brdr-none action h5 pointer cl-secondary" >
-            <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <rect width="32" height="32" rx="4" fill="white" fill-opacity="0.95"/>
-              <path d="M20 13V23H12V13H20ZM18.5 7H13.5L12.5 8H9V10H23V8H19.5L18.5 7ZM22 11H10V23C10 24.1 10.9 25 12 25H20C21.1 25 22 24.1 22 23V11Z" fill="#BDBDBD"/>
-            </svg>
-            <span class="remove-from-wishlist-text">{{ $t('Remove from wishlist?') }}</span>
-          </button>       
-        </more-icon>
+      <div class="product-bottom" :class="{'unavailable': isNotAvailable}">
+        <product-cart-price :product="product" :nameVisibility="false" class="product-prices" />
+        <div class="product-actions" >
+          <product-cart-controls @click.native="closeWishlist" :product="product" class="cart-wishlist" />
+        </div>
       </div>
     </div>
   </li>
@@ -87,9 +87,6 @@ export default {
     productLink () {
       return formatProductLink(this.product, currentStoreView().storeCode)
     },
-    removeFromWishlistText() {
-      return this.$t('Remove {productName} from wishlist?', { productName: htmlDecode(this.product.name) })
-    },
     image () {
       return {
         loading: this.thumbnail,
@@ -101,13 +98,16 @@ export default {
     },
     inStock () {
       return this.product.stock && this.product.stock.is_in_stock
+    },
+    isNotAvailable () {
+      return !this.product.stock.is_in_stock && !this.product.preorder
     }
   },
   methods: {
     removeProductFromWhishList (product) {
       this.$store.dispatch('notification/spawnNotification', {
         type: 'success',
-        message: this.$t('Remove {productName} from wishlist?', { productName: htmlDecode(product.name) }),
+        message: this.$t('Remove {productName} from wishlist', { productName: htmlDecode(product.name) }),
         action1: { label: this.$t('OK'), action: () => {
           this.removeFromWishlist(product)
         }},
@@ -146,8 +146,14 @@ export default {
   border-radius: 4px;
 
   &.out-of-stock {
-    .product-name, .price-current {
+    .product-name {
       color: #989797;
+    }
+
+    ::v-deep {
+      .price-current, .price-special {
+        color: #989797;
+      }
     }
 
     .product-image {
@@ -156,9 +162,8 @@ export default {
   }
 
 }
-.remove-icon {
+.more-item {
   cursor: pointer;
-
   .item {
     padding: 4px;
   }
@@ -166,42 +171,74 @@ export default {
   svg {
     display: flex;
   }
-  
+
   &:hover {
     background-color: #F9F9F9;
   }
 }
+
+.product-right {
+  width: 100%;
+}
+
+.product-bottom {
+  display: flex;
+  align-items: baseline;
+  width: 100%;
+}
+
+.product-top {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 16px;
+}
+
+.product-actions {
+  width: 100%;
+}
+
 .remove-icon-mobile {
   width: 100%;
   padding: 4px 16px;
 }
-  .product-img {
-    width: 88px;
-    height: 88px;
+
+.product-img {
+  display: flex;
+  justify-content: center;
+  width: 88px;
+  height: 88px;
+
+  a {
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
-  
+
+  img {
+    z-index: -1;
+    max-width: 88px;
+    max-height: 88px;
+  }
+}
+
 .product-left {
   display: flex;
   align-items: center;
-  margin-right: 17px;
-
-
-  
+  margin-right: 16px;
   @media only screen and (max-width: 520px) {
-    margin-right: 19px;
+    margin-right: 12px;
   }
+
   .product-img ::v-deep {
-      
+
     @media only screen and (max-width: 520px) {
       width: 56px;
       height: 56px;
-    }
-    a {
-      display: block;
-    }
 
-    .product-image__thumb, .product-image {
-      max-width: 100%;
+      img {
+        max-width: 56px;
+        max-height: 56px;
+      }
     }
   }
 }
@@ -211,21 +248,39 @@ export default {
   width: 100%;
 }
 
-.product-right {
+.additional-actions {
   margin-left: auto;
+
+  .additional-actions-container {
+    @media only screen and (max-width: 500px) {
+      display: none;
+    }
+  }
 
   .more {
     display: none;
 
-    @media only screen and (max-width: 520px) {
+    @media only screen and (max-width: 500px) {
       display: block;
     }
   }
 }
 
-.product-right-data {
+.additional-actions-container {
   display: flex;
   align-items: center;
+
+  .remove-icon {
+    svg {
+      padding: 4px;
+      box-sizing: content-box;
+
+      &:hover {
+        background-color: #F9F9F9;
+      }
+    }
+  }
+
   & > *:first-child {
     margin-right: 6px;
 
@@ -256,12 +311,12 @@ export default {
 
 .product-name {
   display: inline-block;
-  margin-bottom: 8px;
   font-family: DIN Pro;
   font-size: 15px;
   line-height: 18px;
   color: #1A1919;
   cursor: pointer;
+  margin-right: 20px;
 
   @media only screen and (max-width: 520px) {
     font-size: 13px;
@@ -270,23 +325,24 @@ export default {
 }
 
 .product-prices {
-  margin-bottom: 20px;
+  ::v-deep {
+    .product-price-wrapper {
+      white-space: nowrap;
+      flex-direction: column-reverse;
+      align-items: flex-start;
+    }
 
-  .price-special {
-    font-family: DIN Pro;
-    font-size: 12px;
-    line-height: 12px;
-    text-decoration-line: line-through;
-    color: #595858;
-    margin-right: 4px;
-  }
+    .main-price {
+      margin-top: 0;
+    }
 
-  .price-current {
-    font-family: DIN Pro;
-    font-weight: 600;
-    font-size: 18px;
-    line-height: 20px;
-    color: #1A1919;
+    .price-sale {
+      margin: 0;
+    }
+
+    .price-special {
+      line-height: 20px;
+    }
   }
 }
 
@@ -298,12 +354,10 @@ export default {
   color: #1A1919;
 }
 
-.product-right {
+.additional-actions {
   .more {
-    margin-top: 5px;
     margin-left: auto;
     .more-item {
-      padding: 8px 16px;
       display: flex;
       align-items: center;
 
@@ -329,7 +383,18 @@ export default {
   font-size: 14px;
   line-height: 24px;
   color: #595858;
-  margin-left: 20px;
+}
+
+@media (max-width: 520px) {
+  .product-bottom.unavailable {
+    flex-direction: column;
+
+  }
+  ::v-deep {
+    .button-full.not-available {
+      margin-left: 0;
+    }
+  }
 }
 
 </style>

@@ -7,6 +7,7 @@ const getShops = async ({
     city = null,
     size = 1000,
     sort = '',
+    isAllowPickupLocation = true,
     includeFields = config.entities.optimize ? config.entities.shop.includeFields : null,
     excludeFields = config.entities.optimize ? config.entities.shop.excludeFields : null
 } = {}): Promise<ShopResponse> => {
@@ -14,6 +15,11 @@ const getShops = async ({
   if (city) {
     searchQuery = searchQuery.query('match', 'city', city)
   }
+
+  if (isAllowPickupLocation) {
+    searchQuery = searchQuery.filter('term', 'is_allowed_pickup_location', 1)
+  }
+
   const res = await quickSearchByQuery({
     entityType: 'inventory_source',
     query: searchQuery.build(),

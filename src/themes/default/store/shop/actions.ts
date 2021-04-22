@@ -2,8 +2,8 @@ import { ShopService } from 'theme/services'
 import { Shop } from 'theme/types/Shop'
 
 const actions = {
-  async getShops ({ commit }, { city }): Promise<Shop[]> {
-    const { shops } = await ShopService.getShops({ city })
+  async getShops ({ commit }, { city, isAllowPickupLocation }): Promise<Shop[]> {
+    const { shops } = await ShopService.getShops({ city, isAllowPickupLocation })
     commit('SET_SHOPS', shops) 
 
     return shops

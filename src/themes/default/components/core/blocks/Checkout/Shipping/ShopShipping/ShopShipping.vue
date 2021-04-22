@@ -133,7 +133,7 @@ export default {
   display: flex;
   flex-direction: column;
   overflow-y: auto;
-  height: 372px;
+  height: 375px;
   margin: 0 32px;
 }
 

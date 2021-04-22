@@ -19,7 +19,7 @@ tr{
     width : 50%;
     font-family: 'DIN Pro';
     font-style: normal;
-    padding: 12px 20px;
+    padding: 8px 0;
     font-size: 15px;
     line-height: 24px;
     vertical-align: baseline;
@@ -29,6 +29,7 @@ tr{
   }
   td:last-child{
     color: #1A1919;
+    font-weight: 600;
   }
 }
 </style>

@@ -89,7 +89,7 @@
                   class="fs-medium ml20 cl-gray lh30 py5 block"
                   v-if="!currentUser"
                 >
-                  {{ $t('or') }} <a href="#" class="cl-primary" @click.prevent="login()">{{ $t('login') }}</a> {{ $t('to account') }}
+                  {{ $t('or') }} <a class="cl-primary" @click.prevent="login()">{{ $t('login') }}</a> {{ $t('to account') }}
                 </span>
           </no-ssr>
         </div>

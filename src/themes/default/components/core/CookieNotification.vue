@@ -1,28 +1,20 @@
 <template>
   <transition name="fade" appear>
-    <div class="cookie fixed w-100 bg-cl-th-accent cl-tertiary" v-if="isOpen">
-      <div class="container">
-        <div class="row between-xs middle-xs px15">
-          <div class="col-xs-10 start-xs">
-            <span class="pr5">
-              {{ message }}
-            </span>
-            <router-link :to="localizedRoute(detailsLink)" :title="detailsLinkText" class="cl-bg-tertiary">
-              {{ detailsLinkText }}
-            </router-link>
-          </div>
-          <div class="col-xs-2 end-xs">
-            <i
-              class="material-icons icon p15 pointer"
-              @click="accept"
-              @keyup.enter="accept"
-              data-testid="closeCookieButton"
-              tabindex="0"
-              role="button"
-            >
-              close
-            </i>
-          </div>
+    <div class="cookie" v-if="isOpen">
+      <div class="v-container">
+        <div class="cookie-message">
+          <span>{{ this.$t('To give you the best shopping experience we') }}</span>
+          <router-link class="cookie-link" :to="localizedRoute('/info/umovi-vikoristannja-sajtu')">{{ $t('use cookies.') }}</router-link>
+        </div>
+        <div 
+          class="close-cookie"
+          @click="accept"
+          tabindex="0"
+          @keyup.enter="accept"
+        >
+          <svg class="close-cookie-icon" width="24" height="24" viewBox="0 0 24 24" fill="#F6F7FA" xmlns="http://www.w3.org/2000/svg">
+            <path d="M19 6.41L17.59 5L12 10.59L6.41 5L5 6.41L10.59 12L5 17.59L6.41 19L12 13.41L17.59 19L19 17.59L13.41 12L19 6.41Z"/>
+          </svg>
         </div>
       </div>
     </div>
@@ -30,22 +22,7 @@
 </template>
 
 <script>
-import i18n from '@vue-storefront/i18n'
 export default {
-  props: {
-    detailsLinkText: {
-      type: String,
-      default: i18n.t('See details')
-    },
-    detailsLink: {
-      type: String,
-      default: '/privacy'
-    },
-    message: {
-      type: String,
-      default: i18n.t('We use cookies to give you the best shopping experience.')
-    }
-  },
   data () {
     return {
       isOpen: false
@@ -74,20 +51,69 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '~theme/css/base/global_vars';
-@import '~theme/css/variables/colors';
-@import '~theme/css/helpers/functions/color';
-$color-icon: color(black);
-$bg-icon: color(suva-gray);
-$z-index: map-get($z-index, overlay) - 1;
-
-.cookie {
-  z-index: $z-index;
-  bottom: 0;
+.v-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 16px;
 }
 
-.icon:hover {
-  color: $color-icon;
-  background-color: $bg-icon;
+.cookie {
+  z-index: 2;
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #1A1919;
+}
+
+.cookie-message {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+
+  span,
+  .cookie-link {
+    display: block;
+    font-family: DIN Pro;
+    font-size: 14px;
+    line-height: 16px;
+    color: #FFFFFF;
+
+    &:first-child {
+      margin-right: 5px;
+    }
+  }
+
+  .cookie-link {
+    text-decoration: underline;
+  }
+}
+
+.close-cookie {
+  cursor: pointer;
+  display: flex;
+  padding: 4px;
+  border-radius: 4px;
+  transition: .2s ease-in-out;
+
+  &:focus {
+    outline: none;
+  }
+
+  &:hover {
+    background-color: #313030;
+  }
+}
+
+@media (max-width: 768px) {
+  .cookie-message {
+    span,
+    .cookie-link {
+      font-size: 13px;
+    }
+  }
 }
 </style>

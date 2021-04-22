@@ -22,8 +22,10 @@ import { cmsStore } from 'theme/store/cms';
 import { attributeStore } from 'theme/store/attributes';
 import { module as PromotionalModule } from './store/promotional';
 import { shopStore } from 'theme/store/shop';
+import { esputnikStore } from 'theme/store/esputnik';
+import { productKits } from 'theme/store/productKits';
 import { StorageManager } from '@vue-storefront/core/lib/storage-manager';
-import { module as carouselModule } from 'theme/store/carousel';
+import { module as bannerGroupModule } from 'theme/store/banner-group';
 import vClickOutside from 'v-click-outside';
 
 once('__VUE_EXTEND_DROPPOINT_VPB__', () => {
@@ -60,12 +62,14 @@ function initTheme (app, router, store, config, ssrContext) {
   store.registerModule('comparePage', compareStore);
   store.registerModule('search', searchStore);
   store.registerModule('brand', brandStore);
-  store.registerModule('slider', carouselModule);
+  store.registerModule('bannerGroup', bannerGroupModule);
   store.registerModule('custom-attr', attributeStore);
   store.registerModule('checkoutPage', checkoutStore);
   store.registerModule('cms', cmsStore);
   store.registerModule('shop', shopStore);
+  store.registerModule('kits', productKits);
   store.registerModule('promotional', PromotionalModule);
+  store.registerModule('esputnik', esputnikStore);
   // store.registerModule('payment', paymentStore);
 }
 

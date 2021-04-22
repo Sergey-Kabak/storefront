@@ -14,10 +14,20 @@ import transformMetadataToAttributes from '@vue-storefront/core/modules/catalog/
 import filterAttributes from '@vue-storefront/core/modules/catalog/helpers/filterAttributes'
 
 const actions: ActionTree<AttributeState, RootState> = {
+  async getAttributeGroups ({ commit } , { attribute_set_id }) {
+    const res = await quickSearchByQuery({ query: {
+        query: {
+          bool: {
+            should: {
+              term: { attribute_set_id: attribute_set_id }
+            }
+          }
+        }}, entityType: 'attribute_set' });
+    commit(types.SET_ATTRIBUTE_GROUPS, res.items[0].groups.filter(attr => attr.is_visible_on_front))
+  },
   async updateAttributes ({ commit, getters }, { attributes }) {
     const idsList = getters.getAttributeListById
     const codesList = getters.getAttributeListByCode
-
     for (let attr of attributes) {
       if (attr && !config.attributes.disablePersistentAttributesCache) {
         const attrCollection = StorageManager.get('attributes')
@@ -78,8 +88,8 @@ const actions: ActionTree<AttributeState, RootState> = {
     })
     const resp = await quickSearchByQuery({ entityType: 'attribute', query, includeFields, start, size })
     const attributes = resp && orgFilterValues.length > 0 ? resp.items : null
-
     dispatch('updateBlacklist', { filterValues, filterField, attributes })
+
     await dispatch('updateAttributes', { attributes })
 
     return resp

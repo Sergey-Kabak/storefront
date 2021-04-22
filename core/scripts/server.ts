@@ -144,7 +144,7 @@ app.use('/service-worker.js', serve('dist/service-worker.js', false, {
     res.set('Content-Type', 'text/javascript; charset=UTF-8')
   }
 }))
-
+app.use('/sw.js', serve('src/modules/esputnik/sw.js', true))
 app.post('/invalidate', invalidateCache)
 app.get('/invalidate', invalidateCache)
 
