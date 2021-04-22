@@ -3,29 +3,31 @@
     <delivery-title/>
     <no-ssr>
       <div>
-        <div v-for="(type, name) in shippingTypes" :key="name" class="product-delivery__type">
-          <div v-html="type.icon" class="product-delivery__type-icon"></div>
-          <div class="product-delivery__type-row flex">
-            <div class="delivery-label flex v-center">
-              {{ $t(name) }}
-            </div>
-            <div class="delivery-info">
-              <strong
-                v-if="type.methodInfo.actionField"
-                @click="type.methodInfo.actionField.event"
-                class="font">
-                {{name === 'freeshipping' ? availableShops : type.methodInfo.actionField.text}}
-              </strong>
-              <span class="font">
-            {{type.methodInfo.text}}
-          </span>
-            </div>
-            <div class="delivery-price">
-              <strong v-if="type.price.free">{{ $t('is free') }}</strong>
-              <span v-if="!!type.price.base" :class="{'line-through' : type.price.free}">{{type.price.base | price}}</span>
+        <template v-for="(type, name) in shippingTypes">
+          <div :key="name" class="product-delivery__type" v-if="isShopShippingMethod(name)">
+            <div v-html="type.icon" class="product-delivery__type-icon"></div>
+            <div class="product-delivery__type-row flex">
+              <div class="delivery-label flex v-center">
+                {{ $t(name) }}
+              </div>
+              <div class="delivery-info">
+                <strong
+                  v-if="type.methodInfo.actionField"
+                  @click="type.methodInfo.actionField.event"
+                  class="font">
+                  {{name === 'freeshipping' ? shopsDescription : type.methodInfo.actionField.text}}
+                </strong>
+                <span class="font">
+              {{type.methodInfo.text}}
+            </span>
+              </div>
+              <div class="delivery-price">
+                <strong v-if="type.price.free">{{ $t('is free') }}</strong>
+                <span v-if="!!type.price.base" :class="{'line-through' : type.price.free}">{{type.price.base | price}}</span>
+              </div>
             </div>
           </div>
-        </div>
+        </template>
       </div>
     </no-ssr>
   </div>
@@ -115,11 +117,16 @@ export default {
       getCurrentProduct: 'product/getCurrentProduct'
     }),
     ...mapState({
-      shops: (state) => state.checkoutPage.shops.length,
+      shops: (state) => state.checkoutPage.shops,
       city: (state) => state.ui.city
     }),
     availableShops () {
-      return this.$tc('Available in {count} shops', this.shops)
+      return this.shops.filter(it => {
+        return this.getCurrentProduct.msi_sources.some(store => store.source_code.includes(it.source_code) && store.salable_quantity)
+      })
+    },
+    shopsDescription () {
+      return this.$tc('Available in {count} shops', this.availableShops.length) 
     },
     storeView () {
       return currentStoreView()
@@ -128,6 +135,13 @@ export default {
   methods: {
     showModal () {
       this.$bus.$emit('modal-show', 'modal-shop-shipping')
+    },
+    isShopShippingMethod(shippingMethod) {
+      console.log(shippingMethod)
+      if (shippingMethod === 'freeshipping') {
+        return this.availableShops.length
+      }
+      return true
     }
   },
   beforeMount () {
@@ -175,7 +189,7 @@ export default {
             margin-left: 0;
             margin-bottom: 8px;
             .font{
-              text-align: left;
+              margin-right: auto;
             }
           }
           &-price{
@@ -242,19 +256,22 @@ export default {
     text-decoration-line: line-through;
   }
 }
-.font{
+
+.font {
   font-family: DIN Pro;
   font-style: normal;
   font-size: 13px;
   line-height: 16px;
 }
-.delivery-info{
+
+.delivery-info {
   display: flex;
   flex-direction: column;
+  align-items: flex-end;
   width: 148px;
-  text-align: right;
   margin-left: auto;
-  strong{
+
+  strong {
     font-weight: 400;
     color: #23BE20;
     border-bottom: 1px dashed #23BE20;
@@ -262,7 +279,8 @@ export default {
     margin-bottom: 2px;
     cursor: pointer;
   }
-  span{
+
+  span {
     color: rgba(95, 94, 94, 0.6);
   }
 }

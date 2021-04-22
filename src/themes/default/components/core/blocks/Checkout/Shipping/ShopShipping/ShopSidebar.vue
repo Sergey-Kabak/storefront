@@ -23,7 +23,7 @@
           </template>
         </shop>
       </div>
-      <shop-map v-if="activeTab === 'map'" class="map" @select="selectShop($event)"/>
+      <shop-map :shops="shops" v-if="activeTab === 'map'" class="map" @select="selectShop($event)"/>
     </div>
   </div>
 </template>
