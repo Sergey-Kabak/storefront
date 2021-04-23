@@ -209,7 +209,13 @@ export default {
 @import '~theme/css/helpers/mixins';
 
 .microcart {
-  height: 100%;
+  @media (min-width: 576px) {
+    height: 100%;
+  }
+  @media (max-width: 575px) {
+    flex: 1;
+    min-height: 100%;
+  }
   &-footer{
     box-shadow: 0px -1px 4px #00000040;
     margin-top: auto;
@@ -317,17 +323,17 @@ export default {
     flex-direction: column;
     padding: 0 32px;
   }
-  @media (max-width: 600px) {
-    overflow-y: scroll;
-    height: calc(100% - 244px);
-    padding: 0 16px;
-    position: relative;
-    z-index: 0;
-    -webkit-overflow-scrolling: touch;
-    overflow-anchor: none;
-    opacity: 0.9999;
-    will-change: transform;
-  }
+  //@media (max-width: 600px) {
+  //  overflow-y: scroll;
+  //  height: calc(100% - 244px);
+  //  padding: 0 16px;
+  //  position: relative;
+  //  z-index: 0;
+  //  -webkit-overflow-scrolling: touch;
+  //  overflow-anchor: none;
+  //  opacity: 0.9999;
+  //  will-change: transform;
+  //}
   overflow-y: auto;
 }
 
@@ -351,9 +357,15 @@ export default {
 }
 
 .scroll-bar {
+  //flex: 1;
+  @media (min-width: 576px) {
+    height: 100%;
+  }
+  @media (max-width: 575px) {
+    min-height: 100%;
+  }
   display: flex;
   flex-direction: column;
-  height: 100%;
 }
 
 .actions-button {
