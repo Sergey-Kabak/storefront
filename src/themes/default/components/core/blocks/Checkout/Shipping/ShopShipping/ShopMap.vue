@@ -47,6 +47,12 @@ export default {
     InfoWindow,
     ChildMarker
   },
+  props: {
+    shops: {
+      type: Array,
+      default: () => []
+    }
+  },
   data: () => ({
     ShopInfoWindow,
     mapConfig: {
@@ -58,11 +64,6 @@ export default {
     },
     selectedMarker: null
   }),
-  computed: {
-    ...mapState({
-      shops: (state) => state.checkoutPage.shops
-    })
-  },
   methods: {
     selectMarker(marker) {
       this.selectedMarker = marker

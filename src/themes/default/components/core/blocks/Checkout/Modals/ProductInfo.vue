@@ -1,9 +1,9 @@
 <template>
-  <div class="flex flex-column product-price-block">
+  <div class="flex product-price-block">
     <div class="mb0 name mt0 relative w-100" v-if="nameVisibility">
       {{ product.name | htmlDecode }} <span v-if="showProductColor">{{getColor}}</span>
     </div>
-    <div>
+    <div class="product-qty">
       {{product.qty}} шт
     </div>
     <template v-if="specialPrice && !onlyImage && (getStockStatus !== 'ComingSoon' && product.price !== 0)">
@@ -94,10 +94,20 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.product-qty{
+  width: 39px;
+  font-family: DIN Pro;
+  font-style: normal;
+  font-weight: 0;
+  font-size: 13px;
+  line-height: 16px;
+  color: #1A1919;
+}
 .product-item-price{
   .product-price-wrapper{
     flex-direction: column;
     align-items: flex-end;
+    margin-left: auto;
   }
   .price-sale{
     order: -1;
@@ -143,15 +153,11 @@ export default {
 }
 
 .product-price-wrapper {
-  margin: -4px 0 0 0;
+  margin: -4px 0 0 auto;
   display: flex;
   flex-wrap: wrap-reverse;
   justify-content: flex-end;
   align-items: center;
-
-  @media only screen and (max-width: 520px) {
-    // flex-wrap: nowrap;
-  }
 }
 
 .name {
@@ -173,9 +179,10 @@ export default {
 }
 
 .product-price-block {
+  flex: 1;
   display: flex;
   align-items: flex-start;
-  justify-content: flex-start;
+  justify-content: space-between;
 }
 
 .price {

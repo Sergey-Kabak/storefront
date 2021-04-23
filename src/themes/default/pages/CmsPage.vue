@@ -59,7 +59,7 @@ export default {
   },
   methods: {
     openCityModal () {
-      this.$bus.$emit('modal-show', 'modal-city-shop-picker')
+      this.$bus.$emit('modal-show', 'modal-city-picker-shop')
     }
   }
 };

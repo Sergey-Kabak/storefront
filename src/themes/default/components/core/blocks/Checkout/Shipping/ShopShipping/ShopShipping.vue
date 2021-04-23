@@ -14,7 +14,7 @@
           </template>
         </shop>
       </div>
-      <shop-map v-if="activeTab === 'map'" class="map" @select="selectShop($event)"/>
+      <shop-map v-if="activeTab === 'map'" :shops="shops"  @select="selectShop($event)" class="map"/>
     </div>
     <div class="shop-mobile">
       <shop-mobile @selectShop="selectShop($event)" @onOpenShopSidebar="openSidebar()"/>
@@ -102,7 +102,6 @@ export default {
           status.not_available += 1
         }
       })
-      console.log(status, productsInShop);
       shop.products = productsInShop
       return {
         status: this.getSourceStatus(status),
