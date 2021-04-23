@@ -126,6 +126,9 @@ export default {
   },
   beforeDestroy () {
     this.$store.dispatch('checkout/setModifiedAt', 0) // exit checkout
+    this.$store.commit('checkoutPage/SET_PERSONAL_DETAILS_STATUS', 'active')
+    this.$store.commit('checkoutPage/SET_SHIPPING_STATUS', 'disabled')
+    this.$store.commit('checkoutPage/SET_PAYMENT_STATUS', 'disabled')
     this.$bus.$off('cart-after-update', this.onCartAfterUpdate)
     this.$bus.$off('cart-after-delete', this.onCartAfterUpdate)
     this.$bus.$off('checkout-after-personalDetails', this.onAfterPersonalDetails)

@@ -476,7 +476,6 @@
         "created_at",
         "has_options",
         "msrp_display_actual_price_type",
-        "*.msrp_display_actual_price_type",
         "options_container",
         "required_options",
         "small_image",
@@ -497,7 +496,6 @@
         "stock.use_config_min_sale_qty",
         "stock.use_config_max_sale_qty",
         "sgn",
-        "*.sgn",
         "updated_at"
       ],
       "includeFields": null,
