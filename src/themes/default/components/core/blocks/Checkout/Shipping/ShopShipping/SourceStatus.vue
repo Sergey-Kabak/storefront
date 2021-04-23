@@ -16,6 +16,7 @@ export default {
 
 <style lang="scss" scoped>
 .source-status{
+  white-space: nowrap;
   position: absolute;
   right: 16px;
   top: 16px;

@@ -1,7 +1,7 @@
 <template>
   <modal name="modal-msi" class="modal-msi" :width="533">
     <h3 slot="header" class="modal-msi_header align-center">
-      Наличие товаров в магазине
+      {{ $t('Availability of goods in the store') }}
     </h3>
     <div slot="content" class="modal-msi_content">
       <div v-if="shopShipping" class="modal-msi_wrapper">
@@ -15,7 +15,7 @@
           </svg>
           <span>{{shopShipping.street}}</span>
         </div>
-        <div class="shop-notification">
+        <div v-if="!!shopNotification" class="shop-notification">
           <svg xmlns="http://www.w3.org/2000/svg" width="20" height="17" viewBox="0 0 20 17" fill="none">
             <path d="M0.833252 16.5001H19.1666L9.99992 0.666748L0.833252 16.5001ZM10.8333 14.0001H9.16658V12.3334H10.8333V14.0001ZM10.8333 10.6667H9.16658V7.33341H10.8333V10.6667Z" fill="#EE2C39"/>
           </svg>
@@ -28,6 +28,10 @@
                    :source="getSource(product)" />
         </div>
       </div>
+      <div class="modal_footer">
+        <span @click="hideModal()">{{ $t("Select another shop") }}</span>
+        <button @click.prevent="selectShop()">{{ $t("Pick up here") }}</button>
+      </div>
     </div>
   </modal>
 </template>
@@ -35,7 +39,7 @@
 <script>
 import Modal from 'theme/components/core/Modal.vue'
 import Product from './MsiProduct'
-import {mapGetters, mapState} from 'vuex';
+import { mapGetters, mapState } from 'vuex';
 
 export default {
   components: {
@@ -53,19 +57,30 @@ export default {
       return this.productsInCart.reduce((acc, p) => acc += p.qty, 0)
     },
     availableProducts () {
-      return this.shopShipping.products.reduce((acc, p) => {
-        if (p.msi_source && p.msi_source.salable_quantity - p.qty >= 0) {
-          acc += p.qty
+      if (this.shopShipping && this.shopShipping.products) {
+        return this.shopShipping.products.reduce((acc, p) => {
+          if (p.msi_source && p.msi_source.salable_quantity > 0) {
+            acc += Math.abs(p.qty > p.msi_source.salable_quantity ? p.qty - p.msi_source.salable_quantity : p.qty );
+          }
           return acc;
-        }
-      }, 0)
+        }, 0)
+      }
     },
     shopNotification () {
-      console.log(this.shopShipping);
-      return `Только ${this.availableProducts} товара из ${this.productsWithQty} доступны для самовывоза из этого магазина!`
+      if (this.availableProducts !== this.productsWithQty) {
+        return this.$tc(`Only {product} product out of {products} are available for pickup from this store!`, this.availableProducts, { product: this.availableProducts, products: this.productsWithQty });
+      }
+      return ''
     }
   },
   methods: {
+    hideModal () {
+      this.$bus.$emit('modal-hide', 'modal-msi')
+    },
+    selectShop () {
+      this.$bus.$emit('shopSelected', true);
+      this.hideModal();
+    },
     getSource (product) {
       if (this.shopShipping && this.shopShipping.products) {
         return this.shopShipping.products.find(p => p.sku === product.sku)
@@ -76,6 +91,63 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.modal_footer{
+  padding: 24px;
+  box-shadow: 0px -1px 4px rgba(0, 0, 0, 0.25);
+  display: flex;
+  justify-content: flex-end;
+  span{
+    font-family: DIN Pro;
+    font-style: normal;
+    font-weight: 0;
+    font-size: 14px;
+    line-height: 18px;
+    color: #1A1919;
+    padding-bottom: 3px;
+    border-bottom: 1px dashed #000;
+    margin-right: 32px;
+    align-self: center;
+    cursor: pointer;
+  }
+  button{
+    padding: 12px 16px;
+    border-radius: 4px;
+    margin: 0;
+    border: none;
+    background: #23BE20;
+    outline: none;
+    font-family: DIN Pro;
+    font-style: normal;
+    font-weight: 0;
+    font-size: 15px;
+    line-height: 16px;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    color: #FFFFFF;
+    transition: ease 0.2s;
+    &:hover{
+      background-color: #20af1d;
+    }
+    &:active{
+      background-color: #1d9f1b;
+    }
+  }
+}
+.modal {
+  ::v-deep .modal-header{
+    padding: 13px 0 13px 24px;
+    .modal-msi_header{
+      margin: 0;
+      font-family: DIN Pro;
+      font-style: normal;
+      font-weight: 500;
+      font-size: 24px;
+      line-height: 30px;
+      color: #1A1919;
+    }
+  }
+}
 .shop-notification{
   padding: 12px 24px;
   background: #F9F9F9;
@@ -120,6 +192,18 @@ export default {
   }
   &:not(:first-child) {
     border-top: none;
+  }
+}
+.modal-msi_wrapper{
+  max-height: 80vh;
+  overflow: auto;
+  &::-webkit-scrollbar {
+    width: 4px;
+    background-color: transparent;
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: #E0E0E0;
+    border-radius: 4px;
   }
 }
 </style>

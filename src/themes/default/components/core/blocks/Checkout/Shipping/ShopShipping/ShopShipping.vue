@@ -6,7 +6,8 @@
         <shop v-for="(shop, index) in shops" :key="shop.id" :shop="shop" :index="index" class="shop">
           <template v-slot:shop-actions>
             <div class="shop-actions">
-              <button-full v-if="buttonVisible" @click.native="selectShop(shop)">{{ $t("Pick up here") }}</button-full>
+              <button-full v-if="buttonVisible && ShopAvailability(shop, index).status === 'productsAvailable'" @click.native="selectShop(shop, false)">{{ $t("Pick up here") }}</button-full>
+              <button-white v-if="buttonVisible && ShopAvailability(shop, index).status !== 'productsAvailable'" @click.native="selectShop(shop, true)">{{ $t('Details') }}</button-white>
             </div>
             <div class="ShopAvailability">
               <source-status :status="ShopAvailability(shop, index).status" />
@@ -31,6 +32,7 @@ import ShopMap from 'theme/components/core/blocks/Checkout/Shipping/ShopShipping
 import ButtonFull from 'theme/components/theme/ButtonFull'
 import ShopTitle from 'theme/components/core/blocks/Shop/ShopTitle.vue'
 import SourceStatus from './SourceStatus';
+import ButtonWhite from '../../../Product/ButtonWhite';
 
 export default {
   props: {
@@ -46,9 +48,10 @@ export default {
     ButtonFull,
     ShopTitle,
     ShopMobile,
-    SourceStatus
+    SourceStatus,
+    ButtonWhite
   },
-  beforeMount() {
+  beforeMount () {
     this.$store.dispatch('checkoutPage/getShops', { city: this.city })
   },
   data: () => ({
@@ -111,10 +114,9 @@ export default {
     changeActiveTab (activeTab) {
       this.activeTab = activeTab
     },
-    selectShop(shop) {
-      this.$bus.$emit('modal-show', 'modal-msi')
+    selectShop (shop, showModal) {
       this.$store.commit('checkoutPage/SET_SELECTED_SHOP', shop)
-      // this.$emit('onSelectShipping')
+      showModal ? this.$bus.$emit('modal-show', 'modal-msi') : this.$emit('onSelectShipping')
     },
     activateShopOnMap(shop) {
       this.$store.commit('shop/SET_SELECTED_SHOP', shop)
