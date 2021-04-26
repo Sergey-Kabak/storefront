@@ -79,9 +79,6 @@ export default {
             hasNoTimeout: true
           })
         }
-        // const { status, onlineCheckTaskId } = await this.$store.dispatch('cart/checkProductStatus', { product })
-        // console.log(status, onlineCheckTaskId);
-        // this.$store.state.cart.cartItems.push(product);
       } catch (message) {
         this.notifyUser(notifications.createNotification({ type: 'error', message }))
       }

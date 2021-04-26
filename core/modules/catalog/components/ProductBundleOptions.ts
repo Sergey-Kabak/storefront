@@ -78,7 +78,6 @@ export const ProductBundleOptions = {
     },
     validateField (option, qty, optionId, _product = null) {
       const product = _product || this.product
-      console.log(option, qty, optionId, product);
       let result = true
       let validationResult = { error: false, message: '' }
       for (let fieldName of _fieldName(option)) {
