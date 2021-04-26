@@ -20,7 +20,6 @@
     <div v-else>
       <table class="attributes-table">
         <tbody>
-        {{attr}}
         <product-attribute
           v-for="attr in splicedList"
           :key="attr.attribute_code"
