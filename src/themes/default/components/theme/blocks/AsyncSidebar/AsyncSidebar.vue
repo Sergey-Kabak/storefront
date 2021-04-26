@@ -105,6 +105,9 @@ export default {
   width: 100%;
   max-width: 550px;
   min-width: 320px;
+  -webkit-overflow-scrolling: touch;
+  display: flex;
+  flex-direction: column;
 }
 
 .consultation-sidebar {
