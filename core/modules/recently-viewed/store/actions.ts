@@ -30,7 +30,6 @@ const actions: ActionTree<RecentlyViewedState, RootState> = {
   removeItem ({ commit }, product) {
     cacheStorage.getItem('recently-viewed', (err, storedItems) => {
       if (err) throw new Error(err)
-      console.log(product)
       const productIndex = storedItems.findIndex(it => it.sku === product.sku)
       storedItems.splice(productIndex, 1)
       commit(types.RECENTLY_VIEWED_LOAD, storedItems)

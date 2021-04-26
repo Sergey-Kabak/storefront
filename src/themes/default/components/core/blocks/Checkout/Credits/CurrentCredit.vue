@@ -54,7 +54,6 @@ export default {
       this.$bus.$emit('modal-show', 'modal-credits')
     },
     changeBanks (banks) {
-      console.log(this.$store);
       this.$store.commit('themeCredit/themeCredit/CREDIT_SET_BANKS', { banks: [...banks] })
     }
   },

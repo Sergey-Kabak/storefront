@@ -74,7 +74,6 @@ export default {
           group.attrs = group.attrs.filter(attr => !!attr.is_visible_on_front)
           return group
         })
-        console.log(groups);
         return groups.sort((a, b) => { return a.sort_order > b.sort_order });
       }
       return Object.values(this.attributesByCode).filter(a => {

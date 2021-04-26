@@ -31,7 +31,7 @@
           <div class="actions" v-if="inStock && isShowButtons">
             <AddToCart :product="product" />
           </div>
-          <blurred-text @click="console.log('asd')" color="#1A1919" v-if="!inStock">{{ $t('Not available') }}</blurred-text>
+          <blurred-text color="#1A1919" v-if="!inStock">{{ $t('Not available') }}</blurred-text>
         </div>
       </div>
     </div>

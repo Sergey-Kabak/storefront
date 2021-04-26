@@ -126,7 +126,7 @@ export default {
       })
     },
     shopsDescription () {
-      return this.$tc('Available in {count} shops', this.availableShops.length) 
+      return this.$tc('Available in {count} shops', this.availableShops.length)
     },
     storeView () {
       return currentStoreView()
@@ -136,8 +136,7 @@ export default {
     showModal () {
       this.$bus.$emit('modal-show', 'modal-shop-shipping')
     },
-    isShopShippingMethod(shippingMethod) {
-      console.log(shippingMethod)
+    isShopShippingMethod (shippingMethod) {
       if (shippingMethod === 'freeshipping') {
         return this.availableShops.length
       }
