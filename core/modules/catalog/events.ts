@@ -44,10 +44,13 @@ export const filterChangedProduct = async (filterOption, store, router) => {
     const routeProp = config.seo.useUrlDispatcher ? 'params' : 'query'
     router.push({ [routeProp]: { childSku: selectedVariant.sku } })
   }
+  // TODO: remove { discontinued: 0 } and use only one product status
   if (selectedVariant) {
     const newProductConfiguration = Object.assign(
-      {},
       store.getters['product/getCurrentProduct'],
+      {
+        discontinued: 0
+      },
       selectedVariant,
       { configuration, options, product_option }
     )
