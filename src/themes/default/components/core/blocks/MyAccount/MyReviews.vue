@@ -1,6 +1,6 @@
 <template>
   <div class="reviews">
-    <h2 class="account-page-title">{{ $t($route.name) }}</h2>
+    <h2 class="account-page-title">{{ $t('my-reviews') }}</h2>
     <!-- <div class="reviews-wrapper">
       <div class="review" v-for="(review, index) in reviews" :key="index">
         <div class="review-image">

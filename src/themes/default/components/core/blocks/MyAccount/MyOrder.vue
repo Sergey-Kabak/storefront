@@ -1,7 +1,7 @@
 <template>
   <div class="order-wrapper">
     <div class="order-title">
-      <router-link class="order-title-link" to="/account/orders">
+      <router-link class="order-title-link" :to="localizedRoute('/account/orders')">
         <icon-base class="order-title-icon"> <arrow-left-icon /> </icon-base>
         <span class="order-title-text">{{ $t('All orders') }}</span>
       </router-link>
