@@ -3,17 +3,17 @@
     <product-stock-status v-if="screenResolution === 'mobile'" class="mb10" />
     <div class="flex trade-price-wrapper">
       <product-cart-price
-        v-if="getCurrentProduct.type_id !== 'grouped'"
+        v-if="getCurrentProduct.type_id !== 'grouped' && !['OutOfProduction'].includes(ProductStock)"
         :product="getCurrentProduct"
         :nameVisibility="false"
         class="product-item-price"/>
       <div class="product-actions flex">
         <AddToCompare :product="getCurrentProduct" />
-        <AddToWishlist :product="getCurrentProduct" />
+        <AddToWishlist :product="getCurrentProduct" v-if="!['OutOfProduction'].includes(ProductStock)" />
       </div>
     </div>
     <div>
-      <div v-if="!['ComingSoon', 'NotAvailable'].includes(ProductStock)" class="flex trade-actions">
+      <div v-if="!['ComingSoon', 'NotAvailable', 'OutOfProduction'].includes(ProductStock)" class="flex trade-actions">
         <add-to-cart :product="getCurrentProduct">
           <template v-if="ProductStock === 'PendingDelivery'" v-slot:text>{{$t('pre order')}}</template>
         </add-to-cart>
@@ -72,6 +72,7 @@ export default {
   margin-right: auto;
 }
 .product-actions{
+  margin-left: auto;
   grid-gap: 8px;
   align-items: flex-end;
   position: relative;
