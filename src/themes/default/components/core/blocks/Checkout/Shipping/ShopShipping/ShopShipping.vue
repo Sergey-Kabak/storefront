@@ -99,7 +99,7 @@ export default {
       productsInShop.forEach(p => {
         if (p.msi_source && p.qty <= p.msi_source.salable_quantity) {
           status.available += 1
-        } else if (p.msi_source && p.qty > p.msi_source.salable_quantity) {
+        } else if (p.msi_source && p.qty > p.msi_source.salable_quantity && p.msi_source.salable_quantity > 0) {
           status.partial_available += 1
         } else {
           status.not_available += 1

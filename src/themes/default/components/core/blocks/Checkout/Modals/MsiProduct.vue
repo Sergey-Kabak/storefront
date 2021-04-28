@@ -71,7 +71,7 @@ export default {
           statusText: 'InStock',
           subInfo: ''
         }
-      } else if (!!this.currentShop && this.product.qty > this.currentShop.salable_quantity) {
+      } else if (!!this.currentShop && this.product.qty > this.currentShop.salable_quantity && this.currentShop.salable_quantity) {
         return {
           icon: `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
 <path d="M11.392 4.608C10.456 3.672 9.232 3.2 8 3.2V8L4.608 11.392C6.48 13.264 9.52 13.264 11.4 11.392C13.272 9.52 13.272 6.48 11.392 4.608ZM8 0C3.584 0 0 3.584 0 8C0 12.416 3.584 16 8 16C12.416 16 16 12.416 16 8C16 3.584 12.416 0 8 0ZM8 14.4C4.464 14.4 1.6 11.536 1.6 8C1.6 4.464 4.464 1.6 8 1.6C11.536 1.6 14.4 4.464 14.4 8C14.4 11.536 11.536 14.4 8 14.4Z" fill="#F2994A"/>
