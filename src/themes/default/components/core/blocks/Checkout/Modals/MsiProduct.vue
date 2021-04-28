@@ -106,11 +106,6 @@ export default {
     productLink () {
       return formatProductLink(this.product, currentStoreView().storeCode)
     }
-  },
-  methods: {
-  },
-  mounted() {
-    console.log(this.source);
   }
 };
 </script>
