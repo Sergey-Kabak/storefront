@@ -20,7 +20,6 @@ const queueCheck = (sku: string, actionName: string): Promise<any> =>
 
 const check = (sku: string): Promise<Task> =>
 {
-    console.log(processURLAddress(`${getApiEndpointUrl(config.stock, 'endpoint')}/check?sku=${encodeURIComponent(sku)}`))
   return TaskQueue.execute({
     url: processURLAddress(`${getApiEndpointUrl(config.stock, 'endpoint')}/check?sku=${encodeURIComponent(sku)}`),
     payload: {

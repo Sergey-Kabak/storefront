@@ -1,6 +1,6 @@
 <template>
   <div class="security">
-    <h2 class="account-page-title">{{ $t($route.name) }}</h2>
+    <h2 class="account-page-title">{{ $t('my-security') }}</h2>
     <div class="personal-data profile-item">
       <account-header
         :icon="LockIcon"

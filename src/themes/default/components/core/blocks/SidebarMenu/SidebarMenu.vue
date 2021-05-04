@@ -119,6 +119,11 @@
             class="bg-cl-secondary"
           >
           </li>
+          <li class="brdr-bottom-1 brdr-cl-bg-secondary bg-cl-primary flex">
+            <div class="subcategory-item">
+              <a href="https://baby.maudau.com.ua/" rel="nofollow" target="_blank" class="px25 py20 cl-accent no-underline col-xs custom-cat-link">{{ $t('baby products') }}</a>
+            </div>
+          </li>
           <li
             v-if="compareIsActive && isCurrentMenuShowed"
             @click="closeMenu"
@@ -428,7 +433,7 @@ $color-mine-shaft: color(mine-shaft);
 
   @media (max-width: 768px) {
     width: 100vh;
-    
+
   }
 
   &__container {
@@ -534,7 +539,6 @@ $color-mine-shaft: color(mine-shaft);
   line-height: 16px;
   color: #EE2C39;
   font-weight: 600;
-  margin-top: 3px;
 }
 
 @media (max-width: 768px) {

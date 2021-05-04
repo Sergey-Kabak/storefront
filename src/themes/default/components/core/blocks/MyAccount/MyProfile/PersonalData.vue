@@ -1,6 +1,6 @@
 <template>
   <div class="personal-data-wrapper">
-    <h2 class="account-page-title">{{ $t($route.name) }}</h2>
+    <h2 class="account-page-title">{{ $t('my-account') }}</h2>
     <div class="personal-data profile-item">
       <account-header
         :icon="AccountCorrectIcon"
@@ -232,6 +232,14 @@ export default {
   },
   mounted: function() {
     this.copyUser()
+    eS('sendEvent', 'CustomerData', {
+      'CustomerData': {
+        'user_email': this.userData.email,
+        'user_name': `${this.userData.firstname} ${this.userData.lastname}`,
+        'user_client_id': this.userData.id,
+        'user_phone': this.telephone
+      }
+    });
   },
   methods: {
     changeEdit() {

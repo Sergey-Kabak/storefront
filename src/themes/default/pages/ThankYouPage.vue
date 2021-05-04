@@ -81,9 +81,10 @@
 import ProductImage from 'theme/components/core/ProductImage';
 import TotalPrice from 'theme/components/core/TotalPrice';
 import {currentStoreView} from '@vue-storefront/core/lib/multistore';
-import {mapState} from 'vuex';
+import {mapState, mapGetters} from 'vuex';
 import {Logger} from '@vue-storefront/core/lib/logger';
 import {localizedRoute} from '@vue-storefront/core/lib/multistore';
+import { formatProductLinkNoSku } from '@vue-storefront/core/modules/url/helpers'
 
 export default {
   components: {
@@ -94,10 +95,18 @@ export default {
     status: null
   }),
   computed: {
+    ...mapGetters('user', ['isLoggedIn']),
     ...mapState({
       order: (state) => state.checkoutPage.order,
-      cartServerToken: (state) => state.cart.cartServerToken
+      cartServerToken: (state) => state.cart.cartServerToken,
+      cartGuid: (state) => state.cart.cartGuid,
+      lastOrder: state => state.order.last_order_confirmation.order,
+      userData: (state) => state.user.current
     }),
+    telephone() {
+      const phone = this.userData.custom_attributes.find(it => it.attribute_code === 'telephone') 
+      return phone.value
+    },
     products () {
       return this.order.items.filter(it => it.parent_item && it.parent_item.product_type === 'bundle' || !it.parent_item)
     },
@@ -123,17 +132,12 @@ export default {
     }
   },
   async mounted() {
-    if (!this.cartServerToken) { // clear only correct cart
-      this.$store.commit('checkoutPage/RESET_CHECKOUT', null)
-      this.$store.dispatch('cart/clear', { sync: false })
-    }
     if (this.order.payment.method === 'liqpaymagento_liqpay') {
       this.status = await this.$store.dispatch('checkoutPage/getLiqpayStatus', {
         orderId: this.order.increment_id,
         marketplace: this.isMarketplace
       })
     }
-
     if (this.order.payment.method === 'temabit_payparts') {
       const status = await this.$store.dispatch('themeCredit/partPaymentStatus', {
         id: this.order.increment_id,
@@ -141,6 +145,7 @@ export default {
       })
       this.status = status.state && status.state.toLowerCase()
     }
+    this.initAdmitad()
     this.initEsputnik()
   },
   methods: {
@@ -154,10 +159,15 @@ export default {
         return parseInt(((product.original_price - product.price) / (product.original_price / 100)))
       }
     },
-    initEsputnik() {
-      const items = this.products.map(it => (
-        {
-          product: {
+    initAdmitad() {
+      ADMITAD = window.ADMITAD || {};
+      ADMITAD.Invoice = ADMITAD.Invoice || {};
+      ADMITAD.Invoice.category = '1';
+
+      const orderedItem = [];
+      this.products.map(it => {
+        orderedItem.push({
+          Product: {
             productID: it.item_id,
             category: '1',
             price: it.price,
@@ -165,9 +175,73 @@ export default {
           },
           orderQuantity: it.qty_ordered,
           additionalType: 'sale'
+        });
+      })
+      ADMITAD.Invoice.referencesOrder = ADMITAD.Invoice.referencesOrder || [];
+
+      ADMITAD.Invoice.referencesOrder.push({
+        orderNumber: this.order.increment_id,
+        orderedItem: orderedItem
+      });
+      ADMITAD.Tracking.processPositions();
+    },
+    initEsputnik() {
+      const items = this.lastOrder.products.map(it => ({
+        externalItemId: it.sku,
+        name: it.name,
+        category: 1,
+        quantity: it.qty,
+        cost: it.original_final_price,
+        url: `https://ringoo.ua/${it.url_key}`,
+        imageUrl: this.getThumbnail(it.image, 100, 100),
+        description: it.description
+      }))
+      const payload = {
+        orders: [{
+          "externalOrderId" : this.order.increment_id,
+          "externalCustomerId" : this.order.customer_email,
+          "totalCost" : this.order.grand_total,
+          "status" : "INITIALIZED",
+          "date" : new Date().toISOString(),
+          "email" : this.order.customer_email,
+          "phone" : this.order.billing_address.telephone,
+          "firstName" : this.order.customer_firstname,
+          "lastName" : this.order.customer_firstname,
+          "currency" : this.order.order_currency_code,
+          "shipping" : this.order.shipping_amount,
+          "discount" : this.order.discount_amount,
+          "taxes" : this.order.base_tax_amount,
+          "restoreUrl": `https://ringoo.ua/thank-you-page?cartId=${this.$route.query.cartId}`,
+          "statusDescription" : this.order.status,
+          "deliveryMethod" : this.order.shipping_description,
+          "paymentMethod" : this.order.payment.method,
+          "deliveryAddress" : this.order?.billing_address?.street?.[0],
+          "items" : items
+        }]
+      }
+      if (this.isLoggedIn) {
+        eS('sendEvent', 'CustomerData', {
+        'CustomerData': {
+          'user_email': this.userData.email,
+          'user_name': `${this.userData.firstname} ${this.userData.lastname}`,
+          'user_client_id': this.userData.id,
+          'user_phone': this.telephone
         }
-      ))
-      this.$store.dispatch('esputnik/triggerOrderSuccess', { items })
+      });
+      }
+      eS('sendEvent', 'PurchasedItems', {
+          "OrderNumber": this.order.increment_id,
+          "PurchasedItems":this.lastOrder.products.map(p => ({
+              "productKey": p.id,
+              "price": p.original_final_price,
+              "quantity": p.qty,
+              "currency": "UAH"
+            })
+        ),
+      "GUID": this.cartGuid
+      });
+      this.$store.dispatch('cart/setCartGuid')
+      this.$store.dispatch('esputnik/triggerOrderSuccess', payload)
     }
   },
   metaInfo() {

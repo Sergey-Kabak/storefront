@@ -26,7 +26,7 @@ export default {
   },
   methods: {
     openCityPicker() {
-      this.$bus.$emit('modal-show', 'modal-city-picker')
+      this.$bus.$emit('modal-show', 'modal-city-picker-product')
     }
   }
 };

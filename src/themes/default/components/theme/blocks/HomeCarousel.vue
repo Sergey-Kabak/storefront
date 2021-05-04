@@ -2,7 +2,7 @@
   <div class="home-carousel-wrapper">
     <VueSlickCarousel v-if="getHomePageBanners && getHomePageBanners.banners.length" v-bind="settings" class="carousel" :responsive="isClient ? responsive : null">
       <div
-        v-for="(product, index) in getHomePageBanners.banners" :key="index"
+        v-for="(product, index) in sortedBanners" :key="index"
         data-testid="productLink"
         class="slide-link"
         @click="checkRoute(product)"
@@ -69,7 +69,16 @@ export default {
   computed: {
     ...mapGetters({
       getHomePageBanners: 'bannerGroup/getHomePageBanners'
-    })
+    }),
+    sortedBanners () {
+      // eslint-disable-next-line vue/no-side-effects-in-computed-properties
+      if (!this.getHomePageBanners.banners) {
+        return []
+      }
+      return this.getHomePageBanners.banners.sort((a, b) => {
+        return +a.position - +b.position
+      })
+    }
   },
   mounted: function() {
     this.isClient = true

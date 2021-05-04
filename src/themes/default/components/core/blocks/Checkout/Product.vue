@@ -1,5 +1,5 @@
 <template>
-  <div class="product-wrap" :data-productKey="product.sku">
+  <div class="product-wrap" :data-productKey="product.id">
     <div class="product">
       <router-link :to="productLink" class="product-image">
         <img :src="image.src" alt="product" />
@@ -108,12 +108,6 @@ export default {
     },
     plusDisabled () {
       return this.product.qty >= this.product.msi_salable_quantity
-    },
-    finalPrice () {
-      if (this.isBundleProduct) {
-        return this.isDiscount ? this.bundleFinalPrice : this.bundlePrice
-      }
-      return this.product.special_price || this.product.original_price_incl_tax
     },
     image () {
       return {

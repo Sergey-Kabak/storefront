@@ -1,22 +1,36 @@
 <template>
-  <modal name="modal-shop-shipping" class="modal-shop-shipping" :width="900">
+  <modal name="modal-shop-shipping" class="modal-shop-shipping" :width="900" v-if="availableShops">
     <h3 slot="header" class="modal-shop-shipping_header">
       {{$t('All stores')}}
     </h3>
     <div slot="content" class="modal-shop-shipping">
-      <shop-shipping :button-visible="false" />
+      <shop-shipping :shops="availableShops" :button-visible="false" />
     </div>
   </modal>
 </template>
 
 <script>
 import Modal from 'theme/components/core/Modal.vue'
-import ShopShipping from './Checkout/Shipping/ShopShipping/ShopShipping';
+import ShopShipping from './Checkout/Shipping/ShopShipping/ShopShipping'
+import { mapState, mapGetters } from 'vuex'
 
 export default {
   components: {
     Modal,
     ShopShipping
+  },
+  computed: {
+    ...mapGetters({
+      getCurrentProduct: 'product/getCurrentProduct'
+    }),
+    ...mapState({
+      shops: (state) => state.checkoutPage.shops
+    }),
+    availableShops () {
+      return this.shops.filter(it => {
+        return this.getCurrentProduct && this.getCurrentProduct.msi_sources && this.getCurrentProduct.msi_sources.some(store => store.source_code.includes(it.source_code) && store.salable_quantity)
+      })
+    }
   }
 }
 </script>

@@ -23,7 +23,7 @@
       <slot />
       <minimal-footer />
 
-      <city-picker />
+      <city-picker-checkout />
       <credit-modal />
     </div>
   </div>
@@ -40,7 +40,7 @@ import Overlay from 'theme/components/core/Overlay.vue';
 import { isServer } from '@vue-storefront/core/helpers';
 import CreditModal from 'theme/components/core/blocks/CreditModal.vue';
 
-const CityPicker = () => import(/* webpackChunkName: "vsf-custom-city-picker-modal" */ 'theme/components/core/blocks/CityPicker/CityPicker.vue');
+const CityPickerCheckout = () => import(/* webpackChunkName: "vsf-custom-city-picker-modal" */ 'theme/components/core/blocks/CityPicker/CityPickerCheckout.vue');
 const Microcart = () => import(/* webpackChunkName: "vsf-microcart" */ 'theme/components/core/blocks/Microcart/Microcart.vue');
 const Consultation = () => import(/* webpackChunkName: "vsf-consultation" */ 'theme/components/core/blocks/Consultation/Consultation.vue');
 const ShopSidebar = () => import(/* webpackChunkName: "vsf-shop-sidebar" */ 'theme/components/core/blocks/Checkout/Shipping/ShopShipping/ShopSidebar.vue');
@@ -60,7 +60,7 @@ export default {
     Overlay,
     CreditModal,
     AsyncSidebar,
-    CityPicker
+    CityPickerCheckout
   },
   computed: {
     ...mapState({

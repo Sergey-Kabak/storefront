@@ -226,7 +226,7 @@ const actions: ActionTree<UserState, RootState> = {
         message: 'Password has successfully been changed',
         action1: { label: i18n.t('OK') }
       }, { root: true })
-      dispatch('esputnik/triggerPasswordChanged')
+      // dispatch('esputnik/triggerPasswordChanged')
     } else {
       await dispatch('notification/spawnNotification', {
         type: 'error',
@@ -327,7 +327,7 @@ const actions: ActionTree<UserState, RootState> = {
   },
   addToProductHistory ({ commit }, product) {
     if (!product) return;
-    commit(types.USER_ADD_TO_PRODUCT_HISTORY, product.sku)
+    commit(types.USER_ADD_TO_PRODUCT_HISTORY, product)
   },
   /*
   delete user

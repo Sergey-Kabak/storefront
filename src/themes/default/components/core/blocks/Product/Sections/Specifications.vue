@@ -69,6 +69,10 @@ export default {
           })
           groups.push({ ...group, attrs: attrs })
         })
+        groups.map(group => {
+          group.attrs = group.attrs.filter(attr => !!attr.is_visible_on_front)
+          return group
+        })
         return groups.sort((a, b) => { return a.sort_order > b.sort_order });
       }
       return Object.values(this.attributesByCode).filter(a => {

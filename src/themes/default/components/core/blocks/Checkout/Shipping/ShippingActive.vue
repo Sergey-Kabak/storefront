@@ -17,7 +17,7 @@
         <div class="shipping-item">
           <shipping-radio :active="slotProps.active" :shipping="shipping" />
           <transition name="slide" mode="out-in">
-            <component v-if="slotProps.active" :is="shipping.method_code" @onSelectShipping="selectShipping()"/>
+            <component v-if="slotProps.active" :is="shipping.method_code" :shops="shops" @onSelectShipping="selectShipping()"/>
           </transition>
         </div>
       </template>
@@ -49,7 +49,8 @@ export default {
     ...mapState({
       selectedShipping: (state) => state.checkoutPage.selectedShipping,
       selectedShop: (state) => state.checkoutPage.shopShipping,
-      justinShipping: (state) => state.checkoutPage.justinShipping
+      justinShipping: (state) => state.checkoutPage.justinShipping,
+      shops: (state) => state.checkoutPage.shops
     }),
     methods() {
       const methods = {

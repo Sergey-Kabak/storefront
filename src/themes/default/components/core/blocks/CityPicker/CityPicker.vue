@@ -1,33 +1,30 @@
 <template>
-  <modal name="modal-city-picker" class="modal">
-    <div class="city-picker">
-      <div class="city-picker-top">
-        <span class="city-picker-title">{{ $t('Choose your city') }}</span>
-        <svg @click="closePopup()" class="close-icon" fill="#BDBDBD" width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-          <path d="M19 6.41L17.59 5L12 10.59L6.41 5L5 6.41L10.59 12L5 17.59L6.41 19L12 13.41L17.59 19L19 17.59L13.41 12L19 6.41Z" />
-        </svg>
-      </div>
-      <city-list
-        :cities="defaultCities"
-        :selectedCity="selectedCity"
-        @onSelectCity="onChooseCity($event)"
-      />
-      <span class="search-title">{{ $t('Choose your city') }}</span>
-      <div class="search">
-        <autocomplete
-          class="search-autocomplete"
-          :options="cities"
-          :selectedValue="selectedCity"
-          :search="getCities"
-          @submit="onChooseCity($event)"
-        />
-      </div>
+  <div class="city-picker">
+    <div class="city-picker-top">
+      <span class="city-picker-title">{{ $t('Choose your city') }}</span>
+      <svg @click="closePopup()" class="close-icon" fill="#BDBDBD" width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path d="M19 6.41L17.59 5L12 10.59L6.41 5L5 6.41L10.59 12L5 17.59L6.41 19L12 13.41L17.59 19L19 17.59L13.41 12L19 6.41Z" />
+      </svg>
     </div>
-  </modal>
+    <city-list
+      :cities="defaultCities"
+      :selectedCity="selectedCity"
+      @onSelectCity="onChooseCity($event)"
+    />
+    <span class="search-title">{{ $t('Choose your city') }}</span>
+    <div class="search">
+      <autocomplete
+        class="search-autocomplete"
+        :options="cities"
+        :selectedValue="selectedCity"
+        :search="getCities"
+        @submit="onChooseCity($event)"
+      />
+    </div>
+  </div>
 </template>
 
 <script>
-import Modal from 'theme/components/core/Modal.vue';
 import CityList from 'theme/components/core/blocks/CityPicker/CityList'
 import vSelect from 'vue-select'
 import ButtonFull from 'theme/components/theme/ButtonFull'
@@ -36,25 +33,33 @@ import Autocomplete from 'theme/components/core/blocks/Form/Autocomplete'
 
 export default {
   components: {
-    Modal,
     CityList,
     vSelect,
     ButtonFull,
     Autocomplete
   },
+  props: {
+    cities: {
+      type: Array,
+      default: () => []
+    },
+    selectedCity: {
+      type: String,
+      default: null
+    },
+    search: {
+      type: Function,
+      default: () => {}
+    }
+  },
   data: () => ({
     defaultCities: ['Київ', 'Бровари', 'Львів', 'Івано-Франківськ', 'Одеса', 'Миколаїв', 'Полтава', 'Рівне', 'Суми', 'Кропивницький', 'Черкаси'],
-    query: null,
-    selectedCity: null
+    query: null
   }),
   computed: {
     ...mapState({
       city: (state) => state.ui.city,
-      cities: (state) => state.checkoutPage.cities
     })
-  },
-  mounted: function() {
-    this.selectedCity = this.city
   },
   methods: {
     cleanField () {
@@ -65,37 +70,18 @@ export default {
     },
     getCities(query) {
       this.query = query
-      if (query && query.trim() && query.length >= 3) {
-        return this.$store.dispatch('checkoutPage/getCities', { city: query })
-      }
-      return []
+      this.search(query)
     },
     onChooseCity(result) {
-      this.selectedCity = result.value || result
-      this.changeCity()
-    },
-    async changeCity() {
+      const selectedCity = result.value || result
+      this.$emit('onChangeCity', selectedCity)
       this.closePopup()
-      this.$store.commit('checkoutPage/SET_PERSONAL_DETAILS_STATUS', 'active')
-      this.$store.commit('checkoutPage/SET_SHIPPING_STATUS', 'disabled')
-      this.$store.commit('checkoutPage/SET_PAYMENT_STATUS', 'disabled')
-      this.$store.commit('ui/setCity', this.selectedCity)
-      this.$store.commit('checkoutPage/SET_COURIER_SHIPPING', {
-        address: {},
-        house: null,
-        apartmentNumber: null
-      })
-      this.$store.dispatch('checkoutPage/init')
     }
   }
 }
 </script>
 
 <style lang="scss" scoped>
-.modal {
-  width: auto;
-}
-
 .search-autocomplete {
   width: 100%;
 }
