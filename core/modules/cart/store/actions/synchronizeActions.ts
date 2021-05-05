@@ -62,7 +62,6 @@ const synchronizeActions = {
       }
       return p
     })
-    console.log(result, resultCode, serverItems, clientItems)
     if (resultCode === 200) {
       const diffLog = await dispatch('merge', {
         dryRun: false,
@@ -82,7 +81,7 @@ const synchronizeActions = {
     commit(types.CART_SET_SYNC)
     const { result, resultCode } = await CartService.getItems()
     const { serverItems, clientItems } = cartHooksExecutors.beforeSync({ clientItems: getCartItems, serverItems: result })
-    
+
     if (resultCode === 200) {
       const diffLog = await dispatch('mergeOnAddToCart', {
         dryRun,

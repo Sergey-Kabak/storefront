@@ -1,6 +1,6 @@
 <template>
   <div class="personal-data-wrapper">
-    <h2 class="account-page-title">{{ $t($route.name) }}</h2>
+    <h2 class="account-page-title">{{ $t('my-account') }}</h2>
     <div class="personal-data profile-item">
       <account-header
         :icon="AccountCorrectIcon"

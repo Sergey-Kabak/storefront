@@ -321,8 +321,8 @@ export default {
 }
 .product-image__thumb{
   max-width: 100%;
-  width: 506px!important;
-  height: 506px!important;
+  width: 506px;
+  height: 506px;
   object-fit: contain;
 }
 

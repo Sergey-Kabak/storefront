@@ -8,7 +8,6 @@ self.addEventListener("activate", event => {
         .then(keyList => {
           return Promise.all(
             keyList.map(key => {
-              console.log('delete ' + key)
               return caches.delete(key);
             })
           );

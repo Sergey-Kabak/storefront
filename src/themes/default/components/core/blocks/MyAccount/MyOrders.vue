@@ -1,6 +1,6 @@
 <template>
   <div class="orders-wrapper">
-    <h2 class="account-page-title">{{ $t($route.name) }}</h2>
+    <h2 class="account-page-title">{{ $t('my-orders') }}</h2>
     <div class="orders" v-if="ordersHistory.length">
       <div class="order" v-for="order in ordersHistory" :key="order.entity_id">
         <div class="order-body">
@@ -23,7 +23,7 @@
                 <product-image :image="image(product)" />
               </div>
             </div>
-            <router-link class="order-link" :to="'orders/' + order.entity_id">
+            <router-link class="order-link" :to="localizedRoute('orders/' + order.entity_id)">
               <button-full>{{ $t('Details') }}</button-full>
             </router-link>
           </div>
@@ -34,14 +34,14 @@
       <span class="orders-empty-title">{{ $t('you dont have orders yet') }} :(</span>
       <span class="orders-empty-description">
         {{ $t('make your') }} 
-        <router-link class="orders-empty-link" to="/">{{ $t('first purchase') }}</router-link>
+        <router-link class="orders-empty-link" :to="localizedRoute('/')">{{ $t('first purchase') }}</router-link>
         {{ $t('right now') }}
       </span>
       <div class="orders-empty-images">
         <span class="emoji">&#128071;</span>
         <span class="emoji">&#128064;</span>
       </div>
-      <router-link to="/">
+      <router-link :to="localizedRoute('/')">
         <button-full>
           {{ $t('start') }}
         </button-full>

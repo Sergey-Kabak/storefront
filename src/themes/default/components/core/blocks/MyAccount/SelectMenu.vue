@@ -46,7 +46,7 @@ export default {
   },
   methods: {
     onSelectChange(link) {
-      this.$router.push(link)
+      this.$router.push(localizedRoute(link))
     }
   }
 }

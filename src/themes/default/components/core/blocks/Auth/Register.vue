@@ -233,7 +233,7 @@ export default {
       }
     },
     onSuccess () {
-      this.$router.push('/account/personal-data')
+      this.$router.push(this.localizedRoute('/account/personal-data'))
       this.$store.dispatch('notification/spawnNotification', {
         type: 'success',
         message: this.$t('You are logged in!'),

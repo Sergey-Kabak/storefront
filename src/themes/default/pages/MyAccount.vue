@@ -16,7 +16,7 @@
           <nav class="account-menu">
             <ul class="account-menu-list">
               <li class="account-menu-item" v-for="(page, index) in navigation" :key="index">
-                <router-link :to="page.link" class="account-menu-link">
+                <router-link :to="localizedRoute(page.link)" class="account-menu-link">
                   <icon-base class="account-menu-icon"> 
                     <component :is="page.icon" />
                   </icon-base>

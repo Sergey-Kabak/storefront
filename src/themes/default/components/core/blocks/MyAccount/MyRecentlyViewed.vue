@@ -1,7 +1,7 @@
 <template>
   <div class="recently-viewed">
     <div class="recently-viewed-header">
-      <h2 class="account-page-title">{{ $t($route.name) }}</h2>
+      <h2 class="account-page-title">{{ $t('my-recently-viewed') }}</h2>
       <span class="recently-viewed-count" v-if="items && items.length">{{ $tc('{count} items', items.length) }}</span>
       <button-text
         class="remove-products"
@@ -22,7 +22,7 @@
         <span>&#127911;</span>
         <span>&#128421;</span>
       </div>
-      <router-link class="empty-link" to="/">
+      <router-link class="empty-link" :to="localizedRoute('/')">
         <button-full>{{ $t('find product') }}</button-full>
       </router-link>
     </div>

@@ -28,7 +28,7 @@ export default {
     }),
     availableShops () {
       return this.shops.filter(it => {
-        return this.getCurrentProduct && this.getCurrentProduct.msi_sources.some(store => store.source_code.includes(it.source_code) && store.salable_quantity)
+        return this.getCurrentProduct && this.getCurrentProduct.msi_sources && this.getCurrentProduct.msi_sources.some(store => store.source_code.includes(it.source_code) && store.salable_quantity)
       })
     }
   }

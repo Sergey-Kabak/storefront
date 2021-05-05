@@ -274,7 +274,7 @@ export default {
       const product = this.getCurrentProduct
       let page = val.meta.name || 'product page';
       this.GTM_PRODUCT_VIEW([product], page)
-      this.$store.dispatch('esputnik/triggerProductViewed', { product })
+      // this.$store.dispatch('esputnik/triggerProductViewed', { product })
       eS('sendEvent', 'ProductPage', {
         'ProductPage': {
           productKey: product.id,            
