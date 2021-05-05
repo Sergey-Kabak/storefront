@@ -9,7 +9,7 @@
               <button-full v-if="buttonVisible && ShopAvailability(shop, index).status === 'productsAvailable'" @click.native="selectShop(shop, false)">{{ $t("Pick up here") }}</button-full>
               <button-white v-if="buttonVisible && ShopAvailability(shop, index).status !== 'productsAvailable'" @click.native="selectShop(shop, true)">{{ $t('Details') }}</button-white>
             </div>
-            <div class="ShopAvailability">
+            <div v-if="showShopStatus" class="ShopAvailability">
               <source-status :status="ShopAvailability(shop, index).status" />
             </div>
           </template>
@@ -55,12 +55,23 @@ export default {
     this.$store.dispatch('checkoutPage/getShops', { city: this.city })
   },
   data: () => ({
-    activeTab: 'list'
+    activeTab: 'list',
+    showShopStatus: true
   }),
   computed: {
     ...mapState({
       city: (state) => state.ui.city,
-      shops: (state) => state.checkoutPage.shops
+      shops: function (state) {
+        if (this.$route.meta.name === 'product page') {
+          let sources = state.checkoutPage.shops.filter(shop => {
+            let source = state.product.current.msi_sources.find(p => p.source_code === shop.source_code)
+            this.showShopStatus = false
+            return source && source.salable_quantity > 0
+          })
+          return sources
+        }
+        return state.checkoutPage.shops
+      }
     }),
     ...mapGetters({
       productsInCart: 'cart/getCartItems'

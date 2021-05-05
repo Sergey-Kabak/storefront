@@ -277,7 +277,7 @@ export default {
       // this.$store.dispatch('esputnik/triggerProductViewed', { product })
       eS('sendEvent', 'ProductPage', {
         'ProductPage': {
-          productKey: product.id,            
+          productKey: product.id,
           price: product.original_final_price,
           isInStock: 1,
           currency: 'UAH',
