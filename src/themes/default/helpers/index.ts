@@ -50,12 +50,12 @@ export function ProductStock (product) {
   const status = {
     ComingSoon: (() => product.coming_soon)(),
     OutOfProduction: (() => product.discontinued)(),
-    InStock: (() => (product.stock.is_in_stock && product.msi_salable_quantity > 0 && !product.preorder && !product.coming_soon) || (isBackOrderEnabled && !product.preorder && !product.coming_soon))(),
     PendingDelivery: (() => {
       const isBackOrder = product.type_id !== 'bundle' && product.preorder && isBackOrderEnabled
       const isPreOrder = product.stock.is_in_stock && product.preorder
       return isBackOrder || isPreOrder || false
     })(),
+    InStock: (() => (product.stock.is_in_stock && product.msi_salable_quantity > 0) || isBackOrderEnabled)(),
     NotAvailable: (() => (!product.stock.is_in_stock || product.msi_salable_quantity <= 0) && !isOptions && isBackOrderDisabled)()
   }
   return Object.keys(status).find(s => !!status[s])

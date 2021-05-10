@@ -65,8 +65,8 @@ export const Search = {
               populateRequestCacheTags: false,
               prefetchGroupProducts: false
             },
-            includeFields: config.entities.productSearchList.includeFields,
-            excludeFIelds: config.entities.productSearchList.excludeFields
+            includeFields: config.entities.productList.includeFields,
+            excludeFIelds: config.entities.productList.excludeFields
           })
           const mergedProducts = products.map(it => {
             const product = items.find(item => item.sku === it.code) 

@@ -12,7 +12,6 @@
     </div>
     <div class="flex middle-xs actions product-item-btns-wrapper" v-if="!editMode">
       <remove-button class="mx5 product-item-btns" @click="removeItem" />
-      <!--      <edit-button class="mx5 product-item-btns" @click="openEditMode" v-if="productsAreReconfigurable && !editMode" />-->
     </div>
     <div class="blend">
       <div class="ml10">
@@ -60,12 +59,6 @@
                 </span>
               </div>
             </div>
-            <!--<div class="h6 pt5 cl-error" v-if="hasProductErrors">-->
-              <!--{{ product.errors | formatProductMessages }}-->
-            <!--</div>-->
-            <!--<div class="h6 pt5 cl-success" v-if="hasProductInfo && !hasProductErrors">-->
-              <!--{{ product.info | formatProductMessages }}-->
-            <!--</div>-->
           </div>
           <div class="flex mr10 align-right start-xs between-sm prices">
             <div class="prices">
@@ -77,9 +70,6 @@
                   @input="updateProductQty"
                   @error="handleQuantityError"
               />
-              <!--<span class="h4 serif price-special" v-if="product.totals.discount_amount">-->
-              <!--{{ product.totals.row_total - product.totals.discount_amount + product.totals.tax_amount }}-->
-            <!--</span>-->
             </div>
           </div>
         </div>
@@ -132,7 +122,6 @@ import config from 'config';
 import { currentStoreView } from '@vue-storefront/core/lib/multistore';
 import { formatProductLink } from '@vue-storefront/core/modules/url/helpers';
 import Product from '@vue-storefront/core/compatibility/components/blocks/Microcart/Product';
-
 import ProductQuantity from 'theme/components/core/ProductQuantityNew';
 import ProductImage from 'theme/components/core/ProductImage';
 import ColorSelector from 'theme/components/core/ColorSelector.vue';

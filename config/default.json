@@ -327,6 +327,8 @@
         "configurable_options",
         "rma",
         "preorder",
+        "discontinued",
+        "configurable_children.discontinued",
         "configurable_children.attributes",
         "configurable_children.id",
         "configurable_children.color",
@@ -370,9 +372,7 @@
         "attribute_set_id",
         "description",
         "sgn",
-        "*.sgn",
         "msrp_display_actual_price_type",
-        "*.msrp_display_actual_price_type",
         "required_options",
         "media_gallery",
         "stock.use_config_min_qty",
@@ -720,8 +720,8 @@
       "height": 744
     },
     "thumbnails": {
-      "width": 310,
-      "height": 300
+      "width": 192,
+      "height": 192
     },
     "filterAggregationSize": {
       "default": 100
