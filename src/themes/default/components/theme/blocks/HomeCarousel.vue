@@ -89,7 +89,7 @@ export default {
         window.open(product.banner_url, '_blank');
       } else {
         const url = new URL(product.banner_url)
-        this.$router.push(url.pathname + url.search)
+        this.$router.push(this.localizedRoute(url.pathname + url.search))
       }
     },
     formatLink(product) {
