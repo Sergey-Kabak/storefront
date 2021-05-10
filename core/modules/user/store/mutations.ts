@@ -46,6 +46,12 @@ const mutations: MutationTree<UserState> = {
         status
       })
     }
+  },
+  [types.USER_LOGIN] (state, { key, value }) {
+    state.login[key] = value
+  },
+  [types.USER_REGISTER] (state, { key, value }) {
+    state.register[key] = value
   }
 }
 

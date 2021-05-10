@@ -75,7 +75,7 @@ export default {
       if (!this.getHomePageBanners.banners) {
         return []
       }
-      return this.getHomePageBanners.banners.sort((a, b) => {
+      return this.getHomePageBanners.banners.slice().sort((a, b) => {
         return +a.position - +b.position
       })
     }
