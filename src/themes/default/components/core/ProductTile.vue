@@ -23,7 +23,7 @@
     <h2 :title="product.name" class="product-name" style="-webkit-line-clamp: 2; -webkit-box-orient: vertical; display: -webkit-box;" >{{ product.name | htmlDecode }}</h2>
     <div class="product-bottom">
       <product-cart-price :product="product" class="product-cart-price" />
-      <product-cart-controls :stockStatus="stockStatus" v-if="product.stock" :product="product" class="cart-default"/>
+      <product-cart-controls @click="navigate()" :stockStatus="stockStatus" v-if="product.stock" :product="product" class="cart-default"/>
     </div>
   </div>
 </template>
@@ -35,6 +35,7 @@ import AddToCompare from 'theme/components/core/blocks/Compare/AddToCompare';
 import ProductCartControls from 'theme/components/core/blocks/Product/ProductCartControls';
 import ProductCartPrice from 'theme/components/core/blocks/Product/ProductCartPrice';
 import GTM from 'theme/mixins/GTM/dataLayer'
+import { formatProductLink } from '@vue-storefront/core/modules/url/helpers';
 import { ProductTile } from '@vue-storefront/core/modules/catalog/components/ProductTile.ts';
 import { currentStoreView } from '@vue-storefront/core/lib/multistore';
 import { mapGetters } from 'vuex';
@@ -68,6 +69,9 @@ export default {
         loading: this.thumbnail
       }
     },
+    productLink () {
+      return formatProductLink(this.product, currentStoreView().storeCode)
+    },
     storeView () {
       return currentStoreView()
     }
@@ -80,6 +84,9 @@ export default {
       if (product.sku === this.product.sku) {
         Object.assign(this.product, product)
       }
+    },
+    navigate () {
+      this.$router.push(this.productLink)
     }
   },
   beforeMount () {

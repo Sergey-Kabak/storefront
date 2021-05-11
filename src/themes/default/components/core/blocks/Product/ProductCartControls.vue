@@ -1,15 +1,14 @@
 <template>
   <div class="product-card-bottom-options" v-if="getProductStockStatusIcon">
-    <router-link :to="productLink" class="ml-auto">
-      <button-full
-        data-testid="addToCart"
-        class="product-action"
-        :class="stockStatus"
-      >
-        <img v-if="isProductInCart && stockStatus === 'InStock'" src="/assets/product-statuses/in-busket.svg" alt="product-action">
-        <img v-else alt="product-action" :src="getProductStockStatusIcon">
-      </button-full>
-    </router-link>
+    <button-full
+      data-testid="addToCart"
+      class="product-action"
+      :class="stockStatus"
+      @click.native="$emit('click')"
+    >
+      <img v-if="isProductInCart && stockStatus === 'InStock'" src="/assets/product-statuses/in-busket.svg" alt="product-action">
+      <img v-else alt="product-action" :src="getProductStockStatusIcon">
+    </button-full>
   </div>
 </template>
 

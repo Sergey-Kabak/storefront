@@ -31,7 +31,7 @@
       </div>
       <div class="product-bottom">
         <product-cart-price class="product-price" :product="product" :nameVisibility="false" />
-        <product-cart-controls v-if="isShowButtons" :stockStatus="stockStatus" :product="product" class="cart-default"/>
+        <product-cart-controls @click="navigate()" v-if="isShowButtons" :stockStatus="stockStatus" :product="product" class="cart-default"/>
       </div>
     </div>
   </li>
@@ -96,6 +96,9 @@ export default {
   methods: {
     gtm () {
       this.GTM_PRODUCT_CLICK([this.product], this.gtmList)
+    },
+    navigate() {
+      this.$router.push(this.productLink)
     },
     closeSearchPanel (){
       this.$store.commit('ui/setSidebar', false)

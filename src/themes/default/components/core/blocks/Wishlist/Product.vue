@@ -36,7 +36,7 @@
       <div class="product-bottom">
         <product-cart-price :product="product" :nameVisibility="false" class="product-prices" />
         <div class="product-actions" >
-          <product-cart-controls @click.native="closeWishlist" :product="product" :stockStatus="stockStatus" class="cart-wishlist" />
+          <product-cart-controls @click="addToCart(product)" :product="product" :stockStatus="stockStatus" class="cart-wishlist" />
         </div>
       </div>
     </div>
@@ -103,13 +103,18 @@ export default {
       }, { root: true })
     },
     async addToCart (product) {
-      try {
-        const diffLog = await this.$store.dispatch('cart/addItem', { productToAdd: product })
-        diffLog.clientNotifications.forEach(notificationData => {
-          this.notifyUser(notificationData)
-        })
-      } catch (message) {
-        this.notifyUser(notifications.createNotification({ type: 'error', message }))
+      if (this.stockStatus === 'InStock') {
+        try {
+          const diffLog = await this.$store.dispatch('cart/addItem', { productToAdd: product })
+          diffLog.clientNotifications.forEach(notificationData => {
+            this.notifyUser(notificationData)
+          })
+        } catch (message) {
+          this.notifyUser(notifications.createNotification({ type: 'error', message }))
+        }
+      } else {
+        this.closeWishlist()
+        this.$router.push(this.productLink)
       }
     },
     notifyUser (notificationData) {

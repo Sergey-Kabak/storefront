@@ -28,15 +28,7 @@
       <h2 :title="product.name" class="product-name" style="-webkit-line-clamp: 2; -webkit-box-orient: vertical; display: -webkit-box;" >{{ product.name | htmlDecode }}</h2>
       <div class="product-bottom">
         <product-cart-price :product="product" />
-        <product-cart-controls
-          v-if="product.stock"
-          :product="product"
-          :stockStatus="stockStatus"
-          class="product-cart-controls">
-          <template v-slot:wishlist>
-            <AddToWishlist class="not-mobile product__icon" :product="product"></AddToWishlist>
-          </template>
-        </product-cart-controls>
+        <product-cart-controls @click="navigate()" v-if="product.stock" :product="product" :stockStatus="stockStatus" class="product-cart-controls" />
       </div>
     </div>
   </div>
@@ -56,6 +48,7 @@ import { currentStoreView } from '@vue-storefront/core/lib/multistore';
 import ButtonFull from 'theme/components/theme/ButtonFull.vue';
 import Tag from 'theme/components/core/Tag';
 import { mapGetters } from 'vuex';
+import { formatProductLink } from '@vue-storefront/core/modules/url/helpers';
 import ProductCartMixin from '../../../../mixins/ProductCartMixin';
 import ProductCartControls from '../Product/ProductCartControls';
 import ProductCartPrice from '../Product/ProductCartPrice';
@@ -104,14 +97,14 @@ export default {
     },
     stockStatus () {
       return ProductStock(this.product)
+    },
+    productLink () {
+      return formatProductLink(this.product, currentStoreView().storeCode)
     }
   },
   methods: {
     gtm () {
       this.GTM_PRODUCT_CLICK([this.product], 'compare page')
-    },
-    toProduct () {
-      this.$router.push(this.productLink)
     },
     onProductPriceUpdate (product) {
       if (product.sku === this.product.sku) {
@@ -141,6 +134,9 @@ export default {
     },
     removeProductFromCompare() {
       this.$store.dispatch('compare/removeItem', this.product);
+    },
+    navigate() {
+      this.$router.push(this.productLink)
     }
   },
   beforeMount () {
