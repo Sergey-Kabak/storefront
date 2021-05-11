@@ -118,6 +118,7 @@ export default {
       }
     },
     onSuccess () {
+      this.$store.commit('user/' + types.USER_RESET_LOGIN)
       this.$router.push(this.localizedRoute('/account/personal-data'))
       this.$store.dispatch('notification/spawnNotification', {
         type: 'success',

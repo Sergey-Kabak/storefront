@@ -50,9 +50,26 @@ const mutations: MutationTree<UserState> = {
   [types.USER_LOGIN] (state, { key, value }) {
     state.login[key] = value
   },
+  [types.USER_RESET_LOGIN] (state) {
+    state.login = {
+      email: null,
+      password: null,
+      remember: false
+    }
+  },
   [types.USER_REGISTER] (state, { key, value }) {
     state.register[key] = value
-  }
+  },
+  [types.USER_RESET_REGISTER] (state) {
+    state.register = {
+      firstName: null,
+      lastName: null,
+      email: null,
+      telephone: null,
+      password: null,
+      rPassword: null
+    }
+  },
 }
 
 export default mutations
