@@ -175,11 +175,9 @@ import {
   alphaNum
 } from 'vuelidate/lib/validators';
 import { mask } from 'vue-the-mask'
+import { isPhone, lettersOnly } from 'theme/helpers/regular-expressions'
 import { mapState } from 'vuex';
 import * as types from '@vue-storefront/core/modules/user/store/mutation-types';
-
-const lettersOnly = value => (/^[А-Яа-яЁёЇїІіЄєҐґ]?[А-Яа-яЁёЇїІіЄєҐґ\'\-]+[А-Яа-яЁёЇїІіЄєҐґ]+$/.test(value));
-const isPhone = value => value ? /\+38\(\d{3}\)\d{3}\-\d{2}\-\d{2}$/.test(value) : !value
 
 export default {
   validations: {
