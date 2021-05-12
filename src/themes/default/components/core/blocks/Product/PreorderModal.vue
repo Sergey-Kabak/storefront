@@ -81,7 +81,7 @@
 </template>
 
 <script>
-import { required, minLength, email } from 'vuelidate/lib/validators'
+import { required, minLength, email, requiredIf } from 'vuelidate/lib/validators'
 import Modal from 'theme/components/core/Modal.vue'
 import BaseInput from 'theme/components/core/blocks/Form/BaseInput'
 import BaseTextarea from 'theme/components/core/blocks/Form/BaseTextarea'
@@ -107,11 +107,15 @@ export default {
         minLength: minLength(2)
       },
       phoneNumber: {
-        required,
+        required: requiredIf(function() {
+          return !this.preorderData.email
+        }),
         isPhone
       },
       email: {
-        required,
+        required: requiredIf(function() {
+          return !this.preorderData.phoneNumber
+        }),
         email
       }
     }
@@ -132,13 +136,18 @@ export default {
       user: state => state.user.current
     })
   },
-  mounted () {
-    const phoneNumber = this.user && this.user.custom_attributes && this.user.custom_attributes.find(it => it.attribute_code === 'telephone')
-    this.preorderData = {
-      ...this.preorderData,
-      name: this.user && this.user.firstname,
-      email: this.user && this.user.email,
-      phoneNumber: phoneNumber && phoneNumber.value 
+  watch: {
+    user: {
+      deep: true,
+      handler() {
+        const phoneNumber = this.user && this.user.custom_attributes && this.user.custom_attributes.find(it => it.attribute_code === 'telephone')
+        this.preorderData = {
+          ...this.preorderData,
+          name: this.user && this.user.firstname,
+          email: this.user && this.user.email,
+          phoneNumber: phoneNumber && phoneNumber.value 
+        }
+      }
     }
   },
   methods: {
@@ -161,7 +170,6 @@ export default {
             action1: { label: this.$t('OK') }
           })
         }
-        console.log(resp)
       }
     }
   }
