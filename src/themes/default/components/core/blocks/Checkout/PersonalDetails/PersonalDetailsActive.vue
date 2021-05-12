@@ -137,14 +137,7 @@ import ButtonFull from 'theme/components/theme/ButtonFull';
 import BaseCheckbox from 'theme/components/core/blocks/Form/BaseCheckbox';
 import BaseInput from 'theme/components/core/blocks/Form/BaseInput';
 import { mask } from 'vue-the-mask'
-
-const lettersOnly = value => (
-  /^[А-Яа-яЁёЇїІіЄєҐґ]?[А-Яа-яЁёЇїІіЄєҐґ\'\-]+[А-Яа-яЁёЇїІіЄєҐґ]+$/.test(value)
-);
-
-const isPhone = value => (
-  /\+38\(\d{3}\)\d{3}\-\d{2}\-\d{2}$/.test(value)
-)
+import { isPhone, lettersOnly } from 'theme/helpers/regular-expressions'
 
 export default {
   components: {

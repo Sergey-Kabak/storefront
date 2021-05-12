@@ -326,6 +326,24 @@ const actions: ActionTree<ProductState, RootState> = {
 
     return { ...selectedVariant, options, product_option }
   },
+  async preorder (context, preorderData = {}) {
+    if (!preorderData) {
+      throw new Error('Preorder data doesn\'t exist')
+    }
+
+    if (!preorderData.id) {
+      throw new Error('Product doesn\'t have id')
+    }
+
+    const resp = await ProductService.preorder({
+      name: preorderData.name,
+      email: preorderData.email,
+      phone_number: preorderData.phoneNumber,
+      product_id: preorderData.id
+    })
+
+    return resp
+  },
   /** Below actions are not used from 1.12 and can be removed to reduce bundle */
   ...require('./deprecatedActions').default
 }

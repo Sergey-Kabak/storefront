@@ -2,10 +2,6 @@
   <div class="relative">
     <div class="relative">
       <textarea
-        class="
-          mt10 pb10 w-100 border-box brdr-none brdr-bottom-1
-          brdr-cl-primary h4 sans-serif
-        "
         :class="{empty: value === ''}"
         :type="type"
         :name="name"
@@ -89,47 +85,47 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  @import '~theme/css/variables/colors';
-  @import '~theme/css/helpers/functions/color';
+textarea {
+  width: 100%;
+  padding: 12px 16px;
+  border: 1px solid #E0E0E0;
+  resize: none;
+  background: inherit;
+  color: #1A1919;
+  line-height: 16px;
+  min-height: 100px;
+  font-family: DIN Pro;
+  font-size: 14px;
 
-  $color-tertiary: color(tertiary);
-  $color-black: color(black);
-  $color-puerto-rico: color(puerto-rico);
-  $color-hover: color(tertiary, $colors-background);
-
-  textarea {
-    &:hover,
-    &:focus {
-      outline: none;
-      border-color: $color-puerto-rico;
-    }
-    resize: none;
-    background: inherit;
-    min-height: 100px;
+  &:hover {
+    outline: none;
   }
 
-  label {
-    color: #999;
-    position: absolute;
-    pointer-events: none;
-    left: 0;
-    top: 10px;
-    transition: 0.2s ease all;
+  &:focus {
+    outline: none;
+    border-color: #23BE20
   }
+}
 
-  textarea:focus ~ label,
-  textarea:not(.empty) ~ label {
-    top: -10px;
-    font-size: 14px;
-    color: $color-puerto-rico;
-  }
+label {
+  font-family: 'DIN Pro';
+  font-size: 14px;
+  line-height: 16px;
+  color: #9f9e9e;
+  background-color: #fff;
+  position: absolute;
+  pointer-events: none;
+  left: 15px;
+  top: 10px;
+  transition: 0.2s ease all;
+}
 
-  .icon {
-    right: 6px;
-    top: 10px;
-    &:hover,
-    &:focus {
-      color: $color-hover;
-    }
-  }
+textarea:focus ~ label,
+textarea:not(.empty) ~ label {
+  top: -10px;
+  left: 15px;
+  font-size: 14px;
+  color: #23BE20;
+  padding: 0 5px;
+}
 </style>
