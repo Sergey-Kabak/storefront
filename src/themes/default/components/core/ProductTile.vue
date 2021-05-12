@@ -1,5 +1,6 @@
 <template>
   <div @click="gtm" class="product" :class="stockStatus">
+    <img v-if="product.promo_icon" :class="{'undiscounted': !product.special_price}" :src="getThumbnail(product.promo_icon, 56, 56)" alt="promo-icon" class="product-promo-icon">
     <div class="product-actions">
       <AddToWishlist :product="product" class="product-icon" />
       <AddToCompare :product="product" class="product-icon" />
@@ -115,6 +116,18 @@ export default {
     .product-bottom {
       opacity: .5;
     }
+  }
+}
+
+.product-promo-icon {
+  max-width: 56px;
+  max-height: 56px;
+  position: absolute;
+  top: 48px;
+  left: 16px;
+
+  &.undiscounted {
+    top: 16px;
   }
 }
 

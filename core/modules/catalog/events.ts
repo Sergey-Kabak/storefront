@@ -50,6 +50,7 @@ export const filterChangedProduct = async (filterOption, store, router) => {
       store.getters['product/getCurrentProduct'],
       {
         discontinued: 0,
+        promo_icon: null,
         coming_soon: 0,
         preorder: 0
       },
