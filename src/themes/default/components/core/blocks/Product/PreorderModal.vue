@@ -70,7 +70,7 @@
         ]"
       />
       <base-textarea 
-        class="preorder-input"
+        class="preorder-input base-input"
         type="text"
         v-model="preorderData.comment"
         :placeholder="$t('comment')"
