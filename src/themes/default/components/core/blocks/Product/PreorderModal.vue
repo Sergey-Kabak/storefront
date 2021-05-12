@@ -200,7 +200,7 @@ export default {
   padding: 24px;
 }
 
-.preorder-input {
+.base-input.preorder-input {
   max-width: 100%;
   margin-bottom: 20px;
 
