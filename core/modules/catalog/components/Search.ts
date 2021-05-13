@@ -7,8 +7,6 @@ import { Logger } from '@vue-storefront/core/lib/logger'
 import { debounce } from 'debounce'
 import config from 'config'
 import GTM from 'theme/mixins/GTM/dataLayer'
-import { SearchService } from 'theme/services/SearchService'
-import { SearchQuery } from 'storefront-query-builder'
 
 export const Search = {
   name: 'SearchPanel',
@@ -16,9 +14,13 @@ export const Search = {
   data () {
     return {
       products: [],
-      categories: [],
       search: '',
-      emptyResults: false
+      size: 18,
+      start: 0,
+      placeholder: i18n.t('Type what you are looking for...'),
+      emptyResults: false,
+      readMore: true,
+      componentLoaded: false
     }
   },
   computed: {
@@ -48,15 +50,12 @@ export const Search = {
     },
     makeSearch: debounce(async function () {
       localStorage.setItem(`shop/user/searchQuery`, this.search ? this.search : '');
-      if (this.search && this.search.trim()) {
-        let query = new SearchQuery()
+      if (this.search !== '' && this.search !== undefined) {
+        let query = this.buildSearchQuery(this.search)
         let startValue = 0;
         this.start = startValue
+        this.readMore = true
         try {
-          const { products, categories } = await SearchService.getProducts({ SearchQuery: this.search })
-          const skus = products.map(it => it.code)
-          query.applyFilter({ key: 'sku', value: { 'in': skus } })
-  
           const { items } = await this.$store.dispatch('product/findProducts', {
             query,
             start: this.start,
@@ -65,25 +64,21 @@ export const Search = {
               populateRequestCacheTags: false,
               prefetchGroupProducts: false
             },
-            includeFields: config.entities.productList.includeFields,
+            includeFields: [...config.entities.productList.includeFields, 'category_ids', 'category'],
             excludeFIelds: config.entities.productList.excludeFields
           })
-          const mergedProducts = products.map(it => {
-            const product = items.find(item => item.sku === it.code) 
-            return { ...it, ...product }
-          })
-          this.products = mergedProducts
-          this.categories = categories.slice(0, 6)
+          this.products = items
+          this.start = startValue + this.size
           this.emptyResults = items.length < 1
           if (this.emptyResults && !this.recommend.products.length) {
             this.loadRecommends()
           }
+          await this.GTM_PRODUCT_IMPRESSION(this.products, 'search results', this.$store.getters['custom-attr/getFilter'])
         } catch (err) {
           Logger.error(err, 'components-search')()
         }
       } else {
         this.products = []
-        this.categories = []
         this.emptyResults = 0
       }
     }, 300),
@@ -91,16 +86,26 @@ export const Search = {
       this.$store.dispatch('search/getRecommends', start)
     },
     async seeMore () {
-      if (this.search && this.search.trim()) {
+      if (this.search !== '' && this.search !== undefined) {
         let query = this.buildSearchQuery(this.search)
+        let startValue = this.start;
         try {
           const { items, total, start } = await this.$store.dispatch('product/findProducts', {
             query,
+            start: startValue,
+            size: this.size,
             options: {
               populateRequestCacheTags: false,
               prefetchGroupProducts: false
             }
           })
+          let page = Math.floor(total / this.size)
+          let exceeed = total - this.size * page
+          if (start === total - exceeed) {
+            this.readMore = false
+          }
+          this.products = this.products.concat(items)
+          this.start = startValue + this.size
           this.emptyResults = this.products.length < 1
         } catch (err) {
           Logger.error(err, 'components-search')()
