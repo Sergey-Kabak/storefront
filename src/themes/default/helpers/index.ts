@@ -45,14 +45,12 @@ export function price(product, priceType = null) {
 
 export function ProductStock (product) {
   const isBackOrderEnabled = product.stock.is_in_stock && product.stock.backorders;
-  const isBackOrderDisabled = typeof product.stock.backorders === 'undefined' || product.stock.backorders === 0 || !product.stock.is_in_stock
-  const isOptions = product.preorder && product.coming_soon
   const status = {
     ComingSoon: (() => product.coming_soon)(),
     OutOfProduction: (() => product.discontinued)(),
     PendingDelivery: (() => product.preorder)(),
     InStock: (() => (product.stock.is_in_stock && product.msi_salable_quantity > 0) || isBackOrderEnabled)(),
-    NotAvailable: (() => (!product.stock.is_in_stock || product.msi_salable_quantity <= 0) && !isOptions && isBackOrderDisabled)()
+    NotAvailable: (() => (!product.stock.is_in_stock || !product.msi_salable_quantity || product.msi_salable_quantity <= 0))()
   }
   return Object.keys(status).find(s => !!status[s])
 }
