@@ -45,6 +45,9 @@ export default {
     'nova_poshta_to_warehouse': NewPostShipping,
     'justin_to_department': JustinShipping
   },
+  beforeMount () {
+    this.$bus.$on('shopSelected', data => data === true && this.selectShipping())
+  },
   computed: {
     ...mapState({
       selectedShipping: (state) => state.checkoutPage.selectedShipping,

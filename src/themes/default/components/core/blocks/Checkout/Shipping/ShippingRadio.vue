@@ -5,9 +5,9 @@
     <div class="shipping-info">
       <div class="info">
         <span class="shipping-name">{{ $t(shipping.method_code) }}</span>
-        <span class="shop-count" v-if="shipping.method_code === 'freeshipping'">{{ $tc('Available in {count} shops', totalShops) }}</span>
-        <span class="shipping-description" v-if="shipping.method_code !== 'freeshipping'">{{ $t("Will send today") }}</span>
-        <span class="shipping-description" v-else>{{ $t("Pick up today") }}</span>
+<!--        <span class="shop-count" v-if="shipping.method_code === 'freeshipping'">{{ $tc('Available in {count} shops', totalShops) }}</span>-->
+<!--        <span class="shipping-description" v-if="shipping.method_code !== 'freeshipping'">{{ $t("Will send today") }}</span>-->
+<!--        <span class="shipping-description" v-else>{{ $t("Pick up today") }}</span>-->
       </div>
       <div class="price">
         <div class="shipping-price">

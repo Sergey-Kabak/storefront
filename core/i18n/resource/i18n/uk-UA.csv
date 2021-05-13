@@ -3,7 +3,7 @@
 "Unhandled error, wrong response format!","Необроблена помилка, невірний формат відповіді!"
 404 Page Not Found,Помилка 404 сторінка не знайдена
 Account data has successfully been updated,Дані облікового запису успішно оновлені
-Adding a review ...,Залишити 
+Adding a review ...,Залишити
 Are you sure you would like to remove this item from the shopping cart?,"Ви впевнені, що хочете видалити цей товар з кошика?"
 Checkout,Оформити замовлення
 Compare Products,Порівняти товари
@@ -42,3 +42,6 @@ You need to be logged in to see this page,Увійдіть в систему д�
 You submitted your review for moderation,Дякуємо за ваш відгук. Після перевірки модератором він буде опублікований
 You're logged out,Ви вийшли з облікового запису
 is out of stock!,немає у наявності
+productsNotAvailable, Немає в наявності
+productsPartialAvailability, Частково в наявності
+productsAvailable, Всі товари в наявності

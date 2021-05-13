@@ -6,7 +6,11 @@
         <shop v-for="(shop, index) in shops" :key="shop.id" :shop="shop" :index="index" class="shop">
           <template v-slot:shop-actions>
             <div class="shop-actions">
-              <button-full v-if="buttonVisible" @click.native="selectShop(shop)">{{ $t("Pick up here") }}</button-full>
+              <button-full v-if="buttonVisible && ShopAvailability(shop, index).status === 'productsAvailable'" @click.native="selectShop(shop, false)">{{ $t("Pick up here") }}</button-full>
+              <button-white v-if="buttonVisible && ShopAvailability(shop, index).status !== 'productsAvailable'" @click.native="selectShop(shop, true)">{{ $t('Details') }}</button-white>
+            </div>
+            <div v-if="showShopStatus" class="ShopAvailability">
+              <source-status :status="ShopAvailability(shop, index).status" />
             </div>
           </template>
         </shop>
@@ -20,23 +24,21 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { mapGetters, mapState } from 'vuex';
 import Shop from 'theme/components/core/blocks/Shop/Shop.vue'
 import ShopControls from 'theme/components/core/blocks/Checkout/Shipping/ShopShipping/ShopControls.vue'
 import ShopMobile from 'theme/components/core/blocks/Checkout/Shipping/ShopShipping/ShopMobile.vue'
 import ShopMap from 'theme/components/core/blocks/Checkout/Shipping/ShopShipping/ShopMap.vue'
 import ButtonFull from 'theme/components/theme/ButtonFull'
 import ShopTitle from 'theme/components/core/blocks/Shop/ShopTitle.vue'
+import SourceStatus from './SourceStatus';
+import ButtonWhite from '../../../Product/ButtonWhite';
 
 export default {
   props: {
     buttonVisible: {
       type: Boolean,
       default: () => true
-    },
-    shops: {
-      type: Array,
-      default: () => []
     }
   },
   components: {
@@ -45,26 +47,87 @@ export default {
     ShopControls,
     ButtonFull,
     ShopTitle,
-    ShopMobile
+    ShopMobile,
+    SourceStatus,
+    ButtonWhite
   },
-  beforeMount() {
+  beforeMount () {
     this.$store.dispatch('checkoutPage/getShops', { city: this.city })
   },
   data: () => ({
-    activeTab: 'list'
+    activeTab: 'list',
+    showShopStatus: true
   }),
   computed: {
     ...mapState({
-      city: (state) => state.ui.city
+      city: (state) => state.ui.city,
+      shops: function (state) {
+        if (this.$route.meta.name === 'product page') {
+          let sources = state.checkoutPage.shops.filter(shop => {
+            let source = state.product.current.msi_sources.find(p => p.source_code === shop.source_code)
+            this.showShopStatus = false
+            return source && source.salable_quantity > 0
+          })
+          return sources
+        }
+        return state.checkoutPage.shops
+      }
+    }),
+    ...mapGetters({
+      productsInCart: 'cart/getCartItems'
     })
   },
   methods: {
-    changeActiveTab(activeTab) {
+    getSourceStatus (status) {
+      if (!!status.available && status.partial_available === 0 && status.not_available === 0) {
+        return 'productsAvailable'
+      } else if ((!!status.available && !!status.not_available) || !!status.partial_available) {
+        return 'productsPartialAvailability'
+      } else {
+        return 'productsNotAvailable'
+      }
+    },
+    checkSource (product, shop) {
+      if (product.msi_sources && product.msi_sources.find(source => source.source_code === shop.source_code)) {
+        return product.msi_sources.find(source => source.source_code === shop.source_code)
+      } return null
+    },
+    ShopAvailability (shop, index) {
+      // shop
+      let productsInShop = JSON.stringify(this.productsInCart)
+      productsInShop = JSON.parse(productsInShop).map(product => {
+        return {
+          sku: product.sku,
+          qty: product.qty,
+          msi_source: this.checkSource(product, shop)
+        }
+      })
+      let status = {
+        available: 0,
+        partial_available: 0,
+        not_available: 0
+      }
+      productsInShop.forEach(p => {
+        if (p.msi_source && p.qty <= p.msi_source.salable_quantity) {
+          status.available += 1
+        } else if (p.msi_source && p.qty > p.msi_source.salable_quantity && p.msi_source.salable_quantity > 0) {
+          status.partial_available += 1
+        } else {
+          status.not_available += 1
+        }
+      })
+      shop.products = productsInShop
+      return {
+        status: this.getSourceStatus(status),
+        products: productsInShop
+      }
+    },
+    changeActiveTab (activeTab) {
       this.activeTab = activeTab
     },
-    selectShop(shop) {
+    selectShop (shop, showModal) {
       this.$store.commit('checkoutPage/SET_SELECTED_SHOP', shop)
-      this.$emit('onSelectShipping')
+      showModal ? this.$bus.$emit('modal-show', 'modal-msi') : this.$emit('onSelectShipping')
     },
     activateShopOnMap(shop) {
       this.$store.commit('shop/SET_SELECTED_SHOP', shop)
@@ -87,6 +150,7 @@ export default {
 }
 
 .shop {
+  position: relative;
   display: grid;
   grid-template-columns: 1fr 1fr;
   border-bottom: 1px solid #E0E0E0;

@@ -966,6 +966,13 @@ Navy,Темно-синий
 Turquoise,Бирюзовый
 Light purple,Светло-пурпурный
 Violet,Фиолетовий
+productsNotAvailable, Нет в наличии
+productsPartialAvailability, Частичное наличие
+productsAvailable, Все товары в наличии
+items from,шт. из
+Remaining item will arrive in 3 days,Оставшийся товар будет доставлен через 3 дня
+Only {product} product out of {products} are available for pickup from this store!, {product} товаров из {products} доступны для самовывоза из этого магазина! | Только {product} товар из {products} доступны для самовывоза из этого магазина! | Только {product} товара из {products} доступны для самовывоза из этого магазина! | Только {product} товаров из {products} доступны для самовывоза из этого магазина!
+Availability of goods in the store,Наличие товаров в магазине
 I will be the first,Буду первый
 To order,Заказать
 Send,Отправить
