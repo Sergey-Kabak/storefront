@@ -1,9 +1,7 @@
 <template>
   <div>
-    <div v-for="(group, key) in data[active]" :key="key">
-      {{key}}
-      <hr>
-      <compare-group :group="group" :product="products[key]"/>
+    <div v-for="(group, key) in data" :key="key">
+      <compare-group :group="group" :name="key" :products="products"/>
     </div>
   </div>
 </template>
