@@ -15,6 +15,7 @@ const actions: ActionTree<CheckoutState, RootState> = {
         await dispatch('dropPassword')
       }
     } catch (e) {
+      dispatch('cart/connect', { guestCart: false }, { root: true })
       Logger.error(e, 'checkout')()
     }
   },
