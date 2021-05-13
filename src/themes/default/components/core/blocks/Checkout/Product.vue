@@ -128,6 +128,12 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+::v-deep {
+  .main-price {
+    margin-bottom: 8px;
+  }
+}
+
 .product-wrap {
   margin-bottom: 16px;
   border: 1px solid #E0E0E0;
@@ -154,21 +160,6 @@ export default {
   margin-left: auto;
   max-width: 205px;
   width: 100%;
-}
-
-.price-sale {
-  margin-top: 4px;
-  font-family: DIN Pro;
-  font-style: normal;
-  font-weight: 700;
-  font-size: 11px;
-  line-height: 16px;
-  text-transform: uppercase;
-  color: #FFFFFF;
-  background: #EE2C39;
-  border-radius: 30px;
-  padding: 1px 7px;
-  margin-left: 10px;
 }
 
 .product-remove {
@@ -264,7 +255,7 @@ img {
 
 .product-info-bottom {
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   justify-content: flex-start;
   grid-area: bottom-info;
 }
@@ -342,7 +333,22 @@ img {
 }
 
 @media (max-width: 768px) {
+  ::v-deep {
+    .product-price-wrapper {
+      .price-special {
+        font-size: 18px;
+        line-height: 20px;
+      }
+
+      .price-original {
+        font-size: 12px;
+        line-height: 12px;
+      }
+    }
+  }
+
   .product {
+    grid-row-gap: 4px;
     grid-template-areas:
       "image top-info actions"
       "bottom-info bottom-info bottom-info";

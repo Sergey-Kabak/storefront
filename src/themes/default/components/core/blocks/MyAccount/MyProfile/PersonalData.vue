@@ -141,11 +141,7 @@ import { required, minLength, email } from 'vuelidate/lib/validators'
 import { mapState } from 'vuex';
 import cloneDeep from 'lodash-es/cloneDeep'
 import { mask } from 'vue-the-mask'
-
-
-const lettersOnly = value => value ? /^[А-Яа-яЁёЇїІіЄєҐґ]?[А-Яа-яЁёЇїІіЄєҐґ\'\-]+[А-Яа-яЁёЇїІіЄєҐґ]+$/.test(value) : !value
-  
-const isPhone = value => value ? /\+38\(\d{3}\)\d{3}\-\d{2}\-\d{2}$/.test(value) : !value
+import { isPhone, lettersOnly } from 'theme/helpers/regular-expressions'
 
 export default {
   components: {

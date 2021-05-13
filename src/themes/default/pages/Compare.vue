@@ -694,7 +694,6 @@ $screen-l: 1170px;
   @media (max-width: 767px) {
     padding-top: 16px;
   }
-  min-height: 205px;
   flex: 1;
 }
 
@@ -943,7 +942,6 @@ $screen-l: 1170px;
     width: 100%;
     text-align: center;
     transition: height 0.3s;
-    cursor: pointer;
     background: #fff;
     //overflow: hidden;
     display: flex;

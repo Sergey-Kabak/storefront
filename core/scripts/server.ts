@@ -8,7 +8,11 @@ const rootPath = require('app-root-path').path
 const resolve = file => path.resolve(rootPath, file)
 const serverExtensions = glob.sync('src/modules/*/server.{ts,js}')
 const configProviders: Function[] = []
+<<<<<<< HEAD
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0"
+=======
+
+>>>>>>> dev
 serverExtensions.map(serverModule => {
   const module = require(resolve(serverModule))
   if (module.configProvider && typeof module.configProvider === 'function') {
