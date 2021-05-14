@@ -39,9 +39,6 @@ export default {
       type: Array,
       required: true
     }
-  },
-  mounted() {
-    console.log(this.group);
   }
 }
 </script>

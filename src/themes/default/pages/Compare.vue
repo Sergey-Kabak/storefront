@@ -13,26 +13,7 @@
         </div>
         <div class="col-12">
           <div class="products-wrapper">
-            <div class="compare-nav">
-              <div class="compare-nav__text font weight-400">
-                {{ $tc(`added {count} items`, getCompareItems.length) }}
-              </div>
-              <div class="compare-nav__link font">{{ $t('add more to compare') }}</div>
-              <div class="compare-nav__text font underline">
-                {{ $t('Remove all') }}
-              </div>
-              <div class="compare-nav__buttons">
-                <span>{{ $t('indicate') }}</span>
-                <div class="buttons-group">
-                  <button :class="{'active' : !isDifference}" type="button" :aria-label="$t('All parameters')">
-                    {{ $t('All parameters') }}
-                  </button>
-                  <button :class="{'active' : isDifference}" type="button" :aria-label="$t('Differences')">
-                    {{ $t('Differences') }}
-                  </button>
-                </div>
-              </div>
-            </div>
+            <compare-nav @difference="eventHandler"/>
             <div class="products-nav">
               <div class="flex products-category">
                 <template v-for="(products, category) in ProductsByCategory">
@@ -48,7 +29,9 @@
               </div>
             </div>
           </div>
-          <compare-grid :data="GroupsByActiveCategory" :active="activeCategory" :products="ProductsByCategory[activeCategory]" />
+          <compare-grid
+            :data="Specifications"
+            :products="ProductsByCategory[activeCategory]" />
         </div>
       </div>
     </div>
@@ -60,6 +43,7 @@ import Breadcrumbs from '../components/core/Breadcrumbs';
 import MobileBreadcrumbs from '../components/core/MobileBreadcrumbs.vue';
 import CompareProductTile from '../components/core/blocks/Compare/CompareProductTile';
 import CompareGrid from '../components/core/blocks/Compare/CompareGrid';
+import CompareNav from '../components/core/blocks/Compare/CompareNav';
 import { mapGetters, mapState } from 'vuex';
 
 export default {
@@ -67,7 +51,8 @@ export default {
     Breadcrumbs,
     MobileBreadcrumbs,
     CompareProductTile,
-    CompareGrid
+    CompareGrid,
+    CompareNav
   },
   data () {
     return {
@@ -109,9 +94,15 @@ export default {
     },
     GroupsByActiveCategory () {
       return this.findGroupAndAttrs(this.ProductsByCategory[this.activeCategory])
+    },
+    Specifications () {
+      return this.isDifference ? this.GroupsByActiveCategory.uniqAttrsInCategories : this.GroupsByActiveCategory.attrsInCategories
     }
   },
   methods: {
+    eventHandler (val) {
+      this.isDifference = val
+    },
     onlyUnique (value, index, self) {
       return self.indexOf(value) === index;
     },
@@ -129,7 +120,7 @@ export default {
             let label = ''
             let productAttrs = []
             products.forEach(product => {
-              let condition = product.attributes_metadata.find(a => a.attribute_code === attr && a.is_visible_on_front && a.options)
+              let condition = product.attributes_metadata.find(a => a.attribute_code === attr && a.is_visible_on_front && a.options && a.options.length)
               if (condition && condition.default_frontend_label) {
                 label = condition.default_frontend_label;
                 productAttrs.push(condition)
@@ -143,17 +134,41 @@ export default {
           })
         }
       })
-      for (let k in attrsInCategories) {
-        if (!Object.keys(attrsInCategories[k]).length) {
-          delete attrsInCategories[k]
+
+      return {
+        attrsInCategories: this.removeEmptyGroups(attrsInCategories),
+        uniqAttrsInCategories: this.getUniqGroups(attrsInCategories)
+      }
+    },
+    removeEmptyGroups (groups) {
+      for (let k in groups) {
+        if (!Object.keys(groups[k]).length) {
+          delete groups[k]
         }
       }
-      console.log(attrsInCategories);
-      return attrsInCategories
+      return groups
+    },
+    compareAttributes (attrs) {
+      const allItemsHasObject = attrs.every(attr => attr !== null && attr.options && attr.options.length)
+      if (allItemsHasObject) {
+        let label = attrs[0].options[0].label
+        return attrs.every(attr => attr.options[0].label === label)
+      }
+      return false
+    },
+    getUniqGroups (groups) {
+      const uniqAttrsInCategories = JSON.parse(JSON.stringify(groups))
+      Object.keys(uniqAttrsInCategories).forEach(group => {
+        Object.keys(uniqAttrsInCategories[group]).forEach(attrs => {
+          const isUniq = this.compareAttributes(uniqAttrsInCategories[group][attrs])
+          if (isUniq) {
+            delete uniqAttrsInCategories[group][attrs]
+          }
+        })
+      })
+
+      return this.removeEmptyGroups(uniqAttrsInCategories)
     }
-  },
-  mounted() {
-    this.$store.dispatch('attribute/list', { filterValues: [], size: 1000 })
   }
 }
 </script>
@@ -201,95 +216,5 @@ export default {
 }
 .products-wrapper{
   display: flex;
-}
-.font {
-  font-family: DIN Pro;
-  font-style: normal;
-  font-size: 13px;
-  line-height: 16px;
-}
-.compare-nav{
-  width: 336px;
-  min-width: 336px;
-  padding-right: 20px;
-  &__text {
-    color: #1A1919;
-    display: inline-block;
-    margin-bottom: 29px;
-
-    &.underline {
-      cursor: pointer;
-      padding-bottom: 3px;
-      border-bottom: 1px dashed;
-
-      &:hover {
-        border-bottom-color: transparent;
-      }
-    }
-  }
-
-  &__link {
-    cursor: pointer;
-    color: #23BE20;
-    display: inline-block;
-    padding-bottom: 3px;
-    border-bottom: 1px dashed #23BE20;
-    margin-bottom: 16px;
-
-    &:hover {
-      border-bottom-color: transparent;
-    }
-  }
-}
-.compare-nav__buttons {
-  @media (max-width: 767px) {
-    padding: 0 16px;
-  }
-  margin-top: auto;
-  width: 100%;
-
-  & > span {
-    font-family: DIN Pro;
-    font-style: normal;
-    font-weight: bold;
-    font-size: 14px;
-    line-height: 16px;
-    color: #1A1919;
-    display: block;
-    margin-bottom: 16px;
-  }
-
-  .buttons-group {
-    @media (max-width: 767px) {
-      margin-bottom: 16px;
-    }
-    display: flex;
-    background: #F2F2F2;
-    border-radius: 4px;
-    height: 32px;
-
-    button {
-      flex: 1;
-      background-color: transparent;
-      border: 1px solid transparent;
-      border-radius: 4px;
-      outline: none;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      font-family: DIN Pro;
-      font-style: normal;
-      font-weight: 700;
-      font-size: 14px;
-      line-height: 16px;
-      text-align: center;
-      color: #1A1919;
-
-      &.active {
-        border-color: #23BE20;
-        background-color: #fff;
-      }
-    }
-  }
 }
 </style>
