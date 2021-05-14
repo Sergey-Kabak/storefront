@@ -11,10 +11,11 @@ const actions: ActionTree<CheckoutState, RootState> = {
       const result = await dispatch('order/placeOrder', order, { root: true })
       if (!result.resultCode || result.resultCode === 200) {
         await dispatch('updateOrderTimestamp')
-        await dispatch('cart/clear', { sync: false, clearStore: false }, { root: true })
+        await dispatch('cart/clear', { sync: false }, { root: true })
         await dispatch('dropPassword')
       }
     } catch (e) {
+      dispatch('cart/connect', { guestCart: false }, { root: true })
       Logger.error(e, 'checkout')()
     }
   },

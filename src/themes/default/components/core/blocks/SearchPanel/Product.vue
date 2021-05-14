@@ -1,17 +1,21 @@
 <template>
-  <li @click="gtm" class="product" :class="{'out-of-stock': !inStock}">
+  <li @click="gtm" class="product" :class="[{ 'not-found': isShowButtons }, stockStatus]">
     <router-link class="product-img" @click.native="closeSearchPanel()" :to="productLink">
       <img v-lazy="image.src" :alt="product.name" class="product-image">
     </router-link>
     <div class="product-middle">
       <div class="product-top" >
-        <router-link
-          @click.native="closeSearchPanel()"
-          :to="productLink"
-          class="product-name"
-        >
-          {{ product.name | htmlDecode }}
-        </router-link>
+        <div class="product-info">
+          <span class="product-status" :class="stockStatus">{{ $t(stockStatus) }}</span>
+          <router-link
+            @click.native="closeSearchPanel()"
+            :to="productLink"
+            class="product-name"
+            style="-webkit-line-clamp: 2; -webkit-box-orient: vertical; display: -webkit-box;"
+          >
+            {{ product.name | htmlDecode }}
+          </router-link>
+        </div>
         <div class="product-right" v-if="isShowButtons">
           <div class="product-right-data">
             <AddToCompare :product="product"> </AddToCompare>
@@ -27,17 +31,11 @@
       </div>
       <div class="product-bottom">
         <product-cart-price class="product-price" :product="product" :nameVisibility="false" />
-        <div class="product-actions">
-          <div class="actions" v-if="inStock && isShowButtons">
-            <AddToCart :product="product" />
-          </div>
-          <blurred-text color="#1A1919" v-if="!inStock">{{ $t('Not available') }}</blurred-text>
-        </div>
+        <product-cart-controls @click="navigate()" v-if="isShowButtons" :stockStatus="stockStatus" :product="product" class="cart-default"/>
       </div>
     </div>
   </li>
 </template>
-
 <script>
 
 import Product from '@vue-storefront/core/compatibility/components/blocks/Wishlist/Product';
@@ -45,27 +43,24 @@ import { currentStoreView } from '@vue-storefront/core/lib/multistore';
 import { formatProductLink } from '@vue-storefront/core/modules/url/helpers';
 import ProductImage from 'theme/components/core/ProductImage';
 import AddToCompare from 'theme/components/core/blocks/Compare/AddToCompare';
-import ButtonText from 'theme/components/theme/ButtonText';
-import ButtonFull from 'theme/components/theme/ButtonFull';
+import ProductCartControls from 'theme/components/core/blocks/Product/ProductCartControls';
+import ProductCartPrice from 'theme/components/core/blocks/Product/ProductCartPrice'
 import MoreIcon from 'theme/components/core/MoreIcon';
 import AddToWishlist from 'theme/components/core/blocks/Wishlist/AddToWishlist';
 import AddToCart from 'theme/components/core/AddToCart';
 import GTM from 'theme/mixins/GTM/dataLayer';
-import ProductCartPrice from '../Product/ProductCartPrice';
-import BlurredText from 'theme/components/theme/BlurredText';
+import { ProductStock } from 'theme/helpers'
 
 export default {
   mixins: [Product, GTM],
   components: {
     ProductImage,
     AddToCompare,
-    ButtonText,
-    ButtonFull,
     MoreIcon,
     AddToWishlist,
     AddToCart,
     ProductCartPrice,
-    BlurredText
+    ProductCartControls
   },
   props: {
     isShowButtons: {
@@ -81,6 +76,9 @@ export default {
   computed: {
     productLink () {
       return formatProductLink(this.product, currentStoreView().storeCode)
+    },
+    stockStatus () {
+      return ProductStock(this.product)
     },
     image () {
       return {
@@ -99,6 +97,9 @@ export default {
     gtm () {
       this.GTM_PRODUCT_CLICK([this.product], this.gtmList)
     },
+    navigate() {
+      this.$router.push(this.productLink)
+    },
     closeSearchPanel (){
       this.$store.commit('ui/setSidebar', false)
       this.$store.commit('ui/setMicrocart', false)
@@ -115,19 +116,47 @@ export default {
 }
 
 .product {
+  position: relative;
   display: flex;
   align-items: flex-start;
   padding: 16px;
 
-  &.out-of-stock {
-    .product-name {
-      color: #989797;
-    }
+  &.not-found {
+    border: 1px solid #E0E0E0;
+    margin-bottom: 20px;
 
-    .product-image,
-    .product-price {
-      filter: opacity(0.6);
+    &:last-child {
+      margin-bottom: 0;
     }
+  }
+
+  &.NotAvailable,
+  &.OutOfProduction {
+    ::v-deep { 
+      .product-name,
+      .product-image,
+      .main-price {
+        opacity: .5;
+      }
+    }
+  }
+}
+
+.product-price ::v-deep {
+  .price-discount {
+    position: absolute;
+    left: 16px;
+    top: 16px;
+  }
+
+  .price-special {
+    font-size: 18px;
+    line-height: 20px;
+  }
+
+  .price-original {
+    font-size: 12px;
+    line-height: 12px;
   }
 }
 
@@ -152,14 +181,14 @@ export default {
 
 .product-top {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  align-items: flex-start;
   width: 100%;
-  margin-bottom: 8px;
+  margin-bottom: 16px;
 }
 
 .product-bottom {
   display: flex;
+  align-items: flex-end;
   justify-content: space-between;
 }
 
@@ -181,60 +210,35 @@ export default {
   display: flex;
   align-items: center;
 
-  .credit {
-    font-weight: 600;
-    margin-right: 24px;
-
-    &.mobile {
-      display: none;
-    }
-  }
-
   .add-to-cart-button {
     max-width: 131px;
     height: 32px !important;
   }
 }
 
+.product-status {
+  display: block;
+  font-weight: 500;
+  font-family: DIN Pro;
+  font-size: 14px;
+  line-height: 16px;
+  margin-bottom: 16px;
+}
+
 .product-name {
   display: inline-block;
+  height: 36px;
   font-family: DIN Pro;
   font-size: 15px;
   line-height: 18px;
   color: #1A1919;
   cursor: pointer;
-}
-
-.product-prices {
-  margin-bottom: 20px;
-
-  .price-special {
-    font-family: DIN Pro;
-    font-size: 12px;
-    line-height: 12px;
-    text-decoration-line: line-through;
-    color: #595858;
-    margin-right: 4px;
-  }
-
-  .price-current {
-    font-family: DIN Pro;
-    font-weight: 600;
-    font-size: 18px;
-    line-height: 20px;
-    color: #1A1919;
-  }
-}
-
-.product-out-of-stock {
-  font-family: DIN Pro;
-  font-weight: 600;
-  font-size: 14px;
-  line-height: 16px;
-  color: #1A1919;
+  overflow: hidden;
 }
 
 .product-right {
+  margin-left: auto;
+
   .more {
     margin-left: auto;
 

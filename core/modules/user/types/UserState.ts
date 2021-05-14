@@ -1,4 +1,6 @@
 export default interface UserState {
+  login: object,
+  register: object,
   token: string,
   refreshToken: string,
   groupToken: string,

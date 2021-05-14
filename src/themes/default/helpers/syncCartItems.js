@@ -11,11 +11,11 @@ export default function (products) {
         store.dispatch('product/loadProduct', { parentSku: el.sku, childSku: el.sku });
       }
 
-      if (newItem.old_original_price) {
-        newItem.price_decreased = newItem.old_original_price > el.original_price;
+      if (newItem.old_final_price) {
+        newItem.price_decreased = newItem.old_final_price > el.final_price;
       } else {
-        newItem.old_original_price = el.original_price;
-        newItem.price_decreased = newItem.original_price > el.original_price;
+        newItem.old_final_price = el.final_price;
+        newItem.price_decreased = newItem.final_price > el.final_price;
       }
       const updatedCurrentItem = { ...currentProduct, ...newItem, qty: currentProduct ? currentProduct.qty : newItem.qty };
       store.dispatch('wishlist/updateItem', { product: updatedCurrentItem });

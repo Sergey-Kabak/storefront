@@ -1,6 +1,6 @@
 <template>
   <div class="product-wrap" :data-productKey="product.id">
-    <div class="product">
+    <div class="product sidebar-product">
       <router-link :to="productLink" class="product-image">
         <img :src="image.src" alt="product" />
       </router-link>
@@ -21,7 +21,7 @@
         </div>
         <product-cart-price :calculateWithPromo="false" :product="product" :nameVisibility="false">
           <template v-if="product.price_decreased" v-slot:price-decrease>
-            <div class="product-price-changed-block ml15">
+            <div class="product-price-changed-block">
               <div class="product-price-changed-icon">
                 <svg width="16" height="9" viewBox="0 0 16 9" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path
@@ -154,6 +154,12 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+::v-deep {
+  .main-price {
+    margin-bottom: 8px;
+  }
+}
+
 .product-wrap {
   margin-bottom: 16px;
   border: 1px solid #E0E0E0;
@@ -221,21 +227,6 @@ export default {
   margin-left: auto;
   max-width: 205px;
   width: 100%;
-}
-
-.price-sale {
-  margin-top: 4px;
-  font-family: DIN Pro;
-  font-style: normal;
-  font-weight: 700;
-  font-size: 11px;
-  line-height: 16px;
-  text-transform: uppercase;
-  color: #FFFFFF;
-  background: #EE2C39;
-  border-radius: 30px;
-  padding: 1px 7px;
-  margin-left: 10px;
 }
 
 .product-remove {
@@ -331,7 +322,7 @@ img {
 
 .product-info-bottom {
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   justify-content: flex-start;
   grid-area: bottom-info;
 }
@@ -409,7 +400,22 @@ img {
 }
 
 @media (max-width: 768px) {
+  ::v-deep {
+    .product-price-wrapper {
+      .price-special {
+        font-size: 18px;
+        line-height: 20px;
+      }
+
+      .price-original {
+        font-size: 12px;
+        line-height: 12px;
+      }
+    }
+  }
+
   .product {
+    grid-row-gap: 4px;
     grid-template-areas:
       "image top-info actions"
       "bottom-info bottom-info bottom-info";

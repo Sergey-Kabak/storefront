@@ -221,9 +221,27 @@ const getProductByKey = async ({ options, key, skipCache, skipClientCache }: Dat
   return result
 }
 
+const preorder = async (preorderData: DataResolver.Preorder) => {
+  try {
+    let url = `${getApiEndpointUrl(config.products, 'endpoint')}/preorder`
+    const task = await TaskQueue.execute({ url, // sync the cart
+      payload: {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        mode: 'cors',
+        body: JSON.stringify({ preorder: preorderData })
+      },
+    })
+    return task.resultCode
+  } catch (err) {
+    return err && err.message
+  }
+}
+
 export const ProductService: DataResolver.ProductService = {
   getProducts,
   getProductRenderList,
   getProductByKey,
-  getProductsSkippingCache
+  getProductsSkippingCache,
+  preorder
 }

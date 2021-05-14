@@ -57,7 +57,8 @@ export default {
               text: ``,
               event: this.showModal
             },
-            text: this.$t('Pick up today from') + ' 15:00'
+            text: ''
+            // text: this.$t('Pick up today from') + ' 15:00'
           },
           price: {
             base: '',
@@ -122,7 +123,7 @@ export default {
     }),
     availableShops () {
       return this.shops.filter(it => {
-        return this.getCurrentProduct.msi_sources.some(store => store.source_code.includes(it.source_code) && store.salable_quantity)
+        return this.getCurrentProduct.msi_sources.some(store => store.source_code.includes(it.source_code) && store.salable_quantity > 0)
       })
     },
     shopsDescription () {

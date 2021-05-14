@@ -75,7 +75,7 @@ export default {
       if (!this.getHomePageBanners.banners) {
         return []
       }
-      return this.getHomePageBanners.banners.sort((a, b) => {
+      return this.getHomePageBanners.banners.slice().sort((a, b) => {
         return +a.position - +b.position
       })
     }
@@ -89,7 +89,7 @@ export default {
         window.open(product.banner_url, '_blank');
       } else {
         const url = new URL(product.banner_url)
-        this.$router.push(url.pathname + url.search)
+        this.$router.push(this.localizedRoute(url.pathname + url.search))
       }
     },
     formatLink(product) {

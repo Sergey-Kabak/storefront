@@ -213,6 +213,13 @@ export default {
   }
 }
 ::v-deep {
+  .product-image__thumb{
+    max-width: 100%;
+    width: 506px!important;
+    height: 506px!important;
+    object-fit: contain;
+  }
+
   .VueCarousel-navigation-button {
     max-height: 40px;
     border-radius: 50%;
@@ -319,11 +326,4 @@ export default {
     }
   }
 }
-.product-image__thumb{
-  max-width: 100%;
-  width: 506px;
-  height: 506px;
-  object-fit: contain;
-}
-
 </style>

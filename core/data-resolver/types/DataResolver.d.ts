@@ -44,6 +44,13 @@ declare namespace DataResolver {
     }
   }
 
+  interface Preorder {
+    name: string,
+    phone_number?: string,
+    email?: string,
+    product_id: string
+  }
+
   interface ProductRenderListSearchOptions {
     skus: string[],
     isUserGroupedTaxActive?: boolean,
@@ -83,7 +90,8 @@ declare namespace DataResolver {
     getProducts: (searchRequest: ProductSearchOptions) => Promise<ProductsListResponse>,
     getProductRenderList: (searchRequest: ProductRenderListSearchOptions) => Promise<ProductsListResponse>,
     getProductByKey: (searchRequest: ProductByKeySearchOptions) => Promise<Product>,
-    getProductsSkippingCache: (any) => Promise<any>
+    getProductsSkippingCache: (any) => Promise<any>,
+    preorder: (preorder: Preorder) => Promise<Task>
   }
 
   interface CategoryService {

@@ -66,6 +66,7 @@
       <kits-modal v-if="kitProducts.length" class="kits-modal" />
       <main-modal />
       <esputnik-modal />
+      <preorder-modal />
     </div>
     <client-credentials-for-esputnik />
     <vue-progress-bar/>
@@ -84,6 +85,7 @@ import CookieNotification from 'theme/components/core/CookieNotification.vue';
 import OfflineBadge from 'theme/components/core/OfflineBadge.vue';
 import CreditModal from 'theme/components/core/blocks/CreditModal.vue';
 import MainModal from 'theme/components/core/blocks/MainModal.vue';
+import PreorderModal from 'theme/components/core/blocks/Product/PreorderModal.vue';
 import EsputnikModal from 'theme/components/core/blocks/EsputnikModal.vue';
 import ShopShippingModal from '../components/core/blocks/ShopShippingModal';
 import ClientCredentialsForEsputnik from '../components/core/blocks/ClientCredentialsForEsputnik'
@@ -210,7 +212,8 @@ export default {
     MainModal,
     PromotionalFilterSidebarMobile,
     EsputnikModal,
-    ClientCredentialsForEsputnik
+    ClientCredentialsForEsputnik,
+    PreorderModal
   }
 }
 </script>

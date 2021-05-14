@@ -8,6 +8,19 @@ import UserState from '../types/UserState'
 export const userStore: Module<UserState, RootState> = {
   namespaced: true,
   state: {
+    login: {
+      email: null,
+      password: null,
+      remember: false
+    },
+    register: {
+      firstName: null,
+      lastName: null,
+      email: null,
+      telephone: null,
+      password: null,
+      rPassword: null
+    },
     token: '',
     refreshToken: '',
     groupToken: '',

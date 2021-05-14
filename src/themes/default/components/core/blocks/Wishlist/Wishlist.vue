@@ -337,7 +337,7 @@ export default {
 
   ::v-deep .product-right {
     .more {
-      .add-to-compare {
+      .more-item {
         width: 100%;
         padding: 4px 16px;
       }
