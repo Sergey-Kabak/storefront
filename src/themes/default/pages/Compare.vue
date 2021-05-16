@@ -11,27 +11,40 @@
             {{ $t(title) }}
           </h2>
         </div>
-        <div class="col-12">
-          <div class="products-wrapper">
-            <compare-nav @difference="eventHandler"/>
-            <div class="products-nav">
-              <div class="flex products-category">
-                <template v-for="(products, category) in ProductsByCategory">
-                  <div :key="category" @click="activeCategory = category">
-                    {{category}} : {{products.length}}
-                  </div>
-                </template>
-              </div>
-              <div class="flex products-row">
-                <template v-for="(product, key) in ProductsByCategory[activeCategory]">
-                  <compare-product-tile :key="key" :product="product"/>
-                </template>
+        <div class="col-12 scroll">
+          <div class="compare-container">
+            <div class="products-wrapper">
+              <compare-nav @difference="eventHandler"/>
+              <div class="products-nav">
+                <div class="device-mobile mobile-select">
+                  <select @change="onChange($event)">
+                    <option v-for="option in Object.keys(ProductsByCategory)"
+                            :key="option"
+                            :value="option"
+                    >{{option}}</option>
+                  </select>
+                </div>
+                <div class="flex products-category device-desktop">
+                  <strong>{{$t('compare')}}:</strong>
+                  <template v-for="(products, category) in ProductsByCategory">
+                    <div :key="category" @click="activeCategory = category" :class="{active: activeCategory === category}">
+                      {{category}} ({{products.length}})
+                    </div>
+                  </template>
+                </div>
+                <div class="flex products-row">
+                  <template v-for="(product, key) in ProductsByCategory[activeCategory]">
+                    <compare-product-tile :key="key" :product="product"/>
+                  </template>
+                </div>
               </div>
             </div>
+            <compare-grid
+              :data="Specifications"
+              :products="ProductsByCategory[activeCategory]"
+              @difference="eventHandler"
+              class="compare-grid" />
           </div>
-          <compare-grid
-            :data="Specifications"
-            :products="ProductsByCategory[activeCategory]" />
         </div>
       </div>
     </div>
@@ -45,8 +58,11 @@ import CompareProductTile from '../components/core/blocks/Compare/CompareProduct
 import CompareGrid from '../components/core/blocks/Compare/CompareGrid';
 import CompareNav from '../components/core/blocks/Compare/CompareNav';
 import { mapGetters, mapState } from 'vuex';
+import Compare from '@vue-storefront/core/pages/Compare';
+import i18n from '@vue-storefront/i18n';
 
 export default {
+  mixins: [Compare],
   components: {
     Breadcrumbs,
     MobileBreadcrumbs,
@@ -69,7 +85,8 @@ export default {
   computed: {
     ...mapGetters({
       getCompareItems: 'compare/getCompareItems',
-      isCompareLoaded: 'compare/isCompareLoaded'
+      isCompareLoaded: 'compare/isCompareLoaded',
+      isEmpty: 'compare/getCompareProductsCount'
     }),
     ...mapState({
       compareGroups: state => state.attribute.compareGroups
@@ -100,6 +117,9 @@ export default {
     }
   },
   methods: {
+    onChange (val) {
+      this.activeCategory = val.target.value;
+    },
     eventHandler (val) {
       this.isDifference = val
     },
@@ -120,7 +140,8 @@ export default {
             let label = ''
             let productAttrs = []
             products.forEach(product => {
-              let condition = product.attributes_metadata.find(a => a.attribute_code === attr && a.is_visible_on_front && a.options && a.options.length)
+              // let condition = product.attributes_metadata.find(a => a.attribute_code === attr && a.is_visible_on_front && a.options && a.options.length)
+              let condition = product.attributes_metadata.find(a => a.attribute_code === attr)
               if (condition && condition.default_frontend_label) {
                 label = condition.default_frontend_label;
                 productAttrs.push(condition)
@@ -149,12 +170,48 @@ export default {
       return groups
     },
     compareAttributes (attrs) {
-      const allItemsHasObject = attrs.every(attr => attr !== null && attr.options && attr.options.length)
-      if (allItemsHasObject) {
-        let label = attrs[0].options[0].label
-        return attrs.every(attr => attr.options[0].label === label)
+      const res = []
+      attrs.forEach((attr, index) => {
+        if (attr !== null) {
+          res.push(this.getAttrValue(attr, this.ProductsByCategory[this.activeCategory][index]));
+        } else {
+          res.push(null);
+        }
+      })
+      return res.filter(this.onlyUnique).length === 1
+    },
+    getAttrValue (attribute, product) {
+      let parsedValues = product[attribute.attribute_code]
+
+      if (!parsedValues) {
+        return 'N/A'
+      } else if (attribute.frontend_input !== 'multiselect' && attribute.frontend_input !== 'select') {
+        return parsedValues.toString()
+      } else {
+        parsedValues = typeof parsedValues === 'string' ? parsedValues.split(',') : parsedValues
+
+        if (!Array.isArray(parsedValues)) {
+          parsedValues = [parsedValues]
+        }
+
+        let results = []
+        for (let parsedVal of parsedValues) {
+          if (attribute.options) {
+            let option = attribute.options.find(av => {
+              /* eslint eqeqeq: "off" */
+              return av.value == parsedVal
+            })
+            if (option) {
+              results.push(option.label)
+            } else {
+              results.push(parsedVal)
+            }
+          } else {
+            results.push(parsedVal)
+          }
+        }
+        return results.join(', ')
       }
-      return false
     },
     getUniqGroups (groups) {
       const uniqAttrsInCategories = JSON.parse(JSON.stringify(groups))
@@ -169,11 +226,109 @@ export default {
 
       return this.removeEmptyGroups(uniqAttrsInCategories)
     }
+  },
+  metaInfo () {
+    return {
+      title: this.$route.meta.title || this.title || i18n.t('Compare Products'),
+      meta: this.$route.meta.description
+        ? [{ vmid: 'description', description: this.$route.meta.description }]
+        : []
+    }
+  },
+  async asyncData ({ store }) {
+    const products = store.getters['compare/getCompareItems']
+    if (products.length) {
+      for (let k in products) {
+        await store.dispatch('product/loadProductAttributes', { product: products[k] })
+      }
+    }
+  },
+  watch: {
+    'isEmpty': function (val) {
+      if (!val) {
+        this.$router.push({ name: 'home' });
+      }
+    }
   }
 }
 </script>
 
 <style lang="scss" scoped>
+.products-nav{
+  position: relative;
+}
+.mobile-select{
+  position: sticky;
+  left: 0;
+  width: calc(100vw - 44px);
+  select{
+    width: 100%;
+    border: 1px solid #E0E0E0;
+    border-radius: 4px;
+    margin-bottom: 16px;
+  }
+}
+.scroll{
+  overflow: auto;
+  margin-bottom: 68px;
+}
+.compare-container{
+  width: auto;
+  max-width: max-content !important;
+}
+.compare-grid{
+  position: relative;
+  width: max-content;
+}
+.products-row{
+  ::v-deep .product{
+    @media (max-width: 768px) {
+      width: calc(50vw - 22px);
+      min-width: calc(50vw - 22px);
+    }
+    width: 330px;
+    min-width: 330px;
+    box-sizing: border-box;
+    &:not(:first-child){
+      border-left: none;
+    }
+  }
+}
+.products-category{
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 24px;
+  *{
+    font-family: DIN Pro;
+    font-style: normal;
+  }
+  strong{
+    margin-right: 12px;
+    font-size: 14px;
+    line-height: 16px;
+    color: #1A1919;
+  }
+  div{
+    font-weight: 0;
+    font-size: 13px;
+    line-height: 16px;
+    color: #5F5E5E;
+    opacity: 0.6;
+    padding-bottom: 4px;
+    border-bottom: 1px solid transparent;
+    &:not(:last-child){
+      margin-right: 20px;
+    }
+    &:not(.active):hover{
+      opacity: 1;
+    }
+    &.active{
+      opacity: 1;
+      color: #1A1919;
+      border-bottom-color: #1A1919;
+    }
+  }
+}
 .products{
   &-category{
     div{
@@ -190,12 +345,12 @@ export default {
 }
 .device{
   &-desktop{
-    @media (max-width: 767px) {
+    @media (max-width: 768px) {
       display: none;
     }
   }
   &-mobile{
-    @media (min-width: 768px) {
+    @media (min-width: 769px) {
       display: none;
     }
   }
@@ -216,5 +371,9 @@ export default {
 }
 .products-wrapper{
   display: flex;
+  margin-bottom: 24px;
+  @media (max-width: 768px) {
+    flex-direction: column;
+  }
 }
 </style>

@@ -3,15 +3,20 @@
     <div class="group-name">{{name}}</div>
     <div class="grid">
       <div v-for="(attrs, key) in group" :key="key" class="flex attr-row">
-        <div class="cell">{{key}}</div>
-        <div v-for="(attr, index) in attrs" :key="index" class="cell">
-          <compare-attribute
-            v-if="attr"
-            :attribute="attr"
-            empty-placeholder="N/A"
-          />
-          <div v-else>
-            N/A
+        <div class="cell first">
+          <span>{{key}}</span>
+        </div>
+        <div class="flex flex-auto">
+          <div v-for="(attr, index) in attrs" :key="index" class="cell">
+            <compare-attribute
+              v-if="attr && products[index]"
+              :product="products[index]"
+              :attribute="attr"
+              empty-placeholder="N/A"
+            />
+            <div v-else>
+              N/A
+            </div>
           </div>
         </div>
       </div>
@@ -44,15 +49,26 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.flex-auto{
+  flex: 1 1 auto;
+}
 .grid{
   border-top: 1px solid #E0E0E0;
 }
-.attr-row{
-  border-bottom: 1px solid #E0E0E0;
-}
 .cell{
+  &.first{
+    min-width: 336px;
+    width: 336px;
+  }
+  &:not(.first){
+    @media (max-width: 768px) {
+      width: calc(50vw - 22px);
+      min-width: calc(50vw - 22px);
+    }
+    min-width: 330px;
+    width: 330px;
+  }
   padding: 8px 16px;
-  width: 336px;
   border-right: 1px solid #E0E0E0;
 }
 .group-name{
@@ -68,5 +84,18 @@ export default {
 .attr-row{
   display: flex;
   border-bottom: 1px solid #E0E0E0;
+  @media (max-width: 768px) {
+    flex-direction: column;
+    .cell.first {
+      border-right: none;
+      border-bottom: 1px solid #E0E0E0;
+      width: 100%;
+      position: relative;
+      span{
+        position: sticky;
+        left: 0;
+      }
+    }
+  }
 }
 </style>

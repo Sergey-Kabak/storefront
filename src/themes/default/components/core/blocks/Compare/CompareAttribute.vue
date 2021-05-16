@@ -5,25 +5,9 @@
 </template>
 
 <script>
+import { ProductAttribute } from '@vue-storefront/core/modules/catalog/components/ProductAttribute.ts'
+
 export default {
-  props: {
-    attribute: {
-      type: null,
-      required: true
-    },
-    emptyPlaceholder: {
-      type: String,
-      default: ''
-    }
-  },
-  computed: {
-    value () {
-      if (typeof this.attribute === 'object' && this.attribute.options && this.attribute.options.length) {
-        return this.attribute.options[0].label
-      } else {
-        return 'N/A'
-      }
-    }
-  }
+  mixins: [ProductAttribute]
 }
 </script>

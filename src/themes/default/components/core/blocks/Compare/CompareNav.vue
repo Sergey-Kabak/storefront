@@ -3,32 +3,23 @@
     <div class="compare-nav__text font weight-400">
       {{ $tc(`added {count} items`, getCompareItems.length) }}
     </div>
-    <div class="compare-nav__link font">{{ $t('add more to compare') }}</div>
-    <div class="compare-nav__text font underline">
+    <div @click="back" class="compare-nav__link add_more font">{{ $t('add more to compare') }}</div>
+    <div @click="removeAll" class="compare-nav__text font remove underline">
       {{ $t('Remove all') }}
     </div>
-    <div class="compare-nav__buttons">
-      <span>{{ $t('indicate') }}</span>
-      <div class="buttons-group">
-        <button :class="{'active' : !isDifference}" @click.prevent="eventEmitter(false)" type="button" :aria-label="$t('All parameters')">
-          {{ $t('All parameters') }}
-        </button>
-        <button :class="{'active' : isDifference}" @click.prevent="eventEmitter(true)" type="button" :aria-label="$t('Differences')">
-          {{ $t('Differences') }}
-        </button>
-      </div>
-    </div>
+    <compare-variant-buttons @difference="eventEmitter" class="desktop" />
   </div>
 </template>
 
 <script>
 import { mapGetters } from 'vuex';
+import Compare from '@vue-storefront/core/pages/Compare';
+import CompareVariantButtons from './CompareVariantButtons';
 
 export default {
-  data () {
-    return {
-      isDifference: false
-    }
+  mixins: [Compare],
+  components: {
+    CompareVariantButtons
   },
   computed: {
     ...mapGetters({
@@ -37,14 +28,26 @@ export default {
   },
   methods: {
     eventEmitter (val) {
-      this.isDifference = val
       this.$emit('difference', val)
+    },
+    back () {
+      this.$router.go(-1)
+    },
+    removeAll () {
+      if (this.getCompareItems) {
+        this.getCompareItems.forEach(product => this.removeFromCompare(product));
+      }
     }
   }
 }
 </script>
 
 <style lang="scss" scoped>
+.desktop{
+  @media (max-width: 768px) {
+    display: none;
+  }
+}
 .font {
   font-family: DIN Pro;
   font-style: normal;
@@ -52,9 +55,18 @@ export default {
   line-height: 16px;
 }
 .compare-nav{
-  width: 336px;
-  min-width: 336px;
+  @media (max-width: 768px) {
+    width: 100%;
+    position: relative;
+  }
+  @media (min-width: 769px) {
+    width: 336px;
+    min-width: 336px;
+  }
   padding-right: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
   &__text {
     color: #1A1919;
     display: inline-block;
@@ -70,7 +82,6 @@ export default {
       }
     }
   }
-
   &__link {
     cursor: pointer;
     color: #23BE20;
@@ -84,55 +95,16 @@ export default {
     }
   }
 }
-.compare-nav__buttons {
-  @media (max-width: 767px) {
-    padding: 0 16px;
+.add_more{
+  @media (max-width: 768px) {
+    order: -1;
   }
-  margin-top: auto;
-  width: 100%;
-
-  & > span {
-    font-family: DIN Pro;
-    font-style: normal;
-    font-weight: bold;
-    font-size: 14px;
-    line-height: 16px;
-    color: #1A1919;
-    display: block;
-    margin-bottom: 16px;
-  }
-
-  .buttons-group {
-    @media (max-width: 767px) {
-      margin-bottom: 16px;
-    }
-    display: flex;
-    background: #F2F2F2;
-    border-radius: 4px;
-    height: 32px;
-
-    button {
-      flex: 1;
-      background-color: transparent;
-      border: 1px solid transparent;
-      border-radius: 4px;
-      outline: none;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      font-family: DIN Pro;
-      font-style: normal;
-      font-weight: 700;
-      font-size: 14px;
-      line-height: 16px;
-      text-align: center;
-      color: #1A1919;
-
-      &.active {
-        border-color: #23BE20;
-        background-color: #fff;
-      }
-    }
+}
+.remove{
+  @media (max-width: 768px) {
+    position: absolute;
+    bottom: 0;
+    right: 0;
   }
 }
 </style>
