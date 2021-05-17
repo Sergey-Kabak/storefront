@@ -991,3 +991,5 @@ OutOfProduction,Знятий з виробництва
 baby products,Дитячі товари
 To preorder,"Оформити передзамовлення"
 Preorder successfully completed!,"Передзамовлення успішно оформлене!"
+item out of stock, Цей товар закінчився.
+item not available decreate quantity, Товар недоступний в такій кількості. Зменште кількість.

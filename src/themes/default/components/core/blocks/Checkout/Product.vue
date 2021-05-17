@@ -79,7 +79,7 @@ import ProductCartPrice from '../Product/ProductCartPrice';
 import GTM from 'theme/mixins/GTM/dataLayer'
 import AddToWishlist from 'theme/components/core/blocks/Wishlist/AddToWishlist';
 import { formatProductLink } from '@vue-storefront/core/modules/url/helpers';
-import { ProductStock } from 'theme/helpers';
+import { ProductStock } from 'theme/helpers'
 
 export default {
   mixins: [Product, ProductCartPrice, GTM],
@@ -104,10 +104,19 @@ export default {
       return !['InStock', 'PendingDelivery'].includes(ProductStock(this.product));
     },
     outOfQuantity () {
-      return this.product.qty > this.product.msi_salable_quantity
+      return this.product.qty > this.product.salable_quantities_sum_qty
     },
     plusDisabled () {
-      return this.product.qty >= this.product.msi_salable_quantity
+      return this.product.qty >= this.product.salable_quantities_sum_qty
+    },
+    isPurchasable() {
+      return this.product.is_purchasable
+    },
+    finalPrice () {
+      if (this.isBundleProduct) {
+        return this.isDiscount ? this.bundleFinalPrice : this.bundlePrice
+      }
+      return this.product.special_price || this.product.original_price_incl_tax
     },
     image () {
       return {
@@ -165,7 +174,12 @@ export default {
   border: 1px solid #E0E0E0;
   border-radius: 4px;
 }
-
+.overlay-below {
+  z-index: -1;
+}
+.overlay-ontop {
+  z-index: 1;
+}
 .product {
   padding: 15px 12px 15px 15px;
   display: grid;
