@@ -96,6 +96,7 @@ svg {
 }
 
 .item {
+  background: rgba(255,255,255,0.8);
   display: flex;
   align-items: center;
   border-radius: 4px;

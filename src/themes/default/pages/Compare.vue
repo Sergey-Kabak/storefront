@@ -140,7 +140,6 @@ export default {
             let label = ''
             let productAttrs = []
             products.forEach(product => {
-              // let condition = product.attributes_metadata.find(a => a.attribute_code === attr && a.is_visible_on_front && a.options && a.options.length)
               let condition = product.attributes_metadata.find(a => a.attribute_code === attr)
               if (condition && condition.default_frontend_label) {
                 label = condition.default_frontend_label;
@@ -289,6 +288,12 @@ export default {
     width: 330px;
     min-width: 330px;
     box-sizing: border-box;
+    &:first-child{
+      border-radius: 4px 0 0 4px;
+    }
+    &:last-child{
+      border-radius: 0 4px 4px 0;
+    }
     &:not(:first-child){
       border-left: none;
     }
@@ -370,6 +375,7 @@ export default {
   margin: 24px 0;
 }
 .products-wrapper{
+  width: max-content;
   display: flex;
   margin-bottom: 24px;
   @media (max-width: 768px) {

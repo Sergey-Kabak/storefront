@@ -56,8 +56,9 @@ export default {
 }
 .compare-nav{
   @media (max-width: 768px) {
-    width: 100%;
-    position: relative;
+    width: calc(100vw - 44px);
+    position: sticky;
+    left: 0;
   }
   @media (min-width: 769px) {
     width: 336px;

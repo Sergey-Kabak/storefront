@@ -121,10 +121,6 @@
     "url": "https://ringoo.ua",
     "saveBandwidthOverCache": true
   },
-  "evinentSearch": {
-    "url": "https://api.ringoo.evinent.site/api/search",
-    "productQuantity": 6
-  },
   "phoneNumbers": ["+38 073 090 87 07", "+38 097 090 87 07", "+38 050 340 74 00"],
   "homePageBanner": {
     "enabled": false
@@ -327,6 +323,9 @@
         "configurable_options",
         "rma",
         "preorder",
+        "discontinued",
+        "configurable_children.discontinued",
+        "configurable_children.promo_icon",
         "configurable_children.attributes",
         "configurable_children.id",
         "configurable_children.color",
@@ -349,6 +348,7 @@
         "id",
         "name",
         "original_price",
+        "promo_icon",
         "priority",
         "price",
         "product_links",
@@ -370,9 +370,7 @@
         "attribute_set_id",
         "description",
         "sgn",
-        "*.sgn",
         "msrp_display_actual_price_type",
-        "*.msrp_display_actual_price_type",
         "required_options",
         "media_gallery",
         "stock.use_config_min_qty",
@@ -584,24 +582,6 @@
       "includeFields": null,
       "excludeFields": null
     },
-    "productSearchList": {
-      "sort": "updated_at:desc",
-      "includeFields": [
-        "id",
-        "name",
-        "original_price",
-        "price",
-        "stock.is_in_stock",
-        "special_price",
-        "status",
-        "type_id",
-        "url_path",
-        "url_key",
-        "*image",
-        "*sku"
-      ],
-      "excludeFields": []
-    },
     "promotionals": {
       "sortByAttributes": {
         "Latest": "updated_at:desc"
@@ -720,8 +700,8 @@
       "height": 744
     },
     "thumbnails": {
-      "width": 310,
-      "height": 300
+      "width": 192,
+      "height": 192
     },
     "filterAggregationSize": {
       "default": 100

@@ -112,3 +112,34 @@ input:-webkit-autofill:active  {
 ::placeholder {
   color: #9f9e9e;
 }
+
+.price-discount {
+  padding: 0 8px;
+  text-align: center;
+  background: #EE2C39;
+  border-radius: 30px;
+  font-family: DIN Pro;
+  font-weight: 0;
+  font-size: 11px;
+  line-height: 16px;
+  text-transform: uppercase;
+  color: #FFFFFF;
+}
+
+.product-status {
+  &.InStock {
+    color: #23BE20;
+  }
+  
+  &.NotAvailable {
+    color: #1A1919;
+  }
+  
+  &.PendingDelivery {
+    color: #F2994A;
+  }
+  
+  &.ComingSoon {
+    color: #BE207A;
+  }
+}

@@ -76,6 +76,7 @@ export default {
       state ? this.setOverlay(state) : setTimeout(() => this.setOverlay(state), this.delay)
     },
     close () {
+      this.$emit('close')
       this.toggle(false)
       this.onClose();
     }
@@ -136,6 +137,7 @@ $z-index-modal: map-get($z-index, modal);
   z-index: $z-index-modal;
   -webkit-overflow-scrolling: touch;
   .modal-container {
+    background-color: #fff;
     border-radius: 4px;
     position: absolute;
     top: 50%;

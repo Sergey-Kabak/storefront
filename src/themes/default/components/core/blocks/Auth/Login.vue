@@ -3,22 +3,23 @@
     <div class="login-details">
       <span>{{ $t('Please, enter your account details') }}</span>
     </div>
-    <form @submit.prevent="login" novalidate class="login-form">
+    <form @submit.prevent="onLogin" novalidate class="login-form">
       <base-input
         type="email"
         name="email"
         class="email"
-        :class="{ error: $v.email.$error && $v.email.$dirty }"
-        v-model="email"
-        @blur="$v.email.$touch()"
+        :class="{ error: $v.login.email.$error && $v.login.email.$dirty }"
+        @blur="$v.login.email.$touch()"
+        :value="login['email']"
+        @input="changeLoginObject('email', $event)"
         :placeholder="$t('E-mail address *')"
         :validations="[
           {
-            condition: !$v.email.required && $v.email.$error,
+            condition: !$v.login.email.required && $v.login.email.$error,
             text: $t('Field is required.')
           },
           {
-            condition: !$v.email.email && $v.email.$error,
+            condition: !$v.login.email.email && $v.login.email.$error,
             text: $t('Please provide valid e-mail address.')
           }
         ]"
@@ -27,19 +28,21 @@
         type="password"
         name="password"
         class="password"
-        :class="{ error: $v.password.$error && $v.password.$dirty }"
-        v-model="password"
-        @blur="$v.password.$touch()"
+        :class="{ error: $v.login.password.$error && $v.login.password.$dirty }"
+        :value="login['password']"
+        @input="changeLoginObject('password', $event)"
+        @blur="$v.login.password.$touch()"
         :placeholder="$t('Password *')"
         :validations="[{
-          condition: !$v.password.required && $v.password.$error,
+          condition: !$v.login.password.required && $v.login.password.$error,
           text: $t('Field is required.')
         }]"
       />
       <div class="login-additional">
         <base-checkbox
           class="login-checkbox"
-          v-model="remember"
+          :value="login['remember']"
+          @change="changeLoginObject('remember', $event)"
         >
           {{ $t('Remember me') }}
         </base-checkbox>
@@ -58,11 +61,12 @@ import ButtonFull from 'theme/components/theme/ButtonFull.vue';
 import BaseCheckbox from 'theme/components/core/blocks/Form/BaseCheckbox.vue';
 import BaseInput from 'theme/components/core/blocks/Form/BaseInput';
 import ButtonText from 'theme/components/theme/ButtonText'
-
+import * as types from '@vue-storefront/core/modules/user/store/mutation-types';
 import {
   email,
   required
 } from 'vuelidate/lib/validators';
+import { mapState } from 'vuex';
 
 export default {
   components: {
@@ -73,19 +77,29 @@ export default {
   },
   mixins: [Login],
   validations: {
-    email: {
-      required,
-      email
-    },
-    password: {
-      required
+    login: {
+      email: {
+        required,
+        email
+      },
+      password: {
+        required
+      }
     }
   },
+  computed: {
+    ...mapState({
+      login: (state) => state.user.login
+    })
+  },
   methods: {
+    changeLoginObject(key, value) {
+      this.$store.commit('user/' + types.USER_LOGIN, { key, value })
+    },
     close (e) {
       this.$store.commit('ui/setSignUp', false)
     },
-    login () {
+    onLogin () {
       if (this.$v.$invalid) {
         this.$v.$touch()
       } else {
@@ -104,6 +118,7 @@ export default {
       }
     },
     onSuccess () {
+      this.$store.commit('user/' + types.USER_RESET_LOGIN)
       this.$router.push(this.localizedRoute('/account/personal-data'))
       this.$store.dispatch('notification/spawnNotification', {
         type: 'success',

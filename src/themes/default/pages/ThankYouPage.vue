@@ -123,7 +123,7 @@ export default {
   async asyncData ({ context, route, store }) {
     try {
       const order = await store.dispatch('checkoutPage/getOrderByCartId', route.query.cartId)
-      if (order.errorMessage) {
+      if (order && order.errorMessage && context) {
         context.server.response.redirect(localizedRoute('/'))
       }
     } catch (e) {

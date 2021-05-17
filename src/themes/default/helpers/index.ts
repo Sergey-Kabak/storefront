@@ -44,19 +44,13 @@ export function price(product, priceType = null) {
 }
 
 export function ProductStock (product) {
-  const isBackOrderEnabled = product.stock.is_in_stock && typeof product.stock.backorders === 'number' && product.stock.backorders !== 0;
-  const isBackOrderDisabled = typeof product.stock.backorders === 'undefined' || product.stock.backorders === 0 || !product.stock.is_in_stock
-  const isOptions = product.preorder && product.coming_soon
+  const isBackOrderEnabled = product.stock.is_in_stock && product.stock.backorders;
   const status = {
     ComingSoon: (() => product.coming_soon)(),
     OutOfProduction: (() => product.discontinued)(),
-    InStock: (() => (product.stock.is_in_stock && product.msi_salable_quantity > 0 && !product.preorder && !product.coming_soon) || (isBackOrderEnabled && !product.preorder && !product.coming_soon))(),
-    PendingDelivery: (() => {
-      const isBackOrder = product.type_id !== 'bundle' && product.preorder && isBackOrderEnabled
-      const isPreOrder = product.stock.is_in_stock && product.preorder
-      return isBackOrder || isPreOrder || false
-    })(),
-    NotAvailable: (() => (!product.stock.is_in_stock || product.msi_salable_quantity <= 0) && !isOptions && isBackOrderDisabled)()
+    PendingDelivery: (() => product.preorder)(),
+    InStock: (() => (product.stock.is_in_stock && product.msi_salable_quantity > 0) || isBackOrderEnabled)(),
+    NotAvailable: (() => (!product.stock.is_in_stock || !product.msi_salable_quantity || product.msi_salable_quantity <= 0))()
   }
   return Object.keys(status).find(s => !!status[s])
 }

@@ -37,11 +37,12 @@
       <div class="search-content" v-if="isShowSearchContent">
         <category-panel
           :categories="categories"
+          v-model="selectedCategoryIds"
           class="categories"
         />
         <div class="product-listing">
           <product
-            v-for="(product, index) in products"
+            v-for="(product, index) in visibleProducts"
             :key="index"
             :isShowButtons="false"
             :product="product"
@@ -76,7 +77,7 @@
 </template>
 
 <script>
-import { Search } from '@vue-storefront/core/modules/catalog/components/Search'
+import SearchPanel from '@vue-storefront/core/compatibility/components/blocks/SearchPanel/SearchPanel';
 import Product from 'theme/components/core/blocks/SearchPanel/Product';
 import CategoryPanel from 'theme/components/core/blocks/SearchPanel/CategoryPanel';
 import CloseSidebar from 'theme/components/core/CloseSidebar';
@@ -103,12 +104,31 @@ export default {
       default: false
     }
   },
-  mixins: [Search, VueOfflineMixin],
+  mixins: [SearchPanel, VueOfflineMixin],
+  data () {
+    return {
+      selectedCategoryIds: []
+    }
+  },
   computed: {
     ...mapState({
       overlay: (state) => state.ui.overlay,
       isSearchActive: (state) => state.ui.isSearchActive
     }),
+    visibleProducts () {
+      const productList = this.products || []
+      if (this.selectedCategoryIds.length) {
+        return productList.filter(product => product.category_ids.some(categoryId => {
+          const catId = parseInt(categoryId)
+          return this.selectedCategoryIds.includes(catId)
+        }))
+      }
+      return productList
+    },
+    categories () {
+      const categories = this.products.reduce((acc, it) => acc.concat(it.category || []), [])
+      return uniqBy(categories, 'category_id');
+    },
     getNoResultsMessage () {
       let msg = ''
       if (!this.$v.search.minLength) {
@@ -122,10 +142,13 @@ export default {
       return this.emptyResults && this.search && (this.isSearchActive || !this.mobile)
     },
     isShowSearchContent() {
-      return (this.isSearchActive || !this.mobile) && this.products.length
+      return this.categories.length >= 1 && (this.isSearchActive || !this.mobile)
     }
   },
   watch: {
+    categories () {
+      this.selectedCategoryIds = []
+    },
     overlay(val) {
       if (!val) {
         this.cancelSearch()

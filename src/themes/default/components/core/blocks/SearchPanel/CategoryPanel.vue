@@ -1,17 +1,19 @@
 <template>
-  <div class="categories" v-if="categories.length">
+  <div class="categories">
     <h4 class="categories-title">
       {{ $t('Categories') }}
     </h4>
-    <div class="category-buttons" @click="closeSearchPanel()">
-      <router-link
+    <div class="category-buttons">
+      <button
         v-for="category in categories"
-        :to="getCategoryLink(category.url)"
-        :key="category.id"
+        :key="category.category_id"
+        @click="toggleCategory(category)"
+        :class="{ 'active': isCategoryActive(category) }"
         class="category"
+        type="button"
       >
-        {{ category.title }} ({{ category.count }})
-      </router-link>
+        {{ category.name }}
+      </button>
     </div>
   </div>
 </template>
@@ -29,14 +31,16 @@ export default {
     }
   },
   methods: {
-    getCategoryLink(url) {
-      const link = new URL(url)
-      return link && link.pathname || '/'
+    toggleCategory (category) {
+      const isSelected = this.value.includes(category.category_id)
+      if (isSelected) {
+        this.$emit('input', this.value.filter(categoryId => categoryId !== category.category_id))
+      } else {
+        this.$emit('input', [...this.value, category.category_id])
+      }
     },
-    closeSearchPanel() {
-      this.$store.commit('ui/setSidebar', false)
-      this.$store.commit('ui/setMicrocart', false)
-      this.$store.commit('ui/setSearchpanel', false)
+    isCategoryActive(category) {
+      return this.value.includes(category.category_id)
     }
   }
 }
@@ -56,10 +60,12 @@ export default {
   display: flex;
   flex-wrap: wrap;
   margin-bottom: -12px;
+  button{
+    margin: 0 12px 12px 0;
+  }
 }
 
 .category {
-  margin: 0 12px 12px 0;
   font-family: DIN Pro;
   font-size: 13px;
   line-height: 16px;
@@ -71,6 +77,19 @@ export default {
   padding: 8px 10px;
   border: 1px solid transparent;
   transition: .2s ease-in-out;
+
+  &.active {
+    border-color: #23BE20;
+    background-color: #fff;
+
+    &:hover {
+      border-color: #20af1d;
+    }
+
+    &:active {
+      border-color: #1fa71c;
+    }
+  }
 
   &:hover {
     border-color: #BDBDBD;

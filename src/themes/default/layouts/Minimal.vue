@@ -25,6 +25,7 @@
 
       <city-picker-checkout />
       <credit-modal />
+      <msi-modal />
     </div>
   </div>
 </template>
@@ -44,9 +45,10 @@ const CityPickerCheckout = () => import(/* webpackChunkName: "vsf-custom-city-pi
 const Microcart = () => import(/* webpackChunkName: "vsf-microcart" */ 'theme/components/core/blocks/Microcart/Microcart.vue');
 const Consultation = () => import(/* webpackChunkName: "vsf-consultation" */ 'theme/components/core/blocks/Consultation/Consultation.vue');
 const ShopSidebar = () => import(/* webpackChunkName: "vsf-shop-sidebar" */ 'theme/components/core/blocks/Checkout/Shipping/ShopShipping/ShopSidebar.vue');
+const MsiModal = () => import(/* webpackChunkName: "vsf-msi-modal" */ 'theme/components/core/blocks/Checkout/Modals/MsiModal.vue');
 
 export default {
-  data() {
+  data () {
     return {
       Microcart,
       Consultation,
@@ -60,7 +62,8 @@ export default {
     Overlay,
     CreditModal,
     AsyncSidebar,
-    CityPickerCheckout
+    CityPickerCheckout,
+    MsiModal
   },
   computed: {
     ...mapState({

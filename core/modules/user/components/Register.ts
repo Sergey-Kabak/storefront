@@ -3,25 +3,18 @@ import {Logger} from '@vue-storefront/core/lib/logger'
 
 export const Register = {
   name: 'Register',
-  data () {
-    return {
-      email: '',
-      telephone: '',
-      firstName: '',
-      lastName: '',
-      password: '',
-      rPassword: '',
-      conditions: false
-    }
-  },
   methods: {
     callRegister () {
       // TODO Move to theme
       this.$bus.$emit('notification-progress-start', i18n.t('Registering the account ...'))
-      this.$store.dispatch('user/register', { email: this.email, password: this.password, firstname: this.firstName, lastname: this.lastName,
+      this.$store.dispatch('user/register', {
+        email: this.register.email,
+        password: this.register.password,
+        firstname: this.register.firstName,
+        lastname: this.register.lastName,
         custom_attributes: [{
           attribute_code: 'telephone',
-          value: this.telephone
+          value: this.register.telephone
         }]
       }).then((result) => {
         Logger.debug(result, 'user')()
@@ -30,7 +23,7 @@ export const Register = {
         if (result.code !== 200) {
           this.onFailure(result)
         } else {
-          this.$store.dispatch('user/login', { username: this.email, password: this.password, rememberMe: false })
+          this.$store.dispatch('user/login', { username: this.register.email, password: this.register.password, rememberMe: false })
           this.onSuccess()
           this.close()
         }
