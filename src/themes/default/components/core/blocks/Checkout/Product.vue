@@ -41,6 +41,13 @@
         </more-icon>
       </div>
     </div>
+    <div class="product__message" v-if="productNotAvailable">
+      <svg class="product__message-icon" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M9.99935 1.66675C5.39935 1.66675 1.66602 5.40008 1.66602 10.0001C1.66602 14.6001 5.39935 18.3334 9.99935 18.3334C14.5993 18.3334 18.3327 14.6001 18.3327 10.0001C18.3327 5.40008 14.5993 1.66675 9.99935 1.66675ZM10.8327 14.1667H9.16602V12.5001H10.8327V14.1667ZM10.8327 10.8334H9.16602V5.83342H10.8327V10.8334Z" fill="#EE2C39"/>
+      </svg>
+      <div class="product__message-text" v-if="!isPurchasable">{{ $t('item out of stock') }}</div>
+      <div class="product__message-text" v-else-if="outOfQuantity">{{ $t('item not available decreate quantity') }}</div>
+    </div>
     <microcart-product-bundle-options v-if="product.bundle_options" :product="product" class="product-bundle-options" />
   </div>
 </template>
@@ -57,6 +64,7 @@ import ProductCartPrice from "../Product/ProductCartPrice";
 import GTM from 'theme/mixins/GTM/dataLayer'
 import AddToWishlist from 'theme/components/core/blocks/Wishlist/AddToWishlist';
 import { formatProductLink } from '@vue-storefront/core/modules/url/helpers';
+import { ProductStock } from 'theme/helpers'
 
 export default {
   mixins: [Product, ProductCartPrice, GTM],
@@ -77,6 +85,18 @@ export default {
     manageQuantity: true
   }),
   computed: {
+    productNotAvailable () {
+      return ['ComingSoon', 'OutOfProduction', 'NotAvailable', 'PendingDelivery'].includes(ProductStock(this.product))
+    },
+    outOfQuantity () {
+      return this.product.qty > this.product.salable_quantities_sum_qty
+    },
+    plusDisabled () {
+      return this.product.qty >= this.product.salable_quantities_sum_qty
+    },
+    isPurchasable() {
+      return this.product.is_purchasable
+    },
     finalPrice () {
       if (this.isBundleProduct) {
         return this.isDiscount ? this.bundleFinalPrice : this.bundlePrice
@@ -139,7 +159,12 @@ export default {
   border: 1px solid #E0E0E0;
   border-radius: 4px;
 }
-
+.overlay-below {
+  z-index: -1;
+}
+.overlay-ontop {
+  z-index: 1;
+}
 .product {
   padding: 15px 12px 15px 15px;
   display: grid;
@@ -150,6 +175,41 @@ export default {
     "image top-info actions"
     "image bottom-info actions";
   align-items: flex-start;
+  &__message {
+    width: 100%;
+    background: #FDE6E7;
+    border-radius: 4px;
+    margin-top: 16px;
+    display: flex;
+    align-items: center;
+    padding: 9px;
+  }
+  &__message-text {
+    font-size: 13px;
+    line-height: 20px;
+  }
+  &__message-icon {
+    margin-right: 13px;
+    flex: 0 0 20px;
+  }
+  &__top {
+    position: relative;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    grid-template-rows: auto auto;
+    grid-row-gap: 16px;
+    grid-template-areas:
+      "image top-info actions"
+      "image bottom-info actions";
+  }
+  &__backdrop {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.55);
+  }
 }
 
 .more {
