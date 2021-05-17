@@ -14,21 +14,6 @@ import transformMetadataToAttributes from '@vue-storefront/core/modules/catalog/
 import filterAttributes from '@vue-storefront/core/modules/catalog/helpers/filterAttributes'
 
 const actions: ActionTree<AttributeState, RootState> = {
-  async getProductGroups ({ commit }, { ids }) {
-    const res = await quickSearchByQuery({ query: {
-        query: {
-          bool: {
-            should: ids.map(id => {
-              return { term: { attribute_set_id: id } }
-            })
-          }
-        }}, entityType: 'attribute_set' });
-    const items = res.items.map(item => {
-      item.groups = item.groups.filter(group => !!group.is_visible_on_front)
-      return item
-    })
-    commit(types.SET_PRODUCT_GROUPS, items)
-  },
   async getAttributeGroups ({ commit } , { attribute_set_id }) {
     const res = await quickSearchByQuery({ query: {
         query: {

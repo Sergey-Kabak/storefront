@@ -966,7 +966,6 @@ Navy,Темно-синий
 Turquoise,Бирюзовый
 Light purple,Светло-пурпурный
 Violet,Фиолетовий
-"price decreased","Цена снижена"
 productsNotAvailable, Нет в наличии
 productsPartialAvailability, Частичное наличие
 productsAvailable, Все товары в наличии
@@ -982,5 +981,3 @@ OutOfProduction,Снят с производства
 baby products,Детские товары
 To preorder,"Оформить предзаказ"
 Preorder successfully completed!,"Предзаказ успешно оформлен!"
-item out of stock, Этот товар закончился.
-item not available decreate quantity, Товар недоступен в таком количестве. Уменьшите количество.

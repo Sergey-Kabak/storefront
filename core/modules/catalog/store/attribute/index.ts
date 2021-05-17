@@ -12,8 +12,7 @@ export const attributeModule: Module<AttributeState, RootState> = {
     list_by_id: {},
     blacklist: [],
     labels: {},
-    groups: [],
-    compareGroups: {}
+    groups: []
   },
   getters,
   actions,

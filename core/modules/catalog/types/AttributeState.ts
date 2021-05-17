@@ -3,6 +3,5 @@ export default interface AttributeState {
   list_by_id: any,
   labels: any,
   blacklist: any[],
-  groups: any[],
-  compareGroups: any
+  groups: any[]
 }
