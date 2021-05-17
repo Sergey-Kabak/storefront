@@ -20,6 +20,20 @@ const mutations: MutationTree<AttributeState> = {
   },
   [types.SET_ATTRIBUTE_GROUPS] (state, list) {
     state.groups = list
+  },
+  [types.SET_PRODUCT_GROUPS] (state, list) {
+    const groups = {}
+    list.forEach(item => {
+      groups[item.attribute_set_id] = {}
+      item.groups.forEach(group => {
+        Object.defineProperty(groups[item.attribute_set_id], group.label, {
+          value: group.attributes,
+          enumerable: true,
+          writable: true
+        })
+      })
+    });
+    state.compareGroups = groups
   }
 }
 
