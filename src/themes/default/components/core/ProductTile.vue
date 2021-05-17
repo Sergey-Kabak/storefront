@@ -224,6 +224,10 @@ export default {
   .product {
     border-radius: 0;
 
+    &:not(:nth-child(-n+2))  {
+      border-top: 0;
+    }
+
     &:nth-child(even) {
       border-right: none;
       border-left: none;
