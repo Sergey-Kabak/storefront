@@ -165,7 +165,7 @@ const actions: ActionTree<ProductState, RootState> = {
       skipCache
     })
 
-    if (setCurrentProduct) await context.dispatch('setCurrent', product)
+    // if (setCurrentProduct) await context.dispatch('setCurrent', product)
     EventBus.$emitFilter('product-after-single', { key, options, product })
 
     if (product.visibility === 1) {

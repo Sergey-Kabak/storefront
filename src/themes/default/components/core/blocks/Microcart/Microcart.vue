@@ -69,6 +69,7 @@ import {
 } from '@vue-storefront/core/lib/modules';
 import i18n from '@vue-storefront/i18n';
 import { currentStoreView } from '@vue-storefront/core/lib/multistore';
+import syncCartItems from 'theme/helpers/syncCartItems.js';
 import VueOfflineMixin from 'vue-offline/mixin';
 import onEscapePress from '@vue-storefront/core/mixins/onEscapePress';
 import ButtonFull from 'theme/components/theme/ButtonFull';
@@ -120,6 +121,7 @@ export default {
     registerModule(InstantCheckoutModule)
   },
   mounted () {
+    syncCartItems(this.productsInCart)
     this.$nextTick(() => {
       this.componentLoaded = true
       eS('sendEvent', 'StatusCart', {

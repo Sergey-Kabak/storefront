@@ -1,5 +1,6 @@
 <template>
   <div class="product-price-block" v-if="!['ComingSoon', 'OutOfProduction'].includes(getStockStatus)">
+    <slot name="price-decrease"/>
     <template v-if="specialPrice">
       <slot name="special-price" :originalPrice="originalPrice" :specialPrice="specialPrice" :discount="discount">
         <div class="product-price-wrapper">
@@ -57,8 +58,68 @@ export default {
   }
 }
 </script>
-
+<style lang="scss">
+.sidebar-product{
+  position: relative;
+  .price-discount{
+    position: absolute;
+    left: 16px;
+    top: 16px;
+  }
+  .product-price-block{
+    flex-direction: column;
+  }
+}
+</style>
 <style lang="scss" scoped>
+.product-price-changed-block {
+  display: flex;
+  align-items: center;
+  margin-bottom: 5px;
+}
+.product-price-changed-icon {
+  margin-right: 8px;
+}
+.product-price-changed-text {
+  margin-right: 8px;
+  color: #EE2C39;
+  font-size: 14px;
+  line-height: 16px;
+  position: relative;
+  font-weight: 500;
+  font-family: DIN Pro;
+
+  &::after {
+    content: '';
+    z-index: -1;
+    position: absolute;
+    bottom: -2px;
+    left: -3px;
+    width: 100%;
+    height: 8px;
+    background: #FDE6E7;
+  }
+}
+.product-item-price{
+  .price-sale{
+    margin: 0;
+    font-weight: 700;
+  }
+  .price-original{
+    font-size: 18px;
+    line-height: 20px;
+    color: #5F5E5E;
+    position: relative;
+  }
+  .price-special{
+    font-size: 30px;
+    line-height: 1;
+    font-weight: 900;
+  }
+  .main-price{
+    margin-top: 0;
+  }
+}
 .main-price {
   display: flex;
   align-items: baseline;

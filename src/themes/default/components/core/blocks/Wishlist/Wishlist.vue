@@ -73,6 +73,7 @@ import MoreIcon from 'theme/components/core/MoreIcon';
 import { mapGetters } from 'vuex';
 import { price } from 'theme/helpers';
 import CloseSidebar from 'theme/components/core/CloseSidebar';
+import syncCartItems from 'theme/helpers/syncCartItems.js';
 
 export default {
   mixins: [Wishlist],
@@ -93,6 +94,7 @@ export default {
   },
   mounted() {
     this.$store.dispatch('wishlist/updateWishlistProducts')
+    syncCartItems(this.productsInWishlist)
   },
   computed: {
     ...mapGetters({
@@ -106,10 +108,16 @@ export default {
     },
     price () {
       return this.productInStockInWishlist.reduce((acc, it) => acc + price(it), 0)
+    },
+    isCartItemsAvailable () {
+      return this.productsInWishlist.every(el => {
+        return el.is_purchasable
+      })
     }
   },
   methods: {
-    async addAllProductsToCart() {
+    async addAllProductsToCart () {
+      if (!this.isCartItemsAvailable) return;
       this.closeWishlist();
       try {
         const productsToAdd = this.productsInWishlist.filter(it => !!it.stock.is_in_stock)

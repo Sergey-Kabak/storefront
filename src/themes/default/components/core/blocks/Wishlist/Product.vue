@@ -1,5 +1,5 @@
 <template>
-  <li class="product" :class="stockStatus">
+  <li class="product sidebar-product" :class="stockStatus">
     <div class="product-left">
       <div class="product-img" @click="closeWishlist">
         <router-link :to="productLink" class="product-link">
@@ -34,7 +34,20 @@
         </router-link>
       </div>
       <div class="product-bottom">
-        <product-cart-price :product="product" :nameVisibility="false" class="product-prices" />
+        <product-cart-price :product="product" :nameVisibility="false" class="product-prices">
+          <template v-if="product.price_decreased" v-slot:price-decrease>
+            <div class="product-price-changed-block">
+              <div class="product-price-changed-icon">
+                <svg width="16" height="9" viewBox="0 0 16 9" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path
+                    d="M11.2 9L13.032 7.2825L9.128 3.6225L5.928 6.6225L0 1.0575L1.128 0L5.928 4.5L9.128 1.5L14.168 6.2175L16 4.5V9H11.2Z"
+                    fill="#EE2C39"/>
+                </svg>
+              </div>
+              <div class="product-price-changed-text">{{ $t('price decreased') }}</div>
+            </div>
+          </template>
+        </product-cart-price>
         <div class="product-actions" >
           <product-cart-controls @click="addToCart(product)" :product="product" :stockStatus="stockStatus" class="cart-wishlist" />
         </div>
@@ -74,6 +87,15 @@ export default {
     }
   },
   computed: {
+    productNotAvailable () {
+      return !['InStock', 'PendingDelivery'].includes(ProductStock(this.product));
+    },
+    sallableQuantity () {
+      return this.product.msi_salable_quantity
+    },
+    quantityAvailable () {
+      return !!this.product.msi_is_available
+    },
     productLink () {
       return formatProductLink(this.product, currentStoreView().storeCode)
     },
