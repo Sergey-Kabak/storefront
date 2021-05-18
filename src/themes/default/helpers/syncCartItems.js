@@ -19,8 +19,10 @@ export default function (products) {
         newItem.price_decreased = newItem.final_price > el.final_price;
       }
       const updatedCurrentItem = { ...currentProduct, ...newItem, qty: currentProduct ? currentProduct.qty : newItem.qty };
-      store.dispatch('wishlist/updateItem', { product: updatedCurrentItem });
-      store.dispatch('cart/updateItem', { product: updatedCurrentItem });
+      if (updatedCurrentItem.qty) {
+        store.dispatch('wishlist/updateItem', { product: updatedCurrentItem });
+        store.dispatch('cart/updateItem', { product: updatedCurrentItem });
+      }
     }
   });
 }
