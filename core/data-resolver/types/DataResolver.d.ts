@@ -32,7 +32,6 @@ declare namespace DataResolver {
     includeFields?: string[],
     excludeFields?: string[],
     configuration?: { [key: string]: string[] | string },
-    skipClientCache?: boolean,
     options?: {
       prefetchGroupProducts?: boolean,
       fallbackToDefaultWhenNoAvailable?: boolean,
@@ -61,8 +60,7 @@ declare namespace DataResolver {
   interface ProductByKeySearchOptions {
     options: { [key: string]: string },
     key?: string,
-    skipCache?: boolean,
-    skipClientCache?: boolean
+    skipCache?: boolean
   }
 
   interface Customer {
@@ -90,7 +88,6 @@ declare namespace DataResolver {
     getProducts: (searchRequest: ProductSearchOptions) => Promise<ProductsListResponse>,
     getProductRenderList: (searchRequest: ProductRenderListSearchOptions) => Promise<ProductsListResponse>,
     getProductByKey: (searchRequest: ProductByKeySearchOptions) => Promise<Product>,
-    getProductsSkippingCache: (any) => Promise<any>,
     preorder: (preorder: Preorder) => Promise<Task>
   }
 

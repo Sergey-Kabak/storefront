@@ -26,10 +26,6 @@ const mutations: MutationTree<WishlistState> = {
   },
   [types.UPDATE_PRODUCTS] (state, products) {
     state.items = products
-  },
-  [types.WISH_UPD_ITEM] (state, { product }) {
-    const index = state.items.findIndex(el => el.sku === product.sku)
-    if (index >= 0) state.items.splice(index, 1, { ...product, qty: 1 })
   }
 }
 
