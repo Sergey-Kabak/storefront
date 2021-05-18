@@ -6,6 +6,7 @@ export default function (products) {
     for (let el of responseProducts) {
       let item = products.find(({ sku }) => sku === el.sku);
       let newItem = { ...(item || {}), ...el };
+      newItem.qty = item.qty;
       const currentProduct = store.getters['product/getCurrentProduct'];
       if (currentProduct && el.sku === currentProduct.sku) {
         store.dispatch('product/loadProduct', { parentSku: el.sku, childSku: el.sku });
