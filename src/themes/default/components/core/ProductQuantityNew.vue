@@ -9,6 +9,7 @@
       :disabled="disabled"
       @input="$emit('input', $event)"
       @blur="$v.$touch()"
+      :plusDisabled="plusDisabled"
     />
     <spinner v-if="loading" containerClass="quantity-spinner" />
   </div>
@@ -28,6 +29,10 @@ export default {
     PlusMinusField
   },
   props: {
+    plusDisabled: {
+      type: Boolean,
+      default: false
+    },
     value: {
       type: [Number, String],
       required: true
