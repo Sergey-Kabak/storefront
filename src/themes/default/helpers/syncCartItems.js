@@ -5,7 +5,7 @@ export default function (products) {
   return ProductService.getProductsSkippingCache({ products }).then(responseProducts => {
     for (let el of responseProducts) {
       let item = products.find(({ sku }) => sku === el.sku);
-      let newItem = { ...(item || {}), ...el, qty: item.qty };
+      let newItem = { ...(item || {}), ...el };
       const currentProduct = store.getters['product/getCurrentProduct'];
       if (currentProduct && el.sku === currentProduct.sku) {
         store.dispatch('product/loadProduct', { parentSku: el.sku, childSku: el.sku });

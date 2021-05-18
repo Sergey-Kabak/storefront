@@ -40,7 +40,7 @@
                    :class="{'video-container h-100 flex relative': images.video}"
               >
                 <product-image
-                  class="w-100"
+                  class="product-image-carousel"
                   v-show="hideImageAtIndex !== index"
                   :image="images"
                   :alt="productName | htmlDecode"
@@ -379,13 +379,11 @@ ul.media-zoom-carousel__thumbs{
 ::v-deep {
   .VueCarousel-navigation-prev {
     right: calc(100% + 24px);
-    left: auto!important;
     margin-right: 0!important;
   }
 
   .VueCarousel-navigation-next {
     left: calc(100% + 24px);
-    right: auto!important;
     margin-left: 0!important;
   }
 }
