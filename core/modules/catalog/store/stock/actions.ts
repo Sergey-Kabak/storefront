@@ -48,10 +48,6 @@ const actions: ActionTree<StockState, RootState> = {
       status: getStatus(product, 'volatile')
     }
   },
-  async checkProduct(context, { product }) {
-    const { result } = await StockService.check(product.sku)
-    return { ...result, id: product.id }
-  },
   async list ({ commit }, { skus }) {
     if (!config.stock.synchronize) return
 
